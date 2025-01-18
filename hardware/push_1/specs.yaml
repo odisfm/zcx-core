@@ -1,0 +1,34 @@
+hardware_name: Ableton Push 1
+
+global_midi_channel: 0
+
+button_matrix:
+  name: pad_matrix
+  msg_type: note
+  note_start: 36
+  note_end: 99
+  feedback: rgb
+  momentary: true
+  width: 8
+  playable: true
+
+cc_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+note_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+encoders:
+  key: value
+  sensitivity: 1.0
+
+pitchbend:
+# key: value
+
+special_elements:
+  display:
+    plugin: push_1_display
