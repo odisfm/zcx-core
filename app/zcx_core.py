@@ -10,7 +10,7 @@ class ZCXCore(ControlSurface):
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
         try:
-            self.__name = __name__.split('.')[1]
+            self.__name = __name__.split('.')[0].lstrip('_')
             self.logger = logging.getLogger(self.name)
             self.logger.setLevel(logging.INFO)
             self.log(f'{self.name} loaded :)', level='critical')
