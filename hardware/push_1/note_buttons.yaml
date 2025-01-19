@@ -1,0 +1,32 @@
+enc_1_touch:
+  note: 0
+
+enc_2_touch:
+  note: 1
+
+enc_3_touch:
+  note: 2
+
+enc_4_touch:
+  note: 3
+
+enc_5_touch:
+  note: 4
+
+enc_6_touch:
+  note: 5
+
+enc_7_touch:
+  note: 6
+
+enc_8_touch:
+  note: 7
+
+enc_master_touch:
+  note: 8
+
+enc_tempo_touch:
+  note: 10
+
+enc_swing_touch:
+  note: 9
