@@ -24,13 +24,11 @@ class Specification(ControlSurfaceSpecification):
 class ZCXCore(ControlSurface):
 
     def __init__(self, *a, **k):
-        global ROOT_CS_LOGGER
         super().__init__(*a, **k)
         try:
             self.__name = __name__.split('.')[1]
             self.logger = logging.getLogger(self.name)
             self.logger.setLevel(logging.INFO)
-            ROOT_CS_LOGGER = self.logger
             self.log(f'{self.name} loaded :)', level='critical')
 
         except Exception as e:
