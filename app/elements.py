@@ -14,7 +14,8 @@ class Elements(ElementsBase):
 
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
-        self.logger = logging.getLogger(__name__)
+        from . import ROOT_LOGGER
+        self.logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log = partial(self.logger.info, *a)
 
         self.named_buttons = {}

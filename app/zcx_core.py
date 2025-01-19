@@ -11,8 +11,8 @@ class ZCXCore(ControlSurface):
         super().__init__(*a, **k)
         try:
             self.__name = __name__.split('.')[0].lstrip('_')
-            self.logger = logging.getLogger(self.name)
-            self.logger.setLevel(logging.INFO)
+            from . import ROOT_LOGGER
+            self.logger = ROOT_LOGGER
             self.log(f'{self.name} loaded :)', level='critical')
 
         except Exception as e:
