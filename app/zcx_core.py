@@ -13,6 +13,7 @@ class ZCXCore(ControlSurface):
             self.__name = __name__.split('.')[0].lstrip('_')
             from . import ROOT_LOGGER
             self.logger = ROOT_LOGGER
+            self.post_init()
             self.log(f'{self.name} loaded :)', level='critical')
 
         except Exception as e:
@@ -33,6 +34,8 @@ class ZCXCore(ControlSurface):
         super().setup()
 
 
+    def post_init(self):
+        self.component_map['HardwareInterface'].setup()
 
     def port_settings_changed(self):
         super().refresh_state()

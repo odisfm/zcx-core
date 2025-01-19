@@ -65,6 +65,9 @@ class Elements(ElementsBase):
         )
 
         self.log(self.button_matrix)
+        import sys
+        mod = sys.modules[__package__]
+        mod.NAMED_BUTTONS = self.named_buttons
 
     def process_cc_buttons(self, cc_button_globals: dict, cc_button_yaml: dict) -> None:
         self.log('Parsing cc buttons')
