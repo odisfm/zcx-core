@@ -20,9 +20,6 @@ class Elements(ElementsBase):
         self.named_buttons = {}
 
         specs_dict = self.load_specifications()
-
-        self.log(specs_dict)
-
         self.specs = specs_dict['specs']
 
         cc_button_globals = self.specs['cc_buttons']
@@ -70,8 +67,6 @@ class Elements(ElementsBase):
 
     def process_cc_buttons(self, cc_button_globals: dict, cc_button_yaml: dict) -> None:
         self.log('Parsing cc buttons')
-        self.log(cc_button_globals)
-        self.log(cc_button_yaml)
 
         global_channel = cc_button_globals.get('channel', 0)
         global_momentary = cc_button_globals.get('momentary', True)
@@ -91,13 +86,11 @@ class Elements(ElementsBase):
             )
 
             # setattr(element, feedback_type, feedback) todo
-            self.log(f'created button {button_name}')
-            self.log(element)
+
+            self.register_named_button(element, button_name)
 
     def process_note_buttons(self, note_button_globals: dict, note_button_yaml: dict) -> None:
         self.log('Parsing note buttons')
-        self.log(note_button_globals)
-        self.log(note_button_yaml)
 
         global_channel = note_button_globals.get('channel', 0)
         global_momentary = note_button_globals.get('momentary', True)
@@ -117,13 +110,11 @@ class Elements(ElementsBase):
             )
 
             # setattr(element, feedback_type, feedback) todo
-            self.log(f'created button {button_name}')
-            self.log(element)
+
+            self.register_named_button(element, button_name)
 
     def element_factory(self, identifier, channel=0, msg_type=MIDI_CC_TYPE, is_momentary=True, *a,
                         **k) -> ButtonElement:
-        self.log('element_factory called')
-        self.log(str(k))
         return ButtonElement(identifier, channel=channel, msg_type=msg_type, is_momentary=is_momentary)
 
     def load_specifications(self) -> dict:
