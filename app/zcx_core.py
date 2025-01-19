@@ -41,6 +41,7 @@ class ZCXCore(ControlSurface):
     def name(self):
         return self.__name
 
+    def log(self, message: [str, object], level: [str] = 'info') -> None:
         method = getattr(self.logger, level)
         method(message)
 

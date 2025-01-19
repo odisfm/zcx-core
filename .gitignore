@@ -1,1 +1,4 @@
 .idea/
+config/
+preferences/
+app/vendor
