@@ -27,7 +27,7 @@ class ZCXCore(ControlSurface):
         global ROOT_CS_LOGGER
         super().__init__(*a, **k)
         try:
-            self.name = __name__.split('.')[1]
+            self.__name = __name__.split('.')[1]
             self.logger = logging.getLogger(self.name)
             self.logger.setLevel(logging.INFO)
             ROOT_CS_LOGGER = self.logger
@@ -39,7 +39,10 @@ class ZCXCore(ControlSurface):
             except Exception:
                 logging.getLogger(__name__).critical(e)
 
-    def log(self, message, level='info'):
+    @property
+    def name(self):
+        return self.__name
+
         method = getattr(self.logger, level)
         method(message)
 
