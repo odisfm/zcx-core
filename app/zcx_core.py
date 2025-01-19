@@ -31,10 +31,8 @@ class ZCXCore(ControlSurface):
 
     def setup(self):
         super().setup()
-        self.init()
 
-    def init(self):
-        pass
+
 
     def port_settings_changed(self):
         super().refresh_state()
