@@ -1,24 +1,8 @@
 import logging
 
 from ableton.v3.control_surface import (
-    ControlSurface,
-    ControlSurfaceSpecification,
-    create_skin
+    ControlSurface
 )
-from .elements import Elements
-from .skin import Skin
-
-
-def create_mappings(control_surface):
-    mappings = {}
-
-    return mappings
-
-
-class Specification(ControlSurfaceSpecification):
-    elements_type = Elements
-    control_surface_skin = create_skin(skin=Skin)
-    create_mappings_function = create_mappings
 
 
 class ZCXCore(ControlSurface):
