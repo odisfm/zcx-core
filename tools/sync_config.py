@@ -16,14 +16,16 @@ SRC_ROOT = PROJECT_ROOT / "app/"
 
 DEST_ROOT = REMOTE_SCRIPTS_PATH
 CONFIG_ROOT = PROJECT_ROOT / "config"
-DEST_CONFIG = DEST_ROOT / "config/"
+DEST_CONFIG = DEST_ROOT / "_config/"
 PREFERENCES_ROOT = PROJECT_ROOT / "preferences"
-DEST_PREFERENCES = DEST_ROOT / "preferences/"
+DEST_PREFERENCES = DEST_ROOT / "_preferences/"
 PLUGINS_ROOT = PROJECT_ROOT / "plugins"
 DEST_PLUGINS = DEST_ROOT / "plugins/"
-HARDWARE_ROOT = PROJECT_ROOT / "_hardware"
+HARDWARE_ROOT = PROJECT_ROOT / "hardware"
 SPECIFIC_HARDWARE = HARDWARE_ROOT / HARDWARE_CONFIG
-DEST_HARDWARE = DEST_ROOT / "_hardware/"
+DEST_HARDWARE = DEST_ROOT / "hardware/"
+VENDOR_ROOT = PROJECT_ROOT / "vendor"
+DEST_VENDOR = DEST_ROOT / "vendor"
 
 
 class SyncPath(NamedTuple):
@@ -54,23 +56,28 @@ SYNC_PATHS = [
         recursive=True,
     ),
     SyncPath(
-        source=HARDWARE_ROOT,
+        source=SPECIFIC_HARDWARE,
         destinations=[DEST_HARDWARE],
         rsync_args=["-avz", "--delete"],
     ),
-    # SyncPath(
-    #     source=CONFIG_ROOT,
-    #     destinations=[DEST_CONFIG],
-    #     rsync_args=['-avz', '--delete']
-    # ),
-    # SyncPath(
-    #     source=PREFERENCES_ROOT,
-    #     destinations=[DEST_PREFERENCES],
-    #     rsync_args=['-avz', '--delete']
-    # ),
+    SyncPath(
+        source=CONFIG_ROOT,
+        destinations=[DEST_CONFIG],
+        rsync_args=['-avz', '--delete']
+    ),
+    SyncPath(
+        source=PREFERENCES_ROOT,
+        destinations=[DEST_PREFERENCES],
+        rsync_args=['-avz', '--delete']
+    ),
     # SyncPath(
     #     source=PLUGINS_ROOT,
     #     destinations=[DEST_PLUGINS],
     #     rsync_args=['-avz', '--delete']
     # ),
+    # SyncPath(
+    #     source=VENDOR_ROOT,
+    #     destinations=[DEST_VENDOR],
+    #     rsync_args=['-avz', '--delete']
+    # )
 ]
