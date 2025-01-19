@@ -8,7 +8,7 @@ from .zcx_core import ZCXCore
 
 import logging
 
-def create_mappings(arg):
+def create_mappings(arg) -> dict:
     return {}
 
 class Specification(ControlSurfaceSpecification):
