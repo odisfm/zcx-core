@@ -160,3 +160,7 @@ class Elements(ElementsBase):
             raise HardwareSpecificationError(f'Multiple buttons with the same name ("{name}")')
 
         self.named_buttons[name] = button
+        setattr(self, self._create_attribute_name(name), button)
+
+    def _create_attribute_name(self, name):
+        return f'_button_{name.lower()}'
