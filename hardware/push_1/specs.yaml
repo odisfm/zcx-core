@@ -5,8 +5,8 @@ global_midi_channel: 0
 button_matrix:
   name: pad_matrix
   msg_type: note
-  note_start: 36
-  note_end: 99
+  id_start: 36
+  id_end: 99
   feedback: rgb
   momentary: true
   width: 8
