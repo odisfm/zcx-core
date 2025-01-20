@@ -50,9 +50,9 @@ class PageManager(Component, EventObject):
             pages_order = copy.copy(main)
         else:
             pages_dict = copy.copy(pages_config.get('pages'))
-            order = pages_config.get('order')
-            if order is None:
-                order = list(pages_dict.keys())
+            pages_order = pages_config.get('order')
+            if pages_order is None:
+                pages_order = list(pages_dict.keys())
 
         self.determine_matrix_specs()
 
