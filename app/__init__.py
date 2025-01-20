@@ -13,6 +13,7 @@ from .skin import Skin
 from .zcx_core import ZCXCore
 
 import logging
+from typing import Type
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
@@ -34,7 +35,7 @@ def create_mappings(arg) -> dict:
         "HardwareInterface": hw_mapping_dict
     }
 
-def prepare_hardware_interface(button_names):
+def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
     _hardware_interface = HardwareInterface
     events = ['pressed', 'pressed_delayed', 'released',
               'released_immediately', 'released_delayed', 'double_clicked']
