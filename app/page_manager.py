@@ -30,11 +30,30 @@ class PageManager(Component, EventObject):
         self.__current_page = -1
         self.__page_count = 1
         self.__pages_sections = {}
+        self.__page_names = []
         self._pad_sections = {}
 
     def log(self, *msg):
         for msg in msg:
             self._logger.info(msg)
+
+    @listenable_property
+    def current_page(self):
+        return self.__current_page
+
+    def increment_current_page(self, increment=1):
+        new_page = (self.current_page + increment) % self.page_count
+        self.current_page = new_page
+
+    def set_page(self, page_number=None, page_name=None):
+        if page_name in self.__page_names:
+            self.__current_page = self.__page_names.index(page_name)
+            self.notify_current_page()
+        elif type(page_number) is int and self.__page_count > page_number >= 0:
+            self.__current_page = page_number
+            self.notify_current_page()
+        else:
+            raise ValueError(f'invalid value {page_number or page_name} for set_page()')
 
     def setup(self):
         sections_config = self.load_sections_config()
@@ -62,6 +81,7 @@ class PageManager(Component, EventObject):
 
         for page_name in pages_order:
             self.__pages_sections[page_name] = pages_dict[page_name]
+            self.__page_names.append(page_name)
 
         # build section objects
         PadSection.root_cs = self.canonical_parent
@@ -71,6 +91,8 @@ class PageManager(Component, EventObject):
             self.__raw_sections[section_name] = section_config
             section_obj = self.build_section(section_name, section_config)
             self._pad_sections[section_name] = section_obj
+
+        self.set_page(0)
 
     def build_section(self, section_name, section_config):
         matrix_element = self.canonical_parent.component_map['HardwareInterface'].button_matrix_state
