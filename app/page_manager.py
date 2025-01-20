@@ -24,12 +24,12 @@ class PageManager(Component, EventObject):
         from . import ROOT_LOGGER
         from .yaml_loader import yaml_loader
         self.yaml_loader = yaml_loader
-        self.__logger = ROOT_LOGGER.getChild(self.__class__.__name__)
+        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log(f'{self.__class__.__name__} initialized')
 
     def log(self, *msg):
         for msg in msg:
-            self.__logger.info(msg)
+            self._logger.info(msg)
 
     def setup(self):
         self.log('setup')
