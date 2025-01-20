@@ -39,6 +39,7 @@ def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
     events = ['pressed', 'pressed_delayed', 'released',
               'released_immediately', 'released_delayed', 'double_clicked']
 
+    # named buttons
     for button_name in button_names:
         button_state = ButtonControl()
         setattr(_hardware_interface, button_name, button_state)
