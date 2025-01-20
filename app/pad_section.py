@@ -1,4 +1,5 @@
 from ableton.v2.base import EventObject, listenable_property
+from ableton.v2.base.event import listens
 
 
 class PadSection(EventObject):
@@ -20,6 +21,7 @@ class PadSection(EventObject):
         self.__in_view = False
         self._logger = self.page_manager._logger.getChild(f'matrix_section__{section_name}')
         self.log(f'I appear in pages {pages_in}')
+        self.current_page_listener.subject = self.page_manager
 
     def log(self, *msg):
         for msg in msg:
@@ -37,3 +39,10 @@ class PadSection(EventObject):
     def in_view(self):
         return self.__in_view
 
+    @listens('current_page')
+    def current_page_listener(self):
+        page = self.page_manager.current_page
+        if page in self.__pages_in:
+            self.__in_view = True
+        else:
+            self.__in_view = False
