@@ -124,7 +124,8 @@ class Elements(ElementsBase):
 
     def element_factory(self, identifier, channel=0, msg_type=MIDI_CC_TYPE, is_momentary=True, *a,
                         **k) -> ButtonElement:
-        return ButtonElement(identifier, channel=channel, msg_type=msg_type, is_momentary=is_momentary)
+        element = ButtonElement(identifier, channel=channel, msg_type=msg_type, is_momentary=is_momentary)
+        return element
 
     def load_specifications(self) -> dict:
 
