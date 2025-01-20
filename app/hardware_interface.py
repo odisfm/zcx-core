@@ -25,6 +25,10 @@ class HardwareInterface(Component):
         for msg in msg:
             self.__logger.info(msg)
 
+    @property
+    def button_matrix_element(self):
+        return self.__button_matrix_element
+
     def handle_control_event(self, event, button):
         self.log((f'{button._control_element._msg_type} {button._control_element._original_identifier}', event))
 
