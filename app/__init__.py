@@ -95,5 +95,6 @@ def create_instance(c_instance):
     Specification.component_map = {
         'HardwareInterface': HardwareInterface
     }
+    from . import yaml_loader
 
     return ZCXCore(Specification, c_instance=c_instance)
