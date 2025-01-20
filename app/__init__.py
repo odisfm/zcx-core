@@ -9,6 +9,7 @@ from ableton.v3.control_surface.controls import (
 )
 from .elements import Elements
 from .hardware_interface import HardwareInterface
+from .page_manager import PageManager
 from .skin import Skin
 from .zcx_core import ZCXCore
 
@@ -33,7 +34,8 @@ def create_mappings(arg) -> dict:
     hw_mapping_dict['button_matrix'] = 'button_matrix'
 
     return {
-        "HardwareInterface": hw_mapping_dict
+        "HardwareInterface": hw_mapping_dict,
+        "PageManager": {}
     }
 
 def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
@@ -93,7 +95,8 @@ def create_instance(c_instance):
     ROOT_LOGGER.setLevel(logging.INFO)
 
     Specification.component_map = {
-        'HardwareInterface': HardwareInterface
+        'HardwareInterface': HardwareInterface,
+        'PageManager': PageManager
     }
     from . import yaml_loader
 
