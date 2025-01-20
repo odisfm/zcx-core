@@ -58,6 +58,57 @@ class PageManager(Component, EventObject):
         for page_name, page_sections in pages_dict.items():
             self.validate_page_sections(page_name, page_sections, sections_config)
 
+        self.__page_count = len(pages_dict)
+
+        for page_name in pages_order:
+            self.__pages_sections[page_name] = pages_dict[page_name]
+
+        # build section objects
+        PadSection.root_cs = self.canonical_parent
+        PadSection.page_manager = self
+
+        for section_name, section_config in sections_config.items():
+            self.__raw_sections[section_name] = section_config
+            section_obj = self.build_section(section_name, section_config)
+            self._pad_sections[section_name] = section_obj
+
+    def build_section(self, section_name, section_config):
+        matrix_element = self.canonical_parent.component_map['HardwareInterface'].button_matrix_state
+
+        self.validate_section_config(section_name, section_config)
+
+        col_start = section_config['col_start']
+        col_end = section_config['col_end']
+        row_start = section_config['row_start']
+        row_end = section_config['row_end']
+
+
+        control_states = []
+        owned_coordinates = []
+
+        for y in range(row_start, row_end + 1):
+            for x in range(col_start, col_end + 1):
+                state = matrix_element.get_control(y, x)
+                if state is None:
+                    raise RuntimeError(f"Could not get control state for coordinates ({y}, {x})")
+                control_states.append(state)
+                owned_coordinates.append((y, x))
+
+        pages_in = []
+
+        for page_num, sections_list in enumerate(self.__pages_sections.values()):
+            if section_name in sections_list:
+                pages_in.append(page_num)
+
+        section_object = PadSection(
+            section_name=section_name,
+            raw_config=section_config,
+            owned_coordinates=owned_coordinates,
+            pages_in=pages_in
+        )
+
+        return section_object
+
     def determine_matrix_specs(self):
         global MATRIX_MIN_NOTE, MATRIX_MAX_NOTE, MATRIX_WIDTH, MATRIX_HEIGHT
         hw_interface = self.canonical_parent.component_map['HardwareInterface']
