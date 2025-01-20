@@ -20,7 +20,6 @@ class PadSection(EventObject):
         self.__width = width
         self.__in_view = False
         self._logger = self.page_manager._logger.getChild(f'matrix_section__{section_name}')
-        self.log(f'I appear in pages {pages_in}')
         self.current_page_listener.subject = self.page_manager
 
     def log(self, *msg):
