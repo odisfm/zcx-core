@@ -13,6 +13,7 @@ class PadSection(EventObject):
             pages_in,
             width
     ):
+        super().__init__()
         self._logger = self.page_manager._logger.getChild(f'matrix_section__{section_name}')
         self.log(f'I appear in pages {pages_in}')
 
