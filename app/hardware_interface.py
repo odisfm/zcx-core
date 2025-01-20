@@ -18,6 +18,8 @@ class HardwareInterface(Component):
         super().__init__(name=name, *a, **k)
         from . import ROOT_LOGGER
         self.__logger = ROOT_LOGGER.getChild(self.__class__.__name__)
+        self.__button_matrix_element = None
+
 
     def log(self, *msg):
         self.__logger.info(*msg)
@@ -31,8 +33,11 @@ class HardwareInterface(Component):
 
             element._control_element.set_light(49)
 
-        for control in self.canonical_parent.elements.button_matrix.nested_control_elements():
+        for control in self.__button_matrix_element.nested_control_elements():
             control.set_light(9)
 
     def setup(self):
+        self.__button_matrix_element = self.canonical_parent.elements.button_matrix
         self.all_lights_full()
+
+
