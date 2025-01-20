@@ -9,9 +9,9 @@ class PadSection(EventObject):
     def __init__(
             self,
             section_name,
-            raw_config,
             owned_coordinates,
-            pages_in
+            pages_in,
+            width
     ):
         self._logger = self.page_manager._logger.getChild(f'matrix_section__{section_name}')
         self.log(f'I appear in pages {pages_in}')

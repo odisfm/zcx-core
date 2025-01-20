@@ -124,9 +124,9 @@ class PageManager(Component, EventObject):
 
         section_object = PadSection(
             section_name=section_name,
-            raw_config=section_config,
             owned_coordinates=owned_coordinates,
-            pages_in=pages_in
+            pages_in=pages_in,
+            width=(row_end - row_start + 1)
         )
 
         return section_object
