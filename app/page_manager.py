@@ -116,11 +116,11 @@ class PageManager(Component, EventObject):
                 control_states.append(state)
                 owned_coordinates.append((y, x))
 
-        pages_in = []
+        pages_in = set()
 
         for page_num, sections_list in enumerate(self.__pages_sections.values()):
             if section_name in sections_list:
-                pages_in.append(page_num)
+                pages_in.add(page_num)
 
         section_object = PadSection(
             section_name=section_name,
