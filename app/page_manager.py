@@ -129,6 +129,8 @@ class PageManager(Component, EventObject):
             width=(row_end - row_start + 1)
         )
 
+        self._registered_disconnectables.append(section_object)
+
         return section_object
 
     def determine_matrix_specs(self):
