@@ -4,6 +4,7 @@ from ableton.v3.control_surface import Component
 from ableton.v2.base.event import EventObject, listenable_property
 
 from .errors import ConfigurationError, HardwareSpecificationError
+from .pad_section import PadSection
 
 MATRIX_MIN_NOTE = 0
 MATRIX_MAX_NOTE = 0
