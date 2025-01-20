@@ -15,6 +15,7 @@ class PadSection(EventObject):
             width
     ):
         super().__init__()
+        self.__name = section_name
         self.__pages_in = pages_in
         self.__owned_coordinates = owned_coordinates
         self.__width = width
@@ -25,6 +26,10 @@ class PadSection(EventObject):
     def log(self, *msg):
         for msg in msg:
             self._logger.info(msg)
+
+    @property
+    def name(self):
+        return self.__name
 
     @property
     def owned_coordinates(self):
