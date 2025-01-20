@@ -28,8 +28,11 @@ class HardwareInterface(Component):
     def all_lights_full(self):
         for state in self.named_button_states.keys():
             element = getattr(self, state)
-            self.log(dir(element))
-            element._control_element.set_light(127)
+
+            element._control_element.set_light(49)
+
+        for control in self.canonical_parent.elements.button_matrix.nested_control_elements():
+            control.set_light(9)
 
     def setup(self):
         self.all_lights_full()

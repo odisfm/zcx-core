@@ -20,7 +20,6 @@ NAMED_BUTTONS = None
 
 def create_mappings(arg) -> dict:
     ROOT_LOGGER.info('Creating mappings')
-    ROOT_LOGGER.info(NAMED_BUTTONS)
 
     named_button_names = NAMED_BUTTONS.keys()
     prepare_hardware_interface(named_button_names)

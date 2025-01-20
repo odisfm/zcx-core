@@ -64,7 +64,6 @@ class Elements(ElementsBase):
             is_private=False
         )
 
-        self.log(self.button_matrix)
         import sys
         mod = sys.modules[__package__]
         mod.NAMED_BUTTONS = self.named_buttons
