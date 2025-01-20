@@ -46,22 +46,28 @@ class Elements(ElementsBase):
                 f'{APP_NAME} requires a button_matrix defined in hardware/specs.yaml to function')
 
         matrix_msg_type = matrix_config['msg_type']
-        if matrix_msg_type not in ['note', 'cc']:
+        if matrix_msg_type == 'note':
+            matrix_msg_type = MIDI_NOTE_TYPE
+        elif matrix_msg_type == 'cc':
+            matrix_msg_type = MIDI_CC_TYPE
+        else:
             raise HardwareSpecificationError(f'button_matrix msg_type must be "note" or "cc", not {matrix_msg_type}')
 
-        matrix_button_factory = partial(self.element_factory, msg_type=matrix_msg_type)
+        matrix_button_factory = lambda *a, **k: self.element_factory(*a, msg_type=matrix_msg_type, **k)
 
         id_start, id_end, width = matrix_config['id_start'], matrix_config['id_end'], matrix_config['width']
         channel = matrix_config.get('channel') or specs_dict.get('channel') or 0
 
-        identifiers = create_matrix_identifiers(id_start, id_end, width, flip_rows=True)
+        identifiers = create_matrix_identifiers(id_start, id_end + 1, width, flip_rows=True)
 
-        self.button_matrix = self.add_matrix(
+        self.add_button_matrix(
             identifiers=identifiers,
             base_name='button_matrix',
-            channels=channel,
-            element_factory=matrix_button_factory,
-            is_private=False
+            is_rgb=True,
+            msg_type=matrix_msg_type,
+            # channels=channel,
+            # element_factory=matrix_button_factory,
+            # is_private=False
         )
 
         import sys

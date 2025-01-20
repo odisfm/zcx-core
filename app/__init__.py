@@ -30,6 +30,8 @@ def create_mappings(arg) -> dict:
     for button_name in named_button_names:
         hw_mapping_dict[button_name] = naming_function(button_name)
 
+    hw_mapping_dict['button_matrix'] = 'button_matrix'
+
     return {
         "HardwareInterface": hw_mapping_dict
     }
@@ -59,6 +61,23 @@ def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
             event_decorator = getattr(button_state, event)
             decorated_handler = event_decorator(handler)
             setattr(_hardware_interface, handler_name, decorated_handler)
+
+    # button matrix
+    matrix_control = control_matrix(ButtonControl)
+    setattr(_hardware_interface, 'button_matrix', matrix_control)
+    for event in events:
+        def create_handler(event_type=event, name='button_matrix'):
+            def handler(self, element):
+                return self.handle_control_event(event_type, element)
+
+            return handler
+
+        handler_name = f"button_matrix_{event}"
+        handler = create_handler()
+        setattr(_hardware_interface, handler_name, handler)
+        event_decorator = getattr(matrix_control, event)
+        decorated_handler = event_decorator(handler)
+        setattr(_hardware_interface, handler_name, decorated_handler)
 
     return _hardware_interface
 
