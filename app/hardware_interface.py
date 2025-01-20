@@ -29,6 +29,10 @@ class HardwareInterface(Component):
     def button_matrix_element(self):
         return self.__button_matrix_element
 
+    @property
+    def button_matrix_state(self):
+        return self.button_matrix
+
     def handle_control_event(self, event, button):
         self.log((f'{button._control_element._msg_type} {button._control_element._original_identifier}', event))
 
