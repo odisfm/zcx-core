@@ -37,7 +37,6 @@ class PageManager(Component, EventObject):
             self._logger.info(msg)
 
     def setup(self):
-        self.log('setup')
         sections_config = self.load_sections_config()
         pages_config = self.load_pages_config()
 
