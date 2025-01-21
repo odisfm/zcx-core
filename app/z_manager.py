@@ -12,6 +12,7 @@ from .pad_section import PadSection
 from .hardware_interface import HardwareInterface
 from .z_state import ZState
 from .z_control import ZControl
+from .z_controls.basic_z_control import BasicZControl
 
 class ZManager(Component, EventObject):
 
@@ -63,7 +64,7 @@ class ZManager(Component, EventObject):
                 coord = pad_section.owned_coordinates[i]
                 item_config = context_config[i]
                 state: ZState.State = matrix_state.get_control(coord[0], coord[1])
-                control = ZControl(self, pad_section)
+                control = BasicZControl(self, pad_section)
                 control.bind_to_state(state)
                 control.gesture_dict = item_config['actions']
                 control.raw_config = context_config[i]
@@ -239,7 +240,7 @@ class ZManager(Component, EventObject):
 
         for button_name, button_def in parsed_config.items():
             state: ZState.State = getattr(hardware, button_name)
-            control = ZControl(
+            control = BasicZControl(
                 self,
                 pad_section
             )
