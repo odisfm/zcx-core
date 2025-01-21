@@ -34,7 +34,6 @@ class HardwareInterface(Component):
         return self.button_matrix
 
     def handle_control_event(self, event, button):
-        self.log((f'{button._control_element._msg_type} {button._control_element._original_identifier}', event))
         button.forward_gesture(event)
 
     def all_lights_full(self):
