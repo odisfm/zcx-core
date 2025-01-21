@@ -10,6 +10,8 @@ from ableton.v3.control_surface.controls import (
 from .elements import Elements
 from .hardware_interface import HardwareInterface
 from .page_manager import PageManager
+from .z_state import ZState
+
 from .skin import Skin
 from .zcx_core import ZCXCore
 
@@ -45,7 +47,7 @@ def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
 
     # named buttons
     for button_name in button_names:
-        button_state = ButtonControl()
+        button_state = ZState()
         setattr(_hardware_interface, button_name, button_state)
 
         _hardware_interface.named_button_states[button_name] = button_state
@@ -65,7 +67,7 @@ def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
             setattr(_hardware_interface, handler_name, decorated_handler)
 
     # button matrix
-    matrix_control = control_matrix(ButtonControl)
+    matrix_control = control_matrix(ZState)
     setattr(_hardware_interface, 'button_matrix', matrix_control)
     for event in events:
         def create_handler(event_type=event, name='button_matrix'):
