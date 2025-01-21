@@ -36,7 +36,8 @@ class PageManager(Component, EventObject):
         self.__page_count = 1
         self.__pages_sections = {}
         self.__page_names = []
-        self._pad_sections = {}
+        self.__pad_sections: Dict[PadSection] = {}
+        self.__named_button_section: Optional[PadSection] = None
 
     def log(self, *msg):
         for msg in msg:
@@ -95,9 +96,9 @@ class PageManager(Component, EventObject):
         for section_name, section_config in sections_config.items():
             self.__raw_sections[section_name] = section_config
             section_obj = self.build_section(section_name, section_config)
-            self._pad_sections[section_name] = section_obj
+            self.__pad_sections[section_name] = section_obj
 
-        for section in self._pad_sections.values():
+        for section in self.__pad_sections.values():
             self.__z_manager.process_pad_section(section)
 
         self.set_page(0)
