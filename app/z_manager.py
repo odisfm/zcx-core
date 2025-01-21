@@ -55,13 +55,13 @@ class ZManager(Component, EventObject):
 
         raw_section_config = self.__yaml_loader.load_yaml(f'{self.__config_dir}/matrix_sections/{pad_section.name}.yaml')
 
-        self.log(self.flatten_section_config(pad_section, raw_section_config))
+        flat_config = self.flatten_section_config(pad_section, raw_section_config)
+        context_config = self.apply_section_context(pad_section, flat_config)
 
         for coord in pad_section.owned_coordinates:
             state: ZState.State = matrix_state.get_control(coord[1], coord[0])
 
-
-    def flatten_section_config(self, section_obj: PadSection, raw_config: dict, ignore_global_template=False):
+    def flatten_section_config(self, section_obj, raw_config, ignore_global_template=False):
         """Flattens a section configuration by applying templates and processing pad groups."""
         self.log(f"attempting to flatten pad section {section_obj.name}")
 
@@ -117,13 +117,11 @@ class ZManager(Component, EventObject):
             if 'pad_group' not in config:
                 # First apply global template
                 base_config = apply_global_template({})
-                # base_config = config
                 # Then apply any control template
                 if 'template' in config:
-                    base_config = merge_configs(base_config) #, apply_control_template(config))
+                    base_config = merge_configs(base_config, apply_control_template(config))
                 # Finally apply the pad's specific config
                 final_config = merge_configs(base_config, config)
-                # final_config = config
 
                 final_config['group_context'] = {
                     'group_name': None,
@@ -131,8 +129,6 @@ class ZManager(Component, EventObject):
                 }
                 flat_config.append(final_config)
                 continue
-            # else:
-                # base_config = config
 
             # Handle pad group
             pad_group = config['pad_group']
@@ -183,7 +179,7 @@ class ZManager(Component, EventObject):
                 }
                 flat_config.append(member_config)
 
-            return flat_config
+        return flat_config
 
     def apply_section_context(self, section_obj, flat_config):
         self.log(f"attempting to apply context to pad section {section_obj.name}")
