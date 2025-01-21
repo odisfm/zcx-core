@@ -11,6 +11,7 @@ from .errors import ConfigurationError, HardwareSpecificationError
 from .pad_section import PadSection
 from .hardware_interface import HardwareInterface
 from .z_state import ZState
+from .z_control import ZControl
 
 class ZManager(Component, EventObject):
 
@@ -60,6 +61,8 @@ class ZManager(Component, EventObject):
 
         for coord in pad_section.owned_coordinates:
             state: ZState.State = matrix_state.get_control(coord[1], coord[0])
+            control = ZControl(self, pad_section)
+            control.bind_to_state(state)
 
     def flatten_section_config(self, section_obj, raw_config, ignore_global_template=False):
         """Flattens a section configuration by applying templates and processing pad groups."""
