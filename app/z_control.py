@@ -46,6 +46,10 @@ class ZControl(EventObject):
         if self.__state is not None:
             self.__state.unregister_z_control(self)
 
+    @only_in_view
+    def forward_gesture(self, gesture):
+        self.log(gesture)
+
     @listens('in_view')
     def in_view_listener(self):
         self.__in_view = self.parent_section.in_view
