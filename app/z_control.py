@@ -27,10 +27,16 @@ class ZControl(EventObject):
         self.parent_section = parent_section
         self.__state = None
         self.__parent_logger = self.parent_section._logger
+        self.__in_view = False
+        self.in_view_listener.subject = self.parent_section
 
     def log(self, *msg):
         for msg in msg:
             self.__parent_logger.info(f'({self.parent_section.name}) {msg}')
+
+    @property
+    def in_view(self):
+        return self.__in_view
 
     def bind_to_state(self, state):
         state.register_z_control(self)
@@ -39,3 +45,7 @@ class ZControl(EventObject):
     def unbind_from_state(self):
         if self.__state is not None:
             self.__state.unregister_z_control(self)
+
+    @listens('in_view')
+    def in_view_listener(self):
+        self.__in_view = self.parent_section.in_view
