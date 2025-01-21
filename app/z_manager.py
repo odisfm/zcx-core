@@ -66,6 +66,7 @@ class ZManager(Component, EventObject):
             control = ZControl(self, pad_section)
             control.bind_to_state(state)
             control.gesture_dict = item_config['actions']
+                control.raw_config = context_config[i]
 
     def flatten_section_config(self, section_obj, raw_config, ignore_global_template=False):
         """Flattens a section configuration by applying templates and processing pad groups."""
