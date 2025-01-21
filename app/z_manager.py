@@ -61,6 +61,7 @@ class ZManager(Component, EventObject):
 
         for coord in pad_section.owned_coordinates:
             state: ZState.State = matrix_state.get_control(coord[1], coord[0])
+            state: ZState.State = matrix_state.get_control(coord[0], coord[1])
             control = ZControl(self, pad_section)
             control.bind_to_state(state)
 

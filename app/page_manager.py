@@ -144,7 +144,7 @@ class PageManager(Component, EventObject):
         nested_controls = matrix_element.nested_control_elements()
         MATRIX_WIDTH = matrix_element.width()
         MATRIX_MIN_NOTE = nested_controls[-1]._original_identifier - (MATRIX_WIDTH - 1)
-        MATRIX_MAX_NOTE = nested_controls[0]._original_identifier + (MATRIX_WIDTH - 1)
+        MATRIX_MAX_NOTE = nested_controls[0]._original_identifier + (MATRIX_WIDTH)
         MATRIX_HEIGHT = len(nested_controls) // MATRIX_WIDTH
 
     def load_sections_config(self):
