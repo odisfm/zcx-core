@@ -50,7 +50,7 @@ class PadSection(EventObject):
     def width(self):
         return self.__width
 
-    @property
+    @listenable_property
     def in_view(self):
         return self.__in_view
 
