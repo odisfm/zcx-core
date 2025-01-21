@@ -30,7 +30,7 @@ class ZControl(EventObject):
 
     def log(self, *msg):
         for msg in msg:
-            self.__parent_logger.log(f'({self.parent_section.name}) {msg}')
+            self.__parent_logger.info(f'({self.parent_section.name}) {msg}')
 
     def bind_to_state(self, state):
         state.register_z_control(self)
