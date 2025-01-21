@@ -30,8 +30,8 @@ class PageManager(Component, EventObject):
         self.yaml_loader = yaml_loader
         self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log(f'{self.__class__.__name__} initialized')
-        self.__z_manager = self.canonical_parent.component_map["ZManager"]
-        self.__raw_sections = {}
+        self.__z_manager: ZManager = self.canonical_parent.component_map["ZManager"]
+        self.__raw_sections: Dict[str, Dict] = {}
         self.__current_page = -1
         self.__page_count = 1
         self.__pages_sections = {}
