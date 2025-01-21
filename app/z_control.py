@@ -29,6 +29,7 @@ class ZControl(EventObject):
         self.__parent_logger = self.parent_section._logger
         self.__in_view = False
         self.in_view_listener.subject = self.parent_section
+        self.gesture_dict = {}
 
     def log(self, *msg):
         for msg in msg:
@@ -48,7 +49,8 @@ class ZControl(EventObject):
 
     @only_in_view
     def forward_gesture(self, gesture):
-        self.log(gesture)
+        if gesture in self.gesture_dict:
+            self.log(self.gesture_dict[gesture])
 
     @listens('in_view')
     def in_view_listener(self):
