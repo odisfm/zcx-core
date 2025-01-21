@@ -59,11 +59,13 @@ class ZManager(Component, EventObject):
         flat_config = self.flatten_section_config(pad_section, raw_section_config)
         context_config = self.apply_section_context(pad_section, flat_config)
 
-        for coord in pad_section.owned_coordinates:
-            state: ZState.State = matrix_state.get_control(coord[1], coord[0])
+        for i in range(len(context_config)):
+            coord = pad_section.owned_coordinates[i]
+            item_config = context_config[i]
             state: ZState.State = matrix_state.get_control(coord[0], coord[1])
             control = ZControl(self, pad_section)
             control.bind_to_state(state)
+            control.gesture_dict = item_config['actions']
 
     def flatten_section_config(self, section_obj, raw_config, ignore_global_template=False):
         """Flattens a section configuration by applying templates and processing pad groups."""
