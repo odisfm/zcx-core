@@ -58,6 +58,12 @@ class PadSection(EventObject):
     def current_page_listener(self):
         page = self.page_manager.current_page
         if page in self.__pages_in:
+            if self.__in_view:
+                return
             self.__in_view = True
+            self.notify_in_view()
         else:
+            if not self.in_view:
+                return
             self.__in_view = False
+            self.notify_in_view()
