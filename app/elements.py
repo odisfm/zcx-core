@@ -5,6 +5,7 @@ from functools import partial
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
 from ableton.v3.control_surface.elements import ButtonElement
+from .z_element import ZElement
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
 from .errors import HardwareSpecificationError
 from .vendor.yaml import safe_load as load_yaml
@@ -124,7 +125,7 @@ class Elements(ElementsBase):
 
     def element_factory(self, identifier, channel=0, msg_type=MIDI_CC_TYPE, is_momentary=True, *a,
                         **k) -> ButtonElement:
-        element = ButtonElement(identifier, channel=channel, msg_type=msg_type, is_momentary=is_momentary)
+        element = ZElement(identifier, channel=channel, msg_type=msg_type, is_momentary=is_momentary)
         return element
 
     def load_specifications(self) -> dict:
