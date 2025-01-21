@@ -30,6 +30,7 @@ class ZControl(EventObject):
         self.__in_view = False
         self.in_view_listener.subject = self.parent_section
         self.gesture_dict = {}
+        self.raw_config = {} # temp
 
     def log(self, *msg):
         for msg in msg:
