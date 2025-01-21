@@ -101,6 +101,15 @@ class PageManager(Component, EventObject):
         for section in self.__pad_sections.values():
             self.__z_manager.process_pad_section(section)
 
+        named_pad_section = PadSection(
+            '__named_buttons_section',
+            None,
+            {i for i in range(self.__page_count)},
+            0
+        )
+
+        self.__z_manager.process_named_buttons(named_pad_section)
+
         self.set_page(0)
 
     def build_section(self, section_name, section_config):
