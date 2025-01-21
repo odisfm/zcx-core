@@ -21,6 +21,7 @@ from typing import Type
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
+CONFIG_DIR = '_config'
 
 def create_mappings(arg) -> dict:
     ROOT_LOGGER.info('Creating mappings')
