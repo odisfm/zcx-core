@@ -10,6 +10,7 @@ from ableton.v3.control_surface.controls import (
 from .elements import Elements
 from .hardware_interface import HardwareInterface
 from .page_manager import PageManager
+from .z_manager import ZManager
 from .z_state import ZState
 
 from .skin import Skin
@@ -37,7 +38,8 @@ def create_mappings(arg) -> dict:
 
     return {
         "HardwareInterface": hw_mapping_dict,
-        "PageManager": {}
+        "PageManager": {},
+        "ZManager": {}
     }
 
 def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
@@ -98,7 +100,8 @@ def create_instance(c_instance):
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
-        'PageManager': PageManager
+        'PageManager': PageManager,
+        "ZManager": ZManager
     }
     from . import yaml_loader
 

@@ -26,6 +26,7 @@ class PageManager(Component, EventObject):
         self.yaml_loader = yaml_loader
         self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log(f'{self.__class__.__name__} initialized')
+        self.__z_manager = self.canonical_parent.component_map["ZManager"]
         self.__raw_sections = {}
         self.__current_page = -1
         self.__page_count = 1
@@ -91,6 +92,9 @@ class PageManager(Component, EventObject):
             self.__raw_sections[section_name] = section_config
             section_obj = self.build_section(section_name, section_config)
             self._pad_sections[section_name] = section_obj
+
+        for section in self._pad_sections.values():
+            self.__z_manager.process_pad_section(section)
 
         self.set_page(0)
 
