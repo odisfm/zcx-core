@@ -23,16 +23,18 @@ class PadSection(EventObject):
         self._logger = self.page_manager._logger.getChild(f'matrix_section__{section_name}')
         self.current_page_listener.subject = self.page_manager
 
-        min_y, min_x = self.owned_coordinates[0]
-        max_y, max_x = self.owned_coordinates[-1]
-        self.__bounds = {
-            'min_x': min_x,
-            'max_x': max_x,
-            'min_y': min_y,
-            'max_y': max_y,
-            'width': max_x - min_x + 1,
-            'height': max_y - min_y + 1
-        }
+        self.__bounds = None
+        if self.__owned_coordinates is not None:
+            min_y, min_x = self.owned_coordinates[0]
+            max_y, max_x = self.owned_coordinates[-1]
+            self.__bounds = {
+                'min_x': min_x,
+                'max_x': max_x,
+                'min_y': min_y,
+                'max_y': max_y,
+                'width': max_x - min_x + 1,
+                'height': max_y - min_y + 1
+            }
 
     def log(self, *msg):
         for msg in msg:
