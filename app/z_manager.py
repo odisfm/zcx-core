@@ -49,7 +49,6 @@ class ZManager(Component, EventObject):
         if '__global__' in raw_config:
             self.__global_control_template = raw_config.pop('__global__')
         self.__control_templates = raw_config
-        self.log('control templates', self.__control_templates)
 
     def process_pad_section(self, pad_section: PadSection):
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
@@ -70,7 +69,9 @@ class ZManager(Component, EventObject):
 
     def flatten_section_config(self, section_obj, raw_config, ignore_global_template=False):
         """Flattens a section configuration by applying templates and processing pad groups."""
-        self.log(f"attempting to flatten pad section {section_obj.name}")
+
+        try:
+            self.log(f"attempting to flatten pad section {section_obj.name}")
 
         global_template = self.__global_control_template
         control_templates = self.__control_templates
