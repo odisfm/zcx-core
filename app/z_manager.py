@@ -58,14 +58,17 @@ class ZManager(Component, EventObject):
         flat_config = self.flatten_section_config(pad_section, raw_section_config)
         context_config = self.apply_section_context(pad_section, flat_config)
 
-        for i in range(len(context_config)):
-            coord = pad_section.owned_coordinates[i]
-            item_config = context_config[i]
-            state: ZState.State = matrix_state.get_control(coord[0], coord[1])
-            control = ZControl(self, pad_section)
-            control.bind_to_state(state)
-            control.gesture_dict = item_config['actions']
+        try:
+            for i in range(len(pad_section.owned_coordinates)):
+                coord = pad_section.owned_coordinates[i]
+                item_config = context_config[i]
+                state: ZState.State = matrix_state.get_control(coord[0], coord[1])
+                control = ZControl(self, pad_section)
+                control.bind_to_state(state)
+                control.gesture_dict = item_config['actions']
                 control.raw_config = context_config[i]
+        except Exception as e:
+            self.log(e)
 
     def flatten_section_config(self, section_obj, raw_config, ignore_global_template=False):
         """Flattens a section configuration by applying templates and processing pad groups."""
@@ -73,147 +76,156 @@ class ZManager(Component, EventObject):
         try:
             self.log(f"attempting to flatten pad section {section_obj.name}")
 
-        global_template = self.__global_control_template
-        control_templates = self.__control_templates
-        flat_config = []
-        unnamed_groups = 0
+            global_template = self.__global_control_template
+            control_templates = self.__control_templates
+            flat_config = []
+            unnamed_groups = 0
 
-        # handle single dict group section config
-        if isinstance(raw_config, dict):
-            if 'pad_group' in raw_config:
-                # raise ValueError() todo: raise config error with proper message
-                raw_config = [raw_config]
-            else:
-                raw_config = [raw_config] * len(section_obj.owned_coordinates)
-        elif not isinstance(raw_config, list):
-            raise ValueError()  # todo: raise config error with proper message
-
-        def merge_configs(base, override):
-            """Deep merge two configurations, ensuring override values take precedence"""
-            merged = deepcopy(base)
-            for key, value in override.items():
-                if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
-                    merged[key] = merge_configs(merged[key], value)
+            # handle single dict group section config
+            if isinstance(raw_config, dict):
+                if 'pad_group' in raw_config:
+                    # raise ValueError() todo: raise config error with proper message
+                    raw_config = [raw_config]
                 else:
-                    merged[key] = deepcopy(value)
-            return merged
+                    raw_config = [raw_config] * len(section_obj.owned_coordinates)
+            elif not isinstance(raw_config, list):
+                raise ValueError()  # todo: raise config error with proper message
 
-        def apply_global_template(config):
-            """Apply global template to config if not ignored"""
-            if not ignore_global_template:
-                return merge_configs(deepcopy(global_template), deepcopy(config))
-            return deepcopy(config)
-
-        def apply_control_template(config):
-            """Apply any specified control template to config"""
-            if 'template' not in config:
-                return config
-
-            template_name = config.pop('template')
-            template = control_templates.get(template_name)
-            if template is None:
-                raise ValueError(f'Config error in {section_obj.name}: '
-                                 f'Specified non-existent template "{template_name}"')
-
-            # Start with the template and override with config
-            return merge_configs(deepcopy(template), config)
-
-        for i, item in enumerate(raw_config):
-            config = deepcopy(item)
-
-            # Handle single pad configuration
-            if 'pad_group' not in config:
-                # First apply global template
-                base_config = apply_global_template({})
-                # Then apply any control template
-                if 'template' in config:
-                    base_config = merge_configs(base_config, apply_control_template(config))
-                # Finally apply the pad's specific config
-                final_config = merge_configs(base_config, config)
-
-                final_config['group_context'] = {
-                    'group_name': None,
-                    'group_index': None
-                }
-                flat_config.append(final_config)
-                continue
-
-            # Handle pad group
-            pad_group = config['pad_group']
-            group_name = pad_group if isinstance(pad_group, str) else f'{section_obj.name}_group_{unnamed_groups}'
-            if not isinstance(pad_group, str):
-                unnamed_groups += 1
-
-            group_pads = config.get('pads', [None] * (len(section_obj.owned_coordinates) - i))
-            if not isinstance(group_pads, list):
-                raise ValueError(f'Config error in {section_obj.name} {group_name}: '
-                                 f'If "pads" key is present it must be a list.')
-
-            # Create base group config with correct template inheritance
-            group_config = deepcopy(config)
-            del group_config['pad_group']
-            if 'pads' in group_config:
-                del group_config['pads']
-
-            # First apply global template to create base config
-            base_config = apply_global_template({})
-            # Then apply any group-level template
-            if 'template' in group_config:
-                base_config = merge_configs(base_config, apply_control_template(group_config))
-            # Finally apply the group's specific config
-            group_config = merge_configs(base_config, group_config)
-
-            # Process each pad in group
-            for j, pad_config in enumerate(group_pads):
-                if pad_config is None:
-                    # Use group config directly if no pad override
-                    member_config = deepcopy(group_config)
-                else:
-                    # Start with group config
-                    member_config = deepcopy(group_config)
-                    pad_config = deepcopy(pad_config)
-
-                    # Apply pad-specific template if it exists
-                    if 'template' in pad_config:
-                        template_config = apply_control_template(pad_config)
-                        member_config = merge_configs(member_config, template_config)
+            def merge_configs(base, override):
+                """Deep merge two configurations, ensuring override values take precedence"""
+                merged = deepcopy(base)
+                for key, value in override.items():
+                    if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+                        merged[key] = merge_configs(merged[key], value)
                     else:
-                        # Just merge the pad's config
-                        member_config = merge_configs(member_config, pad_config)
+                        merged[key] = deepcopy(value)
+                return merged
 
-                member_config['group_context'] = {
-                    'group_name': group_name,
-                    'group_index': j
-                }
-                flat_config.append(member_config)
+            def apply_global_template(config):
+                """Apply global template to config if not ignored"""
+                if not ignore_global_template:
+                    return merge_configs(deepcopy(global_template), deepcopy(config))
+                return deepcopy(config)
+
+            def apply_control_template(config):
+                """Apply any specified control template to config"""
+                if 'template' not in config:
+                    return config
+
+                template_name = config.pop('template')
+                template = control_templates.get(template_name)
+                if template is None:
+                    raise ValueError(f'Config error in {section_obj.name}: '
+                                     f'Specified non-existent template "{template_name}"')
+
+                # Start with the template and override with config
+                return merge_configs(deepcopy(template), config)
+
+            for i, item in enumerate(raw_config):
+                config = deepcopy(item)
+
+                # Handle single pad configuration
+                if 'pad_group' not in config:
+                    # First apply global template
+                    base_config = apply_global_template({})
+                    # Then apply any control template
+                    if 'template' in config:
+                        base_config = merge_configs(base_config, apply_control_template(config))
+                    # Finally apply the pad's specific config
+                    final_config = merge_configs(base_config, config)
+
+                    final_config['group_context'] = {
+                        'group_name': None,
+                        'group_index': None
+                    }
+                    flat_config.append(final_config)
+                    continue
+
+                # Handle pad group
+                pad_group = config['pad_group']
+                group_name = pad_group if isinstance(pad_group, str) else f'{section_obj.name}_group_{unnamed_groups}'
+                if not isinstance(pad_group, str):
+                    unnamed_groups += 1
+
+                group_pads = config.get('pads', [None] * (len(section_obj.owned_coordinates) - i))
+                if not isinstance(group_pads, list):
+                    raise ValueError(f'Config error in {section_obj.name} {group_name}: '
+                                     f'If "pads" key is present it must be a list.')
+
+                # Create base group config with correct template inheritance
+                group_config = deepcopy(config)
+                del group_config['pad_group']
+                if 'pads' in group_config:
+                    del group_config['pads']
+
+                # First apply global template to create base config
+                base_config = apply_global_template({})
+                # Then apply any group-level template
+                if 'template' in group_config:
+                    base_config = merge_configs(base_config, apply_control_template(group_config))
+                # Finally apply the group's specific config
+                group_config = merge_configs(base_config, group_config)
+
+                # Process each pad in group
+                for j, pad_config in enumerate(group_pads):
+                    if pad_config is None:
+                        # Use group config directly if no pad override
+                        member_config = deepcopy(group_config)
+                    else:
+                        # Start with group config
+                        member_config = deepcopy(group_config)
+                        pad_config = deepcopy(pad_config)
+
+                        # Apply pad-specific template if it exists
+                        if 'template' in pad_config:
+                            template_config = apply_control_template(pad_config)
+                            member_config = merge_configs(member_config, template_config)
+                        else:
+                            # Just merge the pad's config
+                            member_config = merge_configs(member_config, pad_config)
+
+                    member_config['group_context'] = {
+                        'group_name': group_name,
+                        'group_index': j
+                    }
+                    flat_config.append(member_config)
+        except Exception as e:
+            self.log(f'failed to parse section {section_obj.name} config', raw_config)
+            raise e
 
         return flat_config
 
     def apply_section_context(self, section_obj, flat_config):
-        self.log(f"attempting to apply context to pad section {section_obj.name}")
 
-        section_context = {
-            'section_name': section_obj.name
-        }
+        try:
+            self.log(f"attempting to apply context to pad section {section_obj.name}")
 
-        processed_config = []
+            section_context = {
+                'section_name': section_obj.name
+            }
 
-        for i in range(len(flat_config)):
-            item = flat_config[i]
-            global_y, global_x = section_obj.owned_coordinates[i]
+            processed_config = []
 
-            item_context = deepcopy(section_context)
-            item_context.update({
-                'global_x': global_x,
-                'global_y': global_y,
-                'section_x': global_x - section_obj._PadSection__bounds['min_x'],
-                'section_y': global_y - section_obj._PadSection__bounds['min_y']
-            })
+            for i in range(len(flat_config)):
+                item = flat_config[i]
+                global_y, global_x = section_obj.owned_coordinates[i]
 
-            item['section_context'] = item_context
-            processed_config.append(item)
+                item_context = deepcopy(section_context)
+                item_context.update({
+                    'global_x': global_x,
+                    'global_y': global_y,
+                    'section_x': global_x - section_obj._PadSection__bounds['min_x'],
+                    'section_y': global_y - section_obj._PadSection__bounds['min_y']
+                })
 
-        return processed_config
+                item['section_context'] = item_context
+                processed_config.append(item)
+
+            return processed_config
+
+        except Exception as e:
+            self.log(e)
+
 
     def parse_config_color(self, config):
 
