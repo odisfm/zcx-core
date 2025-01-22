@@ -89,6 +89,9 @@ class ZControl(EventObject):
     def __create_context(self, config: list[dict]) -> None:
         context = {k: v for d in config for k, v in d.items()}
         if 'index' not in context:
+            if 'group_index' in context:
+                context['index'] = context['group_index']
+                context['Index'] = context['index'] + 1
             context['index'] = 0
         me_context = {'me': context}
         self.__context = me_context
