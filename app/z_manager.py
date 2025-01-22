@@ -247,7 +247,8 @@ class ZManager(Component, EventObject):
             state.register_z_control(control)
             control.gesture_dict = button_def['gestures']
 
-    def parse_named_button_config(self, pad_section: PadSection, raw_config: dict, ignore_global_template=False) -> dict:
+    def parse_named_button_config(self, pad_section: PadSection, raw_config: dict,
+                                  ignore_global_template=False) -> dict:
         try:
             ungrouped_buttons = {}
             groups = {}
@@ -282,20 +283,6 @@ class ZManager(Component, EventObject):
                     return merge_configs(deepcopy(global_template), deepcopy(config))
                 return deepcopy(config)
 
-            def apply_control_template(config):
-                """Apply any specified control template to config"""
-                if 'template' not in config:
-                    return config
-
-                template_name = config.pop('template')
-                template = control_templates.get(template_name)
-                if template is None:
-                    raise ValueError(f'Config error in {section_obj.name}: '
-                                     f'Specified non-existent template "{template_name}"')
-
-                # Start with the template and override with config
-                return merge_configs(deepcopy(template), config)
-
             for group_name, group_def in groups.items():
                 group_config = deepcopy(group_def)
                 group_config = apply_global_template(group_config)
@@ -305,32 +292,34 @@ class ZManager(Component, EventObject):
 
                 processed_sub_buttons = {}
 
-                for sub_button in group_config['includes']:
+                for sub_button in group_config.get('includes', []):
                     sub_button_config = deepcopy(group_config)
-                    if 'buttons' in group_config and sub_button in group_config['buttons']:
-                        # todo: broken
-                        override_def = deepcopy(group_config.get('buttons').get(sub_button))
-                        merged_def = merge_configs(override_def, sub_button_config)
+
+                    button_overrides = group_config.get('buttons', {})
+                    if button_overrides and sub_button in button_overrides:
+                        override_def = deepcopy(button_overrides[sub_button])
+                        merged_def = merge_configs(sub_button_config, override_def)
                     else:
                         merged_def = sub_button_config
-                    merged_def.pop('includes')
-                    merged_def.pop('buttons')
+
+                    for key in ['includes', 'buttons']:
+                        merged_def.pop(key, None)
+
                     processed_sub_buttons[sub_button] = merged_def
 
                 for i, (name, _def) in enumerate(processed_sub_buttons.items()):
                     group_context = {}
-                    group_name = group_name[2:] # remove leading __
+                    group_name = group_name[2:]
                     group_context['group_name'] = group_name
                     group_context['group_index'] = i
 
                     _def.update(group_context)
-
                     ungrouped_buttons[name] = _def
 
             return ungrouped_buttons
 
         except Exception as e:
-            self.log(e)
+            raise e
 
     def parse_config_color(self, config):
 
