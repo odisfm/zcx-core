@@ -91,8 +91,8 @@ class ZControl(EventObject):
         if 'index' not in context:
             if 'group_index' in context:
                 context['index'] = context['group_index']
-                context['Index'] = context['index'] + 1
             context['index'] = 0
+        context['Index'] = context['index'] + 1
         me_context = {'me': context}
         self.__context = me_context
 
