@@ -244,7 +244,7 @@ class ZManager(Component, EventObject):
                 self,
                 pad_section
             )
-            state.register_z_control(control)
+            control.bind_to_state(state)
             control.gesture_dict = button_def['gestures']
 
     def parse_named_button_config(self, pad_section: PadSection, raw_config: dict,
