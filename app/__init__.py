@@ -17,6 +17,8 @@ from .z_manager import ZManager
 from .z_state import ZState
 from .zcx_core import ZCXCore
 
+from .consts import SUPPORTED_GESTURES
+
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
@@ -45,8 +47,7 @@ def create_mappings(arg) -> dict:
 
 def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
     _hardware_interface = HardwareInterface
-    events = ['pressed', 'pressed_delayed', 'released',
-              'released_immediately', 'released_delayed', 'double_clicked']
+    events = SUPPORTED_GESTURES
 
     # named buttons
     for button_name in button_names:
