@@ -1,12 +1,11 @@
 from functools import wraps
 
 from ableton.v2.base import EventObject
-from ableton.v2.base.task import TimerTask
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
-
-from .z_element import ZElement
 from .colors import parse_color_definition
+from .z_element import ZElement
+
 
 def only_in_view(func):
     @wraps(func)

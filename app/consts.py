@@ -1,3 +1,3 @@
-APP_NAME = 'zcx-core'
+APP_NAME = "zcx-core"
 
-REQUIRED_HARDWARE_SPECS = ['cc_buttons', 'note_buttons', 'encoders']
+REQUIRED_HARDWARE_SPECS = ["cc_buttons", "note_buttons", "encoders"]

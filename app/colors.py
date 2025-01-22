@@ -6,16 +6,19 @@ except ImportError:
 
 RgbColor = hardware_colors.RgbColor
 
+
 class ColorSwatches:
 
     basic = hardware_colors.BasicColorSwatch
     biled = hardware_colors.BiledColorSwatch
     rgb = hardware_colors.RgbColorSwatch
 
+
 def get_named_color(name):
     name = name.upper()
     color = getattr(hardware_colors.Rgb, name, None)
     return color
+
 
 def parse_color_definition(color):
     if type(color) is int:

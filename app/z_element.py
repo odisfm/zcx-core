@@ -5,7 +5,7 @@ class ZElement(ButtonElement):
 
     def __init__(self, *a, **k):
         super(ZElement, self).__init__(*a, **k)
-        self.__name = 'unnamed_z_element'
+        self.__name = "unnamed_z_element"
         self.__color_swatch = None
 
     @property

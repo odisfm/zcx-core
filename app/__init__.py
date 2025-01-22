@@ -1,23 +1,20 @@
+import logging
+from typing import Type
+
 from ableton.v3.control_surface import (
     ControlSurfaceSpecification,
     create_skin
 )
 from ableton.v3.control_surface.controls import (
-    ButtonControl,
-    EncoderControl,
     control_matrix,
 )
 from .elements import Elements
 from .hardware_interface import HardwareInterface
 from .page_manager import PageManager
+from .skin import Skin
 from .z_manager import ZManager
 from .z_state import ZState
-
-from .skin import Skin
 from .zcx_core import ZCXCore
-
-import logging
-from typing import Type
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
@@ -98,13 +95,11 @@ def create_instance(c_instance):
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
-    from . import colors
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
         'PageManager': PageManager,
         "ZManager": ZManager
     }
-    from . import yaml_loader
 
     return ZCXCore(Specification, c_instance=c_instance)

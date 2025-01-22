@@ -1,9 +1,8 @@
 import copy
 
-from ableton.v3.control_surface import Component
 from ableton.v2.base.event import EventObject, listenable_property
-
-from .errors import ConfigurationError, HardwareSpecificationError
+from ableton.v3.control_surface import Component
+from .errors import ConfigurationError
 from .pad_section import PadSection
 
 MATRIX_MIN_NOTE = 0
@@ -13,23 +12,26 @@ MATRIX_HEIGHT = 0
 
 CONFIG_DIR = None
 
+
 class PageManager(Component, EventObject):
 
     def __init__(
-            self,
-            name="PageManager",
-            *a,
-            **k,
+        self,
+        name="PageManager",
+        *a,
+        **k,
     ):
         super().__init__(name=name, *a, **k)
         from . import ROOT_LOGGER
         from . import CONFIG_DIR as config_dir
+
         global CONFIG_DIR
         CONFIG_DIR = config_dir
         from .yaml_loader import yaml_loader
+
         self.yaml_loader = yaml_loader
         self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
-        self.log(f'{self.__class__.__name__} initialized')
+        self.log(f"{self.__class__.__name__} initialized")
         self.__z_manager: ZManager = self.canonical_parent.component_map["ZManager"]
         self.__raw_sections: Dict[str, Dict] = {}
         self.__current_page = -1
@@ -59,7 +61,7 @@ class PageManager(Component, EventObject):
             self.__current_page = page_number
             self.notify_current_page()
         else:
-            raise ValueError(f'invalid value {page_number or page_name} for set_page()')
+            raise ValueError(f"invalid value {page_number or page_name} for set_page()")
 
     def setup(self):
         sections_config = self.load_sections_config()
@@ -70,11 +72,11 @@ class PageManager(Component, EventObject):
             main = []
             for section in sections_config.keys():
                 main.append(section)
-            pages_dict['main'] = main
+            pages_dict["main"] = main
             pages_order = copy.copy(main)
         else:
-            pages_dict = copy.copy(pages_config.get('pages'))
-            pages_order = pages_config.get('order')
+            pages_dict = copy.copy(pages_config.get("pages"))
+            pages_order = pages_config.get("order")
             if pages_order is None:
                 pages_order = list(pages_dict.keys())
 
@@ -102,10 +104,7 @@ class PageManager(Component, EventObject):
             self.__z_manager.process_pad_section(section)
 
         named_pad_section = PadSection(
-            '__named_buttons_section',
-            None,
-            {i for i in range(self.__page_count)},
-            0
+            "__named_buttons_section", None, {i for i in range(self.__page_count)}, 0
         )
 
         self.__z_manager.process_named_buttons(named_pad_section)
@@ -113,15 +112,16 @@ class PageManager(Component, EventObject):
         self.set_page(0)
 
     def build_section(self, section_name, section_config):
-        matrix_element = self.canonical_parent.component_map['HardwareInterface'].button_matrix_state
+        matrix_element = self.canonical_parent.component_map[
+            "HardwareInterface"
+        ].button_matrix_state
 
         self.validate_section_config(section_name, section_config)
 
-        col_start = section_config['col_start']
-        col_end = section_config['col_end']
-        row_start = section_config['row_start']
-        row_end = section_config['row_end']
-
+        col_start = section_config["col_start"]
+        col_end = section_config["col_end"]
+        row_start = section_config["row_start"]
+        row_end = section_config["row_end"]
 
         control_states = []
         owned_coordinates = []
@@ -130,7 +130,9 @@ class PageManager(Component, EventObject):
             for x in range(col_start, col_end + 1):
                 state = matrix_element.get_control(y, x)
                 if state is None:
-                    raise RuntimeError(f"Could not get control state for coordinates ({y}, {x})")
+                    raise RuntimeError(
+                        f"Could not get control state for coordinates ({y}, {x})"
+                    )
                 control_states.append(state)
                 owned_coordinates.append((y, x))
 
@@ -144,7 +146,7 @@ class PageManager(Component, EventObject):
             section_name=section_name,
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
-            width=(row_end - row_start + 1)
+            width=(row_end - row_start + 1),
         )
 
         self._registered_disconnectables.append(section_object)
@@ -153,7 +155,7 @@ class PageManager(Component, EventObject):
 
     def determine_matrix_specs(self):
         global MATRIX_MIN_NOTE, MATRIX_MAX_NOTE, MATRIX_WIDTH, MATRIX_HEIGHT
-        hw_interface = self.canonical_parent.component_map['HardwareInterface']
+        hw_interface = self.canonical_parent.component_map["HardwareInterface"]
         matrix_element = hw_interface.button_matrix_element
         nested_controls = matrix_element.nested_control_elements()
         MATRIX_WIDTH = matrix_element.width()
@@ -162,12 +164,12 @@ class PageManager(Component, EventObject):
         MATRIX_HEIGHT = len(nested_controls) // MATRIX_WIDTH
 
     def load_sections_config(self):
-        sections = self.yaml_loader.load_yaml(f'{CONFIG_DIR}/matrix_sections.yaml')
+        sections = self.yaml_loader.load_yaml(f"{CONFIG_DIR}/matrix_sections.yaml")
         return sections
 
     def load_pages_config(self):
         try:
-            pages = self.yaml_loader.load_yaml(f'{CONFIG_DIR}/pages.yaml')
+            pages = self.yaml_loader.load_yaml(f"{CONFIG_DIR}/pages.yaml")
         except FileNotFoundError:
             pages = None
         return pages
@@ -183,28 +185,42 @@ class PageManager(Component, EventObject):
         - All coordinates are inclusive
         - Valid note range is MATRIX_MIN_NOTE to MATRIX_MAX_NOTE
         """
-        required_fields = ['col_start', 'col_end', 'row_start', 'row_end']
+        required_fields = ["col_start", "col_end", "row_start", "row_end"]
 
         # Check all required fields exist
         for field in required_fields:
             if field not in section_config:
-                raise ConfigurationError(f"Missing required field '{field}' in section {section_name}")
+                raise ConfigurationError(
+                    f"Missing required field '{field}' in section {section_name}"
+                )
 
         # Validate row order (must be ascending)
-        if section_config['row_start'] > section_config['row_end']:
-            raise ConfigurationError(f"Section {section_name}: rows must be ordered from top to bottom (row_start < row_end)")
+        if section_config["row_start"] > section_config["row_end"]:
+            raise ConfigurationError(
+                f"Section {section_name}: rows must be ordered from top to bottom (row_start < row_end)"
+            )
 
         # Validate coordinate ranges using hardware-specific bounds
-        if not (0 <= section_config['row_start'] < MATRIX_HEIGHT and
-                0 <= section_config['row_end'] < MATRIX_HEIGHT):
-            raise ConfigurationError(f"Section {section_name}: row coordinates must be between 0 and {MATRIX_HEIGHT - 1}")
+        if not (
+            0 <= section_config["row_start"] < MATRIX_HEIGHT
+            and 0 <= section_config["row_end"] < MATRIX_HEIGHT
+        ):
+            raise ConfigurationError(
+                f"Section {section_name}: row coordinates must be between 0 and {MATRIX_HEIGHT - 1}"
+            )
 
-        if not (0 <= section_config['col_start'] < MATRIX_WIDTH and
-                0 <= section_config['col_end'] < MATRIX_WIDTH):
-            raise ConfigurationError(f"Section {section_name}: column coordinates must be between 0 and {MATRIX_WIDTH - 1}")
+        if not (
+            0 <= section_config["col_start"] < MATRIX_WIDTH
+            and 0 <= section_config["col_end"] < MATRIX_WIDTH
+        ):
+            raise ConfigurationError(
+                f"Section {section_name}: column coordinates must be between 0 and {MATRIX_WIDTH - 1}"
+            )
 
-        if section_config['col_start'] > section_config['col_end']:
-            raise ConfigurationError(f"Section {section_name}: col_end must be greater than or equal to col_start")
+        if section_config["col_start"] > section_config["col_end"]:
+            raise ConfigurationError(
+                f"Section {section_name}: col_end must be greater than or equal to col_start"
+            )
 
         return True
 
@@ -230,17 +246,21 @@ class PageManager(Component, EventObject):
         # Check each section's coordinates
         for section_name in page_sections:
             if section_name not in all_sections_config:
-                raise ValueError(f"Page '{page_name}' references undefined section '{section_name}'")
+                raise ValueError(
+                    f"Page '{page_name}' references undefined section '{section_name}'"
+                )
 
             section = all_sections_config[section_name]
-            col_start = section['col_start']
-            col_end = section['col_end']
-            row_start = section['row_start']
-            row_end = section['row_end']
+            col_start = section["col_start"]
+            col_end = section["col_end"]
+            row_start = section["row_start"]
+            row_end = section["row_end"]
 
             # Check bounds
-            if not (0 <= col_start <= col_end < MATRIX_WIDTH and
-                    0 <= row_start <= row_end < MATRIX_HEIGHT):
+            if not (
+                0 <= col_start <= col_end < MATRIX_WIDTH
+                and 0 <= row_start <= row_end < MATRIX_HEIGHT
+            ):
                 raise ValueError(
                     f"Section '{section_name}' in page '{page_name}' has coordinates "
                     f"outside matrix bounds: ({col_start}-{col_end}, {row_start}-{row_end})"
