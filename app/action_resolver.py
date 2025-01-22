@@ -38,6 +38,8 @@ class ActionResolver(Component):
             **k,
     ):
         super(ActionResolver, self).__init__(name, *a, **k)
+        from . import ROOT_LOGGER
+        self.logger = ROOT_LOGGER.getChild(name)
         self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
 
     def _evaluate_expression(
