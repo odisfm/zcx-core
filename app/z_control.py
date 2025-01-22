@@ -52,8 +52,10 @@ class ZControl(EventObject):
         config = self.__raw_config
         color = config.get('color', 127)
         self.set_color(color)
-        context = config.get('context', {})
-        self.__context = context
+        self.__create_context([
+            config.get('section_context', {}),
+            config.get('group_context', {}),
+        ])
         self.set_gesture_dict(config.get('gestures', {}))
         self.set_vars(config.get('vars', {}))
 
@@ -82,6 +84,13 @@ class ZControl(EventObject):
 
     def set_vars(self, vars):
         self.__vars = vars
+
+    def __create_context(self, config: list[dict]) -> None:
+        context = {k: v for d in config for k, v in d.items()}
+        if 'index' not in context:
+            context['index'] = 0
+        me_context = {'me': context}
+        self.__context = me_context
 
     def bind_to_state(self, state):
         state.register_z_control(self)
