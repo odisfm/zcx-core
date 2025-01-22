@@ -5,6 +5,8 @@ except ImportError:
     from ..hardware.push_1 import colors as hardware_colors
 
 RgbColor = hardware_colors.RgbColor
+Pulse = hardware_colors.Pulse
+Blink = hardware_colors.Blink
 
 
 class ColorSwatches:
