@@ -2,6 +2,8 @@ from copy import deepcopy
 
 from ableton.v3.control_surface import Component, ControlSurface
 
+from .defaults import BUILT_IN_COLORS, DefaultColors
+
 
 class TemplateManager:
 
@@ -15,6 +17,7 @@ class TemplateManager:
         self.__yaml_loader = yaml_loader
         from . import CONFIG_DIR
         self.__config_dir = CONFIG_DIR
+        self.__color_templates = {}
         self.load_control_templates()
         self.log(f'{self.__name} initialised')
 
@@ -46,3 +49,24 @@ class TemplateManager:
         if "__global__" in raw_config:
             self.__global_control_template = raw_config.pop("__global__")
         self.__control_templates = raw_config
+
+    def load_color_templates(self):
+        try:
+            raw_config = self.__yaml_loader.load_yaml(
+                f"{self.__config_dir}/colors.yaml"
+            )
+        except FileNotFoundError:
+            raw_config = {}
+
+        color_templates = {}
+
+        for color in BUILT_IN_COLORS:
+            if color in raw_config:
+                color_templates[color] = deepcopy(raw_config[color])
+            else:
+                color_templates[color] = getattr(BUILT_IN_COLORS, color)
+
+        for color in raw_config:
+            if color.startswith("__"):
+                continue
+            color_templates[color] = deepcopy(raw_config[color])
