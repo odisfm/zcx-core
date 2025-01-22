@@ -23,7 +23,8 @@ class ZControl(EventObject):
     def __init__(
             self,
             root_cs,
-            parent_section
+            parent_section,
+            raw_config,
     ):
         super().__init__()
         self.root_cs = root_cs
@@ -33,7 +34,7 @@ class ZControl(EventObject):
         self.__in_view = False
         self.in_view_listener.subject = self.parent_section
         self.gesture_dict = {}
-        self.raw_config = {} # temp
+        self.__raw_config = raw_config
         self.__control_element: Optional[ZElement] = None
 
     def log(self, *msg):
