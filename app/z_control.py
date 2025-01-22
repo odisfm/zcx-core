@@ -6,6 +6,7 @@ from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
 
 from .z_element import ZElement
+from .colors import parse_color_definition
 
 def only_in_view(func):
     @wraps(func)
@@ -36,6 +37,15 @@ class ZControl(EventObject):
         self.gesture_dict = {}
         self.__raw_config = raw_config
         self.__control_element: Optional[ZElement] = None
+        self.__z_manager = self.root_cs.component_map['ZManager']
+        self.__color = None
+
+    def setup(self):
+        config = self.__raw_config
+        color = config.get('color', 127)
+        self.log(f'trying to parse {color}')
+        color_obj = parse_color_definition(color)
+        self.__color = color_obj
 
     def log(self, *msg):
         for msg in msg:
