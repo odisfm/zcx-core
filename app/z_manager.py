@@ -35,8 +35,6 @@ class ZManager(Component, EventObject):
         self.__global_control_template = {}
         self.__control_templates = {}
 
-        self.load_control_templates()
-
     def reinit(self):
         pass
 
@@ -45,15 +43,9 @@ class ZManager(Component, EventObject):
             self.__logger.info(msg)
 
     def load_control_templates(self):
-        try:
-            raw_config = self.__yaml_loader.load_yaml(
-                f"{self.__config_dir}/control_templates.yaml"
-            )
-        except FileNotFoundError:
-            raw_config = {}
-        if "__global__" in raw_config:
-            self.__global_control_template = raw_config.pop("__global__")
-        self.__control_templates = raw_config
+        manager = self.canonical_parent.template_manager
+        self.__control_templates = manager.control_templates
+        self.__global_control_template = manager.global_control_template
 
     def process_pad_section(self, pad_section: PadSection):
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state

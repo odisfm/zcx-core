@@ -16,6 +16,7 @@ class ZCXCore(ControlSurface):
             from . import ROOT_LOGGER
             self.logger = ROOT_LOGGER
             self.template_manager = TemplateManager(self)
+            self.component_map["ZManager"].load_control_templates()
             self.post_init()
             self.log(f'{self.name} loaded :)', level='critical')
 
