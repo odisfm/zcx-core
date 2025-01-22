@@ -4,6 +4,8 @@ from ableton.v2.base import EventObject
 from ableton.v2.base.task import TimerTask
 from ableton.v3.base import listens
 
+from .z_element import ZElement
+
 def only_in_view(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
@@ -31,6 +33,7 @@ class ZControl(EventObject):
         self.in_view_listener.subject = self.parent_section
         self.gesture_dict = {}
         self.raw_config = {} # temp
+        self.__control_element: Optional[ZElement] = None
 
     def log(self, *msg):
         for msg in msg:
@@ -43,10 +46,12 @@ class ZControl(EventObject):
     def bind_to_state(self, state):
         state.register_z_control(self)
         self.__state = state
+        self.__control_element = state._control_element
 
     def unbind_from_state(self):
         if self.__state is not None:
             self.__state.unregister_z_control(self)
+            self.__control_element = None
 
     @only_in_view
     def forward_gesture(self, gesture):
