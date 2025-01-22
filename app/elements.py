@@ -92,7 +92,8 @@ class Elements(ElementsBase):
                 identifier=cc_number,
                 channel=channel,
                 msg_type=MIDI_CC_TYPE,
-                is_momentary=momentary
+                is_momentary=momentary,
+                is_rgb=True
             )
 
             # setattr(element, feedback_type, feedback) todo
@@ -116,7 +117,8 @@ class Elements(ElementsBase):
                 identifier=note_number,
                 channel=channel,
                 msg_type=MIDI_NOTE_TYPE,
-                is_momentary=momentary
+                is_momentary=momentary,
+                is_rgb=True
             )
 
             # setattr(element, feedback_type, feedback) todo
