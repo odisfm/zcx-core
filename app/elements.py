@@ -9,6 +9,7 @@ from .z_element import ZElement
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
 from .errors import HardwareSpecificationError
 from .vendor.yaml import safe_load as load_yaml
+from .colors import ColorSwatches
 
 
 class Elements(ElementsBase):
@@ -69,6 +70,12 @@ class Elements(ElementsBase):
             element_factory=matrix_button_factory,
         )
 
+        feedback = matrix_config.get('feedback')
+        color_swatch = getattr(ColorSwatches, feedback)
+
+        for element in self.button_matrix.nested_control_elements():
+            element._ZElement__color_swatch = color_swatch
+
         import sys
         mod = sys.modules[__package__]
         mod.NAMED_BUTTONS = self.named_buttons
@@ -94,7 +101,8 @@ class Elements(ElementsBase):
                 is_rgb=True
             )
 
-            # setattr(element, feedback_type, feedback) todo
+            color_swatch = getattr(ColorSwatches, feedback)
+            element._ZElement__color_swatch = color_swatch
 
             self.register_named_button(element, button_name)
 
@@ -119,7 +127,8 @@ class Elements(ElementsBase):
                 is_rgb=True
             )
 
-            # setattr(element, feedback_type, feedback) todo
+            color_swatch = getattr(ColorSwatches, feedback)
+            element._ZElement__color_swatch = color_swatch
 
             self.register_named_button(element, button_name)
 
