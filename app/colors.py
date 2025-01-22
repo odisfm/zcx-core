@@ -21,6 +21,8 @@ class ColorSwatches:
 def get_named_color(name):
     name = name.upper()
     color = getattr(hardware_colors.Rgb, name, None)
+    if color is None:
+        return hardware_colors.Rgb.RED
     return color
 
 
