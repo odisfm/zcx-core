@@ -48,7 +48,6 @@ class HardwareInterface(Component):
     def all_lights_full(self):
         for state in self.named_button_states.keys():
             element = getattr(self, state)
-
             element._control_element.set_light(49)
 
         for control in self.__button_matrix_element.nested_control_elements():

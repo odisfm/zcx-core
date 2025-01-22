@@ -15,6 +15,7 @@ from .z_control import ZControl
 from .z_controls.basic_z_control import BasicZControl
 from .control_classes import get_subclass as get_control_class
 
+
 class ZManager(Component, EventObject):
 
     def __init__(
@@ -331,4 +332,3 @@ class ZManager(Component, EventObject):
 
         control = control_cls(self, pad_section)
         return control
-
