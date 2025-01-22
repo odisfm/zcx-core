@@ -84,7 +84,6 @@ class ZManager(Component, EventObject):
         """Flattens a section configuration by applying templates and processing pad groups."""
 
         try:
-            self.log(f"attempting to flatten pad section {section_obj.name}")
 
             global_template = self.__global_control_template
             control_templates = self.__control_templates
@@ -228,8 +227,6 @@ class ZManager(Component, EventObject):
     def apply_section_context(self, section_obj, flat_config):
 
         try:
-            self.log(f"attempting to apply context to pad section {section_obj.name}")
-
             section_context = {"section_name": section_obj.name}
 
             processed_config = []
@@ -278,7 +275,6 @@ class ZManager(Component, EventObject):
             control = self.z_control_factory(button_def, pad_section)
             control.bind_to_state(state)
             control.gesture_dict = button_def["gestures"]
-            self.log(f"setting color for {button_name}")
             control.setup()
 
     def parse_named_button_config(

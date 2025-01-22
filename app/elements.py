@@ -90,7 +90,6 @@ class Elements(ElementsBase):
         mod.NAMED_BUTTONS = self.named_buttons
 
     def process_cc_buttons(self, cc_button_globals: dict, cc_button_yaml: dict) -> None:
-        self.log("Parsing cc buttons")
 
         global_channel = cc_button_globals.get("channel", 0)
         global_momentary = cc_button_globals.get("momentary", True)
@@ -118,7 +117,6 @@ class Elements(ElementsBase):
     def process_note_buttons(
         self, note_button_globals: dict, note_button_yaml: dict
     ) -> None:
-        self.log("Parsing note buttons")
 
         global_channel = note_button_globals.get("channel", 0)
         global_momentary = note_button_globals.get("momentary", True)
@@ -144,8 +142,6 @@ class Elements(ElementsBase):
             self.register_named_button(element, button_name)
 
     def element_factory(self, identifier=None, *a, **k) -> ZElement:
-        self.log(str(*a))
-        self.log((k).items())
         element = ZElement(identifier=identifier, *a, **k)
         return element
 

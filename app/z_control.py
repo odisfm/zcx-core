@@ -42,7 +42,7 @@ class ZControl(EventObject):
     def setup(self):
         config = self.__raw_config
         color = config.get('color', 127)
-        self.log(f'trying to parse {color}')
+        # self.log(f'trying to parse {color}')
         color_obj = parse_color_definition(color)
         self.__color = color_obj
 
@@ -80,5 +80,4 @@ class ZControl(EventObject):
     @only_in_view
     def request_color_update(self):
         if self.__color is not None:
-            self.log('updating color')
             self.__control_element.set_light(self.__color)
