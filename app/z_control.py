@@ -3,8 +3,11 @@ from functools import wraps
 from ableton.v2.base import EventObject
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
-from .colors import parse_color_definition
+from .colors import parse_color_definition, simplify_color, Pulse, Blink, RgbColor
+from .defaults import BUILT_IN_COLORS
 from .z_element import ZElement
+from .template_manager import TemplateManager
+from .errors import ConfigurationError
 
 
 def only_in_view(func):
@@ -38,14 +41,13 @@ class ZControl(EventObject):
         self.__control_element: Optional[ZElement] = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self.__color = None
+        self.__color_dict = {}
         self._feedback_type = None
 
     def setup(self):
         config = self.__raw_config
         color = config.get('color', 127)
-        # self.log(f'trying to parse {color}')
-        color_obj = parse_color_definition(color)
-        self.__color = color_obj
+        self.set_color(color)
 
     def log(self, *msg):
         for msg in msg:
@@ -83,3 +85,43 @@ class ZControl(EventObject):
     def request_color_update(self):
         if self.__color is not None:
             self.__control_element.set_light(self.__color)
+
+    def set_color(self, color):
+        try:
+            base_color = parse_color_definition(color)
+        except Exception as e:
+            self.log(e)
+            base_color = parse_color_definition(127)
+
+        simplified_color = simplify_color(base_color)
+        white = parse_color_definition('white')
+        green = parse_color_definition('green')
+        red = parse_color_definition('red')
+        off = parse_color_definition('0')
+
+        if self._feedback_type == 'rgb':
+            attention_color = Pulse(simplified_color, white, 48)
+            animate_success = Blink(simplified_color, white, 12)
+            animate_failure = Blink(simplified_color, red, 48)
+        elif self._feedback_type == 'basic':
+            attention_color = base_color
+            animate_success = Blink(simplified_color, off, 48)
+            animate_failure = Blink(simplified_color, off, 12)
+        elif self._feedback_type == 'biled':
+            attention_color = base_color
+            animate_success = Blink(simplified_color, green, 48)
+            animate_failure = Blink(simplified_color, red, 12)
+        else:
+            raise ConfigurationError(f'Unknown feedback type: {self._feedback_type}')
+
+        color_dict = {
+            "base": base_color,
+            "simple": simplified_color,
+            "success": animate_success,
+            "failure": animate_failure,
+            "attention": attention_color,
+            "hold": attention_color, # todo
+        }
+
+        self.__color = base_color
+        self.__color_dict = color_dict
