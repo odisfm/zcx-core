@@ -54,21 +54,19 @@ class Elements(ElementsBase):
         else:
             raise HardwareSpecificationError(f'button_matrix msg_type must be "note" or "cc", not {matrix_msg_type}')
 
-        matrix_button_factory = lambda *a, **k: self.element_factory(*a, msg_type=matrix_msg_type, **k)
+        matrix_button_factory = lambda *a, **k: self.element_factory( *a, **k)
 
         id_start, id_end, width = matrix_config['id_start'], matrix_config['id_end'], matrix_config['width']
         channel = matrix_config.get('channel') or specs_dict.get('channel') or 0
 
         identifiers = create_matrix_identifiers(id_start, id_end + 1, width, flip_rows=True)
 
-        self.add_button_matrix(
+        self.add_matrix(
             identifiers=identifiers,
             base_name='button_matrix',
             is_rgb=True,
             msg_type=matrix_msg_type,
-            # channels=channel,
-            # element_factory=matrix_button_factory,
-            # is_private=False
+            element_factory=matrix_button_factory,
         )
 
         import sys
