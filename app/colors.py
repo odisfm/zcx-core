@@ -25,10 +25,48 @@ def get_named_color(name):
         return hardware_colors.Rgb.RED
     return color
 
-
 def parse_color_definition(color):
-    if type(color) is int:
-        if 0 <= color <= 127:
-            return RgbColor(color)
-    elif type(color) is str:
-        return get_named_color(color)
+    try:
+        if type(color) is int:
+            if 0 <= color <= 127:
+                return RgbColor(color)
+        elif type(color) is str:
+            return get_named_color(color)
+        elif type(color) is dict:
+
+            special_color_type = list(color.keys())[0]
+            special_color_def = list(color.values())[0]
+
+            if special_color_type.lower() == 'blink':
+                a_def = special_color_def['a']
+                b_def = special_color_def['b']
+                speed_def = special_color_def.get('speed', 1)
+                a = parse_color_definition(a_def)
+                b = parse_color_definition(b_def)
+                speed = hardware_colors.translate_speed(speed_def)
+
+                return Blink(a, b, speed)
+
+            elif special_color_type.lower() == 'pulse':
+                a_def = special_color_def['a']
+                b_def = special_color_def['b']
+                speed_def = special_color_def.get('speed', 1)
+                a = parse_color_definition(a_def)
+                b = parse_color_definition(b_def)
+                speed = hardware_colors.translate_speed(speed_def)
+
+                return Pulse(a, b, speed)
+            elif special_color_type.lower() == 'midi':
+                return parse_color_definition(color['midi'])
+            elif special_color_type.lower() == 'live':
+                # todo: needs Live/controller tranlsation
+                pass
+
+            return RgbColor(3)
+
+    except Exception as e:
+        raise ConfigurationError(e)
+
+
+def simplify_color(color):
+    return hardware_colors.simplify_color(color)
