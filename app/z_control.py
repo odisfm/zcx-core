@@ -43,6 +43,7 @@ class ZControl(EventObject):
         self.__z_manager = self.root_cs.component_map['ZManager']
         self.__color = None
         self.__color_dict = {}
+        self.__context = {}
         self._feedback_type = None
         self.__trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
 
@@ -50,6 +51,8 @@ class ZControl(EventObject):
         config = self.__raw_config
         color = config.get('color', 127)
         self.set_color(color)
+        context = config.get('context', {})
+        self.__context = context
 
     def log(self, *msg):
         for msg in msg:
