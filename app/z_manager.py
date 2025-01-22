@@ -229,6 +229,7 @@ class ZManager(Component, EventObject):
                 item_context = deepcopy(section_context)
                 item_context.update(
                     {
+                        "index": i,
                         "global_x": global_x,
                         "global_y": global_y,
                         "section_x": global_x
