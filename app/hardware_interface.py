@@ -1,4 +1,4 @@
-from ableton.v3.control_surface import Component
+from ableton.v3.control_surface import Component, ControlSurface
 from ableton.v3.control_surface.controls import (
     ButtonControl,
     control_matrix
@@ -9,6 +9,7 @@ from .z_element import ZElement
 class HardwareInterface(Component):
 
     named_button_states = {}
+    canonical_parent: ControlSurface
 
     def __init__(
             self,
