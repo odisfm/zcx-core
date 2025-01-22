@@ -337,13 +337,14 @@ class ZManager(Component, EventObject):
 
                     processed_sub_buttons[sub_button] = merged_def
 
-                for i, (name, _def) in enumerate(processed_sub_buttons.items()):
-                    group_context = {}
-                    group_name = group_name[2:]
-                    group_context["group_name"] = group_name
-                    group_context["group_index"] = i
+                cleaned_group_name = group_name[2:]
 
-                    _def.update(group_context)
+                for i, (name, _def) in enumerate(processed_sub_buttons.items()):
+                    group_context = {
+                        "group_name": cleaned_group_name,
+                        "group_index": i
+                    }
+                    _def['group_context'] = group_context
                     ungrouped_buttons[name] = _def
 
             return ungrouped_buttons
