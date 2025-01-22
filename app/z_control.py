@@ -62,6 +62,14 @@ class ZControl(EventObject):
     def in_view(self):
         return self.__in_view
 
+    @property
+    def context(self):
+        return self.__context
+
+    @property
+    def color(self):
+        return self.__color
+
     def bind_to_state(self, state):
         state.register_z_control(self)
         self.__state = state
