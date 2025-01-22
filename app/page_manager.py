@@ -47,9 +47,9 @@ class PageManager(Component, EventObject):
     def current_page(self):
         return self.__current_page
 
-    def increment_current_page(self, increment=1):
-        new_page = (self.current_page + increment) % self.page_count
-        self.current_page = new_page
+    def increment_page(self, increment=1):
+        new_page = (self.__current_page + increment) % self.__page_count
+        self.set_page(page_number=new_page)
 
     def set_page(self, page_number=None, page_name=None):
         if page_name in self.__page_names:
