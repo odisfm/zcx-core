@@ -68,6 +68,7 @@ class ZManager(Component, EventObject):
                 control.bind_to_state(state)
                 control.gesture_dict = item_config['actions']
                 control.raw_config = context_config[i]
+                control.set_color_to_base()
         except Exception as e:
             self.log(e)
 
@@ -246,6 +247,8 @@ class ZManager(Component, EventObject):
             )
             control.bind_to_state(state)
             control.gesture_dict = button_def['gestures']
+            self.log(f'setting color for {button_name}')
+            control.set_color_to_base()
 
     def parse_named_button_config(self, pad_section: PadSection, raw_config: dict,
                                   ignore_global_template=False) -> dict:

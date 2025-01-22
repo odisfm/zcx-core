@@ -48,6 +48,3 @@ class HardwareInterface(Component):
 
     def setup(self):
         self.__button_matrix_element = self.canonical_parent.elements.button_matrix
-        self.all_lights_full()
-
-
