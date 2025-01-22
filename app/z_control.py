@@ -1,4 +1,4 @@
-from functools import wraps
+from functools import wraps, partial
 
 from ableton.v2.base import EventObject
 from ableton.v3.base import listens
@@ -8,6 +8,7 @@ from .defaults import BUILT_IN_COLORS
 from .z_element import ZElement
 from .template_manager import TemplateManager
 from .errors import ConfigurationError
+from .cxp_bridge import CxpBridge
 
 
 def only_in_view(func):
@@ -43,6 +44,7 @@ class ZControl(EventObject):
         self.__color = None
         self.__color_dict = {}
         self._feedback_type = None
+        self.__trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
 
     def setup(self):
         config = self.__raw_config
@@ -71,7 +73,9 @@ class ZControl(EventObject):
     @only_in_view
     def forward_gesture(self, gesture):
         if gesture in self.gesture_dict:
-            self.log(self.gesture_dict[gesture])
+            action_list = self.gesture_dict[gesture]
+            self.log(action_list)
+            self.__trigger_action_list(action_list)
 
     @listens('in_view')
     def in_view_listener(self):

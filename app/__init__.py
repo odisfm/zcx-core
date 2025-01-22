@@ -11,10 +11,12 @@ from ableton.v3.control_surface.controls import (
 from .elements import Elements
 from .hardware_interface import HardwareInterface
 from .page_manager import PageManager
+from .cxp_bridge import CxpBridge
 from .skin import Skin
 from .z_manager import ZManager
 from .z_state import ZState
 from .zcx_core import ZCXCore
+
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
@@ -37,7 +39,8 @@ def create_mappings(arg) -> dict:
     return {
         "HardwareInterface": hw_mapping_dict,
         "PageManager": {},
-        "ZManager": {}
+        "CxpBridge": {},
+        "ZManager": {},
     }
 
 def prepare_hardware_interface(button_names) -> Type[HardwareInterface]:
@@ -99,6 +102,7 @@ def create_instance(c_instance):
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
         'PageManager': PageManager,
+        'CxpBridge': CxpBridge,
         "ZManager": ZManager
     }
 
