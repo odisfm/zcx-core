@@ -39,6 +39,12 @@ class TemplateManager:
             return None
         return deepcopy(template)
 
+    def get_color_template(self, name):
+        template = self.__color_templates.get(name)
+        if template is None:
+            return None
+        return deepcopy(template)
+
     def load_control_templates(self):
         try:
             raw_config = self.__yaml_loader.load_yaml(
