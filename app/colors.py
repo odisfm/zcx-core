@@ -4,6 +4,8 @@ except ImportError:
     # this makes your IDE autocomplete work
     from ..hardware.push_1 import colors as hardware_colors
 
+from .errors import *
+
 RgbColor = hardware_colors.RgbColor
 Pulse = hardware_colors.Pulse
 Blink = hardware_colors.Blink
