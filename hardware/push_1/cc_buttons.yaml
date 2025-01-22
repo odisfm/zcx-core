@@ -18,35 +18,35 @@ dpad_down:
 
 select_1:
   cc: 20
-  feedback: rgb
+  feedback: biled
 
 select_2:
   cc: 21
-  feedback: rgb
+  feedback: biled
 
 select_3:
   cc: 22
-  feedback: rgb
+  feedback: biled
 
 select_4:
   cc: 23
-  feedback: rgb
+  feedback: biled
 
 select_5:
   cc: 24
-  feedback: rgb
+  feedback: biled
 
 select_6:
   cc: 25
-  feedback: rgb
+  feedback: biled
 
 select_7:
   cc: 26
-  feedback: rgb
+  feedback: biled
 
 select_8:
   cc: 27
-  feedback: rgb
+  feedback: biled
 
 master:
   cc: 28
@@ -149,35 +149,35 @@ fixed_length:
 
 state_1:
   cc: 102
-  feedback: biled
+  feedback: rgb
 
 state_2:
   cc: 103
-  feedback: biled
+  feedback: rgb
 
 state_3:
   cc: 104
-  feedback: biled
+  feedback: rgb
 
 state_4:
   cc: 105
-  feedback: biled
+  feedback: rgb
 
 state_5:
   cc: 106
-  feedback: biled
+  feedback: rgb
 
 state_6:
   cc: 107
-  feedback: biled
+  feedback: rgb
 
 state_7:
   cc: 108
-  feedback: biled
+  feedback: rgb
 
 state_8:
   cc: 109
-  feedback: biled
+  feedback: rgb
 
 track:
   cc: 112
