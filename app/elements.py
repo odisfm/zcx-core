@@ -123,9 +123,14 @@ class Elements(ElementsBase):
 
             self.register_named_button(element, button_name)
 
-    def element_factory(self, identifier, channel=0, msg_type=MIDI_CC_TYPE, is_momentary=True, *a,
-                        **k) -> ButtonElement:
-        element = ZElement(identifier, channel=channel, msg_type=msg_type, is_momentary=is_momentary)
+    def element_factory(self,
+                        identifier = None,
+                        *a, **k) -> ZElement:
+        self.log(str(*a))
+        self.log((k).items())
+        element = ZElement(
+            identifier=identifier,
+            *a , **k)
         return element
 
     def load_specifications(self) -> dict:
