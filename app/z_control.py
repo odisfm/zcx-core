@@ -73,6 +73,13 @@ class ZControl(EventObject):
     @listens('in_view')
     def in_view_listener(self):
         self.__in_view = self.parent_section.in_view
+        self.request_color_update()
 
     def set_color_to_base(self):
         self.__control_element.set_light(self.__control_element.color_swatch.base)
+
+    @only_in_view
+    def request_color_update(self):
+        if self.__color is not None:
+            self.log('updating color')
+            self.__control_element.set_light(self.__color)

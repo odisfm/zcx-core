@@ -22,3 +22,7 @@ class ZState(ButtonControl):
         def forward_gesture(self, gesture):
             for z_control in self.__registered_z_controls:
                 z_control.forward_gesture(gesture)
+
+        def request_color_update(self):
+            for z_control in self.__registered_z_controls:
+                z_control.request_color_update()
