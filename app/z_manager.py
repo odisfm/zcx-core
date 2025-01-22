@@ -64,7 +64,6 @@ class ZManager(Component, EventObject):
                 state: ZState.State = matrix_state.get_control(coord[0], coord[1])
                 control = self.z_control_factory(item_config, pad_section)
                 control.bind_to_state(state)
-                control.gesture_dict = item_config["actions"]
                 control.raw_config = context_config[i]
                 control.setup()
         except Exception as e:
@@ -266,7 +265,6 @@ class ZManager(Component, EventObject):
             state: ZState.State = getattr(hardware, button_name)
             control = self.z_control_factory(button_def, pad_section)
             control.bind_to_state(state)
-            control.gesture_dict = button_def["gestures"]
             control.setup()
 
     def parse_named_button_config(

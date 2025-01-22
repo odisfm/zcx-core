@@ -37,13 +37,14 @@ class ZControl(EventObject):
         self.__parent_logger = self.parent_section._logger
         self.__in_view = False
         self.in_view_listener.subject = self.parent_section
-        self.gesture_dict = {}
         self.__raw_config = raw_config
         self.__control_element: Optional[ZElement] = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self.__color = None
         self.__color_dict = {}
         self.__context = {}
+        self.__gesture_dict = {}
+        self.__vars = {}
         self._feedback_type = None
         self.__trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
 
@@ -53,6 +54,8 @@ class ZControl(EventObject):
         self.set_color(color)
         context = config.get('context', {})
         self.__context = context
+        self.set_gesture_dict(config.get('gestures', {}))
+        self.set_vars(config.get('vars', {}))
 
     def log(self, *msg):
         for msg in msg:
@@ -69,6 +72,16 @@ class ZControl(EventObject):
     @property
     def color(self):
         return self.__color
+
+    def set_gesture_dict(self, gesture_dict):
+        if type(gesture_dict) is not dict:
+            raise ValueError(f'gesture_dict must be a dict: {gesture_dict}')
+        self.__gesture_dict = gesture_dict
+        self.log('logging gesture dict')
+        self.log(self.__gesture_dict)
+
+    def set_vars(self, vars):
+        self.__vars = vars
 
     def bind_to_state(self, state):
         state.register_z_control(self)
