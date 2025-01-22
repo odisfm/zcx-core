@@ -98,6 +98,7 @@ def create_instance(c_instance):
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
+    from . import colors
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
