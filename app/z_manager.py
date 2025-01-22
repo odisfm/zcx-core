@@ -322,67 +322,6 @@ class ZManager(Component, EventObject):
         except Exception as e:
             raise e
 
-    def parse_config_color(self, config):
-
-        def parse_speed(speed):
-            speed -= 1
-            if speed < 0:
-                speed = 0
-            return [48, 24, 12, 6, 4][speed] if speed in range(0, 5) else 1
-
-        if isinstance(config, str):
-            return self.parse_color_string(config)
-        elif isinstance(config, int):
-            return self.colors.rgb(config) if config in range(0, 128) else None
-        elif isinstance(config, dict):
-            if 'pulse' in config:
-                config = config['pulse']
-                a = config.get('a', None)
-                b = config.get('b', None)
-                if a is None or b is None:
-                    raise ValueError(
-                        f'Config error: "pulse" color config must contain "a" and "b" keys'
-                    )
-                a = self.parse_color_string(a)
-                b = self.parse_color_string(b)
-                speed = config.get('speed', 1)
-                return self.colors.pulse(a, b, parse_speed(speed))
-            elif 'blink' in config:
-                config = config['blink']
-                a = config.get('a', None)
-                b = config.get('b', None)
-                if a is None or b is None:
-                    raise ValueError(
-                        f'Config error: "blink" color config must contain "a" and "b" keys'
-                    )
-                speed = config.get('speed', 1)
-                return self.colors.blink(a, b, parse_speed(speed))
-        raise ValueError(
-            f'Config error: Unsupported color config.\n{config}'
-        )
-
-    def parse_color_string(self, string):
-        self.log(f"trying to parse color string {string}")
-        if isinstance(string, int):
-            if string in range(0, 128):
-                return self.colors.rgb(string)
-            return None
-
-        split = string.split(' ')
-        if len(split) == 1:
-            try:
-                c = int(split[0])
-                if c in range(0, 128):
-                    return self.colors.rgb(c)
-                else:
-                    return None
-            except ValueError:
-                c = self.colors.get_named_color(split[0])
-                return c
-        # todo: the rest
-        elif len(split) == 2:
-            return colors.rgb(1)
-
     def z_control_factory(self, config, pad_section) -> ZControl:
         control_type = config.get('type') or 'basic'
         control_cls = get_control_class(control_type)
