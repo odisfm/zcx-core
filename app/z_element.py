@@ -7,6 +7,7 @@ class ZElement(ButtonElement):
         super(ZElement, self).__init__(*a, **k)
         self.__name = "unnamed_z_element"
         self.__color_swatch = None
+        self._feedback_type = None
 
     @property
     def color_swatch(self):

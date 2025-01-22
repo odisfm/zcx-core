@@ -38,6 +38,7 @@ class ZControl(EventObject):
         self.__control_element: Optional[ZElement] = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self.__color = None
+        self._feedback_type = None
 
     def setup(self):
         config = self.__raw_config
@@ -58,6 +59,7 @@ class ZControl(EventObject):
         state.register_z_control(self)
         self.__state = state
         self.__control_element = state._control_element
+        self._feedback_type = self.__control_element._feedback_type
 
     def unbind_from_state(self):
         if self.__state is not None:
