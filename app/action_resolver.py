@@ -1,0 +1,145 @@
+import re
+from typing import Dict, Any, Tuple
+
+from ableton.v3.control_surface import ControlSurface, Component
+
+
+class DotDict:
+    """Helper class to allow dot notation access to nested dictionaries"""
+
+    def __init__(self, data):
+        self._data = data
+
+    def __getattr__(self, key):
+        if key in self._data:
+            value = self._data[key]
+            if isinstance(value, dict):
+                return DotDict(value)
+            if isinstance(value, list):
+                return [DotDict(x) if isinstance(x, dict) else x for x in value]
+            return value
+        raise AttributeError(key)
+
+    def __getitem__(self, key):
+        value = self._data[key]
+        if isinstance(value, dict):
+            return DotDict(value)
+        if isinstance(value, list):
+            return [DotDict(x) if isinstance(x, dict) else x for x in value]
+        return value
+
+
+class ActionResolver(Component):
+
+    def __init__(
+            self,
+            name="ActionResolver",
+            *a,
+            **k,
+    ):
+        super(ActionResolver, self).__init__(name, *a, **k)
+        self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
+
+    def _evaluate_expression(
+        self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
+    ) -> Tuple[Any, int]:
+        """Evaluate a Python expression with given context and locals."""
+        try:
+            if expr.startswith("$"):
+                expr = expr[1:]
+
+            dot_context = {
+                k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
+            }
+
+            all_locals = {**dot_context, **locals}
+            result = eval(expr, {}, all_locals)
+            return result, 0
+        except Exception as e:
+            print(f"Error evaluating {expr}: {e}")
+            return None, 2
+
+    def _resolve_vars(
+        self, vars: Dict[str, Any], context: Dict[str, Any], mode: str
+    ) -> Tuple[Dict[str, Any], int]:
+        """Resolve variables in order, checking for $ patterns and dependencies."""
+        resolved = {}
+
+        for var_name, expr in vars.items():
+            expr = str(expr) if not isinstance(expr, str) else expr
+
+            if mode == "build" and expr.startswith("$"):
+                return {}, 1
+
+            try:
+                result, status = self._evaluate_expression(expr, context, resolved)
+                if status != 0:
+                    return {}, 2
+
+                resolved[var_name] = result
+            except Exception as e:
+                print(f"Error resolving {var_name}: {e}")
+                return {}, 2
+
+        return resolved, 0
+
+    def _replace_match(
+        self,
+        match: re.Match,
+        resolved_vars: Dict[str, Any],
+        context: Dict[str, Any],
+        mode: str,
+    ) -> Tuple[str, int]:
+        """Process a single pattern match."""
+
+        full_match = match.group(0)
+        if full_match.startswith("\\"):
+            return full_match, 0
+
+        var_name = match.group(1)
+        if not var_name:
+            return full_match, 0
+
+        if var_name in resolved_vars:
+            value = resolved_vars[var_name]
+        else:
+            result, status = self._evaluate_expression(var_name, context, resolved_vars)
+            if status != 0:
+                return match.group(0), 2
+            value = result
+
+        return str(value), 0
+
+    def compile(
+        self,
+        action_string: str,
+        vars: Dict[str, str],
+        context: Dict[str, Any],
+        mode: str,
+    ) -> Tuple[str, int]:
+        """Compile an action string, resolving variables and template patterns."""
+        if "@{" not in action_string and "${" not in action_string:
+            return action_string, 0
+
+        resolved_vars, status = self._resolve_vars(vars, context, mode)
+        if status != 0:
+            return action_string, status
+
+        result = ""
+        last_end = 0
+
+        for match in self.pattern.finditer(action_string):
+            result += action_string[last_end : match.start()]
+
+            replacement, match_status = self._replace_match(
+                match, resolved_vars, context, mode
+            )
+            if match_status != 0:
+                return action_string, match_status
+
+            result += replacement
+            last_end = match.end()
+
+        result += action_string[last_end:]
+
+        return result, 0

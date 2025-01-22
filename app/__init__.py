@@ -12,6 +12,7 @@ from .elements import Elements
 from .hardware_interface import HardwareInterface
 from .page_manager import PageManager
 from .cxp_bridge import CxpBridge
+from .action_resolver import ActionResolver
 from .skin import Skin
 from .z_manager import ZManager
 from .z_state import ZState
@@ -42,6 +43,7 @@ def create_mappings(arg) -> dict:
         "HardwareInterface": hw_mapping_dict,
         "PageManager": {},
         "CxpBridge": {},
+        "ActionResolver": {},
         "ZManager": {},
     }
 
@@ -104,6 +106,7 @@ def create_instance(c_instance):
         'HardwareInterface': HardwareInterface,
         'PageManager': PageManager,
         'CxpBridge': CxpBridge,
+        "ActionResolver": ActionResolver,
         "ZManager": ZManager
     }
 

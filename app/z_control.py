@@ -47,6 +47,7 @@ class ZControl(EventObject):
         self.__vars = {}
         self._feedback_type = None
         self.__trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
+        self.__resolve_action_def = partial(self.root_cs.component_map['ActionResolver'].compile)
 
     def setup(self):
         config = self.__raw_config
@@ -105,9 +106,16 @@ class ZControl(EventObject):
 
     @only_in_view
     def forward_gesture(self, gesture):
-        if gesture in self.gesture_dict:
-            action_list = self.gesture_dict[gesture]
+        if gesture in self.__gesture_dict:
+            action_list = self.__gesture_dict[gesture]
             self.log(action_list)
+            parsed = self.__resolve_action_def(
+                action_list,
+                self.__vars,
+                self.__context,
+                'live'
+            )
+            self.log(parsed)
             self.__trigger_action_list(action_list)
 
     @listens('in_view')
