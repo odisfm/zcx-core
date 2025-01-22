@@ -117,9 +117,9 @@ class ZControl(EventObject):
                 self.__vars,
                 self.__context,
                 'live'
-            )
+            )[0]
             self.log(parsed)
-            self.__trigger_action_list(action_list)
+            self.__trigger_action_list(parsed)
 
     @listens('in_view')
     def in_view_listener(self):
