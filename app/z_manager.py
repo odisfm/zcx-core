@@ -330,5 +330,6 @@ class ZManager(Component, EventObject):
         if control_cls is None:
             raise ValueError(f"Control class for type '{control_type}' not found")
 
-        control = control_cls(self, pad_section)
+        control = control_cls(self.canonical_parent, pad_section, config)
+
         return control
