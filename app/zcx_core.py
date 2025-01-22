@@ -4,6 +4,8 @@ from ableton.v3.control_surface import (
     ControlSurface
 )
 
+from .template_manager import TemplateManager
+
 
 class ZCXCore(ControlSurface):
 
@@ -13,6 +15,7 @@ class ZCXCore(ControlSurface):
             self.__name = __name__.split('.')[0].lstrip('_')
             from . import ROOT_LOGGER
             self.logger = ROOT_LOGGER
+            self.template_manager = TemplateManager(self)
             self.post_init()
             self.log(f'{self.name} loaded :)', level='critical')
 
