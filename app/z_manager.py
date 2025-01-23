@@ -35,6 +35,11 @@ class ZManager(Component, EventObject):
         self.__global_control_template = {}
         self.__control_templates = {}
 
+    def setup(self):
+        from . import z_controls
+        z_controls.page_manager = self.canonical_parent.component_map["PageManager"]
+        z_controls.action_resolver = self.canonical_parent.component_map["ActionResolver"]
+
     def reinit(self):
         pass
 
