@@ -5,6 +5,7 @@ from itertools import chain
 from ableton.v3.control_surface import ControlSurface, Component
 
 from .z_control import ZControl
+from .cxp_bridge import CxpBridge
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -47,6 +48,7 @@ class ActionResolver(Component):
         self.__logger = ROOT_LOGGER.getChild(name)
         self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
         self.__page_manager = self.canonical_parent.component_map['PageManager']
+        self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
 
     def log(self, *msg):
         for msg in msg:
@@ -195,7 +197,7 @@ class ActionResolver(Component):
             for command in commands:
                 if isinstance(command, str):
                     if parsed := self._compile_and_check(command, vars_dict, context):
-                        self.log(parsed)
+                        self.__cxp.trigger_action_list(parsed)
 
                 elif isinstance(command, dict):
                     command_type, command_def = command.popitem()
@@ -204,7 +206,7 @@ class ActionResolver(Component):
                     match command_type:
                         case 'cxp':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
-                                self.log(parsed)
+                                self.__cxp.trigger_action_list(parsed)
                         case 'log':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
                                 self.log(parsed)
