@@ -119,8 +119,11 @@ class PageManager(Component, EventObject):
         self.__page_count = len(pages_dict)
 
         for page_name in pages_order:
-            self.__pages_sections[page_name] = pages_dict[page_name]
-            self.__page_names.append(page_name)
+            try:
+                self.__pages_sections[page_name] = pages_dict[page_name]
+                self.__page_names.append(page_name)
+            except KeyError:
+                continue
 
         # build section objects
         PadSection.root_cs = self.canonical_parent
