@@ -47,7 +47,7 @@ class ActionResolver(Component):
         super(ActionResolver, self).__init__(name, *a, **k)
         from . import ROOT_LOGGER
         self.__logger = ROOT_LOGGER.getChild(name)
-        self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
+        self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)(?<!\\)}")
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
 
@@ -82,9 +82,6 @@ class ActionResolver(Component):
 
         for var_name, expr in vars.items():
             expr = str(expr) if not isinstance(expr, str) else expr
-
-            if mode == "build" and expr.startswith("$"):
-                return {}, 1
 
             try:
                 result, status = self._evaluate_expression(expr, context, resolved)
