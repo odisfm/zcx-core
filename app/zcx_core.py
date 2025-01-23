@@ -39,9 +39,12 @@ class ZCXCore(ControlSurface):
 
 
     def post_init(self):
-        self.component_map['HardwareInterface'].setup()
-        self.component_map['PageManager'].setup()
+        try:
+            self.component_map['HardwareInterface'].setup()
             self.component_map['ZManager'].setup()
+            self.component_map['PageManager'].setup()
+        except Exception as e:
+            raise e
         self.component_map['HardwareInterface'].refresh_all_lights()
 
     def port_settings_changed(self):
