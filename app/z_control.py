@@ -5,6 +5,7 @@ from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
 from .colors import parse_color_definition, simplify_color, Pulse, Blink, RgbColor
 from .defaults import BUILT_IN_COLORS
+from .consts import SUPPORTED_GESTURES
 from .z_element import ZElement
 from .template_manager import TemplateManager
 from .errors import ConfigurationError
@@ -44,8 +45,13 @@ class ZControl(EventObject):
         self._color_dict = {}
         self._context = {}
         self._gesture_dict = {}
+        self._concerned_modes = []
         self._vars = {}
         self._feedback_type = None
+        self._mode_manager = self.root_cs.component_map['ModeManager']
+        self.modes_changed.subject = self._mode_manager
+        self._current_mode_string = ''
+        self._allow_multiple_triggers = False
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._resolve_command_bundle = partial(
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
@@ -79,10 +85,33 @@ class ZControl(EventObject):
     def color(self):
         return self._color
 
-    def set_gesture_dict(self, gesture_dict):
-        if type(gesture_dict) is not dict:
-            raise ValueError(f'gesture_dict must be a dict: {gesture_dict}')
-        self._gesture_dict = gesture_dict
+    def set_gesture_dict(self, gesture_config):
+        if type(gesture_config) is not dict:
+            raise ValueError(f'gesture_config must be a dict: {gesture_config}')
+
+        processed_dict = {}
+        all_modes = []
+
+        for trigger, definition in gesture_config.items():
+            split = trigger.split('__')
+            gesture = split[0]
+            if gesture not in SUPPORTED_GESTURES:
+                # todo: replace with ConfigError
+                raise ValueError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
+            modes = split[1:] if len(split) > 1 else []
+            modes.sort()
+            for mode in modes:
+                if not self._mode_manager.is_valid_mode(mode):
+                    raise ValueError(f"'{mode}' is not configured in config/modes.yaml")
+                if mode not in all_modes:
+                    all_modes.append(mode)
+
+            new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
+            processed_dict[new_key] = definition
+
+        all_modes.sort()
+        self._concerned_modes = all_modes
+        self._gesture_dict = processed_dict
 
     def set_vars(self, vars):
         self._vars = vars
@@ -111,10 +140,34 @@ class ZControl(EventObject):
 
     @only_in_view
     def handle_gesture(self, gesture):
-        if gesture in self._gesture_dict:
-            command_bundle = self._gesture_dict[gesture]
+        lookup_key = gesture + self._current_mode_string
+        matching_actions = []
+
+        if not self._allow_multiple_triggers:
+            if action := self._gesture_dict.get(lookup_key):
+                matching_actions.append(action)
+        else:
+            for key, action in self._gesture_dict.items():
+                parts = key.split("__")
+                if parts[0] != gesture:
+                    continue
+
+                if len(parts) == 1:
+                    matching_actions.append(action)
+                    if not self._allow_multiple_triggers:
+                        break
+                    continue
+
+                mode_part = "__" + "__".join(parts[1:])
+
+                if mode_part in self._current_mode_string:
+                    matching_actions.append(action)
+                    if not self._allow_multiple_triggers:
+                        break
+
+        for command in matching_actions:
             self._resolve_command_bundle(
-                bundle=command_bundle,
+                bundle=command,
                 vars_dict=self._vars,
                 context=self._context
             )
@@ -179,3 +232,17 @@ class ZControl(EventObject):
         self._control_element.set_light(color)
         self._control_element.send_value(127)
         self.log(f'finished')
+
+    @listens('current_modes')
+    def modes_changed(self, _):
+        self.update_mode_string(_)
+
+    @only_in_view
+    def update_mode_string(self, mode_states):
+        if not self._concerned_modes:
+            self._current_mode_string = ''
+        active_concerned_modes = [mode for mode in self._concerned_modes if mode_states.get(mode, False)]
+        if not active_concerned_modes:
+            self._current_mode_string = ""
+        else:
+            self._current_mode_string = "__" + "__".join(active_concerned_modes)

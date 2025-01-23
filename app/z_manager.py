@@ -39,6 +39,7 @@ class ZManager(Component, EventObject):
         from . import z_controls
         z_controls.page_manager = self.canonical_parent.component_map["PageManager"]
         z_controls.action_resolver = self.canonical_parent.component_map["ActionResolver"]
+        z_controls.mode_manager = self.canonical_parent.component_map["ModeManager"]
 
     def reinit(self):
         pass
