@@ -6,6 +6,7 @@ from ableton.v3.control_surface import ControlSurface, Component
 
 from .z_control import ZControl
 from .cxp_bridge import CxpBridge
+from .page_manager import PageManager
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -47,7 +48,7 @@ class ActionResolver(Component):
         from . import ROOT_LOGGER
         self.__logger = ROOT_LOGGER.getChild(name)
         self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
-        self.__page_manager = self.canonical_parent.component_map['PageManager']
+        self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
 
     def log(self, *msg):
