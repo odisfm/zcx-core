@@ -1,7 +1,7 @@
 import copy
 
 from ableton.v2.base.event import EventObject, listenable_property
-from ableton.v3.control_surface import Component
+from ableton.v3.control_surface import Component, ControlSurface
 from .errors import ConfigurationError
 from .pad_section import PadSection
 
@@ -14,6 +14,8 @@ CONFIG_DIR = None
 
 
 class PageManager(Component, EventObject):
+
+    canonical_parent: ControlSurface
 
     def __init__(
         self,
