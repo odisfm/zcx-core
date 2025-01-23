@@ -46,6 +46,7 @@ class ActionResolver(Component):
         from . import ROOT_LOGGER
         self.__logger = ROOT_LOGGER.getChild(name)
         self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
+        self.__page_manager = self.canonical_parent.component_map['PageManager']
 
     def log(self, *msg):
         for msg in msg:
@@ -209,7 +210,11 @@ class ActionResolver(Component):
                                 self.log(parsed)
                         case 'page':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
-                                self.log(parsed)
+                                result = self.__page_manager.request_page_change(parsed)
+                                if not result:
+                                    if ABORT_ON_FAILURE:
+                                        raise RuntimeError(f'invalid page change: {parsed}')
+                                    return False
                         case 'mode':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
                                 self.log(parsed)
