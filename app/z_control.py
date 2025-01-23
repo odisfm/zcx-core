@@ -38,10 +38,10 @@ class ZControl(EventObject):
         self.__in_view = False
         self.in_view_listener.subject = self.parent_section
         self.__raw_config = raw_config
-        self.__control_element: Optional[ZElement] = None
+        self._control_element: Optional[ZElement] = None
         self.__z_manager = self.root_cs.component_map['ZManager']
-        self.__color = None
-        self.__color_dict = {}
+        self._color = None
+        self._color_dict = {}
         self.__context = {}
         self.__gesture_dict = {}
         self.__vars = {}
@@ -77,7 +77,7 @@ class ZControl(EventObject):
 
     @property
     def color(self):
-        return self.__color
+        return self._color
 
     def set_gesture_dict(self, gesture_dict):
         if type(gesture_dict) is not dict:
@@ -102,13 +102,13 @@ class ZControl(EventObject):
     def bind_to_state(self, state):
         state.register_z_control(self)
         self.__state = state
-        self.__control_element = state._control_element
-        self._feedback_type = self.__control_element._feedback_type
+        self._control_element = state._control_element
+        self._feedback_type = self._control_element._feedback_type
 
     def unbind_from_state(self):
         if self.__state is not None:
             self.__state.unregister_z_control(self)
-            self.__control_element = None
+            self._control_element = None
 
     @only_in_view
     def handle_gesture(self, gesture):
@@ -126,12 +126,12 @@ class ZControl(EventObject):
         self.request_color_update()
 
     def set_color_to_base(self):
-        self.__control_element.set_light(self.__control_element.color_swatch.base)
+        self._control_element.set_light(self._control_element.color_swatch.base)
 
     @only_in_view
     def request_color_update(self):
-        if self.__color is not None:
-            self.__control_element.set_light(self.__color)
+        if self._color is not None:
+            self._control_element.set_light(self._color)
 
     def set_color(self, color):
         try:
@@ -170,5 +170,5 @@ class ZControl(EventObject):
             "hold": attention_color, # todo
         }
 
-        self.__color = base_color
-        self.__color_dict = color_dict
+        self._color = base_color
+        self._color_dict = color_dict
