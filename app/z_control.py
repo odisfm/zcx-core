@@ -35,25 +35,25 @@ class ZControl(EventObject):
         self.parent_section = parent_section
         self.__state = None
         self.__parent_logger = self.parent_section._logger
-        self.__in_view = False
+        self._in_view = False
         self.in_view_listener.subject = self.parent_section
-        self.__raw_config = raw_config
+        self._raw_config = raw_config
         self._control_element: Optional[ZElement] = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
         self._color_dict = {}
-        self.__context = {}
-        self.__gesture_dict = {}
-        self.__vars = {}
+        self._context = {}
+        self._gesture_dict = {}
+        self._vars = {}
         self._feedback_type = None
-        self.__trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
-        self.__resolve_command_bundle = partial(
+        self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
+        self._resolve_command_bundle = partial(
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
             calling_control=self,  # calling_control
         )
 
     def setup(self):
-        config = self.__raw_config
+        config = self._raw_config
         color = config.get('color', 127)
         self.set_color(color)
         self.__create_context([
@@ -69,11 +69,11 @@ class ZControl(EventObject):
 
     @property
     def in_view(self):
-        return self.__in_view
+        return self._in_view
 
     @property
     def context(self):
-        return self.__context
+        return self._context
 
     @property
     def color(self):
@@ -82,10 +82,10 @@ class ZControl(EventObject):
     def set_gesture_dict(self, gesture_dict):
         if type(gesture_dict) is not dict:
             raise ValueError(f'gesture_dict must be a dict: {gesture_dict}')
-        self.__gesture_dict = gesture_dict
+        self._gesture_dict = gesture_dict
 
     def set_vars(self, vars):
-        self.__vars = vars
+        self._vars = vars
 
     def __create_context(self, config: list[dict]) -> None:
         context = {k: v for d in config for k, v in d.items()}
@@ -96,7 +96,7 @@ class ZControl(EventObject):
                 context['index'] = 0
         context['Index'] = context['index'] + 1
         me_context = {'me': context}
-        self.__context = me_context
+        self._context = me_context
 
     def bind_to_state(self, state):
         state.register_z_control(self)
@@ -111,17 +111,17 @@ class ZControl(EventObject):
 
     @only_in_view
     def handle_gesture(self, gesture):
-        if gesture in self.__gesture_dict:
-            command_bundle = self.__gesture_dict[gesture]
-            self.__resolve_command_bundle(
+        if gesture in self._gesture_dict:
+            command_bundle = self._gesture_dict[gesture]
+            self._resolve_command_bundle(
                 bundle=command_bundle,
-                vars_dict=self.__vars,
-                context=self.__context
+                vars_dict=self._vars,
+                context=self._context
             )
 
     @listens('in_view')
     def in_view_listener(self):
-        self.__in_view = self.parent_section.in_view
+        self._in_view = self.parent_section.in_view
         self.request_color_update()
 
     def set_color_to_base(self):

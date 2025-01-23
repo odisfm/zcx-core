@@ -21,10 +21,10 @@ class PageControl(ZControl):
         from . import page_manager, action_resolver
         self.__page_manager = page_manager
         self.__action_resolver = action_resolver
-        page_config = self._ZControl__raw_config.get('page')
+        page_config = self._raw_config.get('page')
         if page_config is None:
             raise ConfigurationError('page control defined with no `page` key')
-        parsed_page, status = self.__action_resolver.compile(page_config, self._ZControl__vars, self._ZControl__context)
+        parsed_page, status = self.__action_resolver.compile(str(page_config), self._vars, self._context)
         self.__set_page(parsed_page)
         self.page_changed()
 
