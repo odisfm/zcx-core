@@ -47,7 +47,10 @@ class ZControl(EventObject):
         self.__vars = {}
         self._feedback_type = None
         self.__trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
-        self.__resolve_command_bundle = partial(self.root_cs.component_map['ActionResolver'].compile)
+        self.__resolve_command_bundle = partial(
+            self.root_cs.component_map['ActionResolver'].execute_command_bundle,
+            calling_control=self,  # calling_control
+        )
 
     def setup(self):
         config = self.__raw_config
@@ -110,18 +113,12 @@ class ZControl(EventObject):
     @only_in_view
     def handle_gesture(self, gesture):
         if gesture in self.__gesture_dict:
-            action_list = self.__gesture_dict[gesture]
-            self.log(action_list)
-            parsed = self.__resolve_action_def(
-                action_list,
-                self.__vars,
-                self.__context,
-                'live'
-            )[0]
-            self.log(parsed)
-            self.__trigger_action_list(parsed)
             command_bundle = self.__gesture_dict[gesture]
-            self.__resolve_command_bundle(command_bundle)
+            self.__resolve_command_bundle(
+                bundle=command_bundle,
+                vars_dict=self.__vars,
+                context=self.__context
+            )
 
     @listens('in_view')
     def in_view_listener(self):
