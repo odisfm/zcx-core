@@ -56,9 +56,11 @@ class PageManager(Component, EventObject):
         if page_name in self.__page_names:
             self.__current_page = self.__page_names.index(page_name)
             self.notify_current_page()
+            return True
         elif type(page_number) is int and self.__page_count > page_number >= 0:
             self.__current_page = page_number
             self.notify_current_page()
+            return True
         else:
             raise ValueError(f"invalid value {page_number or page_name} for set_page()")
 
