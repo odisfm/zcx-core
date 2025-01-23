@@ -171,3 +171,11 @@ class ZControl(EventObject):
 
         self._color = base_color
         self._color_dict = color_dict
+
+    @only_in_view
+    def force_color(self, color):
+        self.log(f'forcing light change')
+        self._color = color
+        self._control_element.set_light(color)
+        self._control_element.send_value(127)
+        self.log(f'finished')
