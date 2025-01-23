@@ -70,6 +70,30 @@ class PageManager(Component, EventObject):
         except ValueError:
             return False
 
+    def request_page_change(self, page:any=None):
+        try:
+            page = int(page)
+        except ValueError:
+            pass
+        if isinstance(page, int):
+            result = self.set_page(page_number=page)
+            return result
+        elif isinstance(page, str):
+            if page in ['prev', 'up']:
+                self.increment_page(-1)
+                return True
+            elif page in ['next', 'down']:
+                self.increment_page(1)
+                return True
+            else:
+                page_num = self.get_page_number_from_name(page)
+                if page_num:
+                    self.set_page(page_number=page_num)
+                    return True
+                return False
+        else:
+            raise ValueError(f"invalid value {page} for request_page_change()")
+
     def setup(self):
         sections_config = self.load_sections_config()
         pages_config = self.load_pages_config()
