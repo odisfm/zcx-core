@@ -11,6 +11,7 @@ from ableton.v3.control_surface.controls import (
 from .elements import Elements
 from .hardware_interface import HardwareInterface
 from .page_manager import PageManager
+from .mode_manager import ModeManager
 from .cxp_bridge import CxpBridge
 from .action_resolver import ActionResolver
 from .skin import Skin
@@ -42,6 +43,7 @@ def create_mappings(arg) -> dict:
     return {
         "HardwareInterface": hw_mapping_dict,
         "PageManager": {},
+        "ModeManager": {},
         "CxpBridge": {},
         "ActionResolver": {},
         "ZManager": {},
@@ -105,6 +107,7 @@ def create_instance(c_instance):
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
         'PageManager': PageManager,
+        "ModeManager": ModeManager,
         'CxpBridge': CxpBridge,
         "ActionResolver": ActionResolver,
         "ZManager": ZManager

@@ -41,6 +41,7 @@ class ZCXCore(ControlSurface):
     def post_init(self):
         try:
             self.component_map['HardwareInterface'].setup()
+            self.component_map['ModeManager'].setup()
             self.component_map['ZManager'].setup()
             self.component_map['PageManager'].setup()
         except Exception as e:
