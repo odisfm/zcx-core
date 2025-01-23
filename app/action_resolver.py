@@ -1,7 +1,12 @@
 import re
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Optional, Callable, Union
+from itertools import chain
 
 from ableton.v3.control_surface import ControlSurface, Component
+
+from .z_control import ZControl
+
+ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
 
 class DotDict:
@@ -39,8 +44,12 @@ class ActionResolver(Component):
     ):
         super(ActionResolver, self).__init__(name, *a, **k)
         from . import ROOT_LOGGER
-        self.logger = ROOT_LOGGER.getChild(name)
+        self.__logger = ROOT_LOGGER.getChild(name)
         self.pattern = re.compile(r"\\\\@\\\\{|\\\\@{|@\\\\{|@{([^{}\\]*)(?<!\\)}")
+
+    def log(self, *msg):
+        for msg in msg:
+            self.__logger.info(msg)
 
     def _evaluate_expression(
         self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
@@ -117,7 +126,7 @@ class ActionResolver(Component):
         action_string: str,
         vars: Dict[str, str],
         context: Dict[str, Any],
-        mode: str,
+        mode: str='build',
     ) -> Tuple[str, int]:
         """Compile an action string, resolving variables and template patterns."""
         if "@{" not in action_string and "${" not in action_string:
@@ -145,3 +154,73 @@ class ActionResolver(Component):
         result += action_string[last_end:]
 
         return result, 0
+
+    def parse_command_bundle(self, command_bundle: Any) -> list:
+        if isinstance(command_bundle, str):
+            return [command_bundle]
+        elif callable(command_bundle):
+            return [command_bundle]
+        elif isinstance(command_bundle, list):
+            # Recursively parse each item and flatten
+            return list(chain.from_iterable(
+                self.parse_command_bundle(item) for item in command_bundle
+            ))
+        elif isinstance(command_bundle, dict):
+            return [{k: v} for k, v in command_bundle.items()]
+        else:
+            raise ValueError
+
+    def _compile_and_check(self, command_str: str, vars_dict: dict = None, context: dict = None):
+        """Helper to compile commands and handle errors consistently"""
+        parsed, status = self.compile(command_str, vars_dict, context)
+        if status != 0:
+            error_msg = f"Couldn't parse command: {command_str}"
+            self.log(error_msg)
+            if ABORT_ON_FAILURE:
+                raise RuntimeError(error_msg)
+            return None
+        return parsed
+
+    def execute_command_bundle(
+            self,
+            calling_control: ZControl = None,
+            bundle: list[Union[list, str, dict, Callable]] = None,
+            vars_dict: dict = None,
+            context: dict = None,
+    ):
+        try:
+            commands = self.parse_command_bundle(bundle)
+
+            for command in commands:
+                if isinstance(command, str):
+                    if parsed := self._compile_and_check(command, vars_dict, context):
+                        self.log(parsed)
+
+                elif isinstance(command, dict):
+                    command_type, command_def = command.popitem()
+                    self.log(command_type, command_def)
+
+                    match command_type:
+                        case 'cxp':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.log(parsed)
+                        case 'log':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.log(parsed)
+                        case 'page':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.log(parsed)
+                        case 'mode':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.log(parsed)
+                        case _:
+                            error_msg = f'Unknown command type: {command_type}'
+                            self.log(error_msg)
+                            if ABORT_ON_FAILURE:
+                                raise RuntimeError(error_msg)
+
+            return True
+
+        except Exception as e:
+            self.log(e)
+            raise e
