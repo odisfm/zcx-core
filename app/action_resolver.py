@@ -210,6 +210,9 @@ class ActionResolver(Component):
                         case 'log':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
                                 self.log(parsed)
+                        case 'msg':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.canonical_parent.show_message(parsed)
                         case 'page':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
                                 result = self.__page_manager.request_page_change(parsed)
