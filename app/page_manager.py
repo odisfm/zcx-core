@@ -64,6 +64,12 @@ class PageManager(Component, EventObject):
         else:
             raise ValueError(f"invalid value {page_number or page_name} for set_page()")
 
+    def get_page_number_from_name(self, name):
+        try:
+            return self.__page_names.index(name)
+        except ValueError:
+            return False
+
     def setup(self):
         sections_config = self.load_sections_config()
         pages_config = self.load_pages_config()
