@@ -35,12 +35,6 @@ class HardwareInterface(Component):
 
     def handle_control_event(self, event, state: ZState.State):
         state.forward_gesture(event)
-        # temporary
-        element: ZElement = state._control_element
-        if element.original_identifier() == 46 and event == 'pressed':
-            self.__page_manager.increment_page(1)
-        elif element.original_identifier() == 47 and event == 'pressed':
-            self.__page_manager.increment_page(-1)
 
     def all_lights_full(self):
         for state in self.named_button_states.keys():
