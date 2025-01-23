@@ -83,8 +83,6 @@ class ZControl(EventObject):
         if type(gesture_dict) is not dict:
             raise ValueError(f'gesture_dict must be a dict: {gesture_dict}')
         self.__gesture_dict = gesture_dict
-        self.log('logging gesture dict')
-        self.log(self.__gesture_dict)
 
     def set_vars(self, vars):
         self.__vars = vars

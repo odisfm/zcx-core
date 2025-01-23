@@ -248,8 +248,6 @@ class ZManager(Component, EventObject):
             self.log(e)
 
     def process_named_buttons(self, pad_section: PadSection):
-        self.log(f"processing named buttons for section {pad_section.name}")
-
         raw_config = self.__yaml_loader.load_yaml(
             f"{self.__config_dir}/named_buttons.yaml"
         )
