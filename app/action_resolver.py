@@ -202,7 +202,6 @@ class ActionResolver(Component):
 
                 elif isinstance(command, dict):
                     command_type, command_def = command.popitem()
-                    self.log(command_type, command_def)
 
                     match command_type:
                         case 'cxp':
@@ -220,7 +219,7 @@ class ActionResolver(Component):
                                     return False
                         case 'mode':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
-                                self.log(parsed)
+                                self.log(f'mode: {parsed}')
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
