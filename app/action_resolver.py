@@ -7,6 +7,7 @@ from ableton.v3.control_surface import ControlSurface, Component
 from .z_control import ZControl
 from .cxp_bridge import CxpBridge
 from .page_manager import PageManager
+from .mode_manager import ModeManager
 from .cxp_bridge import CxpBridge
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
@@ -50,6 +51,7 @@ class ActionResolver(Component):
         self.__logger = ROOT_LOGGER.getChild(name)
         self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)(?<!\\)}")
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
+        self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
 
     def log(self, *msg):
@@ -217,7 +219,13 @@ class ActionResolver(Component):
                                     return False
                         case 'mode':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
-                                self.log(f'mode: {parsed}')
+                                self.__mode_manager.toggle_mode(parsed)
+                        case 'mode_on':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.__mode_manager.add_mode(parsed)
+                        case 'mode_off':
+                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                self.__mode_manager.remove_mode(parsed)
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
