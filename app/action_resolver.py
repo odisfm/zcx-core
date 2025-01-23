@@ -7,6 +7,7 @@ from ableton.v3.control_surface import ControlSurface, Component
 from .z_control import ZControl
 from .cxp_bridge import CxpBridge
 from .page_manager import PageManager
+from .cxp_bridge import CxpBridge
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
