@@ -203,12 +203,13 @@ class ZControl(EventObject):
         simplified_color = simplify_color(base_color)
         white = parse_color_definition('white', self)
         green = parse_color_definition('green', self)
+        play_green = parse_color_definition('play_green', self)
         red = parse_color_definition('red', self)
         off = parse_color_definition('0', self)
 
         if self._feedback_type == 'rgb':
             attention_color = Pulse(simplified_color, white, 48)
-            animate_success = Blink(simplified_color, white, 12)
+            animate_success = Pulse(simplified_color, play_green, 48)
             animate_failure = Blink(simplified_color, red, 48)
         elif self._feedback_type == 'basic':
             attention_color = base_color
@@ -216,7 +217,7 @@ class ZControl(EventObject):
             animate_failure = Blink(simplified_color, off, 12)
         elif self._feedback_type == 'biled':
             attention_color = base_color
-            animate_success = Blink(simplified_color, green, 48)
+            animate_success = Pulse(simplified_color, green, 48)
             animate_failure = Blink(simplified_color, red, 12)
         else:
             raise ConfigurationError(f'Unknown feedback type: {self._feedback_type}')

@@ -14,6 +14,9 @@ class PageControl(ZControl):
         self.__action_resolver = None
         self._page_number = None
         self._suppress_animations = True
+        self._active_color = None
+        self._inactive_color = None
+        self._disabled_color = None
 
     def handle_gesture(self, gesture):
         super().handle_gesture(gesture)
@@ -25,7 +28,8 @@ class PageControl(ZControl):
         self.__action_resolver = action_resolver
         page_config = self._raw_config.get('page')
         if page_config is None:
-            self._color = self._control_element._color_swatch.OFF
+            self._disabled_color = self._control_element.color_swatch.OFF
+            self._color = self._disabled_color
             self._control_element.set_light(self._color)
             from .. import SAFE_MODE
             error_message = f'page control defined with no `page` key\n{self._raw_config}'
@@ -46,11 +50,16 @@ class PageControl(ZControl):
             except ValueError:
                 _page_number = self.__page_manager.get_page_number_from_name(page_number)
                 if _page_number is False:
-                    self._color = ColorSwatches.basic.OFF
+                    self._disabled_color = self._control_element.color_swatch.OFF
+                    self._color = self._disabled_color
                     self.page_changed.subject = self.__page_manager
                     self._page_number = None
                     raise ConfigurationError(f'Invalid page assignment: {page_number}')
             self._page_number = _page_number
+            self._active_color = self._control_element.color_swatch.PAGE_ACTIVE
+            self._inactive_color = self._control_element.color_swatch.PAGE_INACTIVE
+            self._disabled_color = self._control_element.color_swatch.OFF
+            self._color = self._active_color
             self.page_changed.subject = self.__page_manager
         except ConfigurationError as e:
             from .. import SAFE_MODE
@@ -66,9 +75,9 @@ class PageControl(ZControl):
             if self._page_number is None:
                 self.request_color_update()
             elif new_page_no == self._page_number:
-                self._color = self._color_swatch.YELLOW
+                self._color = self._active_color
             else:
-                self._color = self._color_swatch.RED
+                self._color = self._inactive_color
             self.request_color_update()
 
         except Exception as e:

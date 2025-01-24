@@ -19,8 +19,13 @@ class ColorSwatches:
     rgb = hardware_colors.RgbColorSwatch
 
 
-def get_named_color(name):
+def get_named_color(name, calling_control=None):
     name = name.upper()
+    if calling_control is not None:
+        swatch = calling_control._control_element._color_swatch
+        color = getattr(swatch, name, None)
+        if color is not None:
+            return color
     color = getattr(hardware_colors.Rgb, name, None)
     if color is None:
         return hardware_colors.Rgb.RED
@@ -32,7 +37,7 @@ def parse_color_definition(color, calling_control=None):
             if 0 <= color <= 127:
                 return RgbColor(color)
         elif type(color) is str:
-            return get_named_color(color)
+            return get_named_color(color, calling_control)
         elif type(color) is dict:
 
             special_color_type = list(color.keys())[0]
