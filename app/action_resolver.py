@@ -9,6 +9,7 @@ from .cxp_bridge import CxpBridge
 from .page_manager import PageManager
 from .mode_manager import ModeManager
 from .cxp_bridge import CxpBridge
+from .hardware_interface import HardwareInterface
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -53,6 +54,7 @@ class ActionResolver(Component):
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
+        self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
 
     def log(self, *msg):
         for msg in msg:
@@ -229,6 +231,8 @@ class ActionResolver(Component):
                         case 'mode_off':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
                                 self.__mode_manager.remove_mode(parsed)
+                        case 'refresh':
+                            self.__hardware_interface.refresh_all_lights()
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
