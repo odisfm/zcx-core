@@ -82,7 +82,7 @@ class Elements(ElementsBase):
         color_swatch = getattr(ColorSwatches, feedback)
 
         for element in self.button_matrix.nested_control_elements():
-            element._ZElement__color_swatch = color_swatch
+            element._color_swatch = color_swatch()
             element._feedback_type = feedback
 
         import sys
@@ -111,7 +111,7 @@ class Elements(ElementsBase):
             )
 
             color_swatch = getattr(ColorSwatches, feedback)
-            element._ZElement__color_swatch = color_swatch
+            element._color_swatch = color_swatch()
             element._feedback_type = feedback
 
             self.register_named_button(element, button_name)
@@ -139,7 +139,7 @@ class Elements(ElementsBase):
             )
 
             color_swatch = getattr(ColorSwatches, feedback)
-            element._ZElement__color_swatch = color_swatch
+            element._color_swatch = color_swatch()
             element._feedback_type = feedback
 
             self.register_named_button(element, button_name)

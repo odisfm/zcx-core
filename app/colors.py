@@ -6,6 +6,7 @@ except ImportError:
 
 from .errors import *
 
+Color = hardware_colors.Color
 RgbColor = hardware_colors.RgbColor
 Pulse = hardware_colors.Pulse
 Blink = hardware_colors.Blink

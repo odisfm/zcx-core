@@ -42,6 +42,7 @@ class ZControl(EventObject):
         self._control_element: Optional[ZElement] = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
+        self._color_swatch = None
         self._color_dict = {}
         self._context = {}
         self._gesture_dict = {}
@@ -132,6 +133,7 @@ class ZControl(EventObject):
         self.__state = state
         self._control_element = state._control_element
         self._feedback_type = self._control_element._feedback_type
+        self._color_swatch = self._control_element.color_swatch
 
     def unbind_from_state(self):
         if self.__state is not None:
