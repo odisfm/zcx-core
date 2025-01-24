@@ -55,9 +55,9 @@ class BasicColorSwatch:
     def __init__(self):
         pass
 
-    def __getattr__(self, attr):
-        return FULL
-
+    @classmethod
+    def __getattr__(cls, attr):
+        return cls.FULL
 
 class BiledColorSwatch:
     OFF = Color(0)
@@ -84,8 +84,9 @@ class BiledColorSwatch:
     def __init__(self):
         pass
 
-    def __getattr__(self, attr):
-        return FULL
+    @classmethod
+    def __getattr__(cls, attr):
+        return cls.FULL
 
 class RgbColorSwatch(object):
     OFF = Rgb.BLACK
@@ -133,8 +134,9 @@ class RgbColorSwatch(object):
     def __init__(self):
         pass
 
-    def __getattr__(self, attr):
-        return FULL
+    @classmethod
+    def __getattr__(cls, attr):
+        return cls.FULL
 
 
 def simplify_color(color):
