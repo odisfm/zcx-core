@@ -72,6 +72,9 @@ class PageManager(Component, EventObject):
         except ValueError:
             return False
 
+    def is_valid_page_number(self, page_number):
+        return 0 <= page_number < self.__page_count
+
     def request_page_change(self, page:any=None):
         try:
             page = int(page)
