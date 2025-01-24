@@ -135,7 +135,7 @@ class ActionResolver(Component):
         mode: str='build',
     ) -> Tuple[str, int]:
         """Compile an action string, resolving variables and template patterns."""
-        if "@{" not in action_string and "${" not in action_string:
+        if not isinstance(action_string, str) or ("@{" not in action_string and "${" not in action_string):
             return action_string, 0
 
         resolved_vars, status = self._resolve_vars(vars, context, mode)
