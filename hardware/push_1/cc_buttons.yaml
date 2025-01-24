@@ -56,27 +56,35 @@ stop:
 
 scene_1:
   cc: 43
+  feedback: biled
 
 scene_2:
   cc: 42
+  feedback: biled
 
 scene_3:
   cc: 41
+  feedback: biled
 
 scene_4:
   cc: 40
+  feedback: biled
 
 scene_5:
   cc: 39
+  feedback: biled
 
 scene_6:
   cc: 38
+  feedback: biled
 
 scene_7:
   cc: 37
+  feedback: biled
 
 scene_8:
   cc: 36
+  feedback: biled
 
 select:
   cc: 48
