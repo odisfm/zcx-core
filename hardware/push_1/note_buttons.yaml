@@ -30,3 +30,6 @@ enc_tempo_touch:
 
 enc_swing_touch:
   note: 9
+
+touchstrip:
+  note: 12
