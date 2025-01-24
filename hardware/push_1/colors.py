@@ -39,6 +39,7 @@ class BasicColorSwatch:
     GREEN_HALF = HALF
     GREEN_BLINK_SLOW = FULL_BLINK_SLOW
     GREEN_BLINK_FAST = FULL_BLINK_FAST
+    PLAY_GREEN = FULL
     RED = HALF
     RED_HALF = HALF
     RED_BLINK_SLOW = HALF_BLINK_SLOW
@@ -63,6 +64,7 @@ class BiledColorSwatch:
     OFF = Color(0)
     ON = Color(127)
     GREEN = Color(127)
+    PLAY_GREEN = GREEN
     GREEN_HALF = Color(19)
     GREEN_BLINK_SLOW = Color(24)
     GREEN_BLINK_FAST = Color(23)
@@ -99,7 +101,7 @@ class RgbColorSwatch(object):
     AMBER = RgbColor(9)
     YELLOW = RgbColor(13)
     LIME = RgbColor(17)
-    GREEN = RgbColor(21)
+    GREEN = RgbColor(75)
     SPRING = RgbColor(25)
     TURQUOISE = RgbColor(29)
     CYAN = RgbColor(33)
@@ -109,6 +111,7 @@ class RgbColorSwatch(object):
     ORCHID = RgbColor(49)
     MAGENTA = RgbColor(53)
     PINK = RgbColor(57)
+    PLAY_GREEN = RgbColor(21)
     GREEN_HALF = GREEN.shade(1)
     GREEN_BLINK_SLOW = Blink(GREEN, OFF, 48)
     GREEN_BLINK_FAST = Blink(GREEN, OFF, 12)
@@ -198,6 +201,25 @@ palette_rainbow = [
     RgbColor(52),
 ]
 
+palette_nebula = [
+    RgbColor(50),
+    RgbColor(47),
+    RgbColor(6),
+    RgbColor(54),
+    RgbColor(55),
+    RgbColor(10),
+    RgbColor(47),
+    RgbColor(50),
+    RgbColor(6),
+    RgbColor(47),
+    RgbColor(50),
+    RgbColor(47),
+    RgbColor(54),
+]
+
+palette_nebula_reverse = palette_nebula.copy()
+palette_nebula_reverse.reverse()
+
 palette_rainbow_reverse = palette_rainbow.copy()
 palette_rainbow_reverse.reverse()
 
@@ -208,4 +230,6 @@ palettes = {
     'ocean_reverse': palette_ocean_reverse,
     'rainbow': palette_rainbow,
     'rainbow_reverse': palette_rainbow_reverse,
+    'nebula': palette_nebula,
+    'nebula_reverse': palette_nebula_reverse,
 }
