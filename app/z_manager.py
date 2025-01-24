@@ -83,6 +83,28 @@ class ZManager(Component, EventObject):
 
         try:
 
+            def merge_configs(base, override):
+                if not isinstance(override, dict):
+                    return override
+                if not isinstance(base, dict):
+                    return override
+                merged = deepcopy(base)
+                for key, value in override.items():
+                    merged[key] = merge_configs(merged[key], value) if (
+                            key in merged and
+                            isinstance(merged[key], dict) and
+                            isinstance(value, dict)
+                    ) else value
+                return merged
+
+            def apply_global_template(config):
+                """Apply global template to config if not ignored"""
+                if not ignore_global_template:
+                    if not isinstance(config, dict):
+                        return config
+                    return merge_configs(deepcopy(global_template), config)
+                return config
+
             global_template = self.__global_control_template
             control_templates = self.__control_templates
             flat_config = []
@@ -91,32 +113,24 @@ class ZManager(Component, EventObject):
             # handle single dict group section config
             if isinstance(raw_config, dict):
                 if "pad_group" in raw_config:
-                    # raise ValueError() todo: raise config error with proper message
                     raw_config = [raw_config]
                 else:
-                    raw_config = [raw_config] * len(section_obj.owned_coordinates)
+                    pad_overrides = raw_config.get('pads', [None] * len(section_obj.owned_coordinates))
+                    section_template = {k: v for k, v in raw_config.items() if k != 'pads'}
+                    raw_config = []
+
+                    for i in range(len(section_obj.owned_coordinates)):
+                        override = pad_overrides[i] if i < len(pad_overrides) else None
+                        if override is None:
+                            raw_config.append(deepcopy(section_template))
+                        else:
+                            merged = merge_configs(deepcopy(section_template), override)
+                            raw_config.append(merged)
+
+                    # raw_config = []
             elif not isinstance(raw_config, list):
                 raise ValueError()  # todo: raise config error with proper message
 
-            def merge_configs(base, override):
-                """Deep merge two configurations, ensuring override values take precedence"""
-                merged = deepcopy(base)
-                for key, value in override.items():
-                    if (
-                        key in merged
-                        and isinstance(merged[key], dict)
-                        and isinstance(value, dict)
-                    ):
-                        merged[key] = merge_configs(merged[key], value)
-                    else:
-                        merged[key] = deepcopy(value)
-                return merged
-
-            def apply_global_template(config):
-                """Apply global template to config if not ignored"""
-                if not ignore_global_template:
-                    return merge_configs(deepcopy(global_template), deepcopy(config))
-                return deepcopy(config)
 
             def apply_control_template(config):
                 """Apply any specified control template to config"""
