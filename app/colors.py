@@ -26,7 +26,7 @@ def get_named_color(name):
         return hardware_colors.Rgb.RED
     return color
 
-def parse_color_definition(color):
+def parse_color_definition(color, calling_control=None):
     try:
         if type(color) is int:
             if 0 <= color <= 127:
@@ -57,6 +57,12 @@ def parse_color_definition(color):
                 speed = hardware_colors.translate_speed(speed_def)
 
                 return Pulse(a, b, speed)
+            elif special_color_type.lower() == 'palette':
+                palette_name = special_color_def
+                palette = hardware_colors.palettes.get(palette_name, None)
+                index = calling_control._context['me']['index'] % len(palette)
+                return palette[index]
+
             elif special_color_type.lower() == 'midi':
                 return parse_color_definition(color['midi'])
             elif special_color_type.lower() == 'live':

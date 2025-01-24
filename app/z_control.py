@@ -3,6 +3,8 @@ from functools import wraps, partial
 from ableton.v2.base import EventObject
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
+from ableton.v2.base.task import TimerTask
+
 from .colors import parse_color_definition, simplify_color, Pulse, Blink, RgbColor
 from .defaults import BUILT_IN_COLORS
 from .consts import SUPPORTED_GESTURES
@@ -51,6 +53,8 @@ class ZControl(EventObject):
         self._feedback_type = None
         self._mode_manager = self.root_cs.component_map['ModeManager']
         self.modes_changed.subject = self._mode_manager
+        self._is_animating = False
+        self._suppress_animations = False
         self._current_mode_string = ''
         self._allow_multiple_triggers = False
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
@@ -61,12 +65,12 @@ class ZControl(EventObject):
 
     def setup(self):
         config = self._raw_config
-        color = config.get('color', 127)
-        self.set_color(color)
         self.__create_context([
             config.get('section_context', {}),
             config.get('group_context', {}),
         ])
+        color = config.get('color', 127)
+        self.set_color(color)
         self.set_gesture_dict(config.get('gestures', {}))
         self.set_vars(config.get('vars', {}))
 
@@ -174,6 +178,8 @@ class ZControl(EventObject):
                 context=self._context
             )
 
+        self.animate_success()
+
     @listens('in_view')
     def in_view_listener(self):
         self._in_view = self.parent_section.in_view
@@ -189,16 +195,16 @@ class ZControl(EventObject):
 
     def set_color(self, color):
         try:
-            base_color = parse_color_definition(color)
+            base_color = parse_color_definition(color, self)
         except Exception as e:
             self.log(e)
-            base_color = parse_color_definition(127)
+            base_color = parse_color_definition(127, self)
 
         simplified_color = simplify_color(base_color)
-        white = parse_color_definition('white')
-        green = parse_color_definition('green')
-        red = parse_color_definition('red')
-        off = parse_color_definition('0')
+        white = parse_color_definition('white', self)
+        green = parse_color_definition('green', self)
+        red = parse_color_definition('red', self)
+        off = parse_color_definition('0', self)
 
         if self._feedback_type == 'rgb':
             attention_color = Pulse(simplified_color, white, 48)
@@ -229,11 +235,9 @@ class ZControl(EventObject):
 
     @only_in_view
     def force_color(self, color):
-        self.log(f'forcing light change')
         self._color = color
         self._control_element.set_light(color)
         self._control_element.send_value(127)
-        self.log(f'finished')
 
     @listens('current_modes')
     def modes_changed(self, _):
@@ -246,5 +250,34 @@ class ZControl(EventObject):
         active_concerned_modes = [mode for mode in self._concerned_modes if mode_states.get(mode, False)]
         if not active_concerned_modes:
             self._current_mode_string = ""
+            if not self._suppress_animations:
+                self._color = self._color_dict['base']
+                self.request_color_update()
         else:
             self._current_mode_string = "__" + "__".join(active_concerned_modes)
+            if not self._suppress_animations:
+                self._color = self._color_dict['attention']
+                self.request_color_update()
+
+    @only_in_view
+    def animate_success(self, duration=0.4):
+        if self._suppress_animations:
+            return
+        self._is_animating = True
+        timer = AnimationTimer(self, duration)
+        self._color = self._color_dict['success']
+        self.request_color_update()
+        self.task_group.add(timer)
+
+
+class AnimationTimer(TimerTask):
+
+    def __init__(self, owner, duration, **k):
+        super().__init__(duration, **k)
+        self.owner: ZControl = owner
+        self.restart()
+
+    def on_finish(self):
+        self.owner._is_animating = False
+        self.owner._color = self.owner._color_dict['base']
+        self.owner.request_color_update()

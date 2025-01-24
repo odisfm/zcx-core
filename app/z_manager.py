@@ -37,6 +37,7 @@ class ZManager(Component, EventObject):
 
     def setup(self):
         from . import z_controls
+        ZControl.task_group = self.canonical_parent._task_group
         z_controls.page_manager = self.canonical_parent.component_map["PageManager"]
         z_controls.action_resolver = self.canonical_parent.component_map["ActionResolver"]
         z_controls.mode_manager = self.canonical_parent.component_map["ModeManager"]

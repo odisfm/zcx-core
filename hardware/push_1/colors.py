@@ -1,3 +1,5 @@
+from copy import copy
+
 from pushbase.colors import (
 Basic,
 Rgb,
@@ -139,3 +141,69 @@ def simplify_color(color):
     from .. import ROOT_LOGGER
     color1 = getattr(color, 'color1', color)
     return color1
+
+palette_forest = [
+    RgbColor(89),
+    RgbColor(110),
+    RgbColor(103),
+    RgbColor(86),
+    RgbColor(44),
+    RgbColor(109),
+    RgbColor(105),
+    RgbColor(16),
+    RgbColor(30),
+    RgbColor(93),
+    RgbColor(98),
+    RgbColor(1),
+    RgbColor(63),
+]
+
+palette_forest_reverse = palette_forest.copy()
+palette_forest_reverse.reverse()
+
+palette_ocean = [
+    RgbColor(37),
+    RgbColor(38),
+    RgbColor(36),
+    RgbColor(39),
+    RgbColor(77),
+    RgbColor(51),
+    RgbColor(104),
+    RgbColor(24),
+    RgbColor(38),
+    RgbColor(36),
+    RgbColor(41),
+    RgbColor(42),
+    RgbColor(71),
+]
+
+palette_ocean_reverse = palette_ocean.copy()
+palette_ocean_reverse.reverse()
+
+palette_rainbow = [
+    RgbColor(5),
+    RgbColor(6),
+    RgbColor(9),
+    RgbColor(127),
+    RgbColor(13),
+    RgbColor(14),
+    RgbColor(17),
+    RgbColor(25),
+    RgbColor(37),
+    RgbColor(45),
+    RgbColor(41),
+    RgbColor(49),
+    RgbColor(52),
+]
+
+palette_rainbow_reverse = palette_rainbow.copy()
+palette_rainbow_reverse.reverse()
+
+palettes = {
+    'forest': palette_forest,
+    'forest_reverse': palette_forest_reverse,
+    'ocean': palette_ocean,
+    'ocean_reverse': palette_ocean_reverse,
+    'rainbow': palette_rainbow,
+    'rainbow_reverse': palette_rainbow_reverse,
+}

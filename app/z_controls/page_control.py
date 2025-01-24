@@ -13,6 +13,7 @@ class PageControl(ZControl):
         self.__page_manager = None
         self.__action_resolver = None
         self._page_number = None
+        self._suppress_animations = True
 
     def handle_gesture(self, gesture):
         super().handle_gesture(gesture)
@@ -65,9 +66,9 @@ class PageControl(ZControl):
             if self._page_number is None:
                 self.request_color_update()
             elif new_page_no == self._page_number:
-                self._color = self._color_swatch.RED
+                self._color = self._color_swatch.YELLOW
             else:
-                self._color = self._color_swatch.RED_HALF
+                self._color = self._color_swatch.RED
             self.request_color_update()
 
         except Exception as e:
