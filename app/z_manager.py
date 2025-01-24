@@ -357,12 +357,19 @@ class ZManager(Component, EventObject):
             raise e
 
     def z_control_factory(self, config, pad_section) -> ZControl:
-        control_type = config.get("type") or "basic"
-        control_cls = get_control_class(control_type)
+        try:
+            control_type = config.get("type") or "basic"
+            control_cls = get_control_class(control_type)
 
-        if control_cls is None:
-            raise ValueError(f"Control class for type '{control_type}' not found")
+            if control_cls is None:
+                raise ValueError(f"Control class for type '{control_type}' not found")
 
-        control = control_cls(self.canonical_parent, pad_section, config)
+            control = control_cls(self.canonical_parent, pad_section, config)
+        except ConfigurationError as e:
+            from . import SAFE_MODE
+            if SAFE_MODE is True:
+                raise e
+            self.log(e)
+            return get_control_class('basic')(self.canonical_parent, pad_section, {})
 
         return control

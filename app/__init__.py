@@ -25,6 +25,7 @@ from .consts import SUPPORTED_GESTURES
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
 CONFIG_DIR = '_config'
+SAFE_MODE = False
 
 def create_mappings(arg) -> dict:
     ROOT_LOGGER.info('Creating mappings')
