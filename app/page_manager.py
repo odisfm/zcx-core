@@ -36,6 +36,7 @@ class PageManager(Component, EventObject):
         self.__z_manager: ZManager = self.canonical_parent.component_map["ZManager"]
         self.__raw_sections: Dict[str, Dict] = {}
         self.__current_page = -1
+        self.__last_page = -1
         self.__page_count = 1
         self.__pages_sections = {}
         self.__page_names = []
@@ -56,15 +57,20 @@ class PageManager(Component, EventObject):
 
     def set_page(self, page_number=None, page_name=None):
         if page_name in self.__page_names:
+            self.__last_page = self.__current_page
             self.__current_page = self.__page_names.index(page_name)
             self.notify_current_page()
             return True
         elif type(page_number) is int and self.__page_count > page_number >= 0:
+            self.__last_page = self.__current_page
             self.__current_page = page_number
             self.notify_current_page()
             return True
         else:
             raise ValueError(f"invalid value {page_number or page_name} for set_page()")
+
+    def return_to_last_page(self):
+        self.set_page(page_number=self.__last_page)
 
     def get_page_number_from_name(self, name):
         try:

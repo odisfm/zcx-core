@@ -219,6 +219,9 @@ class ActionResolver(Component):
                                 self.canonical_parent.show_message(parsed)
                         case 'page':
                             if parsed := self._compile_and_check(command_def, vars_dict, context):
+                                if parsed == 'last':
+                                    self.__page_manager.return_to_last_page()
+                                    continue
                                 result = self.__page_manager.request_page_change(parsed)
                                 if not result:
                                     if ABORT_ON_FAILURE:
