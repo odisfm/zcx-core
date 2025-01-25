@@ -20,16 +20,22 @@ class ColorSwatches:
 
 
 def get_named_color(name, calling_control=None):
+    if 'shade' in name.lower():
+        split = name.split()
+        if len(split) == 2:
+            factor = 1
+        elif len(split) == 3:
+            factor = int(split[2])
+        return getattr(hardware_colors.Rgb, split[0].upper()).shade(factor)
+
     name = name.upper()
     if calling_control is not None:
         swatch = calling_control._control_element._color_swatch
         color = getattr(swatch, name, None)
         if color is not None:
             return color
-    color = getattr(hardware_colors.Rgb, name, None)
-    if color is None:
-        return hardware_colors.Rgb.RED
-    return color
+
+    return getattr(hardware_colors.Rgb, name, hardware_colors.Rgb.RED)
 
 def parse_color_definition(color, calling_control=None):
     try:
@@ -37,9 +43,15 @@ def parse_color_definition(color, calling_control=None):
             if 0 <= color <= 127:
                 return RgbColor(color)
         elif type(color) is str:
+            if '${' in color:
+                from .zcx_core import root_cs
+                resolver = root_cs.component_map['ActionResolver']
+                parse = resolver.compile(color, calling_control._vars, calling_control._context)
+                if parse[1] != 0:
+                    raise ConfigurationError(f'Unparseable color definition: {color}')
+                return get_named_color(parse[0], calling_control=calling_control)
             return get_named_color(color, calling_control)
         elif type(color) is dict:
-
             special_color_type = list(color.keys())[0].lower()
             special_color_def = list(color.values())[0]
 
@@ -62,14 +74,23 @@ def parse_color_definition(color, calling_control=None):
                 speed = hardware_colors.translate_speed(speed_def)
 
                 return Pulse(a, b, speed)
-            elif special_color_type.lower() == 'palette':
-                palette_name = special_color_def
-                palette = hardware_colors.palettes.get(palette_name, None)
-                index = calling_control._context['me']['index'] % len(palette)
-                return palette[index]
-
-            elif special_color_type.lower() == 'midi':
             elif special_color_type == 'palette':
+                split = special_color_def.split()
+                if len(split) == 1:
+                    palette_name = split[0]
+                    palette = hardware_colors.palettes.get(palette_name, None)
+                    index = (calling_control._context['me']['index']) % len(palette)
+                    return palette[index]
+                else:
+                    if len(split) == 2:
+                        try:
+                            palette_name = split[0]
+                            palette = hardware_colors.palettes.get(palette_name, None)
+                            i = int(split[1])
+                            index = (calling_control._context['me']['index'] + i) % len(palette)
+                            return palette[index]
+                        except ValueError:
+                            raise ConfigurationError(f'Invalid config `{color}`')
             elif special_color_type == 'midi':
                 return parse_color_definition(color['midi'])
             elif special_color_type == 'live':
