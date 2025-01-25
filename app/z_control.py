@@ -210,6 +210,8 @@ class ZControl(EventObject):
     def request_color_update(self):
         if self._color is not None:
             self._control_element.set_light(self._color)
+        else:
+            self.log(f'cant update color, it is None')
 
     def set_color(self, color):
         try:
