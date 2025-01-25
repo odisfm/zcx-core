@@ -135,6 +135,7 @@ class ActionResolver(Component):
         mode: str='build',
     ) -> Tuple[str, int]:
         """Compile an action string, resolving variables and template patterns."""
+        # self.log(action_string, vars, context, mode)
         if not isinstance(action_string, str) or ("@{" not in action_string and "${" not in action_string):
             return action_string, 0
 
@@ -158,7 +159,7 @@ class ActionResolver(Component):
             last_end = match.end()
 
         result += action_string[last_end:]
-
+        # self.log(result)
         return result, 0
 
     def parse_command_bundle(self, command_bundle: Any) -> list:
