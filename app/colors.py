@@ -40,10 +40,10 @@ def parse_color_definition(color, calling_control=None):
             return get_named_color(color, calling_control)
         elif type(color) is dict:
 
-            special_color_type = list(color.keys())[0]
+            special_color_type = list(color.keys())[0].lower()
             special_color_def = list(color.values())[0]
 
-            if special_color_type.lower() == 'blink':
+            if special_color_type == 'blink':
                 a_def = special_color_def['a']
                 b_def = special_color_def['b']
                 speed_def = special_color_def.get('speed', 1)
@@ -53,7 +53,7 @@ def parse_color_definition(color, calling_control=None):
 
                 return Blink(a, b, speed)
 
-            elif special_color_type.lower() == 'pulse':
+            elif special_color_type == 'pulse':
                 a_def = special_color_def['a']
                 b_def = special_color_def['b']
                 speed_def = special_color_def.get('speed', 1)
@@ -69,8 +69,10 @@ def parse_color_definition(color, calling_control=None):
                 return palette[index]
 
             elif special_color_type.lower() == 'midi':
+            elif special_color_type == 'palette':
+            elif special_color_type == 'midi':
                 return parse_color_definition(color['midi'])
-            elif special_color_type.lower() == 'live':
+            elif special_color_type == 'live':
                 # todo: needs Live/controller tranlsation
                 pass
 
