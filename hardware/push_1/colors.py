@@ -199,16 +199,10 @@ palette_ocean_reverse.reverse()
 
 palette_rainbow = [
     RgbColor(5),
-    RgbColor(6),
     RgbColor(9),
-    RgbColor(127),
     RgbColor(13),
-    RgbColor(14),
     RgbColor(17),
-    RgbColor(25),
     RgbColor(37),
-    RgbColor(45),
-    RgbColor(41),
     RgbColor(49),
     RgbColor(52),
 ]
