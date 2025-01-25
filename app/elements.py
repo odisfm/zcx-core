@@ -66,9 +66,12 @@ class Elements(ElementsBase):
         )
         channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
 
-        identifiers = create_matrix_identifiers(
-            id_start, id_end + 1, width, flip_rows=True
-        )
+
+        identifiers = matrix_config.get('raw_identifiers')
+        if identifiers is None:
+            identifiers = create_matrix_identifiers(
+                id_start, id_end + 1, width, flip_rows=True
+            )
 
         self.add_matrix(
             identifiers=identifiers,
