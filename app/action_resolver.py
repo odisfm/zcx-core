@@ -132,7 +132,7 @@ class ActionResolver(Component):
         action_string: str,
         vars: Dict[str, str],
         context: Dict[str, Any],
-        mode: str='build',
+        mode: str='live',
     ) -> Tuple[str, int]:
         """Compile an action string, resolving variables and template patterns."""
         # self.log(action_string, vars, context, mode)
