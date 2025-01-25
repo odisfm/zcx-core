@@ -7,7 +7,7 @@ from ableton.v2.base.task import TimerTask
 
 from .colors import parse_color_definition, simplify_color, Pulse, Blink, RgbColor
 from .defaults import BUILT_IN_COLORS
-from .consts import SUPPORTED_GESTURES
+from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
 from .z_element import ZElement
 from .template_manager import TemplateManager
 from .errors import ConfigurationError
@@ -55,8 +55,11 @@ class ZControl(EventObject):
         self.modes_changed.subject = self._mode_manager
         self._is_animating = False
         self._suppress_animations = False
+        self._animate_on_release = False
+        self._current_animation_task = None
         self._current_mode_string = ''
         self._allow_multiple_triggers = False
+        self._last_received_value = 0
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._resolve_command_bundle = partial(
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
@@ -70,9 +73,9 @@ class ZControl(EventObject):
             config.get('group_context', {}),
         ])
         color = config.get('color', 127)
-        self.set_color(color)
         self.set_gesture_dict(config.get('gestures', {}))
         self.set_vars(config.get('vars', {}))
+        self.set_color(color)
 
     def log(self, *msg):
         for msg in msg:
@@ -97,12 +100,19 @@ class ZControl(EventObject):
         processed_dict = {}
         all_modes = []
 
+        has_off_gestures = False
+        has_on_gestures = False
+
         for trigger, definition in gesture_config.items():
             split = trigger.split('__')
             gesture = split[0]
             if gesture not in SUPPORTED_GESTURES:
                 # todo: replace with ConfigError
                 raise ValueError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
+            if gesture in OFF_GESTURES:
+                has_off_gestures = True
+            elif gesture in OFF_GESTURES:
+                has_on_gestures = True
             modes = split[1:] if len(split) > 1 else []
             modes.sort()
             for mode in modes:
@@ -113,6 +123,9 @@ class ZControl(EventObject):
 
             new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
             processed_dict[new_key] = definition
+
+        if has_off_gestures and not has_on_gestures:
+            self._animate_on_release = True
 
         all_modes.sort()
         self._concerned_modes = all_modes
@@ -178,7 +191,8 @@ class ZControl(EventObject):
                 context=self._context
             )
 
-        self.animate_success()
+        if gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release):
+            self.animate_success()
 
     @listens('in_view')
     def in_view_listener(self):
@@ -209,8 +223,8 @@ class ZControl(EventObject):
 
         if self._feedback_type == 'rgb':
             attention_color = Pulse(simplified_color, white, 48)
-            animate_success = Pulse(simplified_color, play_green, 48)
-            animate_failure = Blink(simplified_color, red, 48)
+            animate_success = Blink(simplified_color, play_green, 12)
+            animate_failure = Blink(simplified_color, red, 4)
         elif self._feedback_type == 'basic':
             attention_color = base_color
             animate_success = Blink(simplified_color, off, 48)
@@ -270,15 +284,30 @@ class ZControl(EventObject):
         self.request_color_update()
         self.task_group.add(timer)
 
+    @only_in_view
+    def animate_failure(self, duration=0.7):
+        if self._suppress_animations:
+            return
+        self._is_animating = True
+        timer = AnimationTimer(self, duration)
+        self._color = self._color_dict['failure']
+        self.request_color_update()
+        self.task_group.add(timer)
+
 
 class AnimationTimer(TimerTask):
 
     def __init__(self, owner, duration, **k):
         super().__init__(duration, **k)
         self.owner: ZControl = owner
+        old_task = self.owner._current_animation_task
+        if old_task is not None:
+            old_task.kill()
+            self.owner._current_animation_task = self
         self.restart()
 
     def on_finish(self):
         self.owner._is_animating = False
         self.owner._color = self.owner._color_dict['base']
         self.owner.request_color_update()
+        self.owner.current_animation_task = None

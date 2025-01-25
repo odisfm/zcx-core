@@ -4,6 +4,18 @@ REQUIRED_HARDWARE_SPECS = ["cc_buttons", "note_buttons", "encoders"]
 
 CXP_NAME = 'ClyphX_Pro'
 
+ON_GESTURES = [
+    'pressed',
+    'pressed_delayed',
+    'double_clicked'
+]
+
+OFF_GESTURES = [
+    'released',
+    'released_delayed',
+    'released_immediately',
+]
+
 SUPPORTED_GESTURES = [
     'pressed',
     'pressed_delayed',
@@ -16,3 +28,5 @@ SUPPORTED_GESTURES = [
 TEMPLATE_IDENTIFIER = '@'
 
 LIVE_TEMPLATE_IDENTIFIER = '$'
+
+DEFAULT_ON_THRESHOLD = 30
