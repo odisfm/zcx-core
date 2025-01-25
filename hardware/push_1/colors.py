@@ -55,6 +55,7 @@ class BasicColorSwatch:
     PAGE_ACTIVE = FULL
     PAGE_INACTIVE = HALF
     PAGE_DISABLED = OFF
+    ERROR = HALF_BLINK_FAST
 
     def __init__(self):
         pass
@@ -88,6 +89,7 @@ class BiledColorSwatch:
     PAGE_ACTIVE = AMBER
     PAGE_INACTIVE = RED_HALF
     PAGE_DISABLED = OFF
+    ERROR = RED_BLINK_FAST
 
     def __init__(self):
         pass
@@ -142,6 +144,7 @@ class RgbColorSwatch(object):
     PAGE_ACTIVE = AMBER
     PAGE_INACTIVE = GREY
     PAGE_DISABLED = DARK_GREY
+    ERROR = Blink(RED, OFF, 6)
 
     def __init__(self):
         pass
