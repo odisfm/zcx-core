@@ -6,6 +6,8 @@ from ableton.v3.control_surface import (
 
 from .template_manager import TemplateManager
 
+root_cs = None
+
 
 class ZCXCore(ControlSurface):
 
@@ -40,6 +42,8 @@ class ZCXCore(ControlSurface):
 
     def post_init(self):
         try:
+            global root_cs
+            root_cs = self
             self.component_map['HardwareInterface'].setup()
             self.component_map['ModeManager'].setup()
             self.component_map['ZManager'].setup()
