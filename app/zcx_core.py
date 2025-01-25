@@ -44,10 +44,18 @@ class ZCXCore(ControlSurface):
         try:
             global root_cs
             root_cs = self
+            self.log(f'starting HardwareInterface setup')
             self.component_map['HardwareInterface'].setup()
+            self.log(f'finished HardwareInterface setup')
+            self.log(f'starting ModeManager setup')
             self.component_map['ModeManager'].setup()
+            self.log(f'finished ModeManager setup')
+            self.log(f'starting ZManager setup')
             self.component_map['ZManager'].setup()
+            self.log(f'finished ZManager setup')
+            self.log(f'starting PageManager setup')
             self.component_map['PageManager'].setup()
+            self.log(f'finished PageManager setup')
         except Exception as e:
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()
