@@ -159,6 +159,10 @@ class ZControl(EventObject):
 
     @only_in_view
     def handle_gesture(self, gesture):
+        val = self._control_element._last_received_value
+        self._last_received_value = val
+        if 'pressed' in gesture and val < DEFAULT_ON_THRESHOLD: # todo: implement configurable threshold
+            return
         lookup_key = gesture + self._current_mode_string
         matching_actions = []
 
