@@ -45,11 +45,16 @@ class HardwareInterface(Component):
             control.set_light(9)
 
     def refresh_all_lights(self):
+        count = 0
         for state_name in self.named_button_states.keys():
             element = getattr(self, state_name)
             element.request_color_update()
+            count += 1
         for state in self.button_matrix_state:
             state.request_color_update()
+            count += 1
+
+        self.log(f'refreshed {count} lights')
 
     def setup(self):
         self.__button_matrix_element = self.canonical_parent.elements.button_matrix
