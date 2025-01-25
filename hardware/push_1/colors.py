@@ -99,48 +99,50 @@ class BiledColorSwatch:
         return cls.FULL
 
 class RgbColorSwatch(object):
-    OFF = Rgb.BLACK
-    ON = Rgb.YELLOW
-    BLACK = RgbColor(0)
+    PLAY_GREEN = RgbColor(21)
+
+    RED = RgbColor(5)
+    ORANGE = RgbColor(9)
+    AMBER = ORANGE  # alias
+    YELLOW = RgbColor(13)
+    GREEN = RgbColor(75)
+    LIME = RgbColor(17)
+    BLUE = RgbColor(45)
+    SKY = RgbColor(37)
+    CYAN = RgbColor(33)
+    PURPLE = RgbColor(49)
+    ORCHID = PURPLE
+    MAGENTA = RgbColor(53)
+    INDIGO = RgbColor(50)
+    PINK = RgbColor(57)
+
     DARK_GREY = RgbColor(1)
     GREY = RgbColor(2)
     WHITE = RgbColor(3)
-    RED = RgbColor(5)
-    AMBER = RgbColor(9)
-    YELLOW = RgbColor(13)
-    LIME = RgbColor(17)
-    GREEN = RgbColor(75)
-    SPRING = RgbColor(25)
-    TURQUOISE = RgbColor(29)
-    CYAN = RgbColor(33)
-    SKY = RgbColor(37)
-    OCEAN = RgbColor(41)
-    BLUE = RgbColor(45)
-    ORCHID = RgbColor(49)
-    MAGENTA = RgbColor(53)
-    PINK = RgbColor(57)
-    PLAY_GREEN = RgbColor(21)
+
+    OFF = RgbColor(0)
+    ON = PURPLE
+    BLACK = OFF
+
     GREEN_HALF = GREEN.shade(1)
     GREEN_BLINK_SLOW = Blink(GREEN, OFF, 48)
     GREEN_BLINK_FAST = Blink(GREEN, OFF, 12)
-    # RED = RED
     RED_HALF = RED.shade(1)
     RED_BLINK_SLOW = Blink(RED, OFF, 48)
     RED_BLINK_FAST = Blink(RED.shade(1), OFF, 12)
-    # YELLOW = YELLOW
     YELLOW_HALF = Blink(YELLOW.shade(1))
     YELLOW_BLINK_SLOW = Blink(YELLOW, OFF, 48)
     YELLOW_BLINK_FAST = Blink(YELLOW, OFF, 12)
-    # AMBER = AMBER
     AMBER_HALF = AMBER.shade(1)
     AMBER_BLINK_SLOW = Blink(AMBER, OFF, 48)
     AMBER_BLINK_FAST = Blink(AMBER, OFF, 12)
-    HALF = Color(4)
+    HALF = ON.shade(1)
     HALF_BLINK_SLOW = RED_BLINK_SLOW
     HALF_BLINK_FAST = RED_BLINK_FAST
-    FULL = Color(127)
+    FULL = ON
     FULL_BLINK_SLOW = GREEN_BLINK_SLOW
     FULL_BLINK_FAST = GREEN_BLINK_FAST
+
     PAGE_ACTIVE = AMBER
     PAGE_INACTIVE = GREY
     PAGE_DISABLED = DARK_GREY
