@@ -41,7 +41,7 @@ class ZControl(EventObject):
         self._in_view = False
         self.in_view_listener.subject = self.parent_section
         self._raw_config = raw_config
-        self._control_element: Optional[ZElement] = None
+        self._control_element: ZElement = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
         self._color_swatch = None
