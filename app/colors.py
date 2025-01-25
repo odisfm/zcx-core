@@ -23,12 +23,21 @@ class ColorSwatches:
 
 def get_named_color(name, calling_control=None):
     if 'shade' in name.lower():
+        if '${' in name:
+            from .zcx_core import root_cs
+            resolver = root_cs.component_map['ActionResolver']
+            parse = resolver.compile(name, calling_control._vars, calling_control._context)
+            if parse[1] != 0:
+                raise ConfigurationError(f'Unparseable color definition: {parse[0]}')
+            name = parse[0]
         split = name.split()
         if len(split) == 2:
             factor = 1
         elif len(split) == 3:
             factor = int(split[2])
-        return getattr(hardware_colors.Rgb, split[0].upper()).shade(factor)
+        else:
+            raise ConfigurationError(f'Invalid color def: {name}')
+        return getattr(hardware_colors.RgbColorSwatch, split[0].upper()).shade(factor)
 
     name = name.upper()
     if calling_control is not None:
