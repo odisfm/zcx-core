@@ -1,0 +1,296 @@
+arm_1:
+  note: 48
+  channel: 0
+
+arm_2:
+  note: 48
+  channel: 1
+
+arm_3:
+  note: 48
+  channel: 2
+
+arm_4:
+  note: 48
+  channel: 3
+
+arm_5:
+  note: 48
+  channel: 4
+
+arm_6:
+  note: 48
+  channel: 5
+
+arm_7:
+  note: 48
+  channel: 6
+
+arm_8:
+  note: 48
+  channel: 7
+
+solo_1:
+  note: 49
+  channel: 0
+
+solo_2:
+  note: 49
+  channel: 1
+
+solo_3:
+  note: 49
+  channel: 2
+
+solo_4:
+  note: 49
+  channel: 3
+
+solo_5:
+  note: 49
+  channel: 4
+
+solo_6:
+  note: 49
+  channel: 5
+
+solo_7:
+  note: 49
+  channel: 6
+
+solo_8:
+  note: 49
+  channel: 7
+
+activator_1:
+  note: 50
+  channel: 0
+
+activator_2:
+  note: 50
+  channel: 1
+
+activator_3:
+  note: 50
+  channel: 2
+
+activator_4:
+  note: 50
+  channel: 3
+
+activator_5:
+  note: 50
+  channel: 4
+
+activator_6:
+  note: 50
+  channel: 5
+
+activator_7:
+  note: 50
+  channel: 6
+
+activator_8:
+  note: 50
+  channel: 7
+
+track_select_1:
+  note: 51
+  channel: 0
+
+track_select_2:
+  note: 51
+  channel: 1
+
+track_select_3:
+  note: 51
+  channel: 2
+
+track_select_4:
+  note: 51
+  channel: 3
+
+track_select_5:
+  note: 51
+  channel: 4
+
+track_select_6:
+  note: 51
+  channel: 5
+
+track_select_7:
+  note: 51
+  channel: 6
+
+track_select_8:
+  note: 51
+  channel: 7
+
+track_stop_1:
+  note: 52
+  channel: 0
+
+track_stop_2:
+  note: 52
+  channel: 1
+
+track_stop_3:
+  note: 52
+  channel: 2
+
+track_stop_4:
+  note: 52
+  channel: 3
+
+track_stop_5:
+  note: 52
+  channel: 4
+
+track_stop_6:
+  note: 52
+  channel: 5
+
+track_stop_7:
+  note: 52
+  channel: 6
+
+track_stop_8:
+  note: 52
+  channel: 7
+
+device_left:
+  note: 58
+
+device_right:
+  note: 59
+
+bank_left:
+  note: 60
+
+bank_right:
+  note: 61
+
+dev_on:
+  note: 62
+
+device_lock:
+  note: 63
+
+clip_view:
+  note: 64
+
+detail_view:
+  note: 65
+
+cross_1:
+ note: 66
+ channel: 0
+
+cross_2:
+ note: 66
+ channel: 1
+
+cross_3:
+ note: 66
+ channel: 2
+
+cross_4:
+ note: 66
+ channel: 3
+
+cross_5:
+ note: 66
+ channel: 4
+
+cross_6:
+ note: 66
+ channel: 5
+
+cross_7:
+ note: 66
+ channel: 6
+
+cross_8:
+ note: 66
+ channel: 7
+
+master:
+  note: 80
+
+stop_all:
+  note: 81
+  feedback: false
+
+scene_1:
+  note: 82
+  feedback: rgb
+
+scene_2:
+  note: 83
+  feedback: rgb
+
+scene_3:
+  note: 84
+  feedback: rgb
+
+scene_4:
+  note: 85
+  feedback: rgb
+
+scene_5:
+  note: 86
+  feedback: rgb
+
+pan:
+  note: 87
+
+sends:
+  note: 88
+
+user:
+  note: 89
+
+metronome:
+  note: 90
+
+play:
+  note: 91
+
+record:
+  note: 93
+
+dpad_up:
+  note: 94
+  feedback: false
+
+dpad_down:
+  note: 95
+  feedback: false
+
+dpad_left:
+  note: 96
+  feedback: false
+
+dpad_right:
+  note: 97
+  feedback: false
+
+shift:
+  note: 98
+  feedback: false
+
+tap_tempo:
+  note: 99
+  feedback: false
+
+nudge_down:
+  note: 100
+  feedback: false
+
+nudge_up:
+  note: 101
+  feedback: false
+
+session_record:
+  note: 102
+  feedback: false
