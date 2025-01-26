@@ -1,0 +1,13 @@
+pages:
+  main:
+    - big_colors
+  test_page:
+    - actions_top_left
+    - actions_bottom_right
+    - actions_bottom_left
+    - actions_top_right
+  track_page:
+    - actions_top_left
+    - mega_launcher
+    - track_half
+

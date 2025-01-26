@@ -1,0 +1,7 @@
+__global__:
+  color: 127
+
+big_colors_demo:
+  gestures:
+    pressed: >
+      msg "I am button #${me.Index}"

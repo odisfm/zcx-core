@@ -1,0 +1,100 @@
+- pad_group:
+  color: red shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group:
+  color: orange shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group:
+  color: yellow shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    -
+    - gestures:
+        pressed__shift: up
+    -
+    -
+    -
+    -
+    -
+- pad_group:
+  color: green shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    - gestures:
+        pressed__shift: left
+    -
+    - gestures:
+        pressed__shift: right
+    -
+    -
+    -
+    -
+- pad_group:
+  color: sky shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    -
+    - gestures:
+        pressed__shift: down
+    -
+    -
+    -
+    -
+    -
+- pad_group:
+  color: blue shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    - 
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group:
+  color: indigo shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group:
+  color: magenta shade ${me.index % 3}
+  template: big_colors_demo
+  pads:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -

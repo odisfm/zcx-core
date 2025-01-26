@@ -1,0 +1,136 @@
+select:
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+play:
+  color: green
+  gestures:
+    pressed: SETPLAY
+
+record:
+  color: red
+  gestures:
+    pressed: SRECFIX 8
+
+
+__state_row:
+  # the bottom row
+  includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
+  type: page
+  page: ${me.index}
+  active_color:
+    palette: rainbow
+  inactive_color: white
+  gestures:
+    pressed:
+      page: ${me.index}
+      cxp: >
+        msg "Changed to page ${me.Index}"
+
+__select_row:
+  # the top row
+  includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
+  color:
+    palette: nebula
+  gestures:
+    pressed: ${me.Index} / SEL
+    pressed_delayed: ${me.Index} / ARM
+    double_clicked: ${me.Index} / PLAY 1
+
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color: cyan shade ${me.index % 4}
+  gestures:
+    pressed: SCENE ${me.Index}
+    pressed__shift: SCENE ${me.Index + 8}
+    pressed__select: SCENE SEL ${me.Index}
+    pressed__shift__select: SCENE SEL ${me.Index + 8}
+
+__dpad:
+  includes: [dpad_left, dpad_right, dpad_up, dpad_down]
+  color: 127
+  buttons:
+    dpad_left:
+      gestures:
+        pressed: LEFT
+    dpad_right:
+      gestures:
+        pressed: RIGHT
+    dpad_up:
+      gestures:
+        pressed: UP
+    dpad_down:
+      gestures:
+        pressed: DOWN
+
+device:
+  color: white
+  gestures:
+    pressed:
+      msg: >
+        press me while holding shift to force a refresh of all lights
+    pressed__shift:
+      refresh: true
+
+session:
+  gestures:
+    pressed:
+      mode_on: aardvark
+    released:
+      mode_off: aardvark
+
+touchstrip:
+  gestures:
+    pressed:
+      page: 0
+    released:
+      page: last
+
+page_prev:
+  gestures:
+    pressed:
+      page: prev
+
+page_next:
+  color: red
+  gestures:
+    pressed:
+      page: next
+
+metronome:
+  gestures:
+    pressed: metro
+
+undo:
+  gestures:
+    pressed: undo
+    pressed__shift: redo
+
+mute:
+  color: red
+  gestures:
+    pressed: MUTE
+
+solo:
+  color: sky
+  gestures:
+    pressed: SOLO
+
+stop_clip:
+  color: orange
+  gestures:
+    pressed: SEL / STOP
+
+master:
+  gestures:
+    pressed: MST / SEL
