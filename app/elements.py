@@ -82,6 +82,8 @@ class Elements(ElementsBase):
         )
 
         feedback = matrix_config.get("feedback")
+        if feedback in ['none', 'false', False, None]:
+            feedback = 'basic'
         color_swatch = getattr(ColorSwatches, feedback)
 
         for element in self.button_matrix.nested_control_elements():
@@ -104,6 +106,8 @@ class Elements(ElementsBase):
             channel = button_def.get("channel", global_channel)
             momentary = button_def.get("momentary", global_momentary)
             feedback = button_def.get("feedback", global_feedback)
+            if feedback in ['none', 'false', False, None]:
+                feedback = 'basic'
 
             element = self.element_factory(
                 identifier=cc_number,
@@ -132,6 +136,8 @@ class Elements(ElementsBase):
             channel = button_def.get("channel", global_channel)
             momentary = button_def.get("momentary", global_momentary)
             feedback = button_def.get("feedback", global_feedback)
+            if feedback in ['none', 'false', False, None]:
+                feedback = 'basic'
 
             element = self.element_factory(
                 identifier=note_number,
