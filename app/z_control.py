@@ -188,6 +188,9 @@ class ZControl(EventObject):
                     if not self._allow_multiple_triggers:
                         break
 
+        if len(matching_actions) == 0:
+            return
+
         for command in matching_actions:
             self._resolve_command_bundle(
                 bundle=command,
