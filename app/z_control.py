@@ -55,6 +55,7 @@ class ZControl(EventObject):
         self.modes_changed.subject = self._mode_manager
         self._is_animating = False
         self._suppress_animations = False
+        self._suppress_attention_animations = False
         self._animate_on_release = False
         self._current_animation_task = None
         self._current_mode_string = ''
@@ -274,12 +275,12 @@ class ZControl(EventObject):
         active_concerned_modes = [mode for mode in self._concerned_modes if mode_states.get(mode, False)]
         if not active_concerned_modes:
             self._current_mode_string = ""
-            if not self._suppress_animations:
+            if (not self._suppress_animations) and (self._suppress_attention_animations is False):
                 self._color = self._color_dict['base']
                 self.request_color_update()
         else:
             self._current_mode_string = "__" + "__".join(active_concerned_modes)
-            if not self._suppress_animations:
+            if (not self._suppress_animations) and (self._suppress_attention_animations is False):
                 self._color = self._color_dict['attention']
                 self.request_color_update()
 
