@@ -54,7 +54,7 @@ select_8:
 master:
   cc: 28
 
-stop:
+stop_clip:
   cc: 29
   feedback: rgb
 
@@ -221,3 +221,12 @@ delete:
 
 undo:
   cc: 119
+
+# these two seem to crash the script when included. A defensive measure by Ableton?
+
+#user:
+#  cc: 59
+
+#setup:
+#  cc: 30
+
