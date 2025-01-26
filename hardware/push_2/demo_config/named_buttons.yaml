@@ -28,9 +28,9 @@ __state_row:
   includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
   type: page
   page: ${me.index}
-  active_color:
+  active_color: white
+  inactive_color:
     palette: rainbow
-  inactive_color: white
   gestures:
     pressed:
       page: ${me.index}
@@ -127,9 +127,10 @@ solo:
     pressed: SOLO
 
 stop_clip:
-  color: orange
+  color: pink
   gestures:
     pressed: SEL / STOP
+    pressed__shift: STOPALL
 
 master:
   gestures:
