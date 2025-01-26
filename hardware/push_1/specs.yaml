@@ -3,7 +3,6 @@ hardware_name: Ableton Push 1
 global_midi_channel: 0
 
 button_matrix:
-  name: pad_matrix
   msg_type: note
   id_start: 36
   id_end: 99
@@ -25,10 +24,3 @@ note_buttons:
 encoders:
   key: value
   sensitivity: 1.0
-
-pitchbend:
-# key: value
-
-special_elements:
-  display:
-    plugin: push_1_display
