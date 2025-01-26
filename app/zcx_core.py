@@ -3,6 +3,7 @@ import logging
 from ableton.v3.control_surface import (
     ControlSurface
 )
+from ableton.v2.base.task import TimerTask
 
 from .template_manager import TemplateManager
 
@@ -62,3 +63,25 @@ class ZCXCore(ControlSurface):
 
     def port_settings_changed(self):
         super().refresh_state()
+
+    def receive_midi_chunk(self, midi_chunk):
+        super().receive_midi_chunk(midi_chunk)
+        if midi_chunk[0][0] == 240:
+            self.log(f'received sysex chunk {midi_chunk}')
+            refresh_task = RefreshLightsTask(self)
+            self._task_group.add(refresh_task)
+            self.refresh_all_lights()
+
+    def refresh_all_lights(self):
+        self.component_map['HardwareInterface'].refresh_all_lights()
+
+
+class RefreshLightsTask(TimerTask):
+
+    def __init__(self, owner, **k):
+        super().__init__(duration=2, **k)
+        self._owner = owner
+        self.restart()
+
+    def on_finish(self):
+        self._owner.refresh_all_lights()
