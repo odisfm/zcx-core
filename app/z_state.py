@@ -25,4 +25,7 @@ class ZState(ButtonControl):
 
         def request_color_update(self):
             for z_control in self.__registered_z_controls:
-                z_control.request_color_update()
+                if z_control._in_view:
+                    color = z_control._color
+                    self._control_element._force_next_send = True
+                    self._control_element._do_draw(color)
