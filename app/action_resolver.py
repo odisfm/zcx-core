@@ -50,7 +50,7 @@ class ActionResolver(Component):
         super(ActionResolver, self).__init__(name, *a, **k)
         from . import ROOT_LOGGER
         self.__logger = ROOT_LOGGER.getChild(name)
-        self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)(?<!\\)}")
+        self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)}")
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
