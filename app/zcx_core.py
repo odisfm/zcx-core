@@ -63,14 +63,20 @@ class ZCXCore(ControlSurface):
 
     def port_settings_changed(self):
         super().refresh_state()
+        self.refresh_required()
+
+    def refresh_required(self):
+        self.log('doing refresh of all lights')
+        refresh_task = RefreshLightsTask(self)
+        self._task_group.add(refresh_task)
+        self.refresh_all_lights()
+        self.log('done refresh of all lights')
 
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
+        # todo: fix
         if midi_chunk[0][0] == 240:
-            self.log(f'received sysex chunk {midi_chunk}')
-            refresh_task = RefreshLightsTask(self)
-            self._task_group.add(refresh_task)
-            self.refresh_all_lights()
+            self.refresh_required()
 
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
