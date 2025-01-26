@@ -16,6 +16,7 @@ class PageControl(ZControl):
         self._active_color = None
         self._inactive_color = None
         self._disabled_color = None
+        self._suppress_attention_animations = True
 
     def handle_gesture(self, gesture):
         try:
