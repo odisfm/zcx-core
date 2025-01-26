@@ -98,11 +98,15 @@ class SyncManager:
             # Sync hardware config
             self.sync_directory(self.hardware_root, self.dest_root / "hardware")
 
-            # Sync config and preferences
-            for dir_name in ["config", "preferences"]:
-                src = self.project_root / dir_name
-                if src.exists():
-                    self.sync_directory(src, self.dest_root / f"_{dir_name}")
+            # Sync config from hardware-specific demo_config
+            demo_config_path = self.hardware_root / "demo_config"
+            if demo_config_path.exists():
+                self.sync_directory(demo_config_path, self.dest_root / "_config")
+
+            # Sync preferences
+            preferences_path = self.project_root / "preferences"
+            if preferences_path.exists():
+                self.sync_directory(preferences_path, self.dest_root / "_preferences")
 
             logging.info("Sync completed successfully")
 
@@ -170,7 +174,7 @@ def main():
     dirs_to_watch = [
         syncer.src_root,
         syncer.hardware_root,
-        syncer.project_root / "config",
+        syncer.hardware_root / "demo_config",
         syncer.project_root / "preferences",
     ]
 
