@@ -1,0 +1,26 @@
+hardware_name: APC 40 mk2
+
+global_midi_channel: 0
+
+button_matrix:
+  name: pad_matrix
+  msg_type: note
+  id_start: 0
+  id_end: 39
+  feedback: rgb
+  momentary: true
+  width: 8
+  playable: false
+
+cc_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+note_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+encoders:
+  sensitivity: 1.0
