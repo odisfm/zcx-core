@@ -1,0 +1,154 @@
+play:
+  color: 127
+  gestures:
+    pressed: SETPLAY
+    pressed_delayed:
+
+record:
+  gestures:
+    pressed: SRECFIX 8
+
+__state_row:
+  # the bottom row
+  includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
+  type: page
+  page: ${me.index}
+  active_color:
+    palette: rainbow
+  inactive_color: white
+  gestures:
+    pressed:
+      page: ${me.index}
+
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  gestures:
+    pressed: SCENE ${me.Index}
+    pressed__shift: SCENE ${me.Index + 8}
+  buttons:
+    scene_1:
+      color: red
+    scene_2:
+      color: red
+    scene_3:
+      color: amber
+    scene_4:
+      color: amber
+    scene_5:
+      color: yellow
+    scene_6:
+      color: yellow
+    scene_7:
+      color: green
+    scene_8:
+      color: green
+
+__dpad:
+  includes: [dpad_left, dpad_right, dpad_up, dpad_down]
+  color: 127
+  buttons:
+    dpad_left:
+      gestures:
+        pressed: LEFT
+    dpad_right:
+      gestures:
+        pressed: RIGHT
+    dpad_up:
+      gestures:
+        pressed: UP
+    dpad_down:
+      gestures:
+        pressed: DOWN
+
+device:
+  color: 1
+  gestures:
+    pressed: PUSH MODE DEVICE
+
+note:
+  color: 127
+  gestures:
+    pressed: SHOWCLIP
+
+session:
+  gestures:
+    pressed: SHOWDEV
+
+select:
+  color: 127
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+shift:
+  color: 127
+  gestures:
+    pressed:
+      mode_on: shift
+      msg: shifting!
+    released:
+      mode_off: shift
+      msg: unshifting!
+
+in:
+  color: 127
+  gestures:
+    pressed:
+      page: next
+
+out:
+  color: 127
+  gestures:
+    pressed:
+      page: prev
+
+__page_section:
+  includes: [volume, track, device, pan_send, clip, browse]
+  type: page
+  page: ${me.index}
+  gestures:
+    pressed:
+      page: ${me.index}
+    released_delayed:
+      page: last
+
+touchstrip:
+  gestures:
+    pressed:
+      page: 0
+    released:
+      page: last
+
+undo:
+  gestures:
+    pressed: UNDO
+
+master:
+  gestures:
+    pressed: MST / SEL
+
+stop:
+  gestures:
+    pressed: SEL / STOP
+
+mute:
+  gestures:
+    pressed: MUTE
+
+solo:
+  gestures:
+    pressed: SOLO
+
+metronome:
+  gestures:
+    pressed: METRO
+
+new:
+  gestures:
+    pressed: ADDSCENE
+
+duplicate:
+  gestures:
+    pressed: SCENEDUPE
