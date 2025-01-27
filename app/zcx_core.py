@@ -66,11 +66,8 @@ class ZCXCore(ControlSurface):
         self.refresh_required()
 
     def refresh_required(self):
-        self.log('doing refresh of all lights')
         refresh_task = RefreshLightsTask(self)
         self._task_group.add(refresh_task)
-        self.refresh_all_lights()
-        self.log('done refresh of all lights')
 
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
