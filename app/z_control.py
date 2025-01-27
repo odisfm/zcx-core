@@ -62,6 +62,7 @@ class ZControl(EventObject):
         self._allow_multiple_triggers = False
         self._last_received_value = 0
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
+        self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
             calling_control=self,  # calling_control
@@ -77,6 +78,8 @@ class ZControl(EventObject):
         self.set_gesture_dict(config.get('gestures', {}))
         self.set_vars(config.get('vars', {}))
         self.set_color(color)
+        on_threshold = int(config.get('threshold', DEFAULT_ON_THRESHOLD))
+        self._on_threshold = on_threshold
 
     def log(self, *msg):
         for msg in msg:
@@ -162,7 +165,7 @@ class ZControl(EventObject):
     def handle_gesture(self, gesture):
         val = self._control_element._last_received_value
         self._last_received_value = val
-        if 'pressed' in gesture and val < DEFAULT_ON_THRESHOLD: # todo: implement configurable threshold
+        if 'pressed' in gesture and val < self._on_threshold:
             return
         lookup_key = gesture + self._current_mode_string
         matching_actions = []
