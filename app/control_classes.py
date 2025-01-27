@@ -1,5 +1,6 @@
 from .z_controls import BasicZControl as Basic
 from .z_controls import PageControl as Page
+from .z_controls import ModeControl as Mode
 
 
 def get_subclass(class_name):
@@ -11,5 +12,7 @@ def get_subclass(class_name):
             return Basic
         case "page":
             return Page
+        case "mode":
+            return Mode
         case _:
             return Basic

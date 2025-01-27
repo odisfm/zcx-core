@@ -6,9 +6,10 @@ from ..mode_manager import ModeManager
 
 from .basic_z_control import BasicZControl
 from .page_control import PageControl
+from .mode_control import ModeControl
 
 action_resolver:ActionResolver = Optional[None]
 page_manager:PageManager = Optional[None]
 mode_manager:ModeManager = Optional[None]
 
-__all__ = ["BasicZControl", "PageControl"]
+__all__ = ["BasicZControl", "PageControl", "ModeControl"]
