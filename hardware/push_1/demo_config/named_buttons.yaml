@@ -5,6 +5,8 @@ play:
     pressed_delayed:
 
 record:
+  type: transport
+  transport: record
   gestures:
     pressed: SRECFIX 8
 

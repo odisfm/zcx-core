@@ -13,11 +13,15 @@ shift:
       mode_off: shift
 
 play:
+  type: transport
+  transport: play
   color: green
   gestures:
     pressed: SETPLAY
 
 record:
+  type: transport
+  transport: session_record
   color: red
   gestures:
     pressed: SRECFIX 8
@@ -108,6 +112,8 @@ page_next:
       page: next
 
 metronome:
+  type: transport
+  transport: metronome
   gestures:
     pressed: metro
 
