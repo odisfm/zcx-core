@@ -15,14 +15,12 @@ shift:
 play:
   type: transport
   transport: play
-  color: green
   gestures:
     pressed: SETPLAY
 
 record:
   type: transport
   transport: session_record
-  color: red
   gestures:
     pressed: SRECFIX 8
 
