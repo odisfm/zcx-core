@@ -6,6 +6,7 @@ from ableton.v3.control_surface import (
 from ableton.v2.base.task import TimerTask
 
 from .template_manager import TemplateManager
+from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT, AUTO_SWITCH_MODE
 
 root_cs = None
 
@@ -21,6 +22,15 @@ class ZCXCore(ControlSurface):
             self.template_manager = TemplateManager(self)
             self.component_map["ZManager"].load_control_templates()
             self.post_init()
+            if AUTO_SWITCH_MODE and USER_MODE is not None: # todo: preference to stay in Live mode on init
+                if INIT_DELAY > 0:
+                    delay = INIT_DELAY / 1000
+                    sysex_task = DelayedSysexTask(self, duration=delay, sysex_tuple=USER_MODE)
+                    self._task_group.add(sysex_task)
+                    sysex_task.restart()
+                else:
+                    self._do_send_midi(USER_MODE)
+
             self.log(f'{self.name} loaded :)', level='critical')
 
         except Exception as e:
@@ -89,3 +99,15 @@ class RefreshLightsTask(TimerTask):
 
     def on_finish(self):
         self._owner.refresh_all_lights()
+
+class DelayedSysexTask(TimerTask):
+
+    def __init__(self, owner, duration=2, sysex_tuple=tuple(), **k):
+        super().__init__(duration, **k)
+        self._owner: ZCXCore = owner
+        self.sysex_tuple = sysex_tuple
+        self.restart()
+
+    def on_finish(self):
+        self._owner._do_send_midi(self.sysex_tuple)
+
