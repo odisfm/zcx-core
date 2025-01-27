@@ -88,20 +88,33 @@ def parse_color_definition(color, calling_control=None):
             elif special_color_type == 'palette':
                 split = special_color_def.split()
                 if len(split) == 1:
-                    palette_name = split[0]
-                    palette = hardware_colors.palettes.get(palette_name, None)
-                    index = (calling_control._context['me']['index']) % len(palette)
-                    return palette[index]
+                    index_offset = 0
+                elif len(split) == 2:
+                    index_offset = split[1]
                 else:
-                    if len(split) == 2:
-                        try:
-                            palette_name = split[0]
-                            palette = hardware_colors.palettes.get(palette_name, None)
-                            i = int(split[1])
-                            index = (calling_control._context['me']['index'] + i) % len(palette)
-                            return palette[index]
-                        except ValueError:
-                            raise ConfigurationError(f'Invalid config `{color}`')
+                    raise ConfigurationError(f'Invalid color definition: {special_color_def}') #todo
+                palette_name = split[0]
+
+                context = calling_control._context['me']
+                if 'group_index' in context:
+                    index = context['group_index']
+                    if index is None:
+                        index = context['index']
+                else:
+                    # if this doesn't exist something is seriously wrong
+                    index = context['index']
+
+                palette_list = hardware_colors.palettes.get(palette_name)
+                if palette_list is None:
+                    raise ConfigurationError(f'No palette definition in `zcx/hardware/colors.py` for {palette_name}'
+                                             f'\nThe maintainer may not have included it, or it may be misspelled'
+                                             f'\n{calling_control.parent_section.name}'
+                                             f'\n{calling_control._raw_config}')
+
+                i = (index + index_offset) % len(palette_list)
+
+                return palette_list[i]
+
             elif special_color_type == 'midi':
                 return parse_color_definition(color['midi'])
             elif special_color_type == 'live':
