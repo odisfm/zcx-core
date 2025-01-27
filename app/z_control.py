@@ -202,7 +202,7 @@ class ZControl(EventObject):
                 context=self._context
             )
 
-        if gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release):
+        if (gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
             self.animate_success()
 
     @listens('in_view')
