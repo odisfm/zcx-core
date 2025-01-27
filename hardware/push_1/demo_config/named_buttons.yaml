@@ -1,4 +1,6 @@
 play:
+  type: transport
+  transport: play
   color: 127
   gestures:
     pressed: SETPLAY
@@ -6,7 +8,7 @@ play:
 
 record:
   type: transport
-  transport: record
+  transport: session_record
   gestures:
     pressed: SRECFIX 8
 
