@@ -3,7 +3,6 @@ hardware_name: APC 40 mk2
 global_midi_channel: 0
 
 button_matrix:
-  name: pad_matrix
   msg_type: note
   id_start: 0
   id_end: 39
