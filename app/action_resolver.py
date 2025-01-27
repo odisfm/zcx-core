@@ -10,6 +10,7 @@ from .page_manager import PageManager
 from .mode_manager import ModeManager
 from .cxp_bridge import CxpBridge
 from .hardware_interface import HardwareInterface
+from .hardware.sysex import USER_MODE, LIVE_MODE
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -239,6 +240,14 @@ class ActionResolver(Component):
                                 self.__mode_manager.remove_mode(parsed)
                         case 'refresh':
                             self.__hardware_interface.refresh_all_lights()
+                        case 'hardware_mode':
+                            if command_def == 'user':
+                                bytes = USER_MODE
+                            elif command_def == 'live':
+                                bytes = LIVE_MODE
+                            else:
+                                raise RuntimeError(f'invalid hardware mode: {command_def}')
+                            self.canonical_parent._do_send_midi(bytes)
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
