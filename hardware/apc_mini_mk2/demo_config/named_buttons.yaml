@@ -1,0 +1,73 @@
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+__page_group:
+  includes: [
+    volume, pan, send, device
+  ]
+  type: page
+  page: ${me.Index}
+  gestures:
+    pressed:
+      page: ${me.Index}
+
+up:
+  gestures:
+    pressed: up
+
+down:
+  gestures:
+    pressed: down
+
+left:
+  gestures:
+    pressed: left
+
+right:
+  gestures:
+    pressed: right
+
+scene_1:
+  gestures:
+    pressed: SEL / STOP
+    pressed__shift: SCENE ${me.Index}
+
+scene_2:
+  gestures:
+    pressed: SEL / SOLO
+    pressed__shift: SCENE ${me.Index}
+
+scene_3:
+  gestures:
+    pressed: SEL / MUTE
+    pressed__shift: SCENE ${me.Index}
+
+scene_4:
+  gestures:
+    pressed: SEL / ARM
+    pressed__shift: SCENE ${me.Index}
+
+scene_5:
+  gestures:
+    pressed:
+    pressed__shift: SCENE ${me.Index}
+
+scene_6:
+  gestures:
+    pressed: SHOWCLIP
+    pressed__shift: SCENE ${me.Index}
+
+scene_7:
+  gestures:
+    pressed: SHOWDETAIL
+    pressed__shift: SCENE ${me.Index}
+
+scene_8:
+  gestures:
+    pressed: STOPALL
+    pressed_delayed: STOPALL NQ
+    pressed__shift: SCENE ${me.Index}
