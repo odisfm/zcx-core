@@ -80,6 +80,8 @@ class ZControl(EventObject):
         self.set_color(color)
         on_threshold = int(config.get('threshold', DEFAULT_ON_THRESHOLD))
         self._on_threshold = on_threshold
+        suppress_animations = config.get('suppress_animations', False)
+        self._suppress_animations = suppress_animations
 
     def log(self, *msg):
         for msg in msg:
