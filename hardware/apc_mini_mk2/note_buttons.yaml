@@ -1,0 +1,50 @@
+volume:
+  note: 100
+
+pan:
+  note: 101
+
+send:
+  note: 102
+
+device:
+  note: 103
+
+up:
+  note: 104
+
+down:
+  note: 105
+
+left:
+  note: 106
+
+right:
+  note: 107
+
+scene_1:
+  note: 112
+
+scene_2:
+  note: 113
+
+scene_3:
+  note: 114
+
+scene_4:
+  note: 115
+
+scene_5:
+  note: 116
+
+scene_6:
+  note: 117
+
+scene_7:
+  note: 118
+
+scene_8:
+  note: 119
+
+shift:
+  note: 122
