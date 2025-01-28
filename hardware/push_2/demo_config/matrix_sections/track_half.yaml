@@ -5,28 +5,28 @@
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 2
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 3
 - color: orange
   gestures:
     pressed: SEL / PAN < 10
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 4
 - color: orange shade 1
   gestures:
     pressed: SEL / PAN > 10
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #row 2
 - pad_group:
   color: yellow
@@ -45,28 +45,28 @@
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 2
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 3
 - color: red
   gestures:
     pressed: mute
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 4
 - color: blue
   gestures:
     pressed: solo
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #row 4
 #col 1
 - color: grey
@@ -74,28 +74,28 @@
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 2
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 3
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 4
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #row 5
 - pad_group:
   color:
@@ -118,28 +118,28 @@
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 2
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 3
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 4
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #row 8
 #col 1
 - color: grey
@@ -147,25 +147,25 @@
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 2
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 3
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
 #col 4
 - color: grey
   gestures:
     pressed:
     # pressed_delayed:
     # released_immediately:
-    # double clicked:
+    # double_clicked:
