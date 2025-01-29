@@ -1,9 +1,0 @@
-pages:
-  main:
-    - big_colors
-  two:
-    - actions_left
-    - actions_right
-  three:
-    - actions_left
-    - device_section
