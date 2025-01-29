@@ -92,8 +92,8 @@ class ZCXCore(ControlSurface):
 
 class RefreshLightsTask(TimerTask):
 
-    def __init__(self, owner, **k):
-        super().__init__(duration=2, **k)
+    def __init__(self, owner, duration=1, **k):
+        super().__init__(duration=duration)
         self._owner = owner
         self.restart()
 
@@ -102,8 +102,8 @@ class RefreshLightsTask(TimerTask):
 
 class DelayedSysexTask(TimerTask):
 
-    def __init__(self, owner, duration=2, sysex_tuple=tuple(), **k):
-        super().__init__(duration, **k)
+    def __init__(self, owner, duration=1, sysex_tuple=tuple(), **k):
+        super().__init__(duration=duration)
         self._owner: ZCXCore = owner
         self.sysex_tuple = sysex_tuple
         self.restart()
