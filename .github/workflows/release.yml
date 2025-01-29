@@ -1,0 +1,103 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  get-controllers:
+    runs-on: ubuntu-latest
+    outputs:
+      controllers: ${{ steps.set-controllers.outputs.controllers }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: set-controllers
+        run: |
+          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | jq -R -s -c 'split("\n")[:-1]')
+          echo "controllers=$CONTROLLERS" >> $GITHUB_OUTPUT
+
+  build:
+    needs: get-controllers
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        controller: ${{ fromJson(needs.get-controllers.outputs.controllers) }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Set package name
+        run: echo "PACKAGE_NAME=_zcx_${{ matrix.controller }}" >> $GITHUB_ENV
+
+      - name: Download and prepare PyYAML
+        run: |
+          # Create temporary directory for PyYAML
+          mkdir pyyaml_temp
+          cd pyyaml_temp
+          
+          # Download PyYAML
+          pip download --no-deps PyYAML==6.0.2
+          
+          # Extract the wheel including all components
+          unzip PyYAML*.whl
+          
+          # Move back to workspace
+          cd ..
+          
+          # Create vendor directory in package
+          mkdir -p ${{ env.PACKAGE_NAME }}/vendor
+          
+          # Move all PyYAML components to vendor directory
+          mv pyyaml_temp/yaml ${{ env.PACKAGE_NAME }}/vendor/
+          mv pyyaml_temp/_yaml ${{ env.PACKAGE_NAME }}/vendor/
+          mv pyyaml_temp/PyYAML-6.0.2.dist-info ${{ env.PACKAGE_NAME }}/vendor/
+          
+          # Cleanup
+          rm -rf pyyaml_temp
+
+      - name: Create package directory structure
+        run: |
+          # Copy all files from app/ to root of package
+          cp -r app/* ${{ env.PACKAGE_NAME }}/
+          
+          # Create hardware directory and copy controller-specific files
+          mkdir -p ${{ env.PACKAGE_NAME }}/hardware
+          cp hardware/${{ matrix.controller }}/*.{py,yaml} ${{ env.PACKAGE_NAME }}/hardware/ 2>/dev/null || true
+          
+          # Move demo_config to _config if it exists
+          if [ -d "hardware/${{ matrix.controller }}/demo_config" ]; then
+            mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
+          fi
+
+      - name: Create ZIP archive
+        run: zip -r ${{ env.PACKAGE_NAME }}.zip ${{ env.PACKAGE_NAME }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: ${{ env.PACKAGE_NAME }}.zip
+
+  release:
+    needs: [get-controllers, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "**/*.zip"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
