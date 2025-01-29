@@ -86,7 +86,6 @@ class ZCXCore(ControlSurface):
             self.refresh_required()
 
     def refresh_all_lights(self):
-        # self.component_map['HardwareInterface'].black_out_lights()
         self.component_map['HardwareInterface'].refresh_all_lights()
 
 
