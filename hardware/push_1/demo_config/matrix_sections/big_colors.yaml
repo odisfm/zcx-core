@@ -1,5 +1,5 @@
 - pad_group:
-  color: red shade ${me.index % 3}
+  color: red shade ${me.index % 2}
   template: big_colors_demo
   pads:
     -
@@ -11,7 +11,7 @@
     -
     -
 - pad_group:
-  color: orange shade ${me.index % 3}
+  color: orange shade ${(me.index + 1) % 2}
   template: big_colors_demo
   pads:
     -
@@ -23,7 +23,7 @@
     -
     -
 - pad_group:
-  color: yellow shade ${me.index % 3}
+  color: yellow shade ${me.index % 2}
   template: big_colors_demo
   pads:
     -
@@ -36,7 +36,7 @@
     -
     -
 - pad_group:
-  color: green shade ${me.index % 3}
+  color: green shade ${(me.index + 1) % 2}
   template: big_colors_demo
   pads:
     -
@@ -50,7 +50,7 @@
     -
     -
 - pad_group:
-  color: sky shade ${me.index % 3}
+  color: sky shade ${me.index % 2}
   template: big_colors_demo
   pads:
     -
@@ -63,7 +63,7 @@
     -
     -
 - pad_group:
-  color: blue shade ${me.index % 3}
+  color: blue shade ${(me.index + 1) % 2}
   template: big_colors_demo
   pads:
     -
@@ -75,7 +75,7 @@
     -
     -
 - pad_group:
-  color: indigo shade ${me.index % 3}
+  color: indigo shade ${me.index % 2}
   template: big_colors_demo
   pads:
     -
@@ -87,7 +87,7 @@
     -
     -
 - pad_group:
-  color: magenta shade ${me.index % 3}
+  color: magenta shade ${(me.index + 1) % 2}
   template: big_colors_demo
   pads:
     -

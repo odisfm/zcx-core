@@ -11,6 +11,8 @@ __page_group:
   ]
   type: page
   page: ${me.Index}
+  active_color: 127
+  inactive_color: 0
   gestures:
     pressed:
       page: ${me.Index}
