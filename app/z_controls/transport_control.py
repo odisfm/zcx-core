@@ -58,8 +58,8 @@ class TransportControl(ZControl):
                 self._playing_active_color = parse_color_definition({
                     'blink': {
                         'a': 'white',
-                        'b': 'off',
-                        'speed': 2
+                        'b': 'grey',
+                        'speed': 1
                     }
                 }, self)
                 self._playing_inactive_color = parse_color_definition('white', self)
