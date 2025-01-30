@@ -36,6 +36,7 @@ shift:
       mode_on: shift
     released:
       mode_off: shift
+      
 select:
   gestures:
     pressed:
