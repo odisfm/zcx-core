@@ -13,6 +13,7 @@ zcx-core is currently maintained for these devices, with more planned:
 
 ### [get it here!](https://github.com/odisfm/zcx-core/releases/latest)
 
+### [see the docs](https://github.com/odisfm/zcx-docs/blob/main/docs/zcx-docs.md)
 
 ___
 ## features
