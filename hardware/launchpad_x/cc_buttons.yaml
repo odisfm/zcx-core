@@ -1,0 +1,50 @@
+scene_1:
+  cc: 89
+
+scene_2:
+  cc: 79
+
+scene_3:
+  cc: 69
+
+scene_4:
+  cc: 59
+
+scene_5:
+  cc: 49
+
+scene_6:
+  cc: 39
+
+scene_7:
+  cc: 29
+
+scene_8:
+  cc: 19
+
+nav_up:
+  cc: 91
+
+nav_down:
+  cc: 92
+
+nav_left:
+  cc: 93
+
+nav_right:
+  cc: 94
+
+session:
+  cc: 95
+
+note:
+  cc: 96
+
+custom:
+  cc: 97
+
+capture:
+  cc: 98
+
+novation:
+  cc: 99

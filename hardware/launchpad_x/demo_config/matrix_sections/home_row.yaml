@@ -1,0 +1,87 @@
+#row 1
+#col 1
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 2
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 3
+- type: transport
+  transport: play
+  gestures:
+    pressed: >
+      SETPLAY
+#col 4
+- type: transport
+  transport: metronome
+  gestures:
+    pressed: >
+      METRO
+#col 5
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 6
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 7
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 8
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#row 2
+#col 1
+- color: green
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+#col 2
+- color: orange
+  type: mode
+  mode: select
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+#col 3
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 4
+- color: dark_grey
+  gestures:
+    pressed: >
+      MSG "Unconfigured button"
+#col 5
+- pad_group: page_control
+  type: page
+  page: ${me.group_index}
+  active_color: white
+  inactive_color:
+    palette: rainbow
+  gestures:
+    pressed:
+      page: ${me.group_index}
+  pads:
+    -
+    -
+    -
+    -
