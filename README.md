@@ -164,3 +164,5 @@ pages:
 Turn an 8x8 matrix into an 8×8×∞ matrix.
 
 ___
+
+#### [I'd like to read that again!](#zcx-core)
