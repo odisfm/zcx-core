@@ -91,7 +91,7 @@ Unlock the full capabilities of your hardware.
 ```yaml
 __state_row:
   includes: [
-	state_1, state_2, state_3, state_4
+    state_1, state_2, state_3, state_4
   ]
   type: page
   page: ${me.index}
