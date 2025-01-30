@@ -134,6 +134,8 @@ scene_1:
 
 Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
 
+### unlimited pages
+
 ```yaml
 # matrix_sections.yaml
 
@@ -158,3 +160,7 @@ pages:
     - home_row
     - drums_section
 ```
+
+Turn an 8x8 matrix into an 8×8×∞ matrix.
+
+___
