@@ -13,7 +13,6 @@ class ModeControl(ZControl):
         self.mode_manager = mode_manager
         from . import action_resolver
         self.action_resolver = action_resolver
-        self._suppress_animations = True
 
     def setup(self):
         super().setup()
@@ -46,6 +45,7 @@ class ModeControl(ZControl):
                                      f'\n{self._raw_config}')
 
         self._bound_mode = mode
+        self._suppress_animations = True
 
     @listens('current_modes')
     def modes_changed(self, _):
