@@ -1,0 +1,174 @@
+#row 1
+#col 1
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: purple
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 2
+#col 1
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 3
+#col 1
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 4
+#col 1
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 5
+#col 1
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 6
+#col 1
+- color: orange
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:

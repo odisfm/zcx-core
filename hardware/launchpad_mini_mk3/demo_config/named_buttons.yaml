@@ -1,0 +1,44 @@
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  gestures:
+    pressed: SCENE ${me.Index}
+    pressed__shift: SCENE ${me.Index + 8}
+
+nav_up:
+  gestures:
+    pressed: UP
+
+nav_down:
+  gestures:
+    pressed: DOWN
+
+nav_left:
+  gestures:
+    pressed: LEFT
+
+nav_right:
+  gestures:
+    pressed: RIGHT
+
+session:
+  gestures:
+    pressed: TGLMAIN
+
+note:
+  gestures:
+    pressed: SHOWCLIP
+
+capture:
+  gestures:
+    pressed: SRECFIX 8
+    pressed__shift: SRECFIX 16
+
+custom:
+  gestures:
+    pressed:
+      msg: Press the Novation button to enter Live mode
+
+novation:
+  gestures:
+    pressed:
+      hardware_mode: live

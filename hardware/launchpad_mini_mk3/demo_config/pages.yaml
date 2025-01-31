@@ -1,0 +1,13 @@
+pages:
+  main:
+    - big_colors
+    - home_row
+  main_2:
+    - actions_left
+    - actions_right
+    - home_row
+  main_3:
+    - actions_left
+    - track_selector
+    - clip_launcher
+    - home_row
