@@ -12,7 +12,7 @@ zcx-core is currently maintained for these devices, with more planned:
 * APC mini mk2
 
 [If your device isn't here
-]()
+](https://github.com/odisfm/zcx-docs/blob/main/docs/lessons/installation.md#my-hardware-isnt-listed-)
 ___
 
 ### [get it here!](https://github.com/odisfm/zcx-core/releases/latest)
