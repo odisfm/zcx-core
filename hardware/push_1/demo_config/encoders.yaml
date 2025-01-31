@@ -1,0 +1,15 @@
+tempo:
+  binding: SEL / VOL
+
+swing:
+  binding:
+    default: SEL / VOL
+    shift: SEL / PAN
+    shift__select: SEL / SEND A 
+    
+__encoder_row:
+  includes: [
+    enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
+  ]
+  binding:
+    default: MST / VOL

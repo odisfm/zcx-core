@@ -1,0 +1,126 @@
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  gestures:
+    pressed: SCENE ${me.Index}
+    pressed__shift: SCENE ${me.Index + 8}
+
+__track_buttons:
+  includes: [
+    track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8
+  ]
+  gestures:
+    pressed: ${me.Index} / SEL
+    double_clicked: ${me.Index} / PLAY >
+
+__page_switcher:
+  includes: [
+    session, note, chord, custom, sequencer, projects
+  ]
+  type: page
+  page: ${me.index}
+  gestures:
+    pressed:
+      page: {me.index}
+
+nav_up:
+  gestures:
+    pressed: UP
+
+nav_down:
+  gestures:
+    pressed: DOWN
+
+nav_left:
+  gestures:
+    pressed: LEFT
+
+nav_right:
+  gestures:
+    pressed: RIGHT
+
+session:
+  gestures:
+    pressed: TGLMAIN
+
+note:
+  gestures:
+    pressed: SHOWCLIP
+
+custom:
+  gestures:
+    pressed:
+      msg: Press the Novation button to enter Live mode
+
+novation:
+  gestures:
+    pressed:
+      hardware_mode: live
+
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+play:
+  type: transport
+  transport: play
+  gestures:
+    pressed: SETPLAY
+
+record:
+  type: transport
+  transport: session_record
+  gestures:
+    pressed: SRECFIX 8
+    pressed__shift: SRECFIX 16
+
+duplicate:
+  gestures:
+    pressed: CLIP DUPE
+    pressed__shift: SCENE DUPE
+
+clear:
+  gestures:
+    pressed:
+      msg: Press with shift to delete clip
+    pressed__shift: CLIP DEL
+
+quantize:
+  gestures:
+    pressed: CLIP QNTZ 1/16 80
+    pressed__shift: CLIP QNTZ 1/16 100
+
+arm:
+  gestures:
+    pressed: SEL / ARM
+
+mute:
+  gestures:
+    pressed: SEL / MUTE
+
+solo:
+  gestures:
+    pressed: SEL / SOLO
+
+volume:
+  gestures:
+    pressed:
+
+pan:
+  gestures:
+    pressed:
+
+sends:
+  gestures:
+    pressed:
+
+#device:
+#  gestures:
+#    pressed:
+
+stop:
+  gestures:
+    pressed: STOP
+    pressed__shift: STOP NQ

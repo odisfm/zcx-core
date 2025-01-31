@@ -1,0 +1,125 @@
+scene_1:
+  cc: 89
+
+scene_2:
+  cc: 79
+
+scene_3:
+  cc: 69
+
+scene_4:
+  cc: 59
+
+scene_5:
+  cc: 49
+
+scene_6:
+  cc: 39
+
+scene_7:
+  cc: 29
+
+scene_8:
+  cc: 19
+
+nav_left:
+  cc: 91
+
+nav_right:
+  cc: 92
+
+session:
+  cc: 93
+
+note:
+  cc: 94
+
+chord:
+  cc: 95
+
+custom:
+  cc: 96
+
+sequencer:
+  cc: 97
+
+projects:
+  cc: 98
+
+novation:
+  cc: 99
+
+shift:
+  cc: 90
+
+nav_up:
+  cc: 80
+
+nav_down:
+  cc: 70
+
+clear:
+  cc: 60
+
+duplicate:
+  cc: 50
+
+quantize:
+  cc: 40
+
+fixed_length:
+  cc: 30
+
+play:
+  cc: 20
+
+record:
+  cc: 10
+
+track_1:
+  cc: 101
+
+track_2:
+  cc: 102
+
+track_3:
+  cc: 103
+
+track_4:
+  cc: 104
+
+track_5:
+  cc: 105
+
+track_6:
+  cc: 106
+
+track_7:
+  cc: 107
+
+track_8:
+  cc: 108
+
+arm:
+  cc: 1
+
+mute:
+  cc: 2
+
+solo:
+  cc: 3
+
+volume:
+  cc: 4
+
+pan:
+  cc: 5
+
+sends:
+  cc: 6
+
+device:
+  cc: 7
+
+stop:
+  cc: 8
