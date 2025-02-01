@@ -73,6 +73,7 @@ class ZControl(EventObject):
         self.__create_context([
             config.get('section_context', {}),
             config.get('group_context', {}),
+            config.get('props', {})
         ])
         color = config.get('color', 127)
         self.set_gesture_dict(config.get('gestures', {}))
