@@ -22,6 +22,7 @@ class SyncManager:
         self,
         hardware_config: Optional[str] = None,
         control_surface_name: Optional[str] = None,
+        custom_config_path: Optional[Path] = None,
     ):
         # Import config here so CLI args can override
         from sync_config import (
@@ -34,6 +35,7 @@ class SyncManager:
 
         self.hardware_config = hardware_config or HARDWARE_CONFIG
         self.control_surface_name = control_surface_name or CONTROL_SURFACE_NAME
+        self.custom_config_path = custom_config_path
 
         # Define paths
         self.dest_root = REMOTE_SCRIPTS_PATH / self.control_surface_name
@@ -98,10 +100,14 @@ class SyncManager:
             # Sync hardware config
             self.sync_directory(self.hardware_root, self.dest_root / "hardware")
 
-            # Sync config from hardware-specific demo_config
-            demo_config_path = self.hardware_root / "demo_config"
-            if demo_config_path.exists():
-                self.sync_directory(demo_config_path, self.dest_root / "_config")
+            # Sync config from either custom_config_path or hardware-specific demo_config
+            config_path = (
+                self.custom_config_path
+                if self.custom_config_path
+                else self.hardware_root / "demo_config"
+            )
+            if config_path.exists():
+                self.sync_directory(config_path, self.dest_root / "_config")
 
             # Sync preferences
             preferences_path = self.project_root / "preferences"
@@ -158,9 +164,18 @@ def main():
         "hardware_config", nargs="?", help="Hardware configuration name"
     )
     parser.add_argument("control_surface_name", nargs="?", help="Control surface name")
+    parser.add_argument(  # New argument
+        "--custom-config",
+        type=Path,
+        help="Path to a custom config folder to override demo_config/",
+    )
     args = parser.parse_args()
 
-    syncer = SyncManager(args.hardware_config, args.control_surface_name)
+    syncer = SyncManager(
+        args.hardware_config,
+        args.control_surface_name,
+        args.custom_config,  # Pass the custom config path
+    )
 
     # Initial sync
     logging.info("Performing initial sync...")
@@ -178,10 +193,16 @@ def main():
         syncer.project_root / "preferences",
     ]
 
+    # Dynamically add custom config path to watched directories if provided
+    if args.custom_config:
+        dirs_to_watch.append(args.custom_config)
+
     for dir_path in dirs_to_watch:
         if dir_path.exists():
             observer.schedule(handler, str(dir_path), recursive=True)
             logging.info(f"Watching directory: {dir_path}")
+        else:
+            logging.warning(f"Directory does not exist and will not be watched: {dir_path}")
 
     observer.start()
     logging.info("Watching for changes... (Press Ctrl+C to stop)")
