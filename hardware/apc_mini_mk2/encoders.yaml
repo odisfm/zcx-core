@@ -1,1 +1,26 @@
-false
+fader_1:
+  cc: 48
+
+fader_2:
+  cc: 49
+
+fader_3:
+  cc: 50
+
+fader_4:
+  cc: 51
+
+fader_5:
+  cc: 52
+
+fader_6:
+  cc: 53
+
+fader_7:
+  cc: 54
+
+fader_8:
+  cc: 55
+
+fader_9:
+  cc: 56

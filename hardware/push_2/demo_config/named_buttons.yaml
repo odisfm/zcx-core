@@ -76,13 +76,18 @@ __dpad:
         pressed: DOWN
 
 device:
-  color: white
   gestures:
     pressed:
-      msg: >
-        press me while holding shift to force a refresh of all lights
-    pressed__shift:
-      refresh: true
+      mode_on: device
+    released:
+      mode_off: device
+
+mix:
+  gestures:
+    pressed:
+      mode_on: mix
+    released:
+      mode_off: mix
 
 session:
   gestures:

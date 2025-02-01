@@ -277,6 +277,7 @@ class ZControl(EventObject):
     def update_mode_string(self, mode_states):
         if not self._concerned_modes:
             self._current_mode_string = ''
+            return
         active_concerned_modes = [mode for mode in self._concerned_modes if mode_states.get(mode, False)]
         if not active_concerned_modes:
             self._current_mode_string = ""

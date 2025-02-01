@@ -1,1 +1,32 @@
-false
+enc_1:
+  cc: 71
+
+enc_2:
+  cc: 72
+
+enc_3:
+  cc: 73
+
+enc_4:
+  cc: 74
+
+enc_5:
+  cc: 75
+
+enc_6:
+  cc: 76
+
+enc_7:
+  cc: 77
+
+enc_8:
+  cc: 78
+
+enc_master:
+  cc: 79
+
+tempo:
+  cc: 14
+
+swing:
+  cc: 15

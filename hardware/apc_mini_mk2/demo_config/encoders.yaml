@@ -1,0 +1,19 @@
+__fader_row:
+  includes:
+    - fader_1
+    - fader_2
+    - fader_3
+    - fader_4
+    - fader_5
+    - fader_6
+    - fader_7
+    - fader_8
+  binding:
+    default: ${me.Index} / VOL
+    __shift: ${me.Index} / SEND A
+    __select: SEL / DEV(1) P${me.Index}
+
+fader_9:
+  binding:
+    default: MST / VOL
+    __shift: MST / CUE

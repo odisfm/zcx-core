@@ -24,3 +24,4 @@ note_buttons:
 encoders:
   key: value
   sensitivity: 1.0
+  mode: RELATIVE_SMOOTH_TWO_COMPLIMENT

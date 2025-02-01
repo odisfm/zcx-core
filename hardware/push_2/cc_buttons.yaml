@@ -192,7 +192,7 @@ state_8:
   cc: 109
   feedback: rgb
 
-track:
+mix:
   cc: 112
 
 clip:

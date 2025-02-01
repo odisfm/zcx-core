@@ -67,6 +67,9 @@ class ZCXCore(ControlSurface):
             self.log(f'starting PageManager setup')
             self.component_map['PageManager'].setup()
             self.log(f'finished PageManager setup')
+            self.log(f'starting EncoderManager setup')
+            self.component_map['EncoderManager'].setup()
+            self.log(f'finished EncoderManager setup')
         except Exception as e:
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()

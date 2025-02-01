@@ -33,42 +33,45 @@ right:
   gestures:
     pressed: right
 
-scene_1:
+scene_1: # clip stop
   gestures:
     pressed: SEL / STOP
     pressed__shift: SCENE ${me.Index}
 
-scene_2:
+scene_2: # solo
   gestures:
     pressed: SEL / SOLO
     pressed__shift: SCENE ${me.Index}
 
-scene_3:
+scene_3: # mute
   gestures:
     pressed: SEL / MUTE
     pressed__shift: SCENE ${me.Index}
 
-scene_4:
+scene_4: # rec arm
   gestures:
     pressed: SEL / ARM
     pressed__shift: SCENE ${me.Index}
 
-scene_5:
+scene_5: # select
   gestures:
     pressed:
+      mode_on: select
+    released:
+      mode_off: select
     pressed__shift: SCENE ${me.Index}
 
-scene_6:
+scene_6: # drum
   gestures:
     pressed: SHOWCLIP
     pressed__shift: SCENE ${me.Index}
 
-scene_7:
+scene_7: # note
   gestures:
     pressed: SHOWDETAIL
     pressed__shift: SCENE ${me.Index}
 
-scene_8:
+scene_8: # stop all clips
   gestures:
     pressed: STOPALL
     pressed_delayed: STOPALL NQ

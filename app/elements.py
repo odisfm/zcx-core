@@ -3,11 +3,13 @@ from functools import partial
 
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
+from ableton.v2.control_surface.elements.encoder import _map_modes
 from .colors import ColorSwatches
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
 from .errors import HardwareSpecificationError
 from .vendor.yaml import safe_load as load_yaml
 from .z_element import ZElement
+from .encoder_element import EncoderElement
 
 
 class Elements(ElementsBase):
@@ -20,9 +22,12 @@ class Elements(ElementsBase):
         self.log = partial(self.logger.info, *a)
 
         self.named_buttons = {}
+        self.encoders = {}
 
         specs_dict = self.load_specifications()
         self.specs = specs_dict["specs"]
+
+        # cc buttons
 
         cc_button_globals = self.specs["cc_buttons"]
         cc_button_yaml = specs_dict["cc_buttons"]
@@ -32,6 +37,8 @@ class Elements(ElementsBase):
         else:
             self.process_cc_buttons(cc_button_globals.copy(), cc_button_yaml)
 
+        # note buttons
+
         note_button_globals = self.specs["note_buttons"]
         note_button_yaml = specs_dict["note_buttons"]
 
@@ -39,6 +46,15 @@ class Elements(ElementsBase):
             pass
         else:
             self.process_note_buttons(note_button_globals.copy(), note_button_yaml)
+
+        # encoders
+
+        encoder_globals = self.specs["encoders"]
+        encoder_yaml = specs_dict["encoders"]
+
+        self.process_encoders(encoder_globals, encoder_yaml)
+
+        # matrix config todo: move to separate method
 
         matrix_config = self.specs.get("button_matrix")
 
@@ -94,6 +110,7 @@ class Elements(ElementsBase):
 
         mod = sys.modules[__package__]
         mod.NAMED_BUTTONS = self.named_buttons
+        mod.ENCODERS = self.encoders
 
     def process_cc_buttons(self, cc_button_globals: dict, cc_button_yaml: dict) -> None:
 
@@ -153,8 +170,53 @@ class Elements(ElementsBase):
 
             self.register_named_button(element, button_name)
 
+    def process_encoders(
+            self, encoders_globals: dict, encoders_yaml: dict
+    ) -> None:
+
+        global_channel = encoders_globals.get("channel", 0)
+        global_feedback = encoders_globals.get("feedback", False)
+        global_map_mode = encoders_globals.get("mode")
+
+        for encoder_name, encoder_config in encoders_yaml.items():
+            cc_number = encoder_config["cc"]
+            channel = encoder_config.get("channel", global_channel)
+            feedback = encoder_config.get("feedback", global_feedback)
+            map_mode = encoder_config.get("mode", global_map_mode)
+
+            element = self.encoder_factory(
+                identifier=cc_number,
+                channel=channel,
+                is_feedback_enabled=feedback,
+                map_mode=map_mode,
+            )
+            element.name = self.format_attribute_name(encoder_name)
+            self.register_encoder(element, encoder_name)
+
     def element_factory(self, identifier=None, *a, **k) -> ZElement:
         element = ZElement(identifier=identifier, *a, **k)
+        return element
+
+    def encoder_factory(
+            self,
+            identifier=None,
+            map_mode=None,
+            is_feedback_enabled=False,
+            channel=0,
+            ):
+        try:
+            map_mode = getattr(_map_modes, map_mode.lower())
+        except AttributeError:
+            # todo: better error
+            raise HardwareSpecificationError(
+                f'Specified map_mode "{map_mode}" is not supported.'
+            )
+        element = EncoderElement(
+            identifier=identifier,
+            channel=channel,
+            map_mode=map_mode,
+            is_feedback_enabled=is_feedback_enabled
+        )
         return element
 
     def load_specifications(self) -> dict:
@@ -204,6 +266,15 @@ class Elements(ElementsBase):
 
         self.named_buttons[name] = button
         setattr(self, self.format_attribute_name(name), button)
+
+    def register_encoder(self, encoder, name):
+        if name in self.encoders:
+            raise HardwareSpecificationError(
+                f'Multiple encoders with the same name ("{name}")'
+            )
+
+        self.encoders[name] = encoder
+        setattr(self, self.format_attribute_name(name), encoder)
 
     @staticmethod
     def format_attribute_name(name):

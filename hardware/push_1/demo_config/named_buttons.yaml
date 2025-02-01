@@ -64,11 +64,6 @@ __dpad:
       gestures:
         pressed: DOWN
 
-device:
-  color: 1
-  gestures:
-    pressed: PUSH MODE DEVICE
-
 note:
   color: 127
   gestures:
@@ -108,15 +103,23 @@ out:
     pressed:
       page: prev
 
-__page_section:
-  includes: [volume, track, device, pan_send, clip, browse]
-  type: page
-  page: ${me.index}
+pan_send:
+  type: mode
+  mode: sends
   gestures:
     pressed:
-      page: ${me.index}
-    released_delayed:
-      page: last
+      mode_on: sends
+    released:
+      mode_off: sends
+
+device:
+  type: mode
+  mode: device
+  gestures:
+    pressed:
+      mode_on: device
+    released:
+      mode_off: sends
 
 touchstrip:
   gestures:

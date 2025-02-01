@@ -3,6 +3,7 @@ from typing import Dict, Any, Tuple, Optional, Callable, Union
 from itertools import chain
 
 from ableton.v3.control_surface import ControlSurface, Component
+from ClyphX_Pro.clyphx_pro import ParseUtils
 
 from .z_control import ZControl
 from .cxp_bridge import CxpBridge
@@ -259,3 +260,131 @@ class ActionResolver(Component):
         except Exception as e:
             self.log(e)
             raise e
+
+    def parse_target_path(self, target_string) -> dict:
+        """Attempts to parse a target track or device in ClyphX notation,
+        returns a dict you can use to find the target object manually."""
+
+        result = {
+            'track': None,
+            'device': None,
+            'parameter_type': None,
+            'parameter_name': None,
+            'bank': None,
+            'parameter_number': None,
+            'chain': None,
+            'send': None,
+            'chain_map': None,
+            'error': None,
+            'send_track': None
+        }
+
+        # Handle NONE and SELP special cases
+        if target_string == 'NONE':
+            return result
+        if target_string == 'SELP':
+            result['parameter_type'] = 'SELP'
+            return result
+
+        # Split track and rest
+        if '/' not in target_string:
+            if target_string.startswith('"') and target_string.endswith('"'):
+                # Remove quotes from the track name
+                result['track'] = target_string[1:-1]
+                return result
+            else:
+                result['track'] = target_string
+                return result
+
+        # Split the target_string into track_part and rest
+        track_part, rest = target_string.split('/', 1)
+        track_part = track_part.strip()
+        rest = rest.strip()
+
+        # Remove quotes from the track name if present
+        if track_part.startswith('"') and track_part.endswith('"'):
+            result['track'] = track_part[1:-1]
+        else:
+            result['track'] = track_part
+
+        # Check if the track name is a single letter (a-z)
+        if re.match(r'^[a-zA-Z]$', result['track']):
+            result['send_track'] = result['track']
+            result['track'] = None
+
+        # Handle simple parameter types first (no device)
+        if rest in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
+            result['parameter_type'] = rest
+            return result
+
+        # Handle send parameters without device
+        if rest.startswith('SEND'):
+            result['parameter_type'] = 'SEND'
+            result['send'] = rest.split()[-1]
+            return result
+
+        # Handle device parameters
+        if 'DEV' in rest:
+            # Extract device specifier from DEV(x)
+            dev_start = rest.find('DEV(') + 4
+            dev_end = rest.find(')', dev_start)
+            if dev_start > 3 and dev_end > dev_start:
+                dev_spec = rest[dev_start:dev_end]
+
+                # Check if dev_spec contains dots (chain mapping)
+                if '.' in dev_spec and not (dev_spec.startswith('"') and dev_spec.endswith('"')):
+                    # Convert dotted format to chain map
+                    chain_parts = dev_spec.split('.')
+
+                    # Validate SEL positions - only allowed in position 1 or 2.
+                    # This restriction is arbitrary but reduces complexity for a niche feature
+                    for i, part in enumerate(chain_parts, start=1):  # start=1 for 1-based indexing
+                        if part == 'SEL' and i > 2:
+                            result['error'] = f'zcx only supports the SEL keyword in position 1 or 2: {dev_spec}'
+                            return result
+
+                    result['chain_map'] = ''.join(f'[{part}]' for part in chain_parts)
+                else:
+                    # Handle quoted device names vs SEL/numbers
+                    if dev_spec.startswith('"') and dev_spec.endswith('"'):
+                        result['device'] = dev_spec[1:-1]  # Remove quotes
+                    else:
+                        result['device'] = dev_spec
+
+                # Parse everything after device spec
+                param_part = rest[dev_end + 1:].strip()
+
+                # Handle chain parameters
+                if 'CH(' in param_part:
+                    chain_start = param_part.find('CH(') + 3
+                    chain_end = param_part.find(')', chain_start)
+                    if chain_start > 2 and chain_end > chain_start:
+                        result['chain'] = param_part[chain_start:chain_end]
+                        param_part = param_part[chain_end + 1:].strip()
+
+                        # Handle chain-specific parameters
+                        if param_part.startswith('SEND'):
+                            result['parameter_type'] = 'chain_send'
+                            result['send'] = param_part.split()[-1]
+                            return result
+                        elif param_part in ['PAN', 'VOL']:
+                            result['parameter_type'] = param_part
+                            return result
+
+                # Handle different parameter formats
+                if param_part.startswith('"') and param_part.endswith('"'):
+                    # Named parameter in quotes - remove quotes
+                    result['parameter_name'] = param_part[1:-1]
+                elif param_part == 'CS':
+                    result['parameter_type'] = 'CS'
+                elif ' ' in param_part:  # Could be "B4 P5" format
+                    parts = param_part.split()
+                    if parts[0].startswith('B') and parts[1].startswith('P'):
+                        result['bank'] = parts[0][1:]  # Remove 'B'
+                        result['parameter_number'] = parts[1][1:]  # Remove 'P'
+                elif param_part.startswith('P'):
+                    result['parameter_number'] = param_part[1:]
+                elif param_part in ['PAN', 'VOL'] or param_part.startswith('SEND'):
+                    result['parameter_type'] = param_part
+
+        return result

@@ -1,11 +1,13 @@
 from ableton.v3.control_surface import Component, ControlSurface
 from .z_element import ZElement
 from .z_state import ZState
+from .encoder_state import EncoderState
 
 
 class HardwareInterface(Component):
 
     named_button_states = {}
+    encoder_states = {}
     canonical_parent: ControlSurface
 
     def __init__(
@@ -35,6 +37,9 @@ class HardwareInterface(Component):
 
     def handle_control_event(self, event, state: ZState.State):
         state.forward_gesture(event)
+
+    def handle_encoder_event(self, encoder_name: str, value: int):
+        pass # this might be useful in future for plugins
 
     def all_lights_full(self):
         for state in self.named_button_states.keys():

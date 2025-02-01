@@ -13,34 +13,29 @@ __encoder_row:
       SEL / SEND A
   encoders:
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND A
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND B
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND C
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND D
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND E
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND F
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND G
     - binding:
-        __sends: >-
+        __mix: >-
           SEL / SEND H
-
-enc_master:
-  binding:
-    default: MST / VOL
-    __shift: MST / CUE
 
 tempo:
   binding: SEL / PAN

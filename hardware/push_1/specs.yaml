@@ -22,5 +22,6 @@ note_buttons:
   feedback: basic
 
 encoders:
-  key: value
+  mode: RELATIVE_SMOOTH_TWO_COMPLIMENT
   sensitivity: 1.0
+  feedback: false
