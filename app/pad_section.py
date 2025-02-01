@@ -45,6 +45,10 @@ class PadSection(EventObject):
         return self.__owned_coordinates
 
     @property
+    def bounds(self):
+        return self.__bounds
+
+    @property
     def width(self):
         return self.__width
 
