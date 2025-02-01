@@ -243,9 +243,19 @@ class ZManager(Component, EventObject):
 
             processed_config = []
 
+            if section_obj.bounds is not None:
+                section_height = section_obj.bounds['height']
+                section_width = section_obj.bounds['width']
+            else:
+                section_height = 0
+                section_width = 0
+
             for i in range(len(flat_config)):
                 item = flat_config[i]
                 global_y, global_x = section_obj.owned_coordinates[i]
+                global_y_flip = global_y - section_height
+                global_x_flip = global_x - section_width
+
 
                 item_context = deepcopy(section_context)
                 item_context.update(
@@ -253,10 +263,15 @@ class ZManager(Component, EventObject):
                         "index": i,
                         "global_x": global_x,
                         "global_y": global_y,
-                        "section_x": global_x
+                        "global_y_flip": global_y_flip,
+                        "global_x_flip": global_x_flip,
+                        "x": global_x
                         - section_obj._PadSection__bounds["min_x"],
-                        "section_y": global_y
+                        "y": global_y
                         - section_obj._PadSection__bounds["min_y"],
+                        "x_flip": (global_x_flip - section_obj._PadSection__bounds["min_x"]) * -1,
+                        "y_flip": (global_y_flip - section_obj._PadSection__bounds["min_y"]) * -1,
+
                     }
                 )
 
