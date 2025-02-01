@@ -121,13 +121,6 @@ device:
     released:
       mode_off: sends
 
-touchstrip:
-  gestures:
-    pressed:
-      page: 0
-    released:
-      page: last
-
 undo:
   gestures:
     pressed: UNDO
