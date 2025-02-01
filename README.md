@@ -15,7 +15,7 @@ zcx-core is currently maintained for these devices, with more planned:
 ](https://github.com/odisfm/zcx-docs/blob/main/docs/lessons/installation.md#my-hardware-isnt-listed-)
 ___
 
-### [get it here!](https://github.com/odisfm/zcx-core/releases/latest) || [see the docs](https://github.com/odisfm/zcx-docs/blob/main/docs/zcx-docs.md)
+### [get it here!](https://github.com/odisfm/zcx-core/releases/latest) | [see the docs](https://github.com/odisfm/zcx-docs/blob/main/docs/zcx-docs.md)
 
 ___
 ## features
