@@ -183,7 +183,9 @@ class ActionResolver(Component):
         """Helper to compile commands and handle errors consistently"""
         parsed, status = self.compile(command_str, vars_dict, context)
         if status != 0:
-            error_msg = f"Couldn't parse command: {command_str}"
+            error_msg = (f"Couldn't parse command: {command_str}\n"
+                         f"{context},"
+                         f"{vars_dict}")
             self.log(error_msg)
             if ABORT_ON_FAILURE:
                 raise RuntimeError(error_msg)
