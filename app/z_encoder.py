@@ -208,9 +208,9 @@ class ZEncoder(EventObject):
                     try:
                         send_letter = target_map.get('send').upper()
                         send_num = ord(send_letter) - 65  # `A` in ASCII
-                        sends_count = len(list(track_obj.mixer_device.sends))
+                        sends_count = len(list(self.song.return_tracks))
                         if send_num < 0 or send_num >= sends_count:
-                            raise ConfigurationError(f'Invalid send: {send_letter}')
+                            raise ConfigurationError(f'Invalid send: {send_letter} | {send_num} | sends_count {sends_count}')
 
                         self._mapped_parameter = track_obj.mixer_device.sends[send_num]
                         return True
@@ -260,31 +260,38 @@ class ZEncoder(EventObject):
                     raise ConfigurationError(f'No device found for {device_def}')
 
                 par_num = target_map.get('parameter_number')
+                par_name = target_map.get('parameter_name')
 
-                if par_num is None:
-                    raise ConfigurationError(f'Missing parameter number: {par_def}')
-                elif isinstance(par_num, str):
-                    if '${' in par_num:
+                if isinstance(par_name, str):
+                    if '${' in par_name:
+                        parsed_par_name, status = self.action_resolver.parse_target_path(par_num)
+                        if status != 0:
+                            raise ConfigurationError(f'Failed to parse parameter: {par_num}')  # todo
+                        par_name = parsed_par_name
+
+                    for par in device_obj.parameters:
+                        if par.name == par_name:
+                            self._mapped_parameter = par
+                            return True
+
+                    raise ConfigurationError(f'Parameter "{par_def}" not found on device {device_def}')
+                else:
+                    if isinstance(par_num, str) and '${' in par_num:
                         parsed_par_num, status = self.action_resolver.parse_target_path(par_num)
                         if status != 0:
                             raise ConfigurationError(f'Failed to parse parameter: {par_num}') #todo
                         par_num = parsed_par_num
+                    elif isinstance(par_num, int):
+                        pass
+                    else:
+                        raise ConfigurationError(f'Failed to parse parameter: {par_num}')
+
                     par_num = int(par_num)
                     try:
                         self._mapped_parameter = device_obj.parameters[par_num]
                     except IndexError as e:
                         return False
                     return True
-
-                if par_def is None:
-                    raise ConfigurationError('Missing parameter_name')
-
-                for par in device_obj.parameters:
-                    if par.name == par_def:
-                        self._mapped_parameter = par
-                        return True
-
-                raise ConfigurationError(f'Parameter "{par_def}" not found on device {device_def}')
 
         except Exception as e:
             self.log(f'Error in map_self_to_par: {e}')
