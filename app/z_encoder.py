@@ -284,9 +284,10 @@ class ZEncoder(EventObject):
                     elif isinstance(par_num, int):
                         pass
                     else:
-                        raise ConfigurationError(f'Failed to parse parameter: {par_num}')
-
-                    par_num = int(par_num)
+                        try:
+                            par_num = int(par_num)
+                        except ValueError:
+                            raise ConfigurationError(f'Failed to parse parameter: {par_num}')
                     try:
                         self._mapped_parameter = device_obj.parameters[par_num]
                     except IndexError as e:
