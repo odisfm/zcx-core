@@ -126,8 +126,13 @@ def parse_color_definition(color, calling_control=None):
             elif special_color_type == 'midi':
                 return parse_color_definition(color['midi'])
             elif special_color_type == 'live':
-                # todo: needs Live/controller tranlsation
-                pass
+                try:
+                    special_color_def = int(special_color_def)
+                except ValueError:
+                    raise ConfigurationError(f'Invalid color definition: {special_color_def}\n'
+                                             f'{calling_control._raw_config}')
+                color_index = hardware_colors.live_index_for_midi_index(special_color_def)
+                return Color(color_index)
 
             return RgbColor(3)
 
