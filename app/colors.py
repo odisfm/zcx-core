@@ -66,6 +66,14 @@ def parse_color_definition(color, calling_control=None):
             special_color_type = list(color.keys())[0].lower()
             special_color_def = list(color.values())[0]
 
+            if isinstance(special_color_def, str) and '${' in special_color_def:
+                from .zcx_core import root_cs
+                resolver = root_cs.component_map['ActionResolver']
+                parse = resolver.compile(special_color_def, calling_control._vars, calling_control._context)
+                if parse[1] != 0:
+                    raise ConfigurationError(f'Unparseable color definition: {color}')
+                special_color_def = parse[0]
+
             if special_color_type == 'blink':
                 a_def = special_color_def['a']
                 b_def = special_color_def['b']
