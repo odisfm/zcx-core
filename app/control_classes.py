@@ -2,6 +2,7 @@ from .z_controls import BasicZControl as Basic
 from .z_controls import PageControl as Page
 from .z_controls import ModeControl as Mode
 from .z_controls import TransportControl as Transport
+from .z_controls import TrackControl as Track
 
 
 def get_subclass(class_name):
@@ -17,5 +18,7 @@ def get_subclass(class_name):
             return Mode
         case "transport":
             return Transport
+        case "track":
+            return Track
         case _:
             return Basic

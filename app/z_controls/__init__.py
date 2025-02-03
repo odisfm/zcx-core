@@ -8,9 +8,10 @@ from .basic_z_control import BasicZControl
 from .page_control import PageControl
 from .mode_control import ModeControl
 from .transport_control import TransportControl
+from .track_control import TrackControl
 
 action_resolver:ActionResolver = Optional[None]
 page_manager:PageManager = Optional[None]
 mode_manager:ModeManager = Optional[None]
 
-__all__ = ["BasicZControl", "PageControl", "ModeControl", "TransportControl"]
+__all__ = ["BasicZControl", "PageControl", "ModeControl", "TransportControl", "TrackControl"]
