@@ -106,7 +106,7 @@ class RgbColorSwatch(object):
     PAGE_ACTIVE = AMBER
     PAGE_INACTIVE = GREY
     PAGE_DISABLED = DARK_GREY
-    ERROR = Blink(RED, OFF, 6)
+    ERROR = Blink(RED, OFF, 12)
 
     def __init__(self):
         pass
