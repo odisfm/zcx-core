@@ -96,7 +96,7 @@ class TrackControl(ZControl):
 
         color_dict['stopped'] = base_color
         color_dict['playing'] = parse_color_definition({'pulse': {
-            'a': 'play_green',
+            'a': 'green',
             'b': base_color.midi_value,
             'speed': 1
         }})
@@ -127,7 +127,7 @@ class TrackControl(ZControl):
             'speed': 1
         }})
         color_dict['selected_playing'] = parse_color_definition({'pulse': {
-            'a': 'play_green',
+            'a': 'green',
             'b': 'white',
             'speed': 1
         }})
@@ -143,7 +143,7 @@ class TrackControl(ZControl):
         }})
         color_dict['success'] = parse_color_definition({'pulse': {
             'a': base_index,
-            'b': 'play_green',
+            'b': 'green',
         }})
         color_dict['attention'] = base_color
 
