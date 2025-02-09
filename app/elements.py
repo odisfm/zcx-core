@@ -177,18 +177,21 @@ class Elements(ElementsBase):
         global_channel = encoders_globals.get("channel", 0)
         global_feedback = encoders_globals.get("feedback", False)
         global_map_mode = encoders_globals.get("mode")
+        global_sensitivity = encoders_globals.get("sensitivity", 1.0)
 
         for encoder_name, encoder_config in encoders_yaml.items():
             cc_number = encoder_config["cc"]
             channel = encoder_config.get("channel", global_channel)
             feedback = encoder_config.get("feedback", global_feedback)
             map_mode = encoder_config.get("mode", global_map_mode)
+            sensitivity = encoder_config.get("sensitivity", global_sensitivity)
 
             element = self.encoder_factory(
                 identifier=cc_number,
                 channel=channel,
                 is_feedback_enabled=feedback,
                 map_mode=map_mode,
+                sensitivity=sensitivity,
             )
             element.name = self.format_attribute_name(encoder_name)
             self.register_encoder(element, encoder_name)
@@ -203,6 +206,7 @@ class Elements(ElementsBase):
             map_mode=None,
             is_feedback_enabled=False,
             channel=0,
+            sensitivity=1.0,
             ):
         try:
             map_mode = getattr(_map_modes, map_mode.lower())
@@ -215,7 +219,8 @@ class Elements(ElementsBase):
             identifier=identifier,
             channel=channel,
             map_mode=map_mode,
-            is_feedback_enabled=is_feedback_enabled
+            is_feedback_enabled=is_feedback_enabled,
+            mapping_sensitivity=sensitivity,
         )
         return element
 
