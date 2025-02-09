@@ -27,6 +27,7 @@ enc_master:
 
 tempo:
   cc: 14
+  sensitivity: 8.0
 
 swing:
   cc: 15
