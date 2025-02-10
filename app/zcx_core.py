@@ -89,9 +89,10 @@ class ZCXCore(ControlSurface):
 
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
-        # todo: fix
         if midi_chunk[0][0] == 240:
-            self.refresh_required()
+            sysex_message = midi_chunk[0]
+            if sysex_message == USER_MODE:
+                self.refresh_required()
 
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
