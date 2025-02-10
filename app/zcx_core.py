@@ -30,6 +30,7 @@ class ZCXCore(ControlSurface):
                     sysex_task.restart()
                 else:
                     self._do_send_midi(USER_MODE)
+            self.application.add_control_surfaces_listener(self.song_ready)
 
             self.log(f'{self.name} loaded :)', level='critical')
 
@@ -73,6 +74,10 @@ class ZCXCore(ControlSurface):
         except Exception as e:
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()
+
+    def song_ready(self):
+        self.application.remove_control_surfaces_listener(self.song_ready)
+        self.component_map['EncoderManager'].bind_all_encoders()
 
     def port_settings_changed(self):
         super().refresh_state()
