@@ -38,6 +38,13 @@ class EncoderManager(Component, EventObject):
         self.log(f'{self.name} doing setup')
         self.create_encoders()
 
+    def bind_all_encoders(self):
+        for enc_name, enc_obj in self._encoders.items():
+            try:
+                enc_obj.bind_to_active()
+            except:
+                self.log(f'Failed to bind {enc_name}')
+
     def create_encoders(self):
         encoder_config = self.yaml_loader.load_yaml(f'{self.__config_dir}/encoders.yaml')
         if encoder_config is None:

@@ -125,10 +125,6 @@ class ZEncoder(EventObject):
         self._concerned_modes = concerned_modes
         self._binding_dict = binding_dict
         self._active_map = self._default_map
-        try:
-            self.bind_to_active()
-        except:
-            pass
 
     def bind_to_active(self):
         if self._active_map is None:
