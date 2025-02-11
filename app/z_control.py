@@ -67,6 +67,7 @@ class ZControl(EventObject):
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
             calling_control=self,  # calling_control
         )
+        self.parent_section.register_owned_control(self)
 
     def setup(self):
         config = self._raw_config

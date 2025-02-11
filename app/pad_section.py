@@ -31,6 +31,7 @@ class PadSection(EventObject):
                 "width": max_x - min_x + 1,
                 "height": max_y - min_y + 1,
             }
+        self.__owned_controls = []
 
     def log(self, *msg):
         for msg in msg:
@@ -43,6 +44,10 @@ class PadSection(EventObject):
     @property
     def owned_coordinates(self):
         return self.__owned_coordinates
+
+    @property
+    def owned_controls(self):
+        return copy(self.__owned_controls)
 
     @property
     def bounds(self):
@@ -69,3 +74,6 @@ class PadSection(EventObject):
                 return
             self.__in_view = False
             self.notify_in_view()
+
+    def register_owned_control(self, control):
+        self.__owned_controls.append(control)
