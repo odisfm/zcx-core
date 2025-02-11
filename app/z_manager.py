@@ -59,6 +59,28 @@ class ZManager(Component, EventObject):
         else:
             self.__control_groups[group_name] = [control]
 
+    def get_control_group(self, group_name):
+        if group_name in self.__control_groups:
+            return self.__control_groups[group_name]
+        else:
+            self.log(f'No control group for {group_name}. Registered groups are:\n'
+                     f'{self.__control_groups.keys()}')
+            return None
+
+    def get_named_control(self, control_name):
+        if control_name in self.__named_controls:
+            return self.__named_controls[control_name]
+        else:
+            self.log(f'No control named {control_name}. Registered controls are:\n'
+                     f'{self.__named_controls.keys()}')
+            return None
+
+    def get_matrix_section(self, section_name):
+        if section_name in self.__matrix_sections:
+            return self.__matrix_sections[section_name]
+        else:
+            self.log(f'No matrix section for {section_name}. Registered sections are:\n'
+                     f'{self.__matrix_sections.keys()}')
 
     def load_control_templates(self):
         manager = self.canonical_parent.template_manager

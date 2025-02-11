@@ -44,6 +44,10 @@ class ZCXCore(ControlSurface):
     def name(self):
         return self.__name
 
+    @property
+    def api(self):
+        return self.component_map["ApiManager"].get_api_object()
+
     def log(self, message: [str, object], level: [str] = 'info') -> None:
         method = getattr(self.logger, level)
         method(message)
@@ -71,6 +75,9 @@ class ZCXCore(ControlSurface):
             self.log(f'starting EncoderManager setup')
             self.component_map['EncoderManager'].setup()
             self.log(f'finished EncoderManager setup')
+            self.log(f'starting ApiManager setup')
+            self.component_map['ApiManager'].setup()
+            self.log(f'finished ApiManager setup')
         except Exception as e:
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()

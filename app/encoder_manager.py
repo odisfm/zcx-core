@@ -186,7 +186,6 @@ class EncoderManager(Component, EventObject):
                 encoder_def['context'] = context
 
         return flat_defs
-
     
     def add_encoder_to_group(self, encoder, group_name):
         if group_name in self.__encoder_groups:
@@ -194,3 +193,18 @@ class EncoderManager(Component, EventObject):
         else:
             self.__encoder_groups[group_name] = [encoder]
     
+    def get_encoder_group(self, group_name):
+        if group_name in self.__encoder_groups:
+            return self.__encoder_groups[group_name]
+        else:
+            self.log(f'No encoder group for {group_name}. Registered groups are:\n'
+                     f'{self.__encoder_groups.keys()}')
+            return None
+
+    def get_encoder(self, encoder_name):
+        if encoder_name in self._encoders:
+            return self._encoders[encoder_name]
+        else:
+            self.log(f'No encoder called {encoder_name}. Registered encoders are:\n'
+                     f'{self._encoders.keys()}')
+            return None
