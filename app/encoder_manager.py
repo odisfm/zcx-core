@@ -29,6 +29,7 @@ class EncoderManager(Component, EventObject):
         self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log(f'{self.name} loaded')
         self._encoders = {}
+        self.__encoder_groups = {}
 
     def log(self, *msg):
         for msg in msg:
@@ -70,6 +71,9 @@ class EncoderManager(Component, EventObject):
                                          f'\n{encoder_def}')
 
             self._encoders[encoder_name] = encoder_obj
+            
+            if 'group_name' in encoder_def['context']:
+                    self.add_encoder_to_group(encoder_name, encoder_def['context']['group_name'])
 
         hw_interface = self.canonical_parent.component_map['HardwareInterface']
 
@@ -182,3 +186,11 @@ class EncoderManager(Component, EventObject):
                 encoder_def['context'] = context
 
         return flat_defs
+
+    
+    def add_encoder_to_group(self, encoder, group_name):
+        if group_name in self.__encoder_groups:
+            self.__encoder_groups[group_name].append(encoder)
+        else:
+            self.__encoder_groups[group_name] = [encoder]
+    

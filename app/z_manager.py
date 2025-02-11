@@ -34,6 +34,10 @@ class ZManager(Component, EventObject):
         )
         self.__global_control_template = {}
         self.__control_templates = {}
+        self.__control_groups = {}
+        self.__named_controls = {}
+        self.__named_control_section: PadSection = None
+        self.__matrix_sections: dict[PadSection] = {}
 
     def setup(self):
         from . import z_controls
@@ -48,6 +52,13 @@ class ZManager(Component, EventObject):
     def log(self, *msg):
         for msg in msg:
             self.__logger.info(msg)
+
+    def add_control_to_group(self, control, group_name):
+        if group_name in self.__control_groups:
+            self.__control_groups[group_name].append(control)
+        else:
+            self.__control_groups[group_name] = [control]
+
 
     def load_control_templates(self):
         manager = self.canonical_parent.template_manager
@@ -75,6 +86,8 @@ class ZManager(Component, EventObject):
                 control.setup()
         except Exception as e:
             self.log(e)
+
+        self.__matrix_sections[pad_section.name] = pad_section
 
     def flatten_section_config(
         self, section_obj, raw_config, ignore_global_template=False
@@ -301,6 +314,9 @@ class ZManager(Component, EventObject):
             control = self.z_control_factory(button_def, pad_section)
             control.bind_to_state(state)
             control.setup()
+            self.__named_controls[button_name] = control
+
+        self.__named_controls_section = pad_section
 
     def parse_named_button_config(
         self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
@@ -395,6 +411,10 @@ class ZManager(Component, EventObject):
                 raise ValueError(f"Control class for type '{control_type}' not found")
 
             control = control_cls(self.canonical_parent, pad_section, config)
+            if 'group_context' in config:
+                if 'group_name' in config['group_context']:
+                    self.add_control_to_group(control, config['group_context']['group_name'])
+
         except ConfigurationError as e:
             from . import SAFE_MODE
             if SAFE_MODE is True:
