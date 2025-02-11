@@ -146,7 +146,7 @@ class EncoderManager(Component, EventObject):
                 merged_def = merge_configs(item_def_copy, override_def)
 
                 group_context_copy = copy.deepcopy(group_context)
-                group_context_copy['group_name'] = group_name
+                group_context_copy['group_name'] = group_name.lstrip('__')
 
                 this_context = {
                     'me': {

@@ -19,6 +19,7 @@ from .z_manager import ZManager
 from .encoder_manager import EncoderManager
 from .z_state import ZState
 from .encoder_state import EncoderState
+from .api_manager import ApiManager
 from .zcx_core import ZCXCore
 
 from .consts import SUPPORTED_GESTURES
@@ -56,6 +57,7 @@ def create_mappings(arg) -> dict:
         "ActionResolver": {},
         "ZManager": {},
         "EncoderManager": {},
+        "ApiManager": {},
     }
 
 def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInterface]:
@@ -134,6 +136,7 @@ def create_instance(c_instance):
         "ActionResolver": ActionResolver,
         "ZManager": ZManager,
         "EncoderManager": EncoderManager,
+        "ApiManager": ApiManager,
     }
 
     return ZCXCore(Specification, c_instance=c_instance)
