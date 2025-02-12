@@ -1,11 +1,5 @@
 from .hardware import colors as hardware_colors
 
-# try:
-# except ImportError:
-#     # this makes your IDE autocomplete work
-#     # from ..hardware.push_1 import colors as hardware_colors
-#     pass
-
 from .errors import *
 
 Color = hardware_colors.Color
