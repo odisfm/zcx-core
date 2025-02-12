@@ -70,8 +70,8 @@ class BiledColorSwatch:
     GREEN = Color(127)
     PLAY_GREEN = GREEN
     GREEN_HALF = Color(19)
-    GREEN_BLINK_SLOW = Color(24)
-    GREEN_BLINK_FAST = Color(23)
+    GREEN_BLINK_SLOW = Color(23)
+    GREEN_BLINK_FAST = Color(24)
     RED = Color(4)
     RED_HALF = Color(1)
     RED_BLINK_SLOW = Color(5)
