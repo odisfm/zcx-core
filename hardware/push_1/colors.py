@@ -243,13 +243,23 @@ palettes = {
 }
 
 def live_index_for_midi_index(live_index):
-    if live_index >= 0 and live_index < 14:
-        if live_index == 13:
+    live_index = max(live_index, 0)
+
+    LOWER_BOUND = 0
+    UPPER_BOUND = 28 # AFAAIK only the first 28 live colors (first 2 rows) map well to midi colors
+    END_ROW_1 = 13
+    END_ROW_2 = 27
+    OFFSET_1 = 4
+    OFFSET_2 = 51
+
+    if LOWER_BOUND <= live_index < UPPER_BOUND:
+        if live_index == END_ROW_1:
             return 3
-        return (live_index * 4) + 4
-    elif live_index >= 14 and live_index < 28:
-        if live_index == 27:
+        elif live_index == END_ROW_2:
             return 2
-        return (live_index * 4) - 51
+        elif live_index < 14:
+            return (live_index * 4) + 4
+        else:
+            return (live_index * 4) - OFFSET_2
     else:
-        return live_index_for_midi_index(live_index % 27)
+        return live_index_for_midi_index(live_index % END_ROW_2)
