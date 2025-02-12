@@ -16,6 +16,13 @@ class ColorSwatches:
 
 
 def get_named_color(name, calling_control=None):
+
+    try:
+        name = int(name)
+        return RgbColor(name)
+    except ValueError:
+        pass
+
     if 'shade' in name.lower():
         if '${' in name:
             from .zcx_core import root_cs
@@ -31,23 +38,27 @@ def get_named_color(name, calling_control=None):
             factor = int(split[2])
         else:
             raise ConfigurationError(f'Invalid color def: {name}')
-        return getattr(hardware_colors.RgbColorSwatch, split[0].upper()).shade(factor)
+        return getattr(calling_control._color_swatch, split[0].upper()).shade(factor)
 
     name = name.upper()
     if calling_control is not None:
-        swatch = calling_control._control_element._color_swatch
+        swatch = calling_control._color_swatch
         color = getattr(swatch, name, None)
         if color is not None:
             return color
 
-    return getattr(hardware_colors.Rgb, name, hardware_colors.Rgb.RED)
+    return getattr(hardware_colors.Rgb, name, RgbColor(0))
 
 def parse_color_definition(color, calling_control=None):
     try:
-        if type(color) is int:
+
+        try:
+            color = int(color)
             if 0 <= color <= 127:
                 return RgbColor(color)
-        elif type(color) is str:
+        except Exception:
+            pass
+        if type(color) is str:
             if '${' in color:
                 from .zcx_core import root_cs
                 resolver = root_cs.component_map['ActionResolver']
@@ -55,7 +66,7 @@ def parse_color_definition(color, calling_control=None):
                 if parse[1] != 0:
                     raise ConfigurationError(f'Unparseable color definition: {color}')
                 return get_named_color(parse[0], calling_control=calling_control)
-            return get_named_color(color, calling_control)
+            return get_named_color(color, calling_control=calling_control)
         elif type(color) is dict:
             special_color_type = list(color.keys())[0].lower()
             special_color_def = list(color.values())[0]
@@ -72,8 +83,8 @@ def parse_color_definition(color, calling_control=None):
                 a_def = special_color_def['a']
                 b_def = special_color_def['b']
                 speed_def = special_color_def.get('speed', 1)
-                a = parse_color_definition(a_def)
-                b = parse_color_definition(b_def)
+                a = parse_color_definition(a_def, calling_control)
+                b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
 
                 return Blink(a, b, speed)
@@ -82,8 +93,8 @@ def parse_color_definition(color, calling_control=None):
                 a_def = special_color_def['a']
                 b_def = special_color_def['b']
                 speed_def = special_color_def.get('speed', 1)
-                a = parse_color_definition(a_def)
-                b = parse_color_definition(b_def)
+                a = parse_color_definition(a_def, calling_control)
+                b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
 
                 return Pulse(a, b, speed)
@@ -118,7 +129,7 @@ def parse_color_definition(color, calling_control=None):
                 return palette_list[i]
 
             elif special_color_type == 'midi':
-                return parse_color_definition(color['midi'])
+                return parse_color_definition(color['midi'], calling_control)
             elif special_color_type == 'live':
                 try:
                     special_color_def = int(special_color_def)
