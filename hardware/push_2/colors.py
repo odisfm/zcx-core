@@ -55,7 +55,7 @@ class BasicColorSwatch:
         return cls.FULL
 
 class RgbColorSwatch(object):
-    PLAY_GREEN = IndexedColor(32)
+    PLAY_GREEN = IndexedColor(126)
 
     RED = IndexedColor(2)
     ORANGE = IndexedColor(3)
