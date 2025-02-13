@@ -121,6 +121,21 @@ class TrackControl(ZControl):
             'b': 'pink',
             'speed': 1
         }}, calling_control=self)
+        color_dict['counting_in'] = parse_color_definition({'blink': {
+            'a': 'red',
+            'b': {'live': base_index},
+            'speed': 1
+        }}, calling_control=self)
+        color_dict['counting_in'] = parse_color_definition({'blink': {
+            'a': 'red',
+            'b': 'white',
+            'speed': 1
+        }}, calling_control=self)
+        color_dict['selected_playing_armed'] = parse_color_definition({'pulse': {
+            'a': 'white',
+            'b': 'red shade 1',
+            'speed': 1
+        }}, calling_control=self)
         color_dict['selected_recording'] = parse_color_definition({'pulse': {
             'a': 'white',
             'b': 'red',
@@ -133,8 +148,8 @@ class TrackControl(ZControl):
         }}, calling_control=self)
         color_dict['selected_fired'] = parse_color_definition({'blink': {
             'a': 'white',
-            'b': {'live': base_index},
-            'speed': 1
+            'b': 'grey',
+            'speed': 2
         }}, calling_control=self)
         color_dict['selected_stopping'] = parse_color_definition({'blink': {
             'a': 'white',
@@ -163,61 +178,69 @@ class TrackControl(ZControl):
         playing_index = self._track.playing_slot_index
         fired_index = self._track.fired_slot_index
 
+        is_playing = False
         is_stopping = False
+        is_counting_in = False
+        is_recording = False
+        is_fired = False
+        is_armed = self._track.can_be_armed and self._track.arm
 
         if playing_index >= 0:
             playing_clip = self._track.clip_slots[playing_index].clip
             is_playing = True
             is_recording = playing_clip.is_recording
         else:
-            playing_clip = None
-            is_playing = False
-            is_recording = False
+            pass
+
         if fired_index >= 0:
-            fired_clip = self._track.clip_slots[fired_index].clip
-            is_fired = True
+            fired_slot = self._track.clip_slots[fired_index]
+            if not fired_slot.has_clip:
+                if is_armed:
+                    is_counting_in = True
+                else:
+                    is_stopping = True
+            else:
+                if self._track.has_midi_input and self.root_cs.song.session_record_status and is_armed:
+                    is_counting_in = True
+                is_fired = True
         else:
-            fired_clip = None
-            is_fired = False
-            if is_playing and fired_index < -1:
+            if is_playing and fired_index == -2:
                 is_stopping = True
 
-        is_armed = self._track.can_be_armed and self._track.arm
-
         if self._track == self.root_cs.song.view.selected_track:
-            if is_armed:
-                if is_recording:
-                    self._color = self._color_dict['selected_recording']
-                    return True
-                elif is_stopping:
-                    self._color = self._color_dict['selected_stopping']
-                    return True
-                elif is_playing:
-                    self._color = self._color_dict['selected_playing']
-                    return True
-                elif is_fired:
-                    self._color = self._color_dict['selected_fired']
-                    return True
-
-                else:
-                    self._color = self._color_dict['selected_armed']
-                    return True
+            if is_recording:
+                self._color = self._color_dict['selected_recording']
+                return True
+            elif is_counting_in:
+                self._color = self._color_dict['counting_in']
+                return True
+            elif is_fired:
+                self._color = self._color_dict['selected_fired']
+                return True
+            elif is_stopping:
+                self._color = self._color_dict['selected_stopping']
+                return True
+            elif is_playing:
+                self._color = self._color_dict['selected_playing']
+                return True
+            elif is_armed:
+                self._color = self._color_dict['selected_armed']
+                return True
+            elif is_armed:
+                self._color = self._color_dict['selected_armed']
+                return True
             else:
-                if is_stopping:
-                    self._color = self._color_dict['selected_stopping']
-                    return True
-                elif is_playing:
-                    self._color = self._color_dict['selected_playing']
-                    return True
-                elif is_fired:
-                    self._color = self._color_dict['selected_fired']
-                    return True
-                else:
-                    self._color = self._color_dict['selected']
-                    return True
+                self._color = self._color_dict['selected']
+                return True
         else:
-            if is_armed:
+            if is_recording:
+                self._color = self._color_dict['recording']
+                return True
+            elif is_armed:
                 self._color = self._color_dict['armed']
+                return True
+            elif is_counting_in:
+                self._color = self._color_dict['counting_in']
                 return True
             elif is_stopping:
                 self._color = self._color_dict['stopping']
