@@ -1,4 +1,5 @@
 import copy
+from typing import TYPE_CHECKING, Optional
 
 from ableton.v2.base.event import EventObject, listenable_property
 from ableton.v3.control_surface import Component, ControlSurface
@@ -7,6 +8,11 @@ from .errors import ConfigurationError, CriticalConfigurationError
 from .hardware_interface import HardwareInterface
 from .z_manager import ZManager
 from .encoder_manager import EncoderManager
+
+if TYPE_CHECKING:
+    from .pad_section import PadSection
+    from .z_control import ZControl
+    from .z_encoder import ZEncoder
 
 
 class ApiManager(Component, EventObject):
@@ -49,20 +55,20 @@ class ZcxApi:
         self.z_manager = self.root_cs.component_map['ZManager']
         self.encoder_manager = self.root_cs.component_map['EncoderManager']
 
-    def get_control_group(self, group_name):
+    def get_control_group(self, group_name) -> list['ZControl']:
         return self.z_manager.get_control_group(group_name)
 
-    def get_encoder_group(self, group_name):
+    def get_encoder_group(self, group_name) -> list['ZEncoder']:
         return self.encoder_manager.get_encoder_group(group_name)
 
-    def get_named_control(self, control_name):
+    def get_named_control(self, control_name) -> 'ZControl':
         return self.z_manager.get_named_control(control_name)
 
-    def get_encoder(self, encoder_name):
+    def get_encoder(self, encoder_name) -> 'ZEncoder':
         return self.encoder_manager.get_encoder(encoder_name)
 
-    def get_matrix_section(self, section_name):
+    def get_matrix_section(self, section_name) -> 'PadSection':
         return self.z_manager.get_matrix_section(section_name)
 
-    def get_matrix_section_controls(self, section_name):
+    def get_matrix_section_controls(self, section_name) -> list['ZControl']:
         return self.get_matrix_section(section_name).owned_controls
