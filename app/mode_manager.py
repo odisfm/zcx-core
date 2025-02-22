@@ -38,7 +38,6 @@ class ModeManager(Component, EventObject):
         self.__all_modes.sort()
         for mode in self.__all_modes:
             self.__modes_state[mode] = False
-        self.log(self.__modes_state)
         self.log(f"Configured modes: {self.all_modes}")
 
     @property
