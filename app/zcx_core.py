@@ -1,4 +1,5 @@
 import logging
+from functools import partial
 
 from ableton.v3.control_surface import (
     ControlSurface
@@ -18,7 +19,14 @@ class ZCXCore(ControlSurface):
         try:
             self.__name = __name__.split('.')[0].lstrip('_')
             from . import ROOT_LOGGER
-            self.logger = ROOT_LOGGER
+            self._logger = ROOT_LOGGER
+            self.error = partial(self.log, level='error')
+            self.debug = partial(self.log, level='debug')
+            self.warning = partial(self.log, level='warning')
+            self.critical = partial(self.log, level='critical')
+
+            self.set_logger_level('debug')
+            
             self.template_manager = TemplateManager(self)
             self.component_map["ZManager"].load_control_templates()
             self.post_init()
@@ -36,9 +44,9 @@ class ZCXCore(ControlSurface):
 
         except Exception as e:
             try:
-                self.logger.critical(e)
+                self.error(e)
             except Exception:
-                logging.getLogger(__name__).critical(e)
+                logging.getLogger(__name__).error(e)
 
     @property
     def name(self):
@@ -48,9 +56,14 @@ class ZCXCore(ControlSurface):
     def zcx_api(self):
         return self.component_map["ApiManager"].get_api_object()
 
-    def log(self, message: [str, object], level: [str] = 'info') -> None:
-        method = getattr(self.logger, level)
-        method(message)
+    def log(self, *msg, level='info'):
+        method = getattr(self._logger, level)
+        for m in msg:
+            method(m)
+            
+    def set_logger_level(self, level):
+        level = getattr(logging, level.upper())
+        self._logger.setLevel(level)
 
     def setup(self):
         super().setup()
@@ -60,24 +73,24 @@ class ZCXCore(ControlSurface):
         try:
             global root_cs
             root_cs = self
-            self.log(f'starting HardwareInterface setup')
+            self.debug(f'starting HardwareInterface setup')
             self.component_map['HardwareInterface'].setup()
-            self.log(f'finished HardwareInterface setup')
-            self.log(f'starting ModeManager setup')
+            self.debug(f'finished HardwareInterface setup')
+            self.debug(f'starting ModeManager setup')
             self.component_map['ModeManager'].setup()
-            self.log(f'finished ModeManager setup')
-            self.log(f'starting ZManager setup')
+            self.debug(f'finished ModeManager setup')
+            self.debug(f'starting ZManager setup')
             self.component_map['ZManager'].setup()
-            self.log(f'finished ZManager setup')
-            self.log(f'starting PageManager setup')
+            self.debug(f'finished ZManager setup')
+            self.debug(f'starting PageManager setup')
             self.component_map['PageManager'].setup()
-            self.log(f'finished PageManager setup')
-            self.log(f'starting EncoderManager setup')
+            self.debug(f'finished PageManager setup')
+            self.debug(f'starting EncoderManager setup')
             self.component_map['EncoderManager'].setup()
-            self.log(f'finished EncoderManager setup')
-            self.log(f'starting ApiManager setup')
+            self.debug(f'finished EncoderManager setup')
+            self.debug(f'starting ApiManager setup')
             self.component_map['ApiManager'].setup()
-            self.log(f'finished ApiManager setup')
+            self.debug(f'finished ApiManager setup')
         except Exception as e:
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()

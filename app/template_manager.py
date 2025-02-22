@@ -12,7 +12,7 @@ class TemplateManager:
         self.__global_control_template = {}
         self.__control_templates = {}
         self.__name = self.__class__.__name__
-        self.__logger = self.root_cs.logger.getChild(self.__name)
+        self.__logger = self.root_cs._logger.getChild(self.__name)
         from .yaml_loader import yaml_loader
         self.__yaml_loader = yaml_loader
         from . import CONFIG_DIR
