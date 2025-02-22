@@ -2,9 +2,9 @@ from ableton.v3.control_surface import ControlSurface, Component
 from ableton.v3.live import liveobj_valid
 
 from .consts import CXP_NAME
+from .zcx_component import ZCXComponent
 
-
-class CxpBridge(Component):
+class CxpBridge(ZCXComponent):
 
     def __init__(
             self,
@@ -13,15 +13,9 @@ class CxpBridge(Component):
             **k,
     ):
         super().__init__(name=name, *a, **k)
-        from . import ROOT_LOGGER
-        self.__logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.__clyph_x = None
         self.__live = self.application
         self.get_clyph_x()
-
-    def log(self, *msg):
-        for msg in msg:
-            self.__logger.info(msg)
 
     def get_clyph_x(self):
         if self.__clyph_x is not None:

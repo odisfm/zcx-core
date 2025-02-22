@@ -2,9 +2,9 @@ import re
 from typing import Dict, Any, Tuple, Optional, Callable, Union
 from itertools import chain
 
-from ableton.v3.control_surface import ControlSurface, Component
 from ClyphX_Pro.clyphx_pro import ParseUtils
 
+from .zcx_component import ZCXComponent
 from .z_control import ZControl
 from .cxp_bridge import CxpBridge
 from .page_manager import PageManager
@@ -41,7 +41,7 @@ class DotDict:
         return value
 
 
-class ActionResolver(Component):
+class ActionResolver(ZCXComponent):
 
     def __init__(
             self,
@@ -49,18 +49,13 @@ class ActionResolver(Component):
             *a,
             **k,
     ):
-        super(ActionResolver, self).__init__(name, *a, **k)
-        from . import ROOT_LOGGER
-        self.__logger = ROOT_LOGGER.getChild(name)
+        super().__init__(name=name, *a, **k)
+
         self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)}")
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
-
-    def log(self, *msg):
-        for msg in msg:
-            self.__logger.info(msg)
 
     def _evaluate_expression(
         self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]

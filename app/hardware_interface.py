@@ -1,14 +1,13 @@
-from ableton.v3.control_surface import Component, ControlSurface
+from .zcx_component import ZCXComponent
 from .z_element import ZElement
 from .z_state import ZState
 from .encoder_state import EncoderState
 
 
-class HardwareInterface(Component):
+class HardwareInterface(ZCXComponent):
 
     named_button_states = {}
     encoder_states = {}
-    canonical_parent: ControlSurface
 
     def __init__(
             self,
@@ -17,15 +16,8 @@ class HardwareInterface(Component):
             **k,
     ):
         super().__init__(name=name, *a, **k)
-        from . import ROOT_LOGGER
-        self.__logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.__button_matrix_element = None
         self.__page_manager = None
-
-
-    def log(self, *msg):
-        for msg in msg:
-            self.__logger.info(msg)
 
     @property
     def button_matrix_element(self):

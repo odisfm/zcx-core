@@ -1,0 +1,54 @@
+from typing import TYPE_CHECKING
+from functools import partial
+import logging
+
+from ableton.v2.base.event import EventObject, listenable_property
+from ableton.v3.control_surface import Component, ControlSurface
+
+
+class ZCXComponent(Component, EventObject):
+
+    canonical_parent: ControlSurface
+
+    def __init__(
+        self,
+        name=None,
+        *a,
+        **k,
+    ):
+        super().__init__(name=name, *a, **k)
+        from . import ROOT_LOGGER
+        from . import CONFIG_DIR
+
+        if TYPE_CHECKING:
+            from .page_manager import PageManager
+            self.canonical_parent: ControlSurface
+            self.page_manager: 'PageManager'
+
+        self._config_dir = CONFIG_DIR
+        from .yaml_loader import yaml_loader
+
+        self.yaml_loader = yaml_loader
+        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
+
+        self.error = partial(self.log, level='error')
+        self.debug = partial(self.log, level='debug')
+        self.warning = partial(self.log, level='warning')
+        self.critical = partial(self.log, level='critical')
+
+        self.component_map = self.canonical_parent.component_map
+
+
+        self.debug(f'{self.name} created')
+
+    def log(self, *msg, level='info'):
+        method = getattr(self._logger, level)
+        for m in msg:
+            method(m)
+
+    def set_logger_level(self, level):
+        level = getattr(logging, level.upper())
+        self._logger.setLevel(level)
+
+    def setup(self):
+        raise NotImplementedError("Setup() must be overridden")

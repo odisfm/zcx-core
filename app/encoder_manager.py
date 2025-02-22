@@ -1,16 +1,16 @@
 import copy
 
-from ableton.v2.base.event import EventObject, listenable_property
+from ableton.v2.base.event import listenable_property
 from ableton.v3.control_surface import Component, ControlSurface
 
+from .zcx_component import ZCXComponent
 from .errors import ConfigurationError, CriticalConfigurationError
 from .hardware_interface import HardwareInterface
 from .z_encoder import ZEncoder
 
 
-class EncoderManager(Component, EventObject):
+class EncoderManager(ZCXComponent):
 
-    canonical_parent: ControlSurface
 
     def __init__(
         self,
@@ -19,21 +19,9 @@ class EncoderManager(Component, EventObject):
         **k,
     ):
         super().__init__(name=name, *a, **k)
-        from . import ROOT_LOGGER
-        from . import CONFIG_DIR
 
-        self.__config_dir = CONFIG_DIR
-        from .yaml_loader import yaml_loader
-
-        self.yaml_loader = yaml_loader
-        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
-        self.log(f'{self.name} loaded')
         self._encoders = {}
         self.__encoder_groups = {}
-
-    def log(self, *msg):
-        for msg in msg:
-            self._logger.info(msg)
 
     def setup(self):
         self.log(f'{self.name} doing setup')
@@ -47,7 +35,7 @@ class EncoderManager(Component, EventObject):
                 self.log(f'Failed to bind {enc_name}')
 
     def create_encoders(self):
-        encoder_config = self.yaml_loader.load_yaml(f'{self.__config_dir}/encoders.yaml')
+        encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
         if encoder_config is None:
             # todo: raise configuration warning
             return

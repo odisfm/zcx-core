@@ -1,7 +1,8 @@
 import copy
 
-from ableton.v2.base.event import EventObject, listenable_property
-from ableton.v3.control_surface import Component, ControlSurface
+from ableton.v2.base.event import listenable_property
+
+from .zcx_component import ZCXComponent
 from .errors import ConfigurationError
 from .pad_section import PadSection
 
@@ -10,12 +11,8 @@ MATRIX_MAX_NOTE = 0
 MATRIX_WIDTH = 0
 MATRIX_HEIGHT = 0
 
-CONFIG_DIR = None
 
-
-class PageManager(Component, EventObject):
-
-    canonical_parent: ControlSurface
+class PageManager(ZCXComponent):
 
     def __init__(
         self,
@@ -24,15 +21,7 @@ class PageManager(Component, EventObject):
         **k,
     ):
         super().__init__(name=name, *a, **k)
-        from . import ROOT_LOGGER
-        from . import CONFIG_DIR as config_dir
 
-        global CONFIG_DIR
-        CONFIG_DIR = config_dir
-        from .yaml_loader import yaml_loader
-
-        self.yaml_loader = yaml_loader
-        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.__z_manager: ZManager = self.canonical_parent.component_map["ZManager"]
         self.__raw_sections: Dict[str, Dict] = {}
         self.__current_page = -1
@@ -42,10 +31,6 @@ class PageManager(Component, EventObject):
         self.__page_names = []
         self.__pad_sections: Dict[PadSection] = {}
         self.__named_button_section: Optional[PadSection] = None
-
-    def log(self, *msg):
-        for msg in msg:
-            self._logger.info(msg)
 
     @listenable_property
     def current_page(self):
@@ -209,12 +194,12 @@ class PageManager(Component, EventObject):
         MATRIX_HEIGHT = len(nested_controls) // MATRIX_WIDTH
 
     def load_sections_config(self):
-        sections = self.yaml_loader.load_yaml(f"{CONFIG_DIR}/matrix_sections.yaml")
+        sections = self.yaml_loader.load_yaml(f"{self._config_dir}/matrix_sections.yaml")
         return sections
 
     def load_pages_config(self):
         try:
-            pages = self.yaml_loader.load_yaml(f"{CONFIG_DIR}/pages.yaml")
+            pages = self.yaml_loader.load_yaml(f"{self._config_dir}/pages.yaml")
         except FileNotFoundError:
             pages = None
         return pages

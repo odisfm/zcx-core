@@ -1,8 +1,8 @@
 from copy import deepcopy
 
-from ableton.v2.base.event import EventObject
-from ableton.v3.control_surface import Component
 from ableton.v3.control_surface.controls import control_matrix
+
+from .zcx_component import ZCXComponent
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError
 from .hardware_interface import HardwareInterface
@@ -11,7 +11,7 @@ from .z_control import ZControl
 from .z_state import ZState
 
 
-class ZManager(Component, EventObject):
+class ZManager(ZCXComponent):
 
     def __init__(
         self,
@@ -20,15 +20,7 @@ class ZManager(Component, EventObject):
         **k,
     ):
         super().__init__(name=name, *a, **k)
-        from . import ROOT_LOGGER
 
-        self.__logger = ROOT_LOGGER.getChild(self.__class__.__name__)
-        from . import CONFIG_DIR
-
-        self.__config_dir = CONFIG_DIR
-        from .yaml_loader import yaml_loader
-
-        self.__yaml_loader = yaml_loader
         self.__hardware_interface: HardwareInterface = (
             self.canonical_parent.component_map["HardwareInterface"]
         )
@@ -48,10 +40,6 @@ class ZManager(Component, EventObject):
 
     def reinit(self):
         pass
-
-    def log(self, *msg):
-        for msg in msg:
-            self.__logger.info(msg)
 
     def add_control_to_group(self, control, group_name):
         if group_name in self.__control_groups:
@@ -90,8 +78,8 @@ class ZManager(Component, EventObject):
     def process_pad_section(self, pad_section: PadSection):
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
 
-        raw_section_config = self.__yaml_loader.load_yaml(
-            f"{self.__config_dir}/matrix_sections/{pad_section.name}.yaml"
+        raw_section_config = self.yaml_loader.load_yaml(
+            f"{self._config_dir}/matrix_sections/{pad_section.name}.yaml"
         )
 
         flat_config = self.flatten_section_config(pad_section, raw_section_config)
@@ -319,8 +307,8 @@ class ZManager(Component, EventObject):
             self.log(e)
 
     def process_named_buttons(self, pad_section: PadSection):
-        raw_config = self.__yaml_loader.load_yaml(
-            f"{self.__config_dir}/named_buttons.yaml"
+        raw_config = self.yaml_loader.load_yaml(
+            f"{self._config_dir}/named_buttons.yaml"
         )
         if raw_config is None:
             self.log(
