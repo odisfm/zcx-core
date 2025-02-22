@@ -31,7 +31,6 @@ class ApiManager(Component, EventObject):
 
         self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log(f'{self.name} loaded')
-        self._encoders = {}
 
     def log(self, *msg):
         for msg in msg:
