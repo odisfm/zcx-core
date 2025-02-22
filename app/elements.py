@@ -2,14 +2,15 @@ import os
 from functools import partial
 
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
-from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
 from ableton.v2.control_surface.elements.encoder import _map_modes
+from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
+
 from .colors import ColorSwatches
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
+from .encoder_element import EncoderElement
 from .errors import HardwareSpecificationError
 from .vendor.yaml import safe_load as load_yaml
 from .z_element import ZElement
-from .encoder_element import EncoderElement
 
 
 class Elements(ElementsBase):
@@ -82,8 +83,7 @@ class Elements(ElementsBase):
         )
         channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
 
-
-        identifiers = matrix_config.get('raw_identifiers')
+        identifiers = matrix_config.get("raw_identifiers")
         if identifiers is None:
             identifiers = create_matrix_identifiers(
                 id_start, id_end + 1, width, flip_rows=True
@@ -98,8 +98,8 @@ class Elements(ElementsBase):
         )
 
         feedback = matrix_config.get("feedback")
-        if feedback in ['none', 'false', False, None]:
-            feedback = 'basic'
+        if feedback in ["none", "false", False, None]:
+            feedback = "basic"
         color_swatch = getattr(ColorSwatches, feedback)
 
         for element in self.button_matrix.nested_control_elements():
@@ -123,8 +123,8 @@ class Elements(ElementsBase):
             channel = button_def.get("channel", global_channel)
             momentary = button_def.get("momentary", global_momentary)
             feedback = button_def.get("feedback", global_feedback)
-            if feedback in ['none', 'false', False, None]:
-                feedback = 'basic'
+            if feedback in ["none", "false", False, None]:
+                feedback = "basic"
 
             element = self.element_factory(
                 identifier=cc_number,
@@ -153,8 +153,8 @@ class Elements(ElementsBase):
             channel = button_def.get("channel", global_channel)
             momentary = button_def.get("momentary", global_momentary)
             feedback = button_def.get("feedback", global_feedback)
-            if feedback in ['none', 'false', False, None]:
-                feedback = 'basic'
+            if feedback in ["none", "false", False, None]:
+                feedback = "basic"
 
             element = self.element_factory(
                 identifier=note_number,
@@ -170,9 +170,7 @@ class Elements(ElementsBase):
 
             self.register_named_button(element, button_name)
 
-    def process_encoders(
-            self, encoders_globals: dict, encoders_yaml: dict
-    ) -> None:
+    def process_encoders(self, encoders_globals: dict, encoders_yaml: dict) -> None:
 
         global_channel = encoders_globals.get("channel", 0)
         global_feedback = encoders_globals.get("feedback", False)
@@ -201,13 +199,13 @@ class Elements(ElementsBase):
         return element
 
     def encoder_factory(
-            self,
-            identifier=None,
-            map_mode=None,
-            is_feedback_enabled=False,
-            channel=0,
-            sensitivity=1.0,
-            ):
+        self,
+        identifier=None,
+        map_mode=None,
+        is_feedback_enabled=False,
+        channel=0,
+        sensitivity=1.0,
+    ):
         try:
             map_mode = getattr(_map_modes, map_mode.lower())
         except AttributeError:

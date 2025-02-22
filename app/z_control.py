@@ -1,17 +1,14 @@
 from functools import wraps, partial
 
 from ableton.v2.base import EventObject
+from ableton.v2.base.task import TimerTask
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
-from ableton.v2.base.task import TimerTask
 
-from .colors import parse_color_definition, simplify_color, Pulse, Blink, RgbColor
-from .defaults import BUILT_IN_COLORS
+from .colors import parse_color_definition, simplify_color, Pulse, Blink
 from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
-from .z_element import ZElement
-from .template_manager import TemplateManager
 from .errors import ConfigurationError
-from .cxp_bridge import CxpBridge
+from .z_element import ZElement
 
 
 def only_in_view(func):

@@ -1,15 +1,11 @@
-import copy
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
-from ableton.v2.base.event import EventObject, listenable_property
-from ableton.v3.control_surface import Component, ControlSurface
+from ableton.v3.control_surface import ControlSurface
 
-from .zcx_component import ZCXComponent
-from .errors import ConfigurationError, CriticalConfigurationError
-from .hardware_interface import HardwareInterface
-from .z_manager import ZManager
 from .encoder_manager import EncoderManager
 from .mode_manager import ModeManager
+from .z_manager import ZManager
+from .zcx_component import ZCXComponent
 
 if TYPE_CHECKING:
     from .pad_section import PadSection

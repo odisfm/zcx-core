@@ -1,8 +1,8 @@
-from ableton.v3.control_surface import ControlSurface, Component
 from ableton.v3.live import liveobj_valid
 
 from .consts import CXP_NAME
 from .zcx_component import ZCXComponent
+
 
 class CxpBridge(ZCXComponent):
 

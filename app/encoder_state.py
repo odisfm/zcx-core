@@ -1,5 +1,4 @@
 from ableton.v3.control_surface.controls import EncoderControl, Connectable
-from ableton.v3.control_surface.display import Renderable
 
 
 class EncoderState(EncoderControl):

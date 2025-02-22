@@ -1,7 +1,5 @@
+from ableton.v2.control_surface import MIDI_CC_TYPE
 from ableton.v3.control_surface.elements import EncoderElement as Element
-from ableton.v3.live import application
-from ableton.v3.control_surface import MapMode
-from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 
 
 class EncoderElement(Element):

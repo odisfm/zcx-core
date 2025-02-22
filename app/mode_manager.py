@@ -2,7 +2,6 @@ from copy import copy
 
 from ableton.v2.base.event import listenable_property
 
-
 from .zcx_component import ZCXComponent
 
 

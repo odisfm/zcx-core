@@ -1,14 +1,13 @@
 from typing import Optional
 
-from ..action_resolver import ActionResolver
-from ..page_manager import PageManager
-from ..mode_manager import ModeManager
-
 from .basic_z_control import BasicZControl
-from .page_control import PageControl
 from .mode_control import ModeControl
-from .transport_control import TransportControl
+from .page_control import PageControl
 from .track_control import TrackControl
+from .transport_control import TransportControl
+from ..action_resolver import ActionResolver
+from ..mode_manager import ModeManager
+from ..page_manager import PageManager
 
 action_resolver:ActionResolver = Optional[None]
 page_manager:PageManager = Optional[None]

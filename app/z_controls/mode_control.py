@@ -1,7 +1,7 @@
 from ableton.v2.base.event import listens
 
-from ..z_control import ZControl
 from ..errors import ConfigurationError
+from ..z_control import ZControl
 
 
 class ModeControl(ZControl):

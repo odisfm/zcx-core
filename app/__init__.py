@@ -8,22 +8,21 @@ from ableton.v3.control_surface import (
 from ableton.v3.control_surface.controls import (
     control_matrix,
 )
-from .elements import Elements
-from .hardware_interface import HardwareInterface
-from .page_manager import PageManager
-from .mode_manager import ModeManager
-from .cxp_bridge import CxpBridge
+
 from .action_resolver import ActionResolver
+from .api_manager import ApiManager
+from .consts import SUPPORTED_GESTURES
+from .cxp_bridge import CxpBridge
+from .elements import Elements
+from .encoder_manager import EncoderManager
+from .encoder_state import EncoderState
+from .hardware_interface import HardwareInterface
+from .mode_manager import ModeManager
+from .page_manager import PageManager
 from .skin import Skin
 from .z_manager import ZManager
-from .encoder_manager import EncoderManager
 from .z_state import ZState
-from .encoder_state import EncoderState
-from .api_manager import ApiManager
 from .zcx_core import ZCXCore
-
-from .consts import SUPPORTED_GESTURES
-
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None

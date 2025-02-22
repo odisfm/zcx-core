@@ -1,6 +1,7 @@
+from copy import copy
+
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v2.base.event import listens
-from copy import copy
 
 
 class PadSection(EventObject):

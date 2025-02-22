@@ -2,13 +2,13 @@ from copy import deepcopy
 
 from ableton.v3.control_surface.controls import control_matrix
 
-from .zcx_component import ZCXComponent
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError
 from .hardware_interface import HardwareInterface
 from .pad_section import PadSection
 from .z_control import ZControl
 from .z_state import ZState
+from .zcx_component import ZCXComponent
 
 
 class ZManager(ZCXComponent):
@@ -33,9 +33,12 @@ class ZManager(ZCXComponent):
 
     def setup(self):
         from . import z_controls
+
         ZControl.task_group = self.canonical_parent._task_group
         z_controls.page_manager = self.canonical_parent.component_map["PageManager"]
-        z_controls.action_resolver = self.canonical_parent.component_map["ActionResolver"]
+        z_controls.action_resolver = self.canonical_parent.component_map[
+            "ActionResolver"
+        ]
         z_controls.mode_manager = self.canonical_parent.component_map["ModeManager"]
 
     def reinit(self):
@@ -51,24 +54,30 @@ class ZManager(ZCXComponent):
         if group_name in self.__control_groups:
             return self.__control_groups[group_name]
         else:
-            self.log(f'No control group for {group_name}. Registered groups are:\n'
-                     f'{self.__control_groups.keys()}')
+            self.log(
+                f"No control group for {group_name}. Registered groups are:\n"
+                f"{self.__control_groups.keys()}"
+            )
             return None
 
     def get_named_control(self, control_name):
         if control_name in self.__named_controls:
             return self.__named_controls[control_name]
         else:
-            self.log(f'No control named {control_name}. Registered controls are:\n'
-                     f'{self.__named_controls.keys()}')
+            self.log(
+                f"No control named {control_name}. Registered controls are:\n"
+                f"{self.__named_controls.keys()}"
+            )
             return None
 
     def get_matrix_section(self, section_name):
         if section_name in self.__matrix_sections:
             return self.__matrix_sections[section_name]
         else:
-            self.log(f'No matrix section for {section_name}. Registered sections are:\n'
-                     f'{self.__matrix_sections.keys()}')
+            self.log(
+                f"No matrix section for {section_name}. Registered sections are:\n"
+                f"{self.__matrix_sections.keys()}"
+            )
 
     def load_control_templates(self):
         manager = self.canonical_parent.template_manager
@@ -113,11 +122,15 @@ class ZManager(ZCXComponent):
                     return override
                 merged = deepcopy(base)
                 for key, value in override.items():
-                    merged[key] = merge_configs(merged[key], value) if (
-                            key in merged and
-                            isinstance(merged[key], dict) and
-                            isinstance(value, dict)
-                    ) else value
+                    merged[key] = (
+                        merge_configs(merged[key], value)
+                        if (
+                            key in merged
+                            and isinstance(merged[key], dict)
+                            and isinstance(value, dict)
+                        )
+                        else value
+                    )
                 return merged
 
             def apply_global_template(config):
@@ -138,8 +151,12 @@ class ZManager(ZCXComponent):
                 if "pad_group" in raw_config:
                     raw_config = [raw_config]
                 else:
-                    pad_overrides = raw_config.get('pads', [None] * len(section_obj.owned_coordinates))
-                    section_template = {k: v for k, v in raw_config.items() if k != 'pads'}
+                    pad_overrides = raw_config.get(
+                        "pads", [None] * len(section_obj.owned_coordinates)
+                    )
+                    section_template = {
+                        k: v for k, v in raw_config.items() if k != "pads"
+                    }
                     raw_config = []
 
                     for i in range(len(section_obj.owned_coordinates)):
@@ -153,7 +170,6 @@ class ZManager(ZCXComponent):
                     # raw_config = []
             elif not isinstance(raw_config, list):
                 raise ValueError()  # todo: raise config error with proper message
-
 
             def apply_control_template(config):
                 """Apply any specified control template to config"""
@@ -267,8 +283,8 @@ class ZManager(ZCXComponent):
             processed_config = []
 
             if section_obj.bounds is not None:
-                section_height = section_obj.bounds['height']
-                section_width = section_obj.bounds['width']
+                section_height = section_obj.bounds["height"]
+                section_width = section_obj.bounds["width"]
             else:
                 section_height = 0
                 section_width = 0
@@ -279,7 +295,6 @@ class ZManager(ZCXComponent):
                 global_y_flip = global_y - section_height
                 global_x_flip = global_x - section_width
 
-
                 item_context = deepcopy(section_context)
                 item_context.update(
                     {
@@ -288,13 +303,16 @@ class ZManager(ZCXComponent):
                         "global_y": global_y,
                         "global_y_flip": global_y_flip,
                         "global_x_flip": global_x_flip,
-                        "x": global_x
-                        - section_obj._PadSection__bounds["min_x"],
-                        "y": global_y
-                        - section_obj._PadSection__bounds["min_y"],
-                        "x_flip": (global_x_flip - section_obj._PadSection__bounds["min_x"]) * -1,
-                        "y_flip": (global_y_flip - section_obj._PadSection__bounds["min_y"]) * -1,
-
+                        "x": global_x - section_obj._PadSection__bounds["min_x"],
+                        "y": global_y - section_obj._PadSection__bounds["min_y"],
+                        "x_flip": (
+                            global_x_flip - section_obj._PadSection__bounds["min_x"]
+                        )
+                        * -1,
+                        "y_flip": (
+                            global_y_flip - section_obj._PadSection__bounds["min_y"]
+                        )
+                        * -1,
                     }
                 )
 
@@ -400,11 +418,8 @@ class ZManager(ZCXComponent):
                 cleaned_group_name = group_name[2:]
 
                 for i, (name, _def) in enumerate(processed_sub_buttons.items()):
-                    group_context = {
-                        "group_name": cleaned_group_name,
-                        "group_index": i
-                    }
-                    _def['group_context'] = group_context
+                    group_context = {"group_name": cleaned_group_name, "group_index": i}
+                    _def["group_context"] = group_context
                     ungrouped_buttons[name] = _def
 
             return ungrouped_buttons
@@ -421,15 +436,18 @@ class ZManager(ZCXComponent):
                 raise ValueError(f"Control class for type '{control_type}' not found")
 
             control = control_cls(self.canonical_parent, pad_section, config)
-            if 'group_context' in config:
-                if 'group_name' in config['group_context']:
-                    self.add_control_to_group(control, config['group_context']['group_name'])
+            if "group_context" in config:
+                if "group_name" in config["group_context"]:
+                    self.add_control_to_group(
+                        control, config["group_context"]["group_name"]
+                    )
 
         except ConfigurationError as e:
             from . import SAFE_MODE
+
             if SAFE_MODE is True:
                 raise e
             self.log(e)
-            return get_control_class('basic')(self.canonical_parent, pad_section, {})
+            return get_control_class("basic")(self.canonical_parent, pad_section, {})
 
         return control

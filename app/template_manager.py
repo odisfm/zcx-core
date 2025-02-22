@@ -1,8 +1,8 @@
 from copy import deepcopy
 
-from ableton.v3.control_surface import Component, ControlSurface
+from ableton.v3.control_surface import ControlSurface
 
-from .defaults import BUILT_IN_COLORS, DefaultColors
+from .defaults import BUILT_IN_COLORS
 
 
 class TemplateManager:

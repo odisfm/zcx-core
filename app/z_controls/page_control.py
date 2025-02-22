@@ -1,9 +1,8 @@
 from ableton.v2.base.event import listens
-from ..z_control import only_in_view
-from ..colors import RgbColor, Color, ColorSwatches, parse_color_definition
 
-from ..z_control import ZControl
+from ..colors import parse_color_definition
 from ..errors import ConfigurationError
+from ..z_control import ZControl
 
 
 class PageControl(ZControl):

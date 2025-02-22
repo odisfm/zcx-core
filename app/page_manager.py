@@ -2,9 +2,9 @@ import copy
 
 from ableton.v2.base.event import listenable_property
 
-from .zcx_component import ZCXComponent
 from .errors import ConfigurationError
 from .pad_section import PadSection
+from .zcx_component import ZCXComponent
 
 MATRIX_MIN_NOTE = 0
 MATRIX_MAX_NOTE = 0
@@ -66,7 +66,7 @@ class PageManager(ZCXComponent):
     def is_valid_page_number(self, page_number):
         return 0 <= page_number < self.__page_count
 
-    def request_page_change(self, page:any=None):
+    def request_page_change(self, page: any = None):
         try:
             page = int(page)
         except ValueError:
@@ -75,10 +75,10 @@ class PageManager(ZCXComponent):
             result = self.set_page(page_number=page)
             return result
         elif isinstance(page, str):
-            if page in ['prev', 'up']:
+            if page in ["prev", "up"]:
                 self.increment_page(-1)
                 return True
-            elif page in ['next', 'down']:
+            elif page in ["next", "down"]:
                 self.increment_page(1)
                 return True
             else:
@@ -194,7 +194,9 @@ class PageManager(ZCXComponent):
         MATRIX_HEIGHT = len(nested_controls) // MATRIX_WIDTH
 
     def load_sections_config(self):
-        sections = self.yaml_loader.load_yaml(f"{self._config_dir}/matrix_sections.yaml")
+        sections = self.yaml_loader.load_yaml(
+            f"{self._config_dir}/matrix_sections.yaml"
+        )
         return sections
 
     def load_pages_config(self):

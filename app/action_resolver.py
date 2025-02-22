@@ -1,17 +1,16 @@
 import re
-from typing import Dict, Any, Tuple, Optional, Callable, Union
 from itertools import chain
+from typing import Dict, Any, Tuple, Callable, Union
 
 from ClyphX_Pro.clyphx_pro import ParseUtils
 
-from .zcx_component import ZCXComponent
-from .z_control import ZControl
 from .cxp_bridge import CxpBridge
-from .page_manager import PageManager
-from .mode_manager import ModeManager
-from .cxp_bridge import CxpBridge
-from .hardware_interface import HardwareInterface
 from .hardware.sysex import USER_MODE, LIVE_MODE
+from .hardware_interface import HardwareInterface
+from .mode_manager import ModeManager
+from .page_manager import PageManager
+from .z_control import ZControl
+from .zcx_component import ZCXComponent
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 

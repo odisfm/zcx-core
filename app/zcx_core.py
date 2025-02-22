@@ -1,13 +1,13 @@
 import logging
 from functools import partial
 
+from ableton.v2.base.task import TimerTask
 from ableton.v3.control_surface import (
     ControlSurface
 )
-from ableton.v2.base.task import TimerTask
 
-from .template_manager import TemplateManager
 from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT, AUTO_SWITCH_MODE
+from .template_manager import TemplateManager
 
 root_cs = None
 

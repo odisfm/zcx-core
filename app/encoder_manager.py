@@ -1,12 +1,8 @@
 import copy
 
-from ableton.v2.base.event import listenable_property
-from ableton.v3.control_surface import Component, ControlSurface
-
-from .zcx_component import ZCXComponent
 from .errors import ConfigurationError, CriticalConfigurationError
-from .hardware_interface import HardwareInterface
 from .z_encoder import ZEncoder
+from .zcx_component import ZCXComponent
 
 
 class EncoderManager(ZCXComponent):

@@ -1,6 +1,5 @@
-from .hardware import colors as hardware_colors
-
 from .errors import *
+from .hardware import colors as hardware_colors
 
 Color = hardware_colors.Color
 RgbColor = hardware_colors.RgbColor
