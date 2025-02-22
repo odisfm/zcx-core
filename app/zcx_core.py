@@ -45,7 +45,7 @@ class ZCXCore(ControlSurface):
         return self.__name
 
     @property
-    def api(self):
+    def zcx_api(self):
         return self.component_map["ApiManager"].get_api_object()
 
     def log(self, message: [str, object], level: [str] = 'info') -> None:
