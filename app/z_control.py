@@ -60,6 +60,7 @@ class ZControl(EventObject):
         self._current_animation_task = None
         self._current_mode_string = ''
         self._allow_multiple_triggers = False
+        self._fake_momentary = False
         self._last_received_value = 0
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._on_threshold = DEFAULT_ON_THRESHOLD
@@ -84,6 +85,7 @@ class ZControl(EventObject):
         self._on_threshold = on_threshold
         suppress_animations = config.get('suppress_animations', False)
         self._suppress_animations = suppress_animations
+        self._fake_momentary = config.get('tog_to_mom', False)
 
     def log(self, *msg):
         for msg in msg:
@@ -169,7 +171,12 @@ class ZControl(EventObject):
     def handle_gesture(self, gesture):
         val = self._control_element._last_received_value
         self._last_received_value = val
-        if 'pressed' in gesture and val < self._on_threshold:
+        if self._fake_momentary:
+            if gesture in ['pressed', 'released']:
+                gesture = 'pressed'
+            else:
+                return
+        elif 'pressed' in gesture and val < self._on_threshold:
             return
         lookup_key = gesture + self._current_mode_string
         matching_actions = []
