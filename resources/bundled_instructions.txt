@@ -1,4 +1,4 @@
-Thanks for trying the alpha version of zcx!
+Thanks for trying the pre-release version of zcx!
 
 Installation instructions can be found here:
 https://github.com/odisfm/zcx-docs/blob/main/docs/tutorials/getting-started.md
