@@ -82,7 +82,7 @@ jobs:
             mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
           fi
 
-      - name: Create ZIP archive with README
+      - name: Create ZIP archive with README and user actions
         run: |
           # Copy bundled_instructions.txt to temporary location and rename to README.txt
           cp resources/bundled_instructions.txt ./README.txt
@@ -90,12 +90,16 @@ jobs:
           # Prepend repo name and tag
           sed -i "1i${{ env.REPO_NAME }} ${{ env.TAG_NAME }}\n\n" README.txt
           
-          # Create ZIP with README.txt at root and package folder
-          zip -r ${{ env.PACKAGE_NAME }}.zip README.txt ${{ env.PACKAGE_NAME }}
+          # Copy user_actions directory with new name
+          cp -r user_actions _user_actions
           
-          # Clean up temporary README copy
+          # Create ZIP with README.txt at root, package folder, and _user_actions
+          zip -r ${{ env.PACKAGE_NAME }}.zip README.txt ${{ env.PACKAGE_NAME }} _user_actions
+          
+          # Clean up temporary files
           rm README.txt
-
+          rm -rf _user_actions
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
