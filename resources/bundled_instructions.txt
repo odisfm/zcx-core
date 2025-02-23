@@ -3,6 +3,9 @@ Thanks for trying the alpha version of zcx!
 Installation instructions can be found here:
 https://github.com/odisfm/zcx-docs/blob/main/docs/tutorials/getting-started.md
 
+Optionally, you can install the zcx user action by dragging the contents
+of the `_user_actions` folder to your existing folder (`.../Ableton/User Library/Remote Scripts/_user_actions`
+
 
 !!! Upgrading from a previous release !!!
 
