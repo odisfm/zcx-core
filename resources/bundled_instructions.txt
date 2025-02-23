@@ -1,0 +1,20 @@
+Thanks for trying the alpha version of zcx!
+
+Installation instructions can be found here:
+https://github.com/odisfm/zcx-docs/blob/main/docs/tutorials/getting-started.md
+
+
+!!! Upgrading from a previous release !!!
+
+To upgrade an existing zcx installation:
+
+    1. Open the folder next to this file (e.g., `_zcx_push_1`)
+    2. Delete the folder `_config`
+    3. Locate your old zcx folder (inside `Ableton/User Library/Remote Scripts`
+    4. Drag the contents of the upgraded folder into the old folder
+    5. Overwrite all existing files
+
+https://zcxcore.com
+https://github.com/odisfm/zcx-core
+https://github.com/odisfm/zcx-docs/blob/main/docs/zcx-docs.md
+https://discord.gg/DCtbuEe8Qr

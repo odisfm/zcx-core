@@ -35,7 +35,12 @@ jobs:
           python-version: '3.x'
 
       - name: Set package name
-        run: echo "PACKAGE_NAME=_zcx_${{ matrix.controller }}" >> $GITHUB_ENV
+        run: |
+          echo "PACKAGE_NAME=_zcx_${{ matrix.controller }}" >> $GITHUB_ENV
+          # Get repository name from GITHUB_REPOSITORY (owner/repo)
+          echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV
+          # Get tag name or default to 'latest'
+          echo "TAG_NAME=${GITHUB_REF_NAME:-latest}" >> $GITHUB_ENV
 
       - name: Download and prepare PyYAML
         run: |
@@ -77,8 +82,19 @@ jobs:
             mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
           fi
 
-      - name: Create ZIP archive
-        run: zip -r ${{ env.PACKAGE_NAME }}.zip ${{ env.PACKAGE_NAME }}
+      - name: Create ZIP archive with README
+        run: |
+          # Copy bundled_instructions.txt to temporary location and rename to README.txt
+          cp resources/bundled_instructions.txt ./README.txt
+          
+          # Prepend repo name and tag
+          sed -i "1i${{ env.REPO_NAME }} ${{ env.TAG_NAME }}\n\n" README.txt
+          
+          # Create ZIP with README.txt at root and package folder
+          zip -r ${{ env.PACKAGE_NAME }}.zip README.txt ${{ env.PACKAGE_NAME }}
+          
+          # Clean up temporary README copy
+          rm README.txt
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
