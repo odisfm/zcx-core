@@ -60,7 +60,7 @@ def create_mappings(arg) -> dict:
     }
 
 def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInterface]:
-    _hardware_interface: HardwareInterface = HardwareInterface
+    _hardware_interface: Type[HardwareInterface] = HardwareInterface
     events = SUPPORTED_GESTURES
 
     for button_name in button_names:
