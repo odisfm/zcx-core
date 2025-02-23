@@ -11,7 +11,7 @@ of the `_user_actions` folder to your existing folder (`.../Ableton/User Library
 
 To upgrade an existing zcx installation:
 
-    1. Open the folder next to this file (e.g., `_zcx_push_1`)
+    1. Open the zcx folder next to this file (e.g., `_zcx_push_1`)
     2. Delete the folder `_config`
     3. Locate your old zcx folder (inside `Ableton/User Library/Remote Scripts`
     4. Drag the contents of the upgraded folder into the old folder
