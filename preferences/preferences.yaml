@@ -1,0 +1,13 @@
+strict_mode: true
+log_level: debug
+
+load_user_plugins: true
+load_hardware_plugins: true
+
+configs:
+  - pattern: >
+      odisFM
+    config: odis  # uses /_config_odis/
+  - pattern: >
+      DJ
+    config: dj # uses /_config_dj/
