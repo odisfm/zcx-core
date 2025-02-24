@@ -19,6 +19,7 @@ from .encoder_state import EncoderState
 from .hardware_interface import HardwareInterface
 from .mode_manager import ModeManager
 from .page_manager import PageManager
+from .plugin_loader import PluginLoader
 from .skin import Skin
 from .z_manager import ZManager
 from .z_state import ZState
@@ -29,6 +30,8 @@ NAMED_BUTTONS = None
 ENCODERS = None
 CONFIG_DIR = '_config'
 SAFE_MODE = False
+
+plugin_loader: 'Optional[PluginLoader]' = None
 
 def create_mappings(arg) -> dict:
     ROOT_LOGGER.info('Creating mappings')
@@ -48,7 +51,7 @@ def create_mappings(arg) -> dict:
 
     hw_mapping_dict['button_matrix'] = 'button_matrix'
 
-    return {
+    mappings = {
         "HardwareInterface": hw_mapping_dict,
         "PageManager": {},
         "ModeManager": {},
@@ -58,6 +61,15 @@ def create_mappings(arg) -> dict:
         "EncoderManager": {},
         "ApiManager": {},
     }
+
+    def add_plugin_mappings(plugin_dict):
+        for plugin_name in plugin_dict.keys():
+            mappings[plugin_name] = {}
+
+    add_plugin_mappings(plugin_loader.hardware_plugins)
+    add_plugin_mappings(plugin_loader.user_plugins)
+
+    return mappings
 
 def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInterface]:
     _hardware_interface: Type[HardwareInterface] = HardwareInterface
@@ -123,9 +135,12 @@ class Specification(ControlSurfaceSpecification):
 
 def create_instance(c_instance):
     global ROOT_LOGGER
+    global plugin_loader
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
+
+    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
@@ -137,5 +152,14 @@ def create_instance(c_instance):
         "EncoderManager": EncoderManager,
         "ApiManager": ApiManager,
     }
+
+    def add_plugins_to_component_map(plugin_dict):
+        for plugin_name, plugin_class in plugin_dict.items():
+            if plugin_name in Specification.component_map:
+                raise RuntimeError(f"Tried to register multiple plugins named '{plugin_name}'")
+            Specification.component_map[plugin_name] = plugin_class
+
+    add_plugins_to_component_map(plugin_loader.hardware_plugins)
+    add_plugins_to_component_map(plugin_loader.user_plugins)
 
     return ZCXCore(Specification, c_instance=c_instance)

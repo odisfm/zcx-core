@@ -29,7 +29,17 @@ class ZCXCore(ControlSurface):
             
             self.template_manager = TemplateManager(self)
             self.component_map["ZManager"].load_control_templates()
+
+            from . import plugin_loader
+            plugin_names = plugin_loader.plugin_names
+
+            self.plugin_map = {}
+
+            for plugin_name in plugin_names:
+                self.plugin_map[plugin_name] = self.component_map[plugin_name]
+
             self.post_init()
+
             if AUTO_SWITCH_MODE and USER_MODE is not None: # todo: preference to stay in Live mode on init
                 if INIT_DELAY > 0:
                     delay = INIT_DELAY / 1000
@@ -91,6 +101,13 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting ApiManager setup')
             self.component_map['ApiManager'].setup()
             self.debug(f'finished ApiManager setup')
+
+            self.debug(f'doing setup on plugins')
+            for plugin_name, plugin_instance in self.plugin_map.items():
+                self.debug(f'starting plugin {plugin_name} setup')
+                plugin_instance.setup()
+                self.debug(f'finished plugin {plugin_name} setup')
+
         except Exception as e:
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()
