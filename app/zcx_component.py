@@ -5,10 +5,12 @@ from typing import TYPE_CHECKING
 from ableton.v2.base.event import EventObject
 from ableton.v3.control_surface import Component, ControlSurface
 
+from .zcx_core import ZCXCore
+
 
 class ZCXComponent(Component, EventObject):
 
-    canonical_parent: ControlSurface
+    canonical_parent: ZCXCore
 
     def __init__(
         self,
@@ -22,7 +24,7 @@ class ZCXComponent(Component, EventObject):
 
         if TYPE_CHECKING:
             from .page_manager import PageManager
-            self.canonical_parent: ControlSurface
+            self.canonical_parent: ZCXCore
             self.page_manager: 'PageManager'
 
         self._config_dir = CONFIG_DIR
