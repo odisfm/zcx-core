@@ -1,5 +1,6 @@
 import logging
 from functools import partial
+import traceback
 
 from ableton.v2.base.task import TimerTask
 from ableton.v3.control_surface import (
@@ -55,6 +56,14 @@ class ZCXCore(ControlSurface):
         except Exception as e:
             try:
                 self.error(e)
+
+                tb_lines = traceback.format_exc().splitlines()
+                relevant_tb = "\n".join(tb_lines[-3:])
+
+                # todo: user pref to supress popup
+                self.show_popup(f'{self.name} encountered a fatal error while starting.\n'
+                                f"Check Live's Log.txt\n\n"
+                                f"{relevant_tb}\n")
             except Exception:
                 logging.getLogger(__name__).error(e)
 
