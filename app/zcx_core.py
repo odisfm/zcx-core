@@ -134,6 +134,9 @@ class ZCXCore(ControlSurface):
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
 
+    def show_popup(self, message):
+        self.application.show_on_the_fly_message(message)
+
 
 class RefreshLightsTask(TimerTask):
 
