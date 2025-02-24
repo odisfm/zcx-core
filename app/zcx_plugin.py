@@ -14,7 +14,7 @@ class ZCXPlugin(ZCXComponent):
 
     def setup(self):
         self.debug(f'Loading plugin {self.name}')
-        self.__zcx_api = self.canonical_parent.component_map['ApiManager'].get_zcx_api()
+        self.__zcx_api = self.canonical_parent.zcx_api
 
     @property
     def api(self):
