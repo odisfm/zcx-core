@@ -1,0 +1,13 @@
+nav:
+#  - about: /
+  - docs: docs
+  - getting started: tutorials/getting-started/
+  - tutorials: tutorials
+  - lessons: lessons/
+#      - zcx concepts: lessons/003-zcx-concepts.md
+#      - "lessons/*"
+  - faq: reference/faq
+  - control reference:
+      - control-reference/z-control.md
+      - "control-reference/*"
+  - download: https://github.com/odisfm/zcx-core/releases/latest
