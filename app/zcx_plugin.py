@@ -26,3 +26,20 @@ class ZCXPlugin(ZCXComponent):
             raise RuntimeError(f'Method {method_name} already exists on API object')
 
         setattr(api_class, method_name, callable)
+
+    def refresh_feedback(self):
+        """
+        zcx_core calls this method when it determines that physical feedback needs to be updated.
+        This may be because the hardware was reconnected, or it is returning to User mode from Live mode.
+        You do not need to implement this method unless your plugin manually sets controller feedback.
+        :return:
+        """
+        pass
+
+    def receive_sysex(self, midi_bytes: tuple[int]):
+        """
+        When zcx_core receives a sysex message it will forward the message to all plugins.
+        :param midi_bytes:
+        :return:
+        """
+        pass
