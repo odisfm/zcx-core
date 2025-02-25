@@ -142,10 +142,17 @@ class ZCXCore(ControlSurface):
 
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
+        self.invoke_all_plugins('refresh_feedback')
 
     def show_popup(self, message):
         self.application.show_on_the_fly_message(message)
 
+    def invoke_all_plugins(self, method_name: str, **k):
+        for plugin_name, plugin_instance in self.plugin_map.items():
+            method = getattr(plugin_instance, method_name, None)
+            if method is None:
+                self.debug(f'plugin {plugin_name} has no method {method_name}')
+            method(**k)
 
 class RefreshLightsTask(TimerTask):
 
