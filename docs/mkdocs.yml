@@ -2,6 +2,8 @@
 site_name: zcx core
 site_url: https://zcxcore.com
 docs_dir: content
+extra_files:
+  - CNAME
 theme:
   name: material
   custom_dir: overrides
