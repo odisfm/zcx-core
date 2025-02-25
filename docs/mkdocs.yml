@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+site_name: zcx core
+site_url: https://zcxcore.com
+docs_dir: content
+theme:
+  name: material
+  custom_dir: overrides
+  features:
+    - navigation.instant
+    - content.code.copy
+    - navigation.tracking
+#    - navigation.tabs
+#    - navigation.sections
+#    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+#    - toc.integrate
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  font:
+    text: Open Sans
+  icon:
+    logo: /material/view-grid-outline
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+plugins:
+  - privacy
+  - search
+  - awesome-nav
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/odisfm/zcx-core
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/djsmpyAUFS
+
+not_in_nav: |
+  other/
+  reference/
+
+extra_css:
+  - stylesheets/extra.css
+
+repo_url: https://github.com/odisfm/zcx-core
