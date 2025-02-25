@@ -2,3 +2,4 @@
 config/
 preferences/
 app/vendor
+docs/.cache
