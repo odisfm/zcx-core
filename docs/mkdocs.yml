@@ -11,7 +11,7 @@ theme:
     - navigation.tracking
 #    - navigation.tabs
 #    - navigation.sections
-#    - navigation.footer
+    - navigation.footer
     - navigation.indexes
     - navigation.top
 #    - toc.integrate
