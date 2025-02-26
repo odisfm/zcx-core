@@ -179,9 +179,8 @@ my_page:
 
 If you try to pull this type of move, zcx will yell at you and refuse to run.
 
-### note
-
-Matrix sections are always bound to their defined coordinates, which means while they can appear on multiple pages, they'll always be in the same place.
+!!! warning
+    Matrix sections are always bound to their defined coordinates, which means while they can appear on multiple pages, they'll always be in the same place.
 
 
 ## modes
