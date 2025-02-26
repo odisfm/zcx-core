@@ -1,3 +1,8 @@
+---
+hide:
+  - footer
+---
+
 # seeing changes in your zcx config
 
 Any changes made to your zcx configuration will not be effective until the control surface script is reloaded. There are several ways to achieve this:
