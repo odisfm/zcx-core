@@ -91,7 +91,7 @@ ___
 ### template
 `string | list[string] | null`
 
-The template(s) to apply to this control. See [template reference]().
+The template(s) to apply to this control. See [template reference](/template-reference#control-templates).
 
 `string`
 Apply a single template.
