@@ -11,6 +11,12 @@ Have a look at the [about page](/), or check out [the source on GitHub](https://
 * [Supported hardware](/tutorials/getting-started/installation#get-a-distribution)
 * A heart full of dreams
 
+### Do I need to be a coder to use zcx?
+
+No programming knowledge is necessary to configure zcx. zcx configurations **do** make extensive use of a format called [yaml](/tutorials/getting-started/reading-zcx-configurations/#yaml), but it's pretty easy to pick up.
+
+See also: [reading zcx configurations](/tutorials/getting-started/reading-zcx-configurations/).
+
 ### What hardware is zcx available for?
 
 [See here.](/tutorials/getting-started/installation#get-a-distribution)
