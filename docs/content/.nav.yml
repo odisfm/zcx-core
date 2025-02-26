@@ -8,4 +8,5 @@ nav:
       - control-reference/z-control.md
       - "control-reference/*"
   - command reference: "command-reference.md"
+  - template reference: "template-reference.md"
   - download: https://github.com/odisfm/zcx-core/releases/latest
