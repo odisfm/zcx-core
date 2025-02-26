@@ -3,3 +3,4 @@ config/
 preferences/
 app/vendor
 docs/.cache
+docs/site/
