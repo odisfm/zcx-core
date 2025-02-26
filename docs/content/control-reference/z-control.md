@@ -1,3 +1,8 @@
+---
+hide:
+  - footer
+---
+
 # standard control
 
 The below properties are enabled on the base [ZControl](/lessons/zcx-concepts#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
@@ -6,7 +11,6 @@ The below properties are enabled on the base [ZControl](/lessons/zcx-concepts#zc
 
 ```yaml
 type: string
-alias: string
 color: string, int, ZColor
 includes: list[string]
 buttons: dict[ZControl]
@@ -26,20 +30,8 @@ threhshold: int=30
 Changing this property from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control types](#control-types).
 
 ___
-### alias
-`string`
-
-An arbitrary string that can be used to target this control via the zcx API, including the ClyphX User Action integration. 
-
-The alias must be:
-* a [valid python identifier](https://www.digitalocean.com/community/tutorials/python-keywords-identifiers)
-* unique to one control
-
-The alias will be converted to lowercase.
-
-___
 ### color
-`string | int | ZColor` 
+`string | int | dict` 
 
 The `base` color of the control. See [color reference]().
 
@@ -49,7 +41,7 @@ Any _named color_.
  `int`
 The MIDI value to send to this control.
 
- `ZColor`
+ `dict`
 See [color reference](),
 
 ___
@@ -112,9 +104,9 @@ Apply no template, including the `__global__` template.
 
 ___
 ### props
-`dict[any]`
+`dict[string | int]`
 
-Any arbitrary data. Available as a Python object via the API.
+Any arbitrary data. Can be referenced from within template strings.
 
 ___
 ### threshold

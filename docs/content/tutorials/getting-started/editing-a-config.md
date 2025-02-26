@@ -33,7 +33,7 @@ _If you have a smaller matrix, the file `actions_top_left` might be called somet
 
 ## pages.yaml
 
-```yaml
+```yaml title="pages.yaml"
 pages:
   main:
     - big_colors
@@ -56,7 +56,7 @@ The order that pages appear in `pages.yaml` is their internal order within zcx. 
 
 Feel free to change the order of pages:
 
-```yaml
+```yaml title="pages.yaml"
 pages:
   test_page:
     - actions_top_left
@@ -73,7 +73,7 @@ pages:
 
 You also have the option to add an `order` key to your `pages.yaml` like so:
 
-```yaml
+```yaml title="pages.yaml"
 order:
   - test_page
   - track_page
@@ -86,7 +86,7 @@ And that's where we'll leave `pages.yaml` for this lesson.
 
 ## named controls
 
-```yaml
+```yaml title="named_control.yaml"
 mute:
   gestures:
     pressed: MUTE
@@ -112,7 +112,7 @@ Inside `named_controls.yaml` you'll find some control definitions that look like
 
 Lets have a look at the definition for `mute`:
 
-```yaml
+```yaml title="named_controls.yaml"
 mute:
   gestures:
     pressed: MUTE
@@ -122,7 +122,7 @@ Pretty simple. As you might have guessed, when we press the button labeled 'Mute
 
 We can add more functionality to this button: what if when we held it down briefly, it muted all tracks in the set?
 
-```yaml
+```yaml title="named_controls.yaml"
 mute:
   gestures:
     pressed: MUTE
@@ -133,7 +133,7 @@ Make that edit, then [reload zcx](/docs/lessons/reloading-control-surfaces.md).
 
 Now, when you hold down `mute`, every track in the set gets muted. Well, actually, as soon as you press `mute` the selected track is muted, then after a moment every other track is muted. This might not be what you want.
 
-```yaml
+```yaml title="named_controls.yaml"
 mute:
   gestures:
     released_immediately: MUTE
@@ -163,7 +163,7 @@ What if we wanted to have that `mute` button double as a solo button? We could a
 
 The Push 1 has a `shift` button. We can make it so the `mute` button mutes by default, but solos when `shift` is held.
 
-```yaml
+```yaml title="named_controls.yaml"
 mute:
   gestures:
     released_immediately: MUTE
@@ -174,7 +174,7 @@ mute:
 That's all we need to do to add mode functionality to our control. By taking a default gesture and adding the suffix `__shift`, we're telling zcx to do a special action when the `shift` mode is active. Now obviously the `shift` mode is in effect while we hold the `shift` control, but how does that work? The logic for that is actually in this same file:
 
 
-```yaml
+```yaml title="named_controls.yaml"
 shift:
   gestures:
      pressed:
@@ -185,9 +185,7 @@ shift:
 
 The only other thing we need is to have `shift` listed in our `modes.yaml`:
 
-```yaml
-# modes.yaml
-
+```yaml title="modes.yaml"
 - shift
 - select
 ```
@@ -195,7 +193,7 @@ The only other thing we need is to have `shift` listed in our `modes.yaml`:
 
 You can have as many modes as you like. This config has a `select` mode configured, triggered when we hold the `select` button. We can even have an extra-special function that triggers when *multiple* modes are active:
 
-```yaml
+```yaml title="named_controls.yaml"
 mute:
   gestures:
     released_immediately: MUTE
@@ -210,7 +208,7 @@ mute:
 
 Let's take a look at the `actions_top_left` section. Its config file is `_config/matrix_sections/actions_top_left.yaml`.
 
-```yaml
+```yaml title="_config/matrix_sections/actions_top_left.yaml"
 #row 1  
 #col 1  
 - color: green  
@@ -250,7 +248,7 @@ Let's take a look at the `actions_top_left` section. Its config file is `_config
 This section was defined as a 4x4 quarter of the 8x8 pad matrix. This means it has 4 rows of controls, with 4 columns per row, for 16 controls total. This config file is pre-filled with a skeleton definition for each control, as well as helpful `#comments` indicating which control is which. 
 
 The data structure you're looking at is called a [list](/docs/lessons/reading-zcx-configurations.md#lists). When you see a `-` that begins the line, that is the start of a new item (control) that belongs to this list.
-```yaml
+```yaml title="actions_top_left.yaml"
 # row 1
 # col 1
 -
@@ -280,31 +278,32 @@ Make that change and reload - the pad is now red.
 
 Now scroll through all three pages of the matrix. You'll see that **two** pages now have a red button at x2y1. That's because in `pages.yaml`, we set the section `actions_top_left` to appear on multiple pages.
 
-### pro tip: quotes and strings
+!!! tip
 
-The [strings](/docs/lessons/reading-zcx-configurations.md#strings) we've used so far have been free of 'single quotes' and "double quotes". ClyphX uses double quotes quite a bit, and this can cause a small problem with yaml:
+    The [strings](/docs/lessons/reading-zcx-configurations.md#strings) we've used so far have been free of 'single quotes' and "double quotes". ClyphX uses double quotes quite a bit, and this can cause a small problem with yaml:
 
-```yaml
-gestures:
-  pressed: "my cool track" / MUTE
-```
+    ```yaml
+    gestures:
+      pressed: "my cool track" / MUTE
+    ```
 
-Because quotes have special significance in programming languages, this definition isn't valid yaml: it expects `my cool track` to be a complete string (without the quotes), and then freaks out a bit when it encounters `/ MUTE`. But we can easily work around that:
+    Because quotes have special significance in programming languages, this definition isn't valid yaml: it expects `my cool track` to be a complete string (without the quotes), and then freaks out a bit when it encounters `/ MUTE`. But we can easily work around that:
+    
+    ```yaml
+    gestures:
+      pressed: >
+        "my cool track" / MUTE
+    ```
+    
+    By writing our action list as above (putting a `>` after the key and writing the value on a new line), we're telling yaml that the entire line is the value we want to associate with `pressed`.
 
-```yaml
-gestures:
-  pressed: >
-    "my cool track" / MUTE
-```
 
-By writing our action list as above (putting a `>` after the key and writing the value on a new line), we're telling yaml that the entire line is the value we want to associate with `pressed`.
 
-# ZEncoders
+## ZEncoders
 
 We define [encoder mappings](/docs/lessons/zcx-concepts.md#zencoders) in `encoders.yaml`.
 
-```yaml
-# encoders.yaml
+```yaml title="encoders.yaml"
 enc_master:
   binding:
     default: MST / VOL
@@ -313,12 +312,11 @@ enc_master:
 
 By now, you should have a pretty good idea of what this definition does. By default, the `master` encoder is mapped to the volume on the master track, but when `shift` is held the encoder maps to the cue volume.
 
-# A note on templating
+## A note on templating
 
 Throughout these configuration files, you will have come across several quite complex definitions that look like this:
 
-```yaml
-#encoders.yaml
+```yaml title="encoders.yaml"
 
 __encoder_row:
   includes: [
@@ -392,6 +390,7 @@ All 8 encoders have the same* binding when in the `default`, `shift`, and `devic
 The default binding is `${me.Index} / VOL`. `${me.Index}` will be unfamiliar syntax. When you see `${<some.value>}` you are looking at a zcx template string. 
 
 Everywhere we use this syntax, behind the scenes zcx will resolve these template values. For `enc_1`, the final binding target will be `1 / VOL`, or the first track in the set. `enc_2` will resolve to `2 / VOL` and so on. Note: this is according to each control's position in the `encoders` key.
+
 ```
 me: the control
 Index: fancy word for position
@@ -409,7 +408,7 @@ Now `enc_1` maps to `9 / VOL` when mode `select` is active.
 ## overriding group definitions
 
 This config also has an `encoders` key:
-```yaml
+```yaml title="encoders.yaml"
 encoders:
     - binding:
         __sends: >-
@@ -423,7 +422,7 @@ encoders:
 ```
 Here, for each group member, we can define any number of properties to 'override' on the group definition.
 
-```yaml
+```yaml title="encoders.yaml"
 encoders:
     - 
     - null
@@ -433,27 +432,22 @@ encoders:
 ```
 You can leave a list entry blank, or write `null`, and no override will be applied for that control.
 
-## 'I\'d rather not use groups'
+!!! quote ""I'd rather not use groups""
 
-You don't have to. You can remove or comment out the whole group definition, and define each control separately:
+    You don't have to. You can remove or comment out the whole group definition, and define each control separately:
 
-```yaml
-enc_1:
-  binding:
-    default: >
-      "drums" / VOL
-
-enc_2:
-  binding:
-    default: >
-      "keys" / VOL
-```
+    ```yaml
+    enc_1:
+      binding:
+        default: >
+          "drums" / VOL
+    
+    enc_2:
+      binding:
+        default: >
+          "keys" / VOL
+    ```
 
 # congratulations!
 
 Well done! You now understand the basics of configuring zcx! Feel free to experiment!
-
-
-___
-
-[Back to tutorial chapter](/docs/getting-started.md)

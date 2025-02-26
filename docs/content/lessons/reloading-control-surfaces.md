@@ -1,6 +1,5 @@
 ---
-hide:
-  - footer
+weight: -5
 ---
 
 # seeing changes in your zcx config

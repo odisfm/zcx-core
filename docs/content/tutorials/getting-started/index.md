@@ -10,7 +10,7 @@ Here's the stuff you should know before you get stuck in designing your zcx conf
 
     > 	This lesson will help you make sense of the syntax used in zcx. If you're already familiar with yaml, you can probably skip this.
 
-2. [zcx concepts](003-zcx-concepts)
+2. [zcx concepts](zcx-concepts)
 
     > 	An introduction to the most important concepts and terminology used in zcx.
 

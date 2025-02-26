@@ -22,6 +22,10 @@ Each distribution comes as a .zip file. Unzip that file, and you'll see a folder
 
 For our purposes, zcx functions like any other control surface script, so you should [follow the Live manual's instructions](https://help.ableton.com/hc/en-us/articles/209072009-Installing-third-party-remote-scripts) for that.
 
+!!! note
+
+    ClyphX Pro should always be in a higher slot than all zcx scripts. I reccomend installing it in slot 1. It's ok if XT scripts (ClyphX Pro XTA-E) are below zcx scripts.
+
 ## load the script
 
 When you assign the script to a slot in Live's preferences, the script automatically loads.
@@ -37,7 +41,3 @@ Many controllers, such as the Push and Launchpad have a 'Live' mode and a 'user'
 ## explore! 🌏
 
 Your zcx distribution comes with a carefully crafted demo config, put together by the maintainer for your hardware. It's designed to give a taste of zcx's capabilities out of the box, and be intuitive to edit. Once you're done with that, continue with this tutorial. :)
-
-___
-
-[Back to tutorial](/getting-started)

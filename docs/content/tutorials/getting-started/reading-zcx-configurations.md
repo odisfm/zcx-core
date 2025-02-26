@@ -3,6 +3,8 @@ title: reading zcx configurations
 weight: 1
 ---
 
+# reading zcx configurations
+
 If you're coming from the X and G controls in ClyphX, looking at the configuration files in your zcx folder may feel overwhelming. Don't stress — you don't need to have any sort of programming knowledge to get started with zcx! 
 
 Having said that, just like ClyphX, zcx expects to receive its configuration files in a particular format. To define X-controls, ClyphX uses a custom format, designed for simplicity:
@@ -107,7 +109,3 @@ Don't stress if this doesn't immediately 'click'. Soon, you'll see a lot of exam
 **One more thing:**
 
 Yaml files are plain old text, which means you can read and edit them with any text editor, like Notepad or TextEdit. However, it is recommended that you use a more sophisticated editor, such as [Microsoft Visual Studio Code](https://code.visualstudio.com/), which is free. Using an editor like this will give you that groovy color coding you see above, and the editor will warn you when you make common yaml errors.
-
-___
-
-[Back to tutorial chapter](/docs/getting-started.md)
