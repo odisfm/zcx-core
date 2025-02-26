@@ -21,7 +21,7 @@ Nope. While technically the script will run without ClyphX, it requires ClyphX r
 
 ### Does zcx replace X-controls and G-controls
 
-That's up to you. zcx can be used to create a far more complex interface than is possible with native ClyphX. However, that power comes with a learning curve. Only you can decide whether this tradeoff is worth it.
+That's up to you. zcx can be used to create a far more complex interface than is practical with native ClyphX. However, that power comes with a learning curve. Only you can decide whether this tradeoff is worth it.
 
 **Note:** You can absolutely use X/G Controls alongside a zcx script. It is recommended that you use zcx for any matrix controllers, and native ClyphX controls for non-matrix controllers.
 
