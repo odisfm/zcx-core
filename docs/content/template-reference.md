@@ -73,7 +73,7 @@ buttons:
 As matrix controls do not have names, the syntax used to group them is slightly different.
 
 !!! note "Groups vs Sections"
-    Do not confuse [matrix sections](tutorials/getting-started/zcx-concepts/#matrix-sections) with groups.
+    Do not confuse [matrix sections](/tutorials/getting-started/zcx-concepts/#matrix-sections) with groups.
 
     Every matrix control inherently belongs to a matrix section. Groups can be used within a section, or ignored entirely.
 
