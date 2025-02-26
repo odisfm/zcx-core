@@ -48,26 +48,26 @@ ___
 ### includes
 `list[string]`
 
-See [grouped controls reference]().
+See [template reference](/template-reference/#named-controls).
 
 ___
 
 ### buttons
 `dict[ZControl]`
 
-See [grouped controls reference]().
+See [template reference](/template-reference/#overwriting-properties).
 
 ___
 ### pad_group
 `dict[ZControl]`
 
-See [grouped controls reference]().
+See [template reference](/template-reference/#matrix-controls).
 
 ___
 ### gestures
 `dict[dict[command]]`
 
-See [command reference]().
+See [command reference](/command-reference#gestures).
 
 ___
 ### vars
