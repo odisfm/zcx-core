@@ -53,6 +53,7 @@ plugins:
   - awesome-nav
   - git-revision-date-localized:
         enable_creation_date: true
+        type: timeago
   - mkdocs-nav-weight:
       section_renamed: false
       index_weight: -10
