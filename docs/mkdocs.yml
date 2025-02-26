@@ -37,6 +37,7 @@ theme:
     text: Open Sans
   icon:
     logo: /material/view-grid-outline
+    repo: fontawesome/brands/github
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
