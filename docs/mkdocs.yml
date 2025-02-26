@@ -19,6 +19,8 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: deep purple
+      accent: amber
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
