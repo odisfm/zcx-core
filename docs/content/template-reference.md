@@ -35,7 +35,7 @@ my_control:
 
 zcx allows you to define any arbitrary selection of controls as a **group** of controls. By grouping controls, we can apply a common configuration across all of them.
 
-The syntax for defining a group is different for [named controls](tutorials/getting-started/zcx-concepts/#named-controls) and [controls that are part of the matrix](/tutorials/getting-started/zcx-concepts/#matrix-controls).
+The syntax for defining a group is different for [named controls](/tutorials/getting-started/zcx-concepts/#named-controls) and [controls that are part of the matrix](/tutorials/getting-started/zcx-concepts/#matrix-controls).
 
 
 ### named controls
