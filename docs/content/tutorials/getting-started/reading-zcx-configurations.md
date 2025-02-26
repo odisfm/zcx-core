@@ -33,7 +33,7 @@ play:
 
 At the same time, the above definition may look more complex, yet easier to read. Notice that your web browser is color coding certain words. This is because zcx makes heavy use of an existing format called [YAML](https://en.wikipedia.org/wiki/YAML)
 
-# YAML
+## YAML
 > "yam-il"
 
 So what is yaml? Put simply, yaml is a format for organising data in a structured way, making it easy for humans to write, and easy for machines to understand. We'll explain the most important stuff you need to get started with zcx in a moment, but if you'd prefer to watch a video, [this one](https://www.youtube.com/watch?v=cdLNKUoMc6c) does a great job of explaining the basics (watch until about 5:30).
