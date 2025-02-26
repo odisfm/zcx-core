@@ -1,9 +1,9 @@
 nav:
-  - about: /
+  - about: /index.md
   - docs: docs.md
-  - faq: reference/faq
-  - getting started: tutorials/getting-started/
-  - lessons: lessons/
+  - faq: /reference/faq
+  - getting started: /tutorials/getting-started
+  - lessons: lessons
   - control reference:
       - control-reference/z-control.md
       - "control-reference/*"
