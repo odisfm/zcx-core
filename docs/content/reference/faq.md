@@ -13,7 +13,7 @@ Have a look at the [about page](/), or check out [the source on GitHub](https://
 
 ### What hardware is zcx available for?
 
-[See here.](/lessons/installation.md#get-a-distribution)
+[See here.](/tutorials/getting-started/installation#get-a-distribution)
 
 ### Does zcx replace ClyphX?
 
