@@ -44,9 +44,8 @@ __scene_group:
   includes: [scene_1, scene_2, scene_3, scene_4]
   color: red
   buttons:
-    -
-    -
-    - color: blue
+    scene_2:
+      color: blue
   gestures:
     pressed: SCENE ${me.group_Index}
 ```
@@ -57,16 +56,21 @@ The `includes` key is a list of controls that belong to this group. Each member 
 
 #### overwriting properties
 
-We can override some or all of the group's properties for each member. This is done via the `buttons` key:
+We can overwrite some or all of the group's properties for each member. This is done via the `buttons` key:
 
 ```yaml
 buttons:
-    -
-    -
-    - color: blue
+  scene_2:
+    color: blue
 ```
 
-`buttons` is a list of control definitions. The first two items on the list are totally blank, meaning that no properties will be overwritten. The third entry specifies `color: blue`, which will overwrite the group's `color: red`, but it will **not** overwrite the scene launch action. We do not have to add an entry for the fourth control, as we are not overwriting the group definition.
+`buttons` is a dict of control definitions. Each key of `buttons` is the name of a control in this group. In this `scene_2` key we can overwrite part or all of the group definition. We can also add properties that weren't defined on the group:
+```yaml hl_lines="4"
+buttons:
+  scene_2:
+    color: blue
+    repeat: true
+```
 
 ### matrix controls
 
@@ -98,6 +102,10 @@ Look at the config for hypothetical matrix section `actions_right.yaml`:
     -
     -
     -
+-   
+  color: pink
+  gestures:
+    pressed_delayed: METRO
 
 ```
 
@@ -116,7 +124,64 @@ The third entry in the section has the key `pad_group`. This indicates that we'r
       ...
     ```
 
-The `pads` key is required. This is a list, and every item in the list represents another member of the group. [As above](#overwriting-properties
-), we can leave an entry empty to fully inherit from the group, or we can override certain properties on a particular group member.
+The `pads` key is required. This is a list, and every item in the list represents another member of the group:
+```yaml
+pads:
+  -
+  -
+  -
+  -
+
+```
+
+Each of these dashes is a blank or 'null' entry in this list. By looking at `pads`, we can see that four controls belong to this group. Like [above](/template-reference/#overwriting-properties), we are able to overwrite or extend individual group members:
+
+```yaml
+pads:
+  -
+  -
+  - color: green
+  -
+
+```
+
+Now all controls in this group will take the group definition, except the third control, which will be purple.
+
+This is a representation of how zcx processes this section under the hood:
+
+```yaml hl_lines="19"
+-
+  color: yellow
+  gestures:
+    pressed: SEL / MUTE
+-
+  color: blue
+  gestures:
+    pressed: SEL / SOLO
+# group definition is expanded
+-
+  color: purple
+  gestures:
+    pressed: 1 / SEL
+-
+  color: purple
+  gestures:
+    pressed: 2 / SEL
+-
+  color: green  # this property was overwritten
+  gestures:
+    pressed: 3 / SEL
+-
+  color: purple
+  gestures:
+    pressed: 4 / SEL
+# group definition ends
+-   
+  color: pink
+  gestures:
+    pressed_delayed: METRO
+```
+
+
 
 ## template strings

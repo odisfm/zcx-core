@@ -9,6 +9,8 @@ The below properties are enabled on the base [ZControl](/lessons/zcx-concepts#zc
 
 ## yaml schema
 
+These are options you can set on each control via its yaml definition. Some options will not be available in every context.
+
 ```yaml
 type: string
 color: string, int, ZColor
@@ -48,6 +50,8 @@ ___
 ### includes
 `list[string]`
 
+_Only available on named control group definitions._
+
 See [template reference](/template-reference/#named-controls).
 
 ___
@@ -55,13 +59,27 @@ ___
 ### buttons
 `dict[ZControl]`
 
+_Only available on named control group definitions._
+
 See [template reference](/template-reference/#overwriting-properties).
 
 ___
 ### pad_group
 `dict[ZControl]`
 
+_Only available on matrix control group definitions._
+
 See [template reference](/template-reference/#matrix-controls).
+
+___
+
+### pads
+`list[ZControl]`
+
+_Only available on matrix control group definitions._
+
+See [template reference](/template-reference/#matrix-controls).
+
 
 ___
 ### gestures
@@ -73,7 +91,7 @@ ___
 ### vars
 `dict[dict[string]]`
 
-See [command reference]().
+See [template reference](/template-refernce#template-strings).
 
 ___
 ### repeat
@@ -113,3 +131,39 @@ ___
 `int=30`
 
 Override the global velocity threshold, which by default is `30`. Triggers under this threshold will be ignored.
+
+
+## properties
+
+These are values attached to controls that can be referenced from within [template strings](/template-reference#template-strings).
+
+### index
+
+Returns the **zero-indexed** position of a matrix control within its containing section. Returns 0 for non-matrix controls, or the control's [group_index](#group_index) if it belongs to a group.
+
+### Index
+
+Returns [index](#index) + 1.
+
+### group_index
+
+Returns the **zero-indexed** position of a control within its containing group.
+
+### group_Index
+
+Returns [group_index](#group_index) + 1.
+
+### position properties
+_Only available on matrix controls._
+
+#### x, x_flip
+Returns the **zero-indexed** column of the control (**x**) or its mirrored position (**x_flip**), **relative to its containing section**.
+
+#### y, y_flip
+Returns the **zero-indexed** row of the control (**y**) or its mirrored position (**y_flip**), **relative to its containing section**.
+
+#### global_x, global_x_flip
+Returns the **zero-indexed** column of the control (**global_x**) or its mirrored position (**global_x_flip**), **relative to the entire matrix**.
+
+#### global_y, global_y_flip
+Returns the **zero-indexed** row of the control (**global_y**) or its mirrored position (**global_y_flip**), **relative to the entire matrix**.
