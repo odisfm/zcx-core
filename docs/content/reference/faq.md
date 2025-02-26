@@ -8,12 +8,12 @@ Have a look at the [about page](/), or check out [the source on GitHub](https://
 
 * Ableton Live 12.1 or above <sup>[why?](/lessons/why-live-12)</sup>
 * ClyphX Pro
-* [Supported hardware](/docs/lessons/installation.md#get-a-distribution)
+* [Supported hardware](/tutorials/getting-started/installation#get-a-distribution)
 * A heart full of dreams
 
 ### What hardware is zcx available for?
 
-[See here.](/docs/lessons/installation.md#get-a-distribution)
+[See here.](/lessons/installation.md#get-a-distribution)
 
 ### Does zcx replace ClyphX?
 

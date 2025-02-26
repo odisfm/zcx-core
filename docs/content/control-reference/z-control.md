@@ -27,7 +27,7 @@ threhshold: int=30
 ### type
 `string='standard'`
 
-Changing this property from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control types](#control-types).
+Changing this property from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
 
 ___
 ### color
