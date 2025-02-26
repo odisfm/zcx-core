@@ -9,6 +9,8 @@ The below properties are enabled on the base [ZControl](/lessons/zcx-concepts#zc
 
 ## yaml schema
 
+These are options you can set on each control via its yaml definition. Some options will not be available in every context.
+
 ```yaml
 type: string
 color: string, int, ZColor
@@ -48,6 +50,8 @@ ___
 ### includes
 `list[string]`
 
+_Only available on named control group definitions._
+
 See [template reference](/template-reference/#named-controls).
 
 ___
@@ -55,13 +59,27 @@ ___
 ### buttons
 `dict[ZControl]`
 
+_Only available on named control group definitions._
+
 See [template reference](/template-reference/#overwriting-properties).
 
 ___
 ### pad_group
 `dict[ZControl]`
 
+_Only available on matrix control group definitions._
+
 See [template reference](/template-reference/#matrix-controls).
+
+___
+
+### pads
+`list[ZControl]`
+
+_Only available on matrix control group definitions._
+
+See [template reference](/template-reference/#matrix-controls).
+
 
 ___
 ### gestures
@@ -73,7 +91,7 @@ ___
 ### vars
 `dict[dict[string]]`
 
-See [command reference]().
+See [template reference](/template-refernce#template-strings).
 
 ___
 ### repeat
