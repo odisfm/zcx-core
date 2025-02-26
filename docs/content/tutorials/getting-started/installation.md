@@ -1,3 +1,7 @@
+---
+weight: 0
+---
+
 # installing zcx
 
 Installing zcx is super easy.

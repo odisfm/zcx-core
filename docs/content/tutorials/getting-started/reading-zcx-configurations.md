@@ -1,5 +1,6 @@
 ---
 title: reading zcx configurations
+weight: 1
 ---
 
 If you're coming from the X and G controls in ClyphX, looking at the configuration files in your zcx folder may feel overwhelming. Don't stress — you don't need to have any sort of programming knowledge to get started with zcx! 
