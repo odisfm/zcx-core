@@ -48,6 +48,8 @@ plugins:
   - privacy
   - search
   - awesome-nav
+  - git-revision-date-localized:
+        enable_creation_date: true
 extra:
   social:
     - icon: fontawesome/brands/github
