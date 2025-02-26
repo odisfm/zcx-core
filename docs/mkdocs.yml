@@ -53,6 +53,12 @@ plugins:
   - awesome-nav
   - git-revision-date-localized:
         enable_creation_date: true
+  - mkdocs-nav-weight:
+      section_renamed: false
+      index_weight: -10
+      warning: true
+      reverse: false
+      headless_included: false
 extra:
   social:
     - icon: fontawesome/brands/github
