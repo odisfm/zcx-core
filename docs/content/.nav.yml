@@ -1,5 +1,5 @@
 nav:
-  - about: /index.md
+  - about: /
   - docs: docs.md
   - faq: /reference/faq
   - getting started: /tutorials/getting-started
