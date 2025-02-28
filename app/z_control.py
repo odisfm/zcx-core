@@ -226,6 +226,7 @@ class ZControl(EventObject):
 
     def _back_in_view(self):
         self.request_color_update()
+        self.__state._repeat = self._repeat
 
     def set_color_to_base(self):
         self._control_element.set_light(self._control_element.color_swatch.base)
