@@ -59,6 +59,7 @@ class ZControl(EventObject):
         self._allow_multiple_triggers = False
         self._fake_momentary = False
         self._last_received_value = 0
+        self._repeat = False
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
@@ -83,6 +84,7 @@ class ZControl(EventObject):
         suppress_animations = config.get('suppress_animations', False)
         self._suppress_animations = suppress_animations
         self._fake_momentary = config.get('tog_to_mom', False)
+        self._repeat = config.get('repeat', False)
 
     def log(self, *msg):
         for msg in msg:
