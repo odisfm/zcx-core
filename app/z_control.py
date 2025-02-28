@@ -1,4 +1,5 @@
 from functools import wraps, partial
+from typing import Optional
 
 from ableton.v2.base import EventObject
 from ableton.v2.base.task import TimerTask
@@ -9,6 +10,7 @@ from .colors import parse_color_definition, simplify_color, Pulse, Blink
 from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
 from .errors import ConfigurationError
 from .z_element import ZElement
+from .z_state import ZState
 
 
 def only_in_view(func):
@@ -33,7 +35,7 @@ class ZControl(EventObject):
         super().__init__()
         self.root_cs = root_cs
         self.parent_section = parent_section
-        self.__state = None
+        self.__state: Optional[ZState] = None
         self.__parent_logger = self.parent_section._logger
         self._in_view = False
         self.in_view_listener.subject = self.parent_section
