@@ -215,7 +215,12 @@ class ZControl(EventObject):
 
     @listens('in_view')
     def in_view_listener(self):
+        back_in_view = not self.in_view and self.parent_section.in_view
         self._in_view = self.parent_section.in_view
+        if back_in_view:
+            self._back_in_view()
+
+    def _back_in_view(self):
         self.request_color_update()
 
     def set_color_to_base(self):
