@@ -1,0 +1,12 @@
+nav:
+  - about: /
+  - docs: docs.md
+  - faq: /reference/faq
+  - getting started: tutorials/getting-started
+  - lessons: lessons
+  - control reference:
+      - control-reference/z-control.md
+      - "control-reference/*"
+  - command reference: "command-reference.md"
+  - template reference: "template-reference.md"
+  - download: https://github.com/odisfm/zcx-core/releases/latest

@@ -1,3 +1,5 @@
 .idea/
 config/
 app/vendor
+docs/.cache
+docs/site/
