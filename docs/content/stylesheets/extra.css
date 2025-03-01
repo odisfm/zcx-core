@@ -21,3 +21,11 @@ ul.md-nav__list, .md-nav__link {
 .md-footer__title {
   text-transform: lowercase;
 }
+
+.md-nav__item--section {
+  text-transform: capitalize;
+}
+
+ul.md-nav__list, .md-nav__link {
+  text-transform: lowercase;
+}
