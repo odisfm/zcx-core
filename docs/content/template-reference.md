@@ -1,33 +1,137 @@
 zcx contains several features for applying a common definition across multiple controls, or for dynamically configuring a control based on factors such as its position in a group.
 
-## control templates
-In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any properties defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same property), the child will overwrite the template.
+## template strings
 
-```yaml title="control_templates.yaml"
-__global__:
-  color: 127
+In many parts of a control's config, you can use a special syntax to dynamically insert values into a string, such as an action list:
 
-hold_warning:
+```yaml hl_lines="4 8 12" title="matrix_sections/very_small_section.yaml"
+-
+  color: red
   gestures:
-    released_immediately: >
-      MSG "You must hold this control to trigger it!"
-```
-```yaml hl_lines="3 7 8"
-play:
-  template: hold_warning
-  # color: 127    __global__ property, overwritten
+    pressed: PLAY ${me.Index}
+-
   color: green
   gestures:
-    pressed_delayed: SETPLAY
-    released_immediately: > # added from `hold_warning` template
-      MSG "You must hold this control to trigger it!"
+    pressed: PLAY ${me.Index}
+-
+  color: blue
+  gestures:
+    pressed: PLAY ${me.Index}
 ```
-There is also a special template called `__global__`. This definition will apply to every control in your zcx script. You can optionally prevent a control from inheriting from `__global__` like so:
+
+The key part is `${me.Index}`. In zcx, when you see part of a string enclosed with a leading `${` and a trailing `}`, you are looking at a **template string**. zcx will dynamically evaluate this string **each time** the control is pressed.
+
+The example above would evaluate to:
+
+```
+PLAY 1
+PLAY 2
+PLAY 3
+```
+
+Let's break down what's happening here.
+
+- `${` — indicates the start of an expression
+- `me` — is the individual control in which a template string appears
+- `Index` — this is a **property** that belongs to this control
+- `}` — indicates the end of an expression
+
+As you may notice, zcx template strings behave similarly to [Variables in ClyphX Pro](https://cxpman.com/manual/core-concepts#variables).
+
+### what is a property?
+
+In this context, a property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](/reference/control-reference/z-control#properties).
+
+We can see from the control reference that `me.Index` refers to this control's [position](/reference/control-reference/z-control/#index_1) with its containing [section](/tutorials/getting-started/zcx-concepts#matrix-sections).
+
+### basic expressions
+
+We can even execute simple Python expressions within the braces:
+
+```yaml
+gestures:
+  presssed: PLAY ${me.Index + 8}  # PLAY 9
+```
+
+### complex expressions
+
+There may be times when then value you want to fill is impractical or impossible to write inside the braces. In this case you can use the `vars` option in your yaml config.
+
+`vars` is a dict, where each key is a variable, and each value is an expression. The variable will be assigned to the result of that expression. We can then reference that variable within a template string. For instance:
 
 ```yaml
 my_control:
-  template: null
+  vars:
+    foo: 1 + 1
+  gestures:
+    pressed:
+      msg: The value of foo is ${foo} # "The value of foo is 2"
 ```
+
+In ClyphX terms, you can imagine the above as: 
+
+`%foo% = 1 + 1 ; msg "The value of foo is %foo%"`
+
+Or in Python as:
+
+```python
+def button_pressed():
+    foo = 1 + 1
+    print(f'The value of foo is {foo}')
+```
+
+That was a very basic example to illustrate the concept. This example better explains a use case:
+
+```yaml title="control_templates.yaml"
+drum_pad_section:
+  vars:
+    offset: 8
+    clips_per: 2
+    clip_1a: (me.index * clips_per) + 1 + offset
+    clip_1b: (clip_1a + clips_per) - 1
+  gestures:
+    released_immediately: >
+      "beats" / PLAY RND${clip_1a}-${clip_1b}
+```
+
+This is a [control template](#control-templates) that, when [applied to a matrix section](#whole-section-templates), will produce the following ouput:
+
+```
+pad 1: "beats" / PLAY RND9-10
+pad 2: "beats" / PLAY RND11-12
+pad 3: "beats" / PLAY RND13-14
+...
+```
+
+And later, we can easily expand this config to add extra functionality:
+
+```yaml hl_lines="5 8 9 13 14"
+drum_pad_section: 
+  vars:
+    offset: 8
+    clips_per: 2
+    shift_offset: 32
+    clip_1a: (me.index * clips_per) + 1 + offset
+    clip_1b: (clip_1a + clips_per) - 1
+    clip_2a: clip_1a + shift_offset
+    clip_2b: clip_2b + shift_offset
+  gestures:
+    released_immediately: >
+      "beats" / PLAY RND${clip_1a}-${clip_1b}
+    released_immediately__shift: >
+      "beats" / PLAY RND${clip_2a}-${clip_2b}
+```
+
+``` hl_lines="2 4"
+pad 1: "beats" / PLAY RND9-10
+pad 1 (with shift): "beats" / PLAY RND41-42
+pad 2: "beats" / PLAY RND11-12
+pad 2 (with shift): "beats" / PLAY RND43-44
+```
+
+!!! note "Notes"
+    - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
+    - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with ClyphX variables, e.g. `%my_track% / PLAY ${me.Index}` 
 
 ## group templates
 
@@ -209,20 +313,31 @@ This template will be applied for every control in the section. You can imagine 
 ...
 ```
 
-## template strings
+## control templates
+In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any properties defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same property), the child will overwrite the template.
 
-In many parts of a control's config, you can use a special syntax to dynamically insert values into a string, including action lists.
+```yaml title="control_templates.yaml"
+__global__:
+  color: 127
 
-```yaml hl_lines="6 8"
-my_track_control:
-type: track
-track: gtr 1
-gestures:
-  released_immediately: >
-    "${me.track}" / PLAY    # "gtr 1" / PLAY
-  pressed_delayed: >
-    "${me.track}" / STOP    # "gtr 1" / STOP
+hold_warning:
+  gestures:
+    released_immediately: >
+      MSG "You must hold this control to trigger it!"
 ```
+```yaml hl_lines="3 7 8"
+play:
+  template: hold_warning
+  # color: 127    __global__ property, overwritten
+  color: green
+  gestures:
+    pressed_delayed: SETPLAY
+    released_immediately: > # added from `hold_warning` template
+      MSG "You must hold this control to trigger it!"
+```
+There is also a special template called `__global__`. This definition will apply to every control in your zcx script. You can optionally prevent a control from inheriting from `__global__` like so:
 
-
-
+```yaml
+my_control:
+  template: null
+```
