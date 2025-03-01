@@ -1,6 +1,7 @@
 zcx contains several features for applying a common definition across multiple controls, or for dynamically configuring a control based on factors such as its position in a group.
 
 ## control templates
+In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any properties defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same property), the child will overwrite the template.
 
 ```yaml title="control_templates.yaml"
 __global__:
@@ -21,9 +22,6 @@ play:
     released_immediately: > # added from `hold_warning` template
       MSG "You must hold this control to trigger it!"
 ```
-
-In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any properties defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same property), the child will overwrite the template.
-
 There is also a special template called `__global__`. This definition will apply to every control in your zcx script. You can optionally prevent a control from inheriting from `__global__` like so:
 
 ```yaml
