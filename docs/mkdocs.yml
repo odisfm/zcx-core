@@ -9,9 +9,9 @@ theme:
     - navigation.instant
     - content.code.copy
     - navigation.tracking
-#    - navigation.tabs
-#    - navigation.sections
-#    - navigation.footer
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
     - navigation.header
     - navigation.indexes
     - navigation.top
@@ -76,10 +76,10 @@ extra:
       link: https://github.com/odisfm/zcx-core
     - icon: fontawesome/brands/discord
       link: https://discord.gg/djsmpyAUFS
-
-not_in_nav: |
-  other/
-  reference/
+#
+#not_in_nav: |
+#  other/
+#  reference/
 
 extra_css:
   - stylesheets/extra.css

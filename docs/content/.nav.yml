@@ -1,12 +1,18 @@
 nav:
   - about: index.md
   - docs: docs.md
-  - faq: /reference/faq
-  - getting started: tutorials/getting-started
+#  - docs:
+  - faq: faq.md
+  - getting started:
+      - "tutorials/getting-started/*"
+#  - lessons: lessons/index
+  - reference: reference
+#    - control reference:
+##        - control-reference/z-control.md
+#        - "control-reference/*"
+#    - command reference: reference/command-reference
+#    - template reference: reference/template-reference
   - lessons: lessons
-  - control reference:
-      - control-reference/z-control.md
-      - "control-reference/*"
-  - command reference: "command-reference.md"
-  - template reference: "template-reference.md"
   - download: https://github.com/odisfm/zcx-core/releases/latest
+
+flatten_single_child_sections: true
