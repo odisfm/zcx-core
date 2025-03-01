@@ -135,7 +135,7 @@ Override the global velocity threshold, which by default is `30`. Triggers under
 
 ## properties
 
-These are values attached to controls that can be referenced from within [template strings](/template-reference#template-strings).
+These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
 
 ### index
 
