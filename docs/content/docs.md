@@ -2,6 +2,7 @@
 title: docs
 hide:
   - toc
+  - navigation
 ---
 
 # zcx core documentation
