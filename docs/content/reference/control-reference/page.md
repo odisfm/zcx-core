@@ -2,10 +2,15 @@
 
 The `page` control is identical to the `standard` control, except it has a required `page` property. This control's LED feedback will reflect whether its bound page is currently active. As such, the `color` property is ignored. 
 
-**Note:** standard controls are already capable of changing pages, and page controls still require you to manually define the page change commands.
+!!! Note
+    Standard controls are already capable of changing pages, and page controls still require you to manually define the page change commands. The only purpose of this control is to enable control feedback.
+
+    See [command reference](/reference/command-reference#page).
 
 
 ## yaml schema
+
+Inherits from [standard control](/reference/control-reference/z-control/#yaml-schema).
 
 ```yaml
 page: string, int

@@ -6,7 +6,7 @@ When the `track` property is configured, zcx will bind to the specified track on
 
 ## yaml schema
 
-Inherits from [standard control](/control-reference/z-control/#yaml-schema).
+Inherits from [standard control](/reference/control-reference/z-control/#yaml-schema).
 
 ```yaml
 track: string, int
@@ -26,7 +26,7 @@ By default, the track control will attempt to create a palette of colors based o
 
 ## properties
 
-Inherits from [standard control](/control-reference/z-control/#properties).
+Inherits from [standard control](/reference/control-reference/z-control/#properties).
 
 ### track
 

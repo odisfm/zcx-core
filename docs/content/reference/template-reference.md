@@ -134,7 +134,7 @@ pads:
 
 ```
 
-Each of these dashes is a blank or 'null' entry in this list. By looking at `pads`, we can see that four controls belong to this group. Like [above](/template-reference/#overwriting-properties), we are able to overwrite or extend individual group members:
+Each of these dashes is a blank or 'null' entry in this list. By looking at `pads`, we can see that four controls belong to this group. Like [above](/reference/template-reference/#overwriting-properties), we are able to overwrite or extend individual group members:
 
 ```yaml
 pads:
@@ -182,6 +182,49 @@ This is a representation of how zcx processes this section under the hood:
     pressed_delayed: METRO
 ```
 
+#### whole-section templates
 
+It is possible to define an entire matrix section with one group definition. To do this, the yaml file for the section should contain a single dict, instead of the usual list:
+
+```yaml title="big_section.yaml"
+pad_group:
+color: pink
+gestures:
+  pressed: CLIP PLAY ${me.Index}
+```
+
+This template will be applied for every control in the section. You can imagine the expanded output like this:
+
+```yaml
+-
+  color: pink
+  gestures:
+    pressed: CLIP PLAY 1
+-
+  color: pink
+  gestures:
+    pressed: CLIP PLAY 2
+-
+  color: pink
+  gestures:
+    pressed: CLIP PLAY 3
+...
+```
 
 ## template strings
+
+In many parts of a control's config, you can use a special syntax to dynamically insert values into a string, including action lists.
+
+```yaml hl_lines="6 8"
+my_track_control:
+type: track
+track: gtr 1
+gestures:
+  released_immediately: >
+    "${me.track}" / PLAY    # "gtr 1" / PLAY
+  pressed_delayed: >
+    "${me.track}" / STOP    # "gtr 1" / STOP
+```
+
+
+

@@ -19,5 +19,6 @@ If you're brand new to zcx, check out the [getting started](/tutorials/getting-s
 
 ## Important guides
 
+- [zcx concepts](/tutorials/getting-started/zcx-concepts)
 - [control reference](/reference/control-reference/z-control)
 -  [command reference](/reference/command-reference)
