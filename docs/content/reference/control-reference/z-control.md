@@ -92,7 +92,7 @@ ___
 ### vars
 `dict[dict[string]]`
 
-See [template reference](/template-refernce#template-strings).
+See [template reference](/reference/template-reference#complex-expressions).
 
 ___
 ### repeat
