@@ -1,4 +1,5 @@
 from functools import wraps, partial
+from typing import Optional
 
 from ableton.v2.base import EventObject
 from ableton.v2.base.task import TimerTask
@@ -9,6 +10,7 @@ from .colors import parse_color_definition, simplify_color, Pulse, Blink
 from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
 from .errors import ConfigurationError
 from .z_element import ZElement
+from .z_state import ZState
 
 
 def only_in_view(func):
@@ -33,7 +35,7 @@ class ZControl(EventObject):
         super().__init__()
         self.root_cs = root_cs
         self.parent_section = parent_section
-        self.__state = None
+        self.__state: Optional[ZState] = None
         self.__parent_logger = self.parent_section._logger
         self._in_view = False
         self.in_view_listener.subject = self.parent_section
@@ -59,6 +61,7 @@ class ZControl(EventObject):
         self._allow_multiple_triggers = False
         self._fake_momentary = False
         self._last_received_value = 0
+        self._repeat = False
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
@@ -83,6 +86,7 @@ class ZControl(EventObject):
         suppress_animations = config.get('suppress_animations', False)
         self._suppress_animations = suppress_animations
         self._fake_momentary = config.get('tog_to_mom', False)
+        self._repeat = config.get('repeat', False)
 
     def log(self, *msg):
         for msg in msg:
@@ -215,8 +219,14 @@ class ZControl(EventObject):
 
     @listens('in_view')
     def in_view_listener(self):
+        back_in_view = not self.in_view and self.parent_section.in_view
         self._in_view = self.parent_section.in_view
+        if back_in_view:
+            self._back_in_view()
+
+    def _back_in_view(self):
         self.request_color_update()
+        self.__state._repeat = self._repeat
 
     def set_color_to_base(self):
         self._control_element.set_light(self._control_element.color_swatch.base)
