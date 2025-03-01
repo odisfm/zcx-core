@@ -17,3 +17,7 @@
 ul.md-nav__list, .md-nav__link {
   text-transform: lowercase;
 }
+
+.md-footer__title {
+  text-transform: lowercase;
+}
