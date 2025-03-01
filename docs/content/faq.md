@@ -29,7 +29,7 @@ See also: [reading zcx configurations](/tutorials/getting-started/reading-zcx-co
 
 ### Does zcx replace ClyphX?
 
-Nope. zcx provides a way to interact with ClyphX
+Nope. zcx provides a way to interact with ClyphX that greatly expands your possibilities for performing with hardware controllers.
 
 ### Does zcx replace X-controls and G-controls
 
