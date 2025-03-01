@@ -175,7 +175,7 @@ gestures:
     msg: Look at my super cool message!
 ```
 
-This is, in most cases, functionally equivelant to doing:
+This is, in most cases, functionally equivalent to doing:
 ```yaml hl_lines="2"
 pressed: >
   MSG "Look at my super cool message!"
