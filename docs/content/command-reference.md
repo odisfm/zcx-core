@@ -32,7 +32,7 @@ Very often, ClyphX action lists include quotation marks, e.g. `"my track" / SEL`
     pressed: "my track" / SEL
 ```
 
-Because of the quotes around `my track`, yaml interprets `my track`, as the value for `pressed`, and then freaks out when it sees the rest of the action list (` / SEL`). There are two ways to deal with this.
+Because of the quotes around `my track`, yaml interprets `my track` as the value for `pressed`, and then freaks out when it sees the rest of the action list (` / SEL`). There are two ways to deal with this.
 
 ##### block scalar syntax
 ```yaml
