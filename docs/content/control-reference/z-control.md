@@ -144,6 +144,7 @@ These are values attached to controls that can be referenced from within [templa
 Returns the **zero-indexed** position of a matrix control within its containing section. Returns 0 for non-matrix controls, or the control's [group_index](#group_index) if it belongs to a group.
 
 #### Index
+_with a capital `I`_
 
 Returns [index](#index) + 1.
 
@@ -152,6 +153,7 @@ Returns [index](#index) + 1.
 Returns the **zero-indexed** position of a control within its containing group.
 
 #### group_Index
+_with a capital `I`_
 
 Returns [group_index](#group_index) + 1.
 
