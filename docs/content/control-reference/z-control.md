@@ -137,23 +137,25 @@ Override the global velocity threshold, which by default is `30`. Triggers under
 
 These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
 
-### index
+### position properties
+
+#### index
 
 Returns the **zero-indexed** position of a matrix control within its containing section. Returns 0 for non-matrix controls, or the control's [group_index](#group_index) if it belongs to a group.
 
-### Index
+#### Index
 
 Returns [index](#index) + 1.
 
-### group_index
+#### group_index
 
 Returns the **zero-indexed** position of a control within its containing group.
 
-### group_Index
+#### group_Index
 
 Returns [group_index](#group_index) + 1.
 
-### position properties
+### location properties
 _Only available on matrix controls._
 
 #### x, x_flip
