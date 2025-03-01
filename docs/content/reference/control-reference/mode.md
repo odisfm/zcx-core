@@ -1,3 +1,5 @@
+
+
 # mode control
 
 The `mode` control binds to a particular [mode](/lessons/zcx-concepts/#modes) in zcx and displays feedback indicating whether that mode is currently active
