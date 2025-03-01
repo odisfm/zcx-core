@@ -1,5 +1,7 @@
 ---
 weight: 3
+hide:
+  - footer
 ---
 
 # editing a config
