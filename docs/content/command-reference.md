@@ -13,7 +13,7 @@ Gestures are physical actions you can perform on a control to trigger a command.
 
 ### gesture syntax
 
-To define gestures on a control, add a `gestures` key, with key/value pairs of gesture / command.
+To define gestures on a control, add a `gestures` key, with key/value pairs of gesture/command.
 
 ```yaml
 my_control:
