@@ -1,3 +1,11 @@
 [data-md-color-scheme="slate"] {
   --md-hue: 210;
 }
+
+.md-tabs__item:first-child {
+  margin-right: 1rem;
+}
+
+.md-tabs__item:last-child {
+  margin-left: 1rem;
+}
