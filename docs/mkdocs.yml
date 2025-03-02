@@ -62,9 +62,9 @@ plugins:
   - awesome-nav
   - meta
   - open-in-new-tab
-  - git-revision-date-localized:
-        enable_creation_date: true
-        type: timeago
+#  - git-revision-date-localized:
+#        enable_creation_date: true
+#        type: timeago
   - mkdocs-nav-weight:
       section_renamed: false
       index_weight: -10
