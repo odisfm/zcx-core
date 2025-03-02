@@ -326,11 +326,11 @@ class ZManager(ZCXComponent):
 
     def process_named_buttons(self, pad_section: PadSection):
         raw_config = self.yaml_loader.load_yaml(
-            f"{self._config_dir}/named_buttons.yaml"
+            f"{self._config_dir}/named_controls.yaml"
         )
         if raw_config is None:
             self.log(
-                "warning, named_buttons.yaml appears to be empty"
+                "warning, named_controls.yaml appears to be empty"
             )  # todo: change logging level
 
         parsed_config = self.parse_named_button_config(pad_section, raw_config)
