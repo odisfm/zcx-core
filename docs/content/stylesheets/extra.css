@@ -33,3 +33,13 @@ ul.md-nav__list, .md-nav__link {
 .md-footer__title {
   text-transform: lowercase;
 }
+
+#matrix-gen-form {
+  fieldset {
+    margin-bottom: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: .5rem;
+  }
+}
