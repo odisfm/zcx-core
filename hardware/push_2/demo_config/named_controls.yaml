@@ -61,7 +61,7 @@ __scene_buttons:
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
   color: 127
-  buttons:
+  controls:
     dpad_left:
       gestures:
         pressed: LEFT

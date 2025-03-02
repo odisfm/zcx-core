@@ -29,7 +29,7 @@ __scene_buttons:
   gestures:
     pressed: SCENE ${me.Index}
     pressed__shift: SCENE ${me.Index + 8}
-  buttons:
+  controls:
     scene_1:
       color: red
     scene_2:
@@ -50,7 +50,7 @@ __scene_buttons:
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
   color: 127
-  buttons:
+  controls:
     dpad_left:
       gestures:
         pressed: LEFT

@@ -33,7 +33,7 @@
   gestures:
     pressed: >
       SEL / DEV(${me.group_index + 1})
-  pads:
+  controls:
     -
     -
     -
@@ -102,7 +102,7 @@
     palette: nebula
   gestures:
     pressed: ${me.group_index + 1} / SEL
-  pads:
+  controls:
     -
     -
     -

@@ -152,10 +152,10 @@ class ZManager(ZCXComponent):
                     raw_config = [raw_config]
                 else:
                     pad_overrides = raw_config.get(
-                        "pads", [None] * len(section_obj.owned_coordinates)
+                        "controls", [None] * len(section_obj.owned_coordinates)
                     )
                     section_template = {
-                        k: v for k, v in raw_config.items() if k != "pads"
+                        k: v for k, v in raw_config.items() if k != "controls"
                     }
                     raw_config = []
 
@@ -220,19 +220,19 @@ class ZManager(ZCXComponent):
                     unnamed_groups += 1
 
                 group_pads = config.get(
-                    "pads", [None] * (len(section_obj.owned_coordinates) - i)
+                    "controls", [None] * (len(section_obj.owned_coordinates) - i)
                 )
                 if not isinstance(group_pads, list):
                     raise ValueError(
                         f"Config error in {section_obj.name} {group_name}: "
-                        f'If "pads" key is present it must be a list.'
+                        f'If "controls" key is present it must be a list.'
                     )
 
                 # Create base group config with correct template inheritance
                 group_config = deepcopy(config)
                 del group_config["pad_group"]
-                if "pads" in group_config:
-                    del group_config["pads"]
+                if "controls" in group_config:
+                    del group_config["controls"]
 
                 # First apply global template to create base config
                 base_config = apply_global_template({})
@@ -403,14 +403,14 @@ class ZManager(ZCXComponent):
                 for sub_button in group_config.get("includes", []):
                     sub_button_config = deepcopy(group_config)
 
-                    button_overrides = group_config.get("buttons", {})
+                    button_overrides = group_config.get("controls", {})
                     if button_overrides and sub_button in button_overrides:
                         override_def = deepcopy(button_overrides[sub_button])
                         merged_def = merge_configs(sub_button_config, override_def)
                     else:
                         merged_def = sub_button_config
 
-                    for key in ["includes", "buttons"]:
+                    for key in ["includes", "controls"]:
                         merged_def.pop(key, None)
 
                     processed_sub_buttons[sub_button] = merged_def

@@ -80,7 +80,7 @@
   gestures:
     pressed:
       page: ${me.group_index}
-  pads:
+  controls:
     -
     -
     -
