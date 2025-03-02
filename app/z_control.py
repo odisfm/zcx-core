@@ -168,6 +168,14 @@ class ZControl(EventObject):
             self.__state.unregister_z_control(self)
             self._control_element = None
 
+    @classmethod
+    def re_range_percent(cls, val, _min, _max):
+        if val <= _min:
+            return 0
+        if val >= _max:
+            return 100
+        return (val - _min) / (_max - _min) * 100
+
     @only_in_view
     def handle_gesture(self, gesture):
         val = self._control_element._last_received_value
