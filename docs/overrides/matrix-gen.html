@@ -3,14 +3,12 @@
 {% block scripts %}
   {{ super() }}
   <script>
-
     document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('matrix-gen-form');
-      form.addEventListener('submit', function(event) {
+      const generateButton = document.getElementById('generate-button');
+      generateButton.addEventListener('click', function(event) {
+        // Prevent default behavior
         event.preventDefault();
-        const formData = new FormData(form);
-        const formObject = Object.fromEntries(formData.entries());
-        processFormData(formObject);
+        processFormData();
       });
     });
 
@@ -25,63 +23,25 @@
 
     const output_block = document.getElementById('yaml-output').querySelector('code');
 
-    function form_submit(event) {
-      event.preventDefault();
-
-      const form = document.getElementById('matrix-gen-form');
-
-      const formData = new FormData(form);
-
-      const formObject = Object.fromEntries(formData.entries());
-
-      processFormData(formObject);
-    }
-
-    function make_row(key, value, indent, commented=false, is_dict=false) {
-      let row = ""
-      if (commented) {
-        row += "# "
-      }
-      for (let i = 0; i < indent; i++) {
-        row += "  "
-      }
-      row += `${key}:`
-
-      if (is_dict) {
-        return row += `\n`
-        }
-
-      row += ` ${value}`
-
-      return row;
-    }
-
-    function make_comment(content) {
-      return `# ${content}\n`
-    }
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    function processFormData(formData) {
-
+    function processFormData() {
       output_block.innerHTML = null;
 
-      let width = parseInt(formData.columns);
-      let height = parseInt(formData.rows)
-      let comment_out = 'comment-out' in formData
-      let space_between_items = 'space-between-items' in formData
-      let comment_coords = 'comment-coords' in formData
+      let width = parseInt(document.getElementById('columns').value);
+      let height = parseInt(document.getElementById('rows').value);
+      let comment_out = document.getElementById('comment-out').checked;
+      let space_between_items = document.getElementById('space-between-items').checked;
+      let comment_coords = document.getElementById('comment-coords').checked;
+      let includeColor = document.getElementById('color').checked;
+      let includeType = document.getElementById('type').checked;
+      let randomColor = document.getElementById('random-color').checked;
 
-      let content = ''
-
-      let these_gestures = []
+      let content = '';
+      let these_gestures = [];
 
       for (let i = 0; i < gestures.length; i++) {
-        let gesture = gestures[i]
-        if (gesture in formData) {
-          these_gestures.push(gesture)
+        let gesture = gestures[i];
+        if (document.getElementById(gesture).checked) {
+          these_gestures.push(gesture);
         }
       }
 
@@ -89,56 +49,78 @@
       for (let i = 0; i < height; i++) {
         // for each column
         if (comment_coords) {
-          content += make_comment(`!! row ${i + 1}`)
+          content += make_comment(`!! row ${i + 1}`);
         }
         for (let j = 0; j < width; j++) {
           if (comment_coords) {
-            content += make_comment(`col ${j + 1}`)
+            content += make_comment(`col ${j + 1}`);
           }
 
           // start the list item
-          content += '- \n'
+          content += '- \n';
 
-          if ('color' in formData) {
-            let color = 127
-            if ('random-color' in formData) {
-              color = getRandomInt(126) + 1
-
-              }
-            content += make_row('color', color, 1, comment_out)
-              content += '\n'
+          if (includeColor) {
+            let color = 127;
+            if (randomColor) {
+              color = getRandomInt(126) + 1;
+            }
+            content += make_row('color', color, 1, comment_out);
+            content += '\n';
           }
 
-          if ('type' in formData) {
-            content += make_row('type', 'standard', 1, comment_out)
-            content += '\n'
+          if (includeType) {
+            content += make_row('type', 'standard', 1, comment_out);
+            content += '\n';
           }
 
-          content += make_row('gestures', false, 1, comment_out, true)
+          content += make_row('gestures', false, 1, comment_out, true);
           if (these_gestures.length === 0) {
-            content += make_row('pressed', 'DUMMY', 2, true, false)
-            content += '\n'
+            content += make_row('pressed', 'DUMMY', 2, true, false);
+            content += '\n';
           } else {
             for (let g of these_gestures) {
-             content += make_row(g, 'DUMMY', 2, comment_out, false)
-             content += '\n'
+              content += make_row(g, 'DUMMY', 2, comment_out, false);
+              content += '\n';
             }
           }
 
           if (space_between_items) {
-            content += '\n'
+            content += '\n';
           }
-
         }
       }
 
-      let span = document.createElement('span')
-      span.textContent = content
+      let span = document.createElement('span');
+      span.textContent = content;
 
-      output_block.appendChild(span)
-
+      output_block.appendChild(span);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
+    function make_row(key, value, indent, commented=false, is_dict=false) {
+      let row = "";
+      if (commented) {
+        row += "# ";
+      }
+      for (let i = 0; i < indent; i++) {
+        row += "  ";
+      }
+      row += `${key}:`;
+
+      if (is_dict) {
+        return row += `\n`;
+      }
+
+      row += ` ${value}`;
+      return row;
+    }
+
+    function make_comment(content) {
+      return `# ${content}\n`;
+    }
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
     }
   </script>
 {% endblock %}
@@ -146,7 +128,7 @@
 {% block content %}
   {{ super() }}
 
-  <form onsubmit="form_submit(event);" aria-labelledby="form-title" id="matrix-gen-form" method="post" action="">
+  <div aria-labelledby="form-title" id="matrix-gen-form">
     <h2 id="form-title">Configure Settings</h2>
 
     <div class="form-group">
@@ -158,7 +140,6 @@
       <label for="rows">Rows:</label>
       <input type="number" id="rows" name="rows" min="1" max="8" required aria-describedby="rows-hint" value="4">
     </div>
-
 
     <fieldset class="key-options">
       <legend>Control Options</legend>
@@ -206,7 +187,6 @@
           <input type="checkbox" id="type" name="type" value="type" checked>
           <label for="type">Type</label>
         </div>
-
       </div>
     </fieldset>
 
@@ -228,11 +208,11 @@
         <input type="checkbox" id="comment-coords" name="comment-coords" value="comment-coords" checked>
         <label for="comment-coords">Indicate coordinates</label>
       </div>
-
     </fieldset>
 
     <div class="form-actions">
-      <button type="submit" class="md-button md-button--primary">Generate</button>
+      <button type="button" id="generate-button" class="md-button md-button--primary">Generate</button>
     </div>
-  </form>
+  </div>
+
 {% endblock %}
