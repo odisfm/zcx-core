@@ -13,6 +13,10 @@ nav:
 #    - command reference: reference/command-reference
 #    - template reference: reference/template-reference
   - lessons: lessons
+
+  - resources:
+      - "resources/*"
+
   - download: https://github.com/odisfm/zcx-core/releases/latest
 
 flatten_single_child_sections: true
