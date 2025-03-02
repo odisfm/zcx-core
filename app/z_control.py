@@ -326,6 +326,11 @@ class ZControl(EventObject):
         self.request_color_update()
         self.task_group.add(timer)
 
+    def set_prop(self, prop_name, value):
+        self._context['me'][prop_name] = value
+
+    def get_prop(self, prop_name):
+        return self._context['me'].get(prop_name)
 
 class AnimationTimer(TimerTask):
 
