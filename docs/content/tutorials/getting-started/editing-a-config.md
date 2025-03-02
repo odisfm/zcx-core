@@ -266,6 +266,14 @@ The data structure you're looking at is called a [list](/docs/lessons/reading-zc
 
 If you like, you can start each list item with an empty line. You may find this easier to read.
 
+!!! tip "Skeleton matrix configs"
+
+    Your zcx distribution comes with a few mostly-blank sections, with helpful comments that indicate the coordinate of each control (like above).
+
+    If you'd like to generate your own blank config, of custom dimensions, you can use the [matrix config generator](/resources/matrix-gen).
+
+    
+
 And from here, editing controls is pretty much exactly the same as what we did for the [named controls](#named-controls). 
 
 Most pad matrices have RGB feedback, so we can can set them to display many different colors:
