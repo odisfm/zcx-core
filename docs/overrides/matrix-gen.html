@@ -117,6 +117,7 @@
 
       output_block.appendChild(span)
 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
     }
   </script>
@@ -125,7 +126,7 @@
 {% block content %}
   {{ super() }}
 
-  <form onsubmit="form_submit(event);" aria-labelledby="form-title" id="matrix-gen-form">
+  <form onsubmit="form_submit(event);" aria-labelledby="form-title" id="matrix-gen-form" method="post">
     <h2 id="form-title">Configure Settings</h2>
 
     <div class="form-group">

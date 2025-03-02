@@ -9,6 +9,7 @@ You can use this tool to generate a 'skeleton' config for a [matrix section](/tu
 Enter your desired height and width for the section, and this tool will generate the appropriate yaml structure for these dimensions. Click the :material-content-copy: button in the top-right corner of the output field to copy to your clipboard, and paste into your code editor.
 
 ---
+# Output
 ``` { #yaml-output }
 your yaml will appear here
 ```
