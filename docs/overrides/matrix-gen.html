@@ -61,6 +61,8 @@
       let width = parseInt(formData.columns);
       let height = parseInt(formData.rows)
       let comment_out = 'comment-out' in formData
+      let space_between_items = 'space-between-items' in formData
+      let comment_coords = 'comment-coords' in formData
 
       let content = ''
 
@@ -76,9 +78,13 @@
       // for each row
       for (let i = 0; i < height; i++) {
         // for each column
-        content += make_comment(`!! row ${i+1}`)
+        if (comment_coords) {
+          content += make_comment(`!! row ${i + 1}`)
+        }
         for (let j = 0; j < width; j++) {
-          content += make_comment(`col ${j+1}`)
+          if (comment_coords) {
+            content += make_comment(`col ${j + 1}`)
+          }
 
           // start the list item
           content += '- \n'
@@ -107,6 +113,10 @@
              content += make_row(g, 'DUMMY', 2, comment_out, false)
              content += '\n'
             }
+          }
+
+          if (space_between_items) {
+            content += '\n'
           }
 
         }
@@ -199,6 +209,14 @@
       <div class="checkbox-group">
         <input type="checkbox" id="random-color" name="random-color" value="random-color" checked>
         <label for="random-color">Random color</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="space-between-items" name="space-between-items" value="space-between-items" checked>
+        <label for="space-between-items">Space between controls</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="comment-coords" name="comment-coords" value="comment-coords" checked>
+        <label for="comment-coords">Indicate coordinates</label>
       </div>
 
     </fieldset>
