@@ -86,3 +86,6 @@ extra_css:
   - stylesheets/extra.css
 
 repo_url: https://github.com/odisfm/zcx-core
+
+watch:
+  - overrides
