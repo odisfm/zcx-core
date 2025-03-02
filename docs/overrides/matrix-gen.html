@@ -4,6 +4,16 @@
   {{ super() }}
   <script>
 
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('matrix-gen-form');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const formObject = Object.fromEntries(formData.entries());
+        processFormData(formObject);
+      });
+    });
+
     const gestures = [
             'pressed',
             'released',
@@ -136,8 +146,8 @@
 {% block content %}
   {{ super() }}
 
-  <form onsubmit="form_submit(event);" aria-labelledby="form-title" id="matrix-gen-form" method="post" action=""><h2
-        id="form-title">Configure Settings</h2>
+  <form onsubmit="form_submit(event);" aria-labelledby="form-title" id="matrix-gen-form" method="post" action="">
+    <h2 id="form-title">Configure Settings</h2>
 
     <div class="form-group">
       <label for="columns">Columns:</label>
