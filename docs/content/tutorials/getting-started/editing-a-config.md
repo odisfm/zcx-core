@@ -316,139 +316,30 @@ By now, you should have a pretty good idea of what this definition does. By defa
 
 ## A note on templating
 
-Throughout these configuration files, you will have come across several quite complex definitions that look like this:
+If you've looked through the demo config, you will have come across several quite complex definitions that look like this:
 
-```yaml title="encoders.yaml"
-
-__encoder_row:
+```yaml title="named_controls.yaml"
+__scene_buttons:
   includes: [
-    enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
+    scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8
   ]
-  binding:
-    default: >-
-      ${me.Index} / VOL
-    __shift: >-
-      ${me.Index} / PAN
-    __device: >-
-      SEL / DEV(1) P${me.Index}
-  encoders:
-    - binding:
-        __sends: >-
-          SEL / SEND A
-    - binding:
-        __sends: >-
-          SEL / SEND B
-    - binding:
-        __sends: >-
-          SEL / SEND C
-    - binding:
-        __sends: >-
-          SEL / SEND D
-    - binding:
-        __sends: >-
-          SEL / SEND E
-    - binding:
-        __sends: >-
-          SEL / SEND F
-    - binding:
-        __sends: >-
-          SEL / SEND G
-    - binding:
-        __sends: >-
-          SEL / SEND H
-```
+  gestures:
+    pressed: SCENE ${me.Index}
 
-A full explanation of what is happening above will be delivered in a future tutorial series. But the gist is:
-
-We define a group of controls:
-
-```yaml
-__encoder_row:
+__page_section:
   includes: [
-    enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
+    undo, delete, double, quantize
   ]
+  type: page
+  page: ${me.index}
+  gestures:
+    pressed:
+      page: ${me.index}
+    released_delayed:
+      page: last
 ```
 
-The name of the group is `__encoder_row`. We can tell it's a group at a glance by the leading double underscore `__`. This group name is completely arbitrary, but it **must** start with `__`.
-
-A group of controls must also have the key `includes`. This is a [list](/docs/lessons/reading-zcx-configurations.md#lists) of named controls or encoders that form the group. You must use the [canonical](/docs/lessons/zcx-concepts.md#named-controls) names for each group member.
-
-Here we have 'grouped' the Push's 8 main encoders. This lets us do two things.
-
-### define common functionality
-```yaml
-binding:
-    default: >-
-      ${me.Index} / VOL
-    __shift: >-
-      ${me.Index} / PAN
-    __device: >-
-      SEL / DEV(1) P${me.Index}
-```
-
-All 8 encoders have the same* binding when in the `default`, `shift`, and `device` modes.
-
-### rapidly prototype configs
-The default binding is `${me.Index} / VOL`. `${me.Index}` will be unfamiliar syntax. When you see `${<some.value>}` you are looking at a zcx template string. 
-
-Everywhere we use this syntax, behind the scenes zcx will resolve these template values. For `enc_1`, the final binding target will be `1 / VOL`, or the first track in the set. `enc_2` will resolve to `2 / VOL` and so on. Note: this is according to each control's position in the `encoders` key.
-
-```
-me: the control
-Index: fancy word for position
-```
-
-The binding in `device` mode is `SEL / DEV(1) P${me.Index}`. This resolves as above, so `enc_7` will bind to `SEL / DEV(1) P7`.
-
-We can actually put whole expressions inside template strings:
-```yaml
-__select: >
-  ${me.Index + 8} / VOL
-```
-Now `enc_1` maps to `9 / VOL` when mode `select` is active.
-
-## overriding group definitions
-
-This config also has an `encoders` key:
-```yaml title="encoders.yaml"
-encoders:
-    - binding:
-        __sends: >-
-          SEL / SEND A
-    - binding:
-        __sends: >-
-          SEL / SEND B
-    - binding:
-        __sends: >-
-          SEL / SEND C
-```
-Here, for each group member, we can define any number of properties to 'override' on the group definition.
-
-```yaml title="encoders.yaml"
-encoders:
-    - 
-    - null
-    - binding:
-        __sends: >-
-          SEL / SEND C
-```
-You can leave a list entry blank, or write `null`, and no override will be applied for that control.
-
-!!! quote ""I'd rather not use groups""
-
-    You don't have to. You can remove or comment out the whole group definition, and define each control separately:
-
-    ```yaml
-    enc_1:
-      binding:
-        default: >
-          "drums" / VOL
-    
-    enc_2:
-      binding:
-        default: >
-          "keys" / VOL
-    ```
+These definitions are using the templating system in zcx. When you're ready, check the [template reference](/reference/template-reference) to see how it works.
 
 # congratulations!
 
