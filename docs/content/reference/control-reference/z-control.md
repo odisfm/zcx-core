@@ -1,4 +1,5 @@
 ---
+weight: -10
 hide:
   - footer
 ---
@@ -91,7 +92,7 @@ ___
 ### vars
 `dict[dict[string]]`
 
-See [template reference](/template-refernce#template-strings).
+See [template reference](/reference/template-reference#complex-expressions).
 
 ___
 ### repeat
@@ -135,25 +136,29 @@ Override the global velocity threshold, which by default is `30`. Triggers under
 
 ## properties
 
-These are values attached to controls that can be referenced from within [template strings](/template-reference#template-strings).
+These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
 
-### index
+### position properties
+
+#### index
 
 Returns the **zero-indexed** position of a matrix control within its containing section. Returns 0 for non-matrix controls, or the control's [group_index](#group_index) if it belongs to a group.
 
-### Index
+#### Index
+_with a capital `I`_
 
 Returns [index](#index) + 1.
 
-### group_index
+#### group_index
 
 Returns the **zero-indexed** position of a control within its containing group.
 
-### group_Index
+#### group_Index
+_with a capital `I`_
 
 Returns [group_index](#group_index) + 1.
 
-### position properties
+### location properties
 _Only available on matrix controls._
 
 #### x, x_flip

@@ -9,9 +9,9 @@ theme:
     - navigation.instant
     - content.code.copy
     - navigation.tracking
-#    - navigation.tabs
-#    - navigation.sections
-#    - navigation.footer
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
     - navigation.header
     - navigation.indexes
     - navigation.top
@@ -37,8 +37,9 @@ theme:
   font:
     text: Open Sans
   icon:
-    logo: /material/view-grid-outline
+    logo: zcx-logo-cutout
     repo: fontawesome/brands/github
+  favicon: favicon.png
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -54,15 +55,16 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
-      toc_depth: 3
+      toc_depth: 4
 plugins:
   - privacy
   - search
   - awesome-nav
   - meta
-  - git-revision-date-localized:
-        enable_creation_date: true
-        type: timeago
+  - open-in-new-tab
+#  - git-revision-date-localized:
+#        enable_creation_date: true
+#        type: timeago
   - mkdocs-nav-weight:
       section_renamed: false
       index_weight: -10
@@ -75,12 +77,15 @@ extra:
       link: https://github.com/odisfm/zcx-core
     - icon: fontawesome/brands/discord
       link: https://discord.gg/djsmpyAUFS
-
-not_in_nav: |
-  other/
-  reference/
+#
+#not_in_nav: |
+#  other/
+#  reference/
 
 extra_css:
   - stylesheets/extra.css
 
 repo_url: https://github.com/odisfm/zcx-core
+
+watch:
+  - overrides

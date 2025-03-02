@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('matrix-gen-form');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const formObject = Object.fromEntries(formData.entries());
+        processFormData(formObject);
+      });
+    });
+
+    const gestures = [
+            'pressed',
+            'released',
+            'released_immediately',
+            'pressed_delayed',
+            'released_delayed',
+            'double_clicked'
+    ]
+
+    const output_block = document.getElementById('yaml-output').querySelector('code');
+
+    function form_submit(event) {
+      event.preventDefault();
+
+      const form = document.getElementById('matrix-gen-form');
+
+      const formData = new FormData(form);
+
+      const formObject = Object.fromEntries(formData.entries());
+
+      processFormData(formObject);
+    }
+
+    function make_row(key, value, indent, commented=false, is_dict=false) {
+      let row = ""
+      if (commented) {
+        row += "# "
+      }
+      for (let i = 0; i < indent; i++) {
+        row += "  "
+      }
+      row += `${key}:`
+
+      if (is_dict) {
+        return row += `\n`
+        }
+
+      row += ` ${value}`
+
+      return row;
+    }
+
+    function make_comment(content) {
+      return `# ${content}\n`
+    }
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    function processFormData(formData) {
+
+      output_block.innerHTML = null;
+
+      let width = parseInt(formData.columns);
+      let height = parseInt(formData.rows)
+      let comment_out = 'comment-out' in formData
+      let space_between_items = 'space-between-items' in formData
+      let comment_coords = 'comment-coords' in formData
+
+      let content = ''
+
+      let these_gestures = []
+
+      for (let i = 0; i < gestures.length; i++) {
+        let gesture = gestures[i]
+        if (gesture in formData) {
+          these_gestures.push(gesture)
+        }
+      }
+
+      // for each row
+      for (let i = 0; i < height; i++) {
+        // for each column
+        if (comment_coords) {
+          content += make_comment(`!! row ${i + 1}`)
+        }
+        for (let j = 0; j < width; j++) {
+          if (comment_coords) {
+            content += make_comment(`col ${j + 1}`)
+          }
+
+          // start the list item
+          content += '- \n'
+
+          if ('color' in formData) {
+            let color = 127
+            if ('random-color' in formData) {
+              color = getRandomInt(126) + 1
+
+              }
+            content += make_row('color', color, 1, comment_out)
+              content += '\n'
+          }
+
+          if ('type' in formData) {
+            content += make_row('type', 'standard', 1, comment_out)
+            content += '\n'
+          }
+
+          content += make_row('gestures', false, 1, comment_out, true)
+          if (these_gestures.length === 0) {
+            content += make_row('pressed', 'DUMMY', 2, true, false)
+            content += '\n'
+          } else {
+            for (let g of these_gestures) {
+             content += make_row(g, 'DUMMY', 2, comment_out, false)
+             content += '\n'
+            }
+          }
+
+          if (space_between_items) {
+            content += '\n'
+          }
+
+        }
+      }
+
+      let span = document.createElement('span')
+      span.textContent = content
+
+      output_block.appendChild(span)
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  <form onsubmit="form_submit(event);" aria-labelledby="form-title" id="matrix-gen-form" method="post" action="">
+    <h2 id="form-title">Configure Settings</h2>
+
+    <div class="form-group">
+      <label for="columns">Columns:</label>
+      <input type="number" id="columns" name="columns" min="1" max="8" required aria-describedby="columns-hint" value="4">
+    </div>
+
+    <div class="form-group">
+      <label for="rows">Rows:</label>
+      <input type="number" id="rows" name="rows" min="1" max="8" required aria-describedby="rows-hint" value="4">
+    </div>
+
+
+    <fieldset class="key-options">
+      <legend>Control Options</legend>
+      <fieldset>
+        <legend>Gestures</legend>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="pressed" name="pressed" value="pressed">
+          <label for="pressed">Pressed</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="released" name="released" value="released">
+          <label for="released">Released</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="released_immediately" name="released_immediately" value="released_immediately" checked>
+          <label for="released_immediately">Released Immediately</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="pressed_delayed" name="pressed_delayed" value="pressed_delayed" checked>
+          <label for="pressed_delayed">Pressed Delayed</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="released_delayed" name="released_delayed" value="released_delayed">
+          <label for="released_delayed">Released Delayed</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="double_clicked" name="double_clicked" value="double_clicked">
+          <label for="double_clicked">Double Clicked</label>
+        </div>
+      </fieldset>
+
+      <div class="standalone-checkboxes">
+        <div class="checkbox-group">
+          <input type="checkbox" id="color" name="color" value="color" checked>
+          <label for="color">Color</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="type" name="type" value="type" checked>
+          <label for="type">Type</label>
+        </div>
+
+      </div>
+    </fieldset>
+
+    <fieldset class="yaml-options">
+      <legend>YAML options</legend>
+      <div class="checkbox-group">
+        <input type="checkbox" id="comment-out" name="comment-out" value="comment-out">
+        <label for="comment-out">Comment out fields</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="random-color" name="random-color" value="random-color" checked>
+        <label for="random-color">Random color</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="space-between-items" name="space-between-items" value="space-between-items" checked>
+        <label for="space-between-items">Space between controls</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="comment-coords" name="comment-coords" value="comment-coords" checked>
+        <label for="comment-coords">Indicate coordinates</label>
+      </div>
+
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="md-button md-button--primary">Generate</button>
+    </div>
+  </form>
+{% endblock %}

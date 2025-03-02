@@ -1,6 +1,6 @@
 ---
 hide:
-  - toc
+#  - toc
   - navigation
   - footer
 ---
@@ -32,6 +32,9 @@ ___
 zcx scripts contain many features that are impractical or impossible to replicate natively in ClyphX
 
 ### built for modes
+
+Easily define any control as a modifier for any other control.
+
 ```yaml
 record:
   color: red
@@ -57,11 +60,11 @@ select:
       mode_off: select
 ```
 
-Easily define any control as a modifier for any other control.
-
 ___
 
 ### unlimited pages
+
+Turn an 8x8 matrix into an 8×8×∞ matrix.
 
 ```yaml
 # matrix_sections.yaml
@@ -88,11 +91,13 @@ pages:
     - drums_section
 ```
 
-Turn an 8x8 matrix into an 8×8×∞ matrix.
-
 ___
 
 ### rapid configuration
+
+Configure dozens of buttons in seconds.
+
+
 ```yaml
 # matrix_sections.yaml
 
@@ -117,10 +122,11 @@ pad 2: SEL / PLAY 2
 pad 64: SEL / PLAY 64
 ```
 
-Configure dozens of buttons in seconds.
-
 ___
 ### deeper customisation
+
+Unlock the full capabilities of your hardware.
+
 ```yaml
 play:
   color:
@@ -132,11 +138,12 @@ play:
     double_clicked: STOPALL NQ
 ```
 
-Unlock the full capabilities of your hardware.
-
 ___
 
 ### intelligent controls
+
+Specialised control types give smart LED feedback without you writing any code.
+
 ```yaml
 __state_row:
   includes: [
@@ -155,11 +162,12 @@ play:
     pressed: SETPLAY
 ```
 
-Specialised control types give smart LED feedback without you writing any code.
-
 ___
 
 ### reusable components
+
+Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
+
 ```yaml hl_lines="16 19 20"
 # control_templates.yaml
 
@@ -183,8 +191,6 @@ scene_1:
        # msg: You must hold this control to trigger it!
 ```
 
-Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
-
 ___
 
-#### [I'd like to read that again!](#zcx-core)
+##### [I'd like to read that again!](#zcx-core)

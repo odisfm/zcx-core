@@ -1,3 +1,9 @@
+---
+title: faq
+hide:
+  - navigation
+---
+
 # frequently asked questions
 
 ### What's all this then?
@@ -23,7 +29,7 @@ See also: [reading zcx configurations](/tutorials/getting-started/reading-zcx-co
 
 ### Does zcx replace ClyphX?
 
-Nope. While technically the script will run without ClyphX, it requires ClyphX running to do anything useful, i.e. trigger actions.
+Nope. zcx provides a way to interact with ClyphX that greatly expands your possibilities for performing with hardware controllers.
 
 ### Does zcx replace X-controls and G-controls
 
