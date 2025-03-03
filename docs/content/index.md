@@ -59,7 +59,7 @@ select:
     released:
       mode_off: select
 ```
-
+<sup>[see how](https://zcxcore.com/tutorials/getting-started/zcx-concepts/#modes)</sup>
 ___
 
 ### unlimited pages
@@ -90,13 +90,12 @@ pages:
     - home_row
     - drums_section
 ```
-
+<sup>[see how](https://zcxcore.com/tutorials/getting-started/zcx-concepts/#pages)</sup>
 ___
 
 ### rapid configuration
 
 Configure dozens of buttons in seconds.
-
 
 ```yaml
 # matrix_sections.yaml
@@ -122,6 +121,8 @@ pad 2: SEL / PLAY 2
 pad 64: SEL / PLAY 64
 ```
 
+<sup>[see how](https://zcxcore.com/reference/template-reference/)</sup>
+
 ___
 ### deeper customisation
 
@@ -137,7 +138,7 @@ play:
   gestures:
     double_clicked: STOPALL NQ
 ```
-
+<sup>[see how](https://zcxcore.com/reference/control-reference/z-control/)</sup>
 ___
 
 ### intelligent controls
@@ -162,13 +163,14 @@ play:
     pressed: SETPLAY
 ```
 
+<sup>[see how](https://zcxcore.com/reference/control-reference/transport/)</sup>
+
 ___
 
 ### reusable components
 
 Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
-
-```yaml hl_lines="16 19 20"
+```yaml
 # control_templates.yaml
 
 my_green_button:
@@ -190,6 +192,8 @@ scene_1:
       #released_immediately:
        # msg: You must hold this control to trigger it!
 ```
+
+<sup>[see how](https://zcxcore.com/reference/template-reference/#control-templates)</sup>
 
 ___
 

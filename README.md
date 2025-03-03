@@ -25,6 +25,9 @@ ___
 zcx scripts contain many features that are impractical or impossible to replicate natively in ClyphX
 
 ### built for modes
+
+Easily define any control as a modifier for any other control.
+
 ```yaml
 record:
   color: red
@@ -49,12 +52,13 @@ select:
     released:
       mode_off: select
 ```
-
-Easily define any control as a modifier for any other control.
-
+<sup>[see how](https://zcxcore.com/tutorials/getting-started/zcx-concepts/#modes)</sup>
 ___
 
 ### unlimited pages
+
+
+Turn an 8x8 matrix into an 8×8×∞ matrix.
 
 ```yaml
 # matrix_sections.yaml
@@ -80,12 +84,13 @@ pages:
     - home_row
     - drums_section
 ```
-
-Turn an 8x8 matrix into an 8×8×∞ matrix.
-
+<sup>[see how](https://zcxcore.com/tutorials/getting-started/zcx-concepts/#pages)</sup>
 ___
 
 ### rapid configuration
+
+Configure dozens of buttons in seconds.
+
 ```yaml
 # matrix_sections.yaml
 
@@ -110,10 +115,13 @@ pad 2: SEL / PLAY 2
 pad 64: SEL / PLAY 64
 ```
 
-Configure dozens of buttons in seconds.
+<sup>[see how](https://zcxcore.com/reference/template-reference/)</sup>
 
 ___
 ### deeper customisation
+
+Unlock the full capabilities of your hardware.
+
 ```yaml
 play:
   color:
@@ -124,12 +132,13 @@ play:
   gestures:
     double_clicked: STOPALL NQ
 ```
-
-Unlock the full capabilities of your hardware.
-
+<sup>[see how](https://zcxcore.com/reference/control-reference/z-control/)</sup>
 ___
 
 ### intelligent controls
+
+Specialised control types give smart LED feedback without you writing any code.
+
 ```yaml
 __state_row:
   includes: [
@@ -148,11 +157,13 @@ play:
     pressed: SETPLAY
 ```
 
-Specialised control types give smart LED feedback without you writing any code.
+<sup>[see how](https://zcxcore.com/reference/control-reference/transport/)</sup>
 
 ___
 
 ### reusable components
+
+Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
 ```yaml
 # control_templates.yaml
 
@@ -176,7 +187,7 @@ scene_1:
        # msg: You must hold this control to trigger it!
 ```
 
-Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
+<sup>[see how](https://zcxcore.com/reference/template-reference/#control-templates)</sup>
 
 ___
 
