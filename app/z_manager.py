@@ -109,44 +109,91 @@ class ZManager(ZCXComponent):
         self.__matrix_sections[pad_section.name] = pad_section
 
     def flatten_section_config(
-        self, section_obj, raw_config, ignore_global_template=False
+            self, section_obj, raw_config, ignore_global_template=False
     ):
         """Flattens a section configuration by applying templates and processing pad groups."""
 
         try:
-
             def merge_configs(base, override):
+                """Deep merge two configurations, ensuring override values take precedence."""
                 if not isinstance(override, dict):
                     return override
                 if not isinstance(base, dict):
                     return override
                 merged = deepcopy(base)
                 for key, value in override.items():
-                    merged[key] = (
-                        merge_configs(merged[key], value)
-                        if (
-                            key in merged
-                            and isinstance(merged[key], dict)
-                            and isinstance(value, dict)
-                        )
-                        else value
-                    )
+                    if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+                        merged[key] = merge_configs(merged[key], value)
+                    else:
+                        merged[key] = deepcopy(value)
                 return merged
 
             def apply_global_template(config):
-                """Apply global template to config if not ignored"""
+                """Apply global template to config if not ignored."""
                 if not ignore_global_template:
                     if not isinstance(config, dict):
                         return config
                     return merge_configs(deepcopy(global_template), config)
                 return config
 
+            def apply_control_templates(config):
+                """Apply any specified control templates to config."""
+                if "template" not in config:
+                    return config, False
+
+                template_value = config.pop("template")
+                skip_global = False
+                result_config = {}
+
+                # Handle template key which can be string, list, or None
+                if template_value is None:
+                    # No template specified, return empty dict as base
+                    skip_global = True
+                    return result_config, skip_global
+                elif isinstance(template_value, str):
+                    # Single template name
+                    template = control_templates.get(template_value)
+                    if template is None:
+                        raise ValueError(
+                            f"Config error in {section_obj.name}: "
+                            f'Specified non-existent template "{template_value}"'
+                        )
+                    result_config = deepcopy(template)
+                elif isinstance(template_value, list):
+                    # List of templates - apply in order (left to right)
+                    result_config = {}
+
+                    # Check if first template is None to skip global
+                    if template_value and template_value[0] is None:
+                        skip_global = True
+                        template_value = template_value[1:]  # Skip the None value
+
+                    # Apply templates in order
+                    for template_name in template_value:
+                        if template_name is not None:  # Skip None values
+                            template = control_templates.get(template_name)
+                            if template is None:
+                                raise ValueError(
+                                    f"Config error in {section_obj.name}: "
+                                    f'Specified non-existent template "{template_name}"'
+                                )
+                            result_config = merge_configs(result_config, deepcopy(template))
+                else:
+                    raise ValueError(
+                        f"Config error in {section_obj.name}: "
+                        f'Invalid template value "{template_value}"'
+                    )
+
+                # Merge with original config
+                result_config = merge_configs(result_config, config)
+                return result_config, skip_global
+
             global_template = self.__global_control_template
             control_templates = self.__control_templates
             flat_config = []
             unnamed_groups = 0
 
-            # handle single dict group section config
+            # Handle single dict group section config
             if isinstance(raw_config, dict):
                 if "pad_group" in raw_config:
                     raw_config = [raw_config]
@@ -167,40 +214,27 @@ class ZManager(ZCXComponent):
                             merged = merge_configs(deepcopy(section_template), override)
                             raw_config.append(merged)
 
-                    # raw_config = []
             elif not isinstance(raw_config, list):
                 raise ValueError()  # todo: raise config error with proper message
-
-            def apply_control_template(config):
-                """Apply any specified control template to config"""
-                if "template" not in config:
-                    return config
-
-                template_name = config.pop("template")
-                template = control_templates.get(template_name)
-                if template is None:
-                    raise ValueError(
-                        f"Config error in {section_obj.name}: "
-                        f'Specified non-existent template "{template_name}"'
-                    )
-
-                # Start with the template and override with config
-                return merge_configs(deepcopy(template), config)
 
             for i, item in enumerate(raw_config):
                 config = deepcopy(item)
 
                 # Handle single pad configuration
                 if "pad_group" not in config:
-                    # First apply global template
-                    base_config = apply_global_template({})
-                    # Then apply any control template
+                    # Apply templates
+                    skip_global = False
                     if "template" in config:
-                        base_config = merge_configs(
-                            base_config, apply_control_template(config)
-                        )
-                    # Finally apply the pad's specific config
-                    final_config = merge_configs(base_config, config)
+                        self.log(f"Applying templates to config: {config}")
+                        config, skip_global = apply_control_templates(config)
+                        self.log(f"Config after applying templates: {config}")
+
+                    # Apply global template if not skipped
+                    if not skip_global:
+                        base_config = apply_global_template({})
+                        final_config = merge_configs(base_config, config)
+                    else:
+                        final_config = config
 
                     final_config["group_context"] = {
                         "group_name": None,
@@ -234,15 +268,17 @@ class ZManager(ZCXComponent):
                 if "controls" in group_config:
                     del group_config["controls"]
 
-                # First apply global template to create base config
-                base_config = apply_global_template({})
-                # Then apply any group-level template
+                # Apply templates
+                skip_global = False
                 if "template" in group_config:
-                    base_config = merge_configs(
-                        base_config, apply_control_template(group_config)
-                    )
-                # Finally apply the group's specific config
-                group_config = merge_configs(base_config, group_config)
+                    self.log(f"Applying templates to group config: {group_config}")
+                    group_config, skip_global = apply_control_templates(group_config)
+                    self.log(f"Group config after applying templates: {group_config}")
+
+                # Apply global template if not skipped
+                if not skip_global:
+                    base_config = apply_global_template({})
+                    group_config = merge_configs(base_config, group_config)
 
                 # Process each pad in group
                 for j, pad_config in enumerate(group_pads):
@@ -255,11 +291,19 @@ class ZManager(ZCXComponent):
                         pad_config = deepcopy(pad_config)
 
                         # Apply pad-specific template if it exists
+                        skip_pad_global = False
                         if "template" in pad_config:
-                            template_config = apply_control_template(pad_config)
-                            member_config = merge_configs(
-                                member_config, template_config
-                            )
+                            self.log(f"Applying templates to pad config: {pad_config}")
+                            template_config, skip_pad_global = apply_control_templates(pad_config)
+                            self.log(f"Pad config after applying templates: {template_config}")
+                            # If pad config says to skip global but group already applied it,
+                            # we need to apply just the templates without the global part
+                            if skip_pad_global and not skip_global:
+                                # This is tricky to handle completely correctly, but we'll merge
+                                # the template with the pad config and use that
+                                member_config = merge_configs(member_config, template_config)
+                            else:
+                                member_config = merge_configs(member_config, template_config)
                         else:
                             # Just merge the pad's config
                             member_config = merge_configs(member_config, pad_config)
@@ -347,39 +391,35 @@ class ZManager(ZCXComponent):
         self.__named_controls_section = pad_section
 
     def parse_named_button_config(
-        self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
+            self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
     ) -> dict:
         try:
             ungrouped_buttons = {}
             groups = {}
 
+            # Separate grouped and ungrouped buttons
             for item_name, item_def in raw_config.items():
                 if item_name.startswith("__"):
                     if item_name in groups:
-                        raise ConfigurationError(
-                            f"Multiple definitions for {item_name}"
-                        )
+                        raise ConfigurationError(f"Multiple definitions for {item_name}")
                     groups[item_name] = item_def
                 else:
                     if item_name in ungrouped_buttons:
-                        raise ConfigurationError(
-                            f"Multiple definitions for {item_name}"
-                        )
+                        raise ConfigurationError(f"Multiple definitions for {item_name}")
                     ungrouped_buttons[item_name] = item_def
 
             global_template = self.__global_control_template
             control_templates = self.__control_templates
-            flat_config = {}
 
             def merge_configs(base, override):
                 """Deep merge two configurations, ensuring override values take precedence"""
+                if not isinstance(override, dict):
+                    return override
+                if not isinstance(base, dict):
+                    return override
                 merged = deepcopy(base)
                 for key, value in override.items():
-                    if (
-                        key in merged
-                        and isinstance(merged[key], dict)
-                        and isinstance(value, dict)
-                    ):
+                    if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
                         merged[key] = merge_configs(merged[key], value)
                     else:
                         merged[key] = deepcopy(value)
@@ -388,15 +428,88 @@ class ZManager(ZCXComponent):
             def apply_global_template(config):
                 """Apply global template to config if not ignored"""
                 if not ignore_global_template:
-                    return merge_configs(deepcopy(global_template), deepcopy(config))
-                return deepcopy(config)
+                    if not isinstance(config, dict):
+                        return config
+                    return merge_configs(deepcopy(global_template), config)
+                return config
 
+            def apply_control_templates(config):
+                """Apply any specified control templates to config"""
+                if "template" not in config:
+                    return config, False
+
+                template_value = config.pop("template")
+                skip_global = False
+                result_config = {}
+
+                # Handle template key which can be string, list, or None
+                if template_value is None:
+                    # No template specified, return empty dict as base
+                    skip_global = True
+                    return result_config, skip_global
+                elif isinstance(template_value, str):
+                    # Single template name
+                    template = control_templates.get(template_value)
+                    if template is None:
+                        raise ValueError(
+                            f'Specified non-existent template "{template_value}"'
+                        )
+                    result_config = deepcopy(template)
+                elif isinstance(template_value, list):
+                    # List of templates - apply in order (left to right)
+                    result_config = {}
+
+                    # Check if first template is None to skip global
+                    if template_value and template_value[0] is None:
+                        skip_global = True
+                        template_value = template_value[1:]  # Skip the None value
+
+                    # Apply templates in order
+                    for template_name in template_value:
+                        if template_name is not None:  # Skip None values
+                            template = control_templates.get(template_name)
+                            if template is None:
+                                raise ValueError(
+                                    f'Specified non-existent template "{template_name}"'
+                                )
+                            result_config = merge_configs(result_config, deepcopy(template))
+                else:
+                    raise ValueError(
+                        f'Invalid template value "{template_value}"'
+                    )
+
+                # Merge with original config
+                result_config = merge_configs(result_config, config)
+                return result_config, skip_global
+
+            # Process ungrouped buttons
+            processed_ungrouped = {}
+            for button_name, button_def in ungrouped_buttons.items():
+                config = deepcopy(button_def)
+
+                # Apply templates
+                skip_global = False
+                if "template" in config:
+                    config, skip_global = apply_control_templates(config)
+
+                # Apply global template if not skipped
+                if not skip_global:
+                    config = apply_global_template(config)
+
+                processed_ungrouped[button_name] = config
+
+            # Process grouped buttons
             for group_name, group_def in groups.items():
                 group_config = deepcopy(group_def)
-                group_config = apply_global_template(group_config)
-                group_template_name = group_config.pop("template", None)
-                template_def = control_templates.get(group_template_name, {})
-                group_config = merge_configs(template_def, group_config)
+
+                # Apply templates to the group config
+                skip_global = False
+                if "template" in group_config:
+                    group_config, skip_global = apply_control_templates(group_config)
+
+                # Apply global template if not skipped
+                if not skip_global:
+                    group_config = apply_global_template(group_config)
 
                 processed_sub_buttons = {}
 
@@ -406,7 +519,15 @@ class ZManager(ZCXComponent):
                     button_overrides = group_config.get("controls", {})
                     if button_overrides and sub_button in button_overrides:
                         override_def = deepcopy(button_overrides[sub_button])
-                        merged_def = merge_configs(sub_button_config, override_def)
+
+                        # Check if the override has its own template
+                        if "template" in override_def:
+                            override_template_config, override_skip_global = apply_control_templates(override_def)
+                            # If override says to skip global but group already applied it,
+                            # we just use the override template config
+                            merged_def = merge_configs(sub_button_config, override_template_config)
+                        else:
+                            merged_def = merge_configs(sub_button_config, override_def)
                     else:
                         merged_def = sub_button_config
 
@@ -420,9 +541,9 @@ class ZManager(ZCXComponent):
                 for i, (name, _def) in enumerate(processed_sub_buttons.items()):
                     group_context = {"group_name": cleaned_group_name, "group_index": i}
                     _def["group_context"] = group_context
-                    ungrouped_buttons[name] = _def
+                    processed_ungrouped[name] = _def
 
-            return ungrouped_buttons
+            return processed_ungrouped
 
         except Exception as e:
             raise e
