@@ -342,3 +342,48 @@ There is also a special template called `__global__`. This definition will apply
 my_control:
   template: null
 ```
+
+### multiple inheritance
+
+You can apply multiple templates sequentially to a control, like so:
+
+```yaml
+my_control:
+  template: [foo, bar, baz]
+```
+
+```yaml title="control_templates.yaml"
+__global__:
+  color: 127
+
+foo:
+  color: red
+  gestures:
+    pressed: msg "I was pressed!"
+
+bar:
+  color: blue
+  gestures:
+    released: msg "I was released!"
+  
+baz:
+  color: pink
+```
+
+This config will result in this control:
+
+```yaml
+my_control:
+  color: pink
+  gestures:
+    pressed: msg "I was pressed!"
+    released: msg "I was released!"
+```
+
+Notice that all four templates defined a `color` option.
+
+When using multiple templates, zcx merges the template definitions from left to right, in the same order you define them in.
+When the same option is defined on multiple templates, and the difference is irreconcilable, the **rightmost** template wins.
+In this case, the control is `pink`.
+
+`foo` and `bar` both have a `gestures` key, but the gestures defined within are compatible, and so `my_control` gets both the `pressed` and `released` gesture.
