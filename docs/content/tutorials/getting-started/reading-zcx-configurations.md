@@ -5,7 +5,9 @@ weight: 1
 
 # reading zcx configurations
 
-If you're coming from the X and G controls in ClyphX, looking at the configuration files in your zcx folder may feel overwhelming. Don't stress — you don't need to have any sort of programming knowledge to get started with zcx! 
+If you're coming from the [X and G controls in ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/), looking at the configuration files in your zcx folder may feel overwhelming. Don't stress — you don't need to have any sort of programming knowledge to get started with zcx! 
+
+Having said that, just like ClyphX, zcx expects to receive its configuration files in a particular format.
 
 Having said that, just like ClyphX, zcx expects to receive its configuration files in a particular format. To define X-controls, ClyphX uses a custom format, designed for simplicity:
 
