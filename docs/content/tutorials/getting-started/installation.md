@@ -16,7 +16,7 @@ Scroll to the bottom of that page and check the 'Assets' dropdown.
 
 ### my hardware isn't listed 💔
 
-No problem. Have a look at the [zcx-core discord server](https://discord.gg/DCtbuEe8Qr) to see if there is a pre-alpha version available. There may be a distribution ready to go that just needs someone who actually owns the hardware to confirm it works. And if there isn't, feel free to put in a request for your hardware!
+No problem. Have a look at the [zcx-core discord server](https://discord.zcxcore.com) to see if there is a pre-alpha version available. There may be a distribution ready to go that just needs someone who actually owns the hardware to confirm it works. And if there isn't, feel free to put in a request for your hardware!
 
 ## install the script
 

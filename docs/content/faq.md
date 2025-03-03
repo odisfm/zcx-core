@@ -44,7 +44,7 @@ zcx is designed for matrix-equipped controllers. You could make a port for your 
 ### Is there a Discord?
 
 [But of course.
-](https://discord.gg/DCtbuEe8Qr)
+](https://discord.zcxcore.com)
 
 ### How can I contribute?
 

@@ -10,4 +10,4 @@ If you're comfortable with Github, head over to the [zcx-core repo](https://gith
 
 ## create a thread on discord
 
-Head over to [the discord](https://discord.gg/DCtbuEe8Qr) and create a new thread in `#bug-reports`.
+Head over to [the discord](https://discord.zcxcore.com) and create a new thread in `#bug-reports`.
