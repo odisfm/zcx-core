@@ -9,7 +9,9 @@ If you're coming from the [X and G controls in ClyphX Pro](https://www.cxpman.co
 
 Having said that, just like ClyphX, zcx expects to receive its configuration files in a particular format.
 
-Having said that, just like ClyphX, zcx expects to receive its configuration files in a particular format. To define X-controls, ClyphX uses a custom format, designed for simplicity:
+## X-Controls and ZControls
+
+To define X-controls, ClyphX uses a custom format, designed for simplicity:
 
 ```ClyphX
 RECORD = CC, 1, 79, 127, 0, SRECFIX 8
