@@ -9,6 +9,10 @@ of the `_user_actions` folder to your existing folder (`.../Ableton/User Library
 
 !!! Upgrading from a previous release !!!
 
+NOTE: Check the releases page on GitHub to see if this upgrade contains any breaking changes.
+
+https://github.com/odisfm/zcx-core/releases/latest
+
 To upgrade an existing zcx installation:
 
     1. Open the zcx folder next to this file (e.g., `_zcx_push_1`)
