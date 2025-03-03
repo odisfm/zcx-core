@@ -242,6 +242,6 @@ tempo:
 
 ## control classes
 
-The most common type of control you'll use is the default or [standard ZControl](/control-reference/z-control). There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
+The most common type of control you'll use is the default or [standard ZControl](/reference/control-reference/z-control). There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
 
-One class of control is the [page control](/control-reference/page),  which is bound to a page you specify. It shows one color when its bound page is in view, and another when it isn't. Another is the [transport](/control-reference/transport) control: you can bind your `play` button to Live's transport, and it will turn green while the set is playing, and white when it stops. Just like it did on the original script for your controller.
+One class of control is the [page control](/reference/control-reference/page),  which is bound to a page you specify. It shows one color when its bound page is in view, and another when it isn't. Another is the [transport](/reference/control-reference/transport) control: you can bind your `play` button to Live's transport, and it will turn green while the set is playing, and white when it stops. Just like it did on the original script for your controller.
