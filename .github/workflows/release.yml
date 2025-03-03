@@ -72,15 +72,18 @@ jobs:
         run: |
           # Copy all files from app/ to root of package
           cp -r app/* ${{ env.PACKAGE_NAME }}/
-          
+
           # Create hardware directory and copy controller-specific files
           mkdir -p ${{ env.PACKAGE_NAME }}/hardware
           cp hardware/${{ matrix.controller }}/*.{py,yaml} ${{ env.PACKAGE_NAME }}/hardware/ 2>/dev/null || true
-          
+
           # Move demo_config to _config if it exists
           if [ -d "hardware/${{ matrix.controller }}/demo_config" ]; then
             mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
           fi
+
+          # Copy preferences directory to _preferences
+          cp -r preferences "${{ env.PACKAGE_NAME }}/_preferences"
 
       - name: Create ZIP archive with README and user actions
         run: |
