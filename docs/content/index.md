@@ -25,7 +25,7 @@ zcx-core is currently maintained for these devices, with more planned:
 * Akai APC mini mk2
 * Novation Launchpad X
 * Novation Launchpad Pro mk3
-  * Novation Launchpad Mini mk3
+* Novation Launchpad Mini mk3
 
 [If your device isn't here
 ](https://github.com/odisfm/zcx-docs/blob/main/docs/lessons/installation.md#my-hardware-isnt-listed-)
