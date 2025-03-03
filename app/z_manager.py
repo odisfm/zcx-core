@@ -226,9 +226,7 @@ class ZManager(ZCXComponent):
                     # Apply templates
                     skip_global = False
                     if "template" in config:
-                        self.log(f"Applying templates to config: {config}")
                         config, skip_global = apply_control_templates(config)
-                        self.log(f"Config after applying templates: {config}")
 
                     # Apply global template if not skipped
                     if not skip_global:
@@ -272,9 +270,7 @@ class ZManager(ZCXComponent):
                 # Apply templates
                 skip_global = False
                 if "template" in group_config:
-                    self.log(f"Applying templates to group config: {group_config}")
                     group_config, skip_global = apply_control_templates(group_config)
-                    self.log(f"Group config after applying templates: {group_config}")
 
                 # Apply global template if not skipped
                 if not skip_global:
@@ -294,9 +290,7 @@ class ZManager(ZCXComponent):
                         # Apply pad-specific template if it exists
                         skip_pad_global = False
                         if "template" in pad_config:
-                            self.log(f"Applying templates to pad config: {pad_config}")
                             template_config, skip_pad_global = apply_control_templates(pad_config)
-                            self.log(f"Pad config after applying templates: {template_config}")
                             # If pad config says to skip global but group already applied it,
                             # we need to apply just the templates without the global part
                             if skip_pad_global and not skip_global:
