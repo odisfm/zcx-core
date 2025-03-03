@@ -172,3 +172,18 @@ Returns the **zero-indexed** column of the control (**global_x**) or its mirrore
 
 #### global_y, global_y_flip
 Returns the **zero-indexed** row of the control (**global_y**) or its mirrored position (**global_y_flip**), **relative to the entire matrix**.
+
+### velocity properties
+
+The following properties are based on the last velocity at which a control was struck. This value will **not** reset to 0 when the control is released.
+
+#### vel
+Returns the last velocity as an integer (between 0-127).
+
+#### velp
+Returns the last velocity as a percentage (string).
+
+#### velps
+Returns the last velocity as a percentage, but **scaled** according to the control's [threshold](#threshold).
+
+E.g., if a control has a threshold of `30`, a press with a velocity of `30` will return `0%`.
