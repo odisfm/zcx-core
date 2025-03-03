@@ -335,6 +335,7 @@ play:
     released_immediately: > # added from `hold_warning` template
       MSG "You must hold this control to trigger it!"
 ```
+
 There is also a special template called `__global__`. This definition will apply to every control in your zcx script. You can optionally prevent a control from inheriting from `__global__` like so:
 
 ```yaml
