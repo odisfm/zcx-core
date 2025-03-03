@@ -145,7 +145,7 @@ The syntax for defining a group is different for [named controls](/tutorials/get
 __scene_group:
   includes: [scene_1, scene_2, scene_3, scene_4]
   color: red
-  buttons:
+  controls:
     scene_2:
       color: blue
   gestures:
@@ -158,17 +158,17 @@ The `includes` key is a list of controls that belong to this group. Each member 
 
 #### overwriting properties
 
-We can overwrite some or all of the group's properties for each member. This is done via the `buttons` key:
+We can overwrite some or all of the group's properties for each member. This is done via the `controls` key:
 
 ```yaml
-buttons:
+controls:
   scene_2:
     color: blue
 ```
 
-`buttons` is a dict of control definitions. Each key of `buttons` is the name of a control in this group. In this `scene_2` key we can overwrite part or all of the group definition. We can also add properties that weren't defined on the group:
+`controls` is a dict of control definitions. Each key of `controls` is the name of a control in this group. In this `scene_2` key we can overwrite part or all of the group definition. We can also add properties that weren't defined on the group:
 ```yaml hl_lines="4"
-buttons:
+controls:
   scene_2:
     color: blue
     repeat: true
@@ -199,7 +199,7 @@ Look at the config for hypothetical matrix section `actions_right.yaml`:
   color: purple
   gestures:
     pressed: ${me.group_Index} / SEL
-  pads:
+  controls:
     -
     -
     -
@@ -226,9 +226,9 @@ The third entry in the section has the key `pad_group`. This indicates that we'r
       ...
     ```
 
-The `pads` key is required. This is a list, and every item in the list represents another member of the group:
+The `controls` key is required. This is a list, and every item in the list represents another member of the group:
 ```yaml
-pads:
+controls:
   -
   -
   -
@@ -236,10 +236,10 @@ pads:
 
 ```
 
-Each of these dashes is a blank or 'null' entry in this list. By looking at `pads`, we can see that four controls belong to this group. Like [above](/reference/template-reference/#overwriting-properties), we are able to overwrite or extend individual group members:
+Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](/reference/template-reference/#overwriting-properties), we are able to overwrite or extend individual group members:
 
 ```yaml
-pads:
+controls:
   -
   -
   - color: green
