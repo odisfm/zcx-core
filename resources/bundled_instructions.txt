@@ -23,5 +23,4 @@ To upgrade an existing zcx installation:
 
 https://zcxcore.com
 https://github.com/odisfm/zcx-core
-https://github.com/odisfm/zcx-docs/blob/main/docs/zcx-docs.md
-https://discord.gg/DCtbuEe8Qr
+https://discord.zcxcore.com
