@@ -130,6 +130,9 @@ gestures:
   pressed__select: SCENE SEL ${me.Index}
 ```
 
+!!! tip
+    You will learn more about defining matrix controls in [the next lesson](/tutorials/getting-started/editing-a-config).
+
 ## pages
 
 There's a good chance pages are why you're interested in zcx in the first place. Pages contain sections which contain controls. Because of this, we can turn an 8×8 pad matrix into an 8×8×∞ matrix. This system allows you to design a multi-mode control surface script, like the one that shipped with your controller, while harnessing the power of ClyphX — all without learning Python!
