@@ -72,3 +72,6 @@ class ZcxApi:
 
     def get_matrix_section_controls(self, section_name) -> list['ZControl']:
         return self.get_matrix_section(section_name).owned_controls
+
+    def get_control(self, control_name) -> 'Optional[ZControl]':
+        return self.z_manager.get_aliased_control(control_name) or self.get_named_control(control_name)

@@ -30,6 +30,7 @@ class ZManager(ZCXComponent):
         self.__named_controls = {}
         self.__named_control_section: PadSection = None
         self.__matrix_sections: dict[PadSection] = {}
+        self.__control_aliases = {}
 
     def setup(self):
         from . import z_controls
@@ -563,6 +564,10 @@ class ZManager(ZCXComponent):
                         control, config["group_context"]["group_name"]
                     )
 
+            alias = config.get("alias", None)
+            if alias is not None:
+                self.set_control_alias(alias, control)
+
         except ConfigurationError as e:
             from . import SAFE_MODE
 
@@ -572,3 +577,13 @@ class ZManager(ZCXComponent):
             return get_control_class("basic")(self.canonical_parent, pad_section, {})
 
         return control
+
+    def set_control_alias(self, alias, control):
+        if alias in self.__control_aliases:
+            raise ConfigurationError(f'multiple controls with alias "{alias}"')
+        if alias in self.__named_controls:
+            raise ConfigurationError(f'Canonical control already exists called "{alias}". You cannot use this name.')
+        self.__control_aliases[alias] = control
+
+    def get_aliased_control(self, alias):
+        return self.__control_aliases.get(alias)
