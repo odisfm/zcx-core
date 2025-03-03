@@ -24,6 +24,6 @@ The `config` field is the name of the config to load, while the `pattern` field 
 Regular expressions don't need to be complex — the above patterns will match if they are found anywhere in the set name, i.e. a set called `my cool song [solo]` would load the `solo_set` config. `!!!MIX! sound of the summer` will load the `mixing` config, etc.
 
 !!! note
-    zcx only check's the set name when the control surface is reloaded.
+    zcx only checks the set name when the control surface is reloaded.
 
     After renaming the set, you may load the new config by [reloading zcx](/lessons/reloading-control-surfaces)
