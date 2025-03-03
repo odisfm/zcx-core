@@ -125,7 +125,7 @@ ___
 ### props
 `dict[string | int]`
 
-Any arbitrary data. Can be referenced from within template strings.
+Any arbitrary data. Can be referenced from within [template strings](/reference/template-reference#template-strings).
 
 ___
 ### threshold
