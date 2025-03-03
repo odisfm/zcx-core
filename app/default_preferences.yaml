@@ -13,4 +13,8 @@ log_level: info
 load_user_plugins: true
 load_hardware_plugins: true
 
+session_ring:
+  width: 8
+  height: 8
+
 configs:
