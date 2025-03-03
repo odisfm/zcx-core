@@ -13,6 +13,9 @@ Leveraging [ClyphX Pro from NativeKontrol](https://isotonikstudios.com/product/c
 
 [download :fontawesome-brands-github:](https://github.com/odisfm/zcx-core/releases/latest){ .md-button .md-button--primary }
 
+[discord :fontawesome-brands-discord:](https://discord.zcxcore.com){ .md-button .md-button--primary }
+
+
 ## hardware
 
 zcx-core is currently maintained for these devices, with more planned:
