@@ -180,7 +180,7 @@ hold_warning:
       msg: You must hold this control to trigger it!
 
 
-# named_buttons.yaml
+# named_controls.yaml
 
 scene_1:
     template: [hold_warning, my_green_button]
