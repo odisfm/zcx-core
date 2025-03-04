@@ -9,6 +9,7 @@ from ableton.v3.control_surface import (
 
 from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT, AUTO_SWITCH_MODE
 from .template_manager import TemplateManager
+from .session_ring import SessionRing
 
 root_cs = None
 
@@ -33,6 +34,13 @@ class ZCXCore(ControlSurface):
 
             from . import plugin_loader
             plugin_names = plugin_loader.plugin_names
+
+            self._session_ring_custom = None
+            for c in self._components:
+                self.debug(type(c))
+                if isinstance(c, SessionRing):
+                    self.debug(f'found the session ring: {c.name}')
+                    self._session_ring_custom = c
 
             self.plugin_map = {}
 
