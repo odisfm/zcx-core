@@ -18,9 +18,16 @@ class SessionRing(SessionRingBase):
         if height <= 0 or width <= 0:
             raise RuntimeError('session_ring: width and height must be positive')
 
-        super().__init__(num_tracks=width, num_scenes=height, *a, **k)
-
         from . import ROOT_LOGGER
+        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
+
+        self.error = partial(self.log, level='error')
+        self.debug = partial(self.log, level='debug')
+        self.warning = partial(self.log, level='warning')
+        self.critical = partial(self.log, level='critical')
+
+        super().__init__(num_tracks=width, num_scenes=height, always_snap_track_offset=False,*a, **k)
+
         from . import CONFIG_DIR
 
         if TYPE_CHECKING:
@@ -32,12 +39,6 @@ class SessionRing(SessionRingBase):
         from .yaml_loader import yaml_loader
 
         self.yaml_loader = yaml_loader
-        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
-
-        self.error = partial(self.log, level='error')
-        self.debug = partial(self.log, level='debug')
-        self.warning = partial(self.log, level='warning')
-        self.critical = partial(self.log, level='critical')
 
         self.component_map = self.canonical_parent.component_map
 
