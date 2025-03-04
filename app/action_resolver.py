@@ -2,6 +2,7 @@ import re
 from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
 
+from ableton.v3.base import listens, listens_group
 from ClyphX_Pro.clyphx_pro import ParseUtils
 
 from .cxp_bridge import CxpBridge
@@ -55,6 +56,7 @@ class ActionResolver(ZCXComponent):
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
+
 
     def _evaluate_expression(
         self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
@@ -245,6 +247,20 @@ class ActionResolver(ZCXComponent):
                             else:
                                 raise RuntimeError(f'invalid hardware mode: {command_def}')
                             self.canonical_parent._do_send_midi(bytes)
+                        case 'ring':
+                            self.debug(command_type, command_def, vars_dict, context)
+
+                            if 'track' in command_def:
+                                # go direct to track
+                                raise NotImplementedError()
+
+                            x_def = command_def.get('x', 0)
+                            x_parsed = self._compile_and_check(x_def, vars_dict, context)
+                            y_def = command_def.get('y', 0)
+                            y_parsed = self._compile_and_check(y_def, vars_dict, context)
+
+                            self.canonical_parent._session_ring_custom.move(x_parsed, y_parsed)
+
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
@@ -384,3 +400,10 @@ class ActionResolver(ZCXComponent):
                     result['parameter_type'] = param_part
 
         return result
+
+    @listens('tracks')
+    def ring_tracks_changed(self):
+        new_tracks = self.__session_ring.tracks
+        self.debug(f'{self.name} ring tracks changed: {self.__session_ring.tracks}')
+        for track in new_tracks:
+            self.debug(track.name)

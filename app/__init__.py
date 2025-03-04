@@ -25,6 +25,7 @@ from .z_manager import ZManager
 from .z_state import ZState
 from .zcx_core import ZCXCore
 from .preference_manager import PreferenceManager
+from .session_ring import SessionRing
 
 
 ROOT_LOGGER = None
@@ -56,6 +57,7 @@ def create_mappings(arg) -> dict:
 
     mappings = {
         "HardwareInterface": hw_mapping_dict,
+        "SessionRingComponent": {},
         "PageManager": {},
         "ModeManager": {},
         "CxpBridge": {},
@@ -155,6 +157,7 @@ def create_instance(c_instance):
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
+        'SessionRingComponent': SessionRing,
         'PageManager': PageManager,
         "ModeManager": ModeManager,
         'CxpBridge': CxpBridge,
