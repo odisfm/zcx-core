@@ -47,11 +47,8 @@ class Push1Display(ZCXPlugin):
         :param msg:
         :return:
         """
-        _bytes = []
-        for char in msg:
-            _bytes.append(ord(char))
+        _bytes = self.string_to_ascii_bytes(msg)
 
-        _bytes = tuple(_bytes)
         if len(_bytes) < 68:
             _bytes = _bytes + tuple(0 for _ in range(68 - len(_bytes)))
 
@@ -70,6 +67,13 @@ class Push1Display(ZCXPlugin):
         final = line_start + _bytes
 
         self.send_sysex(final)
+
+    def string_to_ascii_bytes(self, string):
+        _bytes = []
+        for char in string:
+            _bytes.append(ord(char))
+
+        return tuple(_bytes)
 
     @listens_group('mapped_parameter')
     def parameter_remapped(self, enc_obj):
