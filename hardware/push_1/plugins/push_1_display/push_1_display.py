@@ -143,7 +143,6 @@ class Push1Display(ZCXPlugin):
 
     @listens_group('mapped_parameter')
     def parameter_remapped(self, enc_obj):
-        self.debug(f'{enc_obj} remapped: {enc_obj.mapped_parameter.name}')
         self.debug(self.__push_main_encoders)
 
         enc_index = self.__push_main_encoders.index(enc_obj)
