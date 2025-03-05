@@ -35,10 +35,12 @@ class Push1Display(ZCXPlugin):
         self.debug(self.__push_main_encoders)
         self.parameter_remapped.replace_subjects(self.__push_main_encoders)
 
-    def send_sysex(self, unique_portion):
-        msg = unique_portion + (247,)
+    def send_sysex(self, msg):
         self.debug(msg)
         self.__send_midi(msg)
+
+    def refresh_feedback(self):
+        self.write_message_to_line(self.___)
 
     def write_message_to_line(self, msg: str, line_number: int):
         """
@@ -49,9 +51,8 @@ class Push1Display(ZCXPlugin):
         """
         _bytes = self.string_to_ascii_bytes(msg)
 
-        if len(_bytes) < 68:
-            _bytes = _bytes + tuple(32 for _ in range(68 - len(_bytes)))
-
+        if len(unique_portion) < 68:
+            unique_portion = unique_portion + tuple(32 for _ in range(68 - len(unique_portion)))
 
         match line_number:
             case 1:
@@ -63,7 +64,7 @@ class Push1Display(ZCXPlugin):
             case 4:
                 line_start = WRITE_LINE4
 
-        final = line_start + _bytes
+        final = line_start + unique_portion + (247,)
 
         self.send_sysex(final)
 
