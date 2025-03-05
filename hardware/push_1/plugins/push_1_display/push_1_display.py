@@ -12,6 +12,20 @@ if TYPE_CHECKING:
 
 ENC_PREFIX = 'enc_'
 
+SEGMENT_INDICES = [
+    (0, 8),
+    (9, 18),
+
+    (17, 26),
+    (26, 34),
+
+    (34, 42),
+    (43, 51),
+
+    (51, 59),
+    (60, 68),
+]
+
 class Push1Display(ZCXPlugin):
 
     def __init__(
@@ -96,10 +110,58 @@ class Push1Display(ZCXPlugin):
 
         return tuple(_bytes)
 
+    def update_display_segment(self, line_num, seg_num, msg):
+        if len(msg) > 8:
+            raise ValueError(f'Message too long (segment is 8 chars):\n{msg}')
+
+        line_bytes = self._line_bytes_cache[line_num]
+        message_portion = line_bytes[8:77]
+
+        start_i, end_i = SEGMENT_INDICES[seg_num]
+
+        new_portion_bytes = self.string_to_ascii_bytes(msg)
+
+        new_message_portion = self.splice_tuple(message_portion, start_i, end_i, new_portion_bytes)
+
+        match line_num:
+            case 0:
+                line_start = WRITE_LINE1
+            case 1:
+                line_start = WRITE_LINE2
+            case 2:
+                line_start = WRITE_LINE3
+            case 3:
+                line_start = WRITE_LINE4
+            case _:
+                raise ValueError(f'Invalid line number {line_number}')
+
+        final = line_start + new_message_portion
+
+        self.send_sysex(final)
+
+        self._line_bytes_cache[line_num] = final
+
     @listens_group('mapped_parameter')
     def parameter_remapped(self, enc_obj):
         self.debug(f'{enc_obj} remapped: {enc_obj.mapped_parameter.name}')
         self.debug(self.__push_main_encoders)
+    @classmethod
+    def splice_tuple(cls, t, start_index, end_index, new) -> tuple:
+        """
+        Splices new values into an existing tuple.
+        If the new portion is shorter than the replaced portion, ASCII char 32 (' ') is appended to new portion.
+
+        :param t: Original tuple
+        :param start_index: Start index of the portion to be replaced
+        :param end_index: End index (exclusive) of the portion to be replaced
+        :param new: New values to insert (must be iterable)
+        :return: A new tuple with the modifications
+        """
+        replacement_length = end_index - start_index
+        if len(new) < replacement_length:
+            new += (32,) * (replacement_length - len(new))
+
+        return t[:start_index] + new + t[end_index:]
 
 
 class DelayedDisplayRefreshTask(TimerTask):
