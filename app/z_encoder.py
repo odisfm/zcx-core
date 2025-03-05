@@ -143,7 +143,7 @@ class ZEncoder(EventObject):
             if self._unbind_on_fail:
                 self.log(f'{self._name} failed to find target, unmapping')
                 self.unbind_control()
-                self._mapped_parameter = None
+                self.mapped_parameter = None
             return
 
         dynamism = self.assess_dynamism(self._active_map)
