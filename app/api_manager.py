@@ -1,3 +1,4 @@
+from copy import copy, deepcopy
 from typing import TYPE_CHECKING
 
 from ableton.v3.control_surface import ControlSurface
@@ -75,3 +76,7 @@ class ZcxApi:
 
     def get_control(self, control_name) -> 'Optional[ZControl]':
         return self.z_manager.get_aliased_control(control_name) or self.get_named_control(control_name)
+
+    @property
+    def plugin_map(self):
+        return copy(self.root_cs.plugin_map)
