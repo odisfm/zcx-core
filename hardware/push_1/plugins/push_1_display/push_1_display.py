@@ -44,6 +44,8 @@ class Push1Display(ZCXPlugin):
         self.debug(self.__push_main_encoders)
         self.parameter_remapped.replace_subjects(self.__push_main_encoders)
 
+        self.write_message_to_line('                       welcome to  zcx for push 1', 3)
+
     def send_sysex(self, msg):
         self.debug(msg)
         self.__send_midi(msg)
