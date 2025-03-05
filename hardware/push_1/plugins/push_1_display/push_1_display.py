@@ -145,6 +145,20 @@ class Push1Display(ZCXPlugin):
     def parameter_remapped(self, enc_obj):
         self.debug(f'{enc_obj} remapped: {enc_obj.mapped_parameter.name}')
         self.debug(self.__push_main_encoders)
+
+        enc_index = self.__push_main_encoders.index(enc_obj)
+
+        mapped_par = enc_obj.mapped_parameter
+
+        par_name = mapped_par.name
+        if par_name == 'Track Volume':
+            par_name = mapped_par.canonical_parent.canonical_parent.name
+
+        if len(par_name) > 8:
+            par_name = par_name[:8]
+
+        self.update_display_segment(0, enc_index, par_name)
+
     @classmethod
     def splice_tuple(cls, t, start_index, end_index, new) -> tuple:
         """
