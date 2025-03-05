@@ -149,12 +149,16 @@ class Push1Display(ZCXPlugin):
 
         mapped_par = enc_obj.mapped_parameter
 
-        par_name = mapped_par.name
-        if par_name == 'Track Volume':
-            par_name = mapped_par.canonical_parent.canonical_parent.name
+        if mapped_par is None:
+            par_name = ""
+        else:
 
-        if len(par_name) > 8:
-            par_name = par_name[:8]
+            par_name = mapped_par.name
+            if par_name == 'Track Volume':
+                par_name = mapped_par.canonical_parent.canonical_parent.name
+
+            if len(par_name) > 8:
+                par_name = par_name[:8]
 
         self.update_display_segment(0, enc_index, par_name)
 
