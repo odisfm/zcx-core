@@ -50,7 +50,7 @@ class Push1Display(ZCXPlugin):
         _bytes = self.string_to_ascii_bytes(msg)
 
         if len(_bytes) < 68:
-            _bytes = _bytes + tuple(0 for _ in range(68 - len(_bytes)))
+            _bytes = _bytes + tuple(32 for _ in range(68 - len(_bytes)))
 
         line_start = None
 
