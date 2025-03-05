@@ -49,10 +49,10 @@ class Push1Display(ZCXPlugin):
         :param msg:
         :return:
         """
-        _bytes = self.string_to_ascii_bytes(msg)
+        ascii_message = self.string_to_ascii_bytes(msg)
 
-        if len(unique_portion) < 68:
-            unique_portion = unique_portion + tuple(32 for _ in range(68 - len(unique_portion)))
+        if len(ascii_message) < 68:
+            ascii_message = ascii_message + tuple(32 for _ in range(68 - len(ascii_message)))
 
         match line_number:
             case 1:
@@ -64,7 +64,7 @@ class Push1Display(ZCXPlugin):
             case 4:
                 line_start = WRITE_LINE4
 
-        final = line_start + unique_portion + (247,)
+        final = line_start + ascii_message + (247,)
 
         self.send_sysex(final)
 
