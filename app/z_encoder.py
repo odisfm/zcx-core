@@ -24,9 +24,7 @@ class ZEncoder(EventObject):
         self.root_cs = root_cs
         self._raw_config = raw_config
         self._name = name
-        self._logger = self.root_cs.component_map["EncoderManager"]._logger.getChild(
-            self._name
-        )
+        self._logger = self.root_cs.component_map["EncoderManager"]._logger
         self._control_element: EncoderElement = None
         self._state: EncoderState = None
         self._context = {}
@@ -37,15 +35,18 @@ class ZEncoder(EventObject):
         self._current_mode_string = ""
         self._binding_dict = {}
         self._active_map = {}
+        self._unbind_on_fail = False
         self.modes_changed.subject = self.mode_manager
 
     def log(self, *msg):
         for msg in msg:
-            self._logger.info(msg)
+            self._logger.info(f'({self._name}): {msg}')
 
     def setup(self):
         self._context = self._raw_config["context"]
         self._vars = self._raw_config.get("vars", {})
+
+        self._unbind_on_fail = self._raw_config.get("unbind_on_fail", False)
 
         bindings = self._raw_config.get("binding", {})
         if isinstance(bindings, dict):
@@ -129,9 +130,22 @@ class ZEncoder(EventObject):
             self.notify_mapped_parameter()
 
     def bind_to_active(self):
-        if self._active_map is None:
+        self.log(f'binding to active')
+        try:
+            if self._active_map is None:
+                return
+            map_success = self.map_self_to_par(self._active_map)
+        except ConfigurationError:
+            map_success = False
+
+        self.log(f'map_success: {map_success}')
+        if map_success is not True:
+            if self._unbind_on_fail:
+                self.log(f'{self._name} failed to find target, unmapping')
+                self.unbind_control()
+                self._mapped_parameter = None
             return
-        self.map_self_to_par(self._active_map)
+
         dynamism = self.assess_dynamism(self._active_map)
         self.apply_listeners(dynamism)
         self.bind_control()
@@ -177,6 +191,10 @@ class ZEncoder(EventObject):
         if self._control_element is None:
             return
         self._control_element.connect_to(self.mapped_parameter)
+
+    def unbind_control(self):
+        if self._control_element is not None:
+            self._control_element.release_parameter()
 
     def map_self_to_par(self, target_map):
         try:

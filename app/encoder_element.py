@@ -1,8 +1,8 @@
 from ableton.v2.control_surface import MIDI_CC_TYPE
-from ableton.v3.control_surface.elements import EncoderElement as Element
+from ableton.v3.control_surface.elements import EncoderElement as ElementBase
 
 
-class EncoderElement(Element):
+class EncoderElement(ElementBase):
 
     def __init__(
             self,
