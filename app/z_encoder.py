@@ -24,9 +24,7 @@ class ZEncoder(EventObject):
         self.root_cs = root_cs
         self._raw_config = raw_config
         self._name = name
-        self._logger = self.root_cs.component_map["EncoderManager"]._logger.getChild(
-            self._name
-        )
+        self._logger = self.root_cs.component_map["EncoderManager"]._logger
         self._control_element: EncoderElement = None
         self._state: EncoderState = None
         self._context = {}
@@ -41,7 +39,7 @@ class ZEncoder(EventObject):
 
     def log(self, *msg):
         for msg in msg:
-            self._logger.info(msg)
+            self._logger.info(f'({self._name}): {msg}')
 
     def setup(self):
         self._context = self._raw_config["context"]
