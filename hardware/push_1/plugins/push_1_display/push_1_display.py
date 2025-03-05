@@ -63,6 +63,8 @@ class Push1Display(ZCXPlugin):
                 line_start = WRITE_LINE3
             case 4:
                 line_start = WRITE_LINE4
+            case _:
+                raise ValueError(f'Invalid line number {line_number}')
 
         final = line_start + ascii_message + (247,)
 
