@@ -52,7 +52,6 @@ class Push1Display(ZCXPlugin):
         if len(_bytes) < 68:
             _bytes = _bytes + tuple(32 for _ in range(68 - len(_bytes)))
 
-        line_start = None
 
         match line_number:
             case 1:
