@@ -44,7 +44,7 @@ class Push1Display(ZCXPlugin):
         self.debug(self.__push_main_encoders)
         self.parameter_remapped.replace_subjects(self.__push_main_encoders)
 
-        self.write_message_to_line('                       welcome to  zcx for push 1', 3)
+        self.write_message_to_line('                       welcome to  zcx for push 1', 2)
 
     def send_sysex(self, msg):
         self.debug(msg)
@@ -72,13 +72,13 @@ class Push1Display(ZCXPlugin):
             ascii_message = ascii_message + tuple(32 for _ in range(68 - len(ascii_message)))
 
         match line_number:
-            case 1:
+            case 0:
                 line_start = WRITE_LINE1
-            case 2:
+            case 1:
                 line_start = WRITE_LINE2
-            case 3:
+            case 2:
                 line_start = WRITE_LINE3
-            case 4:
+            case 3:
                 line_start = WRITE_LINE4
             case _:
                 raise ValueError(f'Invalid line number {line_number}')
@@ -87,7 +87,7 @@ class Push1Display(ZCXPlugin):
 
         self.send_sysex(final)
 
-        self._line_bytes_cache[line_number - 1] = final
+        self._line_bytes_cache[line_number] = final
 
     def string_to_ascii_bytes(self, string):
         _bytes = []
