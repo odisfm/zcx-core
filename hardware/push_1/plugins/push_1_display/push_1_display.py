@@ -3,6 +3,8 @@ from typing import TYPE_CHECKING, Optional
 from ableton.v3.base import listens_group
 from Push.sysex import *
 
+from ableton.v2.base.task import TimerTask
+
 if TYPE_CHECKING:
     from app.zcx_plugin import ZCXPlugin
     from app.z_encoder import ZEncoder
@@ -24,6 +26,13 @@ class Push1Display(ZCXPlugin):
         self.__push_main_encoders: 'Optional[list[ZEncoder]]' = [None]*8
         self.__encoder_manager: 'EncoderManager' = None
 
+        self._line_bytes_cache = [None]*4
+
+        self._line_bytes_cache[0] = WRITE_LINE1 + (32,)*68 + (247,)
+        self._line_bytes_cache[1] = WRITE_LINE2 + (32,)*68 + (247,)
+        self._line_bytes_cache[2] = WRITE_LINE3 + (32,)*68 + (247,)
+        self._line_bytes_cache[3] = WRITE_LINE4 + (32,)*68 + (247,)
+
     def setup(self):
         super().setup()
         self.__encoder_manager = self.component_map['EncoderManager']
@@ -40,7 +49,13 @@ class Push1Display(ZCXPlugin):
         self.__send_midi(msg)
 
     def refresh_feedback(self):
-        self.write_message_to_line(self.___)
+        wait_timer = DelayedDisplayRefreshTask(self)
+        self.canonical_parent._task_group.add(wait_timer)
+        wait_timer.restart()
+
+    def _do_refresh_feedback(self):
+        for line_bytes in self._line_bytes_cache:
+            self.send_sysex(line_bytes)
 
     def write_message_to_line(self, msg: str, line_number: int):
         """
@@ -70,6 +85,8 @@ class Push1Display(ZCXPlugin):
 
         self.send_sysex(final)
 
+        self._line_bytes_cache[line_number - 1] = final
+
     def string_to_ascii_bytes(self, string):
         _bytes = []
         for char in string:
@@ -81,3 +98,15 @@ class Push1Display(ZCXPlugin):
     def parameter_remapped(self, enc_obj):
         self.debug(f'{enc_obj} remapped: {enc_obj.mapped_parameter.name}')
         self.debug(self.__push_main_encoders)
+
+
+class DelayedDisplayRefreshTask(TimerTask):
+
+    def __init__(self, owner, duration=.2, **k):
+        super().__init__(duration=duration)
+        self._owner: ZCXCore = owner
+        self.restart()
+
+    def on_finish(self):
+        self._owner.debug(f'timer finished')
+        self._owner._do_refresh_feedback()
