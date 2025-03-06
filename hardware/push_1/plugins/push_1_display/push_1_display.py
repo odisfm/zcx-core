@@ -29,6 +29,13 @@ SEGMENT_INDICES = [
     (60, 68),
 ]
 
+DEFAULT_CONFIG = {
+    "encoder_mapping": 1,
+    "encoder_values": 2,
+    "message": 3,
+    "ring_tracks": 4
+}
+
 class Push1Display(ZCXPlugin):
 
     def __init__(
