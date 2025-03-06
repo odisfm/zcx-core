@@ -209,6 +209,55 @@ class Push1Display(ZCXPlugin):
 
         self._line_bytes_cache[line_num] = final
 
+    def multi_segment_message(self, line_num, start_segment, end_segment, msg):
+        """
+        Writes a message across a range of contiguous display segments on the same line.
+        If the message is too long, it will only be truncated from the final segment.
+
+        :param line_num: The line number (0-3) to write to
+        :param start_segment: The starting segment index (0-7)
+        :param end_segment: The ending segment index (0-7), inclusive
+        :param msg: The message to write across the segments
+        """
+        if not (0 <= line_num <= 3):
+            raise ValueError(f'Invalid line number {line_num}')
+
+        if not (0 <= start_segment <= 7) or not (0 <= end_segment <= 7):
+            raise ValueError(f'Invalid segment indices: start={start_segment}, end={end_segment}')
+
+        if start_segment > end_segment:
+            raise ValueError(f'Start segment must be less than or equal to end segment')
+
+        start_i, _ = SEGMENT_INDICES[start_segment]
+        _, end_i = SEGMENT_INDICES[end_segment]
+
+        line_bytes = self._line_bytes_cache[line_num]
+        message_portion = line_bytes[8:77]
+
+        msg_bytes = self.string_to_ascii_bytes(msg)
+
+        if len(msg_bytes) > (end_i - start_i):
+            msg_bytes = msg_bytes[:end_i - start_i]
+
+        new_message_portion = self.splice_tuple(message_portion, start_i, end_i, msg_bytes)
+
+        match line_num:
+            case 0:
+                line_start = WRITE_LINE1
+            case 1:
+                line_start = WRITE_LINE2
+            case 2:
+                line_start = WRITE_LINE3
+            case 3:
+                line_start = WRITE_LINE4
+            case _:
+                raise ValueError(f'Invalid line number {line_num}')
+
+        final = line_start + new_message_portion
+
+        self.send_sysex(final)
+        self._line_bytes_cache[line_num] = final
+
     @classmethod
     def splice_tuple(cls, t, start_index, end_index, new) -> tuple:
         """
