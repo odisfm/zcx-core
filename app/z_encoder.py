@@ -127,7 +127,7 @@ class ZEncoder(EventObject):
         old = self.mapped_parameter
         self._mapped_parameter = value
         if old != self.mapped_parameter:
-            self.notify_mapped_parameter()
+            self.notify_mapped_parameter(self.mapped_parameter)
 
     def bind_to_active(self):
         self.log(f'binding to active')
