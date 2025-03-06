@@ -115,7 +115,8 @@ class Push1Display(ZCXPlugin):
 
     def update_display_segment(self, line_num, seg_num, msg):
         if len(msg) > 8:
-            raise ValueError(f'Message too long (segment is 8 chars):\n{msg}')
+            # todo: better shortening
+            msg = msg[:8]
 
         line_bytes = self._line_bytes_cache[line_num]
         message_portion = line_bytes[8:77]
@@ -197,9 +198,6 @@ class EncoderWatcher(EventObject):
         if par_name == 'Track Volume':
             par_name = par.canonical_parent.canonical_parent.name
 
-        if len(par_name) > 8:
-            par_name = par_name[:8]
-
         self._component.update_display_segment(0, self._index, par_name)
 
         self.parameter_value(None)
@@ -210,6 +208,5 @@ class EncoderWatcher(EventObject):
             self._component.update_display_segment(1, self._index, '')
             return
         par_val = self._current_parameter.__str__()
-        if len(par_val) > 8:
-            par_val = par_val[:8]
+
         self._component.update_display_segment(1, self._index, par_val)
