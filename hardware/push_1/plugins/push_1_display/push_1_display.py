@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
-from ableton.v3.base import listens_group
+from ableton.v3.base import EventObject
+from ableton.v3.base import listens_group, listens
 from Push.sysex import *
 
 from ableton.v2.base.task import TimerTask
@@ -39,6 +40,7 @@ class Push1Display(ZCXPlugin):
         self.__send_midi = self.canonical_parent._do_send_midi
         self.__push_main_encoders: 'Optional[list[ZEncoder]]' = [None]*8
         self.__encoder_manager: 'EncoderManager' = None
+        self.__encoder_watchers: 'list[EncoderWatcher]' = []
 
         self._line_bytes_cache = [None]*4
 
@@ -55,8 +57,9 @@ class Push1Display(ZCXPlugin):
             enc_obj = self.__encoder_manager.get_encoder(enc_name)
             self.__push_main_encoders[i] = enc_obj
 
-        self.debug(self.__push_main_encoders)
-        self.parameter_remapped.replace_subjects(self.__push_main_encoders)
+        for i, enc in enumerate(self.__push_main_encoders):
+            watcher = EncoderWatcher(self, enc, i)
+            self.__encoder_watchers.append(watcher)
 
         self.write_message_to_line('                       welcome to  zcx for push 1', 2)
 
@@ -141,27 +144,6 @@ class Push1Display(ZCXPlugin):
 
         self._line_bytes_cache[line_num] = final
 
-    @listens_group('mapped_parameter')
-    def parameter_remapped(self, enc_obj):
-        self.debug(self.__push_main_encoders)
-
-        enc_index = self.__push_main_encoders.index(enc_obj)
-
-        mapped_par = enc_obj.mapped_parameter
-
-        if mapped_par is None:
-            par_name = ""
-        else:
-
-            par_name = mapped_par.name
-            if par_name == 'Track Volume':
-                par_name = mapped_par.canonical_parent.canonical_parent.name
-
-            if len(par_name) > 8:
-                par_name = par_name[:8]
-
-        self.update_display_segment(0, enc_index, par_name)
-
     @classmethod
     def splice_tuple(cls, t, start_index, end_index, new) -> tuple:
         """
@@ -191,3 +173,43 @@ class DelayedDisplayRefreshTask(TimerTask):
     def on_finish(self):
         self._owner.debug(f'timer finished')
         self._owner._do_refresh_feedback()
+
+class EncoderWatcher(EventObject):
+
+    def __init__(self, component, encoder, index):
+        super().__init__()
+        self._component: 'Push1Display' = component
+        self._encoder = encoder
+        self._index = index
+        self.parameter_rebound.subject = encoder
+        self.parameter_value.subject = encoder._control_element
+        self._current_parameter = None
+
+    @listens('mapped_parameter')
+    def parameter_rebound(self, par):
+        if par is None:
+            self._current_parameter = None
+            self._component.update_display_segment(0, self._index, '')
+            self.parameter_value(None)
+            return
+        self._current_parameter = par
+        par_name = par.name
+        if par_name == 'Track Volume':
+            par_name = par.canonical_parent.canonical_parent.name
+
+        if len(par_name) > 8:
+            par_name = par_name[:8]
+
+        self._component.update_display_segment(0, self._index, par_name)
+
+        self.parameter_value(None)
+
+    @listens('value')
+    def parameter_value(self, val):
+        if self._current_parameter is None:
+            self._component.update_display_segment(1, self._index, '')
+            return
+        par_val = self._current_parameter.__str__()
+        if len(par_val) > 8:
+            par_val = par_val[:8]
+        self._component.update_display_segment(1, self._index, par_val)
