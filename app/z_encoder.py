@@ -133,8 +133,9 @@ class ZEncoder(EventObject):
         self.log(f'binding to active')
         try:
             if self._active_map is None:
-                return
-            map_success = self.map_self_to_par(self._active_map)
+                map_success = False
+            else:
+                map_success = self.map_self_to_par(self._active_map)
         except ConfigurationError:
             map_success = False
 
@@ -195,6 +196,7 @@ class ZEncoder(EventObject):
     def unbind_control(self):
         if self._control_element is not None:
             self._control_element.release_parameter()
+            self._active_map = {}
 
     def map_self_to_par(self, target_map):
         try:
@@ -205,11 +207,7 @@ class ZEncoder(EventObject):
 
             if target_map.get("device") is None:
                 if target_map.get("track") is None:
-                    raise ConfigurationError(
-                        f"Neither track nor device targeted:\n"
-                        f"{self._full_path}\n"
-                        f"{target_map}"
-                    )
+                    return False
 
                 track_def = target_map.get("track")
                 track_obj = self.get_track(track_def)
@@ -391,8 +389,6 @@ class ZEncoder(EventObject):
 
     def rebind_from_dict(self, lookup_key: str):
         target_map = self._binding_dict.get(lookup_key)
-        if map is None:
-            return
 
         self._active_map = target_map
         self.bind_to_active()
