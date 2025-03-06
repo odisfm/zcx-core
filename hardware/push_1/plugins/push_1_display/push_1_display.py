@@ -237,7 +237,7 @@ class Push1Display(ZCXPlugin):
         msg_bytes = self.string_to_ascii_bytes(msg)
 
         if len(msg_bytes) > (end_i - start_i):
-            msg_bytes = msg_bytes[:end_i - start_i]
+            msg_bytes = msg_bytes[:end_i - start_i - 1]
 
         new_message_portion = self.splice_tuple(message_portion, start_i, end_i, msg_bytes)
 
