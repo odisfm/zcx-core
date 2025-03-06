@@ -56,9 +56,10 @@ class ActionResolver(ZCXComponent):
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
+        self.__ring_api = None
 
     def setup(self):
-        pass
+        self.__ring_api = self.canonical_parent._session_ring_custom.api
 
     def _evaluate_expression(
         self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
@@ -74,6 +75,7 @@ class ActionResolver(ZCXComponent):
 
             additional_vars = {
                 'song': self.canonical_parent.song,
+                'ring': self.__ring_api,
             }
 
             all_locals = {**dot_context, **locals, **additional_vars}

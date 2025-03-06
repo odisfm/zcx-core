@@ -42,6 +42,8 @@ class SessionRing(SessionRingBase):
 
         self.component_map = self.canonical_parent.component_map
 
+        self.api = RingAPI(self)
+
         self.debug(f'{self.name} created')
 
     def log(self, *msg, level='info'):
@@ -60,3 +62,37 @@ class SessionRing(SessionRingBase):
         if x < 0 and self.track_offset == 0:
             return
         super().move(x, y)
+
+    def get_ring_track(self, _index):
+        try:
+            pos = self.track_offset + _index
+            track = self.tracks_to_use()[pos]
+            return track
+        except IndexError:
+            return None
+
+class TrackLookup:
+
+    def __init__(self, parent):
+        self._parent = parent
+
+    def __getitem__(self, item):
+        return self._parent._ring_component.get_ring_track(item).name
+
+class SceneLookup:
+
+    def __init__(self, parent):
+        self._parent = parent
+
+    def __getitem__(self, item):
+        return self._parent._ring_component.scene_offset + item
+
+
+class RingAPI:
+
+    def __init__(self, component: SessionRing):
+        self._ring_component = component
+        self.tracks = TrackLookup(self)
+        self.scenes = SceneLookup(self)
+
+
