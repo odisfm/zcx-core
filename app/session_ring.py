@@ -8,6 +8,14 @@ class SessionRing(SessionRingBase):
 
     def __init__(self, *a, **k):
 
+        from . import ROOT_LOGGER
+        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
+
+        self.error = partial(self.log, level='error')
+        self.debug = partial(self.log, level='debug')
+        self.warning = partial(self.log, level='warning')
+        self.critical = partial(self.log, level='critical')
+
         from . import PREF_MANAGER
         user_prefs = PREF_MANAGER.user_prefs
 
@@ -18,13 +26,6 @@ class SessionRing(SessionRingBase):
         if height <= 0 or width <= 0:
             raise RuntimeError('session_ring: width and height must be positive')
 
-        from . import ROOT_LOGGER
-        self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
-
-        self.error = partial(self.log, level='error')
-        self.debug = partial(self.log, level='debug')
-        self.warning = partial(self.log, level='warning')
-        self.critical = partial(self.log, level='critical')
 
         super().__init__(num_tracks=width, num_scenes=height, always_snap_track_offset=False,*a, **k)
 
