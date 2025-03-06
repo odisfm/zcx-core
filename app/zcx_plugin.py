@@ -3,7 +3,7 @@ from .zcx_component import ZCXComponent
 
 class ZCXPlugin(ZCXComponent):
 
-    def __init(
+    def __init__(
             self,
             name,
             *a,
