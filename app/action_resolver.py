@@ -70,7 +70,11 @@ class ActionResolver(ZCXComponent):
                 k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
             }
 
-            all_locals = {**dot_context, **locals}
+            additional_vars = {
+                'song': self.canonical_parent.song,
+            }
+
+            all_locals = {**dot_context, **locals, **additional_vars}
             result = eval(expr, {}, all_locals)
             return result, 0
         except Exception as e:
