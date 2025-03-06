@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from app.zcx_plugin import ZCXPlugin
     from app.z_encoder import ZEncoder
     from app.encoder_manager import EncoderManager
+    from app.session_ring import SessionRing
 
 ENC_PREFIX = 'enc_'
 
@@ -41,6 +42,7 @@ class Push1Display(ZCXPlugin):
         self.__push_main_encoders: 'Optional[list[ZEncoder]]' = [None]*8
         self.__encoder_manager: 'EncoderManager' = None
         self.__encoder_watchers: 'list[EncoderWatcher]' = []
+        self.__session_ring: 'SessionRing' = None
 
         self._line_bytes_cache = [None]*4
 
@@ -52,6 +54,8 @@ class Push1Display(ZCXPlugin):
     def setup(self):
         super().setup()
         self.__encoder_manager = self.component_map['EncoderManager']
+        self.__session_ring = self.canonical_parent._session_ring_custom
+
         for i in range(8):
             enc_name = f'{ENC_PREFIX}{i+1}'
             enc_obj = self.__encoder_manager.get_encoder(enc_name)
@@ -60,6 +64,9 @@ class Push1Display(ZCXPlugin):
         for i, enc in enumerate(self.__push_main_encoders):
             watcher = EncoderWatcher(self, enc, i)
             self.__encoder_watchers.append(watcher)
+
+        self.tracks_changed.subject = self.__session_ring
+        self.tracks_changed()
 
         self.write_message_to_line('                       welcome to  zcx for push 1', 2)
 
@@ -163,6 +170,16 @@ class Push1Display(ZCXPlugin):
 
         return t[:start_index] + new + t[end_index:]
 
+    @listens('tracks')
+    def tracks_changed(self):
+        offset = self.__session_ring.track_offset
+        tracks = self.__session_ring.tracks_to_use()[offset:]
+        for i in range(8):
+            try:
+                track = tracks[i]
+                self.update_display_segment(3, i, track.name)
+            except IndexError:
+                self.update_display_segment(3, i, '')
 
 class DelayedDisplayRefreshTask(TimerTask):
 
@@ -183,7 +200,7 @@ class EncoderWatcher(EventObject):
         self._encoder = encoder
         self._index = index
         self.parameter_rebound.subject = encoder
-        self.parameter_value.subject = encoder._control_element
+        self.parameter_value.subject = None
         self._current_parameter = None
 
     @listens('mapped_parameter')
@@ -200,10 +217,11 @@ class EncoderWatcher(EventObject):
 
         self._component.update_display_segment(0, self._index, par_name)
 
+        self.parameter_value.subject = self._current_parameter
         self.parameter_value(None)
 
     @listens('value')
-    def parameter_value(self, val):
+    def parameter_value(self, val=None):
         if self._current_parameter is None:
             self._component.update_display_segment(1, self._index, '')
             return
