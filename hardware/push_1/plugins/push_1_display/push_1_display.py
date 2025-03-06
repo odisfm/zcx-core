@@ -71,7 +71,6 @@ class Push1Display(ZCXPlugin):
         self.write_message_to_line('                       welcome to  zcx for push 1', 2)
 
     def send_sysex(self, msg):
-        self.debug(msg)
         self.__send_midi(msg)
 
     def refresh_feedback(self):
