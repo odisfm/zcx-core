@@ -7,6 +7,7 @@ from Push.sysex import *
 from ableton.v2.base.task import TimerTask
 
 if TYPE_CHECKING:
+    from app.zcx_core import ZCXCore
     from app.zcx_plugin import ZCXPlugin
     from app.z_encoder import ZEncoder
     from app.encoder_manager import EncoderManager
