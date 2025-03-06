@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Optional
+from collections import Counter
 
 from ableton.v3.base import EventObject
 from ableton.v3.base import listens_group, listens
@@ -177,10 +178,12 @@ class Push1Display(ZCXPlugin):
 
         return tuple(_bytes)
 
-    def update_display_segment(self, line_num, seg_num, msg):
+    def update_display_segment(self, line_num, seg_num, msg, smart_truncate=True):
         if len(msg) > 8:
-            # todo: better shortening
-            msg = msg[:8]
+            if smart_truncate:
+                msg = self.shorten_string_fast(msg)
+            else:
+                msg = msg[:8]
 
         line_bytes = self._line_bytes_cache[line_num]
         message_portion = line_bytes[8:77]
@@ -286,6 +289,32 @@ class Push1Display(ZCXPlugin):
                 self.update_display_segment(self._ring_tracks_line, i, track.name)
             except IndexError:
                 self.update_display_segment(self._ring_tracks_line, i, '')
+
+    def shorten_string_fast(self, s, max_len=8):
+        if len(s) <= max_len:
+            return s
+
+        remove_set = set('AEIOYURSaeoyurs ')
+
+        freq = Counter(s[0:])
+
+        chars_to_remove = sorted(remove_set, key=lambda x: (x != ' ', -freq.get(x, 0)))
+
+        result = s[0]
+
+        for char in s[1:]:
+            if len(result) >= max_len:
+                break
+            if char not in chars_to_remove:
+                result += char
+
+        if len(result) > max_len:
+            for char in chars_to_remove:
+                if len(result) <= max_len:
+                    break
+                result = result[0] + result[1:].replace(char, '')
+
+        return result[:max_len]
 
 class DelayedDisplayRefreshTask(TimerTask):
 
