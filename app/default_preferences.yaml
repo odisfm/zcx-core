@@ -18,3 +18,5 @@ session_ring:
   height: 8
 
 configs:
+
+plugins:

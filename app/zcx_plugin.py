@@ -10,7 +10,14 @@ class ZCXPlugin(ZCXComponent):
             **k
     ):
         super().__init__(name, *a, **k)
-        self.__zcx_api = None
+        try:
+            self.__zcx_api = None
+            from . import PREF_MANAGER
+            self._user_config = PREF_MANAGER.get_plugin_config(self.__class__.__module__)
+            if self._user_config is not None:
+                self.log(self._user_config)
+        except:
+            self._user_config = None
 
     def setup(self):
         self.debug(f'Loading plugin {self.name}')

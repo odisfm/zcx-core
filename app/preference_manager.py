@@ -158,3 +158,7 @@ class PreferenceManager:
             error_msg = f'Default config directory {default_full_path} does not exist'
             self.log(error_msg, level='error')
             raise RuntimeError(error_msg)
+
+    def get_plugin_config(self, plugin_name):
+        plugin_configs = self.user_prefs.get('plugins', {})
+        return copy.copy(plugin_configs.get(plugin_name))
