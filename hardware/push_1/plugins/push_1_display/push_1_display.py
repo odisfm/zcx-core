@@ -59,10 +59,10 @@ class Push1Display(ZCXPlugin):
             WRITE_LINE4 + (32,) * 68 + (247,)
         ]
 
-        self._line_bytes_cache[0] = WRITE_LINE1 + (32,)*68 + (247,)
-        self._line_bytes_cache[1] = WRITE_LINE2 + (32,)*68 + (247,)
-        self._line_bytes_cache[2] = WRITE_LINE3 + (32,)*68 + (247,)
-        self._line_bytes_cache[3] = WRITE_LINE4 + (32,)*68 + (247,)
+        self._encoder_mapping_line = False
+        self._encoder_values_line = False
+        self._message_line = False
+        self._ring_tracks_line = False
 
         self._persistent_message = ''
 
@@ -71,19 +71,38 @@ class Push1Display(ZCXPlugin):
         self.__encoder_manager = self.component_map['EncoderManager']
         self.__session_ring = self.canonical_parent._session_ring_custom
 
-        for i in range(8):
-            enc_name = f'{ENC_PREFIX}{i+1}'
-            enc_obj = self.__encoder_manager.get_encoder(enc_name)
-            self.__push_main_encoders[i] = enc_obj
+        config = self._user_config or DEFAULT_CONFIG
 
-        for i, enc in enumerate(self.__push_main_encoders):
-            watcher = EncoderWatcher(self, enc, i)
-            self.__encoder_watchers.append(watcher)
+        if 'encoder_mapping' in config and config['encoder_mapping']:
+            self._encoder_mapping_line = config['encoder_mapping'] - 1
+        if 'encoder_values' in config and config['encoder_values'] > 0:
+            self._encoder_values_line = config['encoder_values'] - 1
+        if 'message' in config and config['message']:
+            self._message_line = config['message'] - 1
+        if 'ring_tracks' in config and config['ring_tracks']:
+            self._ring_tracks_line = config['ring_tracks'] - 1
 
-        self.tracks_changed.subject = self.__session_ring
-        self.tracks_changed()
+        if self._encoder_mapping_line is not False or self._encoder_values_line is not False:
+            watching_encoders = True
+        else:
+            watching_encoders = False
 
-        self.write_message_to_line('                       welcome to  zcx for push 1', 2, timeout=5.0)
+        if watching_encoders:
+            for i in range(8):
+                enc_name = f'{ENC_PREFIX}{i+1}'
+                enc_obj = self.__encoder_manager.get_encoder(enc_name)
+                self.__push_main_encoders[i] = enc_obj
+
+            for i, enc in enumerate(self.__push_main_encoders):
+                watcher = EncoderWatcher(self, enc, i)
+                self.__encoder_watchers.append(watcher)
+
+        if self._ring_tracks_line is not False:
+            self.tracks_changed.subject = self.__session_ring
+            self.tracks_changed()
+
+        if self._message_line:
+            self.write_message_to_line('                       welcome to  zcx for push 1', timeout=5.0)
 
     def send_sysex(self, msg):
         self.__send_midi(msg)
@@ -97,7 +116,7 @@ class Push1Display(ZCXPlugin):
         for line_bytes in self._line_bytes_cache:
             self.send_sysex(line_bytes)
 
-    def write_message_to_line(self, msg: str, line_number: int, timeout: float =0.0):
+    def write_message_to_line(self, msg: str, line_number=None, timeout: float=0.0):
         """
         Writes a message of up to 68 chars to a line on display.
         :param line_number:
@@ -107,11 +126,19 @@ class Push1Display(ZCXPlugin):
         """
         ascii_message = self.string_to_ascii_bytes(msg)
 
+        if line_number is None:
+            line_number = self._message_line
+            if line_number is False:
+                raise RuntimeError('line_number is required')
+
         if timeout == 0.0:
             self._persistent_message = msg
 
         if len(ascii_message) < 68:
             ascii_message = ascii_message + tuple(32 for _ in range(68 - len(ascii_message)))
+
+        if line_number not in {0, 1, 2, 3}:
+            raise ValueError(f'Invalid line number {line_number}')
 
         match line_number:
             case 0:
@@ -174,7 +201,7 @@ class Push1Display(ZCXPlugin):
             case 3:
                 line_start = WRITE_LINE4
             case _:
-                raise ValueError(f'Invalid line number {line_number}')
+                raise ValueError(f'Invalid line number {line_num}')
 
         final = line_start + new_message_portion
 
@@ -207,9 +234,9 @@ class Push1Display(ZCXPlugin):
         for i in range(8):
             try:
                 track = tracks[i]
-                self.update_display_segment(3, i, track.name)
+                self.update_display_segment(self._ring_tracks_line, i, track.name)
             except IndexError:
-                self.update_display_segment(3, i, '')
+                self.update_display_segment(self._ring_tracks_line, i, '')
 
 class DelayedDisplayRefreshTask(TimerTask):
 
@@ -248,7 +275,7 @@ class EncoderWatcher(EventObject):
     def parameter_rebound(self, par):
         if par is None:
             self._current_parameter = None
-            self._component.update_display_segment(0, self._index, '')
+            self._component.update_display_segment(self._component._encoder_mapping_line, self._index, '')
             self.parameter_value(None)
             return
         self._current_parameter = par
@@ -256,7 +283,7 @@ class EncoderWatcher(EventObject):
         if par_name == 'Track Volume':
             par_name = par.canonical_parent.canonical_parent.name
 
-        self._component.update_display_segment(0, self._index, par_name)
+        self._component.update_display_segment(self._component._encoder_mapping_line, self._index, par_name)
 
         self.parameter_value.subject = self._current_parameter
         self.parameter_value(None)
@@ -264,8 +291,8 @@ class EncoderWatcher(EventObject):
     @listens('value')
     def parameter_value(self, val=None):
         if self._current_parameter is None:
-            self._component.update_display_segment(1, self._index, '')
+            self._component.update_display_segment(self._component._encoder_values_line, self._index, '')
             return
         par_val = self._current_parameter.__str__()
 
-        self._component.update_display_segment(1, self._index, par_val)
+        self._component.update_display_segment(self._component._encoder_values_line, self._index, par_val)
