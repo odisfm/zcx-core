@@ -52,7 +52,12 @@ class Push1Display(ZCXPlugin):
         self.__encoder_watchers: 'list[EncoderWatcher]' = []
         self.__session_ring: 'SessionRing' = None
 
-        self._line_bytes_cache = [None]*4
+        self._line_bytes_cache = [
+            WRITE_LINE1 + (32,) * 68 + (247,),
+            WRITE_LINE2 + (32,) * 68 + (247,),
+            WRITE_LINE3 + (32,) * 68 + (247,),
+            WRITE_LINE4 + (32,) * 68 + (247,)
+        ]
 
         self._line_bytes_cache[0] = WRITE_LINE1 + (32,)*68 + (247,)
         self._line_bytes_cache[1] = WRITE_LINE2 + (32,)*68 + (247,)
