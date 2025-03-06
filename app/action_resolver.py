@@ -57,6 +57,8 @@ class ActionResolver(ZCXComponent):
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
 
+    def setup(self):
+        pass
 
     def _evaluate_expression(
         self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]

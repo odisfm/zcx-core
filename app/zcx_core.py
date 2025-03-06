@@ -118,7 +118,9 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting ApiManager setup')
             self.component_map['ApiManager'].setup()
             self.debug(f'finished ApiManager setup')
-
+            self.debug(f'starting ActionResolver setup')
+            self.component_map['ActionResolver'].setup()
+            self.debug(f'finished ActionResolver setup')
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
                 self.debug(f'starting plugin {plugin_name} setup')
