@@ -52,6 +52,8 @@ class Push1Display(ZCXPlugin):
         self._line_bytes_cache[2] = WRITE_LINE3 + (32,)*68 + (247,)
         self._line_bytes_cache[3] = WRITE_LINE4 + (32,)*68 + (247,)
 
+        self._persistent_message = ''
+
     def setup(self):
         super().setup()
         self.__encoder_manager = self.component_map['EncoderManager']
@@ -69,7 +71,7 @@ class Push1Display(ZCXPlugin):
         self.tracks_changed.subject = self.__session_ring
         self.tracks_changed()
 
-        self.write_message_to_line('                       welcome to  zcx for push 1', 2)
+        self.write_message_to_line('                       welcome to  zcx for push 1', 2, timeout=3.0)
 
     def send_sysex(self, msg):
         self.__send_midi(msg)
@@ -83,14 +85,18 @@ class Push1Display(ZCXPlugin):
         for line_bytes in self._line_bytes_cache:
             self.send_sysex(line_bytes)
 
-    def write_message_to_line(self, msg: str, line_number: int):
+    def write_message_to_line(self, msg: str, line_number: int, timeout: float =0.0):
         """
         Writes a message of up to 68 chars to a line on display.
         :param line_number:
         :param msg:
+        :param timeout:
         :return:
         """
         ascii_message = self.string_to_ascii_bytes(msg)
+
+        if timeout == 0.0:
+            self._persistent_message = msg
 
         if len(ascii_message) < 68:
             ascii_message = ascii_message + tuple(32 for _ in range(68 - len(ascii_message)))
@@ -112,6 +118,18 @@ class Push1Display(ZCXPlugin):
         self.send_sysex(final)
 
         self._line_bytes_cache[line_number] = final
+
+        if timeout != 0.0:
+            task = DeleteMessageTask(self, line_number, duration=timeout)
+            self.canonical_parent._task_group.add(task)
+            task.restart()
+
+    def _clear_old_message(self, line_number):
+        if len(self._persistent_message) > 0:
+            self.write_message_to_line(self._persistent_message, line_number)
+            return
+        else:
+            self.write_message_to_line('', line_number)
 
     def string_to_ascii_bytes(self, string):
         _bytes = []
@@ -191,6 +209,17 @@ class DelayedDisplayRefreshTask(TimerTask):
     def on_finish(self):
         self._owner.debug(f'timer finished')
         self._owner._do_refresh_feedback()
+
+class DeleteMessageTask(TimerTask):
+
+    def __init__(self, owner, line_number: int, duration=3.0, **k):
+        super().__init__(duration=duration, **k)
+        self._owner: ZCXCore = owner
+        self._line_number: int = line_number
+        self.restart()
+
+    def on_finish(self):
+        self._owner._clear_old_message(line_number=self._line_number)
 
 class EncoderWatcher(EventObject):
 
