@@ -27,7 +27,7 @@ class PreferenceManager:
 
         try:
             config_override_prefs = self.load_yaml(f'{self.__config_dir}/preferences.yaml')
-            self.__flattened_prefs = self.deep_merge(self.__user_prefs, config_override_prefs)
+            self.__flattened_prefs = self.deep_merge(self.__flattened_prefs, config_override_prefs)
         except FileNotFoundError:
             pass
 
@@ -62,22 +62,26 @@ class PreferenceManager:
         Recursively merge two dictionaries.
         If both dicts have the same key and the values are dictionaries, merge those dictionaries.
         If there's a conflict with non-dictionary values, use the value from dict2.
+        Keys in dict1 that are not in dict2 are preserved.
 
         Args:
-            dict1: First dictionary
+            dict1: First dictionary (base dictionary)
             dict2: Second dictionary, takes precedence in conflicts
 
         Returns:
             A new dictionary with merged values
         """
+        if dict1 is None:
+            dict1 = {}
+        if dict2 is None:
+            dict2 = {}
+
         result = dict1.copy()
 
         for key, value in dict2.items():
-            # If both values are dicts, merge them recursively
             if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-                result[key] = deep_merge(result[key], value)
+                result[key] = self.deep_merge(result[key], value)
             else:
-                # Otherwise, just use the value from dict2
                 result[key] = value
 
         return result
