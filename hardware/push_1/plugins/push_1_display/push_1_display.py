@@ -71,7 +71,7 @@ class Push1Display(ZCXPlugin):
         self.tracks_changed.subject = self.__session_ring
         self.tracks_changed()
 
-        self.write_message_to_line('                       welcome to  zcx for push 1', 2, timeout=3.0)
+        self.write_message_to_line('                       welcome to  zcx for push 1', 2, timeout=5.0)
 
     def send_sysex(self, msg):
         self.__send_midi(msg)
