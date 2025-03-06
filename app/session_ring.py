@@ -19,8 +19,8 @@ class SessionRing(SessionRingBase):
         from . import PREF_MANAGER
         user_prefs = PREF_MANAGER.user_prefs
 
-        width = user_prefs.get('session_ring', {}).get('width', 0)
-        height = user_prefs.get('session_ring', {}).get('height', 0)
+        width = user_prefs.get('session_ring', {}).get('width', 1)
+        height = user_prefs.get('session_ring', {}).get('height', 1)
         self.num_layers = 0
 
         if height <= 0 or width <= 0:
