@@ -56,15 +56,6 @@ _Only available on named control group definitions._
 See [template reference](/template-reference/#named-controls).
 
 ___
-
-### buttons
-`dict[ZControl]`
-
-_Only available on named control group definitions._
-
-See [template reference](/template-reference/#overwriting-properties).
-
-___
 ### pad_group
 `dict[ZControl]`
 
@@ -74,13 +65,11 @@ See [template reference](/template-reference/#matrix-controls).
 
 ___
 
-### pads
-`list[ZControl]`
+### controls
+`list[ZControl] | dict[ZControl]`
 
-_Only available on matrix control group definitions._
-
-See [template reference](/template-reference/#matrix-controls).
-
+Used in a [group control definition](/reference/template-reference/#group-templates) to override properties on one or more ZControls in the group.
+Accepts a list for a [group of matrix controls](/template-reference/#matrix-controls) or a dict for a [group of named controls](/template-reference/#named-controls).
 
 ___
 ### gestures
