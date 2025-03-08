@@ -36,7 +36,7 @@ class ApiManager(ZCXComponent):
 
 class ZcxApi:
 
-    root_cs: ZCXCore
+    root_cs: 'ZCXCore'
     z_manager: ZManager
     encoder_manager: EncoderManager
 
@@ -80,7 +80,7 @@ class ZcxApi:
     def get_control(self, control_name) -> 'Optional[ZControl]':
         return self.z_manager.get_aliased_control(control_name) or self.get_named_control(control_name)
 
-    def create_color(self, color_def: Any, calling_control: ZControl=None) -> Color:
+    def create_color(self, color_def: Any, calling_control: 'ZControl'=None) -> Color:
         """
         Takes a color_def in normal zcx format and returns a Color object.
         Needs a calling_control to make use of certain features and definition types.
