@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from .pad_section import PadSection
     from .z_control import ZControl
     from .z_encoder import ZEncoder
+    from .zcx_core import ZCXCore
 
 
 class ApiManager(ZCXComponent):
@@ -33,7 +34,7 @@ class ApiManager(ZCXComponent):
 
 class ZcxApi:
 
-    root_cs: ControlSurface
+    root_cs: ZCXCore
     z_manager: ZManager
     encoder_manager: EncoderManager
 
