@@ -6,6 +6,8 @@ from ableton.v3.base import listens_group, listens
 from Push.sysex import *
 from ableton.v2.base.task import TimerTask
 
+from hardware.sysex import LIVE_MODE, USER_MODE
+
 if TYPE_CHECKING:
     from app.zcx_core import ZCXCore
     from app.zcx_plugin import ZCXPlugin
@@ -46,6 +48,7 @@ class Push1Display(ZCXPlugin):
     ):
         super().__init__(name, *a, **k)
         self.set_logger_level('debug')
+        self.__suppress_send = True
         self.__send_midi = self.canonical_parent._do_send_midi
         self.__push_main_encoders: 'Optional[list[ZEncoder]]' = [None]*8
         self.__encoder_manager: 'EncoderManager' = None
@@ -104,7 +107,22 @@ class Push1Display(ZCXPlugin):
         if self._message_line:
             self.write_message_to_line('                       welcome to  zcx for push 1', timeout=5.0)
 
+    @property
+    def suppress_send(self):
+        return self.__suppress_send
+
+    def receive_sysex(self, midi_bytes: tuple[int]):
+        self.log(f'received sysex', midi_bytes)
+        if midi_bytes == LIVE_MODE:
+            self.__suppress_send = True
+        elif midi_bytes == USER_MODE:
+            self.__suppress_send = False
+
     def send_sysex(self, msg):
+        # Suppressing write here, because even if we are not writing to display,
+        # we still want to process and cache messages
+        if self.__suppress_send:
+            return
         self.__send_midi(msg)
 
     def refresh_feedback(self):
