@@ -4,7 +4,6 @@ from collections import Counter
 from ableton.v3.base import EventObject
 from ableton.v3.base import listens_group, listens
 from Push.sysex import *
-
 from ableton.v2.base.task import TimerTask
 
 if TYPE_CHECKING:
