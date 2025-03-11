@@ -150,6 +150,8 @@ class ZCXCore(ControlSurface):
             if sysex_message == USER_MODE:
                 self.refresh_required()
 
+            self.invoke_all_plugins('receive_sysex', midi_bytes=sysex_message)
+
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
         self.invoke_all_plugins('refresh_feedback')
