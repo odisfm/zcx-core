@@ -160,6 +160,7 @@ class ZCXCore(ControlSurface):
         self.application.show_on_the_fly_message(message)
 
     def invoke_all_plugins(self, method_name: str, **k):
+        self.debug(f'invoking all plugins: {method_name}')
         for plugin_name, plugin_instance in self.plugin_map.items():
             method = getattr(plugin_instance, method_name, None)
             if method is None:
