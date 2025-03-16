@@ -3,7 +3,7 @@ from copy import deepcopy
 from ableton.v3.control_surface.controls import control_matrix
 
 from .control_classes import get_subclass as get_control_class
-from .errors import ConfigurationError
+from .errors import ConfigurationError, CriticalConfigurationError
 from .hardware_interface import HardwareInterface
 from .pad_section import PadSection
 from .z_control import ZControl
@@ -377,7 +377,12 @@ class ZManager(ZCXComponent):
         hardware = self.__hardware_interface
 
         for button_name, button_def in parsed_config.items():
-            state: ZState.State = getattr(hardware, button_name)
+            try:
+                state: ZState.State = getattr(hardware, button_name)
+            except AttributeError:
+                raise CriticalConfigurationError(
+                    f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
+                )
             control = self.z_control_factory(button_def, pad_section)
             control.bind_to_state(state)
             control.setup()
