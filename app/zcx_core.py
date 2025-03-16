@@ -10,6 +10,8 @@ from ableton.v3.control_surface import (
 from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT, AUTO_SWITCH_MODE
 from .template_manager import TemplateManager
 from .session_ring import SessionRing
+from .consts import REQUIRED_LIVE_VERSION
+from .errors import ZcxStartupError
 
 root_cs = None
 
@@ -31,6 +33,23 @@ class ZCXCore(ControlSurface):
             
             self.template_manager = TemplateManager(self)
             self.component_map["ZManager"].load_control_templates()
+                self.set_logger_level('debug')
+
+                app = self.application
+                this_live_version = (app.get_major_version(), app.get_minor_version())
+
+                if (this_live_version[0] > REQUIRED_LIVE_VERSION[0]) or (
+                        this_live_version[0] == REQUIRED_LIVE_VERSION[0] and this_live_version[1] >=
+                        REQUIRED_LIVE_VERSION[1]
+                ):
+                    pass
+                else:
+                    this_version_string = f'{this_live_version[0]}.{this_live_version[1]}'
+                    required_version_string = f'{REQUIRED_LIVE_VERSION[0]}.{REQUIRED_LIVE_VERSION[1]}'
+                    raise ZcxStartupError(f'zcx requires Live version {required_version_string} or above.',
+                                          f'You are using {this_version_string}',
+                                          traceback=False, boilerplate=False)
+
 
             from . import plugin_loader
             plugin_names = plugin_loader.plugin_names
