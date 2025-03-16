@@ -21,18 +21,16 @@ class ZCXCore(ControlSurface):
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
         try:
-            self.__name = __name__.split('.')[0].lstrip('_')
-            from . import ROOT_LOGGER
-            self._logger = ROOT_LOGGER
-            self.error = partial(self.log, level='error')
-            self.debug = partial(self.log, level='debug')
-            self.warning = partial(self.log, level='warning')
-            self.critical = partial(self.log, level='critical')
+            try:
+                self.__name = __name__.split('.')[0].lstrip('_')
+                from . import ROOT_LOGGER
+                self._logger = ROOT_LOGGER
 
-            self.set_logger_level('debug')
-            
-            self.template_manager = TemplateManager(self)
-            self.component_map["ZManager"].load_control_templates()
+                self.error = partial(self.log, level='error')
+                self.debug = partial(self.log, level='debug')
+                self.warning = partial(self.log, level='warning')
+                self.critical = partial(self.log, level='critical')
+
                 self.set_logger_level('debug')
 
                 app = self.application
@@ -50,48 +48,73 @@ class ZCXCore(ControlSurface):
                                           f'You are using {this_version_string}',
                                           traceback=False, boilerplate=False)
 
+                self.template_manager = TemplateManager(self)
+                self.component_map["ZManager"].load_control_templates()
 
-            from . import plugin_loader
-            plugin_names = plugin_loader.plugin_names
+                from . import plugin_loader
+                plugin_names = plugin_loader.plugin_names
 
-            self._session_ring_custom = None
-            for c in self._components:
-                self.debug(type(c))
-                if isinstance(c, SessionRing):
-                    self.debug(f'found the session ring: {c.name}')
-                    self._session_ring_custom = c
+                self._session_ring_custom = None
+                for c in self._components:
+                    self.debug(type(c))
+                    if isinstance(c, SessionRing):
+                        self.debug(f'found the session ring: {c.name}')
+                        self._session_ring_custom = c
 
-            self.plugin_map = {}
+                self.plugin_map = {}
 
-            for plugin_name in plugin_names:
-                self.plugin_map[plugin_name] = self.component_map[plugin_name]
+                for plugin_name in plugin_names:
+                    self.plugin_map[plugin_name] = self.component_map[plugin_name]
 
-            self.post_init()
+                self.post_init()
 
-            if AUTO_SWITCH_MODE and USER_MODE is not None: # todo: preference to stay in Live mode on init
-                if INIT_DELAY > 0:
-                    delay = INIT_DELAY / 1000
-                    sysex_task = DelayedSysexTask(self, duration=delay, sysex_tuple=USER_MODE)
-                    self._task_group.add(sysex_task)
-                    sysex_task.restart()
-                else:
-                    self._do_send_midi(USER_MODE)
-            self.application.add_control_surfaces_listener(self.song_ready)
+                if AUTO_SWITCH_MODE and USER_MODE is not None:  # todo: preference to stay in Live mode on init
+                    if INIT_DELAY > 0:
+                        delay = INIT_DELAY / 1000
+                        sysex_task = DelayedSysexTask(self, duration=delay, sysex_tuple=USER_MODE)
+                        self._task_group.add(sysex_task)
+                        sysex_task.restart()
+                    else:
+                        self._do_send_midi(USER_MODE)
+                self.application.add_control_surfaces_listener(self.song_ready)
 
-            self.log(f'{self.name} loaded :)', level='critical')
+                self.log(f'{self.name} loaded :)', level='critical')
+            except ZcxStartupError:
+                raise
+            except Exception as e:
+                raise ZcxStartupError(str(e))
 
-        except Exception as e:
+        except ZcxStartupError as e:
             try:
                 self.error(e)
 
-                tb_lines = traceback.format_exc().splitlines()
-                relevant_tb = "\n".join(tb_lines[-3:])
+                popup_string = f''
 
-                # todo: user pref to supress popup
-                self.show_popup(f'{self.name} encountered a fatal error while starting.\n'
-                                f"Check Live's Log.txt\n\n"
-                                f"{relevant_tb}\n")
-            except Exception:
+                if e.boilerplate:
+                    popup_string += f"{self.name} encountered a fatal error while starting."
+
+                if len(e.msg) > 0:
+                    for msg in e.msg:
+                        popup_string += f'\n\n{msg}'
+                    popup_string += '\n\n'
+
+                popup_string += \
+                    (f"The script will now disconnect. "
+                     f"Check Live's Log.txt for more details. "
+                     f"Get help at www.zcxcore.com/help\n\n")
+
+                if e.traceback:
+                    tb_lines = traceback.format_exc().splitlines()
+                    relevant_tb = "\n".join(tb_lines[-13:-7])
+                    popup_string += f'Traceback: \n\n'
+                    popup_string += relevant_tb
+
+                self.show_popup(popup_string)
+
+                self.disconnect()
+                self._enabled = False
+
+            except Exception as e:
                 logging.getLogger(__name__).error(e)
 
     @property
