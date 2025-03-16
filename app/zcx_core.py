@@ -123,6 +123,8 @@ class ZCXCore(ControlSurface):
 
     @property
     def zcx_api(self):
+        if not self._enabled:
+            raise RuntimeError(f'{self.name} is not enabled.')
         return self.component_map["ApiManager"].get_api_object()
 
     def log(self, *msg, level='info'):
@@ -178,6 +180,8 @@ class ZCXCore(ControlSurface):
         self.component_map['EncoderManager'].bind_all_encoders()
 
     def port_settings_changed(self):
+        if not self._enabled:
+            return
         super().refresh_state()
         self.refresh_required()
 
@@ -187,7 +191,7 @@ class ZCXCore(ControlSurface):
 
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
-        if midi_chunk[0][0] == 240:
+        if self._enabled and midi_chunk[0][0] == 240:
             sysex_message = midi_chunk[0]
             if sysex_message == USER_MODE:
                 self.refresh_required()
