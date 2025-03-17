@@ -207,17 +207,17 @@ class ActionResolver(ZCXComponent):
 
                     match command_type:
                         case 'cxp':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.log(f'doing cxp action:', parsed)
                                 self.__cxp.trigger_action_list(parsed)
                         case 'log':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.log(parsed)
                         case 'msg':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.canonical_parent.show_message(parsed)
                         case 'page':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 if parsed == 'last':
                                     self.__page_manager.return_to_last_page()
                                     continue
@@ -227,13 +227,13 @@ class ActionResolver(ZCXComponent):
                                         raise RuntimeError(f'invalid page change: {parsed}')
                                     return False
                         case 'mode':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.toggle_mode(parsed)
                         case 'mode_on':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.add_mode(parsed)
                         case 'mode_off':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.remove_mode(parsed)
                         case 'refresh':
                             self.__hardware_interface.refresh_all_lights()
