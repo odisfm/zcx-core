@@ -1,3 +1,4 @@
+from ableton.v2.base import listenable_property
 from ableton.v2.base.event import listens
 
 from ..colors import parse_color_definition
@@ -29,15 +30,22 @@ class TrackControl(ZControl):
 
         self.set_track_by_name(track)
 
-    def set_track(self, track_obj):
+    @listenable_property
+    def track(self):
+        return self._track
+
+    @track.setter
+    def track(self, track_obj):
         if track_obj is None:
-            self._track = None
+            self.track = None
             return
         self._track = track_obj
         self.build_color_dict()
         self.set_listeners()
         self._context['me']['track'] = track_obj.name
         self.request_color_update()
+
+        self.notify_track(self.track)
 
     def set_listeners(self):
         if self._track is not None:
@@ -74,7 +82,7 @@ class TrackControl(ZControl):
             track_obj = list(self.root_cs.song.tracks)[track_num]
         except ValueError:
             track_obj = self.get_track_by_name(track_name)
-        self.set_track(track_obj)
+        self.track = track_obj
 
     def get_track_by_name(self, name):
         tracklist = list(self.root_cs.song.tracks)

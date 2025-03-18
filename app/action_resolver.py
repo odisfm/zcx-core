@@ -2,6 +2,7 @@ import re
 from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
 
+from ableton.v3.base import listens, listens_group
 from ClyphX_Pro.clyphx_pro import ParseUtils
 
 from .cxp_bridge import CxpBridge
@@ -55,6 +56,10 @@ class ActionResolver(ZCXComponent):
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
+        self.__ring_api = None
+
+    def setup(self):
+        self.__ring_api = self.canonical_parent._session_ring_custom.api
 
     def _evaluate_expression(
         self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
@@ -68,7 +73,12 @@ class ActionResolver(ZCXComponent):
                 k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
             }
 
-            all_locals = {**dot_context, **locals}
+            additional_vars = {
+                'song': self.canonical_parent.song,
+                'ring': self.__ring_api,
+            }
+
+            all_locals = {**dot_context, **locals, **additional_vars}
             result = eval(expr, {}, all_locals)
             return result, 0
         except Exception as e:
@@ -207,17 +217,17 @@ class ActionResolver(ZCXComponent):
 
                     match command_type:
                         case 'cxp':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.log(f'doing cxp action:', parsed)
                                 self.__cxp.trigger_action_list(parsed)
                         case 'log':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.log(parsed)
                         case 'msg':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.canonical_parent.show_message(parsed)
                         case 'page':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 if parsed == 'last':
                                     self.__page_manager.return_to_last_page()
                                     continue
@@ -227,13 +237,13 @@ class ActionResolver(ZCXComponent):
                                         raise RuntimeError(f'invalid page change: {parsed}')
                                     return False
                         case 'mode':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.toggle_mode(parsed)
                         case 'mode_on':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.add_mode(parsed)
                         case 'mode_off':
-                            if parsed := self._compile_and_check(command_def, vars_dict, context):
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.remove_mode(parsed)
                         case 'refresh':
                             self.__hardware_interface.refresh_all_lights()
@@ -245,6 +255,20 @@ class ActionResolver(ZCXComponent):
                             else:
                                 raise RuntimeError(f'invalid hardware mode: {command_def}')
                             self.canonical_parent._do_send_midi(bytes)
+                        case 'ring':
+                            self.debug(command_type, command_def, vars_dict, context)
+
+                            if 'track' in command_def:
+                                # go direct to track
+                                raise NotImplementedError()
+
+                            x_def = command_def.get('x', 0)
+                            x_parsed = self._compile_and_check(x_def, vars_dict, context)
+                            y_def = command_def.get('y', 0)
+                            y_parsed = self._compile_and_check(y_def, vars_dict, context)
+
+                            self.canonical_parent._session_ring_custom.move(x_parsed, y_parsed)
+
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
@@ -384,3 +408,10 @@ class ActionResolver(ZCXComponent):
                     result['parameter_type'] = param_part
 
         return result
+
+    @listens('tracks')
+    def ring_tracks_changed(self):
+        new_tracks = self.__session_ring.tracks
+        self.debug(f'{self.name} ring tracks changed: {self.__session_ring.tracks}')
+        for track in new_tracks:
+            self.debug(track.name)

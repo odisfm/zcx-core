@@ -25,6 +25,7 @@ from .z_manager import ZManager
 from .z_state import ZState
 from .zcx_core import ZCXCore
 from .preference_manager import PreferenceManager
+from .session_ring import SessionRing
 
 
 ROOT_LOGGER = None
@@ -32,6 +33,7 @@ NAMED_BUTTONS = None
 ENCODERS = None
 CONFIG_DIR = '_config'
 SAFE_MODE = False
+PREF_MANAGER = None
 
 plugin_loader: 'Optional[PluginLoader]' = None
 
@@ -55,6 +57,7 @@ def create_mappings(arg) -> dict:
 
     mappings = {
         "HardwareInterface": hw_mapping_dict,
+        "SessionRingComponent": {},
         "PageManager": {},
         "ModeManager": {},
         "CxpBridge": {},
@@ -139,12 +142,14 @@ def create_instance(c_instance):
     global ROOT_LOGGER
     global plugin_loader
     global CONFIG_DIR
+    global PREF_MANAGER
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
 
     pref_manager = PreferenceManager(ROOT_LOGGER)
     ROOT_LOGGER.debug(pref_manager.user_prefs)
+    PREF_MANAGER = pref_manager
 
     CONFIG_DIR = pref_manager.config_dir
 
@@ -152,6 +157,7 @@ def create_instance(c_instance):
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
+        'SessionRingComponent': SessionRing,
         'PageManager': PageManager,
         "ModeManager": ModeManager,
         'CxpBridge': CxpBridge,
