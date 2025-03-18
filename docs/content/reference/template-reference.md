@@ -1,3 +1,9 @@
+---
+weight: -9
+---
+
+# Template reference
+
 zcx contains several features for applying a common definition across multiple controls, or for dynamically configuring a control based on factors such as its position in a group.
 
 ## template strings
