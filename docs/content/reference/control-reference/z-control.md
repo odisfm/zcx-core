@@ -174,8 +174,12 @@ Returns the last velocity as an integer (between 0-127).
 
 Returns the last velocity as a percentage (float).
 
+To use this percentage in a ClyphX action list, you will need to manually add the % sign, e.g:
+
+`SEL / VOL ${me.velp}%`
+
 #### velps
 
 Returns the last velocity as a percentage, but **scaled** according to the control's [threshold](#threshold).
 
-E.g., if a control has a threshold of `30`, a press with a velocity of `30` will return `0%`.
+E.g., if a control has a threshold of `30`, a press with a velocity of `30` will return `0.0`.
