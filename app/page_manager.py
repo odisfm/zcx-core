@@ -2,7 +2,7 @@ import copy
 
 from ableton.v2.base.event import listenable_property
 
-from .errors import ConfigurationError
+from .errors import ConfigurationError, CriticalConfigurationError
 from .pad_section import PadSection
 from .zcx_component import ZCXComponent
 
@@ -95,9 +95,7 @@ class PageManager(ZCXComponent):
         sections_config = self.load_sections_config()  # raw yaml
         pages_config = self.load_pages_config()  # raw yaml
 
-        # Process pages configuration
         pages_dict = {}
-        pages_order = []
 
         if pages_config is None:
             # If no pages config, create default from sections
@@ -112,22 +110,27 @@ class PageManager(ZCXComponent):
                     pages_dict[page_name] = {"sections": page_def}
                 elif isinstance(page_def, dict):
                     if "sections" not in page_def:
-                        page_def["sections"] = []
+                        raise CriticalConfigurationError(f'Pages `{page_name}` missing `sections` key: {page_def}')
                     pages_dict[page_name] = page_def
                 else:
-                    # Invalid schema
-                    continue
+                    raise CriticalConfigurationError(f'Malformed page definition for `{page_name}`: {page_def}')
 
-            # Get page order (or use keys if not specified)
-            pages_order = pages_config.get("order", list(pages_dict.keys()))
+            # Get page order (or use all keys if not specified)
+            if "order" in pages_config:
+                pages_order = pages_config.get("order", [])
+                for page_name in pages_order:
+                    if page_name not in pages_dict:
+                        raise CriticalConfigurationError(f"Page `{page_name}` specified in order does not exist")
+                # Only include pages that are specified in the order
+            else:
+                pages_order = list(pages_dict.keys())
 
         self.determine_matrix_specs()
 
-        # Validate page sections
         for page_name, page_def in pages_dict.items():
             self.validate_page_sections(page_name, page_def["sections"], sections_config)
 
-        self.__page_count = len(pages_dict)
+        self.__page_count = len(pages_order)
 
         for page_name in pages_order:
             if page_name in pages_dict:
@@ -137,7 +140,8 @@ class PageManager(ZCXComponent):
                 self.__page_definitions[page_name] = pages_dict[page_name]
                 self.__page_names.append(page_name)
 
-        # build section objects
+        # Build section objects
+
         PadSection.root_cs = self.canonical_parent
         PadSection.page_manager = self
 
