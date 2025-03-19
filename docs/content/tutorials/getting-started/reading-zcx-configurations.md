@@ -20,7 +20,7 @@ RECORD = CC, 1, 79, 127, 0, SRECFIX 8
 ClyphX also has G-controls, which have more complex functionality, and so need more complex configuration:
 
 ```ClyphX
-RECORD = CC, 1, 79, 127, FALSE, 0
+RECORD = CC, 1, 79, 127, 0, FALSE,
 RECORD PRESSED = SEL / ARM
 RECORD PRESSED_DELAYED = SRECFIX 8
 ```
