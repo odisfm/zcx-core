@@ -31,6 +31,7 @@ class PageManager(ZCXComponent):
         self.__page_names = []
         self.__pad_sections: Dict[PadSection] = {}
         self.__named_button_section: Optional[PadSection] = None
+        self.__page_definitions = {}
 
     @listenable_property
     def current_page(self):
@@ -91,35 +92,50 @@ class PageManager(ZCXComponent):
             raise ValueError(f"invalid value {page} for request_page_change()")
 
     def setup(self):
-        sections_config = self.load_sections_config()
-        pages_config = self.load_pages_config()
+        sections_config = self.load_sections_config()  # raw yaml
+        pages_config = self.load_pages_config()  # raw yaml
+
+        # Process pages configuration
+        pages_dict = {}
+        pages_order = []
 
         if pages_config is None:
-            pages_dict = {}
-            main = []
-            for section in sections_config.keys():
-                main.append(section)
-            pages_dict["main"] = main
-            pages_order = copy.copy(main)
+            # If no pages config, create default from sections
+            main_sections = list(sections_config.keys())
+            pages_dict["main"] = {"sections": main_sections}
+            pages_order = ["main"]
         else:
-            pages_dict = copy.copy(pages_config.get("pages"))
-            pages_order = pages_config.get("order")
-            if pages_order is None:
-                pages_order = list(pages_dict.keys())
+            raw_pages = pages_config.get("pages", {})
+            # Process each page, handling both list and dict formats
+            for page_name, page_def in raw_pages.items():
+                if isinstance(page_def, list):
+                    pages_dict[page_name] = {"sections": page_def}
+                elif isinstance(page_def, dict):
+                    if "sections" not in page_def:
+                        page_def["sections"] = []
+                    pages_dict[page_name] = page_def
+                else:
+                    # Invalid schema
+                    continue
+
+            # Get page order (or use keys if not specified)
+            pages_order = pages_config.get("order", list(pages_dict.keys()))
 
         self.determine_matrix_specs()
 
-        for page_name, page_sections in pages_dict.items():
-            self.validate_page_sections(page_name, page_sections, sections_config)
+        # Validate page sections
+        for page_name, page_def in pages_dict.items():
+            self.validate_page_sections(page_name, page_def["sections"], sections_config)
 
         self.__page_count = len(pages_dict)
 
         for page_name in pages_order:
-            try:
-                self.__pages_sections[page_name] = pages_dict[page_name]
+            if page_name in pages_dict:
+                # Store sections list for each page
+                self.__pages_sections[page_name] = pages_dict[page_name]["sections"]
+                # Store full page definition for additional properties
+                self.__page_definitions[page_name] = pages_dict[page_name]
                 self.__page_names.append(page_name)
-            except KeyError:
-                continue
 
         # build section objects
         PadSection.root_cs = self.canonical_parent
