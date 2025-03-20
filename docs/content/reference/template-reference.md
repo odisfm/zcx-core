@@ -137,7 +137,7 @@ pad 2 (with shift): "beats" / PLAY RND43-44
 
 !!! note "Notes"
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
-    - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with ClyphX variables, e.g. `%my_track% / PLAY ${me.Index}` 
+    - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with [ClyphX variables](https://www.cxpman.com/manual/core-concepts/#variables), e.g. `%my_track% / PLAY ${me.Index}` 
 
 ## group templates
 
