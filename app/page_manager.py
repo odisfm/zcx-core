@@ -1,4 +1,5 @@
 import copy
+from typing import TYPE_CHECKING
 
 from ableton.v2.base.event import listenable_property
 
@@ -11,6 +12,8 @@ MATRIX_MAX_NOTE = 0
 MATRIX_WIDTH = 0
 MATRIX_HEIGHT = 0
 
+if TYPE_CHECKING:
+    from .action_resolver import ActionResolver
 
 class PageManager(ZCXComponent):
 
@@ -32,6 +35,7 @@ class PageManager(ZCXComponent):
         self.__pad_sections: Dict[PadSection] = {}
         self.__named_button_section: Optional[PadSection] = None
         self.__page_definitions = {}
+        self.__action_resolver: ActionResolver = None
 
     @listenable_property
     def current_page(self):
@@ -42,18 +46,18 @@ class PageManager(ZCXComponent):
         self.set_page(page_number=new_page)
 
     def set_page(self, page_number=None, page_name=None):
-        if page_name in self.__page_names:
-            self.__last_page = self.__current_page
-            self.__current_page = self.__page_names.index(page_name)
-            self.notify_current_page()
+        initial_page_set = self.__current_page == -1
+        incoming_page_num = page_number if page_number is not None else self.__page_names.index(page_name)
+        if incoming_page_num == self.__current_page:
             return True
-        elif type(page_number) is int and self.__page_count > page_number >= 0:
-            self.__last_page = self.__current_page
-            self.__current_page = page_number
-            self.notify_current_page()
-            return True
-        else:
-            raise ValueError(f"invalid value {page_number or page_name} for set_page()")
+        self.__last_page = self.__current_page
+        self.__current_page = page_number
+        self.notify_current_page()
+
+        if not initial_page_set:
+            self.handle_page_commands(self.__current_page, self.__last_page)
+
+        return True
 
     def return_to_last_page(self):
         self.set_page(page_number=self.__last_page)
@@ -92,6 +96,8 @@ class PageManager(ZCXComponent):
             raise ValueError(f"invalid value {page} for request_page_change()")
 
     def setup(self):
+        self.__action_resolver: ActionResolver = self.component_map["ActionResolver"]
+
         sections_config = self.load_sections_config()  # raw yaml
         pages_config = self.load_pages_config()  # raw yaml
 
@@ -225,6 +231,50 @@ class PageManager(ZCXComponent):
         except FileNotFoundError:
             pages = None
         return pages
+
+    def handle_page_commands(self, incoming_page_num, outgoing_page_num):
+        self.debug(f'incoming_page_num: {incoming_page_num}, outgoing_page_num: {outgoing_page_num}')
+        incoming_page_name = self.__page_names[incoming_page_num]
+        outgoing_page_name = self.__page_names[outgoing_page_num]
+
+        def get_page_command(page_name, outgoing=False):
+            key = 'on_leave' if outgoing else 'on_enter'
+            try:
+                return self.__page_definitions[page_name].get(key)
+            except Exception:
+                raise
+
+        def make_context_dict(page_name, page_num):
+            return {
+                'page': {
+                    'name': page_name,
+                    'number': page_num,
+                }
+            }
+
+        incoming_command_bundle = get_page_command(incoming_page_name)
+        outgoing_command_bundle = get_page_command(outgoing_page_name, True)
+
+
+        if incoming_command_bundle:
+            incoming_vars = self.__page_definitions[incoming_page_name].get('vars', {})
+            context = make_context_dict(incoming_page_name, incoming_page_num)
+
+            self.__action_resolver.execute_command_bundle(
+                bundle=incoming_command_bundle,
+                vars_dict=incoming_vars,
+                context=context
+            )
+
+        if outgoing_command_bundle:
+            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
+            context = make_context_dict(incoming_page_name, incoming_page_num)
+
+            self.__action_resolver.execute_command_bundle(
+                bundle=outgoing_command_bundle,
+                vars_dict=outgoing_vars,
+                context=context
+            )
 
     @staticmethod
     def validate_section_config(section_name, section_config):
