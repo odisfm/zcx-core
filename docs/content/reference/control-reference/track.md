@@ -10,7 +10,7 @@ Inherits from [standard control](/reference/control-reference/z-control/#yaml-sc
 
 ```yaml
 track: string, int
-color: string, int, ZColor
+color: color definition
 ```
 
 ### track
@@ -20,9 +20,9 @@ The track name or number to bind to. Binding by number is generally only recomme
 
 ___
 ### color
-`string, int, ZColor`
+`color definition`
 
-By default, the track control will attempt to create a palette of colors based on the color of the bound track. You may optionally pass a color option, and that color will be used as a base instead. **Note:** if an animated color is specified, only the 'a' color of the animation will be considered. See [[color reference]].
+By default, the track control will attempt to create a palette of colors based on the color of the bound track. You may optionally pass a color option, and that color will be used as a base instead. **Note:** if an animated color is specified, only the 'a' color of the animation will be considered. See [color reference](/reference/color-reference).
 
 ## options
 

@@ -14,7 +14,7 @@ These are options you can set on each control via its yaml definition. Some opti
 
 ```yaml
 type: string
-color: string, int, ZColor
+color: color definition
 includes: list[string]
 buttons: dict[ZControl]
 gestures: dict[dict]
@@ -34,18 +34,9 @@ Changing this option from the default `standard` will create a specialised ZCont
 
 ___
 ### color
-`string | int | dict` 
+`color definition` 
 
-The `base` color of the control. See [color reference]().
-
-`string`
-Any _named color_.
-
- `int`
-The MIDI value to send to this control.
-
- `dict`
-See [color reference](),
+The base color of the control. See [color reference](/reference/color-reference).
 
 ___
 ### includes
