@@ -44,7 +44,13 @@ class PageControl(ZControl):
         parsed_page, status = self.__action_resolver.compile(str(page_config), self._vars, self._context)
         self._color_dict['failure'] = self._control_element.color_swatch.ERROR
         self.__set_page(parsed_page)
+        self.set_prop('page_active', False)
         self.page_changed()
+        self.set_prop('page', self._page_number)
+        self.set_prop('Page', self._page_number + 1)
+        page_name = self.__page_manager.get_page_name_from_index(self._page_number)
+        self.set_prop('page_name', page_name)
+
 
     def __set_page(self, page_number):
         try:
@@ -93,8 +99,10 @@ class PageControl(ZControl):
                 self.request_color_update()
             elif new_page_no == self._page_number:
                 self._color = self._active_color
+                self.set_prop('page_active', True)
             else:
                 self._color = self._inactive_color
+                self.set_prop('page_active', False)
             self.request_color_update()
 
         except Exception as e:

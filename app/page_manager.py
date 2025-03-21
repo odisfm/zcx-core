@@ -68,6 +68,9 @@ class PageManager(ZCXComponent):
         except ValueError:
             return False
 
+    def get_page_name_from_index(self, index):
+        return self.__page_names[index]
+
     def is_valid_page_number(self, page_number):
         return 0 <= page_number < self.__page_count
 
