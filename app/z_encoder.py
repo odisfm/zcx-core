@@ -94,6 +94,8 @@ class ZEncoder(EventObject):
                 self._context,
             )
 
+            parsed_target_string.rstrip('\n')
+
             if status != 0:
                 raise ConfigurationError(f"Unparseable target\n" f"{binding_def}")
 
