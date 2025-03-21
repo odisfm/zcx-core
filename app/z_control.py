@@ -157,8 +157,8 @@ class ZControl(EventObject):
         self._context = me_context
 
         self.set_prop('vel', 0)
-        self.set_prop('velp', '0%')
-        self.set_prop('velps', '0%')
+        self.set_prop('velp', 0.0)
+        self.set_prop('velps', 0.0)
 
     def bind_to_state(self, state):
         state.register_z_control(self)
@@ -194,8 +194,8 @@ class ZControl(EventObject):
 
         elif gesture in ['pressed', 'double_clicked']:
             self.set_prop('vel', val)
-            vel_p = f'{(val / 127) * 100:.2f}%'
-            vel_p_s = f'{self.re_range_percent(val, self._on_threshold, 127):.2f}%'
+            vel_p = round((val / 127) * 100, 1)
+            vel_p_s = round(self.re_range_percent(val, self._on_threshold, 127), 1)
             self.set_prop('velp', vel_p)
             self.set_prop('velps', vel_p_s)
 
