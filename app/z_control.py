@@ -66,7 +66,7 @@ class ZControl(EventObject):
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
-            calling_control=self,  # calling_control
+            calling_control=self,
         )
         self.parent_section.register_owned_control(self)
 
