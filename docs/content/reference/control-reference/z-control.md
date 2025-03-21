@@ -6,7 +6,7 @@ hide:
 
 # standard control
 
-The below properties are enabled on the base [ZControl](/lessons/zcx-concepts#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
+The below options are avaliable on the base [ZControl](/lessons/zcx-concepts#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
 
 ## yaml schema
 
@@ -30,7 +30,7 @@ threhshold: int=30
 ### type
 `string='standard'`
 
-Changing this property from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
+Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
 
 ___
 ### color
@@ -105,7 +105,7 @@ The template(s) to apply to this control. See [template reference](/template-ref
 Apply a single template.
 
 `list[string]`
-Apply each template consecutively. Properties that conflict will be overwritten from left to right.
+Apply each template consecutively. Options that conflict will be overwritten from left to right.
 
 `null`
 Apply no template, including the `__global__` template.

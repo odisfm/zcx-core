@@ -1,6 +1,6 @@
 # page control
 
-The `page` control is identical to the `standard` control, except it has a required `page` property. This control's LED feedback will reflect whether its bound page is currently active. As such, the `color` property is ignored. 
+The `page` control is identical to the `standard` control, except it has a required `page` option. This control's LED feedback will reflect whether its bound page is currently active. As such, the `color` option is ignored. 
 
 !!! Note
     Standard controls are already capable of changing pages, and page controls still require you to manually define the page change commands. The only purpose of this control is to enable control feedback.
