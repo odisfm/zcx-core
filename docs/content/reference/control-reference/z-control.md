@@ -14,6 +14,7 @@ These are options you can set on each control via its yaml definition. Some opti
 
 ```yaml
 type: string
+alias: string
 color: color definition
 includes: list[string]
 buttons: dict[ZControl]
@@ -33,6 +34,14 @@ threshold: int=30
 Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
 
 ___
+
+### alias
+`string`
+
+Allows you to provide a name for a matrix control, or an alternate name for a named control, which can later be used to target this control via the zcx API, e.g. [the zcx user action](/lessons/zcx-user-action).
+
+___
+
 ### color
 `color definition` 
 
