@@ -24,7 +24,7 @@ repeat: boolean=false
 externally_managed_light: boolean=false
 template: string, list[string], null
 props: dict[any]
-threhshold: int=30
+threshold: int=30
 ```
 
 ### type
