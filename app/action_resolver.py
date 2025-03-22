@@ -304,7 +304,12 @@ class ActionResolver(ZCXComponent):
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 try:
                                     local_vars = {}
-                                    exec_context = self._build_execution_context(context, vars_dict or {})
+
+                                    resolved_vars, status = self._resolve_vars(vars_dict or {}, context, 'live')
+                                    if status != 0:
+                                        return False
+
+                                    exec_context = self._build_execution_context(context, resolved_vars)
 
                                     exec(parsed, exec_context, local_vars)
                                     result = local_vars.get('result', None)
