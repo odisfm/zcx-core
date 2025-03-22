@@ -60,6 +60,7 @@ class ActionResolver(ZCXComponent):
         self.__ring_api = None
         self.__zcx_api_obj = None
         self.__allow_python_command = False
+        self.__log_func = lambda *args: self.log(*args)
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
@@ -114,6 +115,7 @@ class ActionResolver(ZCXComponent):
             'song': self.canonical_parent.song,
             'ring': self.__ring_api,
             'zcx': self.__zcx_api_obj,
+            'log': self.__log_func,
         }
 
         utility_modules = {
