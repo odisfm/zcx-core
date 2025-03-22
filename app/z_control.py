@@ -308,6 +308,12 @@ class ZControl(EventObject):
         self.set_color(*a, **k)
         self.request_color_update()
 
+    def replace_color(self, color):
+        # todo: needs to have the full dict set like in `set_color`
+        self._color = color
+        self._color_dict['base'] = color
+        self.request_color_update()
+
     def reset_color_to_initial(self):
         if self._initial_color_def is None:
             return
