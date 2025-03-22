@@ -161,6 +161,8 @@ class ZControl(EventObject):
         self.set_prop('velp', 0.0)
         self.set_prop('velps', 0.0)
 
+        self.set_prop('obj', self)
+
     def bind_to_state(self, state):
         state.register_z_control(self)
         self.__state = state

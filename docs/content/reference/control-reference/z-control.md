@@ -127,6 +127,10 @@ Override the global velocity threshold, which by default is `30`. Triggers under
 
 These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
 
+### obj
+
+Returns a reference to the [actual Python object](https://github.com/odisfm/zcx-core/blob/main/app/z_control.py) for the control.
+
 ### position properties
 
 #### index

@@ -236,6 +236,8 @@ Execute arbitrary Python code. For multi-line code blocks, you should use [yaml'
 
 You can access [template globals](/reference/template-reference/#template-globals) and [template functions](/reference/template-reference/#template-functions) from within your code. [Values computed](/reference/template-reference/#complex-expressions) in the control's `vars` dict are also accessible.
 
+You can use the [**obj** property](/reference/control-reference/z-control#obj) (`me.obj`) to get a reference to the Python object that triggered the command.
+
 ```yaml
 gestures:
   pressed:
@@ -244,4 +246,13 @@ gestures:
       color = randint(127)
       control.set_color(color)
       control.request_color_update()
+      
+      color_def = {
+        'blink': {
+          'a': 'red',
+          'b': 'blue'
+        }
+      }
+      log(f' the color is {color_def}')
+      me.obj.change_color(color_def)
 ```
