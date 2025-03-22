@@ -304,6 +304,10 @@ class ZControl(EventObject):
             self._initial_color_def = color
         self._color_dict = color_dict
 
+    def change_color(self, *a, **k):
+        self.set_color(*a, **k)
+        self.request_color_update()
+
     def reset_color_to_initial(self):
         if self._initial_color_def is None:
             return
