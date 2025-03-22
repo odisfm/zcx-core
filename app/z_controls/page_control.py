@@ -37,7 +37,7 @@ class PageControl(ZControl):
             self._control_element.set_light(self._color)
             from .. import SAFE_MODE
             error_message = f'page control defined with no `page` key\n{self._raw_config}'
-            if SAFE_MODE is True:
+            if SAFE_MODE:
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
