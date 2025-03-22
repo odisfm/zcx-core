@@ -139,6 +139,38 @@ pad 2 (with shift): "beats" / PLAY RND43-44
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
     - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with [ClyphX variables](https://www.cxpman.com/manual/core-concepts/#variables), e.g. `%my_track% / PLAY ${me.Index}` 
 
+### template globals
+
+The following variables can be accessed within template strings.
+
+#### zcx
+
+Provides access to a `ZcxApi` object. See [the source code](https://github.com/odisfm/zcx-core/blob/main/app/api_manager.py) for available properties and methods,
+
+#### song
+
+Provides access to the Live set's [song object](https://docs.cycling74.com/apiref/lom/song/).
+
+#### ring
+
+Allows references to the enclosed tracks and scenes of [the zcx session ring](/lessons/using-the-zcx-session-ring#referencing-the-ring-from-template-strings).
+
+### template functions
+
+The following functions can be invoked from template strings.
+
+#### python builtins
+
+All builtins from the version of Python bundled with Live.
+
+#### log
+
+Allows you to write to the log. Mostly useful with [Python commands](/reference/command-reference#python).
+
+#### randint
+
+The `randint` method from [Python's random module](https://docs.python.org/3/library/random.html#random.randint).
+
 ## group templates
 
 zcx allows you to define any arbitrary selection of controls as a **group** of controls. By grouping controls, we can apply a common configuration across all of them.
