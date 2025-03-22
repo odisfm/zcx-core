@@ -1,6 +1,6 @@
 # Using the zcx session ring
 
-Like other control surface scripts, zcx provides a 'session ring' — a colored box that can be moved around the session to target different tracks or screens.
+Like other control surface scripts, zcx provides a 'session ring' — a colored box that can be moved around the session to target different tracks or scenes.
 
 ![A screenshot of the zcx session ring in Ableton Live 12](/lessons/img/session-ring-1.png)
 
