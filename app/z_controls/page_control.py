@@ -42,9 +42,17 @@ class PageControl(ZControl):
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
+                return
         parsed_page, status = self.__action_resolver.compile(str(page_config), self._vars, self._context)
         self._color_dict['failure'] = self._control_element.color_swatch.ERROR
         self.__set_page(parsed_page)
+        if self._page_number is None:
+            error_message = f'invalid page number: {parsed_page}'
+            if SAFE_MODE:
+                raise ConfigurationError(error_message)
+            else:
+                self.log(error_message)
+                return
         self.set_prop('page_active', False)
         self.page_changed()
         self.set_prop('page', self._page_number)
