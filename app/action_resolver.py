@@ -58,9 +58,11 @@ class ActionResolver(ZCXComponent):
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
         self.__ring_api = None
+        self.__zcx_api_obj = None
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
+        self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
 
     def _evaluate_expression(
             self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
