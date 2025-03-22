@@ -211,3 +211,21 @@ See also:
 
 - [Color reference](/reference/color-reference)
 - [Change color via user action](/lessons/zcx-user/action)
+
+### ring
+
+Move the [session ring](/lessons/using-the-zcx-session-ring) of the script.
+
+```yaml hl_lines="4 5 10 11"
+right:
+  gestures:
+    pressed:
+      ring:
+        x: 1
+
+up:
+  gestures:
+    pressed:
+      ring:
+        y: -1
+```
