@@ -1,6 +1,7 @@
 import re
 from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
+from random import randint
 
 from ableton.v3.base import listens, listens_group
 from ClyphX_Pro.clyphx_pro import ParseUtils
@@ -62,24 +63,15 @@ class ActionResolver(ZCXComponent):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
 
     def _evaluate_expression(
-        self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
+            self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
     ) -> Tuple[Any, int]:
         """Evaluate a Python expression with given context and locals."""
         try:
             if expr.startswith("$"):
                 expr = expr[1:]
 
-            dot_context = {
-                k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
-            }
-
-            additional_vars = {
-                'song': self.canonical_parent.song,
-                'ring': self.__ring_api,
-            }
-
-            all_locals = {**dot_context, **locals, **additional_vars}
-            result = eval(expr, {}, all_locals)
+            exec_context = self._build_execution_context(context, locals)
+            result = eval(expr, {}, exec_context)
             return result, 0
         except Exception as e:
             print(f"Error evaluating {expr}: {e}")
@@ -105,6 +97,24 @@ class ActionResolver(ZCXComponent):
                 return {}, 2
 
         return resolved, 0
+
+    def _build_execution_context(self, context: Dict[str, Any], locals_dict: Dict[str, Any]) -> Dict[str, Any]:
+        """Build a comprehensive execution context with all available variables and functions."""
+        dot_context = {
+            k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
+        }
+
+        system_vars = {
+            'song': self.canonical_parent.song,
+            'ring': self.__ring_api,
+            'zcx': self.__zcx_api_obj,
+        }
+
+        utility_modules = {
+            'randint': randint,
+        }
+
+        return {**dot_context, **locals_dict, **system_vars, **utility_modules}
 
     def _replace_match(
         self,
