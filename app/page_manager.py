@@ -52,6 +52,9 @@ class PageManager(ZCXComponent):
     def set_page(self, page_number=None, page_name=None):
         initial_page_set = self.__current_page == -1
         incoming_page_num = page_number if page_number is not None else self.__page_names.index(page_name)
+        if incoming_page_num < 0 or incoming_page_num >= self.__page_count:
+            self.error(f'invalid page number {incoming_page_num}')
+            return False
         if incoming_page_num == self.__current_page:
             return True
         self.__last_page = self.__current_page
