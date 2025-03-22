@@ -59,10 +59,14 @@ class ActionResolver(ZCXComponent):
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
         self.__ring_api = None
         self.__zcx_api_obj = None
+        self.__allow_python_command = False
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
         self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
+        from . import PREF_MANAGER
+        prefs = PREF_MANAGER.user_prefs
+        self.__allow_python_command = prefs.get('allow_python_command', False)
 
     def _evaluate_expression(
             self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
@@ -289,6 +293,12 @@ class ActionResolver(ZCXComponent):
                                 calling_control.set_color(command_def)
 
                         case 'python':
+                            if not self.__allow_python_command:
+                                self.error(f"Can't run python command as `allow_python_command` in preferences.yaml is `false`",
+                                           f"You will need to set this to `true` to enable the `python` command.",
+                                           f"WARNING: You should NOT run code from untrusted sources!")
+                                return False
+
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 try:
                                     local_vars = {}
