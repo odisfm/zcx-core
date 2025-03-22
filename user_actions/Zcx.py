@@ -121,9 +121,14 @@ class Zcx(UserActionsBase):
                 else:
                     raise ValueError()
 
-                for i, control in enumerate(control_list):
-                    control.set_color(target_color)
-                    control.request_color_update()
+                if target_color == "initial":
+                    for control in control_list:
+                        control.reset_color_to_initial()
+                        control.request_color_update()
+                else:
+                    for i, control in enumerate(control_list):
+                        control.set_color(target_color)
+                        control.request_color_update()
 
             else:
                 raise ValueError(f'Unknown action {sub_action}')

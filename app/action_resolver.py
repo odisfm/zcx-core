@@ -271,7 +271,10 @@ class ActionResolver(ZCXComponent):
                         case 'color':
                             if isinstance(command_def, str):
                                 command_def = self._compile_and_check(command_def, vars_dict, context)
-                            calling_control.set_color(command_def)
+                            if command_def == 'initial':
+                                calling_control.reset_color_to_initial()
+                            elif True:
+                                calling_control.set_color(command_def)
 
                         case _:
                             error_msg = f'Unknown command type: {command_type}'

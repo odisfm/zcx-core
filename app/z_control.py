@@ -43,6 +43,7 @@ class ZControl(EventObject):
         self._control_element: ZElement = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
+        self._initial_color_def = None
         self._color_swatch = None
         self._color_dict = {}
         self._context = {}
@@ -297,7 +298,14 @@ class ZControl(EventObject):
         }
 
         self._color = base_color
+        if self._initial_color_def is None:
+            self._initial_color_def = color
         self._color_dict = color_dict
+
+    def reset_color_to_initial(self):
+        if self._initial_color_def is None:
+            return
+        self.set_color(self._initial_color_def)
 
     @only_in_view
     def force_color(self, color):

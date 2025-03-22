@@ -195,3 +195,19 @@ Prints a message directly to Live's Log.txt:
 pressed:
   log: failed successfully
 ```
+
+### color
+
+Change the color of the activated control.
+
+```yaml
+pressed:
+  color: green
+released:
+  color: initial
+```
+
+See also:
+
+- [Color reference](/reference/color-reference)
+- [Change color via user action](/lessons/zcx-user/action)
