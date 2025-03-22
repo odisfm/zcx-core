@@ -288,6 +288,22 @@ class ActionResolver(ZCXComponent):
                             elif True:
                                 calling_control.set_color(command_def)
 
+                        case 'python':
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
+                                try:
+                                    local_vars = {}
+                                    exec_context = self._build_execution_context(context, vars_dict or {})
+
+                                    exec(parsed, exec_context, local_vars)
+                                    result = local_vars.get('result', None)
+                                    self.debug(f'Executed code: {parsed}')
+                                    return result
+
+                                except Exception as e:
+                                    error_msg = f"Failed to execute code: {parsed}\nError: {e}"
+                                    self.error(error_msg)
+                                    if ABORT_ON_FAILURE:
+                                        raise RuntimeError(error_msg)
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
