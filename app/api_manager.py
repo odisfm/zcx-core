@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from .z_control import ZControl
     from .z_encoder import ZEncoder
     from .zcx_core import ZCXCore
+    from .page_manager import PageManager
 
 
 class ApiManager(ZCXComponent):
@@ -96,3 +97,23 @@ class ZcxApi:
     @property
     def plugin_map(self):
         return copy(self.root_cs.plugin_map)
+
+    @property
+    def page(self):
+        return self.page_manager.current_page
+
+    @property
+    def page_name(self):
+        return self.page_manager.current_page_name
+
+    @property
+    def modes(self):
+        return self.mode_manager.current_modes
+
+    @property
+    def active_modes(self):
+        return self.mode_manager.active_modes
+
+    @property
+    def name(self) -> str:
+        return self.root_cs.name

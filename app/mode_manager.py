@@ -33,6 +33,10 @@ class ModeManager(ZCXComponent):
     def current_modes(self):
         return copy(self.__modes_state)
 
+    @property
+    def active_modes(self) -> list:
+        return [mode for mode, active in self.current_modes.items() if active]
+
     def add_mode(self, mode_name):
         mode = self.__modes_state.get(mode_name)
         if mode is None:
