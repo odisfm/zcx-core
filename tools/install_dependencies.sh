@@ -1,5 +1,6 @@
 #!/bin/bash
 
-cd ..
-python3 -m pip install pyyaml --target ./app/vendor --upgrade
-python3 -m pip install requests --target ./app/vendor --upgrade
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+python3 -m pip install pyyaml --target "$SCRIPT_DIR/../app/vendor" --upgrade
+python3 -m pip install requests --target "$SCRIPT_DIR/../app/vendor" --upgrade
