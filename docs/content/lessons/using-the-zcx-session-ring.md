@@ -9,7 +9,7 @@ While zcx cannot display a representation of Live's session view (i.e., the sess
 
 ## Resizing the ring
 
-You may resize the session ring via [preferences.yaml](/reference/configuration-files/preferences#session-ring).
+You may resize the session ring via [preferences.yaml](/reference/configuration-files/preferences#session_ring).
 
 ## Disabling the ring
 
