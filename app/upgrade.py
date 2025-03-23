@@ -554,8 +554,8 @@ def main():
         cwd = os.getcwd()
         parent_directory_name = os.path.basename(cwd)
         if parent_directory_name == "app":
-            logger.error("Running in dev environment! Aborting!")
-            return 1
+            raise RuntimeError("Running in dev environment! Aborting!")
+            
 
         # Setup environment and load dependencies
         script_dir, yaml, requests = setup_environment()
@@ -563,8 +563,8 @@ def main():
         # Load configuration
         hardware, current_version = load_config(script_dir, yaml)
         if not hardware or not current_version:
-            logger.error("Failed to load configuration")
-            return 1
+            raise RuntimeError("Failed to load configuration")
+            
 
         logger.info(
             f"Current configuration - Hardware: {hardware}, Version: {current_version}"
@@ -591,48 +591,40 @@ def main():
         # Create backup
         backup_dir = create_backup(script_dir)
         if not backup_dir:
-            logger.error("Backup failed, aborting update")
-            return 1
+            raise RuntimeError("Backup failed, aborting update")
 
         # Preserve user data
         temp_dir, preserved_items = preserve_user_data(script_dir)
         if not temp_dir:
-            logger.error("Failed to preserve user data, aborting update")
-            return 1
+            raise RuntimeError("Failed to preserve user data, aborting update")
 
         # Clean installation directory
         if not clean_installation_directory(script_dir, temp_dir):
-            logger.error("Failed to clean installation directory, aborting update")
-            return 1
+            raise RuntimeError("Failed to clean installation directory, aborting update")
 
         # Download and extract update package
         download_dir = download_and_verify_asset(
             asset_url, asset_name, script_dir, requests
         )
         if not download_dir:
-            logger.error("Failed to download update package, aborting update")
-            return 1
+            raise RuntimeError("Failed to download update package, aborting update")
 
         # Extract update package
         if not extract_asset(download_dir, asset_name):
-            logger.error("Failed to extract update package, aborting update")
-            return 1
+            raise RuntimeError("Failed to extract update package, aborting update")
 
         # Find core directory
         core_dir = find_core_directory(download_dir)
         if not core_dir:
-            logger.error("Failed to find core directory, aborting update")
-            return 1
+            raise RuntimeError("Failed to find core directory, aborting update")
 
         # Prepare core directory
         if not prepare_core_directory(core_dir):
-            logger.error("Failed to prepare core directory, aborting update")
-            return 1
+            raise RuntimeError("Failed to prepare core directory, aborting update")
 
         # Install update
         if not install_update(core_dir, script_dir):
-            logger.error("Failed to install update files, aborting update")
-            return 1
+            raise RuntimeError("Failed to install update files, aborting update")
 
         # Restore user data
         if not restore_user_data(temp_dir, script_dir):
@@ -654,8 +646,10 @@ def main():
     except Exception as e:
         logger.error(traceback.format_exc())
         logger.error(f"Unexpected error during update: {e}")
-        logger.error(f'\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade')
-        return 1
+        logger.error(
+            f"\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade"
+        )
+        
 
 
 if __name__ == "__main__":
