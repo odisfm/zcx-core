@@ -3,121 +3,168 @@ import sys
 import shutil
 import glob
 import datetime
+import traceback
 import zipfile
+import logging
+import hashlib
 
-HELP_URL = f'https://www.zcxcore.com/help'
+HELP_URL = "https://www.zcxcore.com/help"
 
-# you can never be too careful
+# Protected file extensions that should never be deleted
 PROTECTED_EXTENSIONS = [
-    'wav',
-    'aiff',
-    'mp3',
-    'ogg',
-    'flac',
-    'als',
-    'asd',
-    'amxd',
-    'ablbundle',
-    'abl',
-    'adg',
-    'agr',
-    'adv',
-    'alc',
-    'alp',
-    'ams',
-    'amxd',
-    'ask'
+    "wav",
+    "aiff",
+    "mp3",
+    "ogg",
+    "flac",
+    "als",
+    "asd",
+    "amxd",
+    "ablbundle",
+    "abl",
+    "adg",
+    "agr",
+    "adv",
+    "alc",
+    "alp",
+    "ams",
+    "amxd",
+    "ask",
 ]
 
-cwd = os.getcwd()
-parent_directory_name = os.path.basename(cwd)
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "update_log.txt")
+        ),
+    ],
+)
+logger = logging.getLogger("zcx_updater")
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# print(f'Script directory: {script_dir}')
-# raise NotImplementedError()
+def setup_environment():
+    """Setup the environment and add vendor packages to path"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, os.path.join(script_dir, "vendor"))
 
-sys.path.insert(0, os.path.join(script_dir, 'vendor'))
+    try:
+        import yaml
+        import requests
 
-import yaml
-import requests
+        return script_dir, yaml, requests
+    except ImportError as e:
+        logger.error(f"Failed to import required packages: {e}")
+        logger.info(
+            f"Please ensure the 'vendor' directory contains the required packages"
+        )
+        sys.exit(1)
 
 
-def download_and_extract_asset(asset_url, asset_name):
-    """Download and extract a zip asset to __temp_new__ folder"""
-    # Create __temp_new__ folder in script_dir
-    temp_dir = os.path.join(script_dir, "__temp_new__")
+def load_config(script_dir, yaml_module):
+    """Load configuration from zcx.yaml"""
+    try:
+        config_path = os.path.join(script_dir, "zcx.yaml")
+        if not os.path.exists(config_path):
+            logger.error(f"Configuration file not found: {config_path}")
+            return None, None
 
-    # Remove directory if it already exists
-    if os.path.exists(temp_dir):
-        print(f"Removing existing {temp_dir} directory...")
-        shutil.rmtree(temp_dir)
+        with open(config_path, "r") as f:
+            config = yaml_module.safe_load(f)
 
-    # Create the directory
-    os.makedirs(temp_dir)
-    print(f"Created directory: {temp_dir}")
+        hardware = config.get("hardware")
+        version = config.get("version")
 
-    # Download the asset
-    print(f"Downloading {asset_name}...")
-    asset_path = os.path.join(temp_dir, asset_name)
+        if not hardware or not version:
+            logger.warning(f"Missing hardware or version in configuration")
+            if not hardware:
+                hardware = input(
+                    f"Hardware not found in `zcx.yaml`. Enter hardware name: "
+                )
 
-    response = requests.get(asset_url, stream=True)
+        return hardware, version
+    except Exception as e:
+        logger.error(f"Error loading configuration: {e}")
+        return None, None
 
-    if response.status_code == 200:
-        with open(asset_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
 
-        print(f"Downloaded to {asset_path}")
+def check_for_updates(version, hardware, requests_module):
+    """Check for updates from the repository"""
+    try:
+        repo_owner = "odisfm"
+        repo_name = "zcx-core"
+        url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases"
 
-        # Extract if it's a zip file
-        if asset_name.endswith('.zip'):
-            print(f"Extracting {asset_name}...")
-            with zipfile.ZipFile(asset_path, 'r') as zip_ref:
-                zip_ref.extractall(temp_dir)
-            print(f"Extracted to {temp_dir}")
+        logger.info(f"Checking for updates...")
+        response = requests_module.get(url, timeout=30)
 
-            # Optionally remove the zip file after extraction
-            os.remove(asset_path)
-            print(f"Removed zip file {asset_path}")
+        if response.status_code != 200:
+            logger.error(
+                f"Error checking for updates: {response.status_code} - {response.text}"
+            )
+            return None, None, None
 
-        return True
-    else:
-        print(f"Error downloading asset: {response.status_code}")
-        return False
+        releases = response.json()
+        if not releases:
+            logger.info("No releases found")
+            return None, None, None
+
+        latest_release = releases[0]
+        latest_version = latest_release["tag_name"].lstrip("v")
+
+        logger.info(f"Latest release: v{latest_version}, Current version: v{version}")
+
+        if not compare_semver(latest_version, version, consider_prerelease=True):
+            logger.info(f"You already have the latest version (v{version})")
+            return None, None, None
+
+        logger.info(f"Update available: v{latest_version}")
+
+        # Find the asset for this hardware
+        asset_url = None
+        asset_name = None
+
+        for asset in latest_release.get("assets", []):
+            asset_name = asset["name"]
+            parse_name = asset_name.lstrip("_zcx_").rstrip(".zip")
+            if parse_name == hardware:
+                asset_url = asset["browser_download_url"]
+                break
+
+        if not asset_url:
+            logger.error(f"No release found for hardware: {hardware}")
+            return None, None, None
+
+        return latest_version, asset_url, asset_name
+
+    except Exception as e:
+        logger.error(f"Error checking for updates: {e}")
+        return None, None, None
 
 
 def compare_semver(version1, version2, consider_prerelease=False):
     """
     Compare two semantic version strings for precedence.
     Returns True if version1 > version2, False otherwise.
-
-    Args:
-        version1 (str): First version string to compare
-        version2 (str): Second version string to compare
-        consider_prerelease (bool): If True, higher prerelease versions
-                                       are considered better than lower ones
-
-    Example:
-        compare_semver("1.2.3", "1.2.2")  # Returns True
-        compare_semver("1.2.3-beta", "1.2.3")  # Returns False
-        compare_semver("1.2.3-beta", "1.2.3-alpha")  # Returns True
     """
 
     def parse_version(version_str):
         prerelease = None
-        if '-' in version_str:
-            version_str, prerelease = version_str.split('-', 1)
+        if "-" in version_str:
+            version_str, prerelease = version_str.split("-", 1)
 
-        version_nums = [int(x) for x in version_str.split('.')]
-
-        prerelease_precedence = {None: 3, 'rc': 2, 'beta': 1, 'alpha': 0}
+        version_nums = [int(x) for x in version_str.split(".")]
+        prerelease_precedence = {None: 3, "rc": 2, "beta": 1, "alpha": 0}
 
         return version_nums, prerelease, prerelease_precedence.get(prerelease, -1)
 
     v1_nums, v1_prerelease, v1_pre_value = parse_version(version1)
     v2_nums, v2_prerelease, v2_pre_value = parse_version(version2)
 
+    # Compare version numbers
     for i in range(max(len(v1_nums), len(v2_nums))):
         v1_num = v1_nums[i] if i < len(v1_nums) else 0
         v2_num = v2_nums[i] if i < len(v2_nums) else 0
@@ -127,92 +174,24 @@ def compare_semver(version1, version2, consider_prerelease=False):
         elif v1_num < v2_num:
             return False
 
+    # Fix: Only compare prerelease values if version numbers are equal
     if consider_prerelease:
         return v1_pre_value > v2_pre_value
     else:
-        return v1_pre_value > v2_pre_value
+        # If not considering prerelease, stable is better
+        return v1_prerelease is None and v2_prerelease is not None
 
 
-def main():
-    print(f'\n\nWelcome to the zcx updater!\n')
-
+def create_backup(script_dir):
+    """Create a backup of the current installation"""
     try:
-        if parent_directory_name == 'app':
-            print(f'Running in dev environment!!! Aborting!!!')
-            sys.exit(1)
-
-        def load_yaml(path):
-            full_path = os.path.join(script_dir, path)
-            with open(full_path, 'r') as f:
-                obj = yaml.safe_load(f)
-            return obj
-
-        zcx_spec = load_yaml('zcx.yaml')
-        this_hardware = zcx_spec['hardware']
-        this_version = zcx_spec['version']
-
-        print(f'zcx spec: {zcx_spec}')
-
-        repo_owner = "odisfm"
-        repo_name = "zcx-core"
-        url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases"
-
-        response = requests.get(url)
-
-        if response.status_code == 200:
-            releases = response.json()
-
-            release = releases[0]
-
-            release_str = release['tag_name'].lstrip('v')
-
-            # print(f'Latest release: v{release_str}')
-
-            release_newer = compare_semver(release_str, this_version, consider_prerelease=True)
-
-            if release_newer:
-                print(f'Latest release (v{release_str}) newer than current version (v{this_version}).')
-            else:
-                print(f'Latest release is v{release_str}. You already have v{this_version}')
-                print(f'No updates available.')
-                print(f'Exiting...\n')
-                sys.exit(0)
-
-            assets = release.get('assets', [])
-
-            if this_hardware is None:
-                this_hardware = input(f'Could not identify hardware from `zcx.yaml`. Enter hardware name to get: ')
-
-            asset_url = None
-            asset_name = None
-
-            for asset in assets:
-                asset_name = asset['name']
-                parse_name = asset_name.lstrip('_zcx_').rstrip('.zip')
-                if parse_name == this_hardware:
-                    asset_url = asset['browser_download_url']
-                    break
-
-            if asset_url is None:
-                raise RuntimeError(f'No valid release found for hardware `{this_hardware}`.\nGo to {HELP_URL}')
-
-        else:
-            print(f"Error: {response.status_code}")
-            print(response.text)
-            sys.exit(1)
-
-        print(f'Found asset: {asset_url}')
-        if input('Continue? (y/n): ') != 'y':
-            sys.exit(0)
-
-        # Create backup directory one level up from script_dir
         parent_dir = os.path.dirname(script_dir)
         backup_root_dir = os.path.join(parent_dir, "__zcx_backups__")
 
         # Create the backup root directory if it doesn't exist
         if not os.path.exists(backup_root_dir):
             os.makedirs(backup_root_dir)
-            print(f"Created backup root directory: {backup_root_dir}")
+            logger.info(f"Created backup root directory: {backup_root_dir}")
 
         # Generate timestamp for backup folder name
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S")
@@ -222,143 +201,462 @@ def main():
 
         # Create the timestamped backup directory
         os.makedirs(backup_dir)
-        print(f"Created backup directory: {backup_dir}")
+        logger.info(f"Created backup directory: {backup_dir}")
 
         # Copy all contents from script_dir to backup_dir
         for item in os.listdir(script_dir):
             item_path = os.path.join(script_dir, item)
-            if os.path.isdir(item_path):
-                shutil.copytree(item_path, os.path.join(backup_dir, item))
-                print(f"Backed up directory: {item}")
-            else:
-                shutil.copy2(item_path, os.path.join(backup_dir, item))
-                print(f"Backed up file: {item}")
+            dst_path = os.path.join(backup_dir, item)
 
-        print(f"Full backup completed to: {backup_dir}")
+            try:
+                if os.path.isdir(item_path):
+                    shutil.copytree(item_path, dst_path)
+                else:
+                    shutil.copy2(item_path, dst_path)
+            except Exception as e:
+                logger.error(f"Failed to backup {item}: {e}")
+                raise
 
-        # sys.exit(0)
+        # Verify backup
+        if not os.path.exists(backup_dir) or len(os.listdir(backup_dir)) < len(
+            os.listdir(script_dir)
+        ):
+            raise Exception("Backup verification failed")
 
-        # Create temp folder for user data preservation
+        logger.info(f"Backup completed to: {backup_dir}")
+        return backup_dir
+
+    except Exception as e:
+        logger.error(f"Backup creation failed: {e}")
+        return None
+
+
+def preserve_user_data(script_dir):
+    """Preserve important user data during update"""
+    try:
         temp_dir = os.path.join(script_dir, "__upgrade_temp__")
-        if not os.path.exists(temp_dir):
-            os.makedirs(temp_dir)
-            print(f"Created temporary directory: {temp_dir}")
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir)
 
-        # Find and move _global_preferences.yaml
+        os.makedirs(temp_dir)
+        logger.info(f"Created temporary directory: {temp_dir}")
+
+        # Items to preserve
+        preserved_items = []
+
+        # Preserve global preferences
         global_prefs = os.path.join(script_dir, "_global_preferences.yaml")
         if os.path.exists(global_prefs):
-            shutil.move(global_prefs, os.path.join(temp_dir, "_global_preferences.yaml"))
-            print(f"Moved: _global_preferences.yaml to {temp_dir}")
-        else:
-            print("Warning: _global_preferences.yaml not found")
+            shutil.copy2(
+                global_prefs, os.path.join(temp_dir, "_global_preferences.yaml")
+            )
+            preserved_items.append("_global_preferences.yaml")
 
-        # Find and move all _config* directories
+        # Preserve config directories
         config_dirs = glob.glob(os.path.join(script_dir, "_config*"))
         for config_dir in config_dirs:
             if os.path.isdir(config_dir):
                 dir_name = os.path.basename(config_dir)
-                shutil.move(config_dir, os.path.join(temp_dir, dir_name))
-                print(f"Moved directory: {dir_name} to {temp_dir}")
+                shutil.copytree(config_dir, os.path.join(temp_dir, dir_name))
+                preserved_items.append(dir_name)
 
-        # Find and preserve plugins directory
+        # Preserve plugins directory
         plugins_dir = os.path.join(script_dir, "plugins")
         if os.path.exists(plugins_dir) and os.path.isdir(plugins_dir):
-            shutil.move(plugins_dir, os.path.join(temp_dir, "plugins"))
-            print(f"Moved directory: plugins to {temp_dir}")
-        else:
-            print("Warning: plugins directory not found")
+            shutil.copytree(plugins_dir, os.path.join(temp_dir, "plugins"))
+            preserved_items.append("plugins")
 
-        # Get list of all items in cwd before deletion
-        items_to_delete = []
+        if preserved_items:
+            logger.info(f"Preserved user data: {', '.join(preserved_items)}")
+        else:
+            logger.warning("No user data found to preserve")
+
+        return temp_dir, preserved_items
+
+    except Exception as e:
+        logger.error(f"Error preserving user data: {e}")
+        return None, []
+
+
+def clean_installation_directory(script_dir, temp_dir):
+    """Clean the installation directory keeping only the preserve directory and this script"""
+    try:
+        this_script = os.path.basename(__file__)
+        items_deleted = []
+
         for item in os.listdir(script_dir):
             item_path = os.path.join(script_dir, item)
-            # Skip the temp directory we just created
-            if item_path != temp_dir:
-                items_to_delete.append(item_path)
 
-        # Delete everything except the temp directory and this script
-        for item_path in items_to_delete:
+            # Skip temp directory and this script
+            if item_path == temp_dir or item == this_script or item == "update_log.txt":
+                continue
+
+            # Check for protected extensions before deleting
+            extension = os.path.splitext(item)[1].lstrip(".")
+            if extension in PROTECTED_EXTENSIONS:
+                logger.warning(f"Skipping protected file: {item}")
+                continue
+
             try:
                 if os.path.isdir(item_path):
                     shutil.rmtree(item_path)
-                    print(f"Deleted directory: {os.path.basename(item_path)}")
                 else:
                     os.remove(item_path)
-                    print(f"Deleted file: {os.path.basename(item_path)}")
+                items_deleted.append(item)
             except Exception as e:
-                print(f"Error deleting {item_path}: {e}")
+                logger.error(f"Error deleting {item}: {e}")
+                raise
 
-        download_and_extract_asset(asset_url, asset_name)
+        logger.info(
+            f"Cleaned installation directory, removed {len(items_deleted)} items"
+        )
+        return True
 
-        # Identify the 'core' folder in __temp_new__
-        temp_new_dir = os.path.join(script_dir, "__temp_new__")
+    except Exception as e:
+        logger.error(f"Error cleaning installation directory: {e}")
+        return False
+
+
+def download_and_verify_asset(asset_url, asset_name, script_dir, requests_module):
+    """Download and verify an asset"""
+    try:
+        temp_dir = os.path.join(script_dir, "__temp_new__")
+
+        # Remove directory if it already exists
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir)
+
+        os.makedirs(temp_dir)
+        logger.info(f"Created download directory: {temp_dir}")
+
+        # Download the asset
+        asset_path = os.path.join(temp_dir, asset_name)
+        logger.info(f"Downloading {asset_name}...")
+
+        with requests_module.get(asset_url, stream=True, timeout=60) as response:
+            if response.status_code != 200:
+                logger.error(
+                    f"Download failed with status code: {response.status_code}"
+                )
+                return None
+
+            with open(asset_path, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+        # Verify download exists and has size > 0
+        if not os.path.exists(asset_path) or os.path.getsize(asset_path) == 0:
+            logger.error("Downloaded file is empty or missing")
+            return None
+
+        logger.info(
+            f"Downloaded {os.path.getsize(asset_path) / (1024*1024):.2f} MB to {asset_path}"
+        )
+
+        return temp_dir
+
+    except Exception as e:
+        logger.error(f"Error downloading asset: {e}")
+        return None
+
+
+def extract_asset(temp_dir, asset_name):
+    """Extract a downloaded asset"""
+    try:
+        asset_path = os.path.join(temp_dir, asset_name)
+
+        if not asset_name.endswith(".zip"):
+            logger.info(f"Asset is not a zip file, skipping extraction")
+            return True
+
+        logger.info(f"Extracting {asset_name}...")
+
+        with zipfile.ZipFile(asset_path, "r") as zip_ref:
+            # Check for any malicious paths before extracting
+            for zip_info in zip_ref.infolist():
+                if ".." in zip_info.filename or zip_info.filename.startswith("/"):
+                    logger.error(
+                        f"Potentially malicious path in zip: {zip_info.filename}"
+                    )
+                    return False
+
+            zip_ref.extractall(temp_dir)
+
+        logger.info(f"Extraction completed")
+
+        # Remove the zip file after extraction
+        os.remove(asset_path)
+        logger.info(f"Removed zip file")
+
+        return True
+
+    except Exception as e:
+        logger.error(f"Error extracting asset: {e}")
+        return False
+
+
+def find_core_directory(temp_dir):
+    """Find the core directory in the extracted files"""
+    try:
         core_dir = None
 
-        for item in os.listdir(temp_new_dir):
-            item_path = os.path.join(temp_new_dir, item)
-            if os.path.isdir(item_path) and item.startswith('_zcx_'):
+        for item in os.listdir(temp_dir):
+            item_path = os.path.join(temp_dir, item)
+            if os.path.isdir(item_path) and item.startswith("_zcx_"):
                 core_dir = item_path
-                print(f"Found core directory: {item}")
+                logger.info(f"Found core directory: {item}")
                 break
 
         if core_dir is None:
-            raise RuntimeError("Could not find core directory starting with '_zcx_' in the extracted files")
+            logger.error("Could not find core directory starting with '_zcx_'")
+            return None
 
-        # Delete specified files/folders from core_dir
-        items_to_delete = ['_config', '_global_preferences.yaml', 'plugins']
+        return core_dir
+
+    except Exception as e:
+        logger.error(f"Error finding core directory: {e}")
+        return None
+
+
+def prepare_core_directory(core_dir):
+    """Prepare core directory by removing configuration files"""
+    try:
+        # Items that should not be copied from the update package
+        items_to_delete = ["_config", "_global_preferences.yaml", "plugins"]
+
         for item in items_to_delete:
-            file_extension = os.path.splitext(item)[1]
-            if file_extension in PROTECTED_EXTENSIONS:
-                raise RuntimeError(f'Encountered protected item! {item}')
-
             item_path = os.path.join(core_dir, item)
+
+            # Check for protected extensions
+            extension = os.path.splitext(item)[1].lstrip(".")
+            if extension in PROTECTED_EXTENSIONS:
+                logger.error(f"Encountered protected item! {item}")
+                return False
+
             if os.path.exists(item_path):
                 if os.path.isdir(item_path):
                     shutil.rmtree(item_path)
-                    print(f"Deleted directory from core: {item}")
                 else:
                     os.remove(item_path)
-                    print(f"Deleted file from core: {item}")
+                logger.info(f"Removed {item} from core directory")
 
-        # Move contents of core to script_dir
+        return True
+
+    except Exception as e:
+        logger.error(f"Error preparing core directory: {e}")
+        return False
+
+
+def install_update(core_dir, script_dir):
+    """Install update files from core directory to script directory"""
+    try:
+        items_installed = []
+
         for item in os.listdir(core_dir):
             src_path = os.path.join(core_dir, item)
             dst_path = os.path.join(script_dir, item)
 
-            if os.path.isdir(src_path):
-                shutil.copytree(src_path, dst_path)
-                print(f"Moved directory to script_dir: {item}")
-            else:
-                shutil.copy2(src_path, dst_path)
-                print(f"Moved file to script_dir: {item}")
+            # Check for protected extensions
+            extension = os.path.splitext(item)[1].lstrip(".")
+            if extension in PROTECTED_EXTENSIONS:
+                logger.warning(f"Skipping protected file type: {item}")
+                continue
 
-        # Move preserved files/directories back from temp_dir
+            try:
+                if os.path.isdir(src_path):
+                    if os.path.exists(dst_path):
+                        shutil.rmtree(dst_path)
+                    shutil.copytree(src_path, dst_path)
+                else:
+                    shutil.copy2(src_path, dst_path)
+                items_installed.append(item)
+            except Exception as e:
+                logger.error(f"Error installing {item}: {e}")
+                raise
+
+        logger.info(f"Installed {len(items_installed)} items from update package")
+        return True
+
+    except Exception as e:
+        logger.error(f"Error installing update: {e}")
+        return False
+
+
+def restore_user_data(temp_dir, script_dir):
+    """Restore preserved user data"""
+    try:
+        if not os.path.exists(temp_dir):
+            logger.error("Temporary directory not found for restoration")
+            return False
+
+        items_restored = []
+
         for item in os.listdir(temp_dir):
-
             src_path = os.path.join(temp_dir, item)
             dst_path = os.path.join(script_dir, item)
 
-            if os.path.isdir(src_path):
-                shutil.copytree(src_path, dst_path)
-                print(f"Restored directory: {item}")
-            else:
-                shutil.copy2(src_path, dst_path)
-                print(f"Restored file: {item}")
+            try:
+                if os.path.isdir(src_path):
+                    # Merge directories if they exist
+                    if os.path.exists(dst_path):
+                        # For each item in the source directory
+                        for sub_item in os.listdir(src_path):
+                            sub_src = os.path.join(src_path, sub_item)
+                            sub_dst = os.path.join(dst_path, sub_item)
 
-        # Delete temp directories
-        temp_dirs = ['__temp_new__', '__upgrade_temp__']
+                            if os.path.isdir(sub_src):
+                                if os.path.exists(sub_dst):
+                                    shutil.rmtree(sub_dst)
+                                shutil.copytree(sub_src, sub_dst)
+                            else:
+                                shutil.copy2(sub_src, sub_dst)
+                    else:
+                        shutil.copytree(src_path, dst_path)
+                else:
+                    shutil.copy2(src_path, dst_path)
+
+                items_restored.append(item)
+            except Exception as e:
+                logger.error(f"Error restoring {item}: {e}")
+                continue
+
+        logger.info(f"Restored {len(items_restored)} user data items")
+        return True
+
+    except Exception as e:
+        logger.error(f"Error restoring user data: {e}")
+        return False
+
+
+def cleanup_temp_dirs(script_dir):
+    """Clean up temporary directories"""
+    try:
+        temp_dirs = ["__temp_new__", "__upgrade_temp__"]
         for dir_name in temp_dirs:
             dir_path = os.path.join(script_dir, dir_name)
             if os.path.exists(dir_path):
                 shutil.rmtree(dir_path)
-                print(f"Deleted temporary directory: {dir_name}")
+                logger.info(f"Deleted temporary directory: {dir_name}")
 
-        print("\nUpdate complete!")
+        return True
+
+    except Exception as e:
+        logger.error(f"Error cleaning up temporary directories: {e}")
+        return False
+
+
+def main():
+    """Main function orchestrating the update process"""
+    try:
+        logger.info("\n\nWelcome to the ZCX Updater!")
+
+        # Check if running in dev environment
+        cwd = os.getcwd()
+        parent_directory_name = os.path.basename(cwd)
+        if parent_directory_name == "app":
+            logger.error("Running in dev environment! Aborting!")
+            return 1
+
+        # Setup environment and load dependencies
+        script_dir, yaml, requests = setup_environment()
+
+        # Load configuration
+        hardware, current_version = load_config(script_dir, yaml)
+        if not hardware or not current_version:
+            logger.error("Failed to load configuration")
+            return 1
+
+        logger.info(
+            f"Current configuration - Hardware: {hardware}, Version: {current_version}"
+        )
+
+        # Check for updates
+        latest_version, asset_url, asset_name = check_for_updates(
+            current_version, hardware, requests
+        )
+        if not latest_version or not asset_url:
+            logger.info("No update available or update check failed")
+            return 0
+
+        # Confirm update with user
+        logger.info(f"Update available: v{current_version} -> v{latest_version}")
+        logger.info(f"Update package: {asset_name}")
+        user_confirm = input(
+            "\nDo you want to update? This will backup your current installation. (y/n): "
+        )
+        if user_confirm.lower() != "y":
+            logger.info("Update cancelled by user")
+            return 0
+
+        # Create backup
+        backup_dir = create_backup(script_dir)
+        if not backup_dir:
+            logger.error("Backup failed, aborting update")
+            return 1
+
+        # Preserve user data
+        temp_dir, preserved_items = preserve_user_data(script_dir)
+        if not temp_dir:
+            logger.error("Failed to preserve user data, aborting update")
+            return 1
+
+        # Clean installation directory
+        if not clean_installation_directory(script_dir, temp_dir):
+            logger.error("Failed to clean installation directory, aborting update")
+            return 1
+
+        # Download and extract update package
+        download_dir = download_and_verify_asset(
+            asset_url, asset_name, script_dir, requests
+        )
+        if not download_dir:
+            logger.error("Failed to download update package, aborting update")
+            return 1
+
+        # Extract update package
+        if not extract_asset(download_dir, asset_name):
+            logger.error("Failed to extract update package, aborting update")
+            return 1
+
+        # Find core directory
+        core_dir = find_core_directory(download_dir)
+        if not core_dir:
+            logger.error("Failed to find core directory, aborting update")
+            return 1
+
+        # Prepare core directory
+        if not prepare_core_directory(core_dir):
+            logger.error("Failed to prepare core directory, aborting update")
+            return 1
+
+        # Install update
+        if not install_update(core_dir, script_dir):
+            logger.error("Failed to install update files, aborting update")
+            return 1
+
+        # Restore user data
+        if not restore_user_data(temp_dir, script_dir):
+            logger.warning("Issues restoring user data, update may be incomplete")
+
+        # Clean up temporary directories
+        cleanup_temp_dirs(script_dir)
+
+        logger.info(
+            f"\nUpdate successfully completed! Version: v{current_version} -> v{latest_version}"
+        )
+        logger.info(f"Backup location: {backup_dir}")
+
+        return 0
 
     except KeyboardInterrupt:
-        print("\nExiting...")
-        sys.exit(0)
+        logger.info("\nUpdate cancelled by user")
+        return 0
     except Exception as e:
-        print(f'Error: {e}')
+        logger.error(traceback.format_exc())
+        logger.error(f"Unexpected error during update: {e}")
+        logger.error(f'\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade')
+        return 1
 
-main()
+
+if __name__ == "__main__":
+    sys.exit(main())
