@@ -11,6 +11,10 @@ While zcx cannot display a representation of Live's session view (i.e., the sess
 
 You may resize the session ring via [preferences.yaml](/reference/configuration-files/preferences#session-ring).
 
+## Disabling the ring
+
+You may disable the ring in [preferences.yaml](/reference/configuration-files/preferences#session-ring).
+
 ## Moving the ring
 
 A script's ring may be positioned with the [ring command](/reference/command-reference#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).

@@ -24,8 +24,7 @@ class SessionRing(SessionRingBase):
         self.num_layers = 0
 
         if height <= 0 or width <= 0:
-            raise RuntimeError('session_ring: width and height must be positive')
-
+            height, width = (0, 0)
 
         super().__init__(num_tracks=width, num_scenes=height, always_snap_track_offset=False,*a, **k)
 
