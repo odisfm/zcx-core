@@ -113,9 +113,9 @@ class BuildManager:
                 self.sync_directory(config_path, self.dest_root / "_config")
 
             # Sync preferences
-            preferences_path = self.project_root / "preferences"
-            if preferences_path.exists():
-                self.sync_directory(preferences_path, self.dest_root / "_preferences")
+            # preferences_path = self.project_root / "preferences"
+            # if preferences_path.exists():
+            #     self.sync_directory(preferences_path, self.dest_root / "_preferences")
 
             logging.info("Build completed successfully")
 
@@ -194,7 +194,7 @@ def main():
         builder.src_root,
         builder.hardware_root,
         builder.hardware_root / "demo_config",
-        builder.project_root / "preferences",
+        # builder.project_root / "preferences",
     ]
 
     # Dynamically add custom config path to watched directories if provided

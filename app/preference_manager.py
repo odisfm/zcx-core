@@ -14,7 +14,7 @@ class PreferenceManager:
         # self._logger.error(f'this_dir: {self.this_dir}')
         try:
             self.__default_prefs = self.load_yaml('default_preferences.yaml')
-            self.__user_prefs = self.load_yaml(f'{DEFAULT_PREFS_DIR}/preferences.yaml')
+            self.__user_prefs = self.load_yaml(f'_global_preferences.yaml')
         except Exception as e:
             self._logger.error(f'Failed to load preferences.yaml:', {e})
             raise e
