@@ -91,7 +91,12 @@ def load_config(script_dir, yaml_module):
         return None, None
 
 
-def check_for_updates(version, hardware, requests_module):
+def is_prerelease(version):
+    """Check if a version is a prerelease version (alpha, beta, rc)"""
+    return any(x in version for x in ["-alpha", "-beta", "-rc"])
+
+
+def check_for_updates(version, hardware, requests_module, include_prereleases=False):
     """Check for updates from the repository"""
     try:
         repo_owner = "odisfm"
@@ -112,12 +117,29 @@ def check_for_updates(version, hardware, requests_module):
             logger.info("No releases found")
             return None, None, None
 
-        latest_release = releases[0]
+        # Filter releases based on prerelease preference
+        eligible_releases = []
+        for release in releases:
+            release_is_prerelease = release["prerelease"]
+
+            if not include_prereleases and release_is_prerelease:
+                logger.info(f"Skipping prerelease version: {release['tag_name']}")
+                continue
+
+            eligible_releases.append(release)
+
+        if not eligible_releases:
+            logger.info("No eligible releases found based on your preferences")
+            return None, None, None
+
+        latest_release = eligible_releases[0]
         latest_version = latest_release["tag_name"].lstrip("v")
 
-        logger.info(f"Latest release: v{latest_version}, Current version: v{version}")
+        logger.info(
+            f"Latest eligible release: v{latest_version}, Current version: v{version}"
+        )
 
-        if not compare_semver(latest_version, version, consider_prerelease=True):
+        if not compare_versions(latest_version, version):
             logger.info(f"You already have the latest version (v{version})")
             return None, None, None
 
@@ -145,24 +167,21 @@ def check_for_updates(version, hardware, requests_module):
         return None, None, None
 
 
-def compare_semver(version1, version2, consider_prerelease=False):
+def compare_versions(version1, version2):
     """
     Compare two semantic version strings for precedence.
     Returns True if version1 > version2, False otherwise.
+    Only compares the numerical parts of the version.
     """
 
-    def parse_version(version_str):
-        prerelease = None
+    # Strip any prerelease suffixes before comparing
+    def clean_version(version_str):
         if "-" in version_str:
-            version_str, prerelease = version_str.split("-", 1)
+            version_str = version_str.split("-", 1)[0]
+        return [int(x) for x in version_str.split(".")]
 
-        version_nums = [int(x) for x in version_str.split(".")]
-        prerelease_precedence = {None: 3, "rc": 2, "beta": 1, "alpha": 0}
-
-        return version_nums, prerelease, prerelease_precedence.get(prerelease, -1)
-
-    v1_nums, v1_prerelease, v1_pre_value = parse_version(version1)
-    v2_nums, v2_prerelease, v2_pre_value = parse_version(version2)
+    v1_nums = clean_version(version1)
+    v2_nums = clean_version(version2)
 
     # Compare version numbers
     for i in range(max(len(v1_nums), len(v2_nums))):
@@ -174,12 +193,8 @@ def compare_semver(version1, version2, consider_prerelease=False):
         elif v1_num < v2_num:
             return False
 
-    # Fix: Only compare prerelease values if version numbers are equal
-    if consider_prerelease:
-        return v1_pre_value > v2_pre_value
-    else:
-        # If not considering prerelease, stable is better
-        return v1_prerelease is None and v2_prerelease is not None
+    # If all version numbers are equal, versions are the same
+    return False
 
 
 def create_backup(script_dir):
@@ -570,9 +585,22 @@ def main():
             f"Current configuration - Hardware: {hardware}, Version: {current_version}"
         )
 
-        # Check for updates
+        # Ask user about prerelease preference
+        include_prereleases = (
+            input(
+                "\nDo you want to include prerelease versions (alpha, beta, rc) in the update check? (y/n): "
+            ).lower()
+            == "y"
+        )
+
+        if include_prereleases:
+            logger.info("Including prerelease versions in update check")
+        else:
+            logger.info("Excluding prerelease versions from update check")
+
+        # Check for updates with user's prerelease preference
         latest_version, asset_url, asset_name = check_for_updates(
-            current_version, hardware, requests
+            current_version, hardware, requests, include_prereleases
         )
         if not latest_version or not asset_url:
             logger.info("No update available or update check failed")
