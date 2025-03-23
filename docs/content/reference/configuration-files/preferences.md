@@ -43,6 +43,18 @@ session_ring:
 Sets the dimensions of the [session ring](/lessons/using-the-zcx-session-ring).
 You may disable the ring by setting one or both of `width` and `height` to `0`.
 
+### plugins
+
+```yaml
+plugins:
+  plugin_name:
+    plugin_option_1: true
+    plugin_option_2: false
+```
+
+Consult the documentation of your plugin to see the available options.
+If the plugin came with zcx you will find this information in the [hardware reference](/reference/hardware-reference) for your controller.
+
 ### log_level
 
 ```yaml
