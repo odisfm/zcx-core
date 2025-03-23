@@ -13,7 +13,7 @@ You may resize the session ring via [preferences.yaml](/reference/configuration-
 
 ## Disabling the ring
 
-You may disable the ring in [preferences.yaml](/reference/configuration-files/preferences#session-ring).
+You may disable the ring in [preferences.yaml](/reference/configuration-files/preferences#session_ring).
 
 ## Moving the ring
 
