@@ -225,6 +225,13 @@ The names of these modes are completely arbitrary, but they must be defined in y
 
 ## ZEncoders
 
+!!! warning
+
+    Support for encoders is early, and there are several bugs and limitations of the current system.
+
+    This is improving. You can see the state of this project [here](https://github.com/odisfm/zcx-core/issues?q=is%3Aissue%20state%3Aopen%20milestone%3A%22Better%20encoder%20mappings%22).
+
+
 ZEncoders allow you to dynamically map encoders (knobs, faders, etc.) to parameters in Live. [With some exceptions](https://github.com/odisfm/zcx-core/releases/tag/v0.2.0-alpha.1), targeting of parameters with ZEncoders follows the same syntax as ClyphX encoder bindings:
 
 ```yaml
