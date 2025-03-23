@@ -153,7 +153,7 @@ Provides access to the Live set's [song object](https://docs.cycling74.com/apire
 
 #### ring
 
-Allows references to the enclosed tracks and scenes of [the zcx session ring](/lessons/using-the-zcx-session-ring#referencing-the-ring-from-template-strings).
+Allows references to the enclosed tracks and scenes of [the zcx session ring](/lessons/session-ring#referencing-the-ring-from-template-strings).
 
 ### template functions
 

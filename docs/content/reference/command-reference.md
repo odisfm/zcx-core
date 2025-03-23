@@ -227,7 +227,7 @@ See also:
 
 ### ring
 
-Move the [session ring](/lessons/using-the-zcx-session-ring) of the script.
+Move the [session ring](/lessons/session-ring) of the script.
 
 ```yaml hl_lines="4 5 10 11"
 right:

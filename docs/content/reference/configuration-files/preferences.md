@@ -40,7 +40,7 @@ session_ring:
   height: 8
 ```
 
-Sets the dimensions of the [session ring](/lessons/using-the-zcx-session-ring).
+Sets the dimensions of the [session ring](/lessons/session-ring).
 You may disable the ring by setting one or both of `width` and `height` to `0`.
 
 ### plugins
