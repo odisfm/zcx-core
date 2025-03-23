@@ -60,7 +60,7 @@ class SessionRing(SessionRingBase):
         raise NotImplementedError("Setup() must be overridden")
 
     def move(self, x=0, y=0):
-        if x < 0 and self.track_offset == 0:
+        if (x < 0 and self.track_offset == 0) or (y < 0 and self.scene_offset <= 0):
             return
         super().move(x, y)
 
