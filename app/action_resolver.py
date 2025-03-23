@@ -1,4 +1,5 @@
 import re
+from functools import partial
 from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
 from random import randint
@@ -13,6 +14,7 @@ from .mode_manager import ModeManager
 from .page_manager import PageManager
 from .z_control import ZControl
 from .zcx_component import ZCXComponent
+from .colors import parse_color_definition
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -111,12 +113,25 @@ class ActionResolver(ZCXComponent):
             k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
         }
 
+        # todo: this is bad, most of this context can be built once at load
+
         system_vars = {
             'song': self.canonical_parent.song,
             'ring': self.__ring_api,
             'zcx': self.__zcx_api_obj,
             'log': self.__log_func,
         }
+
+        try:
+            calling_control = context.get('me', {}).get('obj', None)
+
+            if calling_control is None:
+                parse_color = partial(parse_color_definition)
+            else:
+                parse_color = partial(parse_color_definition, calling_control=calling_control)
+            system_vars['parse_color'] = parse_color
+        except Exception as e:
+            self.debug(e)
 
         utility_modules = {
             'randint': randint,
