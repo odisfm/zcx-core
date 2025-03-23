@@ -103,6 +103,19 @@ my_control:
 
 The `cxp` key is specifying the [command type](#command-types). Because `cxp` is the default command type, it's usually not necessary to specify it.
 
+### command bundles
+
+You may 'bundle' a combination of [command types](#command-types) and execute them sequentially when a gesture is performed:
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      cxp: METRO
+      msg: activated the metronome
+      log: activated the metronome
+```
+
 ## command types
 
 ### cxp
