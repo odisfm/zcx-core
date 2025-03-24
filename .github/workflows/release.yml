@@ -42,33 +42,36 @@ jobs:
           # Get tag name or default to 'latest'
           echo "TAG_NAME=${GITHUB_REF_NAME:-latest}" >> $GITHUB_ENV
 
-      - name: Download and prepare PyYAML
-        run: |
-          # Create temporary directory for PyYAML
-          mkdir pyyaml_temp
-          cd pyyaml_temp
-          
-          # Download PyYAML
-          pip download --no-deps PyYAML==6.0.2
-          
-          # Extract the wheel including all components
-          unzip PyYAML*.whl
-          
-          # Move back to workspace
-          cd ..
-          
-          # Create vendor directory in package
-          mkdir -p ${{ env.PACKAGE_NAME }}/vendor
-          
-          # Move all PyYAML components to vendor directory
-          mv pyyaml_temp/yaml ${{ env.PACKAGE_NAME }}/vendor/
-          mv pyyaml_temp/_yaml ${{ env.PACKAGE_NAME }}/vendor/
-          mv pyyaml_temp/PyYAML-6.0.2.dist-info ${{ env.PACKAGE_NAME }}/vendor/
-          
-          # Cleanup
-          rm -rf pyyaml_temp
-
       - name: Create package directory structure
+        run: |
+          # Create main package directory
+          mkdir -p ${{ env.PACKAGE_NAME }}
+          # Create vendor directory
+          mkdir -p ${{ env.PACKAGE_NAME }}/vendor
+
+      - name: Download and prepare vendor packages
+        run: |
+          # Define packages to download
+          PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests")
+
+          # Create temporary directory for downloads
+          mkdir vendor_temp
+          cd vendor_temp
+
+          # Download and extract each package and its dependencies
+          for package in "${PACKAGES[@]}"; do
+            pip download "$package"
+            for whl in *.whl; do
+              unzip -q "$whl" -d "../${{ env.PACKAGE_NAME }}/vendor/"
+            done
+            rm -f *.whl
+          done
+
+          # Cleanup
+          cd ..
+          rm -rf vendor_temp
+
+      - name: Copy application files
         run: |
           # Copy all files from app/ to root of package
           cp -r app/* ${{ env.PACKAGE_NAME }}/
