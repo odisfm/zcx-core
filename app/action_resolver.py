@@ -65,10 +65,12 @@ class ActionResolver(ZCXComponent):
         self.__zcx_api_obj = None
         self.__log_func = lambda *args: self.log(*args)
         self.__interpreter = Interpreter()
+        self.__cxp_partial = None
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
         self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
+        self.__cxp_partial = partial(self.__cxp.trigger_action_list)
 
     def _evaluate_expression(
             self, expr: str, context: Dict[str, Any], prior_resolved: Dict[str, Any]
@@ -120,6 +122,7 @@ class ActionResolver(ZCXComponent):
             'ring': self.__ring_api,
             'zcx': self.__zcx_api_obj,
             'log': self.__log_func,
+            'cxp': self.__cxp_partial,
         }
 
         try:
