@@ -32,6 +32,13 @@ PROTECTED_EXTENSIONS = [
     "ask",
 ]
 
+PURPLE = "\033[35m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+RESET = "\033[0m"
+
+
+
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -148,6 +155,7 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
         # Find the asset for this hardware
         asset_url = None
         asset_name = None
+        html_url = latest_release["html_url"]
 
         for asset in latest_release.get("assets", []):
             asset_name = asset["name"]
@@ -160,7 +168,7 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
             logger.error(f"No release found for hardware: {hardware}")
             return None, None, None
 
-        return latest_version, asset_url, asset_name
+        return latest_version, asset_url, asset_name, html_url
 
     except Exception as e:
         logger.error(f"Error checking for updates: {e}")
@@ -238,7 +246,7 @@ def create_backup(script_dir):
         ):
             raise Exception("Backup verification failed")
 
-        logger.info(f"Backup completed to: {backup_dir}")
+        logger.info(f"{GREEN}Backup completed to: {backup_dir}{RESET}")
         return backup_dir
 
     except Exception as e:
@@ -565,6 +573,8 @@ def main():
     try:
         logger.info("\n\nWelcome to the ZCX Updater!")
 
+        backup_dir = None
+
         # Check if running in dev environment
         cwd = os.getcwd()
         parent_directory_name = os.path.basename(cwd)
@@ -588,18 +598,16 @@ def main():
         # Ask user about prerelease preference
         include_prereleases = (
             input(
-                "\nDo you want to include prerelease versions (alpha, beta, rc) in the update check? (y/n): "
+                "\nCheck for preview versions? (y/N): "
             ).lower()
             == "y"
         )
 
         if include_prereleases:
             logger.info("Including prerelease versions in update check")
-        else:
-            logger.info("Excluding prerelease versions from update check")
 
         # Check for updates with user's prerelease preference
-        latest_version, asset_url, asset_name = check_for_updates(
+        latest_version, asset_url, asset_name, html_url = check_for_updates(
             current_version, hardware, requests, include_prereleases
         )
         if not latest_version or not asset_url:
@@ -609,8 +617,16 @@ def main():
         # Confirm update with user
         logger.info(f"Update available: v{current_version} -> v{latest_version}")
         logger.info(f"Update package: {asset_name}")
+
+        pre_v1 = latest_version[0] == '0'
+        if pre_v1:
+            print(f"{PURPLE}zcx is in active development.\n"
+                  f"You must check the release notes to see if your config is affected by any breaking changes.\n"
+                  f"\n{html_url}{RESET}")
+
+
         user_confirm = input(
-            "\nDo you want to update? This will backup your current installation. (y/n): "
+            "\nDo you want to update? This will backup your current installation. (y/N): "
         )
         if user_confirm.lower() != "y":
             logger.info("Update cancelled by user")
@@ -669,14 +685,17 @@ def main():
         return 0
 
     except KeyboardInterrupt:
-        logger.info("\nUpdate cancelled by user")
-        return 0
+        logger.error(f"Upgrade cancelled by user.")
+        logger.error(f"For help, see: https://www.zcxcore.com/lessons/upgrade")
+
     except Exception as e:
         logger.error(traceback.format_exc())
         logger.error(f"Unexpected error during update: {e}")
         logger.error(
             f"\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade"
         )
+        if 'backup_dir' in locals() and backup_dir is not None:
+            logger.info(f"Backup location: {backup_dir}")
         
 
 
