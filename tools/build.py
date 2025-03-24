@@ -6,6 +6,7 @@ import shutil
 import time
 from pathlib import Path
 from typing import Optional
+import sys
 
 from watchdog.events import FileSystemEventHandler, FileSystemEvent
 from watchdog.observers import Observer
@@ -45,9 +46,12 @@ class BuildManager:
         self._validate_remote_scripts_path(REMOTE_SCRIPTS_PATH)
         self.dest_root = REMOTE_SCRIPTS_PATH / self.control_surface_name
 
+        if not self.dest_root.exists():
+            raise RuntimeError(f"Destination directory does not exist: {self.dest_root}")
+
         self.hardware_root = self.project_root / "hardware" / self.hardware_config
 
-        self.ignore_patterns = {
+        self.ignore_patterns = {    # i dont know man
             ".git",
             "__pycache__",
             "*.pyc",
@@ -65,9 +69,7 @@ class BuildManager:
         Raises ValueError if validation fails.
         """
         if not path.exists():
-            logging.warning(f"Remote Scripts path does not exist: {path}")
-            path.mkdir(parents=True, exist_ok=True)
-            return
+            raise RuntimeError(f"Remote Scripts path does not exist: {path}")
 
         # Safety check: Look for ClyphX_Pro component file
         clyphx_component_path = path / "ClyphX_Pro" / "clyphx_pro" / "ClyphX_ProComponent.pyc"
@@ -134,8 +136,7 @@ class BuildManager:
     def sync_directory(self, src: Path, dest: Path) -> None:
         """Sync a directory from source to destination."""
         if not src.exists():
-            logging.warning(f"Source directory does not exist: {src}")
-            return
+            raise RuntimeError(f"Source directory does not exist: {src}")
 
         # Create destination if it doesn't exist
         dest.mkdir(parents=True, exist_ok=True)
@@ -258,11 +259,17 @@ def main():
     )
     args = parser.parse_args()
 
-    builder = BuildManager(
-        args.hardware_config,
-        args.control_surface_name,
-        args.custom_config,  # Pass the custom config path
-    )
+    try:
+
+        builder = BuildManager(
+            args.hardware_config,
+            args.control_surface_name,
+            args.custom_config,
+        )
+
+    except Exception as e:
+        logging.critical(e)
+        sys.exit(1)
 
     # Perform the initial build
     logging.info("Performing initial build...")
@@ -289,7 +296,7 @@ def main():
             observer.schedule(handler, str(dir_path), recursive=True)
             logging.info(f"Watching directory: {dir_path}")
         else:
-            logging.warning(f"Directory does not exist and will not be watched: {dir_path}")
+            raise RuntimeError(f"Directory {dir_path} does not exist")
 
     observer.start()
     logging.info("Watching for changes... (Press Ctrl+C to stop)")
