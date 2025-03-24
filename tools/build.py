@@ -38,9 +38,13 @@ class BuildManager:
         self.custom_config_path = custom_config_path
 
         # Define paths
-        self.dest_root = REMOTE_SCRIPTS_PATH / self.control_surface_name
         self.project_root = PROJECT_ROOT
         self.src_root = SRC_ROOT
+
+        # Validate REMOTE_SCRIPTS_PATH before using it
+        self._validate_remote_scripts_path(REMOTE_SCRIPTS_PATH)
+        self.dest_root = REMOTE_SCRIPTS_PATH / self.control_surface_name
+
         self.hardware_root = self.project_root / "hardware" / self.hardware_config
 
         self.ignore_patterns = {
@@ -53,6 +57,34 @@ class BuildManager:
         self.retry_attempts = 3
         self.retry_delay = 1.0
 
+    def _validate_remote_scripts_path(self, path: Path) -> None:
+        """
+        Validate that the REMOTE_SCRIPTS_PATH is safe to use.
+        Checks for the existence of ClyphX_Pro component file to confirm
+        this is a valid Ableton Remote Scripts directory.
+        Raises ValueError if validation fails.
+        """
+        if not path.exists():
+            logging.warning(f"Remote Scripts path does not exist: {path}")
+            path.mkdir(parents=True, exist_ok=True)
+            return
+
+        # Safety check: Look for ClyphX_Pro component file
+        clyphx_component_path = path / "ClyphX_Pro" / "clyphx_pro" / "ClyphX_ProComponent.pyc"
+
+        if not clyphx_component_path.exists():
+            red_warning = "\033[91m"
+            reset_color = "\033[0m"
+            print(f"{red_warning}WARNING: This does not appear to be a valid Ableton Remote Scripts directory!{reset_color}")
+            print(f"{path}")
+            print(f"{red_warning}Continuing may result in DATA LOSS or incorrect synchronization.{reset_color}")
+
+            confirmation = input(
+                f"Are you sure you want to proceed? This could result in data loss. (y/N): "
+            ).lower()
+
+            if confirmation != 'y':
+                raise ValueError(f"Operation aborted for safety. Please verify REMOTE_SCRIPTS_PATH in sync_config.py")
     def should_ignore(self, path: Path) -> bool:
         """Check if a file or directory should be ignored."""
         path_str = str(path)
