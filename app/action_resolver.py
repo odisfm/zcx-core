@@ -4,6 +4,8 @@ from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
 from random import randint
 
+from .vendor.asteval import Interpreter, make_symbol_table
+
 from ableton.v3.base import listens, listens_group
 from ClyphX_Pro.clyphx_pro import ParseUtils
 
@@ -61,26 +63,24 @@ class ActionResolver(ZCXComponent):
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
         self.__ring_api = None
         self.__zcx_api_obj = None
-        self.__allow_python_command = False
         self.__log_func = lambda *args: self.log(*args)
+        self.__interpreter = Interpreter()
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
         self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
-        from . import PREF_MANAGER
-        prefs = PREF_MANAGER.user_prefs
-        self.__allow_python_command = prefs.get('allow_python_command', False)
 
     def _evaluate_expression(
-            self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
+            self, expr: str, context: Dict[str, Any], prior_resolved: Dict[str, Any]
     ) -> Tuple[Any, int]:
         """Evaluate a Python expression with given context and locals."""
         try:
             if expr.startswith("$"):
                 expr = expr[1:]
 
-            exec_context = self._build_execution_context(context, locals)
-            result = eval(expr, {}, exec_context)
+            exec_context = self._build_execution_context(context, prior_resolved)
+            self.__interpreter.symtable = make_symbol_table(**exec_context)
+            result = self.__interpreter.eval(expr)
             return result, 0
         except Exception as e:
             print(f"Error evaluating {expr}: {e}")
@@ -107,7 +107,7 @@ class ActionResolver(ZCXComponent):
 
         return resolved, 0
 
-    def _build_execution_context(self, context: Dict[str, Any], locals_dict: Dict[str, Any]) -> Dict[str, Any]:
+    def _build_execution_context(self, context: Dict[str, Any], prior_resolved: Dict[str, Any]) -> Dict[str, Any]:
         """Build a comprehensive execution context with all available variables and functions."""
         dot_context = {
             k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
@@ -137,7 +137,7 @@ class ActionResolver(ZCXComponent):
             'randint': randint,
         }
 
-        return {**dot_context, **locals_dict, **system_vars, **utility_modules}
+        return {**dot_context, **prior_resolved, **system_vars, **utility_modules}
 
     def _replace_match(
         self,
@@ -310,25 +310,22 @@ class ActionResolver(ZCXComponent):
                                 calling_control.set_color(command_def)
 
                         case 'python':
-                            if not self.__allow_python_command:
-                                self.error(f"Can't run python command as `allow_python_command` in preferences.yaml is `false`",
-                                           f"You will need to set this to `true` to enable the `python` command.",
-                                           f"WARNING: You should NOT run code from untrusted sources!")
-                                return False
-
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 try:
-                                    local_vars = {}
-
                                     resolved_vars, status = self._resolve_vars(vars_dict or {}, context, 'live')
                                     if status != 0:
                                         return False
 
                                     exec_context = self._build_execution_context(context, resolved_vars)
 
-                                    exec(parsed, exec_context, local_vars)
-                                    result = local_vars.get('result', None)
-                                    self.debug(f'Executed code: {parsed}')
+                                    self.debug(exec_context)
+
+                                    self.__interpreter.symtable = make_symbol_table(**exec_context)
+
+                                    result = self.__interpreter.eval(parsed, raise_errors=True)
+
+                                    self.warning(f'Executed Python:\n{parsed}')
+
                                     return result
 
                                 except Exception as e:
