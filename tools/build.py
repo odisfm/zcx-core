@@ -112,11 +112,6 @@ class BuildManager:
             if config_path.exists():
                 self.sync_directory(config_path, self.dest_root / "_config")
 
-            # Sync preferences
-            # preferences_path = self.project_root / "preferences"
-            # if preferences_path.exists():
-            #     self.sync_directory(preferences_path, self.dest_root / "_preferences")
-
             logging.info("Build completed successfully")
 
         except Exception as e:
