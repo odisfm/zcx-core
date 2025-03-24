@@ -76,13 +76,14 @@ jobs:
           # Copy all files from app/ to root of package
           cp -r app/* ${{ env.PACKAGE_NAME }}/
 
-          # Create hardware directory and copy controller-specific files
+          # Create hardware directory and copy all controller-specific files
           mkdir -p ${{ env.PACKAGE_NAME }}/hardware
-          cp hardware/${{ matrix.controller }}/*.{py,yaml} ${{ env.PACKAGE_NAME }}/hardware/ 2>/dev/null || true
+          cp -r hardware/${{ matrix.controller }}/* ${{ env.PACKAGE_NAME }}/hardware/
 
-          # Abort if no demo config
+          # Handle demo_config separately
           if [ -d "hardware/${{ matrix.controller }}/demo_config" ]; then
-            mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
+            # Rename demo_config to _config in the destination
+            mv "${{ env.PACKAGE_NAME }}/hardware/demo_config" "${{ env.PACKAGE_NAME }}/_config"
           else
             echo "Error: demo_config directory not found for controller '${{ matrix.controller }}'!" >&2
             exit 1
