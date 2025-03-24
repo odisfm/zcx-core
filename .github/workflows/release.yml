@@ -77,9 +77,12 @@ jobs:
           mkdir -p ${{ env.PACKAGE_NAME }}/hardware
           cp hardware/${{ matrix.controller }}/*.{py,yaml} ${{ env.PACKAGE_NAME }}/hardware/ 2>/dev/null || true
 
-          # Move demo_config to _config if it exists
+          # Abort if no demo config
           if [ -d "hardware/${{ matrix.controller }}/demo_config" ]; then
             mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
+          else
+            echo "Error: demo_config directory not found for controller '${{ matrix.controller }}'!" >&2
+            exit 1
           fi
 
       - name: Create ZIP archive with README and user actions
