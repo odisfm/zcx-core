@@ -604,7 +604,7 @@ def main():
         )
 
         if include_prereleases:
-            logger.info("Including prerelease versions in update check")
+            logger.info("Including preview versions in update check")
 
         # Check for updates with user's prerelease preference
         latest_version, asset_url, asset_name, html_url = check_for_updates(
