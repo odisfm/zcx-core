@@ -64,6 +64,7 @@ class ActionResolver(ZCXComponent):
         self.__ring_api = None
         self.__zcx_api_obj = None
         self.__log_func = lambda *args: self.log(*args)
+        self.__msg_func = lambda message: self.canonical_parent.show_message(message)
         self.__interpreter = Interpreter()
         self.__cxp_partial = None
         self.__standard_context = self.__build_standard_context()
@@ -74,11 +75,13 @@ class ActionResolver(ZCXComponent):
         self.__cxp_partial = partial(self.__cxp.trigger_action_list)
 
     def __build_standard_context(self) -> dict[str: Any]:
+
         context = {
             'song': self.canonical_parent.song,
             'ring': self.__ring_api,
             'zcx': self.__zcx_api_obj,
             'log': self.__log_func,
+            'msg': self.__msg_func,
             'cxp': self.__cxp_partial,
             'open': None
         }
