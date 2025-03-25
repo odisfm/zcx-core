@@ -188,8 +188,8 @@ def compare_versions(version1, version2):
             version_str = version_str.split("-", 1)[0]
         return [int(x) for x in version_str.split(".")]
 
-    v1_nums = clean_version(version1)
-    v2_nums = clean_version(version2)
+    v1_nums = clean_version(version1) # latest
+    v2_nums = clean_version(version2) # current
 
     # Compare version numbers
     for i in range(max(len(v1_nums), len(v2_nums))):
