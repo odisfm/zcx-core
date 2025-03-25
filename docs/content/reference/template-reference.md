@@ -159,10 +159,6 @@ Allows references to the enclosed tracks and scenes of [the zcx session ring](/l
 
 The following functions can be invoked from template strings.
 
-#### python builtins
-
-All builtins from the version of Python bundled with Live.
-
 #### log
 
 Allows you to write to the log. Mostly useful with [Python commands](/reference/command-reference#python).
