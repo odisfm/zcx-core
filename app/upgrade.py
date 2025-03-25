@@ -664,9 +664,6 @@ def main():
         if not restore_user_data(temp_dir, script_dir):
             logger.warning("Issues restoring user data, update may be incomplete")
 
-        # Clean up temporary directories
-        cleanup_temp_dirs(script_dir)
-
         logger.info(
             f"\nUpdate successfully completed! Version: v{current_version} -> v{latest_version}"
         )
@@ -702,6 +699,10 @@ def main():
             else:
                 # On Unix-like systems, we can do it directly
                 os.replace(temp_path, current_path)
+
+            # Clean up temporary directories
+            cleanup_temp_dirs(script_dir)
+
         else:
             raise RuntimeError(f'Upgrade did not contain a new "upgrade.py".')
 
