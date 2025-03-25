@@ -89,13 +89,20 @@ jobs:
             exit 1
           fi
 
+      - name: Update zcx.yaml with version and hardware information
+        run: |
+          # Update the version field with the tag name and the hardware field with the controller name
+          # The file's comments are preserved as sed only modifies the matching lines.
+          sed -i "s/^version:.*/version: ${TAG_NAME:1}/" ${{ env.PACKAGE_NAME }}/zcx.yaml
+          sed -i "s/^hardware:.*/hardware: ${{ matrix.controller }}/" ${{ env.PACKAGE_NAME }}/zcx.yaml
+
       - name: Create ZIP archive with README and user actions
         run: |
           # Copy bundled_instructions.txt to temporary location and rename to README.txt
           cp resources/bundled_instructions.txt ./README.txt
           
           # Prepend repo name and tag
-          sed -i "1i${{ env.REPO_NAME }} ${{ env.TAG_NAME }}\n\n" README.txt
+          sed -i "1i${REPO_NAME} ${TAG_NAME}\n\n" README.txt
           
           # Copy user_actions directory with new name
           cp -r user_actions _user_actions
