@@ -7,6 +7,7 @@ import traceback
 import zipfile
 import logging
 import hashlib
+import importlib
 
 HELP_URL = "https://www.zcxcore.com/help"
 
@@ -55,14 +56,11 @@ logger = logging.getLogger("zcx_updater")
 
 def setup_environment():
     """Setup the environment and add vendor packages to path"""
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    sys.path.insert(0, os.path.join(script_dir, "vendor"))
-
     try:
-        import yaml
-        import requests
+        globals()['yaml'] = importlib.import_module('yaml')
+        globals()['requests'] = importlib.import_module('requests')
+        globals()['semver'] = importlib.import_module('semver')
 
-        return script_dir, yaml, requests
     except ImportError as e:
         logger.error(f"Failed to import required packages: {e}")
         logger.info(
@@ -70,8 +68,7 @@ def setup_environment():
         )
         sys.exit(1)
 
-
-def load_config(script_dir, yaml_module):
+def load_config(script_dir):
     """Load configuration from zcx.yaml"""
     try:
         config_path = os.path.join(script_dir, "zcx.yaml")
@@ -80,7 +77,7 @@ def load_config(script_dir, yaml_module):
             return None, None
 
         with open(config_path, "r") as f:
-            config = yaml_module.safe_load(f)
+            config = yaml.safe_load(f)
 
         hardware = config.get("hardware")
         version = config.get("version")
@@ -103,7 +100,7 @@ def is_prerelease(version):
     return any(x in version for x in ["-alpha", "-beta", "-rc"])
 
 
-def check_for_updates(version, hardware, requests_module, include_prereleases=False):
+def check_for_updates(version, hardware, include_prereleases=False):
     """Check for updates from the repository"""
     try:
         repo_owner = "odisfm"
@@ -111,18 +108,18 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
         url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases"
 
         logger.info(f"Checking for updates...")
-        response = requests_module.get(url, timeout=30)
+        response = requests.get(url, timeout=30)
 
         if response.status_code != 200:
             logger.error(
                 f"Error checking for updates: {response.status_code} - {response.text}"
             )
-            return None, None, None, None
+            return None, None, None, None, None
 
         releases = response.json()
         if not releases:
             logger.info("No releases found")
-            return None, None, None, None
+            return None, None, None, None, None
 
         # Filter releases based on prerelease preference
         eligible_releases = []
@@ -137,7 +134,7 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
 
         if not eligible_releases:
             logger.info("No eligible releases found based on your preferences")
-            return None, None, None, None
+            return None, None, None, None, None
 
         latest_release = eligible_releases[0]
         latest_version = latest_release["tag_name"].lstrip("v")
@@ -146,11 +143,14 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
             f"Latest eligible release: v{latest_version}, Current version: v{version}"
         )
 
-        if not compare_versions(latest_version, version):
-            logger.info(f"{GREEN}You already have the latest version (v{version}){RESET}")
-            return None, None, None, None
+        precedence_result = compare_versions(latest_version, version)
 
-        logger.info(f"Update available: v{latest_version}")
+        if precedence_result == 0:
+            latest_is_upgrade = False
+        elif precedence_result == 1:
+            latest_is_upgrade = True
+        elif precedence_result == -1:
+            raise RuntimeError(f'You seem to be running a super secret preview version ;).')
 
         # Find the asset for this hardware
         asset_url = None
@@ -166,13 +166,13 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
 
         if not asset_url:
             logger.error(f"No release found for hardware: {hardware}")
-            return None, None, None, None
+            return None, None, None, None, None
 
-        return latest_version, asset_url, asset_name, html_url
+        return latest_version, asset_url, asset_name, html_url, latest_is_upgrade
 
     except Exception as e:
         logger.error(f"Error checking for updates: {e}")
-        return None, None, None, None
+        return None, None, None, None, None
 
 
 def compare_versions(version1, version2):
@@ -556,13 +556,14 @@ def main():
         parent_directory_name = os.path.basename(cwd)
         if parent_directory_name == "app":
             raise RuntimeError("Running in dev environment! Aborting!")
-            
 
         # Setup environment and load dependencies
-        script_dir, yaml, requests = setup_environment()
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        sys.path.insert(0, os.path.join(script_dir, "vendor"))
+        setup_environment()
 
         # Load configuration
-        hardware, current_version = load_config(script_dir, yaml)
+        hardware, current_version = load_config(script_dir)
         if not hardware or not current_version:
             raise RuntimeError("Failed to load configuration")
             
@@ -583,33 +584,43 @@ def main():
             logger.info("Including preview versions in update check")
 
         # Check for updates with user's prerelease preference
-        latest_version, asset_url, asset_name, html_url = check_for_updates(
-            current_version, hardware, requests, include_prereleases
-        )
+        latest_version, asset_url, asset_name, html_url, latest_is_upgrade = check_for_updates(
+            current_version, hardware, include_prereleases)
+
         if not latest_version:
-            logger.info(f"Get the latest news on Discord!")
-            logger.info(f"https://discord.zcxcore.com")
-            sys.exit(0)
-        elif not asset_url:
             raise RuntimeError(f"Update check failed.")
 
-        # Confirm update with user
-        logger.info(f"Update available: v{current_version} -> v{latest_version}")
-        logger.info(f"Update package: {asset_name}")
+        elif not latest_is_upgrade:
+            version_adj = 'version' if not include_prereleases else 'preview version'
+            logger.info(f'{GREEN}You already have the latest {version_adj} ({current_version}).{RESET}\n')
 
-        pre_v1 = latest_version[0] == '0'
-        if pre_v1:
-            print(f"{PURPLE}zcx is in active development.\n"
-                  f"You must check the release notes to see if your config is affected by any breaking changes.\n"
-                  f"\n{html_url}{RESET}")
+            logger.info(f'You may choose to repair this installation by replacing core files with the current release.')
+            logger.info(f'Your configuration files will not be overwritten.')
+            repair = input(f"Type 'repair' to continue: ")
+
+            if repair != "repair":
+                logger.info(f"{PURPLE}Get the latest news on Discord!{RESET}")
+                logger.info(f"https://discord.zcxcore.com")
+                sys.exit(0)
+        else:
+
+            # Confirm update with user
+            logger.info(f"{GREEN}Update available: v{current_version} -> v{latest_version}{RESET}")
+            logger.info(f"Update package: {asset_name}")
+
+            pre_v1 = latest_version[0] == '0'
+            if pre_v1:
+                print(f"{PURPLE}zcx is in active development.{RESET}\n"
+                      f"You {RED}must{RESET} check the release notes to see if your config is affected by any breaking changes.\n"
+                      f"\n{html_url}{RESET}")
 
 
-        user_confirm = input(
-            "\nDo you want to update? This will backup your current installation. (y/N): "
-        )
-        if user_confirm.lower() != "y":
-            logger.info("Update cancelled by user")
-            return 0
+            user_confirm = input(
+                "\nDo you want to update? This will backup your current installation. (y/N): "
+            )
+            if user_confirm.lower() != "y":
+                logger.info("Update cancelled by user")
+                return 0
 
         # Create backup
         backup_dir = create_backup(script_dir)
@@ -661,7 +672,41 @@ def main():
         )
         logger.info(f"Backup location: {backup_dir}")
 
+        new_upgrade_path = os.path.join(download_dir, "upgrade.py")
+        if os.path.exists(new_upgrade_path):
+            current_path = os.path.abspath(__file__)
+            temp_path = current_path + ".tmp"
+
+            # Copy new version to temp file
+            shutil.copy2(new_upgrade_path, temp_path)
+
+            # On Windows, we need to delay the replacement
+            if os.name == 'nt':
+                import atexit
+                import tempfile
+
+                # Create a batch script to do the replacement
+                batch_script = f"""
+                        @echo off
+                        timeout /t 1 /nobreak >nul
+                        move /Y "{temp_path}" "{current_path}"
+                        del "%~f0"
+                        """
+
+                batch_path = os.path.join(tempfile.gettempdir(), "replace_upgrade.bat")
+                with open(batch_path, 'w') as f:
+                    f.write(batch_script)
+
+                # Schedule the batch script to run after we exit
+                os.startfile(batch_path)
+            else:
+                # On Unix-like systems, we can do it directly
+                os.replace(temp_path, current_path)
+        else:
+            raise RuntimeError(f'Upgrade did not contain a new "upgrade.py".')
+
         return 0
+
 
     except KeyboardInterrupt:
         logger.error(f"Upgrade cancelled by user.")
