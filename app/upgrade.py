@@ -669,7 +669,7 @@ def main():
         )
         logger.info(f"Backup location: {backup_dir}")
 
-        new_upgrade_path = os.path.join(download_dir, "upgrade.py")
+        new_upgrade_path = os.path.join(core_dir, "upgrade.py")
         if os.path.exists(new_upgrade_path):
             current_path = os.path.abspath(__file__)
             temp_path = current_path + ".tmp"
