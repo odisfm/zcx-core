@@ -66,11 +66,23 @@ class ActionResolver(ZCXComponent):
         self.__log_func = lambda *args: self.log(*args)
         self.__interpreter = Interpreter()
         self.__cxp_partial = None
+        self.__standard_context = self.__build_standard_context()
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
         self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
         self.__cxp_partial = partial(self.__cxp.trigger_action_list)
+
+    def __build_standard_context(self) -> dict[str: Any]:
+        context = {
+            'song': self.canonical_parent.song,
+            'ring': self.__ring_api,
+            'zcx': self.__zcx_api_obj,
+            'log': self.__log_func,
+            'cxp': self.__cxp_partial,
+            'open': None
+        }
+        return context
 
     def _evaluate_expression(
             self, expr: str, context: Dict[str, Any], prior_resolved: Dict[str, Any]
@@ -80,8 +92,8 @@ class ActionResolver(ZCXComponent):
             if expr.startswith("$"):
                 expr = expr[1:]
 
-            exec_context = self._build_execution_context(context, prior_resolved)
-            self.__interpreter.symtable = make_symbol_table(**exec_context)
+            exec_context = self.__build_symtable(context, prior_resolved)
+            self.__interpreter.symtable = exec_context
             result = self.__interpreter.eval(expr)
             return result, 0
         except Exception as e:
@@ -109,21 +121,13 @@ class ActionResolver(ZCXComponent):
 
         return resolved, 0
 
-    def _build_execution_context(self, context: Dict[str, Any], prior_resolved: Dict[str, Any]) -> Dict[str, Any]:
+    def __build_symtable(self, context: Dict[str, Any], prior_resolved: Dict[str, Any]) -> Dict[str, Any]:
         """Build a comprehensive execution context with all available variables and functions."""
         dot_context = {
             k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
         }
 
-        # todo: this is bad, most of this context can be built once at load
-
-        system_vars = {
-            'song': self.canonical_parent.song,
-            'ring': self.__ring_api,
-            'zcx': self.__zcx_api_obj,
-            'log': self.__log_func,
-            'cxp': self.__cxp_partial,
-        }
+        extra = {}
 
         try:
             calling_control = context.get('me', {}).get('obj', None)
@@ -132,15 +136,13 @@ class ActionResolver(ZCXComponent):
                 parse_color = partial(parse_color_definition)
             else:
                 parse_color = partial(parse_color_definition, calling_control=calling_control)
-            system_vars['parse_color'] = parse_color
+            extra['parse_color'] = parse_color
+
         except Exception as e:
             self.debug(e)
 
-        utility_modules = {
-            'randint': randint,
-        }
-
-        return {**dot_context, **prior_resolved, **system_vars, **utility_modules}
+        exec_context = make_symbol_table(**dot_context, **prior_resolved, **self.__standard_context)
+        return exec_context
 
     def _replace_match(
         self,
@@ -319,11 +321,9 @@ class ActionResolver(ZCXComponent):
                                     if status != 0:
                                         return False
 
-                                    exec_context = self._build_execution_context(context, resolved_vars)
+                                    exec_context = self.__build_symtable(context, resolved_vars)
 
-                                    self.debug(exec_context)
-
-                                    self.__interpreter.symtable = make_symbol_table(**exec_context)
+                                    self.__interpreter.symtable = exec_context
 
                                     result = self.__interpreter.eval(parsed, raise_errors=True)
 
