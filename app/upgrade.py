@@ -147,7 +147,7 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
         )
 
         if not compare_versions(latest_version, version):
-            logger.info(f"You already have the latest version (v{version})")
+            logger.info(f"{GREEN}You already have the latest version (v{version}){RESET}")
             return None, None, None, None
 
         logger.info(f"Update available: v{latest_version}")
@@ -610,9 +610,12 @@ def main():
         latest_version, asset_url, asset_name, html_url = check_for_updates(
             current_version, hardware, requests, include_prereleases
         )
-        if not latest_version or not asset_url:
-            logger.info("No update available or update check failed")
-            return 0
+        if not latest_version:
+            logger.info(f"Get the latest news on Discord!")
+            logger.info(f"https://discord.zcxcore.com")
+            sys.exit(0)
+        elif not asset_url:
+            raise RuntimeError(f"Update check failed.")
 
         # Confirm update with user
         logger.info(f"Update available: v{current_version} -> v{latest_version}")
