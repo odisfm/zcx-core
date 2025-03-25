@@ -117,12 +117,12 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
             logger.error(
                 f"Error checking for updates: {response.status_code} - {response.text}"
             )
-            return None, None, None
+            return None, None, None, None
 
         releases = response.json()
         if not releases:
             logger.info("No releases found")
-            return None, None, None
+            return None, None, None, None
 
         # Filter releases based on prerelease preference
         eligible_releases = []
@@ -137,7 +137,7 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
 
         if not eligible_releases:
             logger.info("No eligible releases found based on your preferences")
-            return None, None, None
+            return None, None, None, None
 
         latest_release = eligible_releases[0]
         latest_version = latest_release["tag_name"].lstrip("v")
@@ -148,7 +148,7 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
 
         if not compare_versions(latest_version, version):
             logger.info(f"You already have the latest version (v{version})")
-            return None, None, None
+            return None, None, None, None
 
         logger.info(f"Update available: v{latest_version}")
 
@@ -166,13 +166,13 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
 
         if not asset_url:
             logger.error(f"No release found for hardware: {hardware}")
-            return None, None, None
+            return None, None, None, None
 
         return latest_version, asset_url, asset_name, html_url
 
     except Exception as e:
         logger.error(f"Error checking for updates: {e}")
-        return None, None, None
+        return None, None, None, None
 
 
 def compare_versions(version1, version2):
