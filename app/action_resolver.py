@@ -56,7 +56,7 @@ class ActionResolver(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
 
-        self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)}")
+        self.__pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)}")
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
@@ -188,7 +188,7 @@ class ActionResolver(ZCXComponent):
         result = ""
         last_end = 0
 
-        for match in self.pattern.finditer(action_string):
+        for match in self.__pattern.finditer(action_string):
             result += action_string[last_end : match.start()]
 
             replacement, match_status = self._replace_match(
