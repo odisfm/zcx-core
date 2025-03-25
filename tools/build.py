@@ -57,6 +57,7 @@ class BuildManager:
             "*.pyc",
             ".DS_Store",
             ".gitignore",
+            "log.txt"
         }
         self.retry_attempts = 3
         self.retry_delay = 1.0

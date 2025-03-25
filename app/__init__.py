@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Type
 
 from ableton.v3.control_surface import (
@@ -146,6 +147,21 @@ def create_instance(c_instance):
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
+
+    log_filename = os.path.join(os.path.dirname(__file__), "log.txt")
+
+    if not os.path.exists(log_filename):
+        for handler in ROOT_LOGGER.handlers[:]:
+            ROOT_LOGGER.removeHandler(handler)
+
+    if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_filename for h in ROOT_LOGGER.handlers):
+        file_handler = logging.FileHandler(log_filename, mode="a")
+        file_handler.setLevel(logging.INFO)
+
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s') # todo
+        file_handler.setFormatter(formatter)
+
+        ROOT_LOGGER.addHandler(file_handler)
 
     pref_manager = PreferenceManager(ROOT_LOGGER)
     ROOT_LOGGER.debug(pref_manager.user_prefs)
