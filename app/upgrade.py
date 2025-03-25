@@ -39,7 +39,6 @@ GREEN = "\033[32m"
 RESET = "\033[0m"
 
 
-
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -57,9 +56,9 @@ logger = logging.getLogger("zcx_updater")
 def setup_environment():
     """Setup the environment and add vendor packages to path"""
     try:
-        globals()['yaml'] = importlib.import_module('yaml')
-        globals()['requests'] = importlib.import_module('requests')
-        globals()['semver'] = importlib.import_module('semver')
+        globals()["yaml"] = importlib.import_module("yaml")
+        globals()["requests"] = importlib.import_module("requests")
+        globals()["semver"] = importlib.import_module("semver")
 
     except ImportError as e:
         logger.error(f"Failed to import required packages: {e}")
@@ -150,7 +149,9 @@ def check_for_updates(version, hardware, include_prereleases=False):
         elif precedence_result == 1:
             latest_is_upgrade = True
         elif precedence_result == -1:
-            raise RuntimeError(f'You seem to be running a super secret preview version ;).')
+            raise RuntimeError(
+                f"You seem to be running a super secret preview version ;)."
+            )
 
         # Find the asset for this hardware
         asset_url = None
@@ -180,6 +181,7 @@ def compare_versions(version1, version2):
     Compare two semantic version strings for precedence.
     """
     return semver.compare(version1, version2)
+
 
 def create_backup(script_dir):
     """Create a backup of the current installation"""
@@ -566,7 +568,6 @@ def main():
         hardware, current_version = load_config(script_dir)
         if not hardware or not current_version:
             raise RuntimeError("Failed to load configuration")
-            
 
         logger.info(
             f"Current configuration - Hardware: {hardware}, Version: {current_version}"
@@ -574,28 +575,30 @@ def main():
 
         # Ask user about prerelease preference
         include_prereleases = (
-            input(
-                "\nCheck for preview versions? (y/N): "
-            ).lower()
-            == "y"
+            input("\nCheck for preview versions? (y/N): ").lower() == "y"
         )
 
         if include_prereleases:
             logger.info("Including preview versions in update check")
 
         # Check for updates with user's prerelease preference
-        latest_version, asset_url, asset_name, html_url, latest_is_upgrade = check_for_updates(
-            current_version, hardware, include_prereleases)
+        latest_version, asset_url, asset_name, html_url, latest_is_upgrade = (
+            check_for_updates(current_version, hardware, include_prereleases)
+        )
 
         if not latest_version:
             raise RuntimeError(f"Update check failed.")
 
         elif not latest_is_upgrade:
-            version_adj = 'version' if not include_prereleases else 'preview version'
-            logger.info(f'{GREEN}You already have the latest {version_adj} ({current_version}).{RESET}\n')
+            version_adj = "version" if not include_prereleases else "preview version"
+            logger.info(
+                f"{GREEN}You already have the latest {version_adj} ({current_version}).{RESET}\n"
+            )
 
-            logger.info(f'You may choose to repair this installation by replacing core files with the current release.')
-            logger.info(f'Your configuration files will not be overwritten.')
+            logger.info(
+                f"You may choose to repair this installation by replacing core files with the current release."
+            )
+            logger.info(f"Your configuration files will not be overwritten.")
             repair = input(f"Type 'repair' to continue: ")
 
             if repair != "repair":
@@ -605,15 +608,18 @@ def main():
         else:
 
             # Confirm update with user
-            logger.info(f"{GREEN}Update available: v{current_version} -> v{latest_version}{RESET}")
+            logger.info(
+                f"{GREEN}Update available: v{current_version} -> v{latest_version}{RESET}"
+            )
             logger.info(f"Update package: {asset_name}")
 
-            pre_v1 = latest_version[0] == '0'
+            pre_v1 = latest_version[0] == "0"
             if pre_v1:
-                print(f"{PURPLE}zcx is in active development.{RESET}\n"
-                      f"You {RED}must{RESET} check the release notes to see if your config is affected by any breaking changes.\n"
-                      f"\n{html_url}{RESET}")
-
+                print(
+                    f"{PURPLE}zcx is in active development.{RESET}\n"
+                    f"You {RED}must{RESET} check the release notes to see if your config is affected by any breaking changes.\n"
+                    f"\n{html_url}{RESET}"
+                )
 
             user_confirm = input(
                 "\nDo you want to update? This will backup your current installation. (y/N): "
@@ -634,7 +640,9 @@ def main():
 
         # Clean installation directory
         if not clean_installation_directory(script_dir, temp_dir):
-            raise RuntimeError("Failed to clean installation directory, aborting update")
+            raise RuntimeError(
+                "Failed to clean installation directory, aborting update"
+            )
 
         # Download and extract update package
         download_dir = download_and_verify_asset(
@@ -678,7 +686,7 @@ def main():
             shutil.copy2(new_upgrade_path, temp_path)
 
             # On Windows, we need to delay the replacement
-            if os.name == 'nt':
+            if os.name == "nt":
                 import atexit
                 import tempfile
 
@@ -691,7 +699,7 @@ def main():
                         """
 
                 batch_path = os.path.join(tempfile.gettempdir(), "replace_upgrade.bat")
-                with open(batch_path, 'w') as f:
+                with open(batch_path, "w") as f:
                     f.write(batch_script)
 
                 # Schedule the batch script to run after we exit
@@ -708,7 +716,6 @@ def main():
 
         return 0
 
-
     except KeyboardInterrupt:
         logger.error(f"Upgrade cancelled by user.")
         logger.error(f"For help, see: https://www.zcxcore.com/lessons/upgrade")
@@ -719,9 +726,8 @@ def main():
         logger.error(
             f"\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade"
         )
-        if 'backup_dir' in locals() and backup_dir is not None:
+        if "backup_dir" in locals() and backup_dir is not None:
             logger.info(f"Backup location: {backup_dir}")
-        
 
 
 if __name__ == "__main__":
