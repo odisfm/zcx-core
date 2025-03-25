@@ -52,7 +52,7 @@ jobs:
       - name: Download and prepare vendor packages
         run: |
           # Define packages to download
-          PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests")
+          PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests" "semver>=2.9.0,<3.0.0")
 
           # Create temporary directory for downloads
           mkdir vendor_temp

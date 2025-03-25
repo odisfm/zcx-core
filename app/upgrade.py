@@ -178,32 +178,8 @@ def check_for_updates(version, hardware, requests_module, include_prereleases=Fa
 def compare_versions(version1, version2):
     """
     Compare two semantic version strings for precedence.
-    Returns True if version1 > version2, False otherwise.
-    Only compares the numerical parts of the version.
     """
-
-    # Strip any prerelease suffixes before comparing
-    def clean_version(version_str):
-        if "-" in version_str:
-            version_str = version_str.split("-", 1)[0]
-        return [int(x) for x in version_str.split(".")]
-
-    v1_nums = clean_version(version1) # latest
-    v2_nums = clean_version(version2) # current
-
-    # Compare version numbers
-    for i in range(max(len(v1_nums), len(v2_nums))):
-        v1_num = v1_nums[i] if i < len(v1_nums) else 0
-        v2_num = v2_nums[i] if i < len(v2_nums) else 0
-
-        if v1_num > v2_num:
-            return True
-        elif v1_num < v2_num:
-            return False
-
-    # If all version numbers are equal, versions are the same
-    return False
-
+    return semver.compare(version1, version2)
 
 def create_backup(script_dir):
     """Create a backup of the current installation"""
