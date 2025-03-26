@@ -36,7 +36,7 @@ class ZControl(EventObject):
         self.root_cs = root_cs
         self.parent_section = parent_section
         self.__state: Optional[ZState] = None
-        self.__parent_logger = self.parent_section._logger
+        self._parent_logger = self.parent_section._logger
         self._in_view = False
         self.in_view_listener.subject = self.parent_section
         self._raw_config = raw_config
@@ -91,7 +91,7 @@ class ZControl(EventObject):
 
     def log(self, *msg):
         for msg in msg:
-            self.__parent_logger.info(f'({self.parent_section.name}) {msg}')
+            self._parent_logger.info(f'({self.parent_section.name}) {msg}')
 
     @property
     def in_view(self):
