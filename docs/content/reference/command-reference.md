@@ -229,16 +229,28 @@ See also:
 
 Move the [session ring](/lessons/session-ring) of the script.
 
-```yaml hl_lines="4 5 10 11"
-right:
-  gestures:
-    pressed:
-      ring:
-        x: 1
-
+```yaml hl_lines="4 5 10 11 16 17 22 23"
 up:
   gestures:
     pressed:
       ring:
         y: -1
+
+right:
+  gestures:
+    pressed:
+      ring:
+        x: 1
+        
+down:
+  gestures:
+    pressed:
+      ring:
+        y: 1
+
+left:
+  gestures:
+    pressed:
+      ring:
+        x: -1
 ```
