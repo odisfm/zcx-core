@@ -15,7 +15,7 @@ class ZCXPlugin(ZCXComponent):
             from . import PREF_MANAGER
             self._user_config = PREF_MANAGER.get_plugin_config(self.__class__.__module__)
             if self._user_config is not None:
-                self.log(self._user_config)
+                self.debug(f'{self.__class__.__name__} config:', self._user_config)
         except:
             self._user_config = None
 

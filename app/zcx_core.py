@@ -31,7 +31,7 @@ class ZCXCore(ControlSurface):
                 self.warning = partial(self.log, level='warning')
                 self.critical = partial(self.log, level='critical')
 
-                self.set_logger_level('debug')
+                self.set_logger_level('info')
 
                 app = self.application
                 this_live_version = (app.get_major_version(), app.get_minor_version())
@@ -193,6 +193,7 @@ class ZCXCore(ControlSurface):
         super().receive_midi_chunk(midi_chunk)
         if self._enabled and midi_chunk[0][0] == 240:
             sysex_message = midi_chunk[0]
+            self.debug(f'received sysex: {sysex_message}')
             if sysex_message == USER_MODE:
                 self.refresh_required()
 

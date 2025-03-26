@@ -23,7 +23,7 @@ class ModeManager(ZCXComponent):
         self.__all_modes.sort()
         for mode in self.__all_modes:
             self.__modes_state[mode] = False
-        self.log(f"Configured modes: {self.all_modes}")
+        self.debug(f"Configured modes: {self.all_modes}")
 
     @property
     def all_modes(self):

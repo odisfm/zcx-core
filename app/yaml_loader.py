@@ -7,7 +7,7 @@ class YamlLoader:
     def __init__(self):
         from . import ROOT_LOGGER
         self.__logger = ROOT_LOGGER.getChild(self.__class__.__name__)
-        self.log('initialised')
+        self.__logger.debug('initialised')
         self.__base_dir = os.path.abspath(os.path.dirname(__file__))
 
     def log(self, *msg):

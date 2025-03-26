@@ -47,7 +47,6 @@ class Push1Display(ZCXPlugin):
             **k
     ):
         super().__init__(name, *a, **k)
-        self.set_logger_level('debug')
         self.__suppress_send = True
         self.__send_midi = self.canonical_parent._do_send_midi
         self.__push_main_encoders: 'Optional[list[ZEncoder]]' = [None]*8
@@ -112,7 +111,6 @@ class Push1Display(ZCXPlugin):
         return self.__suppress_send
 
     def receive_sysex(self, midi_bytes: tuple[int]):
-        self.log(f'received sysex', midi_bytes)
         if midi_bytes == LIVE_MODE:
             self.__suppress_send = True
         elif midi_bytes == USER_MODE:

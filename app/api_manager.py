@@ -29,7 +29,7 @@ class ApiManager(ZCXComponent):
         super().__init__(name=name, *a, **k)
 
     def setup(self):
-        self.log(f'{self.name} doing setup')
+        self.debug(f'{self.name} doing setup')
 
     def get_api_object(self):
         return ZcxApi(self.canonical_parent)

@@ -40,7 +40,7 @@ class ZEncoder(EventObject):
 
     def log(self, *msg):
         for msg in msg:
-            self._logger.info(f'({self._name}): {msg}')
+            self._logger.debug(f'({self._name}): {msg}')
 
     def setup(self):
         self._context = self._raw_config["context"]

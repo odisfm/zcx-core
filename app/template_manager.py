@@ -19,7 +19,7 @@ class TemplateManager:
         self.__config_dir = CONFIG_DIR
         self.__color_templates = {}
         self.load_control_templates()
-        self.log(f'{self.__name} initialised')
+        self.__logger.debug(f'{self.__name} initialised')
 
     def log(self, *msg):
         for msg in msg:

@@ -40,7 +40,7 @@ PREF_MANAGER = None
 plugin_loader: 'Optional[PluginLoader]' = None
 
 def create_mappings(arg) -> dict:
-    ROOT_LOGGER.info('Creating mappings')
+    ROOT_LOGGER.debug('Creating mappings')
 
     named_button_names = NAMED_BUTTONS.keys()
     encoder_names = ENCODERS.keys()
@@ -149,6 +149,11 @@ def create_instance(c_instance):
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
 
+    dir_name = __file__.split('/')[-2]
+    canon_name = dir_name.lstrip('_')
+
+    ROOT_LOGGER.info(f'{canon_name} starting...')
+
     log_filename = os.path.join(os.path.dirname(__file__), "log.txt")
 
     if not os.path.exists(log_filename):
@@ -195,7 +200,6 @@ def create_instance(c_instance):
 
     # ClyphX Pro (sometimes) relies on class names to locate scripts
     # without this dynamic name, ClyphX can't differentiate between zcx scripts
-    dir_name = __file__.split('/')[-2].lstrip('_') # dir name minus any leading underscores
     dynamically_named_core = type(dir_name, (ZCXCore,), {})
 
     return dynamically_named_core(Specification, c_instance=c_instance)

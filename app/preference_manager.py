@@ -9,7 +9,7 @@ class PreferenceManager:
 
     def __init__(self, logger):
         self._logger = logger.getChild('PreferenceManager')
-        self.log(f'PreferenceManager initialized')
+        self._logger.debug(f'PreferenceManager initialized')
         self.this_dir = os.path.dirname(__file__)
         # self._logger.error(f'this_dir: {self.this_dir}')
         try:
@@ -130,7 +130,7 @@ class PreferenceManager:
     def evaluate_config_dir(self):
         song = self.find_song()
 
-        self.log(f'the song is called {song.name}')
+        self.log(f'the song is called `{song.name}`')
 
         config_pattern_list = self.user_prefs.get('configs', [])
 
