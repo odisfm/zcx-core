@@ -165,11 +165,15 @@ class ZCXCore(ControlSurface):
             self.debug(f'finished ActionResolver setup')
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
-                self.debug(f'starting plugin {plugin_name} setup')
-                plugin_instance.setup()
-                self.debug(f'finished plugin {plugin_name} setup')
+                try:
+                    self.debug(f'starting plugin {plugin_name} setup')
+                    plugin_instance.setup()
+                    self.debug(f'finished plugin {plugin_name} setup')
+                except Exception as e:
+                    self.critical(f'{plugin_name} plugin setup failed:', e)
 
         except Exception as e:
+            self.critical(e)
             raise e
         self.component_map['HardwareInterface'].refresh_all_lights()
 
