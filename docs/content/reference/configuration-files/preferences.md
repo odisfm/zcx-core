@@ -58,7 +58,7 @@ If the plugin came with zcx you will find this information in the [hardware refe
 ### log_level
 
 ```yaml
-log_level: info
+logging: info
 ```
 
 Configures how detailed the zcx logs are. From most to least detailed, the options are:
