@@ -66,6 +66,14 @@ Enable, disable, or toggle a zcx mode.
 
 `ZCX <target script> MODE TGL SHIFT`
 
+#### MSG
+
+**Only on [Push 1](/reference/hardware-reference/push-1)**
+
+Write a message to the controller's display. The message must be enclosed in double-quotes.
+
+`ZCX <target script> MSG "hello there"`
+
 #### Color commands
 
 These commands allow you to set the color on an individual control by [alias](/reference/control-reference/z-control#alias), as well as across an entire section or group of controls.
@@ -90,3 +98,4 @@ Set the color of every control in a [matrix section](/tutorials/getting-started/
 Set the color of every control in a [group of controls](/reference/template-reference/#group-templates).
 
 `ZCX <target script> SET_GROUP_COLOR scene_buttons 127`
+
