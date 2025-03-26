@@ -212,6 +212,6 @@ def create_instance(c_instance):
 
     # ClyphX Pro (sometimes) relies on class names to locate scripts
     # without this dynamic name, ClyphX can't differentiate between zcx scripts
-    dynamically_named_core = type(dir_name, (ZCXCore,), {})
+    dynamically_named_core = type(canon_name, (ZCXCore,), {})
 
     return dynamically_named_core(Specification, c_instance=c_instance)
