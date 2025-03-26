@@ -86,6 +86,8 @@ class ZManager(ZCXComponent):
         self.__global_control_template = manager.global_control_template
 
     def process_pad_section(self, pad_section: PadSection):
+        self.debug(f'Processing pad_section {pad_section.name}')
+
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
 
         raw_section_config = self.yaml_loader.load_yaml(
@@ -101,11 +103,13 @@ class ZManager(ZCXComponent):
                 item_config = context_config[i]
                 state: ZState.State = matrix_state.get_control(coord[0], coord[1])
                 control = self.z_control_factory(item_config, pad_section)
+                self.debug(f'instantiated {pad_section.name} control #{i}')
                 control.bind_to_state(state)
                 control.raw_config = context_config[i]
                 control.setup()
+                self.debug(f'{pad_section.name} control #{i} successfully setup')
         except Exception as e:
-            self.log(e)
+            self.error(e)
 
         self.__matrix_sections[pad_section.name] = pad_section
 
@@ -552,6 +556,8 @@ class ZManager(ZCXComponent):
         try:
             control_type = config.get("type") or "basic"
             control_cls = get_control_class(control_type)
+
+            self.debug(f'creating control:', config)
 
             if control_cls is None:
                 raise ValueError(f"Control class for type '{control_type}' not found")
