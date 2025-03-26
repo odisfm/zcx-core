@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 from typing import Type
 
 from ableton.v3.control_surface import (
@@ -192,4 +193,9 @@ def create_instance(c_instance):
     add_plugins_to_component_map(plugin_loader.hardware_plugins)
     add_plugins_to_component_map(plugin_loader.user_plugins)
 
-    return ZCXCore(Specification, c_instance=c_instance)
+    # ClyphX Pro (sometimes) relies on class names to locate scripts
+    # without this dynamic name, ClyphX can't differentiate between zcx scripts
+    dir_name = __file__.split('/')[-2].lstrip('_') # dir name minus any leading underscores
+    dynamically_named_core = type(dir_name, (ZCXCore,), {})
+
+    return dynamically_named_core(Specification, c_instance=c_instance)
