@@ -31,8 +31,6 @@ class ZCXCore(ControlSurface):
                 self.warning = partial(self.log, level='warning')
                 self.critical = partial(self.log, level='critical')
 
-                self.set_logger_level('info')
-
                 app = self.application
                 this_live_version = (app.get_major_version(), app.get_minor_version())
 

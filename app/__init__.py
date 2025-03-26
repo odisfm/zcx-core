@@ -160,16 +160,28 @@ def create_instance(c_instance):
         for handler in ROOT_LOGGER.handlers[:]:
             ROOT_LOGGER.removeHandler(handler)
 
+    pref_manager = PreferenceManager(ROOT_LOGGER)
+    prefs = pref_manager.user_prefs
+
+    fallback_level = 'info'
+    log_pref = prefs.get('logging', fallback_level)
+    try:
+        log_level = getattr(logging, log_pref.upper())
+    except AttributeError:
+        ROOT_LOGGER.error(f'Invalid logging level `{log_pref}`, reverting to `info`')
+        log_level = logging.INFO
+
+    ROOT_LOGGER.setLevel(log_level)
+
     if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_filename for h in ROOT_LOGGER.handlers):
         file_handler = logging.FileHandler(log_filename, mode="a")
-        file_handler.setLevel(logging.INFO)
+        file_handler.setLevel(log_level)
 
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s') # todo
         file_handler.setFormatter(formatter)
 
         ROOT_LOGGER.addHandler(file_handler)
 
-    pref_manager = PreferenceManager(ROOT_LOGGER)
     ROOT_LOGGER.debug(pref_manager.user_prefs)
     PREF_MANAGER = pref_manager
 
