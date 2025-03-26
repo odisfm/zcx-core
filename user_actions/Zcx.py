@@ -130,6 +130,10 @@ class Zcx(UserActionsBase):
                         control.set_color(target_color)
                         control.request_color_update()
 
+            elif sub_action == 'msg':
+                message_portion = args.split('"')[1] # will fix
+                target_script.write_display_message(message_portion)
+
             else:
                 raise ValueError(f'Unknown action {sub_action}')
         except Exception as e:

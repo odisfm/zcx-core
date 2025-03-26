@@ -106,6 +106,8 @@ class Push1Display(ZCXPlugin):
         if self._message_line:
             self.write_message_to_line('                       welcome to  zcx for push 1', timeout=5.0)
 
+        self.add_api_method('write_display_message', self.receive_message_from_ua)
+
     @property
     def suppress_send(self):
         return self.__suppress_send
@@ -330,6 +332,18 @@ class Push1Display(ZCXPlugin):
                 result = result[0] + result[1:].replace(char, '')
 
         return result[:max_len]
+
+    def receive_message_from_ua(self, message: str, timeout=3.0) -> bool:
+        try:
+            message = str(message)
+            self.write_message_to_line(message, line_number=self._message_line, timeout=timeout)
+
+        except Exception as e:
+            self.error(e)
+            self.error(f'Failed to write message: {message}')
+            return False
+
+        return True
 
 class DelayedDisplayRefreshTask(TimerTask):
 
