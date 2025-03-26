@@ -15,20 +15,23 @@ class TrackControl(ZControl):
 
     def setup(self):
         super().setup()
-        raw_config = self._raw_config
+        try:
+            raw_config = self._raw_config
 
-        if 'track' not in raw_config:
-            return
+            if 'track' not in raw_config:
+                return
 
-        track = raw_config['track']
-        if '${' in track:
-            parse, status = self.action_resolver.compile(track, self._vars, self._context)
-            if status != 0:
-                raise ConfigurationError(f'Unparseable track definition: {track}\n'
-                                         f'{self._raw_config}')
-            track = parse
+            track = raw_config['track']
+            if '${' in track:
+                parse, status = self.action_resolver.compile(track, self._vars, self._context)
+                if status != 0:
+                    raise ConfigurationError(f'Unparseable track definition: {track}\n'
+                                             f'{self._raw_config}')
+                track = parse
 
-        self.set_track_by_name(track)
+            self.set_track_by_name(track)
+        except Exception as e:
+            self._parent_logger.error(e)
 
     @listenable_property
     def track(self):
@@ -37,7 +40,7 @@ class TrackControl(ZControl):
     @track.setter
     def track(self, track_obj):
         if track_obj is None:
-            self.track = None
+            self._track = None
             return
         self._track = track_obj
         self.build_color_dict()
@@ -82,6 +85,8 @@ class TrackControl(ZControl):
             track_obj = list(self.root_cs.song.tracks)[track_num]
         except ValueError:
             track_obj = self.get_track_by_name(track_name)
+            if track_obj is None:
+                self._parent_logger.error(f'No track named `{track_name}`')
         self.track = track_obj
 
     def get_track_by_name(self, name):
