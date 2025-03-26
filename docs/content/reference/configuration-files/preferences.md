@@ -84,11 +84,3 @@ load_user_plugins: true
 ```
 
 Determines whether any user plugins (located in `zcx/plugins`) will be loaded.
-
-### allow_python_command
-
-```yaml
-allow_python_command: false
-```
-
-Enables the [Python command type](/reference/command-reference#python).
