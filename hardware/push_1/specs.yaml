@@ -25,3 +25,15 @@ encoders:
   mode: RELATIVE_SMOOTH_TWO_COMPLIMENT
   sensitivity: 1.0
   feedback: false
+
+preferences:
+  session_ring:
+    width: 2
+    height: 2
+
+  plugins:
+    push_1_display:
+      encoder_mappings: 1
+      encoder_values: 2
+      message: 3
+      ring_tracks: 4

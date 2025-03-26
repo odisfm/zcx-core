@@ -16,10 +16,17 @@ class PreferenceManager:
             self.__default_prefs = self.load_yaml('default_preferences.yaml')
             self.__user_prefs = self.load_yaml(f'_global_preferences.yaml')
         except Exception as e:
-            self._logger.error(f'Failed to load preferences.yaml:', {e})
+            self._logger.error(f'Failed to load preferences.yaml:', {e}) # todo: handle separately
             raise e
 
-        self.__flattened_prefs = self.deep_merge(self.__default_prefs, self.__user_prefs)
+        specs = self.load_yaml('hardware/specs.yaml')
+        hardware_prefs = specs.get('preferences', {})
+
+        hw_default = self.deep_merge(self.__default_prefs, hardware_prefs)
+
+        user_hw = self.deep_merge(hw_default, self.__user_prefs)
+
+        self.__flattened_prefs = user_hw
 
         self.__first_cs = list(control_surfaces)[0]
 
