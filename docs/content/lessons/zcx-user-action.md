@@ -42,7 +42,7 @@ This is the number of the control surface script slot the zcx script resides in.
 
 ### Available commands
 
-#### Page
+#### PAGE
 
 Activate a particular page by name or number.
 
@@ -56,7 +56,7 @@ Or cycle through pages.
 
 `ZCX <target script> PAGE PREV`
 
-#### Mode
+#### MODE
 
 Enable, disable, or toggle a zcx mode.
 
