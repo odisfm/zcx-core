@@ -43,6 +43,7 @@ class ModeManager(ZCXComponent):
             raise ValueError(f'Mode {mode_name} is not defined in {self._config_dir}/modes.yaml')
         self.__modes_state[mode_name] = True
         self.notify_current_modes(self.current_modes)
+        self.debug(f'Added mode {mode_name}')
 
     def remove_mode(self, mode_name):
         mode = self.__modes_state.get(mode_name)
@@ -50,6 +51,7 @@ class ModeManager(ZCXComponent):
             raise ValueError(f'Mode {mode_name} is not defined in {self._config_dir}/modes.yaml')
         self.__modes_state[mode_name] = False
         self.notify_current_modes(self.current_modes)
+        self.debug(f'Removed mode {mode_name}')
 
     def toggle_mode(self, mode_name):
         mode = self.__modes_state.get(mode_name)
@@ -57,6 +59,7 @@ class ModeManager(ZCXComponent):
             raise ValueError(f'Mode {mode_name} is not defined in {self._config_dir}/modes.yaml')
         self.__modes_state[mode_name] = not self.__modes_state[mode_name]
         self.notify_current_modes(self.current_modes)
+        self.debug(f'Toggled mode {mode_name}')
 
     def is_valid_mode(self, mode):
         return mode in self.__modes_state

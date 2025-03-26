@@ -51,9 +51,8 @@ class ModeControl(ZControl):
     def modes_changed(self, _):
         current_modes = self.mode_manager.current_modes
         my_mode_active = current_modes.get(self._bound_mode) is True
-        self.log(current_modes)
         if my_mode_active:
-            self.log('my mode active!')
+            self._parent_logger.debug('my mode active!')
             self._color = self._color_dict.get('attention')
         else:
             self._color = self._color_dict.get('base')
