@@ -43,6 +43,16 @@ session_ring:
 Sets the dimensions of the [session ring](/lessons/session-ring).
 You may disable the ring by setting one or both of `width` and `height` to `0`.
 
+### inital_hw_mode
+```yaml
+initial_hw_mode: zcx
+```
+
+Options:
+
+- `zcx` - When zcx loads, switch the device to user mode.
+- `live` - Do not attempt to take control of the hardware on set load.
+
 ### plugins
 
 ```yaml

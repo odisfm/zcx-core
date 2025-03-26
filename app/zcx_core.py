@@ -7,7 +7,7 @@ from ableton.v3.control_surface import (
     ControlSurface
 )
 
-from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT, AUTO_SWITCH_MODE
+from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT
 from .template_manager import TemplateManager
 from .session_ring import SessionRing
 from .consts import REQUIRED_LIVE_VERSION
@@ -46,6 +46,11 @@ class ZCXCore(ControlSurface):
                                           f'You are using {this_version_string}',
                                           traceback=False, boilerplate=False)
 
+                from . import PREF_MANAGER
+                user_prefs = PREF_MANAGER.user_prefs
+
+                initial_hw_mode = user_prefs.get('initial_hw_mode', 'zcx')
+
                 self.template_manager = TemplateManager(self)
                 self.component_map["ZManager"].load_control_templates()
 
@@ -66,7 +71,7 @@ class ZCXCore(ControlSurface):
 
                 self.post_init()
 
-                if AUTO_SWITCH_MODE and USER_MODE is not None:  # todo: preference to stay in Live mode on init
+                if initial_hw_mode == 'zcx' and USER_MODE is not None:
                     if INIT_DELAY > 0:
                         delay = INIT_DELAY / 1000
                         sysex_task = DelayedSysexTask(self, duration=delay, sysex_tuple=USER_MODE)
