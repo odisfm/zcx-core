@@ -97,7 +97,7 @@ class EncoderManager(ZCXComponent):
                     flat_defs[encoder_name] = encoder_def
         except ConfigurationError as e:
             # todo: allow continue based on preference
-            raise e
+            raise
 
         for group_name, group_def in grouped_defs.items():
             group_context = {

@@ -22,7 +22,7 @@ class PageControl(ZControl):
             super().handle_gesture(gesture)
         except ValueError as e:
             self.animate_failure()
-            raise e
+            raise
 
     def setup(self):
         super().setup()
@@ -93,7 +93,7 @@ class PageControl(ZControl):
         except ConfigurationError as e:
             from .. import SAFE_MODE
             if SAFE_MODE is True:
-                raise e
+                raise
             else:
                 self.log(e)
 

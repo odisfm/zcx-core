@@ -349,7 +349,7 @@ class ActionResolver(ZCXComponent):
 
         except Exception as e:
             self.log(e)
-            raise e
+            raise
 
     def parse_target_path(self, target_string) -> dict:
         """Attempts to parse a target track or device in ClyphX notation,

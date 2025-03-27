@@ -179,7 +179,7 @@ class ZCXCore(ControlSurface):
 
         except Exception as e:
             self.critical(e)
-            raise e
+            raise
         self.component_map['HardwareInterface'].refresh_all_lights()
 
     def song_ready(self):

@@ -314,7 +314,7 @@ class ZManager(ZCXComponent):
                     flat_config.append(member_config)
         except Exception as e:
             self.log(f"failed to parse section {section_obj.name} config", raw_config)
-            raise e
+            raise
 
         return flat_config
 
@@ -550,7 +550,7 @@ class ZManager(ZCXComponent):
             return processed_ungrouped
 
         except Exception as e:
-            raise e
+            raise
 
     def z_control_factory(self, config, pad_section) -> ZControl:
         try:
@@ -577,7 +577,7 @@ class ZManager(ZCXComponent):
             from . import SAFE_MODE
 
             if SAFE_MODE is True:
-                raise e
+                raise
             self.log(e)
             return get_control_class("basic")(self.canonical_parent, pad_section, {})
 
