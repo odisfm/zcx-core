@@ -112,6 +112,13 @@ class ZCXCore(ControlSurface):
                     popup_string += f'Traceback: \n\n'
                     popup_string += relevant_tb
 
+                try:
+                    self._logger.critical(popup_string)
+                    self._logger.critical(traceback.format_exc())
+                    self._logger.critical(e)
+                except AttributeError:
+                    pass
+
                 self.show_popup(popup_string)
 
                 self.disconnect()
@@ -119,6 +126,7 @@ class ZCXCore(ControlSurface):
 
             except Exception as e:
                 logging.getLogger(__name__).error(e)
+                raise
 
     @property
     def name(self):

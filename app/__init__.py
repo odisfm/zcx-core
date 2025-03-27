@@ -214,4 +214,9 @@ def create_instance(c_instance):
     # without this dynamic name, ClyphX can't differentiate between zcx scripts
     dynamically_named_core = type(canon_name, (ZCXCore,), {})
 
-    return dynamically_named_core(Specification, c_instance=c_instance)
+    try:
+        return dynamically_named_core(Specification, c_instance=c_instance)
+
+    except Exception as e:
+        ROOT_LOGGER.info(e)
+        raise
