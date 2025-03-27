@@ -316,6 +316,26 @@ class ZManager(ZCXComponent):
             self.log(f"failed to parse section {section_obj.name} config", raw_config)
             raise
 
+        num_coords = len(section_obj.owned_coordinates)
+        num_in_config = len(flat_config)
+        num_missing = num_coords - num_in_config
+
+        if num_missing < 0:
+            raise CriticalConfigurationError(
+                f"{section_obj.name}: Too many ({num_in_config}) controls in config. Section has {num_coords} controls.")
+        elif num_missing > 0:
+            dummy_control = {
+                "color": 1,
+                "gestures": {
+                    "pressed": f'msg "This control definition is missing from {section_obj.name}.yaml !"',
+                }
+            }
+            for i in range(num_missing):
+                flat_config.append(dummy_control)
+
+            self.warning(
+                f"{num_missing} controls missing from {section_obj.name}.yaml — dummy controls have been added.")
+
         return flat_config
 
     def apply_section_context(self, section_obj, flat_config):
