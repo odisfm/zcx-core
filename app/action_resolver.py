@@ -80,7 +80,7 @@ class ActionResolver(ZCXComponent):
             'song': self.canonical_parent.song,
             'ring': self.__ring_api,
             'zcx': self.__zcx_api_obj,
-            'log': self.__log_func,
+            'print': self.__log_func,
             'msg': self.__msg_func,
             'cxp': self.__cxp_partial,
             'open': None
