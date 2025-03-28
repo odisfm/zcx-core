@@ -586,6 +586,19 @@ def main():
             check_for_updates(current_version, hardware, include_prereleases)
         )
 
+        latest_ver_obj = semver.Version.parse(latest_version)
+        current_ver_obj = semver.Version.parse(current_version)
+        dummy_current_version = current_ver_obj.major == 0 and current_ver_obj.minor == 0 and current_ver_obj.patch == 0
+
+        if dummy_current_version:
+            pass
+        elif current_ver_obj.major == latest_ver_obj.major:
+            pass
+        elif current_ver_obj.major == 0 and latest_ver_obj.major == 1:
+            pass
+        else:
+            raise RuntimeError(f"Too big a jump between versions: (v{current_version} -> v{latest_version})")
+
         if not latest_version:
             raise RuntimeError(f"Update check failed.")
 
