@@ -206,7 +206,7 @@ class ZManager(ZCXComponent):
                     pad_overrides = raw_config.get(
                         "controls", [None] * len(section_obj.owned_coordinates)
                     )
-                    section_template = {
+                    group_template = {
                         k: v for k, v in raw_config.items() if k != "controls"
                     }
                     raw_config = []
@@ -214,9 +214,9 @@ class ZManager(ZCXComponent):
                     for i in range(len(section_obj.owned_coordinates)):
                         override = pad_overrides[i] if i < len(pad_overrides) else None
                         if override is None:
-                            raw_config.append(deepcopy(section_template))
+                            raw_config.append(deepcopy(group_template))
                         else:
-                            merged = merge_configs(deepcopy(section_template), override)
+                            merged = merge_configs(deepcopy(group_template), override)
                             raw_config.append(merged)
 
             elif not isinstance(raw_config, list):
