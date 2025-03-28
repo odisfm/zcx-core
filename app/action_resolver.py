@@ -250,7 +250,6 @@ class ActionResolver(ZCXComponent):
             for command in commands:
                 if isinstance(command, str):
                     if parsed := self._compile_and_check(command, vars_dict, context):
-                        self.log(f'doing cxp action:', parsed)
                         self.__cxp.trigger_action_list(parsed)
 
                 elif isinstance(command, dict):
@@ -259,7 +258,6 @@ class ActionResolver(ZCXComponent):
                     match command_type:
                         case 'cxp':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
-                                self.log(f'doing cxp action:', parsed)
                                 self.__cxp.trigger_action_list(parsed)
                         case 'log':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:

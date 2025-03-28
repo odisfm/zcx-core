@@ -9,6 +9,7 @@
 
 strict_mode: true
 log_level: info
+action_log: true
 
 load_user_plugins: true
 load_hardware_plugins: true

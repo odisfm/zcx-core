@@ -98,3 +98,11 @@ load_user_plugins: true
 ```
 
 Determines whether any user plugins (located in `zcx/plugins`) will be loaded.
+
+### action_log
+
+```yaml
+action_log: true
+```
+
+When set to `true`, all triggered ClyphX Pro action lists will be logged.

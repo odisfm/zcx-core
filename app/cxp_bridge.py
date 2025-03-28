@@ -16,6 +16,16 @@ class CxpBridge(ZCXComponent):
         self.__clyph_x = None
         self.__live = self.application
         self.get_clyph_x()
+        self.__log_action_lists = True
+
+    def setup(self):
+        from . import PREF_MANAGER
+        prefs = PREF_MANAGER.user_prefs
+        log_action_lists = prefs.get('action_log', True)
+        if not type(log_action_lists) is bool:
+            self.error(f'Invalid option for `action_log`: {log_action_lists}')
+            log_action_lists = True
+        self.__log_action_lists = log_action_lists
 
     def get_clyph_x(self):
         if self.__clyph_x is not None:
@@ -44,3 +54,6 @@ class CxpBridge(ZCXComponent):
             raise RuntimeError(f"Not connected to {CXP_NAME}. Is it selected as a control surface in Live?")
 
         self.__clyph_x.trigger_action_list(action_list)
+
+        if self.__log_action_lists:
+            self.log(f'did action list: `{action_list}`')
