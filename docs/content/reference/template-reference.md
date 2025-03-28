@@ -100,7 +100,7 @@ drum_pad_section:
       "beats" / PLAY RND${clip_1a}-${clip_1b}
 ```
 
-This is a [control template](#control-templates) that, when [applied to a matrix section](#whole-section-templates), will produce the following ouput:
+This is a [control template](#control-templates) that, when [applied to a matrix section](#whole-section-groups), will produce the following output:
 
 ```
 pad 1: "beats" / PLAY RND9-10
@@ -318,7 +318,7 @@ This is a representation of how zcx processes this section under the hood:
     pressed_delayed: METRO
 ```
 
-#### whole-section templates
+#### whole-section groups
 
 It is possible to define an entire matrix section with one group definition. To do this, the yaml file for the section should contain a single dict, instead of the usual list:
 
@@ -345,6 +345,20 @@ This template will be applied for every control in the section. You can imagine 
   gestures:
     pressed: CLIP PLAY 3
 ...
+```
+
+#### section templates
+
+An alternative [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](/reference/configuration-files/matrix-sections). To do so, add a `template` key:
+
+```yaml hl_lines="6-7"
+my_section:
+  col_start: 0
+  col_end: 7
+  row_start: 0
+  row_end: 7
+  template:
+    color: red
 ```
 
 ## control templates

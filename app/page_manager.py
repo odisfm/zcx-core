@@ -189,6 +189,8 @@ class PageManager(ZCXComponent):
         row_start = section_config["row_start"]
         row_end = section_config["row_end"]
 
+        section_template = section_config.get("template", {})
+
         control_states = []
         owned_coordinates = []
 
@@ -213,6 +215,7 @@ class PageManager(ZCXComponent):
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
             width=(row_end - row_start + 1),
+            raw_template=section_template,
         )
 
         self._registered_disconnectables.append(section_object)

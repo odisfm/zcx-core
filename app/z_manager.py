@@ -195,6 +195,15 @@ class ZManager(ZCXComponent):
 
             global_template = self.__global_control_template
             control_templates = self.__control_templates
+
+            section_template = section_obj._raw_template
+            self.debug(f"{section_obj.name} template: {section_template}")
+
+            if isinstance(section_template, dict):
+                section_template = section_template
+            else:
+                raise ConfigurationError(f"Section {section_obj.name} `template` key must be a dict:\n{raw_config}")
+
             flat_config = []
             unnamed_groups = 0
 
@@ -209,6 +218,8 @@ class ZManager(ZCXComponent):
                     group_template = {
                         k: v for k, v in raw_config.items() if k != "controls"
                     }
+                    if not group_template.get('skip_section_template', False):
+                        group_template = merge_configs(section_template, group_template)
                     raw_config = []
 
                     for i in range(len(section_obj.owned_coordinates)):
@@ -229,6 +240,10 @@ class ZManager(ZCXComponent):
                 if "pad_group" not in config:
                     # Apply templates
                     skip_global = False
+
+                    if not config.get('skip_section_template', False):
+                        config = merge_configs(section_template, config)
+
                     if "template" in config:
                         config, skip_global = apply_control_templates(config)
 

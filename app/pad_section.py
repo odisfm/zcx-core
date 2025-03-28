@@ -9,7 +9,14 @@ class PadSection(EventObject):
     root_cs = None
     page_manager = None
 
-    def __init__(self, section_name, owned_coordinates, pages_in, width):
+    def __init__(
+            self,
+            section_name,
+            owned_coordinates,
+            pages_in,
+            width,
+            raw_template=None
+    ):
         super().__init__()
         self.__name = section_name
         self.__pages_in = pages_in
@@ -34,6 +41,7 @@ class PadSection(EventObject):
                 "height": max_y - min_y + 1,
             }
         self.__owned_controls = []
+        self._raw_template = raw_template if raw_template is not None else {}
 
     def log(self, *msg):
         for msg in msg:
