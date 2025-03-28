@@ -81,7 +81,19 @@ class ZCXCore(ControlSurface):
                         self._do_send_midi(USER_MODE)
                 self.application.add_control_surfaces_listener(self.song_ready)
 
-                self.log(f'{self.name} loaded :)', level='critical')
+                from .yaml_loader import yaml_loader
+                zcx_yaml = yaml_loader.load_yaml('zcx.yaml')
+                self.debug(zcx_yaml)
+                version = zcx_yaml.get('version')
+
+                if version is None or version == "0.0.0":
+                    version_string = ''
+                    self.__version = None
+                else:
+                    version_string = f"v{version} "
+                    self.__version = version
+
+                self.log(f'{self.name} {version_string}loaded :)', level='critical')
             except ZcxStartupError:
                 raise
             except Exception as e:
@@ -137,6 +149,10 @@ class ZCXCore(ControlSurface):
         if not self._enabled:
             raise RuntimeError(f'{self.name} is not enabled.')
         return self.component_map["ApiManager"].get_api_object()
+
+    @property
+    def version(self):
+        return self.__version
 
     def log(self, *msg, level='info'):
         method = getattr(self._logger, level)
