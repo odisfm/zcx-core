@@ -767,7 +767,7 @@ def main():
         logger.error(traceback.format_exc())
         logger.error(f"Unexpected error during update: {e}")
         logger.error(
-            f"\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade"
+            f"\nzcx auto upgrade failed. \n\nVisit https://www.zcxcore.com/lessons/upgrade\nGet help in the Discord https://discord.zcxcore.com"
         )
         if "backup_dir" in locals() and backup_dir is not None:
             logger.info(f"Backup location: {backup_dir}")
