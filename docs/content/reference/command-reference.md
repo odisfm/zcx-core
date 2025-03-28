@@ -254,3 +254,23 @@ left:
       ring:
         x: -1
 ```
+
+### python
+
+Execute Python code in a [limited execution context](/lessons/python-context).
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      python: |
+        for i, track in enumerate(song.tracks):
+          if i != 0 and i % 15 == 0:
+            print("fizzbuzz")
+          elif i != 0 and i % 5 == 0:
+            print("buzz")
+          elif i != 0 and i % 3 == 0:
+            print("fizz")
+          else:
+            print(track.name)
+```
