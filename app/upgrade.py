@@ -690,7 +690,7 @@ def main():
         )
         logger.info(f"Backup location: {backup_dir}")
 
-        upgrade_ua = input(f'Install/upgrade the Zcx user action? (Y/n): ')
+        upgrade_ua = input(f'{PURPLE}Install/upgrade the Zcx user action? (Y/n): {RESET}')
         if upgrade_ua.lower() != "n":
             user_actions_source = os.path.join(download_dir, "_user_actions", "Zcx.py")
 
