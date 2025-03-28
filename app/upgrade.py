@@ -673,7 +673,7 @@ def main():
             logger.warning("Issues restoring user data, update may be incomplete")
 
         logger.info(
-            f"\nUpdate successfully completed! Version: v{current_version} -> v{latest_version}"
+            f"\n{GREEN}Update successfully completed! Version: v{current_version} -> v{latest_version}{RESET}"
         )
         logger.info(f"Backup location: {backup_dir}")
 
