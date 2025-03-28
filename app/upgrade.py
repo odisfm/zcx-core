@@ -677,7 +677,37 @@ def main():
         )
         logger.info(f"Backup location: {backup_dir}")
 
-        new_upgrade_path = os.path.join(core_dir, "upgrade.py")
+        upgrade_ua = input(f'Install/upgrade the Zcx user action? (Y/n): ')
+        if upgrade_ua.lower() != "n":
+            user_actions_source = os.path.join(download_dir, "_user_actions", "Zcx.py")
+
+            parent_dir = os.path.dirname(script_dir)
+            parent_dir_name = os.path.basename(parent_dir)
+
+            if parent_dir_name != "Remote Scripts":
+                logger.error(f"Parent directory is not 'Remote Scripts': {parent_dir}")
+                raise RuntimeError("Parent directory must be 'Remote Scripts' to install Zcx user action.")
+
+            user_actions_target_dir = os.path.join(parent_dir, "_user_actions")
+
+            if not os.path.exists(user_actions_source):
+                logger.error(f"Zcx user action file not found in update package: {user_actions_source}")
+                raise RuntimeError("Zcx user action file not found in update package")
+
+            if not os.path.exists(user_actions_target_dir):
+                logger.error(f"_user_actions directory does not exist: {user_actions_target_dir}")
+                raise RuntimeError("_user_actions directory does not exist. Cannot install Zcx user action.")
+
+            target_file = os.path.join(user_actions_target_dir, "Zcx.py")
+            try:
+                shutil.copy2(user_actions_source, target_file)
+                logger.info(f"Successfully installed Zcx user action to: {target_file}")
+            except Exception as e:
+                logger.error(f"Failed to copy Zcx user action: {e}")
+                raise RuntimeError("Failed to install Zcx user action")
+
+
+        new_upgrade_path = os.path.join(core_dir, "/upgrade.py")
         if os.path.exists(new_upgrade_path):
             current_path = os.path.abspath(__file__)
             temp_path = current_path + ".tmp"
