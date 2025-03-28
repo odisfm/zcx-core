@@ -67,12 +67,13 @@ class ActionResolver(ZCXComponent):
         self.__msg_func = lambda message: self.canonical_parent.show_message(message)
         self.__interpreter = Interpreter()
         self.__cxp_partial = None
-        self.__standard_context = self.__build_standard_context()
+        self.__standard_context = {}
 
     def setup(self):
         self.__ring_api = self.canonical_parent._session_ring_custom.api
         self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
         self.__cxp_partial = partial(self.__cxp.trigger_action_list)
+        self.__standard_context = self.__build_standard_context()
 
     def __build_standard_context(self) -> dict[str: Any]:
 
