@@ -59,6 +59,10 @@ gestures:
   presssed: PLAY ${me.Index + 8}  # PLAY 9
 ```
 
+!!! note
+
+    To read about how zcx handles user-supplied expressions safely, see [this lesson](/lessons/python-context).
+
 ### complex expressions
 
 There may be times when then value you want to fill is impractical or impossible to write inside the braces. In this case you can use the `vars` option in your yaml config.
