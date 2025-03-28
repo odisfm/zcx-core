@@ -143,9 +143,9 @@ pad 2 (with shift): "beats" / PLAY RND43-44
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
     - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with [ClyphX variables](https://www.cxpman.com/manual/core-concepts/#variables), e.g. `%my_track% / PLAY ${me.Index}` 
 
-### template globals
+### template locals
 
-The following variables can be accessed within template strings.
+The following variables and functions can be accessed within template strings.
 
 #### zcx
 
@@ -159,17 +159,13 @@ Provides access to the Live set's [song object](https://docs.cycling74.com/apire
 
 Allows references to the enclosed tracks and scenes of [the zcx session ring](/lessons/session-ring#referencing-the-ring-from-template-strings).
 
-### template functions
-
-The following functions can be invoked from template strings.
-
-#### log
+#### print
 
 Allows you to write to the log. Mostly useful with [Python commands](/reference/command-reference#python).
 
-#### randint
+#### msg
 
-The `randint` method from [Python's random module](https://docs.python.org/3/library/random.html#random.randint).
+Briefly displays a message in the Live UI, like with the [msg command](/reference/command-reference#msg).
 
 ## group templates
 
