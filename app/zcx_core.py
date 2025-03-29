@@ -7,8 +7,11 @@ from ableton.v3.control_surface import (
     ControlSurface
 )
 
-from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT, AUTO_SWITCH_MODE
+from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT
 from .template_manager import TemplateManager
+from .session_ring import SessionRing
+from .consts import REQUIRED_LIVE_VERSION
+from .errors import ZcxStartupError
 
 root_cs = None
 
@@ -18,54 +21,124 @@ class ZCXCore(ControlSurface):
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
         try:
-            self.__name = __name__.split('.')[0].lstrip('_')
-            from . import ROOT_LOGGER
-            self._logger = ROOT_LOGGER
-            self.error = partial(self.log, level='error')
-            self.debug = partial(self.log, level='debug')
-            self.warning = partial(self.log, level='warning')
-            self.critical = partial(self.log, level='critical')
+            try:
+                self.__name = __name__.split('.')[0].lstrip('_')
+                from . import ROOT_LOGGER
+                self._logger = ROOT_LOGGER
 
-            self.set_logger_level('debug')
-            
-            self.template_manager = TemplateManager(self)
-            self.component_map["ZManager"].load_control_templates()
+                self.error = partial(self.log, level='error')
+                self.debug = partial(self.log, level='debug')
+                self.warning = partial(self.log, level='warning')
+                self.critical = partial(self.log, level='critical')
 
-            from . import plugin_loader
-            plugin_names = plugin_loader.plugin_names
+                app = self.application
+                this_live_version = (app.get_major_version(), app.get_minor_version())
 
-            self.plugin_map = {}
-
-            for plugin_name in plugin_names:
-                self.plugin_map[plugin_name] = self.component_map[plugin_name]
-
-            self.post_init()
-
-            if AUTO_SWITCH_MODE and USER_MODE is not None: # todo: preference to stay in Live mode on init
-                if INIT_DELAY > 0:
-                    delay = INIT_DELAY / 1000
-                    sysex_task = DelayedSysexTask(self, duration=delay, sysex_tuple=USER_MODE)
-                    self._task_group.add(sysex_task)
-                    sysex_task.restart()
+                if (this_live_version[0] > REQUIRED_LIVE_VERSION[0]) or (
+                        this_live_version[0] == REQUIRED_LIVE_VERSION[0] and this_live_version[1] >=
+                        REQUIRED_LIVE_VERSION[1]
+                ):
+                    pass
                 else:
-                    self._do_send_midi(USER_MODE)
-            self.application.add_control_surfaces_listener(self.song_ready)
+                    this_version_string = f'{this_live_version[0]}.{this_live_version[1]}'
+                    required_version_string = f'{REQUIRED_LIVE_VERSION[0]}.{REQUIRED_LIVE_VERSION[1]}'
+                    raise ZcxStartupError(f'zcx requires Live version {required_version_string} or above.',
+                                          f'You are using {this_version_string}',
+                                          traceback=False, boilerplate=False)
 
-            self.log(f'{self.name} loaded :)', level='critical')
+                from . import PREF_MANAGER
+                user_prefs = PREF_MANAGER.user_prefs
 
-        except Exception as e:
+                initial_hw_mode = user_prefs.get('initial_hw_mode', 'zcx')
+
+                self.template_manager = TemplateManager(self)
+                self.component_map["ZManager"].load_control_templates()
+
+                from . import plugin_loader
+                plugin_names = plugin_loader.plugin_names
+
+                self._session_ring_custom = None
+                for c in self._components:
+                    self.debug(type(c))
+                    if isinstance(c, SessionRing):
+                        self.debug(f'found the session ring: {c.name}')
+                        self._session_ring_custom = c
+
+                self.plugin_map = {}
+
+                for plugin_name in plugin_names:
+                    self.plugin_map[plugin_name] = self.component_map[plugin_name]
+
+                self.post_init()
+
+                if initial_hw_mode == 'zcx' and USER_MODE is not None:
+                    if INIT_DELAY > 0:
+                        delay = INIT_DELAY / 1000
+                        sysex_task = DelayedSysexTask(self, duration=delay, sysex_tuple=USER_MODE)
+                        self._task_group.add(sysex_task)
+                        sysex_task.restart()
+                    else:
+                        self._do_send_midi(USER_MODE)
+                self.application.add_control_surfaces_listener(self.song_ready)
+
+                from .yaml_loader import yaml_loader
+                zcx_yaml = yaml_loader.load_yaml('zcx.yaml')
+                self.debug(zcx_yaml)
+                version = zcx_yaml.get('version')
+
+                if version is None or version == "0.0.0":
+                    version_string = ''
+                    self.__version = None
+                else:
+                    version_string = f"v{version} "
+                    self.__version = version
+
+                self.log(f'{self.name} {version_string}loaded :)', level='critical')
+            except ZcxStartupError:
+                raise
+            except Exception as e:
+                raise ZcxStartupError(str(e))
+
+        except ZcxStartupError as e:
             try:
                 self.error(e)
 
-                tb_lines = traceback.format_exc().splitlines()
-                relevant_tb = "\n".join(tb_lines[-3:])
+                popup_string = f''
 
-                # todo: user pref to supress popup
-                self.show_popup(f'{self.name} encountered a fatal error while starting.\n'
-                                f"Check Live's Log.txt\n\n"
-                                f"{relevant_tb}\n")
-            except Exception:
+                if e.boilerplate:
+                    popup_string += f"{self.name} encountered a fatal error while starting."
+
+                if len(e.msg) > 0:
+                    for msg in e.msg:
+                        popup_string += f'\n\n{msg}'
+                    popup_string += '\n\n'
+
+                popup_string += \
+                    (f"The script will now disconnect. "
+                     f"Check Live's Log.txt for more details. "
+                     f"Get help at www.zcxcore.com/help\n\n")
+
+                if e.traceback:
+                    tb_lines = traceback.format_exc().splitlines()
+                    relevant_tb = "\n".join(tb_lines[-13:-7])
+                    popup_string += f'Traceback: \n\n'
+                    popup_string += relevant_tb
+
+                try:
+                    self._logger.critical(popup_string)
+                    self._logger.critical(traceback.format_exc())
+                    self._logger.critical(e)
+                except AttributeError:
+                    pass
+
+                self.show_popup(popup_string)
+
+                self.disconnect()
+                self._enabled = False
+
+            except Exception as e:
                 logging.getLogger(__name__).error(e)
+                raise
 
     @property
     def name(self):
@@ -73,7 +146,13 @@ class ZCXCore(ControlSurface):
 
     @property
     def zcx_api(self):
+        if not self._enabled:
+            raise RuntimeError(f'{self.name} is not enabled.')
         return self.component_map["ApiManager"].get_api_object()
+
+    @property
+    def version(self):
+        return self.__version
 
     def log(self, *msg, level='info'):
         method = getattr(self._logger, level)
@@ -110,15 +189,24 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting ApiManager setup')
             self.component_map['ApiManager'].setup()
             self.debug(f'finished ApiManager setup')
-
+            self.debug(f'starting CxpBridge setup')
+            self.component_map['CxpBridge'].setup()
+            self.debug(f'finished CxpBridge setup')
+            self.debug(f'starting ActionResolver setup')
+            self.component_map['ActionResolver'].setup()
+            self.debug(f'finished ActionResolver setup')
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
-                self.debug(f'starting plugin {plugin_name} setup')
-                plugin_instance.setup()
-                self.debug(f'finished plugin {plugin_name} setup')
+                try:
+                    self.debug(f'starting plugin {plugin_name} setup')
+                    plugin_instance.setup()
+                    self.debug(f'finished plugin {plugin_name} setup')
+                except Exception as e:
+                    self.critical(f'{plugin_name} plugin setup failed:', e)
 
         except Exception as e:
-            raise e
+            self.critical(e)
+            raise
         self.component_map['HardwareInterface'].refresh_all_lights()
 
     def song_ready(self):
@@ -126,6 +214,8 @@ class ZCXCore(ControlSurface):
         self.component_map['EncoderManager'].bind_all_encoders()
 
     def port_settings_changed(self):
+        if not self._enabled:
+            return
         super().refresh_state()
         self.refresh_required()
 
@@ -135,10 +225,13 @@ class ZCXCore(ControlSurface):
 
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
-        if midi_chunk[0][0] == 240:
+        if self._enabled and midi_chunk[0][0] == 240:
             sysex_message = midi_chunk[0]
+            self.debug(f'received sysex: {sysex_message}')
             if sysex_message == USER_MODE:
                 self.refresh_required()
+
+            self.invoke_all_plugins('receive_sysex', midi_bytes=sysex_message)
 
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
@@ -148,6 +241,7 @@ class ZCXCore(ControlSurface):
         self.application.show_on_the_fly_message(message)
 
     def invoke_all_plugins(self, method_name: str, **k):
+        self.debug(f'invoking all plugins: {method_name}')
         for plugin_name, plugin_instance in self.plugin_map.items():
             method = getattr(plugin_instance, method_name, None)
             if method is None:

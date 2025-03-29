@@ -8,7 +8,7 @@ zcx uses a lot of jargon. Here is a quick guide to the most important concepts.
 
 ## ZControls
 
-Roughly equivalent to an [X or G control from ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/) (first party controls). Original, I know. You define ZControls in your configuration file and when you press them they trigger action lists. Like with first party controls, you can configure the control's color. However, ZControls can have many additional properties that give you more control(!) over how they behave. There are even special subclasses of controls that offer specific functionality. More on that [later](#control-classes).
+Roughly equivalent to an [X or G control from ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/) (first party controls). Original, I know. You define ZControls in your configuration file and when you press them they trigger action lists. Like with first party controls, you can configure the control's color. However, ZControls can have many additional options that give you more control(!) over how they behave. There are even special subclasses of controls that offer specific functionality. More on that [later](#control-classes).
 
 Although MIDI controllers come in all shapes and sizes, zcx is focused on controllers with a 'matrix' or grid of pads or buttons, such as the Ableton Push, Novation Launchpad, Akai APC, and  others like them. Because of this, zcx makes a distinction between controls that form the matrix, and those that don't.
 
@@ -224,6 +224,13 @@ The names of these modes are completely arbitrary, but they must be defined in y
 ```
 
 ## ZEncoders
+
+!!! warning
+
+    Support for encoders is early, and there are several bugs and limitations of the current system.
+
+    This is improving. You can see the state of this project [here](https://github.com/odisfm/zcx-core/issues?q=is%3Aissue%20state%3Aopen%20milestone%3A%22Better%20encoder%20mappings%22).
+
 
 ZEncoders allow you to dynamically map encoders (knobs, faders, etc.) to parameters in Live. [With some exceptions](https://github.com/odisfm/zcx-core/releases/tag/v0.2.0-alpha.1), targeting of parameters with ZEncoders follows the same syntax as ClyphX encoder bindings:
 

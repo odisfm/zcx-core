@@ -1,8 +1,9 @@
 import copy
+from typing import TYPE_CHECKING
 
 from ableton.v2.base.event import listenable_property
 
-from .errors import ConfigurationError
+from .errors import ConfigurationError, CriticalConfigurationError
 from .pad_section import PadSection
 from .zcx_component import ZCXComponent
 
@@ -11,6 +12,8 @@ MATRIX_MAX_NOTE = 0
 MATRIX_WIDTH = 0
 MATRIX_HEIGHT = 0
 
+if TYPE_CHECKING:
+    from .action_resolver import ActionResolver
 
 class PageManager(ZCXComponent):
 
@@ -31,28 +34,37 @@ class PageManager(ZCXComponent):
         self.__page_names = []
         self.__pad_sections: Dict[PadSection] = {}
         self.__named_button_section: Optional[PadSection] = None
+        self.__page_definitions = {}
+        self.__action_resolver: ActionResolver = None
 
     @listenable_property
     def current_page(self):
         return self.__current_page
+
+    @property
+    def current_page_name(self):
+        return self.__page_names[self.current_page]
 
     def increment_page(self, increment=1):
         new_page = (self.__current_page + increment) % self.__page_count
         self.set_page(page_number=new_page)
 
     def set_page(self, page_number=None, page_name=None):
-        if page_name in self.__page_names:
-            self.__last_page = self.__current_page
-            self.__current_page = self.__page_names.index(page_name)
-            self.notify_current_page()
+        initial_page_set = self.__current_page == -1
+        incoming_page_num = page_number if page_number is not None else self.__page_names.index(page_name)
+        if incoming_page_num < 0 or incoming_page_num >= self.__page_count:
+            self.error(f'invalid page number {incoming_page_num}')
+            return False
+        if incoming_page_num == self.__current_page:
             return True
-        elif type(page_number) is int and self.__page_count > page_number >= 0:
-            self.__last_page = self.__current_page
-            self.__current_page = page_number
-            self.notify_current_page()
-            return True
-        else:
-            raise ValueError(f"invalid value {page_number or page_name} for set_page()")
+        self.__last_page = self.__current_page
+        self.__current_page = page_number
+        self.notify_current_page()
+
+        if not initial_page_set:
+            self.handle_page_commands(self.__current_page, self.__last_page)
+
+        return True
 
     def return_to_last_page(self):
         self.set_page(page_number=self.__last_page)
@@ -62,6 +74,9 @@ class PageManager(ZCXComponent):
             return self.__page_names.index(name)
         except ValueError:
             return False
+
+    def get_page_name_from_index(self, index):
+        return self.__page_names[index]
 
     def is_valid_page_number(self, page_number):
         return 0 <= page_number < self.__page_count
@@ -91,37 +106,58 @@ class PageManager(ZCXComponent):
             raise ValueError(f"invalid value {page} for request_page_change()")
 
     def setup(self):
-        sections_config = self.load_sections_config()
-        pages_config = self.load_pages_config()
+        self.__action_resolver: ActionResolver = self.component_map["ActionResolver"]
+
+        sections_config = self.load_sections_config()  # raw yaml
+        pages_config = self.load_pages_config()  # raw yaml
+
+        pages_dict = {}
 
         if pages_config is None:
-            pages_dict = {}
-            main = []
-            for section in sections_config.keys():
-                main.append(section)
-            pages_dict["main"] = main
-            pages_order = copy.copy(main)
+            # If no pages config, create default from sections
+            main_sections = list(sections_config.keys())
+            pages_dict["main"] = {"sections": main_sections}
+            pages_order = ["main"]
         else:
-            pages_dict = copy.copy(pages_config.get("pages"))
-            pages_order = pages_config.get("order")
-            if pages_order is None:
+            raw_pages = pages_config.get("pages", {})
+            # Process each page, handling both list and dict formats
+            for page_name, page_def in raw_pages.items():
+                if isinstance(page_def, list):
+                    pages_dict[page_name] = {"sections": page_def}
+                elif isinstance(page_def, dict):
+                    if "sections" not in page_def:
+                        raise CriticalConfigurationError(f'Pages `{page_name}` missing `sections` key: {page_def}')
+                    pages_dict[page_name] = page_def
+                else:
+                    raise CriticalConfigurationError(f'Malformed page definition for `{page_name}`: {page_def}')
+
+            # Get page order (or use all keys if not specified)
+            if "order" in pages_config:
+                pages_order = pages_config.get("order", [])
+                for page_name in pages_order:
+                    if page_name not in pages_dict:
+                        raise CriticalConfigurationError(f"Page `{page_name}` specified in order does not exist")
+                # Only include pages that are specified in the order
+            else:
                 pages_order = list(pages_dict.keys())
 
         self.determine_matrix_specs()
 
-        for page_name, page_sections in pages_dict.items():
-            self.validate_page_sections(page_name, page_sections, sections_config)
+        for page_name, page_def in pages_dict.items():
+            self.validate_page_sections(page_name, page_def["sections"], sections_config)
 
-        self.__page_count = len(pages_dict)
+        self.__page_count = len(pages_order)
 
         for page_name in pages_order:
-            try:
-                self.__pages_sections[page_name] = pages_dict[page_name]
+            if page_name in pages_dict:
+                # Store sections list for each page
+                self.__pages_sections[page_name] = pages_dict[page_name]["sections"]
+                # Store full page definition for additional properties
+                self.__page_definitions[page_name] = pages_dict[page_name]
                 self.__page_names.append(page_name)
-            except KeyError:
-                continue
 
-        # build section objects
+        # Build section objects
+
         PadSection.root_cs = self.canonical_parent
         PadSection.page_manager = self
 
@@ -153,6 +189,8 @@ class PageManager(ZCXComponent):
         row_start = section_config["row_start"]
         row_end = section_config["row_end"]
 
+        section_template = section_config.get("template", {})
+
         control_states = []
         owned_coordinates = []
 
@@ -177,6 +215,7 @@ class PageManager(ZCXComponent):
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
             width=(row_end - row_start + 1),
+            raw_template=section_template,
         )
 
         self._registered_disconnectables.append(section_object)
@@ -205,6 +244,50 @@ class PageManager(ZCXComponent):
         except FileNotFoundError:
             pages = None
         return pages
+
+    def handle_page_commands(self, incoming_page_num, outgoing_page_num):
+        self.debug(f'incoming_page_num: {incoming_page_num}, outgoing_page_num: {outgoing_page_num}')
+        incoming_page_name = self.__page_names[incoming_page_num]
+        outgoing_page_name = self.__page_names[outgoing_page_num]
+
+        def get_page_command(page_name, outgoing=False):
+            key = 'on_leave' if outgoing else 'on_enter'
+            try:
+                return self.__page_definitions[page_name].get(key)
+            except Exception:
+                raise
+
+        def make_context_dict(page_name, page_num):
+            return {
+                'page': {
+                    'name': page_name,
+                    'number': page_num,
+                }
+            }
+
+        incoming_command_bundle = get_page_command(incoming_page_name)
+        outgoing_command_bundle = get_page_command(outgoing_page_name, True)
+
+
+        if incoming_command_bundle:
+            incoming_vars = self.__page_definitions[incoming_page_name].get('vars', {})
+            context = make_context_dict(incoming_page_name, incoming_page_num)
+
+            self.__action_resolver.execute_command_bundle(
+                bundle=incoming_command_bundle,
+                vars_dict=incoming_vars,
+                context=context
+            )
+
+        if outgoing_command_bundle:
+            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
+            context = make_context_dict(incoming_page_name, incoming_page_num)
+
+            self.__action_resolver.execute_command_bundle(
+                bundle=outgoing_command_bundle,
+                vars_dict=outgoing_vars,
+                context=context
+            )
 
     @staticmethod
     def validate_section_config(section_name, section_config):

@@ -90,6 +90,7 @@ class Elements(ElementsBase):
             )
 
         self.add_matrix(
+            channels=channel,
             identifiers=identifiers,
             base_name="button_matrix",
             is_rgb=True,

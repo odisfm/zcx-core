@@ -1,6 +1,6 @@
 import copy
 
-from ableton.v2.base import EventObject
+from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
 
@@ -24,9 +24,7 @@ class ZEncoder(EventObject):
         self.root_cs = root_cs
         self._raw_config = raw_config
         self._name = name
-        self._logger = self.root_cs.component_map["EncoderManager"]._logger.getChild(
-            self._name
-        )
+        self._logger = self.root_cs.component_map["EncoderManager"]._logger
         self._control_element: EncoderElement = None
         self._state: EncoderState = None
         self._context = {}
@@ -37,15 +35,18 @@ class ZEncoder(EventObject):
         self._current_mode_string = ""
         self._binding_dict = {}
         self._active_map = {}
+        self._unbind_on_fail = False
         self.modes_changed.subject = self.mode_manager
 
     def log(self, *msg):
         for msg in msg:
-            self._logger.info(msg)
+            self._logger.debug(f'({self._name}): {msg}')
 
     def setup(self):
         self._context = self._raw_config["context"]
         self._vars = self._raw_config.get("vars", {})
+
+        self._unbind_on_fail = self._raw_config.get("unbind_on_fail", False)
 
         bindings = self._raw_config.get("binding", {})
         if isinstance(bindings, dict):
@@ -93,6 +94,8 @@ class ZEncoder(EventObject):
                 self._context,
             )
 
+            parsed_target_string.rstrip('\n')
+
             if status != 0:
                 raise ConfigurationError(f"Unparseable target\n" f"{binding_def}")
 
@@ -113,10 +116,39 @@ class ZEncoder(EventObject):
         self._binding_dict = binding_dict
         self._active_map = self._default_map
 
+    @property
+    def mapped_parameter(self):
+        return self._mapped_parameter
+
+    @listenable_property
+    def mapped_parameter(self):
+        return self._mapped_parameter
+
+    @mapped_parameter.setter
+    def mapped_parameter(self, value):
+        old = self.mapped_parameter
+        self._mapped_parameter = value
+        if old != self.mapped_parameter:
+            self.notify_mapped_parameter(self.mapped_parameter)
+
     def bind_to_active(self):
-        if self._active_map is None:
+        self.log(f'binding to active')
+        try:
+            if self._active_map is None:
+                map_success = False
+            else:
+                map_success = self.map_self_to_par(self._active_map)
+        except ConfigurationError:
+            map_success = False
+
+        self.log(f'map_success: {map_success}')
+        if map_success is not True:
+            if self._unbind_on_fail:
+                self.log(f'{self._name} failed to find target, unmapping')
+                self.unbind_control()
+                self.mapped_parameter = None
             return
-        self.map_self_to_par(self._active_map)
+
         dynamism = self.assess_dynamism(self._active_map)
         self.apply_listeners(dynamism)
         self.bind_control()
@@ -161,22 +193,23 @@ class ZEncoder(EventObject):
     def bind_control(self):
         if self._control_element is None:
             return
-        self._control_element.connect_to(self._mapped_parameter)
+        self._control_element.connect_to(self.mapped_parameter)
+
+    def unbind_control(self):
+        if self._control_element is not None:
+            self._control_element.release_parameter()
+            self._active_map = {}
 
     def map_self_to_par(self, target_map):
         try:
             par_type = target_map.get("parameter_type")
             if par_type is not None and par_type.lower() == "selp":
-                self._mapped_parameter = self.song.view.selected_parameter
+                self.mapped_parameter = self.song.view.selected_parameter
                 return True
 
             if target_map.get("device") is None:
                 if target_map.get("track") is None:
-                    raise ConfigurationError(
-                        f"Neither track nor device targeted:\n"
-                        f"{self._full_path}\n"
-                        f"{target_map}"
-                    )
+                    return False
 
                 track_def = target_map.get("track")
                 track_obj = self.get_track(track_def)
@@ -190,7 +223,7 @@ class ZEncoder(EventObject):
                 par_type = par_type.lower()
 
                 if par_type == "vol":
-                    self._mapped_parameter = track_obj.mixer_device.volume
+                    self.mapped_parameter = track_obj.mixer_device.volume
                     return True
                 elif par_type == "send":
                     try:
@@ -202,26 +235,26 @@ class ZEncoder(EventObject):
                                 f"Invalid send: {send_letter} | {send_num} | sends_count {sends_count}"
                             )
 
-                        self._mapped_parameter = track_obj.mixer_device.sends[send_num]
+                        self.mapped_parameter = track_obj.mixer_device.sends[send_num]
                         return True
                     except Exception as e:
                         self.log(e)
                         raise ConfigurationError(f"Failed to bind to send: {e}")
 
                 elif par_type == "pan":
-                    self._mapped_parameter = track_obj.mixer_device.panning
+                    self.mapped_parameter = track_obj.mixer_device.panning
                     return True
                 elif par_type == "panl":
-                    self._mapped_parameter = track_obj.mixer_device.left_split_stereo
+                    self.mapped_parameter = track_obj.mixer_device.left_split_stereo
                     return True
                 elif par_type == "panr":
-                    self._mapped_parameter = track_obj.mixer_device.right_split_stereo
+                    self.mapped_parameter = track_obj.mixer_device.right_split_stereo
                     return True
                 elif par_type == "cue":
-                    self._mapped_parameter = track_obj.mixer_device.cue_volume
+                    self.mapped_parameter = track_obj.mixer_device.cue_volume
                     return True
                 elif par_type == "xfader":
-                    self._mapped_parameter = track_obj.mixer_device.crossfader
+                    self.mapped_parameter = track_obj.mixer_device.crossfader
                     return True
                 else:
                     raise ConfigurationError(f"Unsupported parameter type: {par_type}")
@@ -267,7 +300,7 @@ class ZEncoder(EventObject):
 
                     for par in device_obj.parameters:
                         if par.name == par_name:
-                            self._mapped_parameter = par
+                            self.mapped_parameter = par
                             return True
 
                     raise ConfigurationError(
@@ -293,7 +326,7 @@ class ZEncoder(EventObject):
                                 f"Failed to parse parameter: {par_num}"
                             )
                     try:
-                        self._mapped_parameter = device_obj.parameters[par_num]
+                        self.mapped_parameter = device_obj.parameters[par_num]
                     except IndexError as e:
                         return False
                     return True
@@ -358,8 +391,6 @@ class ZEncoder(EventObject):
 
     def rebind_from_dict(self, lookup_key: str):
         target_map = self._binding_dict.get(lookup_key)
-        if map is None:
-            return
 
         self._active_map = target_map
         self.bind_to_active()

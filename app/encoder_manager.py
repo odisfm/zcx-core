@@ -20,7 +20,7 @@ class EncoderManager(ZCXComponent):
         self.__encoder_groups = {}
 
     def setup(self):
-        self.log(f'{self.name} doing setup')
+        self.debug(f'{self.name} doing setup')
         self.create_encoders()
 
     def bind_all_encoders(self):
@@ -28,7 +28,7 @@ class EncoderManager(ZCXComponent):
             try:
                 enc_obj.bind_to_active()
             except:
-                self.log(f'Failed to bind {enc_name}')
+                self.error(f'Failed to bind {enc_name}')
 
     def create_encoders(self):
         encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
@@ -70,7 +70,7 @@ class EncoderManager(ZCXComponent):
             encoder_obj.setup()
 
     def flatten_encoder_config(self, raw_config) -> dict:
-        self.log(f'Flattening encoder config')
+        self.debug(f'Flattening encoder config')
 
         def merge_configs(base, override):
             """Deep merge two configurations, ensuring override values take precedence"""
@@ -97,7 +97,7 @@ class EncoderManager(ZCXComponent):
                     flat_defs[encoder_name] = encoder_def
         except ConfigurationError as e:
             # todo: allow continue based on preference
-            raise e
+            raise
 
         for group_name, group_def in grouped_defs.items():
             group_context = {
@@ -181,7 +181,7 @@ class EncoderManager(ZCXComponent):
         if group_name in self.__encoder_groups:
             return self.__encoder_groups[group_name]
         else:
-            self.log(f'No encoder group for {group_name}. Registered groups are:\n'
+            self.error(f'No encoder group for {group_name}. Registered groups are:\n'
                      f'{self.__encoder_groups.keys()}')
             return None
 

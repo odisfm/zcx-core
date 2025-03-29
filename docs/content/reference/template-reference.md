@@ -46,7 +46,7 @@ As you may notice, zcx template strings behave similarly to [Variables in ClyphX
 
 ### what is a property?
 
-In this context, a property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](/reference/control-reference/z-control#properties).
+A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](/reference/control-reference/z-control#properties).
 
 We can see from the control reference that `me.Index` refers to this control's [position](/reference/control-reference/z-control/#index_1) with its containing [section](/tutorials/getting-started/zcx-concepts#matrix-sections).
 
@@ -58,6 +58,10 @@ We can even execute simple Python expressions within the braces:
 gestures:
   presssed: PLAY ${me.Index + 8}  # PLAY 9
 ```
+
+!!! note
+
+    To read about how zcx handles user-supplied expressions safely, see [this lesson](/lessons/python-context).
 
 ### complex expressions
 
@@ -100,7 +104,7 @@ drum_pad_section:
       "beats" / PLAY RND${clip_1a}-${clip_1b}
 ```
 
-This is a [control template](#control-templates) that, when [applied to a matrix section](#whole-section-templates), will produce the following ouput:
+This is a [control template](#control-templates) that, when [applied to a matrix section](#whole-section-groups), will produce the following output:
 
 ```
 pad 1: "beats" / PLAY RND9-10
@@ -137,7 +141,31 @@ pad 2 (with shift): "beats" / PLAY RND43-44
 
 !!! note "Notes"
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
-    - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with ClyphX variables, e.g. `%my_track% / PLAY ${me.Index}` 
+    - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with [ClyphX variables](https://www.cxpman.com/manual/core-concepts/#variables), e.g. `%my_track% / PLAY ${me.Index}` 
+
+### template locals
+
+The following variables and functions can be accessed within template strings.
+
+#### zcx
+
+Provides access to a `ZcxApi` object. See [the source code](https://github.com/odisfm/zcx-core/blob/main/app/api_manager.py) for available properties and methods,
+
+#### song
+
+Provides access to the Live set's [song object](https://docs.cycling74.com/apiref/lom/song/).
+
+#### ring
+
+Allows references to the enclosed tracks and scenes of [the zcx session ring](/lessons/session-ring#referencing-the-ring-from-template-strings).
+
+#### print
+
+Allows you to write to the log. Mostly useful with [Python commands](/reference/command-reference#python).
+
+#### msg
+
+Briefly displays a message in the Live UI, like with the [msg command](/reference/command-reference#msg).
 
 ## group templates
 
@@ -160,11 +188,11 @@ __scene_group:
 
 For named controls, we create a new entry that starts with a double underscore (`__`). What follows the `__` is the group name, in this case `scene_group`. This group name is up to you.
 
-The `includes` key is a list of controls that belong to this group. Each member of the group will inherit all properties defined on the group. In this case each control in the group will launch a scene, [relative to its position in that group](#template-strings).
+The `includes` key is a list of controls that belong to this group. Each member of the group will inherit all options defined on the group. In this case each control in the group will launch a scene, [relative to its position in that group](#template-strings).
 
-#### overwriting properties
+#### overwriting options
 
-We can overwrite some or all of the group's properties for each member. This is done via the `controls` key:
+We can overwrite some or all of the group's options for each member. This is done via the `controls` key:
 
 ```yaml
 controls:
@@ -172,7 +200,7 @@ controls:
     color: blue
 ```
 
-`controls` is a dict of control definitions. Each key of `controls` is the name of a control in this group. In this `scene_2` key we can overwrite part or all of the group definition. We can also add properties that weren't defined on the group:
+`controls` is a dict of control definitions. Each key of `controls` is the name of a control in this group. In this `scene_2` key we can overwrite part or all of the group definition. We can also add options that weren't defined on the group:
 ```yaml hl_lines="4"
 controls:
   scene_2:
@@ -242,7 +270,7 @@ controls:
 
 ```
 
-Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](/reference/template-reference/#overwriting-properties), we are able to overwrite or extend individual group members:
+Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](/reference/template-reference/#overwriting-options), we are able to overwrite or extend individual group members:
 
 ```yaml
 controls:
@@ -276,7 +304,7 @@ This is a representation of how zcx processes this section under the hood:
   gestures:
     pressed: 2 / SEL
 -
-  color: green  # this property was overwritten
+  color: green  # this option was overwritten
   gestures:
     pressed: 3 / SEL
 -
@@ -290,7 +318,7 @@ This is a representation of how zcx processes this section under the hood:
     pressed_delayed: METRO
 ```
 
-#### whole-section templates
+#### whole-section groups
 
 It is possible to define an entire matrix section with one group definition. To do this, the yaml file for the section should contain a single dict, instead of the usual list:
 
@@ -319,8 +347,22 @@ This template will be applied for every control in the section. You can imagine 
 ...
 ```
 
+#### section templates
+
+An alternative [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](/reference/configuration-files/matrix-sections). To do so, add a `template` key:
+
+```yaml hl_lines="6-7"
+my_section:
+  col_start: 0
+  col_end: 7
+  row_start: 0
+  row_end: 7
+  template:
+    color: red
+```
+
 ## control templates
-In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any properties defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same property), the child will overwrite the template.
+In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any options defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same option), the child will overwrite the template.
 
 ```yaml title="control_templates.yaml"
 __global__:
@@ -334,7 +376,7 @@ hold_warning:
 ```yaml hl_lines="3 7 8"
 play:
   template: hold_warning
-  # color: 127    __global__ property, overwritten
+  # color: 127    __global__ option, overwritten
   color: green
   gestures:
     pressed_delayed: SETPLAY

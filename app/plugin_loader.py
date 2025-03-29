@@ -15,9 +15,9 @@ class PluginLoader:
 
     def __init__(self, logger, *a, **k):
         self.logger = logger
-        self.base_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+        self.__base_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 
-        zcx_plugin_dir = str(self.base_dir.resolve())
+        zcx_plugin_dir = str(self.__base_dir.resolve())
         if zcx_plugin_dir not in sys.path:
             sys.path.append(zcx_plugin_dir)
 
@@ -50,7 +50,7 @@ class PluginLoader:
         Scans a directory for plugin classes and returns them in a dictionary.
         """
         plugin_classes = {}
-        plugin_path = self.base_dir / plugin_dir
+        plugin_path = self.__base_dir / plugin_dir
 
         self.log(f'looking for plugins in {plugin_path}')
 

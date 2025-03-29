@@ -42,48 +42,59 @@ jobs:
           # Get tag name or default to 'latest'
           echo "TAG_NAME=${GITHUB_REF_NAME:-latest}" >> $GITHUB_ENV
 
-      - name: Download and prepare PyYAML
-        run: |
-          # Create temporary directory for PyYAML
-          mkdir pyyaml_temp
-          cd pyyaml_temp
-          
-          # Download PyYAML
-          pip download --no-deps PyYAML==6.0.2
-          
-          # Extract the wheel including all components
-          unzip PyYAML*.whl
-          
-          # Move back to workspace
-          cd ..
-          
-          # Create vendor directory in package
-          mkdir -p ${{ env.PACKAGE_NAME }}/vendor
-          
-          # Move all PyYAML components to vendor directory
-          mv pyyaml_temp/yaml ${{ env.PACKAGE_NAME }}/vendor/
-          mv pyyaml_temp/_yaml ${{ env.PACKAGE_NAME }}/vendor/
-          mv pyyaml_temp/PyYAML-6.0.2.dist-info ${{ env.PACKAGE_NAME }}/vendor/
-          
-          # Cleanup
-          rm -rf pyyaml_temp
-
       - name: Create package directory structure
+        run: |
+          # Create main package directory
+          mkdir -p ${{ env.PACKAGE_NAME }}
+          # Create vendor directory
+          mkdir -p ${{ env.PACKAGE_NAME }}/vendor
+
+      - name: Download and prepare vendor packages
+        run: |
+          # Define packages to download
+          PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests" "semver>=2.9.0,<3.0.0")
+
+          # Create temporary directory for downloads
+          mkdir vendor_temp
+          cd vendor_temp
+
+          # Download and extract each package and its dependencies
+          for package in "${PACKAGES[@]}"; do
+            pip download "$package"
+            for whl in *.whl; do
+              unzip -q "$whl" -d "../${{ env.PACKAGE_NAME }}/vendor/"
+            done
+            rm -f *.whl
+          done
+
+          # Cleanup
+          cd ..
+          rm -rf vendor_temp
+
+      - name: Copy application files
         run: |
           # Copy all files from app/ to root of package
           cp -r app/* ${{ env.PACKAGE_NAME }}/
 
-          # Create hardware directory and copy controller-specific files
+          # Create hardware directory and copy all controller-specific files
           mkdir -p ${{ env.PACKAGE_NAME }}/hardware
-          cp hardware/${{ matrix.controller }}/*.{py,yaml} ${{ env.PACKAGE_NAME }}/hardware/ 2>/dev/null || true
+          cp -r hardware/${{ matrix.controller }}/* ${{ env.PACKAGE_NAME }}/hardware/
 
-          # Move demo_config to _config if it exists
+          # Handle demo_config separately
           if [ -d "hardware/${{ matrix.controller }}/demo_config" ]; then
-            mv "hardware/${{ matrix.controller }}/demo_config" "${{ env.PACKAGE_NAME }}/_config"
+            # Rename demo_config to _config in the destination
+            mv "${{ env.PACKAGE_NAME }}/hardware/demo_config" "${{ env.PACKAGE_NAME }}/_config"
+          else
+            echo "Error: demo_config directory not found for controller '${{ matrix.controller }}'!" >&2
+            exit 1
           fi
 
-          # Copy preferences directory to _preferences
-          cp -r preferences "${{ env.PACKAGE_NAME }}/_preferences"
+      - name: Update zcx.yaml with version and hardware information
+        run: |
+          # Update the version field with the tag name and the hardware field with the controller name
+          # The file's comments are preserved as sed only modifies the matching lines.
+          sed -i "s/^version:.*/version: ${TAG_NAME:1}/" ${{ env.PACKAGE_NAME }}/zcx.yaml
+          sed -i "s/^hardware:.*/hardware: ${{ matrix.controller }}/" ${{ env.PACKAGE_NAME }}/zcx.yaml
 
       - name: Create ZIP archive with README and user actions
         run: |
@@ -91,7 +102,7 @@ jobs:
           cp resources/bundled_instructions.txt ./README.txt
           
           # Prepend repo name and tag
-          sed -i "1i${{ env.REPO_NAME }} ${{ env.TAG_NAME }}\n\n" README.txt
+          sed -i "1i${REPO_NAME} ${TAG_NAME}\n\n" README.txt
           
           # Copy user_actions directory with new name
           cp -r user_actions _user_actions
@@ -123,4 +134,4 @@ jobs:
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}

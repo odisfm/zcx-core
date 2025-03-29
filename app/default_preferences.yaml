@@ -3,14 +3,21 @@
 # This is an internal file for use by zcx-core that is NOT meant for user configuration.
 # Editing this file has a very high chance of leaving this zcx installation unusable.
 #
-# The file you want to edit is at zcx/_preferences/preferences.yaml
-# See the docs at https://docs.zcxcore.com
+# The file you want to edit is _global_preferences.yaml
+# See the docs at https://zcxcore.com/reference/configuration-files/preferences/
 #
 
 strict_mode: true
 log_level: info
+action_log: true
 
 load_user_plugins: true
 load_hardware_plugins: true
 
+session_ring:
+  width: 8
+  height: 8
+
 configs:
+
+plugins:

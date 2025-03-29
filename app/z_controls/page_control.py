@@ -22,11 +22,13 @@ class PageControl(ZControl):
             super().handle_gesture(gesture)
         except ValueError as e:
             self.animate_failure()
-            raise e
+            raise
 
     def setup(self):
         super().setup()
         from . import page_manager, action_resolver
+        from .. import SAFE_MODE
+
         self.__page_manager = page_manager
         self.__action_resolver = action_resolver
         page_config = self._raw_config.get('page')
@@ -35,16 +37,29 @@ class PageControl(ZControl):
             self._color = self._disabled_color
             self.__color_dict['base'] = self._disabled_color
             self._control_element.set_light(self._color)
-            from .. import SAFE_MODE
             error_message = f'page control defined with no `page` key\n{self._raw_config}'
-            if SAFE_MODE is True:
+            if SAFE_MODE:
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
+                return
         parsed_page, status = self.__action_resolver.compile(str(page_config), self._vars, self._context)
         self._color_dict['failure'] = self._control_element.color_swatch.ERROR
         self.__set_page(parsed_page)
+        if self._page_number is None:
+            error_message = f'invalid page number: {parsed_page}'
+            if SAFE_MODE:
+                raise ConfigurationError(error_message)
+            else:
+                self.log(error_message)
+                return
+        self.set_prop('page_active', False)
         self.page_changed()
+        self.set_prop('page', self._page_number)
+        self.set_prop('Page', self._page_number + 1)
+        page_name = self.__page_manager.get_page_name_from_index(self._page_number)
+        self.set_prop('page_name', page_name)
+
 
     def __set_page(self, page_number):
         try:
@@ -78,7 +93,7 @@ class PageControl(ZControl):
         except ConfigurationError as e:
             from .. import SAFE_MODE
             if SAFE_MODE is True:
-                raise e
+                raise
             else:
                 self.log(e)
 
@@ -93,8 +108,10 @@ class PageControl(ZControl):
                 self.request_color_update()
             elif new_page_no == self._page_number:
                 self._color = self._active_color
+                self.set_prop('page_active', True)
             else:
                 self._color = self._inactive_color
+                self.set_prop('page_active', False)
             self.request_color_update()
 
         except Exception as e:

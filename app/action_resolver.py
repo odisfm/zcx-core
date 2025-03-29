@@ -1,7 +1,12 @@
 import re
+from functools import partial
 from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
+from random import randint
 
+from .vendor.asteval import Interpreter, make_symbol_table
+
+from ableton.v3.base import listens, listens_group
 from ClyphX_Pro.clyphx_pro import ParseUtils
 
 from .cxp_bridge import CxpBridge
@@ -11,6 +16,7 @@ from .mode_manager import ModeManager
 from .page_manager import PageManager
 from .z_control import ZControl
 from .zcx_component import ZCXComponent
+from .colors import parse_color_definition
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -50,26 +56,49 @@ class ActionResolver(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
 
-        self.pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)}")
+        self.__pattern = re.compile(r"\\\$\\{|\\\${|\$\\{|\${([^{}\\]*)}")
         self.__page_manager: PageManager = self.canonical_parent.component_map['PageManager']
         self.__mode_manager: ModeManager = self.canonical_parent.component_map['ModeManager']
         self.__cxp: CxpBridge = self.canonical_parent.component_map['CxpBridge']
         self.__hardware_interface: HardwareInterface = self.canonical_parent.component_map['HardwareInterface']
+        self.__ring_api = None
+        self.__zcx_api_obj = None
+        self.__log_func = lambda *args: self.log(*args)
+        self.__msg_func = lambda message: self.canonical_parent.show_message(message)
+        self.__interpreter = Interpreter()
+        self.__cxp_partial = None
+        self.__standard_context = {}
+
+    def setup(self):
+        self.__ring_api = self.canonical_parent._session_ring_custom.api
+        self.__zcx_api_obj = self.component_map['ApiManager'].get_api_object()
+        self.__cxp_partial = partial(self.__cxp.trigger_action_list)
+        self.__standard_context = self.__build_standard_context()
+
+    def __build_standard_context(self) -> dict[str: Any]:
+
+        context = {
+            'song': self.canonical_parent.song,
+            'ring': self.__ring_api,
+            'zcx': self.__zcx_api_obj,
+            'print': self.__log_func,
+            'msg': self.__msg_func,
+            'cxp': self.__cxp_partial,
+            'open': None
+        }
+        return context
 
     def _evaluate_expression(
-        self, expr: str, context: Dict[str, Any], locals: Dict[str, Any]
+            self, expr: str, context: Dict[str, Any], prior_resolved: Dict[str, Any]
     ) -> Tuple[Any, int]:
         """Evaluate a Python expression with given context and locals."""
         try:
             if expr.startswith("$"):
                 expr = expr[1:]
 
-            dot_context = {
-                k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
-            }
-
-            all_locals = {**dot_context, **locals}
-            result = eval(expr, {}, all_locals)
+            exec_context = self.__build_symtable(context, prior_resolved)
+            self.__interpreter.symtable = exec_context
+            result = self.__interpreter.eval(expr)
             return result, 0
         except Exception as e:
             print(f"Error evaluating {expr}: {e}")
@@ -95,6 +124,29 @@ class ActionResolver(ZCXComponent):
                 return {}, 2
 
         return resolved, 0
+
+    def __build_symtable(self, context: Dict[str, Any], prior_resolved: Dict[str, Any]) -> Dict[str, Any]:
+        """Build a comprehensive execution context with all available variables and functions."""
+        dot_context = {
+            k: DotDict(v) if isinstance(v, dict) else v for k, v in context.items()
+        }
+
+        extra = {}
+
+        try:
+            calling_control = context.get('me', {}).get('obj', None)
+
+            if calling_control is None:
+                parse_color = partial(parse_color_definition)
+            else:
+                parse_color = partial(parse_color_definition, calling_control=calling_control)
+            extra['parse_color'] = parse_color
+
+        except Exception as e:
+            self.debug(e)
+
+        exec_context = make_symbol_table(**dot_context, **prior_resolved, **self.__standard_context)
+        return exec_context
 
     def _replace_match(
         self,
@@ -142,7 +194,7 @@ class ActionResolver(ZCXComponent):
         result = ""
         last_end = 0
 
-        for match in self.pattern.finditer(action_string):
+        for match in self.__pattern.finditer(action_string):
             result += action_string[last_end : match.start()]
 
             replacement, match_status = self._replace_match(
@@ -199,7 +251,6 @@ class ActionResolver(ZCXComponent):
             for command in commands:
                 if isinstance(command, str):
                     if parsed := self._compile_and_check(command, vars_dict, context):
-                        self.log(f'doing cxp action:', parsed)
                         self.__cxp.trigger_action_list(parsed)
 
                 elif isinstance(command, dict):
@@ -208,7 +259,6 @@ class ActionResolver(ZCXComponent):
                     match command_type:
                         case 'cxp':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
-                                self.log(f'doing cxp action:', parsed)
                                 self.__cxp.trigger_action_list(parsed)
                         case 'log':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
@@ -245,6 +295,49 @@ class ActionResolver(ZCXComponent):
                             else:
                                 raise RuntimeError(f'invalid hardware mode: {command_def}')
                             self.canonical_parent._do_send_midi(bytes)
+                        case 'ring':
+                            self.debug(command_type, command_def, vars_dict, context)
+
+                            if 'track' in command_def:
+                                # go direct to track
+                                raise NotImplementedError()
+
+                            x_def = command_def.get('x', 0)
+                            x_parsed = self._compile_and_check(x_def, vars_dict, context)
+                            y_def = command_def.get('y', 0)
+                            y_parsed = self._compile_and_check(y_def, vars_dict, context)
+
+                            self.canonical_parent._session_ring_custom.move(x_parsed, y_parsed)
+                        case 'color':
+                            if isinstance(command_def, str):
+                                command_def = self._compile_and_check(command_def, vars_dict, context)
+                            if command_def == 'initial':
+                                calling_control.reset_color_to_initial()
+                            elif True:
+                                calling_control.set_color(command_def)
+
+                        case 'python':
+                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
+                                try:
+                                    resolved_vars, status = self._resolve_vars(vars_dict or {}, context, 'live')
+                                    if status != 0:
+                                        return False
+
+                                    exec_context = self.__build_symtable(context, resolved_vars)
+
+                                    self.__interpreter.symtable = exec_context
+
+                                    result = self.__interpreter.eval(parsed, raise_errors=True)
+
+                                    self.warning(f'Executed Python:\n{parsed}')
+
+                                    return result
+
+                                except Exception as e:
+                                    error_msg = f"Failed to execute code: {parsed}\nError: {e}"
+                                    self.error(error_msg)
+                                    if ABORT_ON_FAILURE:
+                                        raise RuntimeError(error_msg)
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
@@ -255,7 +348,7 @@ class ActionResolver(ZCXComponent):
 
         except Exception as e:
             self.log(e)
-            raise e
+            raise
 
     def parse_target_path(self, target_string) -> dict:
         """Attempts to parse a target track or device in ClyphX notation,
@@ -275,10 +368,11 @@ class ActionResolver(ZCXComponent):
             'send_track': None
         }
 
-        # Handle NONE and SELP special cases
-        if target_string == 'NONE':
+        # Handle NONE and SELP special cases (case-insensitive)
+        target_upper = target_string.upper()
+        if target_upper == 'NONE':
             return result
-        if target_string == 'SELP':
+        if target_upper == 'SELP':
             result['parameter_type'] = 'SELP'
             return result
 
@@ -309,22 +403,25 @@ class ActionResolver(ZCXComponent):
             result['track'] = None
 
         # Handle simple parameter types first (no device)
-        if rest in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
-            result['parameter_type'] = rest
+        rest_upper = rest.upper()
+        if rest_upper in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
+            result['parameter_type'] = rest_upper
             return result
 
         # Handle send parameters without device
-        if rest.startswith('SEND'):
+        if rest_upper.startswith('SEND'):
             result['parameter_type'] = 'SEND'
             result['send'] = rest.split()[-1]
             return result
 
         # Handle device parameters
-        if 'DEV' in rest:
+        dev_pattern = re.compile(r'DEV\(', re.IGNORECASE)
+        if dev_pattern.search(rest):
             # Extract device specifier from DEV(x)
-            dev_start = rest.find('DEV(') + 4
+            dev_match = dev_pattern.search(rest)
+            dev_start = dev_match.end()
             dev_end = rest.find(')', dev_start)
-            if dev_start > 3 and dev_end > dev_start:
+            if dev_start > 0 and dev_end > dev_start:
                 dev_spec = rest[dev_start:dev_end]
 
                 # Check if dev_spec contains dots (chain mapping)
@@ -335,7 +432,7 @@ class ActionResolver(ZCXComponent):
                     # Validate SEL positions - only allowed in position 1 or 2.
                     # This restriction is arbitrary but reduces complexity for a niche feature
                     for i, part in enumerate(chain_parts, start=1):  # start=1 for 1-based indexing
-                        if part == 'SEL' and i > 2:
+                        if part.upper() == 'SEL' and i > 2:
                             result['error'] = f'zcx only supports the SEL keyword in position 1 or 2: {dev_spec}'
                             return result
 
@@ -351,36 +448,46 @@ class ActionResolver(ZCXComponent):
                 param_part = rest[dev_end + 1:].strip()
 
                 # Handle chain parameters
-                if 'CH(' in param_part:
-                    chain_start = param_part.find('CH(') + 3
+                chain_pattern = re.compile(r'CH\(', re.IGNORECASE)
+                if chain_pattern.search(param_part):
+                    chain_match = chain_pattern.search(param_part)
+                    chain_start = chain_match.end()
                     chain_end = param_part.find(')', chain_start)
-                    if chain_start > 2 and chain_end > chain_start:
+                    if chain_start > 0 and chain_end > chain_start:
                         result['chain'] = param_part[chain_start:chain_end]
                         param_part = param_part[chain_end + 1:].strip()
+                        param_part_upper = param_part.upper()
 
                         # Handle chain-specific parameters
-                        if param_part.startswith('SEND'):
+                        if param_part_upper.startswith('SEND'):
                             result['parameter_type'] = 'chain_send'
                             result['send'] = param_part.split()[-1]
                             return result
-                        elif param_part in ['PAN', 'VOL']:
-                            result['parameter_type'] = param_part
+                        elif param_part_upper in ['PAN', 'VOL']:
+                            result['parameter_type'] = param_part_upper
                             return result
 
                 # Handle different parameter formats
+                param_part_upper = param_part.upper()
                 if param_part.startswith('"') and param_part.endswith('"'):
                     # Named parameter in quotes - remove quotes
                     result['parameter_name'] = param_part[1:-1]
-                elif param_part == 'CS':
+                elif param_part_upper == 'CS':
                     result['parameter_type'] = 'CS'
                 elif ' ' in param_part:  # Could be "B4 P5" format
                     parts = param_part.split()
-                    if parts[0].startswith('B') and parts[1].startswith('P'):
+                    if parts[0].upper().startswith('B') and parts[1].upper().startswith('P'):
                         result['bank'] = parts[0][1:]  # Remove 'B'
                         result['parameter_number'] = parts[1][1:]  # Remove 'P'
-                elif param_part.startswith('P'):
+                elif param_part_upper.startswith('P'):
                     result['parameter_number'] = param_part[1:]
-                elif param_part in ['PAN', 'VOL'] or param_part.startswith('SEND'):
-                    result['parameter_type'] = param_part
+                elif param_part_upper in ['PAN', 'VOL'] or param_part_upper.startswith('SEND'):
+                    result['parameter_type'] = param_part_upper
 
         return result
+    @listens('tracks')
+    def ring_tracks_changed(self):
+        new_tracks = self.__session_ring.tracks
+        self.debug(f'{self.name} ring tracks changed: {self.__session_ring.tracks}')
+        for track in new_tracks:
+            self.debug(track.name)

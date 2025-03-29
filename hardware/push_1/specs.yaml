@@ -1,4 +1,4 @@
-hardware_name: Ableton Push 1
+hardware_name: push_1
 
 global_midi_channel: 0
 
@@ -25,3 +25,15 @@ encoders:
   mode: RELATIVE_SMOOTH_TWO_COMPLIMENT
   sensitivity: 1.0
   feedback: false
+
+preferences:
+  session_ring:
+    width: 8
+    height: 8
+
+  plugins:
+    push_1_display:
+      encoder_mappings: 1
+      encoder_values: 2
+      message: 3
+      ring_tracks: 4

@@ -6,7 +6,7 @@ hide:
 
 # standard control
 
-The below properties are enabled on the base [ZControl](/lessons/zcx-concepts#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
+The below options are avaliable on the base [ZControl](/lessons/zcx-concepts#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
 
 ## yaml schema
 
@@ -14,6 +14,7 @@ These are options you can set on each control via its yaml definition. Some opti
 
 ```yaml
 type: string
+alias: string
 color: color definition
 includes: list[string]
 buttons: dict[ZControl]
@@ -24,15 +25,23 @@ repeat: boolean=false
 externally_managed_light: boolean=false
 template: string, list[string], null
 props: dict[any]
-threhshold: int=30
+threshold: int=30
 ```
 
 ### type
 `string='standard'`
 
-Changing this property from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
+Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
 
 ___
+
+### alias
+`string`
+
+Allows you to provide a name for a matrix control, or an alternate name for a named control, which can later be used to target this control via the zcx API, e.g. [the zcx user action](/lessons/zcx-user-action).
+
+___
+
 ### color
 `color definition` 
 
@@ -96,7 +105,7 @@ The template(s) to apply to this control. See [template reference](/template-ref
 Apply a single template.
 
 `list[string]`
-Apply each template consecutively. Properties that conflict will be overwritten from left to right.
+Apply each template consecutively. Options that conflict will be overwritten from left to right.
 
 `null`
 Apply no template, including the `__global__` template.
@@ -117,6 +126,10 @@ Override the global velocity threshold, which by default is `30`. Triggers under
 ## properties
 
 These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
+
+### obj
+
+Returns a reference to the [actual Python object](https://github.com/odisfm/zcx-core/blob/main/app/z_control.py) for the control.
 
 ### position properties
 
@@ -158,12 +171,19 @@ Returns the **zero-indexed** row of the control (**global_y**) or its mirrored p
 The following properties are based on the last velocity at which a control was struck. This value will **not** reset to 0 when the control is released.
 
 #### vel
+
 Returns the last velocity as an integer (between 0-127).
 
 #### velp
-Returns the last velocity as a percentage (string).
+
+Returns the last velocity as a percentage (float).
+
+To use this percentage in a ClyphX action list, you will need to manually add the % sign, e.g:
+
+`SEL / VOL ${me.velp}%`
 
 #### velps
+
 Returns the last velocity as a percentage, but **scaled** according to the control's [threshold](#threshold).
 
-E.g., if a control has a threshold of `30`, a press with a velocity of `30` will return `0%`.
+E.g., if a control has a threshold of `30`, a press with a velocity of `30` will return `0.0`.

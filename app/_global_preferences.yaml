@@ -1,7 +1,6 @@
-strict_mode: true
-log_level: debug
+log_level: info
 
 load_user_plugins: true
 load_hardware_plugins: true
 
-configs:
+initial_hw_mode: zcx

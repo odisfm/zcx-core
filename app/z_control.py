@@ -36,13 +36,14 @@ class ZControl(EventObject):
         self.root_cs = root_cs
         self.parent_section = parent_section
         self.__state: Optional[ZState] = None
-        self.__parent_logger = self.parent_section._logger
+        self._parent_logger = self.parent_section._logger
         self._in_view = False
         self.in_view_listener.subject = self.parent_section
         self._raw_config = raw_config
         self._control_element: ZElement = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
+        self._initial_color_def = None
         self._color_swatch = None
         self._color_dict = {}
         self._context = {}
@@ -66,7 +67,7 @@ class ZControl(EventObject):
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
             self.root_cs.component_map['ActionResolver'].execute_command_bundle,
-            calling_control=self,  # calling_control
+            calling_control=self,
         )
         self.parent_section.register_owned_control(self)
 
@@ -90,7 +91,7 @@ class ZControl(EventObject):
 
     def log(self, *msg):
         for msg in msg:
-            self.__parent_logger.info(f'({self.parent_section.name}) {msg}')
+            self._parent_logger.info(f'({self.parent_section.name}) {msg}')
 
     @property
     def in_view(self):
@@ -157,8 +158,10 @@ class ZControl(EventObject):
         self._context = me_context
 
         self.set_prop('vel', 0)
-        self.set_prop('velp', '0%')
-        self.set_prop('velps', '0%')
+        self.set_prop('velp', 0.0)
+        self.set_prop('velps', 0.0)
+
+        self.set_prop('obj', self)
 
     def bind_to_state(self, state):
         state.register_z_control(self)
@@ -194,8 +197,8 @@ class ZControl(EventObject):
 
         elif gesture in ['pressed', 'double_clicked']:
             self.set_prop('vel', val)
-            vel_p = f'{(val / 127) * 100:.2f}%'
-            vel_p_s = f'{self.re_range_percent(val, self._on_threshold, 127):.2f}%'
+            vel_p = round((val / 127) * 100, 1)
+            vel_p_s = round(self.re_range_percent(val, self._on_threshold, 127), 1)
             self.set_prop('velp', vel_p)
             self.set_prop('velps', vel_p_s)
 
@@ -297,7 +300,24 @@ class ZControl(EventObject):
         }
 
         self._color = base_color
+        if self._initial_color_def is None:
+            self._initial_color_def = color
         self._color_dict = color_dict
+
+    def change_color(self, *a, **k):
+        self.set_color(*a, **k)
+        self.request_color_update()
+
+    def replace_color(self, color):
+        # todo: needs to have the full dict set like in `set_color`
+        self._color = color
+        self._color_dict['base'] = color
+        self.request_color_update()
+
+    def reset_color_to_initial(self):
+        if self._initial_color_def is None:
+            return
+        self.set_color(self._initial_color_def)
 
     @only_in_view
     def force_color(self, color):

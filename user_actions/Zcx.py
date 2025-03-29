@@ -98,6 +98,42 @@ class Zcx(UserActionsBase):
                 elif status == 'tgl':
                     target_script.toggle_mode(mode_name)
 
+            elif sub_action == 'set_color':
+                color_args = _args[2:]
+                target_control_def = color_args[0]
+                target_color = color_args[1]
+
+                target_control_def.strip('"')
+
+                control_obj = target_script.get_control(target_control_def)
+                control_obj.set_color(target_color)
+                control_obj.request_color_update()
+
+            elif sub_action in ['set_section_color', 'set_group_color']:
+                color_args = _args[2:]
+                list_def = color_args[0]
+                target_color = color_args[1]
+
+                if sub_action == 'set_section_color':
+                    control_list = target_script.get_matrix_section(list_def).owned_controls
+                elif sub_action == 'set_group_color':
+                    control_list = target_script.get_control_group(list_def)
+                else:
+                    raise ValueError()
+
+                if target_color == "initial":
+                    for control in control_list:
+                        control.reset_color_to_initial()
+                        control.request_color_update()
+                else:
+                    for i, control in enumerate(control_list):
+                        control.set_color(target_color)
+                        control.request_color_update()
+
+            elif sub_action == 'msg':
+                message_portion = args.split('"')[1] # will fix
+                target_script.write_display_message(message_portion)
+
             else:
                 raise ValueError(f'Unknown action {sub_action}')
         except Exception as e:

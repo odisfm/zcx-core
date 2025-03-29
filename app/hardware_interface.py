@@ -49,7 +49,7 @@ class HardwareInterface(ZCXComponent):
             state.request_color_update()
             count += 1
 
-        self.log(f'refreshed {count} lights')
+        self.debug(f'refreshed {count} lights')
 
     def black_out_lights(self):
         count = 0

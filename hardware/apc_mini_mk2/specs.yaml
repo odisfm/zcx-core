@@ -1,4 +1,4 @@
-hardware_name: Akai APC Mini mk2
+hardware_name: apc_mini_mk2
 
 global_midi_channel: 0
 
@@ -25,3 +25,8 @@ encoders:
   key: value
   sensitivity: 1.0
   mode: absolute
+
+preferences:
+  session_ring:
+    width: 8
+    height: 8

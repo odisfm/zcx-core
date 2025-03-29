@@ -103,6 +103,19 @@ my_control:
 
 The `cxp` key is specifying the [command type](#command-types). Because `cxp` is the default command type, it's usually not necessary to specify it.
 
+### command bundles
+
+You may 'bundle' a combination of [command types](#command-types) and execute them sequentially when a gesture is performed:
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      cxp: METRO
+      msg: activated the metronome
+      log: activated the metronome
+```
+
 ## command types
 
 ### cxp
@@ -194,4 +207,70 @@ Prints a message directly to Live's Log.txt:
 ```yaml hl_lines="2"
 pressed:
   log: failed successfully
+```
+
+### color
+
+Change the color of the activated control.
+
+```yaml
+pressed:
+  color: green
+released:
+  color: initial
+```
+
+See also:
+
+- [Color reference](/reference/color-reference)
+- [Change color via user action](/lessons/zcx-user/action)
+
+### ring
+
+Move the [session ring](/lessons/session-ring) of the script.
+
+```yaml hl_lines="4 5 10 11 16 17 22 23"
+up:
+  gestures:
+    pressed:
+      ring:
+        y: -1
+
+right:
+  gestures:
+    pressed:
+      ring:
+        x: 1
+        
+down:
+  gestures:
+    pressed:
+      ring:
+        y: 1
+
+left:
+  gestures:
+    pressed:
+      ring:
+        x: -1
+```
+
+### python
+
+Execute Python code in a [limited execution context](/lessons/python-context).
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      python: |
+        for i, track in enumerate(song.tracks):
+          if i != 0 and i % 15 == 0:
+            print("fizzbuzz")
+          elif i != 0 and i % 5 == 0:
+            print("buzz")
+          elif i != 0 and i % 3 == 0:
+            print("fizz")
+          else:
+            print(track.name)
 ```

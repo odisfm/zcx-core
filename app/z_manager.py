@@ -3,7 +3,7 @@ from copy import deepcopy
 from ableton.v3.control_surface.controls import control_matrix
 
 from .control_classes import get_subclass as get_control_class
-from .errors import ConfigurationError
+from .errors import ConfigurationError, CriticalConfigurationError
 from .hardware_interface import HardwareInterface
 from .pad_section import PadSection
 from .z_control import ZControl
@@ -86,6 +86,8 @@ class ZManager(ZCXComponent):
         self.__global_control_template = manager.global_control_template
 
     def process_pad_section(self, pad_section: PadSection):
+        self.debug(f'Processing pad_section {pad_section.name}')
+
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
 
         raw_section_config = self.yaml_loader.load_yaml(
@@ -101,11 +103,13 @@ class ZManager(ZCXComponent):
                 item_config = context_config[i]
                 state: ZState.State = matrix_state.get_control(coord[0], coord[1])
                 control = self.z_control_factory(item_config, pad_section)
+                self.debug(f'instantiated {pad_section.name} control #{i}')
                 control.bind_to_state(state)
                 control.raw_config = context_config[i]
                 control.setup()
+                self.debug(f'{pad_section.name} control #{i} successfully setup')
         except Exception as e:
-            self.log(e)
+            self.error(e)
 
         self.__matrix_sections[pad_section.name] = pad_section
 
@@ -191,6 +195,15 @@ class ZManager(ZCXComponent):
 
             global_template = self.__global_control_template
             control_templates = self.__control_templates
+
+            section_template = section_obj._raw_template
+            self.debug(f"{section_obj.name} template: {section_template}")
+
+            if isinstance(section_template, dict):
+                section_template = section_template
+            else:
+                raise ConfigurationError(f"Section {section_obj.name} `template` key must be a dict:\n{raw_config}")
+
             flat_config = []
             unnamed_groups = 0
 
@@ -202,17 +215,19 @@ class ZManager(ZCXComponent):
                     pad_overrides = raw_config.get(
                         "controls", [None] * len(section_obj.owned_coordinates)
                     )
-                    section_template = {
+                    group_template = {
                         k: v for k, v in raw_config.items() if k != "controls"
                     }
+                    if not group_template.get('skip_section_template', False):
+                        group_template = merge_configs(section_template, group_template)
                     raw_config = []
 
                     for i in range(len(section_obj.owned_coordinates)):
                         override = pad_overrides[i] if i < len(pad_overrides) else None
                         if override is None:
-                            raw_config.append(deepcopy(section_template))
+                            raw_config.append(deepcopy(group_template))
                         else:
-                            merged = merge_configs(deepcopy(section_template), override)
+                            merged = merge_configs(deepcopy(group_template), override)
                             raw_config.append(merged)
 
             elif not isinstance(raw_config, list):
@@ -225,6 +240,10 @@ class ZManager(ZCXComponent):
                 if "pad_group" not in config:
                     # Apply templates
                     skip_global = False
+
+                    if not config.get('skip_section_template', False):
+                        config = merge_configs(section_template, config)
+
                     if "template" in config:
                         config, skip_global = apply_control_templates(config)
 
@@ -310,7 +329,27 @@ class ZManager(ZCXComponent):
                     flat_config.append(member_config)
         except Exception as e:
             self.log(f"failed to parse section {section_obj.name} config", raw_config)
-            raise e
+            raise
+
+        num_coords = len(section_obj.owned_coordinates)
+        num_in_config = len(flat_config)
+        num_missing = num_coords - num_in_config
+
+        if num_missing < 0:
+            raise CriticalConfigurationError(
+                f"{section_obj.name}: Too many ({num_in_config}) controls in config. Section has {num_coords} controls.")
+        elif num_missing > 0:
+            dummy_control = {
+                "color": 1,
+                "gestures": {
+                    "pressed": f'msg "This control definition is missing from {section_obj.name}.yaml !"',
+                }
+            }
+            for i in range(num_missing):
+                flat_config.append(dummy_control)
+
+            self.warning(
+                f"{num_missing} controls missing from {section_obj.name}.yaml — dummy controls have been added.")
 
         return flat_config
 
@@ -377,7 +416,12 @@ class ZManager(ZCXComponent):
         hardware = self.__hardware_interface
 
         for button_name, button_def in parsed_config.items():
-            state: ZState.State = getattr(hardware, button_name)
+            try:
+                state: ZState.State = getattr(hardware, button_name)
+            except AttributeError:
+                raise CriticalConfigurationError(
+                    f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
+                )
             control = self.z_control_factory(button_def, pad_section)
             control.bind_to_state(state)
             control.setup()
@@ -541,12 +585,14 @@ class ZManager(ZCXComponent):
             return processed_ungrouped
 
         except Exception as e:
-            raise e
+            raise
 
     def z_control_factory(self, config, pad_section) -> ZControl:
         try:
             control_type = config.get("type") or "basic"
             control_cls = get_control_class(control_type)
+
+            self.debug(f'creating control:', config)
 
             if control_cls is None:
                 raise ValueError(f"Control class for type '{control_type}' not found")
@@ -566,7 +612,7 @@ class ZManager(ZCXComponent):
             from . import SAFE_MODE
 
             if SAFE_MODE is True:
-                raise e
+                raise
             self.log(e)
             return get_control_class("basic")(self.canonical_parent, pad_section, {})
 

@@ -1,4 +1,6 @@
 import logging
+import os
+from pathlib import Path
 from typing import Type
 
 from ableton.v3.control_surface import (
@@ -25,6 +27,7 @@ from .z_manager import ZManager
 from .z_state import ZState
 from .zcx_core import ZCXCore
 from .preference_manager import PreferenceManager
+from .session_ring import SessionRing
 
 
 ROOT_LOGGER = None
@@ -32,11 +35,12 @@ NAMED_BUTTONS = None
 ENCODERS = None
 CONFIG_DIR = '_config'
 SAFE_MODE = False
+PREF_MANAGER = None
 
 plugin_loader: 'Optional[PluginLoader]' = None
 
 def create_mappings(arg) -> dict:
-    ROOT_LOGGER.info('Creating mappings')
+    ROOT_LOGGER.debug('Creating mappings')
 
     named_button_names = NAMED_BUTTONS.keys()
     encoder_names = ENCODERS.keys()
@@ -55,6 +59,7 @@ def create_mappings(arg) -> dict:
 
     mappings = {
         "HardwareInterface": hw_mapping_dict,
+        "SessionRingComponent": {},
         "PageManager": {},
         "ModeManager": {},
         "CxpBridge": {},
@@ -139,12 +144,46 @@ def create_instance(c_instance):
     global ROOT_LOGGER
     global plugin_loader
     global CONFIG_DIR
+    global PREF_MANAGER
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
 
+    dir_name = __file__.split('/')[-2]
+    canon_name = dir_name.lstrip('_')
+
+    ROOT_LOGGER.info(f'{canon_name} starting...')
+
+    log_filename = os.path.join(os.path.dirname(__file__), "log.txt")
+
+    if not os.path.exists(log_filename):
+        for handler in ROOT_LOGGER.handlers[:]:
+            ROOT_LOGGER.removeHandler(handler)
+
     pref_manager = PreferenceManager(ROOT_LOGGER)
+    prefs = pref_manager.user_prefs
+
+    fallback_level = 'info'
+    log_pref = prefs.get('logging', fallback_level)
+    try:
+        log_level = getattr(logging, log_pref.upper())
+    except AttributeError:
+        ROOT_LOGGER.error(f'Invalid logging level `{log_pref}`, reverting to `info`')
+        log_level = logging.INFO
+
+    ROOT_LOGGER.setLevel(log_level)
+
+    if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_filename for h in ROOT_LOGGER.handlers):
+        file_handler = logging.FileHandler(log_filename, mode="a")
+        file_handler.setLevel(log_level)
+
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s') # todo
+        file_handler.setFormatter(formatter)
+
+        ROOT_LOGGER.addHandler(file_handler)
+
     ROOT_LOGGER.debug(pref_manager.user_prefs)
+    PREF_MANAGER = pref_manager
 
     CONFIG_DIR = pref_manager.config_dir
 
@@ -152,6 +191,7 @@ def create_instance(c_instance):
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
+        'SessionRingComponent': SessionRing,
         'PageManager': PageManager,
         "ModeManager": ModeManager,
         'CxpBridge': CxpBridge,
@@ -170,4 +210,13 @@ def create_instance(c_instance):
     add_plugins_to_component_map(plugin_loader.hardware_plugins)
     add_plugins_to_component_map(plugin_loader.user_plugins)
 
-    return ZCXCore(Specification, c_instance=c_instance)
+    # ClyphX Pro (sometimes) relies on class names to locate scripts
+    # without this dynamic name, ClyphX can't differentiate between zcx scripts
+    dynamically_named_core = type(canon_name, (ZCXCore,), {})
+
+    try:
+        return dynamically_named_core(Specification, c_instance=c_instance)
+
+    except Exception as e:
+        ROOT_LOGGER.info(e)
+        raise

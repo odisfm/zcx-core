@@ -42,7 +42,7 @@ This is the number of the control surface script slot the zcx script resides in.
 
 ### Available commands
 
-#### Page
+#### PAGE
 
 Activate a particular page by name or number.
 
@@ -56,7 +56,7 @@ Or cycle through pages.
 
 `ZCX <target script> PAGE PREV`
 
-#### Mode
+#### MODE
 
 Enable, disable, or toggle a zcx mode.
 
@@ -65,3 +65,37 @@ Enable, disable, or toggle a zcx mode.
 `ZCX <target script> MODE OFF SHIFT`
 
 `ZCX <target script> MODE TGL SHIFT`
+
+#### MSG
+
+**Only on [Push 1](/reference/hardware-reference/push-1)**
+
+Write a message to the controller's display. The message must be enclosed in double-quotes.
+
+`ZCX <target script> MSG "hello there"`
+
+#### Color commands
+
+These commands allow you to set the color on an individual control by [alias](/reference/control-reference/z-control#alias), as well as across an entire section or group of controls.
+Allowable color values are an [int](/reference/color-reference#midi-value) or a [named color](/reference/color-reference#name).
+
+##### set_color
+
+Set the color of a named or aliased control.
+
+`ZCX <target script> SET_COLOR my_control 124`
+
+`ZCX <target script> SET_COLOR record red`
+
+##### set_section_color
+
+Set the color of every control in a [matrix section](/tutorials/getting-started/zcx-concepts/#matrix-sections).
+
+`ZCX <target script> SET_SECTION_COLOR actions_bottom_right cyan`
+
+##### set_group_color
+
+Set the color of every control in a [group of controls](/reference/template-reference/#group-templates).
+
+`ZCX <target script> SET_GROUP_COLOR scene_buttons 127`
+

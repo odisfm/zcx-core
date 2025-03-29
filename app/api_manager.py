@@ -1,16 +1,21 @@
-from typing import TYPE_CHECKING
+from copy import copy, deepcopy
+from typing import TYPE_CHECKING, Any
 
 from ableton.v3.control_surface import ControlSurface
+from ableton.v3.control_surface.elements.color import Color
 
 from .encoder_manager import EncoderManager
 from .mode_manager import ModeManager
 from .z_manager import ZManager
 from .zcx_component import ZCXComponent
+from .colors import parse_color_definition
 
 if TYPE_CHECKING:
     from .pad_section import PadSection
     from .z_control import ZControl
     from .z_encoder import ZEncoder
+    from .zcx_core import ZCXCore
+    from .page_manager import PageManager
 
 
 class ApiManager(ZCXComponent):
@@ -24,7 +29,7 @@ class ApiManager(ZCXComponent):
         super().__init__(name=name, *a, **k)
 
     def setup(self):
-        self.log(f'{self.name} doing setup')
+        self.debug(f'{self.name} doing setup')
 
     def get_api_object(self):
         return ZcxApi(self.canonical_parent)
@@ -32,7 +37,7 @@ class ApiManager(ZCXComponent):
 
 class ZcxApi:
 
-    root_cs: ControlSurface
+    root_cs: 'ZCXCore'
     z_manager: ZManager
     encoder_manager: EncoderManager
 
@@ -75,3 +80,40 @@ class ZcxApi:
 
     def get_control(self, control_name) -> 'Optional[ZControl]':
         return self.z_manager.get_aliased_control(control_name) or self.get_named_control(control_name)
+
+    def create_color(self, color_def: Any, calling_control: 'ZControl'=None) -> Color:
+        """
+        Takes a color_def in normal zcx format and returns a Color object.
+        Needs a calling_control to make use of certain features and definition types.
+        :param color_def:
+        :param calling_control:
+        :return:
+        """
+        try:
+            return parse_color_definition(color_def, calling_control)
+        except Exception as e:
+            self.root_cs
+
+    @property
+    def plugin_map(self):
+        return copy(self.root_cs.plugin_map)
+
+    @property
+    def page(self):
+        return self.page_manager.current_page
+
+    @property
+    def page_name(self):
+        return self.page_manager.current_page_name
+
+    @property
+    def modes(self):
+        return self.mode_manager.current_modes
+
+    @property
+    def active_modes(self):
+        return self.mode_manager.active_modes
+
+    @property
+    def name(self) -> str:
+        return self.root_cs.name
