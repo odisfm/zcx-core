@@ -368,10 +368,11 @@ class ActionResolver(ZCXComponent):
             'send_track': None
         }
 
-        # Handle NONE and SELP special cases
-        if target_string == 'NONE':
+        # Handle NONE and SELP special cases (case-insensitive)
+        target_upper = target_string.upper()
+        if target_upper == 'NONE':
             return result
-        if target_string == 'SELP':
+        if target_upper == 'SELP':
             result['parameter_type'] = 'SELP'
             return result
 
@@ -402,22 +403,25 @@ class ActionResolver(ZCXComponent):
             result['track'] = None
 
         # Handle simple parameter types first (no device)
-        if rest in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
-            result['parameter_type'] = rest
+        rest_upper = rest.upper()
+        if rest_upper in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
+            result['parameter_type'] = rest_upper
             return result
 
         # Handle send parameters without device
-        if rest.startswith('SEND'):
+        if rest_upper.startswith('SEND'):
             result['parameter_type'] = 'SEND'
             result['send'] = rest.split()[-1]
             return result
 
         # Handle device parameters
-        if 'DEV' in rest:
+        dev_pattern = re.compile(r'DEV\(', re.IGNORECASE)
+        if dev_pattern.search(rest):
             # Extract device specifier from DEV(x)
-            dev_start = rest.find('DEV(') + 4
+            dev_match = dev_pattern.search(rest)
+            dev_start = dev_match.end()
             dev_end = rest.find(')', dev_start)
-            if dev_start > 3 and dev_end > dev_start:
+            if dev_start > 0 and dev_end > dev_start:
                 dev_spec = rest[dev_start:dev_end]
 
                 # Check if dev_spec contains dots (chain mapping)
@@ -428,7 +432,7 @@ class ActionResolver(ZCXComponent):
                     # Validate SEL positions - only allowed in position 1 or 2.
                     # This restriction is arbitrary but reduces complexity for a niche feature
                     for i, part in enumerate(chain_parts, start=1):  # start=1 for 1-based indexing
-                        if part == 'SEL' and i > 2:
+                        if part.upper() == 'SEL' and i > 2:
                             result['error'] = f'zcx only supports the SEL keyword in position 1 or 2: {dev_spec}'
                             return result
 
@@ -444,40 +448,43 @@ class ActionResolver(ZCXComponent):
                 param_part = rest[dev_end + 1:].strip()
 
                 # Handle chain parameters
-                if 'CH(' in param_part:
-                    chain_start = param_part.find('CH(') + 3
+                chain_pattern = re.compile(r'CH\(', re.IGNORECASE)
+                if chain_pattern.search(param_part):
+                    chain_match = chain_pattern.search(param_part)
+                    chain_start = chain_match.end()
                     chain_end = param_part.find(')', chain_start)
-                    if chain_start > 2 and chain_end > chain_start:
+                    if chain_start > 0 and chain_end > chain_start:
                         result['chain'] = param_part[chain_start:chain_end]
                         param_part = param_part[chain_end + 1:].strip()
+                        param_part_upper = param_part.upper()
 
                         # Handle chain-specific parameters
-                        if param_part.startswith('SEND'):
+                        if param_part_upper.startswith('SEND'):
                             result['parameter_type'] = 'chain_send'
                             result['send'] = param_part.split()[-1]
                             return result
-                        elif param_part in ['PAN', 'VOL']:
-                            result['parameter_type'] = param_part
+                        elif param_part_upper in ['PAN', 'VOL']:
+                            result['parameter_type'] = param_part_upper
                             return result
 
                 # Handle different parameter formats
+                param_part_upper = param_part.upper()
                 if param_part.startswith('"') and param_part.endswith('"'):
                     # Named parameter in quotes - remove quotes
                     result['parameter_name'] = param_part[1:-1]
-                elif param_part == 'CS':
+                elif param_part_upper == 'CS':
                     result['parameter_type'] = 'CS'
                 elif ' ' in param_part:  # Could be "B4 P5" format
                     parts = param_part.split()
-                    if parts[0].startswith('B') and parts[1].startswith('P'):
+                    if parts[0].upper().startswith('B') and parts[1].upper().startswith('P'):
                         result['bank'] = parts[0][1:]  # Remove 'B'
                         result['parameter_number'] = parts[1][1:]  # Remove 'P'
-                elif param_part.startswith('P'):
+                elif param_part_upper.startswith('P'):
                     result['parameter_number'] = param_part[1:]
-                elif param_part in ['PAN', 'VOL'] or param_part.startswith('SEND'):
-                    result['parameter_type'] = param_part
+                elif param_part_upper in ['PAN', 'VOL'] or param_part_upper.startswith('SEND'):
+                    result['parameter_type'] = param_part_upper
 
         return result
-
     @listens('tracks')
     def ring_tracks_changed(self):
         new_tracks = self.__session_ring.tracks
