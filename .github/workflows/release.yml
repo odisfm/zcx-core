@@ -58,13 +58,9 @@ jobs:
           mkdir vendor_temp
           cd vendor_temp
 
-          # Download and extract each package and its dependencies
+          # Install each package and its dependencies into the vendor directory
           for package in "${PACKAGES[@]}"; do
-            pip download "$package"
-            for whl in *.whl; do
-              unzip -q "$whl" -d "../${{ env.PACKAGE_NAME }}/vendor/"
-            done
-            rm -f *.whl
+            pip install "$package" --target "../${{ env.PACKAGE_NAME }}/vendor/"
           done
 
           # Cleanup
