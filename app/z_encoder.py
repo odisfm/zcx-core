@@ -90,13 +90,13 @@ class ZEncoder(EventObject):
             these_modes.sort()
             sorted_mode_string = "__".join(these_modes)
 
+            binding_def = binding_def.rstrip('\n')
+
             parsed_target_string, status = self.action_resolver.compile(
                 binding_def,
                 self._vars,
                 self._context,
             )
-
-            parsed_target_string.rstrip('\n')
 
             if status != 0:
                 raise ConfigurationError(f"Unparseable target\n" f"{binding_def}")
