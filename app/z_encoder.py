@@ -9,6 +9,7 @@ from .encoder_element import EncoderElement
 from .encoder_state import EncoderState
 from .errors import ConfigurationError, CriticalConfigurationError
 from .mode_manager import ModeManager
+from .session_ring import SessionRing
 
 
 class ZEncoder(EventObject):
@@ -16,6 +17,7 @@ class ZEncoder(EventObject):
     root_cs: ControlSurface = None
     mode_manager: ModeManager = None
     action_resolver: ActionResolver = None
+    session_ring: SessionRing = None
     song = None
 
     def __init__(self, root_cs, raw_config, name):
@@ -190,6 +192,11 @@ class ZEncoder(EventObject):
         else:
             self.selected_parameter_listener.subject = None
 
+        if listen_dict.get("ring_tracks"):
+            self.session_ring_track_listener.subject = self.session_ring
+        else:
+            self.session_ring_track_listener.subject = None
+
     def bind_control(self):
         if self._control_element is None:
             return
@@ -208,13 +215,17 @@ class ZEncoder(EventObject):
                 return True
 
             if target_map.get("device") is None:
-                if target_map.get("track") is None:
+                if target_map.get("track") is not None:
+                    track_def = target_map.get("track")
+                    track_obj = self.get_track(track_def)
+                    if track_obj is None:
+                        raise ConfigurationError(f"No track found for {track_def}")
+                elif target_map.get("ring_track") is not None:
+                    track_obj = self.get_track_by_number(target_map["ring_track"] - 1)
+                    if track_obj is None:
+                        raise ConfigurationError(f"Invalid ring target: `{target_map}`")
+                else:
                     return False
-
-                track_def = target_map.get("track")
-                track_obj = self.get_track(track_def)
-                if track_obj is None:
-                    raise ConfigurationError(f"No track found for {track_def}")
 
                 par_type = target_map.get("parameter_type")
                 if par_type is None:
@@ -349,6 +360,10 @@ class ZEncoder(EventObject):
                         return result
         return None
 
+    @classmethod
+    def get_track_by_number(cls, track_number):
+        return cls.session_ring.get_ring_track(track_number)
+
     def assess_dynamism(self, target_map) -> dict:
 
         listen_dict = {
@@ -359,6 +374,7 @@ class ZEncoder(EventObject):
             "chain_list": False,
             "sends_list": False,
             "selected_parameter": False,
+            "ring_tracks": False,
         }
 
         track_def = target_map.get("track")
@@ -386,6 +402,9 @@ class ZEncoder(EventObject):
             pass
         else:
             listen_dict["sends_list"] = True
+
+        if target_map.get('ring_track') is not None:
+            listen_dict["ring_tracks"] = True
 
         return listen_dict
 
@@ -470,4 +489,8 @@ class ZEncoder(EventObject):
 
     @listens("return_tracks")
     def return_list_listener(self):
+        self.bind_to_active()
+
+    @listens("offsets")
+    def session_ring_track_listener(self):
         self.bind_to_active()

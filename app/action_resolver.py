@@ -356,6 +356,7 @@ class ActionResolver(ZCXComponent):
 
         result = {
             'track': None,
+            'ring_track': None,
             'device': None,
             'parameter_type': None,
             'parameter_name': None,
@@ -378,7 +379,14 @@ class ActionResolver(ZCXComponent):
 
         # Split track and rest
         if '/' not in target_string:
-            if target_string.startswith('"') and target_string.endswith('"'):
+            # Check for ring(n) format
+            ring_pattern = re.compile(r'^ring\((\d+)\)$', re.IGNORECASE)
+            ring_match = ring_pattern.match(target_string)
+
+            if ring_match:
+                result['ring_track'] = ring_match.group(1)  # Extract the number
+                return result
+            elif target_string.startswith('"') and target_string.endswith('"'):
                 # Remove quotes from the track name
                 result['track'] = target_string[1:-1]
                 return result
@@ -391,14 +399,21 @@ class ActionResolver(ZCXComponent):
         track_part = track_part.strip()
         rest = rest.strip()
 
-        # Remove quotes from the track name if present
-        if track_part.startswith('"') and track_part.endswith('"'):
-            result['track'] = track_part[1:-1]
+        # Check for ring(n) format in track_part
+        ring_pattern = re.compile(r'^ring\((\d+)\)$', re.IGNORECASE)
+        ring_match = ring_pattern.match(track_part)
+
+        if ring_match:
+            result['ring_track'] = int(ring_match.group(1))  # Extract the number
         else:
-            result['track'] = track_part
+            # Remove quotes from the track name if present
+            if track_part.startswith('"') and track_part.endswith('"'):
+                result['track'] = track_part[1:-1]
+            else:
+                result['track'] = track_part
 
         # Check if the track name is a single letter (a-z)
-        if re.match(r'^[a-zA-Z]$', result['track']):
+        if not result['ring_track'] and re.match(r'^[a-zA-Z]$', result['track']):
             result['send_track'] = result['track']
             result['track'] = None
 

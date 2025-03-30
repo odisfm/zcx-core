@@ -41,6 +41,7 @@ class EncoderManager(ZCXComponent):
         ZEncoder.mode_manager = self.canonical_parent.component_map['ModeManager']
         ZEncoder.action_resolver = self.canonical_parent.component_map['ActionResolver']
         ZEncoder.song = self.song
+        ZEncoder.session_ring = self.canonical_parent._session_ring_custom
 
         for encoder_name, encoder_def in flat_config.items():
 
