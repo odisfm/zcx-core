@@ -361,6 +361,23 @@ my_section:
     color: red
 ```
 
+### encoder groups
+
+Encoders can be grouped just like button controls.
+The main difference is that we use the key `encoders` for our overrides:
+
+```yaml
+__enc_row:
+  includes: [enc_1, enc_2, enc_3, enc_4]
+  binding: >
+    ring(${me.index}) / VOL
+  encoders:
+    enc_2:
+      binding:
+        __shift: >
+          "my cool track" / PAN
+```
+
 ## control templates
 In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any options defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same option), the child will overwrite the template.
 
