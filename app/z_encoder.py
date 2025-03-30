@@ -145,6 +145,7 @@ class ZEncoder(EventObject):
 
         self.log(f'map_success: {map_success}')
         if map_success is not True:
+            self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
             if self._unbind_on_fail:
                 self.log(f'{self._name} failed to find target, unmapping')
                 self.unbind_control()
