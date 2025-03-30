@@ -134,6 +134,14 @@ class Zcx(UserActionsBase):
                 message_portion = args.split('"')[1] # will fix
                 target_script.write_display_message(message_portion)
 
+            elif sub_action == 'bind':
+                encoder_name = _args[2]
+                bind_def = args.split('`')[1]
+                encoder_obj = target_script.get_encoder(encoder_name)
+                if encoder_obj is None:
+                    raise RuntimeError(f'Encoder {encoder_name} does not exist on {target_script.name}.')
+                encoder_obj.bind_ad_hoc(bind_def)
+
             else:
                 raise ValueError(f'Unknown action {sub_action}')
         except Exception as e:

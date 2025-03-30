@@ -414,6 +414,20 @@ class ZEncoder(EventObject):
         self._active_map = target_map
         self.bind_to_active()
 
+    def bind_ad_hoc(self, binding_def):
+        parsed_target_string, status = self.action_resolver.compile(
+            binding_def,
+            self._vars,
+            self._context,
+        )
+
+        if status != 0:
+            raise ConfigurationError(f"Unparseable binding definition: {binding_def}")
+
+        target_map = self.action_resolver.parse_target_path(parsed_target_string)
+        self._active_map = target_map
+        self.bind_to_active()
+
     @listens("current_modes")
     def modes_changed(self, _):
         self.update_mode_string(_)
