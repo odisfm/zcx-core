@@ -221,7 +221,18 @@ class ZEncoder(EventObject):
                     if track_obj is None:
                         raise ConfigurationError(f"No track found for {track_def}")
                 elif target_map.get("ring_track") is not None:
-                    track_obj = self.get_track_by_number(target_map["ring_track"] - 1)
+                    ring_track_def = target_map.get("ring_track")
+                    ring_track_parsed, status = self.action_resolver.compile(
+                        ring_track_def,
+                        self._vars,
+                        self._context
+                    )
+                    if status != 0:
+                        raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
+
+                    track_num = int(ring_track_parsed) - 1
+
+                    track_obj = self.get_track_by_number(track_num)
                     if track_obj is None:
                         raise ConfigurationError(f"Invalid ring target: `{target_map}`")
                 else:
@@ -274,6 +285,26 @@ class ZEncoder(EventObject):
                 track_obj = self.get_track(track_def)
                 if track_obj is None:
                     raise ConfigurationError(f"No track found for {track_def}")
+                if target_map.get("track") is not None:
+                    track_def = target_map.get("track", "SEL")
+                    track_obj = self.get_track(track_def)
+                    if track_obj is None:
+                        raise ConfigurationError(f"No track found for {track_def}")
+                    elif target_map.get("ring_track") is not None:
+                        ring_track_def = target_map.get("ring_track")
+                        ring_track_parsed, status = self.action_resolver.compile(
+                            ring_track_def,
+                            self._vars,
+                            self._context
+                        )
+                        if status != 0:
+                            raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
+
+                        track_num = int(ring_track_parsed) - 1
+
+                        track_obj = self.get_track_by_number(track_num)
+                        if track_obj is None:
+                            raise ConfigurationError(f"Invalid ring target: `{target_map}`")
 
                 device_def = target_map.get("device")
 

@@ -400,11 +400,11 @@ class ActionResolver(ZCXComponent):
         rest = rest.strip()
 
         # Check for ring(n) format in track_part
-        ring_pattern = re.compile(r'^ring\((\d+)\)$', re.IGNORECASE)
+        ring_pattern = re.compile(r'^ring\((.*?)\)$', re.IGNORECASE)
         ring_match = ring_pattern.match(track_part)
 
         if ring_match:
-            result['ring_track'] = int(ring_match.group(1))  # Extract the number
+            result['ring_track'] = ring_match.group(1)  # Extract the number
         else:
             # Remove quotes from the track name if present
             if track_part.startswith('"') and track_part.endswith('"'):
