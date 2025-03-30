@@ -107,8 +107,7 @@ class EncoderManager(ZCXComponent):
 
             group_def = copy.deepcopy(group_def)
             included_encoders = group_def.get('includes')
-            override_list = group_def.get('encoders', [])
-            overrides = {}
+            override_dict = group_def.get('encoders', {})
 
             if included_encoders is None:
                 raise ConfigurationError(
@@ -116,19 +115,13 @@ class EncoderManager(ZCXComponent):
                     f'\n{group_def}'
                 )
 
-            for i, override in enumerate(override_list):
-                if override is None:
-                    continue
-                name = included_encoders[i]
-                overrides[name] = override
-
             del group_def['includes']
 
             for i, encoder_name in enumerate(included_encoders):
                 item_def_copy = copy.deepcopy(group_def)
 
-                if encoder_name in overrides:
-                    override_def = overrides[encoder_name]
+                if encoder_name in override_dict:
+                    override_def = override_dict[encoder_name]
                 else:
                     override_def = {}
 
