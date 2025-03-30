@@ -1,7 +1,7 @@
 Thanks for trying the pre-release version of zcx!
 
 Installation instructions can be found here:
-https://github.com/odisfm/zcx-docs/blob/main/docs/tutorials/getting-started.md
+https://zcxcore.com/tutorials/getting-started
 
 Optionally, you can install the zcx user action by dragging the contents
 of the `_user_actions` folder to your existing folder (`.../Ableton/User Library/Remote Scripts/_user_actions`
@@ -13,13 +13,17 @@ NOTE: Check the releases page on GitHub to see if this upgrade contains any brea
 
 https://github.com/odisfm/zcx-core/releases/latest
 
-To upgrade an existing zcx installation:
+For instructions on using the auto-updater, see:
+https://zcxcore.com/lessons/upgrade
+
+To manually upgrade an existing zcx installation:
 
     1. Open the zcx folder next to this file (e.g., `_zcx_push_1`)
     2. Delete the folder `_config`
-    3. Locate your old zcx folder (inside `Ableton/User Library/Remote Scripts`
-    4. Drag the contents of the upgraded folder into the old folder
-    5. Overwrite all existing files
+    3. Delete the file `_global_preferences.yaml`
+    4. Locate your old zcx folder (inside `Ableton/User Library/Remote Scripts`
+    5. Drag the contents of the upgraded folder into the old folder
+    6. Overwrite all existing files
 
 https://zcxcore.com
 https://github.com/odisfm/zcx-core
