@@ -66,6 +66,18 @@ Enable, disable, or toggle a zcx mode.
 
 `ZCX <target script> MODE TGL SHIFT`
 
+#### BIND
+
+Manually re-bind a zcx encoder to a new target.
+This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/action-reference/global-actions/#bind-i-x), but you **must** enclose the 'target' portion of the command with backticks (\`).
+The `encoder name` is the same one you'd use in [encoders.yaml](/reference/configuration-files/encoders).
+
+_The backtick key is below the 'Escape' and above the 'Tab' key._
+
+``ZCX <target script> BIND <encoder name> `"my cool track" / VOL` ``
+
+``ZCX zcx_push_1 BIND enc_3 `"bass" / PAN` ``
+
 #### MSG
 
 **Only on [Push 1](/reference/hardware-reference/push-1)**
