@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 from functools import partial
 
+from ableton.v3.base import listenable_property, EventObject
 from ableton.v2.control_surface.components import SessionRingComponent as SessionRingBase
 from ableton.v3.base import listens
 
@@ -62,6 +63,7 @@ class SessionRing(SessionRingBase):
         if (x < 0 and self.track_offset == 0) or (y < 0 and self.scene_offset <= 0):
             return
         super().move(x, y)
+        self.notify_offsets()
 
     def get_ring_track(self, _index):
         try:
@@ -70,6 +72,13 @@ class SessionRing(SessionRingBase):
             return track
         except IndexError:
             return None
+
+    @listenable_property
+    def offsets(self):
+        return {
+            'track_offset': self.track_offset,
+            'scene_offset': self.scene_offset,
+        }
 
 class TrackLookup:
 
@@ -88,11 +97,9 @@ class SceneLookup:
         return self._parent._ring_component.scene_offset + item
 
 
-class RingAPI:
+class RingAPI(EventObject):
 
     def __init__(self, component: SessionRing):
         self._ring_component = component
         self.tracks = TrackLookup(self)
         self.scenes = SceneLookup(self)
-
-
