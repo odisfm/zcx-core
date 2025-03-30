@@ -281,10 +281,6 @@ class ZEncoder(EventObject):
                 else:
                     raise ConfigurationError(f"Unsupported parameter type: {par_type}")
             else:
-                track_def = target_map.get("track", "SEL")
-                track_obj = self.get_track(track_def)
-                if track_obj is None:
-                    raise ConfigurationError(f"No track found for {track_def}")
                 if target_map.get("track") is not None:
                     track_def = target_map.get("track", "SEL")
                     track_obj = self.get_track(track_def)
@@ -305,6 +301,8 @@ class ZEncoder(EventObject):
                         track_obj = self.get_track_by_number(track_num)
                         if track_obj is None:
                             raise ConfigurationError(f"Invalid ring target: `{target_map}`")
+                else:
+                    track_obj = self.song.view.selected_track
 
                 device_def = target_map.get("device")
 
