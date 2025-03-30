@@ -485,6 +485,7 @@ class ActionResolver(ZCXComponent):
                     result['parameter_type'] = param_part_upper
 
         return result
+
     @listens('tracks')
     def ring_tracks_changed(self):
         new_tracks = self.__session_ring.tracks
