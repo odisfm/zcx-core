@@ -21,3 +21,5 @@ session_ring:
 configs:
 
 plugins:
+
+refresh_on_all_sysex: false
