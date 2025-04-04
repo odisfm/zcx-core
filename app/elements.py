@@ -33,6 +33,9 @@ class Elements(ElementsBase):
         cc_button_globals = self.specs["cc_buttons"]
         cc_button_yaml = specs_dict["cc_buttons"]
 
+        if cc_button_yaml is None:
+            cc_button_yaml = {}
+
         if cc_button_globals is None:
             pass
         else:
@@ -43,6 +46,9 @@ class Elements(ElementsBase):
         note_button_globals = self.specs["note_buttons"]
         note_button_yaml = specs_dict["note_buttons"]
 
+        if note_button_yaml is None:
+            note_button_yaml = {}
+
         if note_button_globals is None:
             pass
         else:
@@ -52,6 +58,9 @@ class Elements(ElementsBase):
 
         encoder_globals = self.specs["encoders"]
         encoder_yaml = specs_dict["encoders"]
+
+        if encoder_yaml is None:
+            encoder_yaml = {}
 
         self.process_encoders(encoder_globals, encoder_yaml)
 
@@ -250,12 +259,11 @@ class Elements(ElementsBase):
             for spec_name in REQUIRED_HARDWARE_SPECS:
                 if spec_name in root_specs:
                     path = construct_yaml_path(spec_name)
-                    file = load_yaml_file(path)
-                    if file is None:
-                        raise HardwareSpecificationError(
-                            f"Could not load {spec_name}.yaml"
-                        )
-                    _dict[spec_name] = file
+                    try:
+                        file = load_yaml_file(path)
+                        _dict[spec_name] = file
+                    except FileNotFoundError:
+                        _dict[spec_name] = None
 
             return _dict
 

@@ -31,10 +31,10 @@ class EncoderManager(ZCXComponent):
                 self.error(f'Failed to bind {enc_name}')
 
     def create_encoders(self):
-        encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
-        if encoder_config is None:
-            # todo: raise configuration warning
-            return
+        try:
+            encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
+        except FileNotFoundError:
+            encoder_config = {}
 
         flat_config = self.flatten_encoder_config(encoder_config)
 
