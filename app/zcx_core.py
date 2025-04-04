@@ -49,6 +49,7 @@ class ZCXCore(ControlSurface):
                 from . import PREF_MANAGER
                 user_prefs = PREF_MANAGER.user_prefs
 
+                self.__refresh_on_all_sysex = user_prefs.get('refresh_on_all_sysex', False)
                 initial_hw_mode = user_prefs.get('initial_hw_mode', 'zcx')
 
                 self.template_manager = TemplateManager(self)
@@ -228,7 +229,7 @@ class ZCXCore(ControlSurface):
         if self._enabled and midi_chunk[0][0] == 240:
             sysex_message = midi_chunk[0]
             self.debug(f'received sysex: {sysex_message}')
-            if sysex_message == USER_MODE:
+            if self.__refresh_on_all_sysex or sysex_message == USER_MODE:
                 self.refresh_required()
 
             self.invoke_all_plugins('receive_sysex', midi_bytes=sysex_message)
