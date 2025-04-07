@@ -23,3 +23,5 @@ configs:
 plugins:
 
 refresh_on_all_sysex: false
+
+initial_hw_mode: zcx

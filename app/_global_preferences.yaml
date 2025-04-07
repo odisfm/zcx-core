@@ -2,5 +2,3 @@ log_level: info
 
 load_user_plugins: true
 load_hardware_plugins: true
-
-initial_hw_mode: zcx
