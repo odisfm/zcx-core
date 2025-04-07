@@ -164,7 +164,7 @@ def create_instance(c_instance):
     prefs = pref_manager.user_prefs
 
     fallback_level = 'info'
-    log_pref = prefs.get('logging', fallback_level)
+    log_pref = prefs.get('log_level', fallback_level)
     try:
         log_level = getattr(logging, log_pref.upper())
     except AttributeError:
