@@ -1,5 +1,6 @@
 __global__:
   color: 127
+  threshold: 20
 
 big_colors_demo:
   gestures:
