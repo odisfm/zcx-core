@@ -24,6 +24,38 @@ __state_row:
     pressed:
       page: ${me.index}
 
+#state_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_8:
+#  gestures:
+#    pressed: DUMMY
+
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   gestures:
@@ -46,6 +78,38 @@ __scene_buttons:
       color: green
     scene_8:
       color: green
+
+#scene_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_8:
+#  gestures:
+#    pressed: DUMMY
 
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
@@ -75,6 +139,22 @@ __dpad:
         pressed__shift:
           ring:
             y: 1
+
+#dpad_left:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_right:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_up:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_down:
+#  gestures:
+#    pressed: DUMMY
 
 note:
   color: 127
@@ -164,3 +244,139 @@ new:
 duplicate:
   gestures:
     pressed: SCENEDUPE
+
+#tap_tempo:
+#  gestures:
+#    pressed: DUMMY
+
+#select_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_8:
+#  gestures:
+#    pressed: DUMMY
+
+#add_effect:
+#  gestures:
+#    pressed: DUMMY
+
+#add_track:
+#  gestures:
+#    pressed: DUMMY
+
+#octave_down:
+#  gestures:
+#    pressed: DUMMY
+
+#octave_up:
+#  gestures:
+#    pressed: DUMMY
+#
+#automation:
+#  gestures:
+#    pressed: DUMMY
+
+#fixed_length:
+#  gestures:
+#    pressed: DUMMY
+
+#track:
+#  gestures:
+#    pressed: DUMMY
+
+#clip:
+#  gestures:
+#    pressed: DUMMY
+
+#volume:
+#  gestures:
+#    pressed: DUMMY
+
+#browse:
+#  gestures:
+#    pressed: DUMMY
+
+#quantize:
+#  gestures:
+#    pressed: DUMMY
+
+#double:
+#  gestures:
+#    pressed: DUMMY
+
+#delete:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_1_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_2_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_3_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_4_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_5_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_6_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_7_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_8_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_master_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_tempo_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#enc_swing_touch:
+#  gestures:
+#    pressed: DUMMY
+
+#touchstrip:
+#  gestures:
+#    pressed: DUMMY
