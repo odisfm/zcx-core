@@ -236,6 +236,9 @@ class ZManager(ZCXComponent):
             for i, item in enumerate(raw_config):
                 config = deepcopy(item)
 
+                if config is None:
+                    config = {}
+
                 # Handle single pad configuration
                 if "pad_group" not in config:
                     # Apply templates
