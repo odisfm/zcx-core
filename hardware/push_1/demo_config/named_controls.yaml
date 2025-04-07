@@ -27,8 +27,8 @@ __state_row:
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   gestures:
-    pressed: SCENE ${me.Index}
-    pressed__shift: SCENE ${me.Index + 8}
+    pressed: SCENE ${ring.scenes[me.Index]}
+    pressed__shift: SCENE ${ring.scenes[me.Index + 8]}
   controls:
     scene_1:
       color: red
