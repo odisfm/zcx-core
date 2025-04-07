@@ -12,28 +12,36 @@ __encoder_row:
     __select: >-
       SEL / SEND A
   encoders:
-    - binding:
+    enc_1:
+      binding:
         __sends: >-
           SEL / SEND A
-    - binding:
+    enc_2:
+      binding:
         __sends: >-
           SEL / SEND B
-    - binding:
+    enc_3:
+      binding:
         __sends: >-
           SEL / SEND C
-    - binding:
+    enc_4:
+      binding:
         __sends: >-
           SEL / SEND D
-    - binding:
+    enc_5:
+      binding:
         __sends: >-
           SEL / SEND E
-    - binding:
+    enc_6:
+      binding:
         __sends: >-
           SEL / SEND F
-    - binding:
+    enc_7:
+      binding:
         __sends: >-
           SEL / SEND G
-    - binding:
+    enc_8:
+      binding:
         __sends: >-
           SEL / SEND H
 
