@@ -26,7 +26,7 @@ record:
 
 
 __state_row:
-  # the bottom row
+  # the top row
   includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
   type: page
   page: ${me.index}
@@ -40,7 +40,7 @@ __state_row:
         msg "Changed to page ${me.Index}"
 
 __select_row:
-  # the top row
+  # the bottom row
   includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
   color:
     palette: nebula
