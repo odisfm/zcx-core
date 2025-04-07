@@ -222,11 +222,5 @@ delete:
 undo:
   cc: 119
 
-# these two seem to crash the script when included. A defensive measure by Ableton?
-
-#user:
-#  cc: 59
-
-#setup:
-#  cc: 30
-
+user:
+  cc: 59
