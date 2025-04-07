@@ -11,3 +11,6 @@ pages:
     - track_selector
     - clip_launcher
     - home_row
+  main_4:
+    - ring_control
+    - home_row
