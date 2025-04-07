@@ -144,3 +144,8 @@ stop_clip:
 master:
   gestures:
     pressed: MST / SEL
+
+user:
+  gestures:
+    pressed:
+      hardware_mode: live
