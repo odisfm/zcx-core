@@ -37,6 +37,9 @@ __encoder_row:
         __mix: >-
           SEL / SEND H
 
+enc_master:
+  binding: MST / VOL
+
 tempo:
   binding: SEL / PAN
 
