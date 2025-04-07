@@ -24,16 +24,16 @@ session:
   gestures:
     pressed: TGLMAIN
 
-note:
+drums:
   gestures:
     pressed: SHOWCLIP
 
-capture:
+keys:
   gestures:
     pressed: SRECFIX 8
     pressed__shift: SRECFIX 16
 
-custom:
+user:
   gestures:
     pressed:
       msg: Press the Novation button to enter Live mode

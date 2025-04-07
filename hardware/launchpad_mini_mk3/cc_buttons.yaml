@@ -37,13 +37,13 @@ nav_right:
 session:
   cc: 95
 
-note:
+drums:
   cc: 96
 
-custom:
+keys:
   cc: 97
 
-capture:
+user:
   cc: 98
 
 novation:
