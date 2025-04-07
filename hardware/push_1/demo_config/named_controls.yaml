@@ -54,15 +54,27 @@ __dpad:
     dpad_left:
       gestures:
         pressed: LEFT
+        pressed__shift:
+          ring:
+            x: -1
     dpad_right:
       gestures:
         pressed: RIGHT
+        pressed__shift:
+          ring:
+            x: 1
     dpad_up:
       gestures:
         pressed: UP
+        pressed__shift:
+          ring:
+            y: -1
     dpad_down:
       gestures:
         pressed: DOWN
+        pressed__shift:
+          ring:
+            y: 1
 
 note:
   color: 127
