@@ -4,8 +4,6 @@ global_midi_channel: 0
 
 button_matrix:
   msg_type: note
-  id_start: 36
-  id_end: 99
   raw_identifiers: [
     [ 81, 82, 83, 84, 85, 86, 87, 88 ],
     [ 71, 72, 73, 74, 75, 76, 77, 78 ],
