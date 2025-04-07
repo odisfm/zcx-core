@@ -161,10 +161,15 @@ class PageManager(ZCXComponent):
         PadSection.root_cs = self.canonical_parent
         PadSection.page_manager = self
 
+        used_sections = set()
+        for page_sections in self.__pages_sections.values():
+            used_sections.update(page_sections)
+
         for section_name, section_config in sections_config.items():
-            self.__raw_sections[section_name] = section_config
-            section_obj = self.build_section(section_name, section_config)
-            self.__pad_sections[section_name] = section_obj
+            if section_name in used_sections:  # Only build sections that are used
+                self.__raw_sections[section_name] = section_config
+                section_obj = self.build_section(section_name, section_config)
+                self.__pad_sections[section_name] = section_obj
 
         for section in self.__pad_sections.values():
             self.__z_manager.process_pad_section(section)
