@@ -1,6 +1,6 @@
 # page control
 
-The `page` control is identical to the `standard` control, except it has a required `page` option. This control's LED feedback will reflect whether its bound page is currently active. As such, the `color` option is ignored. 
+The `page` control is identical to the `standard` control, except it has a required `page` option. This control's LED feedback will reflect whether its bound page is currently active. As such, the `color` option is ignored in favor of [active color](#active_color) and [inactive color](#inactive_color)
 
 !!! Note
     Standard controls are already capable of changing pages, and page controls still require you to manually define the page change commands. The only purpose of this control is to enable control feedback.
@@ -14,6 +14,8 @@ Inherits from [standard control](/reference/control-reference/z-control/#yaml-sc
 
 ```yaml
 page: string, int
+active_color: color definition
+inactive_color: color definition
 # color: not implemented
 ```
 
@@ -28,8 +30,17 @@ ___
 ### color
 `not implemented`
 
-LED feedback is based on whether the control's bound page is active.
+Use [active color](#active_color) **and** [inactive color](#inactive_color).
 
+### active_color
+`color definition`
+
+Define a color that will display when this control's bound page is active.
+
+### inactive_color
+`color definition`
+
+Inverse of [active color](#active_color).
 
 ## properties
 
