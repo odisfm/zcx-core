@@ -17,41 +17,69 @@ __page_group:
     pressed:
       page: ${me.index}
 
+#volume:
+#  gestures:
+#    pressed: DUMMY
+
+#pan:
+#  gestures:
+#    pressed: DUMMY
+
+#send:
+#  gestures:
+#    pressed: DUMMY
+
+#device:
+#  gestures:
+#    pressed: DUMMY
+
 up:
   gestures:
     pressed: up
+    pressed__shift:
+      ring:
+        y: -1
 
 down:
   gestures:
     pressed: down
+    pressed__shift:
+      ring:
+        y: 1
 
 left:
   gestures:
     pressed: left
+    pressed__shift:
+      ring:
+        x: -1
 
 right:
   gestures:
     pressed: right
+    pressed__shift:
+      ring:
+        x: 1
 
 scene_1: # clip stop
   gestures:
     pressed: SEL / STOP
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[0]}
 
 scene_2: # solo
   gestures:
     pressed: SEL / SOLO
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[1]}
 
 scene_3: # mute
   gestures:
     pressed: SEL / MUTE
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[2]}
 
 scene_4: # rec arm
   gestures:
     pressed: SEL / ARM
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[3]}
 
 scene_5: # select
   gestures:
@@ -59,20 +87,20 @@ scene_5: # select
       mode_on: select
     released:
       mode_off: select
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[4]}
 
 scene_6: # drum
   gestures:
     pressed: SHOWCLIP
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[5]}
 
 scene_7: # note
   gestures:
     pressed: SHOWDETAIL
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[6]}
 
 scene_8: # stop all clips
   gestures:
     pressed: STOPALL
     pressed_delayed: STOPALL NQ
-    pressed__shift: SCENE ${me.Index}
+    pressed__shift: SCENE ${ring.scenes[7]}
