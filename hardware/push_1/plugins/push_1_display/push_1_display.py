@@ -75,13 +75,13 @@ class Push1Display(ZCXPlugin):
 
         config = self._user_config or DEFAULT_CONFIG
 
-        if 'encoder_mapping' in config and config['encoder_mapping']:
-            self._encoder_mapping_line = config['encoder_mapping'] - 1
-        if 'encoder_values' in config and config['encoder_values'] > 0:
+        if 'encoder_mapping' in config and config['encoder_mappings'] is not None:
+            self._encoder_mapping_line = config['encoder_mappings'] - 1
+        if 'encoder_values' in config and config['encoder_values'] is not None:
             self._encoder_values_line = config['encoder_values'] - 1
-        if 'message' in config and config['message']:
+        if 'message' in config and config['message'] is not None:
             self._message_line = config['message'] - 1
-        if 'ring_tracks' in config and config['ring_tracks']:
+        if 'ring_tracks' in config and config['ring_tracks'] is not None:
             self._ring_tracks_line = config['ring_tracks'] - 1
 
         if self._encoder_mapping_line is not False or self._encoder_values_line is not False:
