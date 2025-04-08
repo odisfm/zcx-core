@@ -39,24 +39,123 @@ __state_row:
       cxp: >
         msg "Changed to page ${me.Index}"
 
+#state_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_8:
+#  gestures:
+#    pressed: DUMMY
+
 __select_row:
   # the bottom row
   includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
   color:
     palette: nebula
   gestures:
-    pressed: ${me.Index} / SEL
-    pressed_delayed: ${me.Index} / ARM
-    double_clicked: ${me.Index} / PLAY 1
+    pressed: >
+      "${ring.tracks[me.index]}" / SEL
+    pressed_delayed: >
+      "${ring.tracks[me.index]}" / ARM
+    double_clicked: >
+      "${ring.tracks[me.index]}" / PLAY 1
+      
+#select_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_8:
+#  gestures:
+#    pressed: DUMMY
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   color: cyan shade ${me.index % 4}
   gestures:
-    pressed: SCENE ${me.Index}
-    pressed__shift: SCENE ${me.Index + 8}
-    pressed__select: SCENE SEL ${me.Index}
-    pressed__shift__select: SCENE SEL ${me.Index + 8}
+    pressed: SCENE ${ring.scenes[me.Index]}
+    pressed__shift: SCENE ${ring.scenes[me.Index + 8]}
+    pressed__select: SCENE SEL ${ring.scenes[me.Index]}
+    pressed__shift__select: SCENE SEL ${ring.scenes[me.Index + 8]}
+
+#scene_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_8:
+#  gestures:
+#    pressed: DUMMY
 
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
@@ -65,15 +164,43 @@ __dpad:
     dpad_left:
       gestures:
         pressed: LEFT
+        pressed__shift:
+          ring:
+            x: -1
     dpad_right:
       gestures:
         pressed: RIGHT
+        pressed__shift:
+          ring:
+            x: 1
     dpad_up:
       gestures:
         pressed: UP
+        pressed__shift:
+          ring:
+            y: -1
     dpad_down:
       gestures:
         pressed: DOWN
+        pressed__shift:
+          ring:
+            y: 1
+
+#dpad_left:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_right:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_up:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_down:
+#  gestures:
+#    pressed: DUMMY
 
 device:
   gestures:
@@ -89,19 +216,13 @@ mix:
     released:
       mode_off: mix
 
-session:
-  gestures:
-    pressed:
-      mode_on: aardvark
-    released:
-      mode_off: aardvark
-
-touchstrip:
-  gestures:
-    pressed:
-      page: 0
-    released:
-      page: last
+#session:
+#  gestures:
+#    pressed: DUMMY
+#
+#touchstrip:
+#  gestures:
+#    pressed: DUMMY
 
 page_prev:
   gestures:
@@ -149,3 +270,36 @@ user:
   gestures:
     pressed:
       hardware_mode: live
+
+#tap_tempo:
+#  gestures:
+#    pressed: DUMMY
+
+#convert:
+#  gestures:
+#    pressed: DUMMY
+
+#note:
+#  gestures:
+#    pressed: DUMMY
+
+#add_device:
+#  gestures:
+#    pressed: DUMMY
+
+#add_track:
+#  gestures:
+#    pressed: DUMMY
+
+#repeat:
+#  gestures:
+#    pressed: DUMMY
+
+#accent:
+#  gestures:
+#    pressed: DUMMY
+#
+#scales:
+#  gestures:
+#    pressed: DUMMY
+#
