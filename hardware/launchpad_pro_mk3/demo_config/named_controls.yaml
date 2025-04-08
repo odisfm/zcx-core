@@ -3,6 +3,38 @@ __scene_buttons:
   gestures:
     pressed: SCENE ${me.Index}
     pressed__shift: SCENE ${me.Index + 8}
+    
+#scene_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_8:
+#  gestures:
+#    pressed: DUMMY
 
 __track_buttons:
   includes: [
@@ -11,6 +43,38 @@ __track_buttons:
   gestures:
     pressed: ${me.Index} / SEL
     double_clicked: ${me.Index} / PLAY >
+
+#track_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#track_8:
+#  gestures:
+#    pressed: DUMMY
 
 __page_switcher:
   includes: [
@@ -21,6 +85,22 @@ __page_switcher:
   gestures:
     pressed:
       page: {me.index}
+
+#chord:
+#  gestures:
+#    pressed: DUMMY
+#
+#custom:
+#  gestures:
+#    pressed: DUMMY
+#
+#sequencer:
+#  gestures:
+#    pressed: DUMMY
+#
+#projects:
+#  gestures:
+#    pressed: DUMMY
 
 nav_up:
   gestures:
