@@ -11,6 +11,46 @@ record:
   transport: session_record
   gestures:
     pressed: SRECFIX 8
+    
+__select_row:
+  includes: [ 
+    select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8 
+  ]
+  gestures:
+    pressed: >
+      "${ring.tracks[me.index]}" / SEL
+    
+#select_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_8:
+#  gestures:
+#    pressed: DUMMY
 
 __state_row:
   # the bottom row
@@ -246,38 +286,6 @@ duplicate:
     pressed: SCENEDUPE
 
 #tap_tempo:
-#  gestures:
-#    pressed: DUMMY
-
-#select_1:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_2:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_3:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_4:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_5:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_6:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_7:
-#  gestures:
-#    pressed: DUMMY
-    
-#select_8:
 #  gestures:
 #    pressed: DUMMY
 
