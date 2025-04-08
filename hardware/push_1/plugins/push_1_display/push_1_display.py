@@ -191,7 +191,7 @@ class Push1Display(ZCXPlugin):
     def string_to_ascii_bytes(self, string):
         _bytes = []
         for char in string:
-            _bytes.append(ord(char))
+            _bytes.append(self.ascii_ord(char))
 
         return tuple(_bytes)
 
@@ -344,6 +344,17 @@ class Push1Display(ZCXPlugin):
             return False
 
         return True
+
+    def ascii_ord(self, char):
+        """
+        Return the ASCII value of a character, but only if it's in the ASCII range (0-127).
+        Raises ValueError for non-ASCII characters.
+        """
+        code_point = ord(char)
+        if 0 <= code_point <= 127:
+            return code_point
+        else:
+            return 45
 
 class DelayedDisplayRefreshTask(TimerTask):
 
