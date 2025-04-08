@@ -30,3 +30,5 @@ preferences:
   session_ring:
     width: 8
     height: 8
+
+  initial_hw_mode: live
