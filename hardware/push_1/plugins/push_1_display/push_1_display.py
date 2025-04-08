@@ -65,6 +65,7 @@ class Push1Display(ZCXPlugin):
         self._encoder_values_line = False
         self._message_line = False
         self._ring_tracks_line = False
+        self._selected_line = False
 
         self._persistent_message = ''
 
@@ -83,6 +84,8 @@ class Push1Display(ZCXPlugin):
             self._message_line = config['message'] - 1
         if 'ring_tracks' in config and config['ring_tracks'] is not None:
             self._ring_tracks_line = config['ring_tracks'] - 1
+        if 'selected' in config and config['selected'] is not None:
+            self._selected_line = config['selected'] - 1
 
         if self._encoder_mapping_line is not False or self._encoder_values_line is not False:
             watching_encoders = True
@@ -102,6 +105,11 @@ class Push1Display(ZCXPlugin):
         if self._ring_tracks_line is not False:
             self.tracks_changed.subject = self.__session_ring
             self.tracks_changed()
+
+        if self._selected_line is not False:
+            self.selected_scene_changed.subject = self.song.view
+            self.selected_track_changed.subject = self.song.view
+            self.selected_track_changed()
 
         if self._message_line:
             self.write_message_to_line('                       welcome to  zcx for push 1', timeout=5.0)
@@ -306,6 +314,39 @@ class Push1Display(ZCXPlugin):
                 self.update_display_segment(self._ring_tracks_line, i, track.name)
             except IndexError:
                 self.update_display_segment(self._ring_tracks_line, i, '')
+
+    @listens('selected_track')
+    def selected_track_changed(self):
+        self.update_selected_line()
+
+    @listens('selected_scene')
+    def selected_scene_changed(self):
+        self.update_selected_line()
+
+    def update_selected_line(self):
+        if self._selected_line is False:
+            return
+
+        track = self.song.view.selected_track
+        scene = self.song.view.selected_scene
+        scene_num = list(self.song.scenes).index(scene)
+
+        track_name = track.name
+        scene_name = scene.name
+
+        if scene_name:
+            if scene_name.startswith('['):
+                end_bracket = scene_name.find(']')
+                if end_bracket > 0:
+                    scene_name = scene_name[1:end_bracket]
+                elif scene_name == '[]':
+                    scene_name = ''
+
+        scene_name_format = '' if not scene_name else f'- {scene_name}'
+
+        self.multi_segment_message(self._selected_line, 0, 3, f't: {track_name}')
+        self.multi_segment_message(self._selected_line, 4, 7, f's: {scene_num + 1}{scene_name_format}')
+
 
     def shorten_string_fast(self, s, max_len=8):
         if len(s) <= max_len:
