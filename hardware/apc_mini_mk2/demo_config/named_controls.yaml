@@ -10,12 +10,12 @@ __page_group:
     volume, pan, send, device
   ]
   type: page
-  page: ${me.Index}
+  page: ${me.index}
   active_color: 127
   inactive_color: 0
   gestures:
     pressed:
-      page: ${me.Index}
+      page: ${me.index}
 
 up:
   gestures:
