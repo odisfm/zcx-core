@@ -211,7 +211,7 @@ device:
     pressed:
       mode_on: device
     released:
-      mode_off: sends
+      mode_off: device
 
 undo:
   gestures:
