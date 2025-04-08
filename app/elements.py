@@ -85,18 +85,25 @@ class Elements(ElementsBase):
 
         matrix_button_factory = lambda *a, **k: self.element_factory(*a, **k)
 
-        id_start, id_end, width = (
-            matrix_config["id_start"],
-            matrix_config["id_end"],
-            matrix_config["width"],
-        )
-        channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
-
-        identifiers = matrix_config.get("raw_identifiers")
-        if identifiers is None:
+        identifiers = None
+        try:
+            id_start, id_end, width = (
+                matrix_config["id_start"],
+                matrix_config["id_end"],
+                matrix_config["width"],
+            )
             identifiers = create_matrix_identifiers(
                 id_start, id_end + 1, width, flip_rows=True
             )
+        except KeyError:
+            try:
+                identifiers = matrix_config["raw_identifiers"]
+            except KeyError:
+                raise HardwareSpecificationError("matrix identifiers not defined or defined incorrectly")
+
+
+        channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
+
 
         self.add_matrix(
             channels=channel,
