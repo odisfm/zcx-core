@@ -9,8 +9,7 @@ __encoder_row:
       ring(${me.Index}) / PAN
     __device: >-
       SEL / DEV(1) P${me.Index}
-    __select: >-
-      SEL / SEND A
+
   encoders:
     enc_1:
       binding:
