@@ -4,6 +4,38 @@ __scene_buttons:
     pressed: SCENE ${me.Index}
     pressed__shift: SCENE ${me.Index + 8}
 
+#scene_1:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_2:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_3:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_4:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_5:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_6:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_7:
+#  gestures:
+#    pressed: DUMMY
+
+#scene_8:
+#  gestures:
+#    pressed: DUMMY
+
 nav_up:
   gestures:
     pressed: UP
