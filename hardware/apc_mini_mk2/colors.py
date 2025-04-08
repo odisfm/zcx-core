@@ -16,7 +16,7 @@ white = RgbColor(3)
 green = RgbColor(22)
 pulse_test = Pulse(white, green, 48)
 
-animation_speed_translation = [48, 24, 12, 8, 4]
+animation_speed_translation = [4, 48, 24, 8, 8]
 
 def translate_speed(speed):
     if speed < 1 or speed >= len(animation_speed_translation):
