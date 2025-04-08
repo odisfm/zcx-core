@@ -9,8 +9,8 @@ __fader_row:
     - fader_7
     - fader_8
   binding:
-    default: ${me.Index} / VOL
-    __shift: ${me.Index} / SEND A
+    default: ring(${me.Index}) / VOL
+    __shift: ring(${me.Index}) / SEND A
     __select: SEL / DEV(1) P${me.Index}
 
 fader_9:
