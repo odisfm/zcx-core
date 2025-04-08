@@ -10,4 +10,6 @@ pages:
     - actions_top_left
     - mega_launcher
     - track_half
+  ring_page:
+    - ring_control
 
