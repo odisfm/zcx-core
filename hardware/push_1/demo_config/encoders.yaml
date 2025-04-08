@@ -4,9 +4,9 @@ __encoder_row:
   ]
   binding:
     default: >-
-      ring(${me.Index}) / VOL
+      RING(${me.Index}) / VOL
     __shift: >-
-      ring(${me.Index}) / PAN
+      RING(${me.Index}) / PAN
     __device: >-
       SEL / DEV(1) P${me.Index}
 
