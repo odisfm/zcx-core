@@ -1,8 +1,10 @@
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   gestures:
-    pressed: SCENE ${me.Index}
-    pressed__shift: SCENE ${me.Index + 8}
+    pressed: >
+      SCENE ${ring.scenes[me.index]}
+    pressed__shift: >
+      SCENE ${ring.scenes[me.index + 8]}
     
 #scene_1:
 #  gestures:
@@ -109,18 +111,30 @@ __page_switcher:
 nav_up:
   gestures:
     pressed: UP
+    pressed__shift:
+      ring:
+        y: -1
 
 nav_down:
   gestures:
     pressed: DOWN
+    pressed__shift:
+      ring:
+        y: 1
 
 nav_left:
   gestures:
     pressed: LEFT
+    pressed__shift:
+      ring:
+        x: -8
 
 nav_right:
   gestures:
     pressed: RIGHT
+    pressed__shift:
+      ring:
+        x: 8
 
 session:
   gestures:
