@@ -401,13 +401,17 @@ class EncoderWatcher(EventObject):
         if par_name == 'Track Volume':
             par_name = par.canonical_parent.canonical_parent.name
 
-        self._component.update_display_segment(self._component._encoder_mapping_line, self._index, par_name)
+        if self._component._encoder_mapping_line is not False:
+            self._component.update_display_segment(self._component._encoder_mapping_line, self._index, par_name)
 
         self.parameter_value.subject = self._current_parameter
         self.parameter_value(None)
 
     @listens('value')
     def parameter_value(self, val=None):
+        if not self._component._encoder_values_line:
+            return
+
         if self._current_parameter is None:
             self._component.update_display_segment(self._component._encoder_values_line, self._index, '')
             return
