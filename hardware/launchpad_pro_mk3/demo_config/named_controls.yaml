@@ -41,8 +41,12 @@ __track_buttons:
     track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8
   ]
   gestures:
-    pressed: ${me.Index} / SEL
-    double_clicked: ${me.Index} / PLAY >
+    pressed: >
+      "${ring.tracks[me.index]}" / SEL
+    pressed_delayed: >
+      "${ring.tracks[me.index]}" / ARM
+    double_clicked: >
+      "${ring.tracks[me.index]}" / PLAY >
 
 #track_1:
 #  gestures:
@@ -78,7 +82,7 @@ __track_buttons:
 
 __page_switcher:
   includes: [
-    session, note, chord, custom, sequencer, projects
+    chord, custom, sequencer, projects
   ]
   type: page
   page: ${me.index}
@@ -126,11 +130,6 @@ note:
   gestures:
     pressed: SHOWCLIP
 
-custom:
-  gestures:
-    pressed:
-      msg: Press the Novation button to enter Live mode
-
 novation:
   gestures:
     pressed:
@@ -171,6 +170,10 @@ quantize:
   gestures:
     pressed: CLIP QNTZ 1/16 80
     pressed__shift: CLIP QNTZ 1/16 100
+
+#fixed_length:
+#  gestures:
+#    pressed: DUMMY
 
 arm:
   gestures:
