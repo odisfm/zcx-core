@@ -19,6 +19,7 @@ class ZEncoder(EventObject):
     action_resolver: ActionResolver = None
     session_ring: SessionRing = None
     song = None
+    selected_device_watcher = None
 
     def __init__(self, root_cs, raw_config, name):
         super().__init__()
@@ -135,6 +136,10 @@ class ZEncoder(EventObject):
 
     def bind_to_active(self):
         self.log(f'binding to active')
+
+        dynamism = self.assess_dynamism(self._active_map)
+        self.apply_listeners(dynamism)
+
         try:
             if self._active_map is None:
                 map_success = False
@@ -152,8 +157,6 @@ class ZEncoder(EventObject):
                 self.mapped_parameter = None
             return
 
-        dynamism = self.assess_dynamism(self._active_map)
-        self.apply_listeners(dynamism)
         self.bind_control()
 
     def apply_listeners(self, listen_dict):
@@ -179,9 +182,9 @@ class ZEncoder(EventObject):
             pass
 
         if listen_dict.get("chain_list"):
-            pass
+            self.selected_chain_listener.subject = self.selected_device_watcher
         else:
-            pass
+            self.selected_chain_listener.subject = None
 
         if listen_dict.get("sends_list"):
             self.return_list_listener.subject = self.song
@@ -198,6 +201,11 @@ class ZEncoder(EventObject):
         else:
             self.session_ring_track_listener.subject = None
 
+        if listen_dict.get("selected_device"):
+            self.selected_device_listener.subject = self.selected_device_watcher
+        else:
+            self.selected_device_listener.subject = None
+
     def bind_control(self):
         if self._control_element is None:
             return
@@ -206,16 +214,18 @@ class ZEncoder(EventObject):
     def unbind_control(self):
         if self._control_element is not None:
             self._control_element.release_parameter()
-            self._active_map = {}
 
     def map_self_to_par(self, target_map):
+
+        # perhaps some of the worst code ever written?
+
         try:
             par_type = target_map.get("parameter_type")
             if par_type is not None and par_type.lower() == "selp":
                 self.mapped_parameter = self.song.view.selected_parameter
                 return True
 
-            if target_map.get("device") is None:
+            if target_map.get("device") is None and target_map.get("chain_map") is None:
                 if target_map.get("track") is not None:
                     track_def = target_map.get("track")
                     track_obj = self.get_track(track_def)
@@ -305,25 +315,53 @@ class ZEncoder(EventObject):
                 else:
                     track_obj = self.song.view.selected_track
 
-                device_def = target_map.get("device")
-
                 par_def = target_map.get("parameter_name")
 
-                if device_def.lower() == "sel":
-                    device_obj = track_obj.view.selected_device
-                else:
-                    try:
-                        device_def = int(device_def) - 1
-                        device_obj = list(track_obj.devices)[device_def]
-                    except ValueError:
-                        device_obj = self.get_device_from_list_by_name(
-                            list(track_obj.devices), device_def
-                        )
-                    except IndexError as e:
-                        return False
+                device_def = target_map.get("device")
+                chain_map_def = target_map.get("chain_map")
 
-                if device_obj is None:
-                    raise ConfigurationError(f"No device found for {device_def}")
+                if device_def is not None:
+                    if device_def.lower() == "sel":
+                        device_obj = track_obj.view.selected_device
+                    else:
+                        try:
+                            device_def = int(device_def) - 1
+                            device_obj = list(track_obj.devices)[device_def]
+                        except ValueError:
+                            device_obj = self.get_device_from_list_by_name(
+                                list(track_obj.devices), device_def
+                            )
+                        except IndexError as e:
+                            return False
+
+                    if device_obj is None:
+                        raise ConfigurationError(f"No device found for {device_def}")
+                elif chain_map_def is not None:
+                    device_obj = self.traverse_chain_map(track_obj, chain_map_def)
+
+                    if hasattr(device_obj, "delete_device"): # todo: better test for chainy-ness
+                        chain_mixer = device_obj.mixer_device
+
+                        self.log(target_map)
+
+                        if par_type.lower() == 'vol':
+                            self.mapped_parameter = chain_mixer.volume
+                            return True
+                        elif par_type.lower() == 'pan':
+                            self.mapped_parameter = chain_mixer.panning
+                            return True
+                        elif par_type.lower() == 'send':
+                            send_letter = target_map.get("send").upper()
+                            send_num = ord(send_letter) - 65
+                            self.mapped_parameter = chain_mixer.sends[send_num]
+                            return True
+
+                else:
+                    raise ConfigurationError("") # todo:
+
+                if par_type.lower() == "cs":
+                    self.mapped_parameter = device_obj.chain_selector
+                    return True
 
                 par_num = target_map.get("parameter_number")
                 par_name = target_map.get("parameter_name")
@@ -405,11 +443,12 @@ class ZEncoder(EventObject):
             "sends_list": False,
             "selected_parameter": False,
             "ring_tracks": False,
+            "selected_device": False,
         }
 
         track_def = target_map.get("track")
         if track_def is None:
-            pass
+            listen_dict["selected_track"] = True
         elif track_def.lower() == "sel":
             listen_dict["selected_track"] = True
         else:
@@ -417,9 +456,10 @@ class ZEncoder(EventObject):
 
         device_def = target_map.get("device")
         if device_def is None:
-            pass
+            listen_dict["selected_device"] = False
         elif device_def.lower() == "sel":
             listen_dict["device_list"] = True
+            listen_dict["selected_device"] = True
 
         chain_map = target_map.get("chain_map")
         if chain_map is None:
@@ -499,6 +539,84 @@ class ZEncoder(EventObject):
                 if track_obj is None:
                     return None
 
+    def traverse_chain_map(self, track, chain_map):
+        self.log(f'trying to traverse chain map {chain_map}')
+
+        def parse_templated_node(_node):
+            if not isinstance(_node, str) or '${' not in _node:
+                try:
+                    return int(_node)
+                except (ValueError, TypeError):
+                    if isinstance(_node, str):
+                        try:
+                            if _node.startswith('"') and _node.endswith('"'):
+                                return _node.strip('"')
+                        except (ValueError, AttributeError):
+                            pass
+                    return _node
+
+            # Parse templated string using action_resolver
+            parsed, status = self.action_resolver.compile(_node, self._vars, self._context)
+            if status != 0:
+                raise ConfigurationError(f"Unparseable node: {_node}")
+
+            # Strip quotes if present
+            if isinstance(parsed, str) and parsed.startswith('"') and parsed.endswith('"'):
+                return parsed.strip('"')
+            return parsed
+
+        track_devices = list(track.devices)
+        current_search_obj = track_devices
+
+        for i, node in enumerate(chain_map):
+            is_device = i % 2 == 0
+            node = parse_templated_node(node)
+
+            self.log(f'traversing part {i}: {node}')
+
+            if i == 0:
+                # First node is always a device
+                if isinstance(node, int):
+                    current_search_obj = track_devices[node - 1]
+                else:
+                    found = False
+                    for device in track_devices:
+                        if device.name == node:
+                            current_search_obj = device
+                            found = True
+                            break
+                    if not found:
+                        raise ConfigurationError(f"No device called: {node}")
+            elif is_device:
+                # Looking for a device in the current chain
+                if isinstance(node, int):
+                    current_search_obj = list(current_search_obj.devices)[node - 1]
+                else:
+                    found = False
+                    for device in current_search_obj.devices:
+                        if device.name == node:
+                            current_search_obj = device
+                            found = True
+                            break
+                    if not found:
+                        raise ConfigurationError(f'No device in {current_search_obj.name} called {node}')
+            else:
+                # Looking for a chain in the current device
+                if isinstance(node, int):
+                    current_search_obj = list(current_search_obj.chains)[node - 1]
+                else:
+                    found = False
+                    for chain in current_search_obj.chains:
+                        if chain.name == node:
+                            current_search_obj = chain
+                            found = True
+                            break
+                    if not found:
+                        raise ConfigurationError(f'No chain in {current_search_obj.name} called {node}')
+
+        return current_search_obj
+
+
     @listens("selected_track")
     def selected_track_listener(self):
         self.bind_to_active()
@@ -508,11 +626,11 @@ class ZEncoder(EventObject):
         self.bind_to_active()
 
     @listens("selected_chain")
-    def selected_chain_listener(self):
+    def selected_chain_listener(self, _):
         self.bind_to_active()
 
     @listens("selected_device")
-    def selected_device_listener(self):
+    def selected_device_listener(self, _):
         self.bind_to_active()
 
     @listens("devices")
