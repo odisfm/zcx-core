@@ -1,5 +1,7 @@
 import copy
 
+from ableton.v3.base import EventObject, listens, listens_group, listenable_property
+
 from .errors import ConfigurationError, CriticalConfigurationError
 from .z_encoder import ZEncoder
 from .zcx_component import ZCXComponent
@@ -18,17 +20,20 @@ class EncoderManager(ZCXComponent):
 
         self._encoders = {}
         self.__encoder_groups = {}
+        self._selected_device_watcher = None
 
     def setup(self):
         self.debug(f'{self.name} doing setup')
+        self._selected_device_watcher = SelectedDeviceWatcher(self, self.song)
+        ZEncoder.selected_device_watcher = self._selected_device_watcher
         self.create_encoders()
 
     def bind_all_encoders(self):
         for enc_name, enc_obj in self._encoders.items():
             try:
                 enc_obj.bind_to_active()
-            except:
-                self.error(f'Failed to bind {enc_name}')
+            except Exception as e:
+                self.error(f'Failed to bind {enc_name}', e)
 
     def create_encoders(self):
         try:
@@ -186,3 +191,93 @@ class EncoderManager(ZCXComponent):
             self.log(f'No encoder called {encoder_name}. Registered encoders are:\n'
                      f'{self._encoders.keys()}')
             return None
+
+
+class SelectedDeviceWatcher(EventObject):
+
+    def __init__(self, encoder_manager, song, *a, **kw):
+        super().__init__(*a, **kw)
+        self._encoder_manager = encoder_manager
+        self._song = song
+        self._selected_track = None
+        self.__selected_device = None
+        self.__selected_rack = None
+        self.__selected_chain = None
+        self.selected_track_listener.subject = self._song.view
+        self.selected_track_listener()
+
+    def log(self, *msg):
+        self._encoder_manager.debug(*msg)
+
+    @listenable_property
+    def selected_device(self):
+        return self.__selected_device
+
+    @selected_device.setter
+    def selected_device(self, device):
+        self.__selected_device = device
+        self.notify_selected_device(device)
+
+    @listenable_property
+    def selected_rack(self):
+        return self.__selected_rack
+
+    @selected_rack.setter
+    def selected_rack(self, rack):
+        self.__selected_rack = rack
+        self.notify_selected_rack(rack)
+
+    @listenable_property
+    def selected_chain(self):
+        return self.__selected_chain
+
+    @selected_chain.setter
+    def selected_chain(self, chain):
+        self.__selected_chain = chain
+        self.notify_selected_chain(chain)
+
+    @listens('selected_track')
+    def selected_track_listener(self):
+        if hasattr(self, '_selected_track') and self._selected_track is not None:
+            self.selected_device_listener.subject = None
+
+        self._selected_track = self._song.view.selected_track
+        if self._selected_track is not None:
+            self.selected_device_listener.subject = self._selected_track.view
+            self.selected_device_listener()
+            self.log(f'selected track: {self._selected_track.name}')
+        else:
+            self.selected_device = None
+            self.log('No track selected')
+
+    @listens('selected_device')
+    def selected_device_listener(self):
+        self.log(f'selected device changed')
+        new_device = None if self._selected_track is None else self._selected_track.view.selected_device
+        self.selected_device = new_device
+
+        try:
+            if new_device is not None:
+                self.log(f'selected device: {new_device.name}')
+        except AttributeError:
+            pass
+
+        self.selected_chain_listener.subject = None
+
+        if new_device is None or not new_device.can_have_chains:
+            self.selected_rack = None
+            self.selected_chain = None
+            return
+
+        self.selected_rack = new_device
+
+        if hasattr(new_device, 'view') and new_device.view is not None:
+            self.selected_chain_listener.subject = new_device.view
+            self.selected_chain = new_device.view.selected_chain
+        else:
+            self.selected_chain = None
+
+    @listens('selected_chain')
+    def selected_chain_listener(self):
+        if self.selected_rack is not None and hasattr(self.selected_rack, 'view'):
+            self.selected_chain = self.selected_rack.view.selected_chain
