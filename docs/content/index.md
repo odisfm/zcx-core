@@ -62,7 +62,7 @@ select:
     released:
       mode_off: select
 ```
-<sup>[see how](https://zcxcore.com/tutorials/getting-started/zcx-concepts/#modes)</sup>
+<sup>[see how](/tutorials/getting-started/zcx-concepts/#modes)</sup>
 ___
 
 ### unlimited pages
@@ -93,7 +93,7 @@ pages:
     - home_row
     - drums_section
 ```
-<sup>[see how](https://zcxcore.com/tutorials/getting-started/zcx-concepts/#pages)</sup>
+<sup>[see how](tutorials/getting-started/zcx-concepts/#pages)</sup>
 ___
 
 ### rapid configuration
@@ -124,7 +124,7 @@ pad 2: SEL / PLAY 2
 pad 64: SEL / PLAY 64
 ```
 
-<sup>[see how](https://zcxcore.com/reference/template-reference/)</sup>
+<sup>[see how](/reference/template-reference/)</sup>
 
 ___
 ### deeper customisation
@@ -141,7 +141,7 @@ play:
   gestures:
     double_clicked: STOPALL NQ
 ```
-<sup>[see how](https://zcxcore.com/reference/control-reference/z-control/)</sup>
+<sup>[see how](/reference/control-reference/z-control/)</sup>
 ___
 
 ### intelligent controls
@@ -166,7 +166,7 @@ play:
     pressed: SETPLAY
 ```
 
-<sup>[see how](https://zcxcore.com/reference/control-reference/transport/)</sup>
+<sup>[see how](/reference/control-reference/transport/)</sup>
 
 ___
 
@@ -196,7 +196,7 @@ scene_1:
        # msg: You must hold this control to trigger it!
 ```
 
-<sup>[see how](https://zcxcore.com/reference/template-reference/#control-templates)</sup>
+<sup>[see how](/reference/template-reference/#control-templates)</sup>
 
 ___
 
