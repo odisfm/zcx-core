@@ -321,3 +321,30 @@ my_control:
           else:
             print(track.name)
 ```
+
+### hardware_mode
+
+For a multimode controller (e.g. Push), force the controller back into 'Live' mode.
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      hardware_mode: live
+```
+
+### refresh
+
+Force zcx to refresh all LED feedback.
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      refresh: true
+```
+
+!!! note
+
+    Generally, it should not be necessary to use this command.
+    If you are using this command to work around an issue you're having, please consider [reporting a bug](/lessons/reporting-bugs).
