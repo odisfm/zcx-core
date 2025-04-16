@@ -65,6 +65,34 @@ class SessionRing(SessionRingBase):
         super().move(x, y)
         self.notify_offsets()
 
+    def go_to_track(self, track_id):
+        self.log(f'go_to_track {track_id}')
+        if isinstance(track_id, int):
+            self.set_offsets(track_id, self.scene_offset)
+        else:
+            for i, track in enumerate(self.tracks_to_use()):
+                if track.name == track_id:
+                    self.set_offsets(i, self.scene_offset)
+                    return True
+
+    def go_to_scene(self, scene_id):
+
+        def parse_scene_ident(scene_full_name):
+            if scene_full_name.startswith('['):
+                end_bracket = scene_full_name.find(']')
+                if end_bracket > 0:
+                    return scene_full_name[1:end_bracket]
+                elif scene_full_name == '[]':
+                    return scene_full_name
+
+        if isinstance(scene_id, int):
+            self.set_offsets(self.track_offset, scene_id)
+        else:
+            scenelist = list(self.song.scenes)
+            for i, scene in enumerate(scenelist):
+                if scene.name == scene_id or parse_scene_ident(scene.name) == scene_id:
+                    self.set_offsets(self.track_offset, i)
+
     def get_ring_track(self, _index):
         try:
             pos = self.track_offset + _index

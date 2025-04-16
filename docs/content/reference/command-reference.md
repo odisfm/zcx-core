@@ -229,6 +229,10 @@ See also:
 
 Move the [session ring](/lessons/session-ring) of the script.
 
+#### relative moves
+
+Move the ring along its x (track) or y (scene) axis.
+
 ```yaml hl_lines="4 5 10 11 16 17 22 23"
 up:
   gestures:
@@ -253,6 +257,44 @@ left:
     pressed:
       ring:
         x: -1
+```
+
+#### absolute moves
+
+Directly position the left-most or top-most edge of the ring to a particular track or scene.
+
+##### by track
+
+Specify a track name (recommended) or number. When specifying a number, the number is zero-indexed.
+
+```yaml
+my_button:
+  ring:
+    track: my cool track
+```
+
+```yaml
+my_button:
+  ring:
+    track: 0
+```
+
+##### by scene
+
+Specify a scene name (recommended) or number. When specifying a number, the number is zero-indexed.
+
+When targeting an [X-Scene](https://www.cxpman.com/manual/core-concepts/#x-scenes) by name, you must use the X-Scene's [identifier](https://www.cxpman.com/manual/core-concepts/#identifiers). E.g., with a scene name like `[my cool scene] ALL / MUTE; METRO ON`, you would use `my cool scene` as the scene name.
+
+```yaml
+my_button:
+  ring:
+    scene: 7
+```
+
+```yaml
+my_button:
+  ring:
+    scene: my cool scene
 ```
 
 ### python
