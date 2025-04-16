@@ -17,6 +17,11 @@ Gestures are physical actions you can perform on a control to trigger a command.
 - **released_immediately** fired after a control that was **not** being held is released
 - **double_clicked** fired after a control is pressed twice in quick succession
 
+!!! note
+
+    The `double_clicked` gesture may be unituitive.
+    See [the lesson](/lessons/double_clicked) to undestand how it works.
+
 ### gesture syntax
 
 To define gestures on a control, add a `gestures` key, with key/value pairs of gesture/command.
