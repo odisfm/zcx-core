@@ -298,16 +298,39 @@ class ActionResolver(ZCXComponent):
                         case 'ring':
                             self.debug(command_type, command_def, vars_dict, context)
 
-                            if 'track' in command_def:
-                                # go direct to track
-                                raise NotImplementedError()
+                            ring_component = self.canonical_parent._session_ring_custom
 
-                            x_def = command_def.get('x', 0)
-                            x_parsed = self._compile_and_check(x_def, vars_dict, context)
-                            y_def = command_def.get('y', 0)
-                            y_parsed = self._compile_and_check(y_def, vars_dict, context)
+                            track_def = command_def.get('track')
+                            scene_def = command_def.get('scene')
+                            x_parsed = None
+                            y_parsed = None
+                            track_def_parsed = None
+                            scene_def_parsed = None
 
-                            self.canonical_parent._session_ring_custom.move(x_parsed, y_parsed)
+                            if track_def is not None:
+                                track_def_parsed = self._compile_and_check(track_def, vars_dict, context)
+                            else:
+                                x_def = command_def.get('x', 0)
+                                x_parsed = self._compile_and_check(x_def, vars_dict, context)
+
+                            if scene_def is not None:
+                                scene_def_parsed = self._compile_and_check(scene_def, vars_dict, context)
+                            else:
+                                y_def = command_def.get('y', 0)
+                                y_parsed = self._compile_and_check(y_def, vars_dict, context)
+
+                            self.debug(track_def_parsed, scene_def_parsed, x_parsed, y_parsed)
+
+                            if x_parsed is not None:
+                                ring_component.move(x=x_parsed)
+                            elif track_def_parsed is not None:
+                                ring_component.go_to_track(track_def_parsed)
+
+                            if y_parsed is not None:
+                                ring_component.move(y=y_parsed)
+                            elif scene_def_parsed is not None:
+                                ring_component.go_to_scene(scene_def_parsed)
+
                         case 'color':
                             if isinstance(command_def, str):
                                 command_def = self._compile_and_check(command_def, vars_dict, context)
