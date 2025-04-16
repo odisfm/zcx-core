@@ -20,7 +20,6 @@ PROTECTED_EXTENSIONS = [
     "flac",
     "als",
     "asd",
-    "amxd",
     "ablbundle",
     "abl",
     "adg",
