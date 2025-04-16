@@ -209,10 +209,15 @@ def create_backup(script_dir):
             dst_path = os.path.join(backup_dir, item)
 
             try:
-                if os.path.isdir(item_path):
+                if os.path.isdir(item_path) and not os.path.islink(item_path):
                     shutil.copytree(item_path, dst_path)
                 else:
-                    shutil.copy2(item_path, dst_path)
+                    # For symlinks or regular files, copy as is
+                    if os.path.islink(item_path):
+                        linkto = os.readlink(item_path)
+                        os.symlink(linkto, dst_path)
+                    else:
+                        shutil.copy2(item_path, dst_path)
             except Exception as e:
                 logger.error(f"Failed to backup {item}: {e}")
                 raise
@@ -287,7 +292,7 @@ def clean_installation_directory(script_dir, temp_dir):
         for item in os.listdir(script_dir):
             item_path = os.path.join(script_dir, item)
 
-            # Skip temp directory and this script
+            # Skip temp directory and this script and log file
             if item_path == temp_dir or item == this_script or item == "update_log.txt":
                 continue
 
@@ -298,6 +303,11 @@ def clean_installation_directory(script_dir, temp_dir):
                 continue
 
             try:
+                # If the item is a symlink, skip deletion so it can be restored later
+                if os.path.islink(item_path):
+                    logger.info(f"Preserving symlink: {item_path}")
+                    continue
+
                 if os.path.isdir(item_path):
                     shutil.rmtree(item_path)
                 else:
@@ -456,10 +466,23 @@ def install_update(core_dir, script_dir):
             src_path = os.path.join(core_dir, item)
             dst_path = os.path.join(script_dir, item)
 
-            # Check for protected extensions
-            extension = os.path.splitext(item)[1].lstrip(".")
-            if extension in PROTECTED_EXTENSIONS:
-                logger.warning(f"Skipping protected file type: {item}")
+            # If destination exists and is an existing symlink, keep it (do not override)
+            if os.path.exists(dst_path) and os.path.islink(dst_path):
+                logger.info(f"Maintaining existing symlink: {dst_path}")
+                continue
+
+            # If the source is a symlink, recreate the symlink without copying the target
+            if os.path.islink(src_path):
+                # Remove any non-symlink file at destination so we can create the symlink
+                if os.path.exists(dst_path) and not os.path.islink(dst_path):
+                    if os.path.isdir(dst_path):
+                        shutil.rmtree(dst_path)
+                    else:
+                        os.remove(dst_path)
+                link_target = os.readlink(src_path)
+                os.symlink(link_target, dst_path)
+                logger.info(f"Installed symlink {item} -> {link_target}")
+                items_installed.append(item)
                 continue
 
             try:
@@ -545,6 +568,53 @@ def cleanup_temp_dirs(script_dir):
         return False
 
 
+def record_symlinks(root_dir):
+    """
+    Recursively record all symlinks under the root_dir.
+    Returns a dictionary mapping relative paths to their symlink targets.
+    """
+    symlinks = {}
+    for current_root, dirs, files in os.walk(root_dir, topdown=True, followlinks=False):
+        for name in dirs + files:
+            full_path = os.path.join(current_root, name)
+            if os.path.islink(full_path):
+                rel_path = os.path.relpath(full_path, root_dir)
+                try:
+                    target = os.readlink(full_path)
+                    symlinks[rel_path] = target
+                    logger.info(f"Recorded symlink: {rel_path} -> {target}")
+                except Exception as e:
+                    logger.error(f"Failed to read symlink {full_path}: {e}")
+    return symlinks
+
+
+def restore_symlinks(root_dir, symlink_map):
+    """
+    Restore symlinks from the recorded mapping.
+    For each recorded symlink, if a file or folder exists at that path and is not a symlink,
+    it is removed and the symlink is re-created.
+    """
+    for rel_path, target in symlink_map.items():
+        full_path = os.path.join(root_dir, rel_path)
+        # Remove conflicting file/directory if it exists and is not a symlink
+        if os.path.exists(full_path) and not os.path.islink(full_path):
+            try:
+                if os.path.isdir(full_path):
+                    shutil.rmtree(full_path)
+                else:
+                    os.remove(full_path)
+                logger.info(f"Removed conflicting item at {full_path}")
+            except Exception as e:
+                logger.error(f"Failed to remove {full_path}: {e}")
+                continue
+        # (Re)create the symlink if it does not exist
+        if not os.path.exists(full_path):
+            try:
+                os.symlink(target, full_path)
+                logger.info(f"Restored symlink: {full_path} -> {target}")
+            except Exception as e:
+                logger.error(f"Failed to restore symlink {full_path}: {e}")
+
 def main():
     """Main function orchestrating the update process"""
     try:
@@ -572,11 +642,10 @@ def main():
             f"Current configuration - Hardware: {hardware}, Version: {current_version}"
         )
 
-        # Ask user about prerelease preference
-        include_prereleases = (
-            input("\nCheck for preview versions? (y/N): ").lower() == "y"
-        )
+        existing_symlinks = record_symlinks(script_dir)
 
+        # Ask user about prerelease preference
+        include_prereleases = (input("\nCheck for preview versions? (y/N): ").lower() == "y")
         if include_prereleases:
             logger.info("Including preview versions in update check")
 
@@ -612,19 +681,16 @@ def main():
             )
             logger.info(f"Your configuration files will not be overwritten.")
             repair = input(f"Type 'repair' to continue: ")
-
             if repair != "repair":
                 logger.info(f"{PURPLE}Get the latest news on Discord!{RESET}")
                 logger.info(f"https://discord.zcxcore.com")
                 sys.exit(0)
         else:
-
             # Confirm update with user
             logger.info(
                 f"{GREEN}Update available: v{current_version} -> v{latest_version}{RESET}"
             )
             logger.info(f"Update package: {asset_name}")
-
             pre_v1 = latest_version[0] == "0"
             if pre_v1:
                 print(
@@ -632,7 +698,6 @@ def main():
                     f"You {RED}must{RESET} check the release notes to see if your config is affected by any breaking changes.\n"
                     f"\n{html_url}{RESET}"
                 )
-
             user_confirm = input(
                 "\nDo you want to update? This will backup your current installation. (y/N): "
             )
@@ -652,14 +717,10 @@ def main():
 
         # Clean installation directory
         if not clean_installation_directory(script_dir, temp_dir):
-            raise RuntimeError(
-                "Failed to clean installation directory, aborting update"
-            )
+            raise RuntimeError("Failed to clean installation directory, aborting update")
 
         # Download and extract update package
-        download_dir = download_and_verify_asset(
-            asset_url, asset_name, script_dir, requests
-        )
+        download_dir = download_and_verify_asset(asset_url, asset_name, script_dir, requests)
         if not download_dir:
             raise RuntimeError("Failed to download update package, aborting update")
 
@@ -683,6 +744,8 @@ def main():
         # Restore user data
         if not restore_user_data(temp_dir, script_dir):
             logger.warning("Issues restoring user data, update may be incomplete")
+
+        restore_symlinks(script_dir, existing_symlinks)
 
         logger.info(
             f"\n{GREEN}Update successfully completed! Version: v{current_version} -> v{latest_version}{RESET}"
@@ -717,7 +780,6 @@ def main():
             except Exception as e:
                 logger.error(f"Failed to copy Zcx user action: {e}")
                 raise RuntimeError("Failed to install Zcx user action")
-
 
         new_upgrade_path = os.path.join(core_dir, "/upgrade.py")
         if os.path.exists(new_upgrade_path):
