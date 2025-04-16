@@ -15,3 +15,7 @@ asteval interprets your expressions with a limited context, which basically mean
 ### additional restrictions
 
 - by default, `asteval` allows access to Python's [open()](https://docs.python.org/3/library/functions.html#open) method in read-only mode. This has been disallowed in zcx.
+
+### additional symbols
+
+Several [additional symbols](/reference/template-reference#template-locals) are made available in template strings.
