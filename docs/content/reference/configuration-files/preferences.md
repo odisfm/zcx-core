@@ -106,3 +106,16 @@ action_log: true
 ```
 
 When set to `true`, all triggered ClyphX Pro action lists will be logged.
+
+## developer preferences
+
+The following preferences are only useful when developing the 'core' of zcx.
+
+### refresh_on_all_sysex
+
+```yaml
+refresh_on_all_sysex: false
+```
+
+When set to `true`, zcx will refresh all LED feedback upon receipt of **any** MIDI Sysex message.
+This may be useful if you are trying to test controller-specific code for a controller you don't have access to.
