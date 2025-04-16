@@ -8,8 +8,8 @@ To perform a double tap, you perform the following actions in quick succession:
 
 - press the control
 - release the control
-- **press the control again** (the double click)
-- release the control again
+- press the control again
+- **release the control again** (the double click)
 
 If we take this control definition:
 
@@ -30,8 +30,8 @@ After a double tap, the log would read:
 pressed
 released
 pressed
-double_clicked
 released
+double_clicked
 ```
 
 This behaviour means the use case you imagined for the double tap might not be possible.
