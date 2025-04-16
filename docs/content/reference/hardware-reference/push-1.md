@@ -1,6 +1,4 @@
-# Push 1
-
-# Display plugin
+# Push 1 display plugin
 
 zcx for Push 1 ships with a plugin that enables display output.
 Each line of the display will be used for a specific purpose:
