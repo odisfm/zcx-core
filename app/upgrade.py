@@ -644,6 +644,19 @@ def main():
 
         existing_symlinks = record_symlinks(script_dir)
 
+        if os.name == 'nt' and existing_symlinks:
+            logger.error(f"\n{RED}Detected {len(existing_symlinks)} symlinks.{RESET}")
+            logger.error(f"{RED}This script will not work on Windows where symlinks are present.{RESET}")
+
+            print("\nSymlinks detected in your installation:")
+            for rel_path, target in existing_symlinks.items():
+                print(f" - {rel_path} -> {target}")
+
+            print(f"{PURPLE}To proceed with the automated upgrade, delete all symlinks and recreate them after script completion.{RESET}")
+            print(f"{PURPLE}Visit {HELP_URL} for assistance.{RESET}")
+
+            sys.exit(1)
+
         # Ask user about prerelease preference
         include_prereleases = (input("\nCheck for preview versions? (y/N): ").lower() == "y")
         if include_prereleases:
