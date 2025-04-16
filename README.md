@@ -20,7 +20,7 @@ zcx-core is currently maintained for these devices, with more planned:
 * Novation Launchpad Mini mk3
 
 [If your device isn't here
-](https://github.com/odisfm/zcx-docs/blob/main/docs/lessons/installation.md#my-hardware-isnt-listed-)
+](https://zcxcore.com/tutorials/getting-started/installation/)
 
 ___
 ## features
