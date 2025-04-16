@@ -188,12 +188,12 @@ hold_warning:
 # named_controls.yaml
 
 scene_1:
-    template: [hold_warning, my_green_button]
-    #color: green shade ${me.index % 4}
-    gestures:
-      pressed_delayed: SCENE 1
-      #released_immediately:
-       # msg: You must hold this control to trigger it!
+  template: [hold_warning, my_green_button]
+  #color: green shade ${me.index % 4}
+  gestures:
+    pressed_delayed: SCENE 1
+    #released_immediately:
+      # msg: You must hold this control to trigger it!
 ```
 
 <sup>[see how](https://zcxcore.com/reference/template-reference/#control-templates)</sup>
