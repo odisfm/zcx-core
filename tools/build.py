@@ -5,7 +5,7 @@ import logging
 import shutil
 import time
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Set
 import sys
 
 from watchdog.events import FileSystemEventHandler, FileSystemEvent
@@ -20,10 +20,10 @@ logging.basicConfig(
 
 class BuildManager:
     def __init__(
-        self,
-        hardware_config: Optional[str] = None,
-        control_surface_name: Optional[str] = None,
-        custom_config_path: Optional[Path] = None,
+            self,
+            hardware_config: Optional[str] = None,
+            control_surface_name: Optional[str] = None,
+            custom_config_path: Optional[Path] = None,
     ):
         # Import config here so CLI args can override
         from sync_config import (
@@ -51,7 +51,7 @@ class BuildManager:
 
         self.hardware_root = self.project_root / "hardware" / self.hardware_config
 
-        self.ignore_patterns = {    # i dont know man
+        self.ignore_patterns = {  # i dont know man
             ".git",
             "__pycache__",
             "*.pyc",
@@ -61,6 +61,10 @@ class BuildManager:
         }
         self.retry_attempts = 3
         self.retry_delay = 1.0
+
+        # Store detected symlinks to avoid checking on every run
+        self.detected_symlinks: Set[Path] = set()
+        self.symlinks_checked = False
 
     def _validate_remote_scripts_path(self, path: Path) -> None:
         """
@@ -78,7 +82,8 @@ class BuildManager:
         if not clyphx_component_path.exists():
             red_warning = "\033[91m"
             reset_color = "\033[0m"
-            print(f"{red_warning}WARNING: This does not appear to be a valid Ableton Remote Scripts directory!{reset_color}")
+            print(
+                f"{red_warning}WARNING: This does not appear to be a valid Ableton Remote Scripts directory!{reset_color}")
             print(f"{path}")
             print(f"{red_warning}Continuing may result in DATA LOSS or incorrect synchronization.{reset_color}")
 
@@ -88,6 +93,7 @@ class BuildManager:
 
             if confirmation != 'y':
                 raise ValueError(f"Operation aborted for safety. Please verify REMOTE_SCRIPTS_PATH in sync_config.py")
+
     def should_ignore(self, path: Path) -> bool:
         """Check if a file or directory should be ignored."""
         path_str = str(path)
@@ -96,8 +102,26 @@ class BuildManager:
             for ignored in self.ignore_patterns
         )
 
+    def check_for_symlinks(self, dest: Path) -> bool:
+        """
+        Check if a destination path is a symlink.
+        Returns True if it's a symlink, False otherwise.
+        """
+        if dest.is_symlink():
+            yellow_warning = "\033[93m"
+            reset_color = "\033[0m"
+            logging.warning(f"{yellow_warning}SKIPPING: Destination is a symlink: {dest}{reset_color}")
+            self.detected_symlinks.add(dest)
+            return True
+        return False
+
     def safe_copy(self, src: Path, dest: Path) -> None:
         """Copy a file with retries on failure."""
+        # Skip if destination parent is in detected symlinks
+        for symlink in self.detected_symlinks:
+            if symlink in dest.parents or symlink == dest.parent:
+                return
+
         for attempt in range(self.retry_attempts):
             try:
                 dest.parent.mkdir(parents=True, exist_ok=True)
@@ -134,10 +158,36 @@ class BuildManager:
             if f.is_file() and not self.should_ignore(f)
         }
 
+    def scan_for_symlinks(self, base_dir: Path) -> None:
+        """
+        Recursively scan a directory for symlinks.
+        Only performed on first run.
+        """
+        if not base_dir.exists() or base_dir in self.detected_symlinks:
+            return
+
+        if base_dir.is_symlink():
+            logging.warning(f"\033[93mDetected symlink directory: {base_dir}\033[0m")
+            self.detected_symlinks.add(base_dir)
+            return
+
+        # Scan subdirectories
+        for path in base_dir.iterdir():
+            if path.is_dir():
+                self.scan_for_symlinks(path)
+
     def sync_directory(self, src: Path, dest: Path) -> None:
         """Sync a directory from source to destination."""
         if not src.exists():
             raise RuntimeError(f"Source directory does not exist: {src}")
+
+        # Check for symlinks on first run only
+        if not self.symlinks_checked:
+            self.scan_for_symlinks(dest)
+
+        # Skip syncing if destination is a symlink
+        if dest in self.detected_symlinks or dest.is_symlink():
+            return
 
         # Create destination if it doesn't exist
         dest.mkdir(parents=True, exist_ok=True)
@@ -151,13 +201,34 @@ class BuildManager:
             src_file = src / rel_path
             dest_file = dest / rel_path
 
+            # Skip if destination file is in a symlink directory
+            skip = False
+            for symlink in self.detected_symlinks:
+                if symlink in dest_file.parents:
+                    skip = True
+                    break
+
+            if skip:
+                continue
+
             if not dest_file.exists() or dest_file.stat().st_mtime < mtime:
                 self.safe_copy(src_file, dest_file)
 
         # Remove files in destination that don't exist in source
         for rel_path in dest_files:
+            dest_file = dest / rel_path
+
+            # Skip if file is in a symlink directory
+            skip = False
+            for symlink in self.detected_symlinks:
+                if symlink in dest_file.parents:
+                    skip = True
+                    break
+
+            if skip:
+                continue
+
             if rel_path not in src_files:
-                dest_file = dest / rel_path
                 try:
                     dest_file.unlink()
                     logging.info(f"Removed orphaned file: {dest_file}")
@@ -169,11 +240,11 @@ class BuildManager:
 
     def _cleanup_empty_dirs(self, path: Path) -> None:
         """Remove empty directories recursively."""
-        if not path.exists() or not path.is_dir():
+        if not path.exists() or not path.is_dir() or path in self.detected_symlinks or path.is_symlink():
             return
 
         for child in path.iterdir():
-            if child.is_dir():
+            if child.is_dir() and child not in self.detected_symlinks and not child.is_symlink():
                 self._cleanup_empty_dirs(child)
 
         # Check if directory is empty now
@@ -187,11 +258,22 @@ class BuildManager:
     def build(self) -> None:
         """Build the plugin by syncing all directories."""
         try:
+            # Check for symlinks on first run only
+            if not self.symlinks_checked:
+                logging.info("Scanning for symlinks in destination directories...")
+                self.scan_for_symlinks(self.dest_root)
+                self.symlinks_checked = True
+                if self.detected_symlinks:
+                    symlink_list = "\n  - ".join([str(s) for s in self.detected_symlinks])
+                    logging.warning(
+                        f"\033[93mThe following symlinks were detected and will be skipped:\n  - {symlink_list}\033[0m")
+
             # Sync app directory
             self.sync_directory(self.src_root, self.dest_root)
 
             # Sync hardware config
-            self.sync_directory(self.hardware_root, self.dest_root / "hardware")
+            hardware_dest = self.dest_root / "hardware"
+            self.sync_directory(self.hardware_root, hardware_dest)
 
             # Sync config from either custom_config_path or hardware-specific demo_config
             config_path = (
@@ -200,7 +282,8 @@ class BuildManager:
                 else self.hardware_root / "demo_config"
             )
             if config_path.exists():
-                self.sync_directory(config_path, self.dest_root / "_config")
+                config_dest = self.dest_root / "_config"
+                self.sync_directory(config_path, config_dest)
 
             logging.info("Build completed successfully")
 
@@ -261,7 +344,6 @@ def main():
     args = parser.parse_args()
 
     try:
-
         builder = BuildManager(
             args.hardware_config,
             args.control_surface_name,
