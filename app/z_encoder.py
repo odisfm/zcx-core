@@ -341,6 +341,9 @@ class ZEncoder(EventObject):
                     device_obj = self.traverse_chain_map(track_obj, chain_map_def)
 
                     if hasattr(device_obj, "delete_device"): # todo: better test for chainy-ness
+                        if par_type is None:
+                            raise ConfigurationError("Missing parameter_type") # todo:
+
                         chain_mixer = device_obj.mixer_device
 
                         self.log(target_map)
@@ -360,7 +363,7 @@ class ZEncoder(EventObject):
                 else:
                     raise ConfigurationError("") # todo:
 
-                if par_type.lower() == "cs":
+                if par_type is not None and par_type.lower() == "cs":
                     self.mapped_parameter = device_obj.chain_selector
                     return True
 
