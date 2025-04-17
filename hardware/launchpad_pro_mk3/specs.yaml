@@ -22,7 +22,7 @@ button_matrix:
 cc_buttons:
   channel: 0
   momentary: true
-  feedback: basic
+  feedback: rgb
 
 note_buttons:
   channel: 0
