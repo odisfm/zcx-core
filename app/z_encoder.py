@@ -218,6 +218,7 @@ class ZEncoder(EventObject):
     def map_self_to_par(self, target_map):
 
         # perhaps some of the worst code ever written?
+        self._logger.debug(target_map)
 
         try:
             par_type = target_map.get("parameter_type")
