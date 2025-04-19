@@ -1,90 +1,143 @@
-__scene_buttons:
-  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+session:
+  color: 1
+  suppress_animations: true
+  gestures:
+    pressed:
+      refresh: true
+    released_immediately:
+      msg: hold to return to Live mode
+    pressed_delayed:
+      hardware_mode: live
+
+__page_controls:
+  includes:
+    [note, custom, capture]
+  type: page
+  page: ${me.index}
+  gestures:
+    pressed:
+      page: ${me.index}
+      msg: >
+        Page: ${me.page_name}
+    released_delayed:
+      page: last
+  active_color:
+    pulse:
+      a: white
+      b: white
+  inactive_color:
+    palette: rainbow
+
+#note:
+#  color: 127
+#  gestures:
+#    pressed: DUMMY
+
+#custom:
+#  color: 127
+#  gestures:
+#    pressed: DUMMY
+
+#user:
+#  color: 127
+#  gestures:
+#    pressed: DUMMY
+
+__scene_controls:
+  includes:
+    [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color:
+    palette: ocean
   gestures:
     pressed: >
-      SCENE ${ring.scenes[me.index]}
+      SCENE ${ring.scenes[me.Index]}
     pressed__shift: >
-      SCENE ${ring.scenes[me.index + 8]}
+      SCENE ${ring.scenes[me.Index + 8]}
+    pressed__select: >
+      SCENE SEL ${ring.scenes[me.Index]}
+    pressed__shift__select: >
+      SCENE SEL ${ring.scenes[me.Index + 8]}
 
 #scene_1:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_2:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_3:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_4:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_5:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_6:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_7:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
 #scene_8:
+#  color: 127
 #  gestures:
 #    pressed: DUMMY
 
+novation:
+  type: transport
+  transport: play
+
 nav_up:
+  color: sky
   gestures:
-    pressed: UP
+    pressed:
+      ring:
+        y: -8
     pressed__shift:
       ring:
         y: -1
 
 nav_down:
+  color: sky
   gestures:
-    pressed: DOWN
+    pressed:
+      ring:
+        y: 8
     pressed__shift:
       ring:
         y: 1
 
 nav_left:
+  color: green
   gestures:
-    pressed: LEFT
-    pressed__shift:
+    pressed:
       ring:
         x: -8
-
-nav_right:
-  gestures:
-    pressed: RIGHT
     pressed__shift:
       ring:
+        x: -1
+
+nav_right:
+  color: green
+  gestures:
+    pressed:
+      ring:
         x: 8
-
-session:
-  gestures:
-    pressed: TGLMAIN
-
-note:
-  gestures:
-    pressed: SHOWCLIP
-
-capture:
-  gestures:
-    pressed: SRECFIX 8
-    pressed__shift: SRECFIX 16
-
-custom:
-  gestures:
-    pressed:
-      msg: Press the Novation button to enter Live mode
-
-novation:
-  gestures:
-    pressed:
-      hardware_mode: live
+    pressed__shift:
+      ring:
+        x: 1

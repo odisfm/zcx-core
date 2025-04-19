@@ -15,38 +15,48 @@ big_colors:
   col_start: 0
   col_end: 7
 
-home_row:
-  row_start: 6
+blank_section:
+  row_start: 0
   row_end: 7
   col_start: 0
   col_end: 7
 
 actions_left:
   row_start: 0
-  row_end: 5
+  row_end: 3
   col_start: 0
   col_end: 3
 
+actions_main:
+  row_start: 4
+  row_end: 7
+  col_start: 0
+  col_end: 3
+  template:
+    color:
+      palette: rainbow_reverse 3
+
 actions_right:
   row_start: 0
-  row_end: 5
+  row_end: 3
   col_start: 4
   col_end: 7
 
-track_selector:
-  row_start: 3
-  row_end: 5
+
+nav_quadrant:
+  row_start: 4
+  row_end: 7
   col_start: 4
   col_end: 7
 
-clip_launcher:
+track_section:
   row_start: 0
-  row_end: 2
-  col_start: 4
+  row_end: 3
+  col_start: 0
   col_end: 7
 
-ring_control:
+track_control:
   row_start: 0
-  row_end: 5
+  row_end: 3
   col_start: 0
   col_end: 7
