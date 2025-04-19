@@ -221,8 +221,8 @@ class ZCXCore(ControlSurface):
         super().refresh_state()
         self.refresh_required()
 
-    def refresh_required(self):
-        refresh_task = RefreshLightsTask(self, duration=0.2)
+    def refresh_required(self, duration=0.2):
+        refresh_task = RefreshLightsTask(self, duration)
         self._task_group.add(refresh_task)
 
     def receive_midi_chunk(self, midi_chunk):
