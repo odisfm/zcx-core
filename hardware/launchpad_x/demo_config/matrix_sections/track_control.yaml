@@ -1,0 +1,44 @@
+- pad_group: select_row
+  template: ring_row_select
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group: mute_row
+  template: ring_row_mute
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group: arm_row
+  template: ring_row_arm
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group: rec_row
+  template: ring_row_rec
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -

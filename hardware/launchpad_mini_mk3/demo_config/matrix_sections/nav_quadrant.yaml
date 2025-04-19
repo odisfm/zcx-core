@@ -1,0 +1,139 @@
+# !! row 1
+# col 1
+-
+  color: pink
+  gestures:
+    pressed:
+      msg: You can edit this section in `_config/matrix_sections/nav_quadrant.yaml`
+
+# col 2
+-
+  type: transport
+  transport: play
+  gestures:
+    released_immediately: SETPLAY
+# col 3
+-
+  type: transport
+  transport: session_record
+  gestures:
+    pressed: SRECFIX 4
+    pressed__shift: SRECFIX 8
+
+
+# col 4
+-
+  type: transport
+  transport: metronome
+  gestures:
+    released_immediately: METRO
+
+# !! row 2
+# col 1
+-
+  color: 0
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  color: 0
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+# col 3
+-
+  color: lime
+  repeat: true
+  gestures:
+    pressed: UP
+    pressed__shift:
+      ring:
+        y: -1
+
+# col 4
+-
+  color: 0
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+# !! row 3
+# col 1
+-
+  color: 0
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  color: lime
+  repeat: true
+  gestures:
+    pressed: LEFT
+    pressed__shift:
+      ring:
+        x: -1
+
+# col 3
+-
+  color: 1
+  gestures:
+    released_immediately: SEL / PLAY SEL
+    pressed__shift:
+      ring:
+        track: 0
+        scene: 0
+
+# col 4
+-
+  color: lime
+  repeat: true
+  gestures:
+    pressed: RIGHT
+    pressed__shift:
+      ring:
+        x: 1
+
+# !! row 4
+# col 1
+-
+  color: red
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+# col 2
+-
+  color: purple
+  type: mode
+  mode: select
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+# col 3
+-
+  color: lime
+  repeat: true
+  gestures:
+    pressed: DOWN
+    pressed__shift:
+      ring:
+        y: 1
+
+# col 4
+-
+  color: 0
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY

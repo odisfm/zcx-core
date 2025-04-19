@@ -1,115 +1,86 @@
 # !! row 1
 # col 1
 -
-  color: sky
-  gestures:
-    pressed:
-      msg: You can edit this section in `_config/matrix_sections/actions_right.yaml`
+    color: white
+    gestures:
+        pressed:
+            msg: You can edit this section in `_config/matrix_sections/actions_main.yaml`
+    pressed_delayed: DUMMY
 
 # col 2
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # !! row 2
 # col 1
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 2
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # !! row 3
 # col 1
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 2
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # !! row 4
 # col 1
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 2
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
--
-  color: grey
-  gestures:
+- gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
