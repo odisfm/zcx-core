@@ -102,7 +102,7 @@ def parse_color_definition(color, calling_control=None):
                 if len(split) == 1:
                     index_offset = 0
                 elif len(split) == 2:
-                    index_offset = split[1]
+                    index_offset = int(split[1])
                 else:
                     raise ConfigurationError(f'Invalid color definition: {special_color_def}') #todo
                 palette_name = split[0]
