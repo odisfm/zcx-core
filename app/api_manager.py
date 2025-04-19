@@ -94,6 +94,12 @@ class ZcxApi:
         except Exception as e:
             self.root_cs
 
+    def refresh(self):
+        self.root_cs.refresh_all_lights()
+
+    def set_hardware_mode(self, mode_def):
+        self.root_cs.set_hardware_mode(mode_def)
+
     @property
     def plugin_map(self):
         return copy(self.root_cs.plugin_map)
