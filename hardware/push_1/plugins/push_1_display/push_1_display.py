@@ -6,7 +6,8 @@ from ableton.v3.base import listens_group, listens
 from Push.sysex import *
 from ableton.v2.base.task import TimerTask
 
-from hardware.sysex import LIVE_MODE, USER_MODE
+LIVE_MODE = (240, 71, 127, 21, 98, 0, 1, 0, 247)
+USER_MODE = (240, 71, 127, 21, 98, 0, 1, 1, 247)
 
 if TYPE_CHECKING:
     from app.zcx_core import ZCXCore
