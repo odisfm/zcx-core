@@ -50,8 +50,7 @@
   gestures:
     pressed: UP
     pressed__shift:
-      ring:
-        y: -1
+      ring: up
 
 # col 4
 -
@@ -75,8 +74,7 @@
   gestures:
     pressed: LEFT
     pressed__shift:
-      ring:
-        x: -1
+      ring: left
 
 # col 3
 -
@@ -95,8 +93,7 @@
   gestures:
     pressed: RIGHT
     pressed__shift:
-      ring:
-        x: 1
+      ring: right
 
 # !! row 4
 # col 1
@@ -128,8 +125,7 @@
   gestures:
     pressed: DOWN
     pressed__shift:
-      ring:
-        y: 1
+      ring: down
 
 # col 4
 -
