@@ -76,7 +76,7 @@ class Push1Display(ZCXPlugin):
 
         config = self._user_config or DEFAULT_CONFIG
 
-        if 'encoder_mapping' in config and config['encoder_mappings'] is not None:
+        if 'encoder_mappings' in config and config['encoder_mappings'] is not None:
             self._encoder_mapping_line = config['encoder_mappings'] - 1
         if 'encoder_values' in config and config['encoder_values'] is not None:
             self._encoder_values_line = config['encoder_values'] - 1
