@@ -221,6 +221,11 @@ class ZCXCore(ControlSurface):
         super().refresh_state()
         self.refresh_required()
 
+        if self.__initial_hw_mode == 'live':
+            pass
+        elif self.__initial_hw_mode == 'zcx':
+            self.set_hardware_mode('zcx', 1)
+
     def refresh_required(self, duration=0.2):
         refresh_task = RefreshLightsTask(self, duration)
         self._task_group.add(refresh_task)
