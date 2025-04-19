@@ -51,6 +51,7 @@ class ZCXCore(ControlSurface):
 
                 self.__refresh_on_all_sysex = user_prefs.get('refresh_on_all_sysex', False)
                 initial_hw_mode = user_prefs.get('initial_hw_mode', 'zcx')
+                self.__initial_hw_mode = initial_hw_mode
 
                 self.template_manager = TemplateManager(self)
                 self.component_map["ZManager"].load_control_templates()
@@ -248,6 +249,18 @@ class ZCXCore(ControlSurface):
             if method is None:
                 self.debug(f'plugin {plugin_name} has no method {method_name}')
             method(**k)
+
+    def set_hardware_mode(self, mode: str, wait=0.2):
+        if mode == 'live':
+            sysex = LIVE_MODE
+        elif mode == 'zcx':
+            sysex = USER_MODE
+        else:
+            raise ValueError(f'Invalid hardware mode `{mode}`')
+
+        task = DelayedSysexTask(self, wait, sysex)
+        self._task_group.add(task)
+        task.restart()
 
 class RefreshLightsTask(TimerTask):
 
