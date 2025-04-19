@@ -4,19 +4,28 @@ from pushbase.colors import (
 Basic,
 Rgb,
 BiLed,
-Pulse,
-Blink,
 RgbColor,
 Color,
 FallbackColor,
 TransparentColor
 )
 
-from novation.colors import Blink, Pulse
+from novation.colors import Pulse as NovationPulse
+from novation.colors import Blink as NovationBlink
+
+class Pulse(NovationPulse):
+
+    def __init__(self, color1=None, color2=None, speed=None):
+        super().__init__(color1=color1, color2=color1)
+
+class Blink(NovationBlink):
+
+    def __init__(self, color1=None, color2=None, speed=None):
+        super().__init__(color1=color2, color2=color2)
+
 
 white = RgbColor(3)
 green = RgbColor(22)
-pulse_test = Pulse(white, green, 48)
 
 animation_speed_translation = [48, 24, 12, 8, 4]
 
