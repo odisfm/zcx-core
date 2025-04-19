@@ -142,6 +142,13 @@ class Zcx(UserActionsBase):
                     raise RuntimeError(f'Encoder {encoder_name} does not exist on {target_script.name}.')
                 encoder_obj.bind_ad_hoc(bind_def)
 
+            elif sub_action == 'refresh':
+                target_script.refresh()
+
+            elif sub_action == 'hw_mode':
+                mode_def = _args[2]
+                target_script.set_hardware_mode(mode_def)
+
             else:
                 raise ValueError(f'Unknown action {sub_action}')
         except Exception as e:
