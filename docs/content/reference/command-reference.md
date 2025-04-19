@@ -264,6 +264,17 @@ left:
         x: -1
 ```
 
+##### simplified syntax
+
+You can simply specify a direction rather than using x and y values.
+
+```yaml
+left:
+  gestures:
+    pressed:
+      ring: left
+```
+
 #### absolute moves
 
 Directly position the left-most or top-most edge of the ring to a particular track or scene.
