@@ -31,10 +31,17 @@ class ZControl(EventObject):
             root_cs,
             parent_section,
             raw_config,
+            button_name
     ):
         super().__init__()
         self.root_cs = root_cs
         self.parent_section = parent_section
+        if button_name:
+            self.__name = button_name
+        else:
+            x = raw_config.get('section_context', {}).get('x', -1)
+            y = raw_config.get('section_context', {}).get('y', -1)
+            self.__name = f"{self.parent_section.name}_{x}_{y}"
         self.__state: Optional[ZState] = None
         self._parent_logger = self.parent_section._logger
         self._in_view = False
@@ -104,6 +111,10 @@ class ZControl(EventObject):
     @property
     def color(self):
         return self._color
+
+    @property
+    def name(self):
+        return self.__name
 
     def set_gesture_dict(self, gesture_config):
         if type(gesture_config) is not dict:

@@ -425,7 +425,7 @@ class ZManager(ZCXComponent):
                 raise CriticalConfigurationError(
                     f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
                 )
-            control = self.z_control_factory(button_def, pad_section)
+            control = self.z_control_factory(button_def, pad_section, button_name)
             control.bind_to_state(state)
             control.setup()
             self.__named_controls[button_name] = control
@@ -590,7 +590,7 @@ class ZManager(ZCXComponent):
         except Exception as e:
             raise
 
-    def z_control_factory(self, config, pad_section) -> ZControl:
+    def z_control_factory(self, config, pad_section, button_name=None) -> ZControl:
         try:
             control_type = config.get("type") or "basic"
             control_cls = get_control_class(control_type)
@@ -600,7 +600,7 @@ class ZManager(ZCXComponent):
             if control_cls is None:
                 raise ValueError(f"Control class for type '{control_type}' not found")
 
-            control = control_cls(self.canonical_parent, pad_section, config)
+            control = control_cls(self.canonical_parent, pad_section, config, button_name)
             if "group_context" in config:
                 if "group_name" in config["group_context"]:
                     self.add_control_to_group(
