@@ -269,8 +269,8 @@ def live_index_for_midi_index(live_index):
         elif live_index == END_ROW_2:
             return 2
         elif live_index < 14:
-            return (live_index * 4) + 4
+            return (live_index * OFFSET_1) + OFFSET_1 + 1
         else:
-            return (live_index * 4) - OFFSET_2
+            return (live_index * OFFSET_1) - OFFSET_2 + 1
     else:
-        return live_index_for_midi_index(live_index % END_ROW_2)
+        return live_index_for_midi_index(live_index % (END_ROW_2 + 1))
