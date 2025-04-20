@@ -55,7 +55,9 @@ def parse_color_definition(color, calling_control=None):
             color = int(color)
             if 0 <= color <= 127:
                 return RgbColor(color)
-        except Exception:
+            else:
+                raise ConfigurationError(f'Int color value must be in range 0-127. You entered {color}.')
+        except (TypeError, ValueError):
             pass
         if type(color) is str:
             if '${' in color:
@@ -138,10 +140,18 @@ def parse_color_definition(color, calling_control=None):
                 color_index = hardware_colors.live_index_for_midi_index(special_color_def)
                 return Color(color_index)
 
-            return RgbColor(3)
+            else:
+                    raise ConfigurationError(f'Invalid color definition: {color}')
 
     except Exception as e:
-        raise ConfigurationError(e)
+        from . import ROOT_LOGGER
+        if calling_control is None:
+            ROOT_LOGGER.error(f'Invalid color definition: {color}')
+        else:
+            ROOT_LOGGER.error(f'Invalid color definition for control {calling_control.name}:')
+        ROOT_LOGGER.error(ConfigurationError(e))
+        ROOT_LOGGER.error(f'using color: 127')
+        return Color(127)
 
 
 def simplify_color(color):
