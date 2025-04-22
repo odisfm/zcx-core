@@ -109,9 +109,7 @@ class TransportControl(ZControl):
     def request_color_update(self):
         if self._bound_function is None:
             self._control_element.set_light(self._color)
-            return
-
-        if self._bound_function == 'play':
+        elif self._bound_function == 'play':
             if self._song.is_playing:
                 self._color = self._playing_active_color
             elif self._song.is_counting_in:
@@ -145,7 +143,7 @@ class TransportControl(ZControl):
             else:
                 pass
 
-        self._control_element.set_light(self._color)
+        super().request_color_update()
 
     @listens('is_playing')
     def _is_playing_listener(self):
