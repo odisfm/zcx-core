@@ -21,7 +21,7 @@ class Pulse(NovationPulse):
 class Blink(NovationBlink):
 
     def __init__(self, color1=None, color2=None, speed=None):
-        super().__init__(color1=color2, color2=color2)
+        super().__init__(color1=color1, color2=color2)
 
 
 white = RgbColor(3)
