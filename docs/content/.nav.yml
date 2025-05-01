@@ -17,6 +17,8 @@ nav:
   - resources:
       - "resources/*"
 
+  - developer: dev
+
   - download: https://github.com/odisfm/zcx-core/releases/latest
 
 flatten_single_child_sections: true
