@@ -4,6 +4,10 @@ The `track` control binds to a particular track in the Live set. An RGB-enabled 
 
 When the `track` option is configured, zcx will bind to the specified track on set load. The control's bound track can later be reassigned via the API, and the `track` option may be omitted to create an unbound control on set load.
 
+!!! warning
+
+    Currently, track controls only consider session view clips when determining playing status, not arrangement view clips.
+
 ## yaml schema
 
 Inherits from [standard control](/reference/control-reference/z-control/#yaml-schema).
