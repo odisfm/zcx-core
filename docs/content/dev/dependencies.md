@@ -3,7 +3,7 @@
 ## Vendored packages
 
 These packages are bundled with each download of zcx.
-[See here](/dev/build.md) for installation instructions.
+[See here](/dev/build) for installation instructions.
 
 ### PyYAML
 
