@@ -24,6 +24,7 @@ class BuildManager:
             hardware_config: Optional[str] = None,
             control_surface_name: Optional[str] = None,
             custom_config_path: Optional[Path] = None,
+            user_library_path: Optional[Path] = None,
     ):
         # Import config here so CLI args can override
         from sync_config import (
@@ -33,18 +34,37 @@ class BuildManager:
             SRC_ROOT,
             REMOTE_SCRIPTS_PATH,
         )
+        import platform
+        from pathlib import Path
+
+        if user_library_path:
+            remote_scripts_path = user_library_path.expanduser()
+        else:
+            home = Path.home()
+            system = platform.system()
+            if system == "Windows":
+                remote_scripts_path = home / "Documents/Ableton/User Library/Remote Scripts"
+            elif system == "Darwin":
+                remote_scripts_path = home / "Music/Ableton/User Library/Remote Scripts"
+            else:
+                raise RuntimeError(f"Unsupported OS: {system}")
+
+
 
         self.hardware_config = hardware_config or HARDWARE_CONFIG
         self.control_surface_name = control_surface_name or CONTROL_SURFACE_NAME
         self.custom_config_path = custom_config_path
+
+        self.remote_scripts_path = remote_scripts_path
+        self._validate_remote_scripts_path(self.remote_scripts_path)
+        self.dest_root = self.remote_scripts_path / self.control_surface_name
 
         # Define paths
         self.project_root = PROJECT_ROOT
         self.src_root = SRC_ROOT
 
         # Validate REMOTE_SCRIPTS_PATH before using it
-        self._validate_remote_scripts_path(REMOTE_SCRIPTS_PATH)
-        self.dest_root = REMOTE_SCRIPTS_PATH / self.control_surface_name
+        self.dest_root = self.remote_scripts_path / self.control_surface_name
 
         if not self.dest_root.exists():
             raise RuntimeError(f"Destination directory does not exist: {self.dest_root}")
@@ -341,6 +361,12 @@ def main():
         type=Path,
         help="Path to a custom config folder to override demo_config/",
     )
+    parser.add_argument(
+        "--user-library",
+        type=Path,
+        help="Custom path to Ableton User Library Remote Scripts directory",
+    )
+
     args = parser.parse_args()
 
     try:
@@ -348,7 +374,9 @@ def main():
             args.hardware_config,
             args.control_surface_name,
             args.custom_config,
+            args.user_library,
         )
+
 
     except Exception as e:
         logging.critical(e)
