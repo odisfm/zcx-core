@@ -6,8 +6,6 @@ weight: -4
 
 zcx ships with a suite of user actions for ClyphX Pro that allow you to control a zcx script from ClyphX. This means an individual script can be interacted with via any X-Trigger, such as an X-Clip, or an X-Control bound to another controller.
 
-As of zcx v0.3.0, the user action allows you to set modes and change pages.
-
 ## Installing the user action
 
 Releases of zcx from v0.3.0 include a folder named `_user_actions`. Simply drag the contents of this folder (`Zcx.py`) into the ClyphX Pro user actions folder. The location of this folder is `.../Ableton/User Library/Remote Scripts/_user_actions`. If this folder doesn't exist, create it.
