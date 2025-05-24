@@ -67,6 +67,10 @@ class SessionRing(SessionRingBase):
             x = max(x, -current_x)
         if y < 0:
             y = max(y, -current_y)
+        if x + current_x >= self.track_count:
+            x = self.track_count - current_x
+        if y + current_y >= self.scene_count:
+            y = self.scene_count - current_y - 1
 
         super().move(x, y)
         self.notify_offsets()
@@ -113,6 +117,14 @@ class SessionRing(SessionRingBase):
             'track_offset': self.track_offset,
             'scene_offset': self.scene_offset,
         }
+
+    @property
+    def track_count(self):
+        return len(self.tracks_to_use())
+
+    @property
+    def scene_count(self):
+        return len(self.song.scenes)
 
 class TrackLookup:
 
