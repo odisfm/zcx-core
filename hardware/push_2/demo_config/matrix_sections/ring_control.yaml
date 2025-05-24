@@ -98,6 +98,7 @@
 # col 7
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
@@ -145,6 +146,7 @@
 # col 6
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
@@ -159,6 +161,7 @@
 # col 8
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
@@ -206,6 +209,7 @@
 # col 7
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
