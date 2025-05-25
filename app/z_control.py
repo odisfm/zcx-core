@@ -11,6 +11,7 @@ from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_G
 from .errors import ConfigurationError
 from .z_element import ZElement
 from .z_state import ZState
+from .pseq import Pseq
 
 
 def only_in_view(func):
@@ -145,6 +146,19 @@ class ZControl(EventObject):
                     all_modes.append(mode)
 
             new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
+
+            if isinstance(definition, dict):
+                first_key = next(iter(definition.keys()))
+                first_val = definition[first_key]
+                pseq_obj = None
+
+                if first_key == 'pseq':
+                    pseq_obj = Pseq(first_val, False)
+                elif first_key == 'rpseq':
+                    pseq_obj = Pseq(first_val, True)
+
+                definition = pseq_obj or definition
+
             processed_dict[new_key] = definition
 
         if has_off_gestures and not has_on_gestures:
@@ -242,6 +256,10 @@ class ZControl(EventObject):
             return
 
         for command in matching_actions:
+
+            if self.is_pseq(command):
+                command = command.get_next_command()
+
             self._resolve_command_bundle(
                 bundle=command,
                 vars_dict=self._vars,
@@ -382,6 +400,10 @@ class ZControl(EventObject):
 
     def get_prop(self, prop_name):
         return self._context['me'].get(prop_name)
+
+    @staticmethod
+    def is_pseq(obj):
+        return isinstance(obj, Pseq)
 
 class AnimationTimer(TimerTask):
 
