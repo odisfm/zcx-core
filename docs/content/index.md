@@ -170,7 +170,7 @@ play:
 
 ___
 
-### reusable components
+### reusable definitions
 
 Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
 ```yaml
