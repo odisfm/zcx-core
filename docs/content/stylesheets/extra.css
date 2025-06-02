@@ -2,6 +2,10 @@
   --md-hue: 210;
 }
 
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #ededed;
+}
+
 .md-tabs__item:first-child {
   margin-right: 1rem;
 }
