@@ -18,7 +18,7 @@ Leveraging [ClyphX Pro from NativeKontrol](https://isotonikstudios.com/product/c
 
 ## hardware
 
-zcx-core is currently maintained for these devices, with more planned:
+zcx is currently maintained for these devices, with more planned:
 
 * Ableton Push 1
 * Ableton Push 2
