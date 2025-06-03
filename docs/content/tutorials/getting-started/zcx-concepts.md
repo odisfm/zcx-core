@@ -115,7 +115,7 @@ And in each of those files you define every pad that belongs to that section:
     pressed: SETPLAY
 ```
 
-Or you can have [one definition that applies to all pads](/reference/template-reference/#whole-section-templates) based on their position within the section:
+Or you can have [one definition that applies to all pads](/reference/template-reference/#whole-section-groups) based on their position within the section:
 
 ```yaml title="scene_section.yaml"
 color:
