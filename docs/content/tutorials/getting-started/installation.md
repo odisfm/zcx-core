@@ -20,15 +20,45 @@ No problem. Have a look at the [zcx-core discord server](https://discord.zcxcore
 
 ## install the script
 
-Each distribution comes as a .zip file. Unzip that file, and you'll see a folder with the same name. This is the 'root' folder of this zcx distro. You can rename the folder to whatever you like, and that's the name that shows up in Live's preferences. We include a leading underscore, because that should push it to the top of the control surface list. Feel free to remove it.
+Each distribution comes as a .zip file. Unzip that file, and you'll see a folder with the same name. The directory structure looks like this:
+
+``` hl_lines="3"
+_zcx_push_1.zip/
+├─ _zcx_push_1/
+│  ├─ _zcx_push_1/
+│  │  ├─ _config/
+│  │  ├─ __init__.py
+│  │  ├─ some_python_file.py
+│  │  ├─ etc...
+│  ├─ user_actions/
+
+```
+
+This highlighted folder is the 'root' folder of this zcx distro. 
+Simply drag this folder into your Live `Remote Scripts` directory.
+
+On macOS the default path is:
+
+`'/Users/[username]/Music/Ableton/User Library/Remote Scripts'`
+
+On Windows it's:
+
+`\Users\[username]\Documents\Ableton\User Library\Remote Scripts`
+
+You can rename the folder to whatever you like, and that's the name that shows up in Live's preferences. We include a leading underscore, because that should push it to the top of the control surface list. Feel free to remove it.
+
+### optional: install the zcx user action
+
+By installing the zcx user action, you can [control zcx from ClyphX action lists](/lessons/zcx-user-action).
+Drag the contents of the `user_actions` folder into your ClyphX Pro user actions folder, which should be in `User Library/Remote Scripts/_user_actions`.
+
+## activate the script
 
 For our purposes, zcx functions like any other control surface script, so you should [follow the Live manual's instructions](https://help.ableton.com/hc/en-us/articles/209072009-Installing-third-party-remote-scripts) for that.
 
 !!! note
 
-    ClyphX Pro should always be in a higher slot than all zcx scripts. I reccomend installing it in slot 1. It's ok if XT scripts (ClyphX Pro XTA-E) are below zcx scripts.
-
-## load the script
+    ClyphX Pro should always be in a higher slot than all zcx scripts. I reccomend installing ClyphX Pro in slot 1. It's ok if XT scripts (ClyphX Pro XTA-E) are below zcx scripts.
 
 When you assign the script to a slot in Live's preferences, the script automatically loads.
 
