@@ -82,7 +82,7 @@ order:
   - main
 ```
 
-The order here will take precedence.
+The order here will take precedence. If you have an `order` key, pages not listed here will not be created.
 
 And that's where we'll leave `pages.yaml` for this lesson.
 
