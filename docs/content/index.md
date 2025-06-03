@@ -177,7 +177,7 @@ Use templates instead of repeating definitions. Make a change in one place to se
 # control_templates.yaml
 
 my_green_button:
-  color: green shade ${me.index % 4}
+  color: green
 
 hold_warning:
   gestures:
@@ -189,7 +189,7 @@ hold_warning:
 
 scene_1:
   template: [hold_warning, my_green_button]
-  #color: green shade ${me.index % 4}
+  #color: green
   gestures:
     pressed_delayed: SCENE 1
     #released_immediately:
