@@ -133,8 +133,7 @@ gestures:
 
 There's a good chance pages are why you're interested in zcx in the first place. Pages contain sections which contain controls. Because of this, we can turn an 8×8 pad matrix into an 8×8×∞ matrix. This system allows you to design a multi-mode control surface script, like the one that shipped with your controller, while harnessing the power of ClyphX — all without learning Python!
 
-```yaml
-# pages.yaml
+```yaml title="pages.yaml"
 
 pages:  
   main:  
@@ -154,8 +153,7 @@ By assigning controls to sections, and not directly to pages, we can have one se
 
 One thing we can't do is have sections on a page that overlap: 
 
-```yaml
-# matrix_sections.yaml
+```yaml title="matrix_sections.yaml"
 
 big_bad_section:
   col_start: 0
@@ -168,8 +166,8 @@ teeny_tiny_section:
   col_end: 1
   row_start: 0
   row_end: 1
-
-# pages.yaml
+```
+```yaml title="pages.yaml"
 
 my_page:
   - big_bad_section
@@ -211,33 +209,23 @@ record:
 ```
 
 The names of these modes are completely arbitrary, but they must be defined in your `modes.yaml` file.
-```yaml
-# modes.yaml
 
+```yaml title="modes.yaml"
 - shift
 - select
 - drums
 ```
 
-## ZEncoders
+## encoder mappings
 
-!!! warning
+zcx allows you to dynamically map encoders (knobs, faders, etc.) to parameters in Live. Targeting of parameters follows the same syntax as ClyphX encoder bindings:
 
-    Support for encoders is early, and there are several bugs and limitations of the current system.
-
-    This is improving. You can see the state of this project [here](https://github.com/odisfm/zcx-core/issues?q=is%3Aissue%20state%3Aopen%20milestone%3A%22Better%20encoder%20mappings%22).
-
-
-ZEncoders allow you to dynamically map encoders (knobs, faders, etc.) to parameters in Live. [With some exceptions](https://github.com/odisfm/zcx-core/releases/tag/v0.2.0-alpha.1), targeting of parameters with ZEncoders follows the same syntax as ClyphX encoder bindings:
-
-```yaml
-# encoders.yaml
-
+```yaml title="encoders.yaml"
 tempo:
   binding: SEL / VOL
 ```
 
-ZEncoders are also mode-aware:
+Encoders are also mode-aware:
 ```yaml
 tempo:
   binding:
@@ -248,6 +236,6 @@ tempo:
 
 ## control classes
 
-The most common type of control you'll use is the default or [standard ZControl](/reference/control-reference/z-control). There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
+The most common type of control you'll use is the [standard ZControl](/reference/control-reference/z-control). There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
 
 One class of control is the [page control](/reference/control-reference/page),  which is bound to a page you specify. It shows one color when its bound page is in view, and another when it isn't. Another is the [transport](/reference/control-reference/transport) control: you can bind your `play` button to Live's transport, and it will turn green while the set is playing, and white when it stops. Just like it did on the original script for your controller.
