@@ -52,7 +52,7 @@ pages:
 
 Your `pages.yaml` probably looks something like this. The page `main` contains the section `big_colors`, which is the pretty gradient that appears when you load zcx. The section we'll be working on is `actions_top_left`, which appears on `test_page` and `track_page`.
 
-To navigate between pages, you use one of the predefined controls on your hardware. The hardware-specific docs you received with your installation should explain which button(s) do this. On the Push 1, its the `state_row`, which is the second row of buttons below the display. **Note:** you can always redefine the page controls (or add more, or not engage with the pages system at all).
+To navigate between pages, you use one of the predefined controls on your hardware. On the Push 1, its the `state_row`, which is the second row of buttons below the display. **Note:** you can always redefine the page controls (or add more, or not engage with the pages system at all).
 
 The order that pages appear in `pages.yaml` is their internal order within zcx. **Note:** pages in zcx are zero-indexed, so `main` is page 0, `test_page` is page 1, and `track_page` is page 2.
 
