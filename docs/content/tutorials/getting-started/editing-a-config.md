@@ -110,7 +110,7 @@ duplicate:
     pressed: SCENEDUPE
 ```
 
-Inside `named_controls.yaml` you'll find some control definitions that look like this. There will probably be some that look quite scary, but once you get the basics down you'll be able to easily read and compose them yourself (if you want!).
+Inside `named_controls.yaml` you'll find some control definitions that look like this. There will probably be some that look quite scary, but once you get the basics down you'll be able to easily read and compose them yourself.
 
 Lets have a look at the definition for `mute`:
 
@@ -309,7 +309,7 @@ Now scroll through all three pages of the matrix. You'll see that **two** pages 
 
 
 
-## ZEncoders
+## encoder mappings
 
 We define [encoder mappings](/docs/lessons/zcx-concepts.md#zencoders) in `encoders.yaml`.
 
