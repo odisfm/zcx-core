@@ -55,9 +55,7 @@ What is a section, you ask?
 
 A matrix section is a logical segment of the matrix, defined by row and column. These sections you define can be any size.
 
-```yaml
-# matrix_sections.yaml
-
+```yaml title="matrix_sections.yaml"
 #       0  □ □ □ □ □ □ □ □  
 #       1  □ □ □ □ □ □ □ □  
 #       2  □ □ □ □ □ □ □ □  
@@ -105,7 +103,7 @@ zcx/
 
 And in each of those files you define every pad that belongs to that section:
 
-```yaml
+```yaml title="actions_top_left.yaml"
 # row 1
 # col 1
 - color: red
@@ -119,9 +117,7 @@ And in each of those files you define every pad that belongs to that section:
 
 Or you can have [one definition that applies to all pads](/reference/template-reference/#whole-section-templates) based on their position within the section:
 
-```yaml
-# scene_section.yaml
-
+```yaml title="scene_section.yaml"
 color:
   palette: rainbow
 gestures:
