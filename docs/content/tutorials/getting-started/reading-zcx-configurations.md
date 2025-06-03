@@ -7,11 +7,11 @@ weight: 1
 
 If you're coming from the [X and G controls in ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/), looking at the configuration files in your zcx folder may feel overwhelming. Don't stress — you don't need to have any sort of programming knowledge to get started with zcx! 
 
-Having said that, just like ClyphX, zcx expects to receive its configuration files in a particular format.
+Having said that, zcx expects to receive its configuration files in a particular format, just as ClyphX does.
 
-## X-Controls and ZControls
+## X-Controls vs ZControls
 
-To define X-controls, ClyphX uses a custom format, designed for simplicity:
+You'll already be familiar with X-Controls from ClyphX:
 
 ```ClyphX
 RECORD = CC, 1, 79, 127, 0, SRECFIX 8
@@ -25,10 +25,10 @@ RECORD PRESSED = SEL / ARM
 RECORD PRESSED_DELAYED = SRECFIX 8
 ```
 
-Here's the same button, defined as a ZControl:
+To define the same control in zcx, we'd write it like so:
 
 ```yaml
-play:
+record:
   color: green
   gestures:
     pressed: SEL / ARM
@@ -46,7 +46,7 @@ So what is yaml? Put simply, yaml is a format for organising data in a structure
 
 `key: value`
 
-Yaml works by associating __keys__ with __values__. Take `color: green`. `color` is the **key**, and `green` is the **value**. Easy, right? We can represent an X-control in yaml like this:
+Yaml works by associating __keys__ with __values__. Take `color: green`. `color` is the **key**, and `green` is the **value**. We can imagine an X-Control in yaml like this:
 
 ```yaml
 control_name: record
