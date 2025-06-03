@@ -7,7 +7,7 @@ hide:
 
 # zcx core documentation
 
-Welcome to the documentation for [zcx core](/).
+Welcome to the documentation for [zcx](/).
 
 If you're brand new to zcx, check out the [getting started](/tutorials/getting-started) tutorial, or see [frequently asked questions](/faq).
 
