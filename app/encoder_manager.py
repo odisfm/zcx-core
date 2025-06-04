@@ -5,6 +5,7 @@ from ableton.v3.base import EventObject, listens, listens_group, listenable_prop
 from .errors import ConfigurationError, CriticalConfigurationError
 from .z_encoder import ZEncoder
 from .zcx_component import ZCXComponent
+from .osc_watcher import OscEncoderWatcher
 
 
 class EncoderManager(ZCXComponent):
@@ -27,6 +28,7 @@ class EncoderManager(ZCXComponent):
         self._selected_device_watcher = SelectedDeviceWatcher(self, self.song)
         ZEncoder.selected_device_watcher = self._selected_device_watcher
         self.create_encoders()
+        self.create_osc_watchers()
 
     def bind_all_encoders(self):
         for enc_name, enc_obj in self._encoders.items():
@@ -169,6 +171,34 @@ class EncoderManager(ZCXComponent):
                 encoder_def['context'] = context
 
         return flat_defs
+
+    def create_osc_watchers(self):
+        if OscEncoderWatcher._osc_server is None:
+            self.error('No OSC server configured')
+            return
+
+        from . import PREF_MANAGER
+        user_prefs = PREF_MANAGER.user_prefs
+
+        osc_prefs = user_prefs.get('osc_output', False)
+
+        self.error(osc_prefs)
+
+        if not osc_prefs:
+            return
+
+        if isinstance(osc_prefs, dict):
+            encoder_prefs = osc_prefs.get('encoders', False)
+            if not encoder_prefs:
+                self.debug(f'encoder osc output disabled by user preference/')
+                return
+            OscEncoderWatcher.send_name = encoder_prefs.get('name', False)
+            OscEncoderWatcher.send_string = encoder_prefs.get('value', False)
+            OscEncoderWatcher.send_int = encoder_prefs.get('int', False)
+            OscEncoderWatcher.send_float = encoder_prefs.get('float', False)
+
+        for encoder in self._encoders.values():
+            watcher = OscEncoderWatcher(encoder)
     
     def add_encoder_to_group(self, encoder, group_name):
         if group_name in self.__encoder_groups:

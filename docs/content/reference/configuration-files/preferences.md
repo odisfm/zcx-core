@@ -86,6 +86,22 @@ Configures how detailed the zcx logs are. From most to least detailed, the optio
 - error
 - critical
 
+### osc_output
+
+```yaml
+osc_output:
+  encoders:
+    name: true
+    value: true
+    int: true
+    float: true
+```
+
+Configures what datatypes are sent over OSC. 
+`osc_output: false` disables all OSC output.
+
+See [full lesson](/lessons/osc-output) for more details.
+
 ### plugins
 
 ```yaml

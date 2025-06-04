@@ -71,6 +71,9 @@ class ZCXCore(ControlSurface):
                 for plugin_name in plugin_names:
                     self.plugin_map[plugin_name] = self.component_map[plugin_name]
 
+                from .osc_watcher import OscWatcher
+                OscWatcher.address_prefix = f'zcx/{self.name}/'
+
                 self.post_init()
 
                 if initial_hw_mode == 'zcx' and USER_MODE is not None:
