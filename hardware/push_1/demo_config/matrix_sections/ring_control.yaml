@@ -152,9 +152,16 @@
 
 # col 7
 - 
-  color: dark_grey
+  color: green shade 1
   gestures:
-    pressed: DUMMY
+    pressed:
+      python: |
+        clip_slot = song.view.highlighted_clip_slot
+        
+        if clip_slot.is_playing:
+          clip_slot.stop()
+        else:
+          clip_slot.fire()
 
 # col 8
 - 
