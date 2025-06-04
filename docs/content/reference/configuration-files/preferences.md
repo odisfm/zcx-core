@@ -18,6 +18,14 @@ If you only use one zcx config, you may choose to use either of these files.
 
 Each of these headings represents a top-level yaml entry.
 
+### action_log
+
+```yaml
+action_log: true
+```
+
+When set to `true`, all triggered ClyphX Pro action lists will be logged.
+
 ### configs
 
 Allows you to configure [per-set configs](/lessons/using-multiple-configs/).
@@ -37,15 +45,6 @@ configs:
     pattern: MIX
 ```
 
-### session_ring
-```yaml
-session_ring:
-  width: 8
-  height: 8
-```
-
-Sets the dimensions of the [session ring](/lessons/session-ring).
-You may disable the ring by setting one or both of `width` and `height` to `0`.
 
 ### inital_hw_mode
 ```yaml
@@ -56,32 +55,6 @@ Options:
 
 - `zcx` - When zcx loads, switch the device to user mode.
 - `live` - Do not attempt to take control of the hardware on set load.
-
-### plugins
-
-```yaml
-plugins:
-  plugin_name:
-    plugin_option_1: true
-    plugin_option_2: false
-```
-
-Consult the documentation of your plugin to see the available options.
-If the plugin came with zcx you will find this information in the [hardware reference](/reference/hardware-reference) for your controller.
-
-### log_level
-
-```yaml
-logging: info
-```
-
-Configures how detailed the zcx logs are. From most to least detailed, the options are:
-
-- debug
-- info
-- warning
-- error
-- critical
 
 ### load_hardware_plugins
 
@@ -99,13 +72,41 @@ load_user_plugins: true
 
 Determines whether any user plugins (located in `zcx/plugins`) will be loaded.
 
-### action_log
+### log_level
 
 ```yaml
-action_log: true
+logging: info
 ```
 
-When set to `true`, all triggered ClyphX Pro action lists will be logged.
+Configures how detailed the zcx logs are. From most to least detailed, the options are:
+
+- debug
+- info
+- warning
+- error
+- critical
+
+### plugins
+
+```yaml
+plugins:
+  plugin_name:
+    plugin_option_1: true
+    plugin_option_2: false
+```
+
+Consult the documentation of your plugin to see the available options.
+If the plugin came with zcx you will find this information in the [hardware reference](/reference/hardware-reference) for your controller.
+
+### session_ring
+```yaml
+session_ring:
+  width: 8
+  height: 8
+```
+
+Sets the dimensions of the [session ring](/lessons/session-ring).
+You may disable the ring by setting one or both of `width` and `height` to `0`.
 
 ## developer preferences
 
