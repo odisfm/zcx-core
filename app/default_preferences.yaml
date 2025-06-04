@@ -25,3 +25,10 @@ plugins:
 refresh_on_all_sysex: false
 
 initial_hw_mode: zcx
+
+osc_output:
+  encoders:
+    name: true
+    value: true
+    int: true
+    float: true

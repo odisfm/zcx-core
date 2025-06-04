@@ -15,6 +15,7 @@ class CxpBridge(ZCXComponent):
         super().__init__(name=name, *a, **k)
         self.__clyph_x = None
         self.__live = self.application
+        self._osc_server = None
         self.get_clyph_x()
         self.__log_action_lists = True
 
@@ -47,6 +48,14 @@ class CxpBridge(ZCXComponent):
             raise RuntimeError(f"Could not connect to {CXP_NAME}. Is it selected as a control surface in Live?")
 
         self.__clyph_x = cxp.clyphx_pro_component
+        try:
+            self._osc_server = self.__clyph_x.osc_server
+            from .osc_watcher import OscWatcher
+            OscWatcher._osc_server = self._osc_server
+
+        except AttributeError:
+            self.error(f'{CXP_NAME} OSC server not found.')
+
         self.log(f'Connected to {CXP_NAME}')
 
     def trigger_action_list(self, action_list):

@@ -36,6 +36,10 @@ class PageManager(ZCXComponent):
         self.__named_button_section: Optional[PadSection] = None
         self.__page_definitions = {}
         self.__action_resolver: ActionResolver = None
+        self.__osc_server = None
+        self.__osc_address_prefix = None
+        self.__osc_address_page_name = None
+        self.__osc_address_page_number = None
 
     @listenable_property
     def current_page(self):
@@ -63,6 +67,12 @@ class PageManager(ZCXComponent):
 
         if not initial_page_set:
             self.handle_page_commands(self.__current_page, self.__last_page)
+
+        try:
+            self.__osc_server.sendOSC(self.__osc_address_page_name, self.current_page_name)
+            self.__osc_server.sendOSC(self.__osc_address_page_number, self.__current_page)
+        except:
+            pass
 
         return True
 
@@ -179,6 +189,11 @@ class PageManager(ZCXComponent):
         )
 
         self.__z_manager.process_named_buttons(named_pad_section)
+
+        self.__osc_server = self.component_map['CxpBridge']._osc_server
+        self.__osc_address_prefix = f'zcx/{self.canonical_parent.name}/page'
+        self.__osc_address_page_name = self.__osc_address_prefix + '/name'
+        self.__osc_address_page_number = self.__osc_address_prefix + '/number'
 
         self.set_page(0)
 
