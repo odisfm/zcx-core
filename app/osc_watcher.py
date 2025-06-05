@@ -6,6 +6,24 @@ from .z_encoder import ZEncoder
 from .encoder_element import EncoderElement
 
 
+def re_range_float_parameter(min_val, max_val, current):
+    if max_val == min_val:
+        return 0.0
+
+    normalized = (current - min_val) / (max_val - min_val)
+
+    return max(0.0, min(1.0, normalized))
+
+
+def re_range_int_parameter(min_val, max_val, current):
+    if max_val == min_val:
+        return 0
+
+    normalized = (current - min_val) / (max_val - min_val)
+    clamped = max(0.0, min(1.0, normalized))
+
+    return int(clamped * 127)
+
 class OscWatcher(EventObject):
 
     address_prefix: str = 'zcx/'
@@ -50,9 +68,9 @@ class OscEncoderWatcher(OscWatcher):
             if self.send_string:
                 self._osc_server.sendOSC(self._string_osc_address, self._base_element.parameter_value)
             if self.send_float:
-                self._osc_server.sendOSC(self._float_osc_address, self._base_element.parameter.value)
+                self._osc_server.sendOSC(self._float_osc_address, re_range_float_parameter(self._base_element.parameter.min, self._base_element.parameter.max, self._base_element.parameter.value))
             if self.send_int:
-                self._osc_server.sendOSC(self._int_osc_address, int(self._base_element.parameter.value * 127))
+                self._osc_server.sendOSC(self._int_osc_address, re_range_int_parameter(self._base_element.parameter.min, self._base_element.parameter.max, self._base_element.parameter.value))
 
     @listens('parameter_name')
     def parameter_name_changed(self):
