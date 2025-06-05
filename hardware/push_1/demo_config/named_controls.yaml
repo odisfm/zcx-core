@@ -64,6 +64,8 @@ __state_row:
   gestures:
     pressed:
       page: ${me.index}
+    released_delayed:
+      page: last
 
 #state_1:
 #  gestures:
