@@ -313,6 +313,24 @@ my_button:
     scene: my cool scene
 ```
 
+### pseq / rpseq
+
+Emulates [sequential action lists](https://www.cxpman.com/manual/core-concepts/#sequential-action-lists) from ClyphX Pro.
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      pseq:
+        - >
+          "my first track" / SEL
+        - >
+          "my second track" / SEL
+```
+
+The value of a `pseq` or `rpseq` key must be a list, with each list item being a command bundle (or action list).
+`pseq` will step through each command in order, while `rpseq` will trigger a random command (repeat commands are possible).
+
 ### python
 
 Execute Python code in a [limited execution context](/lessons/python-context).
