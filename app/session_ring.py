@@ -77,6 +77,8 @@ class SessionRing(SessionRingBase):
         self.__osc_address_pos_x_address = self.__osc_address_base_prefix + f'pos_x/'
         self.__osc_address_pos_y_address = self.__osc_address_base_prefix + f'pos_y/'
 
+        self.update_osc()
+
     def move(self, x=0, y=0):
         current_x = self.track_offset
         current_y = self.scene_offset
