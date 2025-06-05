@@ -32,3 +32,6 @@ osc_output:
     value: true
     int: true
     float: true
+  page: true
+  ring_tracks: true
+  ring_pos: true

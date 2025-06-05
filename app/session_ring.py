@@ -51,6 +51,14 @@ class SessionRing(SessionRingBase):
         self.__osc_address_pos_x_address = None
         self.__osc_address_pos_y_address = None
 
+        osc_prefs = user_prefs.get('osc_output', {})
+
+        if not isinstance(osc_prefs, dict):
+            osc_prefs = {}
+
+        self.__does_send_osc_tracks = osc_prefs.get('ring_tracks', False)
+        self.__does_send_osc_positions = osc_prefs.get('ring_pos', False)
+
         self.debug(f'{self.name} created')
 
     def log(self, *msg, level='info'):
@@ -126,11 +134,13 @@ class SessionRing(SessionRingBase):
         if self.__osc_server is None:
             return
 
-        for i, track in enumerate(self.tracks_in_view):
-            self.__osc_server.sendOSC(f'{self.__osc_address_track_prefix}{i}', track.name)
+        if self.__does_send_osc_tracks:
+            for i, track in enumerate(self.tracks_in_view):
+                self.__osc_server.sendOSC(f'{self.__osc_address_track_prefix}{i}', track.name)
 
-        self.__osc_server.sendOSC(self.__osc_address_pos_x_address, self.scene_offset)
-        self.__osc_server.sendOSC(self.__osc_address_pos_y_address, self.track_offset)
+        if self.__does_send_osc_positions:
+            self.__osc_server.sendOSC(self.__osc_address_pos_x_address, self.scene_offset)
+            self.__osc_server.sendOSC(self.__osc_address_pos_y_address, self.track_offset)
 
     @listenable_property
     def offsets(self):

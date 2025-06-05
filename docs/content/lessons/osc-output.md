@@ -25,6 +25,11 @@ OSC_DEVICE_IP_ADDRESS = 127.0.0.1
 !!! warning
     The above settings are an example only; they will need to be set according to your network and situation.
 
+## Configuring what information is sent
+
+By default, all the data listed in [available outputs](#available-outputs) is sent.
+You can disable some (or all) of these outputs via the zcx file [preferences.yaml](/reference/configuration-files/preferences/#osc_output).
+
 ## OSC namespace
 
 An OSC message sent from zcx will use an address like this:
@@ -71,7 +76,7 @@ Value: int
 
 #### float
 
-The value of the mapped parameter, as a float between 0.0 - 1.0:
+The value of the mapped parameter, as a float between 0.0-1.0:
 
 Address: `zcx/<script name>/enc/<encoder name>/float`
 
@@ -92,3 +97,23 @@ Value: int
 Address: `zcx/<script name>/page/name/<current page name>`
 
 Value: string
+
+### session ring
+
+zcx will send messages relating to the [session ring](/lessons/session-ring).
+
+#### ring tracks
+
+When the ring moves horizontally, zcx will send one message for each column (track) of the ring:
+
+Address: `zcx/<script name>/ring/track/<index>/<track name>`
+
+Value: string
+
+#### ring coordinates
+
+When the ring moves, zcx will send the x (track) and y (scene) positions of the top-left corner of the ring:
+
+Address: `zcx/<script name>/ring/pos_x/<x position>` **and** `zcx/<script name>/ring/pos_y/<y position>`
+
+Value: int

@@ -40,6 +40,7 @@ class PageManager(ZCXComponent):
         self.__osc_address_prefix = None
         self.__osc_address_page_name = None
         self.__osc_address_page_number = None
+        self.__does_send_osc = False
 
     @listenable_property
     def current_page(self):
@@ -69,8 +70,9 @@ class PageManager(ZCXComponent):
             self.handle_page_commands(self.__current_page, self.__last_page)
 
         try:
-            self.__osc_server.sendOSC(self.__osc_address_page_name, self.current_page_name)
-            self.__osc_server.sendOSC(self.__osc_address_page_number, self.__current_page)
+            if self.__does_send_osc:
+                self.__osc_server.sendOSC(self.__osc_address_page_name, self.current_page_name)
+                self.__osc_server.sendOSC(self.__osc_address_page_number, self.__current_page)
         except:
             pass
 
@@ -194,6 +196,13 @@ class PageManager(ZCXComponent):
         self.__osc_address_prefix = f'zcx/{self.canonical_parent.name}/page'
         self.__osc_address_page_name = self.__osc_address_prefix + '/name'
         self.__osc_address_page_number = self.__osc_address_prefix + '/number'
+
+        from . import PREF_MANAGER
+        osc_prefs = PREF_MANAGER.user_prefs.get('osc_output', {})
+        try:
+            self.__does_send_osc = osc_prefs.get('page', False)
+        except:
+            pass
 
         self.set_page(0)
 

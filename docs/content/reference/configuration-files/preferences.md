@@ -95,9 +95,12 @@ osc_output:
     value: true
     int: true
     float: true
+  page: true
+  ring_tracks: true
+  ring_pos: true
 ```
 
-Configures what datatypes are sent over OSC. 
+Configures what information is sent over OSC. 
 `osc_output: false` disables all OSC output.
 
 See [full lesson](/lessons/osc-output) for more details.
