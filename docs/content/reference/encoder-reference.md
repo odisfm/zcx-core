@@ -138,6 +138,10 @@ Let's say the selected track is an audio track, `guitar`.
 If we navigate to a blank MIDI track (which does not have a volume parameter), by default zcx will remain bound to `guitar`'s volume, until we select another track with a volume parameter.
 By setting `unbind_on_fail: true` for this control, `enc_1` would instead be bound to no parameter, until there is a relevant parameter to bind to (i.e. we select another audio track).
 
+## Manually rebinding encoders
+
+You can use the zcx user action to [manually rebind encoders](/lessons/zcx-user-action/#bind).
+
 ## Limitations
 
 ### FIRST, LAST, and SEL keyword
