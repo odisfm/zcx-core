@@ -37,29 +37,25 @@ up:
   gestures:
     pressed: up
     pressed__shift:
-      ring:
-        y: -1
+      ring: up
 
 down:
   gestures:
     pressed: down
     pressed__shift:
-      ring:
-        y: 1
+      ring: down
 
 left:
   gestures:
     pressed: left
     pressed__shift:
-      ring:
-        x: -1
+      ring: left
 
 right:
   gestures:
     pressed: right
     pressed__shift:
-      ring:
-        x: 1
+      ring: right
 
 scene_1: # clip stop
   gestures:

@@ -1,19 +1,12 @@
-#       0  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       1  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       2  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       3  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       4  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       5  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       6  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
-#       7  ▬ ▬ ▬ ▬ ▬ ▬ ▬ ▬
+#       0  □ □ □ □ □ □ □ □
+#       1  □ □ □ □ □ □ □ □
+#       2  □ □ □ □ □ □ □ □
+#       3  □ □ □ □ □ □ □ □
+#       4  □ □ □ □ □ □ □ □
+#       5  □ □ □ □ □ □ □ □
+#       6  □ □ □ □ □ □ □ □
+#       7  □ □ □ □ □ □ □ □
 #          0 1 2 3 4 5 6 7
-#
-
-big_colors:
-  row_start: 0
-  row_end: 7
-  col_start: 0
-  col_end: 7
 
 actions_top_left:
   col_start: 0
@@ -39,17 +32,14 @@ actions_bottom_right:
   row_start: 4
   row_end: 7
 
-mega_launcher:
+actions_bottom_double:
   col_start: 0
-  col_end: 3
+  col_end: 7
   row_start: 4
   row_end: 7
-
-track_half:
-  col_start: 4
-  col_end: 7
-  row_start: 0
-  row_end: 7
+  template:
+    color:
+      palette: rainbow
 
 ring_control:
   row_start: 0
@@ -57,3 +47,8 @@ ring_control:
   col_start: 0
   col_end: 7
 
+blank_section:
+  row_start: 0
+  row_end: 7
+  col_start: 0
+  col_end: 7
