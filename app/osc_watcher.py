@@ -39,13 +39,25 @@ class OscEncoderWatcher(OscWatcher):
 
     @listens('parameter_value')
     def parameter_value_changed(self):
-        if self.send_string:
-            self._osc_server.sendOSC(self._string_osc_address, self._base_element.parameter_value)
-        if self.send_float:
-            self._osc_server.sendOSC(self._float_osc_address, self._base_element.parameter.value)
-        if self.send_int:
-            self._osc_server.sendOSC(self._int_osc_address, int(self._base_element.parameter.value * 127))
+        if self._base_element.parameter is None:
+            if self.send_string:
+                self._osc_server.sendOSC(self._string_osc_address, '-')
+            if self.send_float:
+                self._osc_server.sendOSC(self._float_osc_address, 0.0)
+            if self.send_int:
+                self._osc_server.sendOSC(self._int_osc_address, 0)
+        else:
+            if self.send_string:
+                self._osc_server.sendOSC(self._string_osc_address, self._base_element.parameter_value)
+            if self.send_float:
+                self._osc_server.sendOSC(self._float_osc_address, self._base_element.parameter.value)
+            if self.send_int:
+                self._osc_server.sendOSC(self._int_osc_address, int(self._base_element.parameter.value * 127))
 
     @listens('parameter_name')
     def parameter_name_changed(self):
-        self._osc_server.sendOSC(self._name_osc_address, self._base_element.parameter_name)
+        if self._base_element.parameter is None:
+            if self.send_string:
+                self._osc_server.sendOSC(self._name_osc_address, '-')
+        else:
+            self._osc_server.sendOSC(self._name_osc_address, self._base_element.parameter_name)
