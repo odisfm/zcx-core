@@ -1,6 +1,6 @@
 #row 1
 #col 1
-- color: grey
+- color: pink
   gestures:
     pressed:
     # pressed_delayed:
@@ -108,7 +108,7 @@
     # released_immediately:
     # double_clicked:
 #col 4
-- color: grey
+- color: lime
   gestures:
     pressed:
     # pressed_delayed:

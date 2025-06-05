@@ -36,8 +36,10 @@ __state_row:
   gestures:
     pressed:
       page: ${me.index}
-      cxp: >
-        msg "Changed to page ${me.Index}"
+      msg: >
+        Page ${me.page}: ${me.page_name}
+    released_delayed:
+      page: last
 
 #state_1:
 #  gestures:
@@ -272,9 +274,9 @@ user:
     pressed:
       hardware_mode: live
 
-#tap_tempo:
-#  gestures:
-#    pressed: DUMMY
+tap_tempo:
+  gestures:
+    pressed: TAPBPM
 
 #convert:
 #  gestures:

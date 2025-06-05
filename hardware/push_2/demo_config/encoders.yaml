@@ -10,7 +10,7 @@ __encoder_row:
     __device: >-
       SEL / DEV(1) P${me.Index}
     __select: >-
-      SEL / SEND A
+      RING(${me.index}) / SEND A
   encoders:
     - binding:
         __mix: >-
@@ -38,7 +38,9 @@ __encoder_row:
           SEL / SEND H
 
 enc_master:
-  binding: MST / VOL
+  binding:
+    default: MST / VOL
+    __shift: MST / CUE
 
 tempo:
   binding: SEL / PAN
