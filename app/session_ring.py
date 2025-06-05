@@ -45,6 +45,12 @@ class SessionRing(SessionRingBase):
 
         self.api = RingAPI(self)
 
+        self.__osc_server = None
+        self.__osc_address_base_prefix = None
+        self.__osc_address_track_prefix = None
+        self.__osc_address_pos_x_address = None
+        self.__osc_address_pos_y_address = None
+
         self.debug(f'{self.name} created')
 
     def log(self, *msg, level='info'):
@@ -57,7 +63,11 @@ class SessionRing(SessionRingBase):
         self._logger.setLevel(level)
 
     def setup(self):
-        raise NotImplementedError("Setup() must be overridden")
+        self.__osc_server = self.component_map['CxpBridge']._osc_server
+        self.__osc_address_base_prefix = f'zcx/{self.canonical_parent.name}/ring/'
+        self.__osc_address_track_prefix = self.__osc_address_base_prefix + f'track/'
+        self.__osc_address_pos_x_address = self.__osc_address_base_prefix + f'pos_x/'
+        self.__osc_address_pos_y_address = self.__osc_address_base_prefix + f'pos_y/'
 
     def move(self, x=0, y=0):
         current_x = self.track_offset
@@ -74,6 +84,7 @@ class SessionRing(SessionRingBase):
 
         super().move(x, y)
         self.notify_offsets()
+        self.update_osc()
 
     def go_to_track(self, track_id):
         self.log(f'go_to_track {track_id}')
@@ -111,6 +122,16 @@ class SessionRing(SessionRingBase):
         except IndexError:
             return None
 
+    def update_osc(self):
+        if self.__osc_server is None:
+            return
+
+        for i, track in enumerate(self.tracks_in_view):
+            self.__osc_server.sendOSC(f'{self.__osc_address_track_prefix}{i}', track.name)
+
+        self.__osc_server.sendOSC(self.__osc_address_pos_x_address, self.scene_offset)
+        self.__osc_server.sendOSC(self.__osc_address_pos_y_address, self.track_offset)
+
     @listenable_property
     def offsets(self):
         return {
@@ -125,6 +146,10 @@ class SessionRing(SessionRingBase):
     @property
     def scene_count(self):
         return len(self.song.scenes)
+
+    @property
+    def tracks_in_view(self):
+        return self.tracks_to_use()[self.track_offset:self.track_offset + self.num_tracks]
 
 class TrackLookup:
 
