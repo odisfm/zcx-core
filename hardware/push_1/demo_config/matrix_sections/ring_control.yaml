@@ -98,6 +98,7 @@
 # col 7
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
@@ -145,6 +146,7 @@
 # col 6
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
@@ -152,20 +154,14 @@
 
 # col 7
 - 
-  color: green shade 1
+  color: dark_grey
   gestures:
-    pressed:
-      python: |
-        clip_slot = song.view.highlighted_clip_slot
-        
-        if clip_slot.is_playing:
-          clip_slot.stop()
-        else:
-          clip_slot.fire()
+    pressed: DUMMY
 
 # col 8
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
@@ -213,6 +209,7 @@
 # col 7
 - 
   color: white
+  repeat: true
   gestures:
     pressed:
       ring:
