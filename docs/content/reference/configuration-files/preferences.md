@@ -72,6 +72,15 @@ load_user_plugins: true
 
 Determines whether any user plugins (located in `zcx/plugins`) will be loaded.
 
+### log_failed_encoder_bindings
+
+```yaml
+log_failed_encoder_bindings: true
+```
+
+By default, when an [encoder](/reference/encoder-reference) fails to bind to the specified target an error message is written to the log.
+In some cases, it may be expected that bindings fail, so you may set this option to `false`.
+
 ### log_level
 
 ```yaml

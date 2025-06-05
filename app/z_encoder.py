@@ -20,6 +20,7 @@ class ZEncoder(EventObject):
     session_ring: SessionRing = None
     song = None
     selected_device_watcher = None
+    _log_failed_bindings = True
 
     def __init__(self, root_cs, raw_config, name):
         super().__init__()
@@ -150,9 +151,11 @@ class ZEncoder(EventObject):
 
         self.log(f'map_success: {map_success}')
         if map_success is not True:
-            self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
+            if self._log_failed_bindings:
+                self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
             if self._unbind_on_fail:
-                self.log(f'{self._name} failed to find target, unmapping')
+                if self._log_failed_bindings:
+                    self.log(f'{self._name} failed to find target, unmapping')
                 self.unbind_control()
                 self.mapped_parameter = None
             return

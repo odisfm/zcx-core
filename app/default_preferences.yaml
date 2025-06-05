@@ -35,3 +35,5 @@ osc_output:
   page: true
   ring_tracks: true
   ring_pos: true
+
+log_failed_encoder_bindings: true

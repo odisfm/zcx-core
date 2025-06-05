@@ -45,6 +45,10 @@ class EncoderManager(ZCXComponent):
 
         flat_config = self.flatten_encoder_config(encoder_config)
 
+        from . import PREF_MANAGER
+        user_prefs = PREF_MANAGER.user_prefs
+        ZEncoder._log_failed_bindings = user_prefs.get('log_failed_encoder_bindings', True)
+
         ZEncoder.mode_manager = self.canonical_parent.component_map['ModeManager']
         ZEncoder.action_resolver = self.canonical_parent.component_map['ActionResolver']
         ZEncoder.song = self.song
