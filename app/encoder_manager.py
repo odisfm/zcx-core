@@ -182,8 +182,6 @@ class EncoderManager(ZCXComponent):
 
         osc_prefs = user_prefs.get('osc_output', False)
 
-        self.error(osc_prefs)
-
         if not osc_prefs:
             return
 
