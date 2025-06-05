@@ -5,6 +5,11 @@ from .cxp_bridge import CxpBridge
 from .z_encoder import ZEncoder
 from .encoder_element import EncoderElement
 
+def re_range_float_parameter(min_val, max_val, current):
+   return (current - min_val) / (max_val - min_val)
+
+def re_range_int_parameter(min_val, max_val, current):
+   return int((current - min_val) * 127 / (max_val - min_val))
 
 def re_range_float_parameter(min_val, max_val, current):
     if max_val == min_val:
