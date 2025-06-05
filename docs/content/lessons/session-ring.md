@@ -58,6 +58,11 @@ __state_controls:
 
 Looking at [the above screenshot](#using-the-zcx-session-ring), if `state_1` was pressed, the action list `"fx gtr 2" / MUTE` would be executed.
 
+### Dynamic encoder mappings
+
+It is possible to map encoders to the parameter of a track at a certain position of the ring.
+See [Encoder Reference](/reference/encoder-reference#targeting-the-session-ring) for details.
+
 ### Out of bounds references
 
 It is often valid to refer to tracks or scenes outside of the session ring by using a negative index, or an index that is greater than or equal to the width and height of the ring. For example:
