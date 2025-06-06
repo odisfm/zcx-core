@@ -3,6 +3,7 @@
 - color: green
   gestures:
     pressed:
+      msg: You can edit this section in `_config/matrix_sections/actions_top_left.yaml`
     # pressed_delayed:
     # released_immediately:
     # double_clicked:
@@ -108,7 +109,7 @@
     # released_immediately:
     # double_clicked:
 #col 4
-- color: purple
+- color: sky
   gestures:
     pressed:
     # pressed_delayed:

@@ -38,17 +38,22 @@ __scene_buttons:
 #  gestures:
 #    pressed: DUMMY
 
-__track_buttons:
+__page_switcher:
   includes: [
     track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8
   ]
+  type: page
+  page: ${me.index}
+  active_color:
+    palette: rainbow
+  inactive_color: white
   gestures:
-    pressed: >
-      "${ring.tracks[me.index]}" / SEL
-    pressed_delayed: >
-      "${ring.tracks[me.index]}" / ARM
-    double_clicked: >
-      "${ring.tracks[me.index]}" / PLAY >
+    pressed:
+      page: ${me.index}
+      msg: >
+        Page ${me.page}: ${me.page_name}
+    released_delayed:
+      page: last
 
 #track_1:
 #  gestures:
@@ -82,16 +87,6 @@ __track_buttons:
 #  gestures:
 #    pressed: DUMMY
 
-__page_switcher:
-  includes: [
-    chord, custom, sequencer, projects
-  ]
-  type: page
-  page: ${me.index}
-  gestures:
-    pressed:
-      page: {me.index}
-
 #chord:
 #  gestures:
 #    pressed: DUMMY
@@ -113,14 +108,14 @@ nav_up:
     pressed: UP
     pressed__shift:
       ring:
-        y: -1
+        y: -8
 
 nav_down:
   gestures:
     pressed: DOWN
     pressed__shift:
       ring:
-        y: 1
+        y: 8
 
 nav_left:
   gestures:
@@ -145,9 +140,8 @@ note:
     pressed: SHOWCLIP
 
 novation:
-  gestures:
-    pressed:
-      hardware_mode: live
+  type: transport
+  transport: play
 
 shift:
   gestures:
@@ -192,26 +186,30 @@ quantize:
 arm:
   gestures:
     pressed: SEL / ARM
+    pressed__shift: UNDO
 
 mute:
   gestures:
     pressed: SEL / MUTE
+    pressed__shift: REDO
 
 solo:
   gestures:
     pressed: SEL / SOLO
+    pressed__shift: METRO
 
-volume:
-  gestures:
-    pressed:
+#volume:
+#  gestures:
+#    pressed: DUMMY
 
-pan:
-  gestures:
-    pressed:
+#pan:
+#  gestures:
+#    pressed: DUMMY
 
 sends:
   gestures:
-    pressed:
+#    pressed: DUMMY
+    pressed__shift: TAPBPM
 
 #device:
 #  gestures:
