@@ -3,7 +3,6 @@ import copy
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
-
 from .action_resolver import ActionResolver
 from .encoder_element import EncoderElement
 from .encoder_state import EncoderState
@@ -44,7 +43,7 @@ class ZEncoder(EventObject):
 
     def log(self, *msg):
         for msg in msg:
-            self._logger.debug(f'({self._name}): {msg}')
+            self._logger.debug(f"({self._name}): {msg}")
 
     def setup(self):
         self._context = self._raw_config["context"]
@@ -92,7 +91,7 @@ class ZEncoder(EventObject):
             these_modes.sort()
             sorted_mode_string = "__".join(these_modes)
 
-            binding_def = binding_def.rstrip('\n')
+            binding_def = binding_def.rstrip("\n")
 
             parsed_target_string, status = self.action_resolver.compile(
                 binding_def,
@@ -136,7 +135,7 @@ class ZEncoder(EventObject):
             self.notify_mapped_parameter(self.mapped_parameter)
 
     def bind_to_active(self):
-        self.log(f'binding to active')
+        self.log(f"binding to active")
 
         dynamism = self.assess_dynamism(self._active_map)
         self.apply_listeners(dynamism)
@@ -149,13 +148,15 @@ class ZEncoder(EventObject):
         except ConfigurationError:
             map_success = False
 
-        self.log(f'map_success: {map_success}')
+        self.log(f"map_success: {map_success}")
         if map_success is not True:
             if self._log_failed_bindings:
-                self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
+                self._logger.error(
+                    f"Failed to bind {self._name} to target: {self._active_map}"
+                )
             if self._unbind_on_fail:
                 if self._log_failed_bindings:
-                    self.log(f'{self._name} failed to find target, unmapping')
+                    self.log(f"{self._name} failed to find target, unmapping")
                 self.unbind_control()
                 self.mapped_parameter = None
             return
@@ -238,12 +239,12 @@ class ZEncoder(EventObject):
                 elif target_map.get("ring_track") is not None:
                     ring_track_def = target_map.get("ring_track")
                     ring_track_parsed, status = self.action_resolver.compile(
-                        ring_track_def,
-                        self._vars,
-                        self._context
+                        ring_track_def, self._vars, self._context
                     )
                     if status != 0:
-                        raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
+                        raise ConfigurationError(
+                            f"Unparseable ring target: {ring_track_def}"
+                        )
 
                     track_num = int(ring_track_parsed)
 
@@ -304,18 +305,20 @@ class ZEncoder(EventObject):
                     elif target_map.get("ring_track") is not None:
                         ring_track_def = target_map.get("ring_track")
                         ring_track_parsed, status = self.action_resolver.compile(
-                            ring_track_def,
-                            self._vars,
-                            self._context
+                            ring_track_def, self._vars, self._context
                         )
                         if status != 0:
-                            raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
+                            raise ConfigurationError(
+                                f"Unparseable ring target: {ring_track_def}"
+                            )
 
                         track_num = int(ring_track_parsed) - 1
 
                         track_obj = self.get_track_by_number(track_num)
                         if track_obj is None:
-                            raise ConfigurationError(f"Invalid ring target: `{target_map}`")
+                            raise ConfigurationError(
+                                f"Invalid ring target: `{target_map}`"
+                            )
                 else:
                     track_obj = self.song.view.selected_track
 
@@ -343,28 +346,30 @@ class ZEncoder(EventObject):
                 elif chain_map_def is not None:
                     device_obj = self.traverse_chain_map(track_obj, chain_map_def)
 
-                    if hasattr(device_obj, "delete_device"): # todo: better test for chainy-ness
+                    if hasattr(
+                        device_obj, "delete_device"
+                    ):  # todo: better test for chainy-ness
                         if par_type is None:
-                            raise ConfigurationError("Missing parameter_type") # todo:
+                            raise ConfigurationError("Missing parameter_type")  # todo:
 
                         chain_mixer = device_obj.mixer_device
 
                         self.log(target_map)
 
-                        if par_type.lower() == 'vol':
+                        if par_type.lower() == "vol":
                             self.mapped_parameter = chain_mixer.volume
                             return True
-                        elif par_type.lower() == 'pan':
+                        elif par_type.lower() == "pan":
                             self.mapped_parameter = chain_mixer.panning
                             return True
-                        elif par_type.lower() == 'send':
+                        elif par_type.lower() == "send":
                             send_letter = target_map.get("send").upper()
                             send_num = ord(send_letter) - 65
                             self.mapped_parameter = chain_mixer.sends[send_num]
                             return True
 
                 else:
-                    raise ConfigurationError("") # todo:
+                    raise ConfigurationError("")  # todo:
 
                 if par_type is not None and par_type.lower() == "cs":
                     self.mapped_parameter = device_obj.chain_selector
@@ -480,7 +485,7 @@ class ZEncoder(EventObject):
         else:
             listen_dict["sends_list"] = True
 
-        if target_map.get('ring_track') is not None:
+        if target_map.get("ring_track") is not None:
             listen_dict["ring_tracks"] = True
 
         return listen_dict
@@ -547,10 +552,10 @@ class ZEncoder(EventObject):
                     return None
 
     def traverse_chain_map(self, track, chain_map):
-        self.log(f'trying to traverse chain map {chain_map}')
+        self.log(f"trying to traverse chain map {chain_map}")
 
         def parse_templated_node(_node):
-            if not isinstance(_node, str) or '${' not in _node:
+            if not isinstance(_node, str) or "${" not in _node:
                 try:
                     return int(_node)
                 except (ValueError, TypeError):
@@ -563,12 +568,18 @@ class ZEncoder(EventObject):
                     return _node
 
             # Parse templated string using action_resolver
-            parsed, status = self.action_resolver.compile(_node, self._vars, self._context)
+            parsed, status = self.action_resolver.compile(
+                _node, self._vars, self._context
+            )
             if status != 0:
                 raise ConfigurationError(f"Unparseable node: {_node}")
 
             # Strip quotes if present
-            if isinstance(parsed, str) and parsed.startswith('"') and parsed.endswith('"'):
+            if (
+                isinstance(parsed, str)
+                and parsed.startswith('"')
+                and parsed.endswith('"')
+            ):
                 return parsed.strip('"')
             return parsed
 
@@ -579,7 +590,7 @@ class ZEncoder(EventObject):
             is_device = i % 2 == 0
             node = parse_templated_node(node)
 
-            self.log(f'traversing part {i}: {node}')
+            self.log(f"traversing part {i}: {node}")
 
             if i == 0:
                 # First node is always a device
@@ -606,7 +617,9 @@ class ZEncoder(EventObject):
                             found = True
                             break
                     if not found:
-                        raise ConfigurationError(f'No device in {current_search_obj.name} called {node}')
+                        raise ConfigurationError(
+                            f"No device in {current_search_obj.name} called {node}"
+                        )
             else:
                 # Looking for a chain in the current device
                 if isinstance(node, int):
@@ -619,10 +632,11 @@ class ZEncoder(EventObject):
                             found = True
                             break
                     if not found:
-                        raise ConfigurationError(f'No chain in {current_search_obj.name} called {node}')
+                        raise ConfigurationError(
+                            f"No chain in {current_search_obj.name} called {node}"
+                        )
 
         return current_search_obj
-
 
     @listens("selected_track")
     def selected_track_listener(self):

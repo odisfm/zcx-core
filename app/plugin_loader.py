@@ -4,7 +4,7 @@ import os
 import sys
 from copy import copy
 from pathlib import Path
-from typing import Dict, Type, Any
+from typing import Type, Any
 
 from .zcx_plugin import ZCXPlugin
 

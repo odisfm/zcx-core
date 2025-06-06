@@ -4,15 +4,7 @@ from ableton.v3.control_surface.elements import EncoderElement as ElementBase
 
 class EncoderElement(ElementBase):
 
-    def __init__(
-            self,
-            identifier,
-            map_mode,
-            is_feedback_enabled,
-            channel,
-            *a,
-            **k
-    ):
+    def __init__(self, identifier, map_mode, is_feedback_enabled, channel, *a, **k):
         super(EncoderElement, self).__init__(
             identifier,
             map_mode=map_mode,
@@ -22,8 +14,7 @@ class EncoderElement(ElementBase):
             *a,
             **k
         )
-        self.name = 'unnamed_encoder_element'
-
+        self.name = "unnamed_encoder_element"
 
     def log(self, *msg):
         for msg in msg:

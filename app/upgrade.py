@@ -1,13 +1,12 @@
-import os
-import sys
-import shutil
-import glob
 import datetime
+import glob
+import importlib
+import logging
+import os
+import shutil
+import sys
 import traceback
 import zipfile
-import logging
-import hashlib
-import importlib
 
 HELP_URL = "https://www.zcxcore.com/help"
 
@@ -65,6 +64,7 @@ def setup_environment():
             f"Please ensure the 'vendor' directory contains the required packages"
         )
         sys.exit(1)
+
 
 def load_config(script_dir):
     """Load configuration from zcx.yaml"""
@@ -615,6 +615,7 @@ def restore_symlinks(root_dir, symlink_map):
             except Exception as e:
                 logger.error(f"Failed to restore symlink {full_path}: {e}")
 
+
 def main():
     """Main function orchestrating the update process"""
     try:
@@ -644,21 +645,27 @@ def main():
 
         existing_symlinks = record_symlinks(script_dir)
 
-        if os.name == 'nt' and existing_symlinks:
+        if os.name == "nt" and existing_symlinks:
             logger.error(f"\n{RED}Detected {len(existing_symlinks)} symlinks.{RESET}")
-            logger.error(f"{RED}This script will not work on Windows where symlinks are present.{RESET}")
+            logger.error(
+                f"{RED}This script will not work on Windows where symlinks are present.{RESET}"
+            )
 
             print("\nSymlinks detected in your installation:")
             for rel_path, target in existing_symlinks.items():
                 print(f" - {rel_path} -> {target}")
 
-            print(f"{PURPLE}To proceed with the automated upgrade, delete all symlinks and recreate them after script completion.{RESET}")
+            print(
+                f"{PURPLE}To proceed with the automated upgrade, delete all symlinks and recreate them after script completion.{RESET}"
+            )
             print(f"{PURPLE}Visit {HELP_URL} for assistance.{RESET}")
 
             sys.exit(1)
 
         # Ask user about prerelease preference
-        include_prereleases = (input("\nCheck for preview versions? (y/N): ").lower() == "y")
+        include_prereleases = (
+            input("\nCheck for preview versions? (y/N): ").lower() == "y"
+        )
         if include_prereleases:
             logger.info("Including preview versions in update check")
 
@@ -669,7 +676,11 @@ def main():
 
         latest_ver_obj = semver.Version.parse(latest_version)
         current_ver_obj = semver.Version.parse(current_version)
-        dummy_current_version = current_ver_obj.major == 0 and current_ver_obj.minor == 0 and current_ver_obj.patch == 0
+        dummy_current_version = (
+            current_ver_obj.major == 0
+            and current_ver_obj.minor == 0
+            and current_ver_obj.patch == 0
+        )
 
         if dummy_current_version:
             pass
@@ -678,7 +689,9 @@ def main():
         elif current_ver_obj.major == 0 and latest_ver_obj.major == 1:
             pass
         else:
-            raise RuntimeError(f"Too big a jump between versions: (v{current_version} -> v{latest_version})")
+            raise RuntimeError(
+                f"Too big a jump between versions: (v{current_version} -> v{latest_version})"
+            )
 
         if not latest_version:
             raise RuntimeError(f"Update check failed.")
@@ -730,10 +743,14 @@ def main():
 
         # Clean installation directory
         if not clean_installation_directory(script_dir, temp_dir):
-            raise RuntimeError("Failed to clean installation directory, aborting update")
+            raise RuntimeError(
+                "Failed to clean installation directory, aborting update"
+            )
 
         # Download and extract update package
-        download_dir = download_and_verify_asset(asset_url, asset_name, script_dir, requests)
+        download_dir = download_and_verify_asset(
+            asset_url, asset_name, script_dir, requests
+        )
         if not download_dir:
             raise RuntimeError("Failed to download update package, aborting update")
 
@@ -765,7 +782,9 @@ def main():
         )
         logger.info(f"Backup location: {backup_dir}")
 
-        upgrade_ua = input(f'{PURPLE}Install/upgrade the Zcx user action? (Y/n): {RESET}')
+        upgrade_ua = input(
+            f"{PURPLE}Install/upgrade the Zcx user action? (Y/n): {RESET}"
+        )
         if upgrade_ua.lower() != "n":
             user_actions_source = os.path.join(download_dir, "_user_actions", "Zcx.py")
 
@@ -774,17 +793,25 @@ def main():
 
             if parent_dir_name != "Remote Scripts":
                 logger.error(f"Parent directory is not 'Remote Scripts': {parent_dir}")
-                raise RuntimeError("Parent directory must be 'Remote Scripts' to install Zcx user action.")
+                raise RuntimeError(
+                    "Parent directory must be 'Remote Scripts' to install Zcx user action."
+                )
 
             user_actions_target_dir = os.path.join(parent_dir, "_user_actions")
 
             if not os.path.exists(user_actions_source):
-                logger.error(f"Zcx user action file not found in update package: {user_actions_source}")
+                logger.error(
+                    f"Zcx user action file not found in update package: {user_actions_source}"
+                )
                 raise RuntimeError("Zcx user action file not found in update package")
 
             if not os.path.exists(user_actions_target_dir):
-                logger.error(f"_user_actions directory does not exist: {user_actions_target_dir}")
-                raise RuntimeError("_user_actions directory does not exist. Cannot install Zcx user action.")
+                logger.error(
+                    f"_user_actions directory does not exist: {user_actions_target_dir}"
+                )
+                raise RuntimeError(
+                    "_user_actions directory does not exist. Cannot install Zcx user action."
+                )
 
             target_file = os.path.join(user_actions_target_dir, "Zcx.py")
             try:

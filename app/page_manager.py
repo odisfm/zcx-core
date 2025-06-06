@@ -1,8 +1,6 @@
-import copy
 from typing import TYPE_CHECKING
 
 from ableton.v2.base.event import listenable_property
-
 from .errors import ConfigurationError, CriticalConfigurationError
 from .pad_section import PadSection
 from .zcx_component import ZCXComponent
@@ -14,6 +12,7 @@ MATRIX_HEIGHT = 0
 
 if TYPE_CHECKING:
     from .action_resolver import ActionResolver
+
 
 class PageManager(ZCXComponent):
 
@@ -56,9 +55,13 @@ class PageManager(ZCXComponent):
 
     def set_page(self, page_number=None, page_name=None):
         initial_page_set = self.__current_page == -1
-        incoming_page_num = page_number if page_number is not None else self.__page_names.index(page_name)
+        incoming_page_num = (
+            page_number
+            if page_number is not None
+            else self.__page_names.index(page_name)
+        )
         if incoming_page_num < 0 or incoming_page_num >= self.__page_count:
-            self.error(f'invalid page number {incoming_page_num}')
+            self.error(f"invalid page number {incoming_page_num}")
             return False
         if incoming_page_num == self.__current_page:
             return True
@@ -71,8 +74,12 @@ class PageManager(ZCXComponent):
 
         try:
             if self.__does_send_osc:
-                self.__osc_server.sendOSC(self.__osc_address_page_name, self.current_page_name)
-                self.__osc_server.sendOSC(self.__osc_address_page_number, self.__current_page)
+                self.__osc_server.sendOSC(
+                    self.__osc_address_page_name, self.current_page_name
+                )
+                self.__osc_server.sendOSC(
+                    self.__osc_address_page_number, self.__current_page
+                )
         except:
             pass
 
@@ -138,17 +145,23 @@ class PageManager(ZCXComponent):
                     pages_dict[page_name] = {"sections": page_def}
                 elif isinstance(page_def, dict):
                     if "sections" not in page_def:
-                        raise CriticalConfigurationError(f'Pages `{page_name}` missing `sections` key: {page_def}')
+                        raise CriticalConfigurationError(
+                            f"Pages `{page_name}` missing `sections` key: {page_def}"
+                        )
                     pages_dict[page_name] = page_def
                 else:
-                    raise CriticalConfigurationError(f'Malformed page definition for `{page_name}`: {page_def}')
+                    raise CriticalConfigurationError(
+                        f"Malformed page definition for `{page_name}`: {page_def}"
+                    )
 
             # Get page order (or use all keys if not specified)
             if "order" in pages_config:
                 pages_order = pages_config.get("order", [])
                 for page_name in pages_order:
                     if page_name not in pages_dict:
-                        raise CriticalConfigurationError(f"Page `{page_name}` specified in order does not exist")
+                        raise CriticalConfigurationError(
+                            f"Page `{page_name}` specified in order does not exist"
+                        )
                 # Only include pages that are specified in the order
             else:
                 pages_order = list(pages_dict.keys())
@@ -156,7 +169,9 @@ class PageManager(ZCXComponent):
         self.determine_matrix_specs()
 
         for page_name, page_def in pages_dict.items():
-            self.validate_page_sections(page_name, page_def["sections"], sections_config)
+            self.validate_page_sections(
+                page_name, page_def["sections"], sections_config
+            )
 
         self.__page_count = len(pages_order)
 
@@ -192,15 +207,16 @@ class PageManager(ZCXComponent):
 
         self.__z_manager.process_named_buttons(named_pad_section)
 
-        self.__osc_server = self.component_map['CxpBridge']._osc_server
-        self.__osc_address_prefix = f'zcx/{self.canonical_parent.name}/page'
-        self.__osc_address_page_name = self.__osc_address_prefix + '/name'
-        self.__osc_address_page_number = self.__osc_address_prefix + '/number'
+        self.__osc_server = self.component_map["CxpBridge"]._osc_server
+        self.__osc_address_prefix = f"zcx/{self.canonical_parent.name}/page"
+        self.__osc_address_page_name = self.__osc_address_prefix + "/name"
+        self.__osc_address_page_number = self.__osc_address_prefix + "/number"
 
         from . import PREF_MANAGER
-        osc_prefs = PREF_MANAGER.user_prefs.get('osc_output', {})
+
+        osc_prefs = PREF_MANAGER.user_prefs.get("osc_output", {})
         try:
-            self.__does_send_osc = osc_prefs.get('page', False)
+            self.__does_send_osc = osc_prefs.get("page", False)
         except:
             pass
 
@@ -275,12 +291,14 @@ class PageManager(ZCXComponent):
         return pages
 
     def handle_page_commands(self, incoming_page_num, outgoing_page_num):
-        self.debug(f'incoming_page_num: {incoming_page_num}, outgoing_page_num: {outgoing_page_num}')
+        self.debug(
+            f"incoming_page_num: {incoming_page_num}, outgoing_page_num: {outgoing_page_num}"
+        )
         incoming_page_name = self.__page_names[incoming_page_num]
         outgoing_page_name = self.__page_names[outgoing_page_num]
 
         def get_page_command(page_name, outgoing=False):
-            key = 'on_leave' if outgoing else 'on_enter'
+            key = "on_leave" if outgoing else "on_enter"
             try:
                 return self.__page_definitions[page_name].get(key)
             except Exception:
@@ -288,34 +306,29 @@ class PageManager(ZCXComponent):
 
         def make_context_dict(page_name, page_num):
             return {
-                'page': {
-                    'name': page_name,
-                    'number': page_num,
+                "page": {
+                    "name": page_name,
+                    "number": page_num,
                 }
             }
 
         incoming_command_bundle = get_page_command(incoming_page_name)
         outgoing_command_bundle = get_page_command(outgoing_page_name, True)
 
-
         if incoming_command_bundle:
-            incoming_vars = self.__page_definitions[incoming_page_name].get('vars', {})
+            incoming_vars = self.__page_definitions[incoming_page_name].get("vars", {})
             context = make_context_dict(incoming_page_name, incoming_page_num)
 
             self.__action_resolver.execute_command_bundle(
-                bundle=incoming_command_bundle,
-                vars_dict=incoming_vars,
-                context=context
+                bundle=incoming_command_bundle, vars_dict=incoming_vars, context=context
             )
 
         if outgoing_command_bundle:
-            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
+            outgoing_vars = self.__page_definitions[outgoing_page_name].get("vars", {})
             context = make_context_dict(incoming_page_name, incoming_page_num)
 
             self.__action_resolver.execute_command_bundle(
-                bundle=outgoing_command_bundle,
-                vars_dict=outgoing_vars,
-                context=context
+                bundle=outgoing_command_bundle, vars_dict=outgoing_vars, context=context
             )
 
     @staticmethod

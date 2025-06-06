@@ -1,7 +1,6 @@
 from copy import deepcopy
 
 from ableton.v3.control_surface.controls import control_matrix
-
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
 from .hardware_interface import HardwareInterface
@@ -86,7 +85,7 @@ class ZManager(ZCXComponent):
         self.__global_control_template = manager.global_control_template
 
     def process_pad_section(self, pad_section: PadSection):
-        self.debug(f'Processing pad_section {pad_section.name}')
+        self.debug(f"Processing pad_section {pad_section.name}")
 
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
 
@@ -103,22 +102,23 @@ class ZManager(ZCXComponent):
                 item_config = context_config[i]
                 state: ZState.State = matrix_state.get_control(coord[0], coord[1])
                 control = self.z_control_factory(item_config, pad_section)
-                self.debug(f'instantiated {pad_section.name} control #{i}')
+                self.debug(f"instantiated {pad_section.name} control #{i}")
                 control.bind_to_state(state)
                 control.raw_config = context_config[i]
                 control.setup()
-                self.debug(f'{pad_section.name} control #{i} successfully setup')
+                self.debug(f"{pad_section.name} control #{i} successfully setup")
         except Exception as e:
             self.error(e)
 
         self.__matrix_sections[pad_section.name] = pad_section
 
     def flatten_section_config(
-            self, section_obj, raw_config, ignore_global_template=False
+        self, section_obj, raw_config, ignore_global_template=False
     ):
         """Flattens a section configuration by applying templates and processing pad groups."""
 
         try:
+
             def merge_configs(base, override):
                 """Deep merge two configurations, ensuring override values take precedence."""
                 if not isinstance(override, dict):
@@ -127,7 +127,11 @@ class ZManager(ZCXComponent):
                     return override
                 merged = deepcopy(base)
                 for key, value in override.items():
-                    if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+                    if (
+                        key in merged
+                        and isinstance(merged[key], dict)
+                        and isinstance(value, dict)
+                    ):
                         merged[key] = merge_configs(merged[key], value)
                     else:
                         merged[key] = deepcopy(value)
@@ -182,7 +186,9 @@ class ZManager(ZCXComponent):
                                     f"Config error in {section_obj.name}: "
                                     f'Specified non-existent template "{template_name}"'
                                 )
-                            result_config = merge_configs(result_config, deepcopy(template))
+                            result_config = merge_configs(
+                                result_config, deepcopy(template)
+                            )
                 else:
                     raise ValueError(
                         f"Config error in {section_obj.name}: "
@@ -202,7 +208,9 @@ class ZManager(ZCXComponent):
             if isinstance(section_template, dict):
                 section_template = section_template
             else:
-                raise ConfigurationError(f"Section {section_obj.name} `template` key must be a dict:\n{raw_config}")
+                raise ConfigurationError(
+                    f"Section {section_obj.name} `template` key must be a dict:\n{raw_config}"
+                )
 
             flat_config = []
             unnamed_groups = 0
@@ -218,7 +226,7 @@ class ZManager(ZCXComponent):
                     group_template = {
                         k: v for k, v in raw_config.items() if k != "controls"
                     }
-                    if not group_template.get('skip_section_template', False):
+                    if not group_template.get("skip_section_template", False):
                         group_template = merge_configs(section_template, group_template)
                     raw_config = []
 
@@ -244,7 +252,7 @@ class ZManager(ZCXComponent):
                     # Apply templates
                     skip_global = False
 
-                    if not config.get('skip_section_template', False):
+                    if not config.get("skip_section_template", False):
                         config = merge_configs(section_template, config)
 
                     if "template" in config:
@@ -312,15 +320,21 @@ class ZManager(ZCXComponent):
                         # Apply pad-specific template if it exists
                         skip_pad_global = False
                         if "template" in pad_config:
-                            template_config, skip_pad_global = apply_control_templates(pad_config)
+                            template_config, skip_pad_global = apply_control_templates(
+                                pad_config
+                            )
                             # If pad config says to skip global but group already applied it,
                             # we need to apply just the templates without the global part
                             if skip_pad_global and not skip_global:
                                 # This is tricky to handle completely correctly, but we'll merge
                                 # the template with the pad config and use that
-                                member_config = merge_configs(member_config, template_config)
+                                member_config = merge_configs(
+                                    member_config, template_config
+                                )
                             else:
-                                member_config = merge_configs(member_config, template_config)
+                                member_config = merge_configs(
+                                    member_config, template_config
+                                )
                         else:
                             # Just merge the pad's config
                             member_config = merge_configs(member_config, pad_config)
@@ -340,19 +354,21 @@ class ZManager(ZCXComponent):
 
         if num_missing < 0:
             raise CriticalConfigurationError(
-                f"{section_obj.name}: Too many ({num_in_config}) controls in config. Section has {num_coords} controls.")
+                f"{section_obj.name}: Too many ({num_in_config}) controls in config. Section has {num_coords} controls."
+            )
         elif num_missing > 0:
             dummy_control = {
                 "color": 1,
                 "gestures": {
                     "pressed": f'msg "This control definition is missing from {section_obj.name}.yaml !"',
-                }
+                },
             }
             for i in range(num_missing):
                 flat_config.append(dummy_control)
 
             self.warning(
-                f"{num_missing} controls missing from {section_obj.name}.yaml — dummy controls have been added.")
+                f"{num_missing} controls missing from {section_obj.name}.yaml — dummy controls have been added."
+            )
 
         return flat_config
 
@@ -423,7 +439,7 @@ class ZManager(ZCXComponent):
                 state: ZState.State = getattr(hardware, button_name)
             except AttributeError:
                 raise CriticalConfigurationError(
-                    f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
+                    f"`named_controls.yaml` specifies control called `{button_name}` which does not exist."
                 )
             control = self.z_control_factory(button_def, pad_section, button_name)
             control.bind_to_state(state)
@@ -433,7 +449,7 @@ class ZManager(ZCXComponent):
         self.__named_controls_section = pad_section
 
     def parse_named_button_config(
-            self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
+        self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
     ) -> dict:
         try:
             ungrouped_buttons = {}
@@ -443,11 +459,15 @@ class ZManager(ZCXComponent):
             for item_name, item_def in raw_config.items():
                 if item_name.startswith("__"):
                     if item_name in groups:
-                        raise ConfigurationError(f"Multiple definitions for {item_name}")
+                        raise ConfigurationError(
+                            f"Multiple definitions for {item_name}"
+                        )
                     groups[item_name] = item_def
                 else:
                     if item_name in ungrouped_buttons:
-                        raise ConfigurationError(f"Multiple definitions for {item_name}")
+                        raise ConfigurationError(
+                            f"Multiple definitions for {item_name}"
+                        )
                     ungrouped_buttons[item_name] = item_def
 
             global_template = self.__global_control_template
@@ -461,7 +481,11 @@ class ZManager(ZCXComponent):
                     return override
                 merged = deepcopy(base)
                 for key, value in override.items():
-                    if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+                    if (
+                        key in merged
+                        and isinstance(merged[key], dict)
+                        and isinstance(value, dict)
+                    ):
                         merged[key] = merge_configs(merged[key], value)
                     else:
                         merged[key] = deepcopy(value)
@@ -514,11 +538,11 @@ class ZManager(ZCXComponent):
                                 raise ValueError(
                                     f'Specified non-existent template "{template_name}"'
                                 )
-                            result_config = merge_configs(result_config, deepcopy(template))
+                            result_config = merge_configs(
+                                result_config, deepcopy(template)
+                            )
                 else:
-                    raise ValueError(
-                        f'Invalid template value "{template_value}"'
-                    )
+                    raise ValueError(f'Invalid template value "{template_value}"')
 
                 # Merge with original config
                 result_config = merge_configs(result_config, config)
@@ -564,10 +588,14 @@ class ZManager(ZCXComponent):
 
                         # Check if the override has its own template
                         if "template" in override_def:
-                            override_template_config, override_skip_global = apply_control_templates(override_def)
+                            override_template_config, override_skip_global = (
+                                apply_control_templates(override_def)
+                            )
                             # If override says to skip global but group already applied it,
                             # we just use the override template config
-                            merged_def = merge_configs(sub_button_config, override_template_config)
+                            merged_def = merge_configs(
+                                sub_button_config, override_template_config
+                            )
                         else:
                             merged_def = merge_configs(sub_button_config, override_def)
                     else:
@@ -595,12 +623,14 @@ class ZManager(ZCXComponent):
             control_type = config.get("type") or "basic"
             control_cls = get_control_class(control_type)
 
-            self.debug(f'creating control:', config)
+            self.debug(f"creating control:", config)
 
             if control_cls is None:
                 raise ValueError(f"Control class for type '{control_type}' not found")
 
-            control = control_cls(self.canonical_parent, pad_section, config, button_name)
+            control = control_cls(
+                self.canonical_parent, pad_section, config, button_name
+            )
             if "group_context" in config:
                 if "group_name" in config["group_context"]:
                     self.add_control_to_group(
@@ -625,7 +655,9 @@ class ZManager(ZCXComponent):
         if alias in self.__control_aliases:
             raise ConfigurationError(f'multiple controls with alias "{alias}"')
         if alias in self.__named_controls:
-            raise ConfigurationError(f'Canonical control already exists called "{alias}". You cannot use this name.')
+            raise ConfigurationError(
+                f'Canonical control already exists called "{alias}". You cannot use this name.'
+            )
         self.__control_aliases[alias] = control
 
     def get_aliased_control(self, alias):

@@ -1,14 +1,12 @@
-from copy import copy, deepcopy
+from copy import copy
 from typing import TYPE_CHECKING, Any
 
-from ableton.v3.control_surface import ControlSurface
 from ableton.v3.control_surface.elements.color import Color
-
+from .colors import parse_color_definition
 from .encoder_manager import EncoderManager
 from .mode_manager import ModeManager
 from .z_manager import ZManager
 from .zcx_component import ZCXComponent
-from .colors import parse_color_definition
 
 if TYPE_CHECKING:
     from .pad_section import PadSection

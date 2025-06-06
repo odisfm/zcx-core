@@ -5,13 +5,12 @@ from ableton.v2.base import EventObject
 from ableton.v2.base.task import TimerTask
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
-
 from .colors import parse_color_definition, simplify_color, Pulse, Blink
 from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
 from .errors import ConfigurationError
+from .pseq import Pseq
 from .z_element import ZElement
 from .z_state import ZState
-from .pseq import Pseq
 
 
 def only_in_view(func):

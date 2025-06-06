@@ -18,15 +18,18 @@ class TrackControl(ZControl):
         try:
             raw_config = self._raw_config
 
-            if 'track' not in raw_config:
+            if "track" not in raw_config:
                 return
 
-            track = raw_config['track']
-            if '${' in track:
-                parse, status = self.action_resolver.compile(track, self._vars, self._context)
+            track = raw_config["track"]
+            if "${" in track:
+                parse, status = self.action_resolver.compile(
+                    track, self._vars, self._context
+                )
                 if status != 0:
-                    raise ConfigurationError(f'Unparseable track definition: {track}\n'
-                                             f'{self._raw_config}')
+                    raise ConfigurationError(
+                        f"Unparseable track definition: {track}\n" f"{self._raw_config}"
+                    )
                 track = parse
 
             self.set_track_by_name(track)
@@ -45,7 +48,7 @@ class TrackControl(ZControl):
         self._track = track_obj
         self.build_color_dict()
         self.set_listeners()
-        self._context['me']['track'] = track_obj.name
+        self._context["me"]["track"] = track_obj.name
         self.request_color_update()
 
         self.notify_track(self.track)
@@ -74,11 +77,15 @@ class TrackControl(ZControl):
         self.is_playing_listener.subject = self.root_cs.song
 
     def set_track_by_name(self, track_name):
-        if isinstance(track_name, str) and '${' in track_name:
-            parse, status = self.action_resolver.compile(track_name, self._vars, self._context)
+        if isinstance(track_name, str) and "${" in track_name:
+            parse, status = self.action_resolver.compile(
+                track_name, self._vars, self._context
+            )
             if status != 0:
-                raise ConfigurationError(f'Unparseable track definition: {track_name}\n'
-                                         f'{self._raw_config}')
+                raise ConfigurationError(
+                    f"Unparseable track definition: {track_name}\n"
+                    f"{self._raw_config}"
+                )
             track_name = parse
         try:
             track_num = int(track_name)
@@ -86,7 +93,7 @@ class TrackControl(ZControl):
         except ValueError:
             track_obj = self.get_track_by_name(track_name)
             if track_obj is None:
-                self._parent_logger.error(f'No track named `{track_name}`')
+                self._parent_logger.error(f"No track named `{track_name}`")
         self.track = track_obj
 
     def get_track_by_name(self, name):
@@ -101,79 +108,68 @@ class TrackControl(ZControl):
         base_index = self._track.color_index
         base_color = parse_color_definition({"live": base_index})
         if base_color is None:
-            raise ConfigurationError(f'Unknown color definition: {self._raw_config}') # todo
+            raise ConfigurationError(
+                f"Unknown color definition: {self._raw_config}"
+            )  # todo
 
-        color_dict['selected'] = parse_color_definition('white', calling_control=self)
-        color_dict['base'] = base_color
-        color_dict['low'] = base_color
+        color_dict["selected"] = parse_color_definition("white", calling_control=self)
+        color_dict["base"] = base_color
+        color_dict["low"] = base_color
 
-        color_dict['stopped'] = base_color
-        color_dict['playing'] = parse_color_definition({'pulse': {
-            'a': 'play_green',
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['fired'] = parse_color_definition({'blink': {
-            'a': 'play_green',
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['recording'] = parse_color_definition({'pulse': {
-            'a': 'red',
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['stopping'] = parse_color_definition({'blink': {
-            'a': 0,
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['armed'] = parse_color_definition('red')
-        color_dict['selected_armed'] = parse_color_definition({'pulse': {
-            'a': 'white',
-            'b': 'pink',
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['counting_in'] = parse_color_definition({'blink': {
-            'a': 'red',
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['counting_in'] = parse_color_definition({'blink': {
-            'a': 'red',
-            'b': 'white',
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['selected_playing_armed'] = parse_color_definition({'pulse': {
-            'a': 'white',
-            'b': 'red shade 1',
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['selected_recording'] = parse_color_definition({'pulse': {
-            'a': 'white',
-            'b': 'red',
-            'speed': 2
-        }}, calling_control=self)
-        color_dict['selected_playing'] = parse_color_definition({'pulse': {
-            'a': 'white',
-            'b': 'grey',
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['selected_fired'] = parse_color_definition({'blink': {
-            'a': 'white',
-            'b': 'grey',
-            'speed': 2
-        }}, calling_control=self)
-        color_dict['selected_stopping'] = parse_color_definition({'blink': {
-            'a': 'white',
-            'b': 0,
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['success'] = parse_color_definition({'pulse': {
-            'a': {'live': base_index},
-            'b': 'green',
-        }}, calling_control=self)
-        color_dict['attention'] = base_color
+        color_dict["stopped"] = base_color
+        color_dict["playing"] = parse_color_definition(
+            {"pulse": {"a": "play_green", "b": {"live": base_index}, "speed": 1}},
+            calling_control=self,
+        )
+        color_dict["fired"] = parse_color_definition(
+            {"blink": {"a": "play_green", "b": {"live": base_index}, "speed": 1}},
+            calling_control=self,
+        )
+        color_dict["recording"] = parse_color_definition(
+            {"pulse": {"a": "red", "b": {"live": base_index}, "speed": 1}},
+            calling_control=self,
+        )
+        color_dict["stopping"] = parse_color_definition(
+            {"blink": {"a": 0, "b": {"live": base_index}, "speed": 1}},
+            calling_control=self,
+        )
+        color_dict["armed"] = parse_color_definition("red")
+        color_dict["selected_armed"] = parse_color_definition(
+            {"pulse": {"a": "white", "b": "pink", "speed": 1}}, calling_control=self
+        )
+        color_dict["counting_in"] = parse_color_definition(
+            {"blink": {"a": "red", "b": {"live": base_index}, "speed": 1}},
+            calling_control=self,
+        )
+        color_dict["counting_in"] = parse_color_definition(
+            {"blink": {"a": "red", "b": "white", "speed": 1}}, calling_control=self
+        )
+        color_dict["selected_playing_armed"] = parse_color_definition(
+            {"pulse": {"a": "white", "b": "red shade 1", "speed": 1}},
+            calling_control=self,
+        )
+        color_dict["selected_recording"] = parse_color_definition(
+            {"pulse": {"a": "white", "b": "red", "speed": 2}}, calling_control=self
+        )
+        color_dict["selected_playing"] = parse_color_definition(
+            {"pulse": {"a": "white", "b": "grey", "speed": 1}}, calling_control=self
+        )
+        color_dict["selected_fired"] = parse_color_definition(
+            {"blink": {"a": "white", "b": "grey", "speed": 2}}, calling_control=self
+        )
+        color_dict["selected_stopping"] = parse_color_definition(
+            {"blink": {"a": "white", "b": 0, "speed": 1}}, calling_control=self
+        )
+        color_dict["success"] = parse_color_definition(
+            {
+                "pulse": {
+                    "a": {"live": base_index},
+                    "b": "green",
+                }
+            },
+            calling_control=self,
+        )
+        color_dict["attention"] = base_color
 
         self._color_dict = color_dict
 
@@ -183,9 +179,9 @@ class TrackControl(ZControl):
 
         if not self.root_cs.song.is_playing:
             if self._track == self.root_cs.song.view.selected_track:
-                self._color = self._color_dict['selected']
+                self._color = self._color_dict["selected"]
             else:
-                self._color = self._color_dict['base']
+                self._color = self._color_dict["base"]
             return True
 
         playing_index = self._track.playing_slot_index
@@ -213,7 +209,11 @@ class TrackControl(ZControl):
                 else:
                     is_stopping = True
             else:
-                if self._track.has_midi_input and self.root_cs.song.session_record_status and is_armed:
+                if (
+                    self._track.has_midi_input
+                    and self.root_cs.song.session_record_status
+                    and is_armed
+                ):
                     is_counting_in = True
                 is_fired = True
         else:
@@ -222,50 +222,50 @@ class TrackControl(ZControl):
 
         if self._track == self.root_cs.song.view.selected_track:
             if is_recording:
-                self._color = self._color_dict['selected_recording']
+                self._color = self._color_dict["selected_recording"]
                 return True
             elif is_counting_in:
-                self._color = self._color_dict['counting_in']
+                self._color = self._color_dict["counting_in"]
                 return True
             elif is_fired:
-                self._color = self._color_dict['selected_fired']
+                self._color = self._color_dict["selected_fired"]
                 return True
             elif is_stopping:
-                self._color = self._color_dict['selected_stopping']
+                self._color = self._color_dict["selected_stopping"]
                 return True
             elif is_playing:
-                self._color = self._color_dict['selected_playing']
+                self._color = self._color_dict["selected_playing"]
                 return True
             elif is_armed:
-                self._color = self._color_dict['selected_armed']
+                self._color = self._color_dict["selected_armed"]
                 return True
             elif is_armed:
-                self._color = self._color_dict['selected_armed']
+                self._color = self._color_dict["selected_armed"]
                 return True
             else:
-                self._color = self._color_dict['selected']
+                self._color = self._color_dict["selected"]
                 return True
         else:
             if is_recording:
-                self._color = self._color_dict['recording']
+                self._color = self._color_dict["recording"]
                 return True
             elif is_armed:
-                self._color = self._color_dict['armed']
+                self._color = self._color_dict["armed"]
                 return True
             elif is_counting_in:
-                self._color = self._color_dict['counting_in']
+                self._color = self._color_dict["counting_in"]
                 return True
             elif is_stopping:
-                self._color = self._color_dict['stopping']
+                self._color = self._color_dict["stopping"]
                 return True
             elif is_playing:
-                self._color = self._color_dict['playing']
+                self._color = self._color_dict["playing"]
                 return True
             elif is_fired:
-                self._color = self._color_dict['fired']
+                self._color = self._color_dict["fired"]
                 return True
             else:
-                self._color = self._color_dict['stopped']
+                self._color = self._color_dict["stopped"]
                 return True
 
     def request_color_update(self):
@@ -275,20 +275,20 @@ class TrackControl(ZControl):
             self.determine_status()
             super().request_color_update()
 
-    @listens('color_index')
+    @listens("color_index")
     def color_index_listener(self):
         self.build_color_dict()
         self.request_color_update()
 
-    @listens('arm')
+    @listens("arm")
     def arm_listener(self):
         self.request_color_update()
 
-    @listens('selected_track')
+    @listens("selected_track")
     def selected_track_listener(self):
         self.request_color_update()
 
-    @listens('playing_slot_index')
+    @listens("playing_slot_index")
     def playing_slot_listener(self):
         slot = self._track.playing_slot_index
         clip = self._track.clip_slots[slot].clip
@@ -298,14 +298,14 @@ class TrackControl(ZControl):
             self.is_recording_listener.subject = None
         self.request_color_update()
 
-    @listens('fired_slot_index')
+    @listens("fired_slot_index")
     def fired_slot_listener(self):
         self.request_color_update()
 
-    @listens('is_recording')
+    @listens("is_recording")
     def is_recording_listener(self):
         self.request_color_update()
 
-    @listens('is_playing')
+    @listens("is_playing")
     def is_playing_listener(self):
         self.request_color_update()

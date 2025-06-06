@@ -3,8 +3,7 @@ from functools import partial
 from typing import TYPE_CHECKING
 
 from ableton.v2.base.event import EventObject
-from ableton.v3.control_surface import Component, ControlSurface
-
+from ableton.v3.control_surface import Component
 from .zcx_core import ZCXCore
 
 

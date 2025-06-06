@@ -1,40 +1,45 @@
-from typing import TYPE_CHECKING
 from functools import partial
+from typing import TYPE_CHECKING
 
+from ableton.v2.control_surface.components import (
+    SessionRingComponent as SessionRingBase,
+)
 from ableton.v3.base import listenable_property, EventObject
-from ableton.v2.control_surface.components import SessionRingComponent as SessionRingBase
-from ableton.v3.base import listens
+
 
 class SessionRing(SessionRingBase):
 
     def __init__(self, *a, **k):
 
         from . import ROOT_LOGGER
+
         self._logger = ROOT_LOGGER.getChild(self.__class__.__name__)
 
-        self.error = partial(self.log, level='error')
-        self.debug = partial(self.log, level='debug')
-        self.warning = partial(self.log, level='warning')
-        self.critical = partial(self.log, level='critical')
+        self.error = partial(self.log, level="error")
+        self.debug = partial(self.log, level="debug")
+        self.warning = partial(self.log, level="warning")
+        self.critical = partial(self.log, level="critical")
 
         from . import PREF_MANAGER
+
         user_prefs = PREF_MANAGER.user_prefs
 
-        width = user_prefs.get('session_ring', {}).get('width', 1)
-        height = user_prefs.get('session_ring', {}).get('height', 1)
+        width = user_prefs.get("session_ring", {}).get("width", 1)
+        height = user_prefs.get("session_ring", {}).get("height", 1)
         self.num_layers = 0
 
         if height <= 0 or width <= 0:
             height, width = (0, 0)
 
-        super().__init__(num_tracks=width, num_scenes=height, always_snap_track_offset=False,*a, **k)
+        super().__init__(
+            num_tracks=width, num_scenes=height, always_snap_track_offset=False, *a, **k
+        )
 
         from . import CONFIG_DIR
 
         if TYPE_CHECKING:
-            from .page_manager import PageManager
             self.canonical_parent: ZCXCore
-            self.page_manager: 'PageManager'
+            self.page_manager: "PageManager"
 
         self._config_dir = CONFIG_DIR
         from .yaml_loader import yaml_loader
@@ -51,17 +56,17 @@ class SessionRing(SessionRingBase):
         self.__osc_address_pos_x_address = None
         self.__osc_address_pos_y_address = None
 
-        osc_prefs = user_prefs.get('osc_output', {})
+        osc_prefs = user_prefs.get("osc_output", {})
 
         if not isinstance(osc_prefs, dict):
             osc_prefs = {}
 
-        self.__does_send_osc_tracks = osc_prefs.get('ring_tracks', False)
-        self.__does_send_osc_positions = osc_prefs.get('ring_pos', False)
+        self.__does_send_osc_tracks = osc_prefs.get("ring_tracks", False)
+        self.__does_send_osc_positions = osc_prefs.get("ring_pos", False)
 
-        self.debug(f'{self.name} created')
+        self.debug(f"{self.name} created")
 
-    def log(self, *msg, level='info'):
+    def log(self, *msg, level="info"):
         method = getattr(self._logger, level)
         for m in msg:
             method(m)
@@ -71,11 +76,11 @@ class SessionRing(SessionRingBase):
         self._logger.setLevel(level)
 
     def setup(self):
-        self.__osc_server = self.component_map['CxpBridge']._osc_server
-        self.__osc_address_base_prefix = f'zcx/{self.canonical_parent.name}/ring/'
-        self.__osc_address_track_prefix = self.__osc_address_base_prefix + f'track/'
-        self.__osc_address_pos_x_address = self.__osc_address_base_prefix + f'pos_x/'
-        self.__osc_address_pos_y_address = self.__osc_address_base_prefix + f'pos_y/'
+        self.__osc_server = self.component_map["CxpBridge"]._osc_server
+        self.__osc_address_base_prefix = f"zcx/{self.canonical_parent.name}/ring/"
+        self.__osc_address_track_prefix = self.__osc_address_base_prefix + f"track/"
+        self.__osc_address_pos_x_address = self.__osc_address_base_prefix + f"pos_x/"
+        self.__osc_address_pos_y_address = self.__osc_address_base_prefix + f"pos_y/"
 
         self.update_osc()
 
@@ -97,7 +102,7 @@ class SessionRing(SessionRingBase):
         self.update_osc()
 
     def go_to_track(self, track_id):
-        self.log(f'go_to_track {track_id}')
+        self.log(f"go_to_track {track_id}")
         if isinstance(track_id, int):
             self.set_offsets(track_id, self.scene_offset)
         else:
@@ -109,11 +114,11 @@ class SessionRing(SessionRingBase):
     def go_to_scene(self, scene_id):
 
         def parse_scene_ident(scene_full_name):
-            if scene_full_name.startswith('['):
-                end_bracket = scene_full_name.find(']')
+            if scene_full_name.startswith("["):
+                end_bracket = scene_full_name.find("]")
                 if end_bracket > 0:
                     return scene_full_name[1:end_bracket]
-                elif scene_full_name == '[]':
+                elif scene_full_name == "[]":
                     return scene_full_name
 
         if isinstance(scene_id, int):
@@ -138,17 +143,23 @@ class SessionRing(SessionRingBase):
 
         if self.__does_send_osc_tracks:
             for i, track in enumerate(self.tracks_in_view):
-                self.__osc_server.sendOSC(f'{self.__osc_address_track_prefix}{i}', track.name)
+                self.__osc_server.sendOSC(
+                    f"{self.__osc_address_track_prefix}{i}", track.name
+                )
 
         if self.__does_send_osc_positions:
-            self.__osc_server.sendOSC(self.__osc_address_pos_x_address, self.scene_offset)
-            self.__osc_server.sendOSC(self.__osc_address_pos_y_address, self.track_offset)
+            self.__osc_server.sendOSC(
+                self.__osc_address_pos_x_address, self.scene_offset
+            )
+            self.__osc_server.sendOSC(
+                self.__osc_address_pos_y_address, self.track_offset
+            )
 
     @listenable_property
     def offsets(self):
         return {
-            'track_offset': self.track_offset,
-            'scene_offset': self.scene_offset,
+            "track_offset": self.track_offset,
+            "scene_offset": self.scene_offset,
         }
 
     @property
@@ -161,7 +172,10 @@ class SessionRing(SessionRingBase):
 
     @property
     def tracks_in_view(self):
-        return self.tracks_to_use()[self.track_offset:self.track_offset + self.num_tracks]
+        return self.tracks_to_use()[
+            self.track_offset : self.track_offset + self.num_tracks
+        ]
+
 
 class TrackLookup:
 
@@ -170,6 +184,7 @@ class TrackLookup:
 
     def __getitem__(self, item):
         return self._parent._ring_component.get_ring_track(item).name
+
 
 class SceneLookup:
 
