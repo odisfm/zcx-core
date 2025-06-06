@@ -1,10 +1,11 @@
 import copy
 
-from ableton.v3.base import EventObject, listens, listenable_property
+from ableton.v3.base import EventObject, listens, listens_group, listenable_property
+
 from .errors import ConfigurationError, CriticalConfigurationError
-from .osc_watcher import OscEncoderWatcher
 from .z_encoder import ZEncoder
 from .zcx_component import ZCXComponent
+from .osc_watcher import OscEncoderWatcher
 
 
 class EncoderManager(ZCXComponent):

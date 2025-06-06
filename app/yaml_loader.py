@@ -1,5 +1,4 @@
 import os
-
 from .vendor.yaml import safe_load
 
 

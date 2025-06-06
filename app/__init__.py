@@ -1,11 +1,16 @@
 import logging
 import os
+from pathlib import Path
 from typing import Type
 
-from ableton.v3.control_surface import ControlSurfaceSpecification, create_skin
+from ableton.v3.control_surface import (
+    ControlSurfaceSpecification,
+    create_skin
+)
 from ableton.v3.control_surface.controls import (
     control_matrix,
 )
+
 from .action_resolver import ActionResolver
 from .api_manager import ApiManager
 from .consts import SUPPORTED_GESTURES
@@ -17,25 +22,25 @@ from .hardware_interface import HardwareInterface
 from .mode_manager import ModeManager
 from .page_manager import PageManager
 from .plugin_loader import PluginLoader
-from .preference_manager import PreferenceManager
-from .session_ring import SessionRing
 from .skin import Skin
 from .z_manager import ZManager
 from .z_state import ZState
 from .zcx_core import ZCXCore
+from .preference_manager import PreferenceManager
+from .session_ring import SessionRing
+
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
 ENCODERS = None
-CONFIG_DIR = "_config"
+CONFIG_DIR = '_config'
 SAFE_MODE = False
 PREF_MANAGER = None
 
-plugin_loader: "Optional[PluginLoader]" = None
-
+plugin_loader: 'Optional[PluginLoader]' = None
 
 def create_mappings(arg) -> dict:
-    ROOT_LOGGER.debug("Creating mappings")
+    ROOT_LOGGER.debug('Creating mappings')
 
     named_button_names = NAMED_BUTTONS.keys()
     encoder_names = ENCODERS.keys()
@@ -50,7 +55,7 @@ def create_mappings(arg) -> dict:
     for encoder_name in encoder_names:
         hw_mapping_dict[encoder_name] = naming_function(encoder_name)
 
-    hw_mapping_dict["button_matrix"] = "button_matrix"
+    hw_mapping_dict['button_matrix'] = 'button_matrix'
 
     mappings = {
         "HardwareInterface": hw_mapping_dict,
@@ -73,7 +78,6 @@ def create_mappings(arg) -> dict:
 
     return mappings
 
-
 def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInterface]:
     _hardware_interface: Type[HardwareInterface] = HardwareInterface
     events = SUPPORTED_GESTURES
@@ -84,7 +88,6 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
         _hardware_interface.named_button_states[button_name] = button_state
 
         for event in events:
-
             def create_handler(event, button_name):
                 def handler(self, button):
                     return self.handle_control_event(event, button)
@@ -110,16 +113,15 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
 
         handler_name = f"{encoder_name}_value"
         handler = create_handler(encoder_name)
-        event_decorator = getattr(encoder_state, "value")
+        event_decorator = getattr(encoder_state, 'value')
         decorated_handler = event_decorator(handler)
         setattr(_hardware_interface, handler_name, decorated_handler)
 
     matrix_control = control_matrix(ZState)
-    setattr(_hardware_interface, "button_matrix", matrix_control)
+    setattr(_hardware_interface, 'button_matrix', matrix_control)
 
     for event in events:
-
-        def create_handler(event_type=event, name="button_matrix"):
+        def create_handler(event_type=event, name='button_matrix'):
             def handler(self, element):
                 return self.handle_control_event(event_type, element)
 
@@ -133,26 +135,24 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
 
     return _hardware_interface
 
-
 class Specification(ControlSurfaceSpecification):
     elements_type = Elements
     control_surface_skin = create_skin(skin=Skin)
     create_mappings_function = create_mappings
-
 
 def create_instance(c_instance):
     global ROOT_LOGGER
     global plugin_loader
     global CONFIG_DIR
     global PREF_MANAGER
-    this_dir = __name__.split(".")[0].lstrip("_")
+    this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
 
-    dir_name = __file__.split("/")[-2]
-    canon_name = dir_name.lstrip("_")
+    dir_name = __file__.split('/')[-2]
+    canon_name = dir_name.lstrip('_')
 
-    ROOT_LOGGER.info(f"{canon_name} starting...")
+    ROOT_LOGGER.info(f'{canon_name} starting...')
 
     log_filename = os.path.join(os.path.dirname(__file__), "log.txt")
 
@@ -163,26 +163,21 @@ def create_instance(c_instance):
     pref_manager = PreferenceManager(ROOT_LOGGER)
     prefs = pref_manager.user_prefs
 
-    fallback_level = "info"
-    log_pref = prefs.get("log_level", fallback_level)
+    fallback_level = 'info'
+    log_pref = prefs.get('log_level', fallback_level)
     try:
         log_level = getattr(logging, log_pref.upper())
     except AttributeError:
-        ROOT_LOGGER.error(f"Invalid logging level `{log_pref}`, reverting to `info`")
+        ROOT_LOGGER.error(f'Invalid logging level `{log_pref}`, reverting to `info`')
         log_level = logging.INFO
 
     ROOT_LOGGER.setLevel(log_level)
 
-    if not any(
-        isinstance(h, logging.FileHandler) and h.baseFilename == log_filename
-        for h in ROOT_LOGGER.handlers
-    ):
+    if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_filename for h in ROOT_LOGGER.handlers):
         file_handler = logging.FileHandler(log_filename, mode="a")
         file_handler.setLevel(log_level)
 
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )  # todo
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s') # todo
         file_handler.setFormatter(formatter)
 
         ROOT_LOGGER.addHandler(file_handler)
@@ -192,14 +187,14 @@ def create_instance(c_instance):
 
     CONFIG_DIR = pref_manager.config_dir
 
-    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild("PluginLoader"))
+    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
 
     Specification.component_map = {
-        "HardwareInterface": HardwareInterface,
-        "SessionRingComponent": SessionRing,
-        "PageManager": PageManager,
+        'HardwareInterface': HardwareInterface,
+        'SessionRingComponent': SessionRing,
+        'PageManager': PageManager,
         "ModeManager": ModeManager,
-        "CxpBridge": CxpBridge,
+        'CxpBridge': CxpBridge,
         "ActionResolver": ActionResolver,
         "ZManager": ZManager,
         "EncoderManager": EncoderManager,
@@ -209,9 +204,7 @@ def create_instance(c_instance):
     def add_plugins_to_component_map(plugin_dict):
         for plugin_name, plugin_class in plugin_dict.items():
             if plugin_name in Specification.component_map:
-                raise RuntimeError(
-                    f"Tried to register multiple plugins named '{plugin_name}'"
-                )
+                raise RuntimeError(f"Tried to register multiple plugins named '{plugin_name}'")
             Specification.component_map[plugin_name] = plugin_class
 
     add_plugins_to_component_map(plugin_loader.hardware_plugins)

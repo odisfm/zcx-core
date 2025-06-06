@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from ableton.v3.control_surface import ControlSurface
+
 from .defaults import BUILT_IN_COLORS
 
 

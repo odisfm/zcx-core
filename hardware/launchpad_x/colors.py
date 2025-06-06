@@ -1,16 +1,17 @@
+from copy import copy
+
 from pushbase.colors import (
-    RgbColor,
+Basic,
+Rgb,
+BiLed,
+RgbColor,
 Color,
-    TransparentColor
+FallbackColor,
+TransparentColor
 )
 
 from novation.colors import Pulse as NovationPulse
-from pushbase.colors import (
-    RgbColor,
-    Color,
-    TransparentColor
-)
-
+from novation.colors import Blink as NovationBlink
 
 class Pulse(NovationPulse):
 

@@ -1,8 +1,9 @@
-from ableton.v2.base.event import EventObject
 from ableton.v3.base import listens
-from .encoder_element import EncoderElement
-from .z_encoder import ZEncoder
+from ableton.v2.base.event import EventObject
 
+from .cxp_bridge import CxpBridge
+from .z_encoder import ZEncoder
+from .encoder_element import EncoderElement
 
 def re_range_float_parameter(min_val, max_val, current):
    return (current - min_val) / (max_val - min_val)

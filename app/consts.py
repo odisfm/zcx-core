@@ -1,7 +1,7 @@
 APP_NAME = "zcx-core"
 
-DEFAULT_CONFIG_DIR = "_config"
-DEFAULT_PREFS_DIR = "_preferences"
+DEFAULT_CONFIG_DIR = '_config'
+DEFAULT_PREFS_DIR = '_preferences'
 
 REQUIRED_HARDWARE_SPECS = ["cc_buttons", "note_buttons", "encoders"]
 

@@ -1,9 +1,15 @@
+from copy import copy
+
 from pushbase.colors import (
-    Pulse,
+Basic,
+Rgb,
+BiLed,
+Pulse,
 Blink,
 RgbColor,
 Color,
-    TransparentColor
+FallbackColor,
+TransparentColor
 )
 
 white = RgbColor(3)

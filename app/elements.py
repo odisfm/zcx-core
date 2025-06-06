@@ -4,6 +4,7 @@ from functools import partial
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 from ableton.v2.control_surface.elements.encoder import _map_modes
 from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
+
 from .colors import ColorSwatches
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
 from .encoder_element import EncoderElement
@@ -98,11 +99,11 @@ class Elements(ElementsBase):
             try:
                 identifiers = matrix_config["raw_identifiers"]
             except KeyError:
-                raise HardwareSpecificationError(
-                    "matrix identifiers not defined or defined incorrectly"
-                )
+                raise HardwareSpecificationError("matrix identifiers not defined or defined incorrectly")
+
 
         channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
+
 
         self.add_matrix(
             channels=channel,
