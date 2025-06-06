@@ -1,6 +1,6 @@
 # Building zcx from source
 
-If you would like to contribute to zcx-core, you will need to use the build script to consolidate all necessary files into a folder in your Live `Remote Scripts` directory.
+If you would like to [contribute to zcx-core](/dev/contributing), you will need to use the build script to consolidate all necessary files into a folder in your Live `Remote Scripts` directory.
 
 !!! warning
 
