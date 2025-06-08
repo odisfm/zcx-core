@@ -137,29 +137,34 @@ class ZEncoder(EventObject):
 
     def bind_to_active(self):
 
-        dynamism = self.assess_dynamism(self._active_map)
-        self.apply_listeners(dynamism)
-
         try:
-            if self._active_map is None:
-                map_success = False
-            else:
-                map_success = self.map_self_to_par(self._active_map)
-        except ConfigurationError:
-            map_success = False
+            dynamism = self.assess_dynamism(self._active_map)
+            self.apply_listeners(dynamism)
 
-        self.log(f'map_success: {map_success}')
-        if map_success is not True:
+            try:
+                if self._active_map is None:
+                    map_success = False
+                else:
+                    map_success = self.map_self_to_par(self._active_map)
+            except ConfigurationError:
+                map_success = False
+
+            self.log(f'map_success: {map_success}')
+            if map_success is not True:
+                if self._log_failed_bindings:
+                    self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
+                if self._unbind_on_fail:
+                    if self._log_failed_bindings:
+                        self.log(f'{self._name} failed to find target, unmapping')
+                    self.unbind_control()
+                    self.mapped_parameter = None
+                return
+
+            self.bind_control()
+
+        except Exception as e:
             if self._log_failed_bindings:
                 self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
-            if self._unbind_on_fail:
-                if self._log_failed_bindings:
-                    self.log(f'{self._name} failed to find target, unmapping')
-                self.unbind_control()
-                self.mapped_parameter = None
-            return
-
-        self.bind_control()
 
     def apply_listeners(self, listen_dict):
 
