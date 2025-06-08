@@ -136,7 +136,6 @@ class ZEncoder(EventObject):
             self.notify_mapped_parameter(self.mapped_parameter)
 
     def bind_to_active(self):
-        self.log(f'binding to active')
 
         dynamism = self.assess_dynamism(self._active_map)
         self.apply_listeners(dynamism)
