@@ -64,7 +64,7 @@ When you assign the script to a slot in Live's preferences, the script automatic
 
 You should set the MIDI in and out ports to the relevant hardware before assigning the script to a slot.
 
-At this point, you may need to [reload the script](/lessons/reloading-control-surfaces.md).
+At this point, you may need to [reload the script](/lessons/reloading-control-surfaces).
 
 ### if your controller has a distinct 'user mode'
 

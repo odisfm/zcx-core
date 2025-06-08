@@ -131,7 +131,7 @@ mute:
     pressed_delayed: ALL / MUTE
 ```
 
-Make that edit, then [reload zcx](/docs/lessons/reloading-control-surfaces.md).
+Make that edit, then [reload zcx](/docs/lessons/reloading-control-surfaces).
 
 Now, when you hold down `mute`, every track in the set gets muted. Well, actually, as soon as you press `mute` the selected track is muted, then after a moment every other track is muted. This might not be what you want.
 
