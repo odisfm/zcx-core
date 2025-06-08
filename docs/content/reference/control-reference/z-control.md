@@ -57,7 +57,7 @@ See [template reference](/template-reference/#named-controls).
 
 ___
 ### pad_group
-`dict[ZControl]`
+`string | null`
 
 _Only available on matrix control group definitions._
 
