@@ -16,8 +16,8 @@ pages:
     - big_section
 
 order:
-  - page_one
   - page_two
+  - page_one
 ```
 
 ### on_enter, on_leave
