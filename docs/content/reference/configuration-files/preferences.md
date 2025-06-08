@@ -84,7 +84,7 @@ In some cases, it may be expected that bindings fail, so you may set this option
 ### log_level
 
 ```yaml
-logging: info
+log_level: info
 ```
 
 Configures how detailed the zcx logs are. From most to least detailed, the options are:
