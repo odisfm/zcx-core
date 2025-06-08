@@ -135,8 +135,8 @@ With the example binding `SEL / VOL`, `enc_1` will control the volume of the sel
 Let's say the selected track is an audio track, `guitar`.
 `enc_1` will, obviously, control the volume of `guitar`.
 
-If we navigate to a blank MIDI track (which does not have a volume parameter), by default zcx will remain bound to `guitar`'s volume, until we select another track with a volume parameter.
-By setting `unbind_on_fail: true` for this control, `enc_1` would instead be bound to no parameter, until there is a relevant parameter to bind to (i.e. we select another audio track).
+If we navigate to a blank MIDI track (which does not have a volume parameter), by default zcx will unbind this encoder until we select another track with a volume parameter.
+By setting `unbind_on_fail: false` for this control, `enc_1` would remain bound to the last valid parameter, until a new target is valid, i.e, we select another audio or instrument track.
 
 ## Manually rebinding encoders
 

@@ -39,7 +39,7 @@ class ZEncoder(EventObject):
         self._current_mode_string = ""
         self._binding_dict = {}
         self._active_map = {}
-        self._unbind_on_fail = False
+        self._unbind_on_fail = True
         self.modes_changed.subject = self.mode_manager
 
     def log(self, *msg):
@@ -50,7 +50,7 @@ class ZEncoder(EventObject):
         self._context = self._raw_config["context"]
         self._vars = self._raw_config.get("vars", {})
 
-        self._unbind_on_fail = self._raw_config.get("unbind_on_fail", False)
+        self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
 
         bindings = self._raw_config.get("binding", {})
         if isinstance(bindings, dict):
