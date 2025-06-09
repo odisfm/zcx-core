@@ -16,7 +16,7 @@ cmd + S, then in the menu bar `File -> Open Recent Set -> <my cool set>.als`. Mu
 
 ## manually reload zcx 😏
 
-In Live's MIDI preferences, reassign the zcx slot to any other script, then select zcx again. **Note:** if a script throws too serious of an error, Live will not allow this script to be loaded until all control surface scripts are reloaded. The impacted zcx script will disappear from the dropdown. This probably won't happen, but since zcx is in alpha it's not impossible.
+In Live's MIDI preferences, reassign the zcx slot to any other script, then select zcx again. **Note:** if a script throws too serious of an error, Live will not allow this script to be loaded until all control surface scripts are reloaded. The impacted zcx script will disappear from the dropdown. This probably won't happen, but since zcx is in beta it's not impossible.
 
 And if it does happen, it will require a full reload of Live, or...
 
