@@ -1,0 +1,9 @@
+note_button_placeholder:
+  gestures:
+    pressed:
+      msg: I'm a placeholder!
+
+cc_button_placeholder:
+  gestures:
+    pressed:
+      msg: I'm a placeholder!

@@ -1,0 +1,392 @@
+# !! row 1
+# col 1
+-
+  color: lime
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 2
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 3
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 4
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 5
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 6
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 7
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# !! row 8
+# col 1
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 4
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 5
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 6
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 7
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 8
+-
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
