@@ -37,7 +37,6 @@ RED = "\033[31m"
 GREEN = "\033[32m"
 RESET = "\033[0m"
 
-
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -224,7 +223,7 @@ def create_backup(script_dir):
 
         # Verify backup
         if not os.path.exists(backup_dir) or len(os.listdir(backup_dir)) < len(
-            os.listdir(script_dir)
+                os.listdir(script_dir)
         ):
             raise Exception("Backup verification failed")
 
@@ -236,7 +235,7 @@ def create_backup(script_dir):
         return None
 
 
-def preserve_user_data(script_dir):
+def preserve_user_data(script_dir, hardware):
     """Preserve important user data during update"""
     try:
         temp_dir = os.path.join(script_dir, "__upgrade_temp__")
@@ -271,6 +270,14 @@ def preserve_user_data(script_dir):
             shutil.copytree(plugins_dir, os.path.join(temp_dir, "plugins"))
             preserved_items.append("plugins")
 
+        # Preserve hardware directory if hardware is 'generic'
+        if hardware == 'generic':
+            hardware_dir = os.path.join(script_dir, "hardware")
+            if os.path.exists(hardware_dir) and os.path.isdir(hardware_dir):
+                shutil.copytree(hardware_dir, os.path.join(temp_dir, "hardware"))
+                preserved_items.append("hardware")
+                logger.info(f"{PURPLE}Generic hardware detected - preserving existing hardware configuration{RESET}")
+
         if preserved_items:
             logger.info(f"Preserved user data: {', '.join(preserved_items)}")
         else:
@@ -283,7 +290,7 @@ def preserve_user_data(script_dir):
         return None, []
 
 
-def clean_installation_directory(script_dir, temp_dir):
+def clean_installation_directory(script_dir, temp_dir, hardware):
     """Clean the installation directory keeping only the preserve directory and this script"""
     try:
         this_script = os.path.basename(__file__)
@@ -294,6 +301,11 @@ def clean_installation_directory(script_dir, temp_dir):
 
             # Skip temp directory and this script and log file
             if item_path == temp_dir or item == this_script or item == "update_log.txt":
+                continue
+
+            # Skip hardware directory if hardware is 'generic'
+            if hardware == 'generic' and item == "hardware":
+                logger.info(f"{PURPLE}Generic hardware detected - preserving hardware directory during cleanup{RESET}")
                 continue
 
             # Check for protected extensions before deleting
@@ -360,7 +372,7 @@ def download_and_verify_asset(asset_url, asset_name, script_dir, requests_module
             return None
 
         logger.info(
-            f"Downloaded {os.path.getsize(asset_path) / (1024*1024):.2f} MB to {asset_path}"
+            f"Downloaded {os.path.getsize(asset_path) / (1024 * 1024):.2f} MB to {asset_path}"
         )
 
         return temp_dir
@@ -428,11 +440,16 @@ def find_core_directory(temp_dir):
         return None
 
 
-def prepare_core_directory(core_dir):
+def prepare_core_directory(core_dir, hardware):
     """Prepare core directory by removing configuration files"""
     try:
         # Items that should not be copied from the update package
         items_to_delete = ["_config", "_global_preferences.yaml", "plugins"]
+
+        # If hardware is 'generic', also exclude the hardware directory from the update
+        if hardware == 'generic':
+            items_to_delete.append("hardware")
+            logger.info(f"{PURPLE}Generic hardware detected - excluding hardware directory from update package{RESET}")
 
         for item in items_to_delete:
             item_path = os.path.join(core_dir, item)
@@ -615,6 +632,7 @@ def restore_symlinks(root_dir, symlink_map):
             except Exception as e:
                 logger.error(f"Failed to restore symlink {full_path}: {e}")
 
+
 def main():
     """Main function orchestrating the update process"""
     try:
@@ -724,12 +742,12 @@ def main():
             raise RuntimeError("Backup failed, aborting update")
 
         # Preserve user data
-        temp_dir, preserved_items = preserve_user_data(script_dir)
+        temp_dir, preserved_items = preserve_user_data(script_dir, hardware)
         if not temp_dir:
             raise RuntimeError("Failed to preserve user data, aborting update")
 
         # Clean installation directory
-        if not clean_installation_directory(script_dir, temp_dir):
+        if not clean_installation_directory(script_dir, temp_dir, hardware):
             raise RuntimeError("Failed to clean installation directory, aborting update")
 
         # Download and extract update package
@@ -747,7 +765,7 @@ def main():
             raise RuntimeError("Failed to find core directory, aborting update")
 
         # Prepare core directory
-        if not prepare_core_directory(core_dir):
+        if not prepare_core_directory(core_dir, hardware):
             raise RuntimeError("Failed to prepare core directory, aborting update")
 
         # Install update
