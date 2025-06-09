@@ -30,7 +30,6 @@ note_buttons:
   feedback: basic
 
 encoders:
-  key: value
   sensitivity: 1.0
   mode: absolute
 
