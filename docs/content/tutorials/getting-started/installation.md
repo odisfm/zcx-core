@@ -71,7 +71,13 @@ At this point, you may need to [reload the script](/lessons/reloading-control-su
 
 ### if your controller has a distinct 'user mode'
 
-Many controllers, such as the Push and Launchpad have a 'Live' mode and a 'user' mode. If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](/docs/lessons/reporting-bugs.md).
+Many controllers, such as the Push and Launchpad have a 'Live' mode and a 'user' mode. 
+
+When setting up the Input and Output of the zcx script, you must use the 'user mode' port.
+For example, Push 1 has the MIDI inputs `Ableton Push (Live mode)` and `Ableton Push (User mode)` — use the latter.
+You are able to use the 'Live' and 'user' modes of your controller by switching between them with the dedicated hardware button, though the official control surface and the zcx script will each need their own control surface slot.
+
+If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](/docs/lessons/reporting-bugs.md).
 
 ## explore! 🌏
 
