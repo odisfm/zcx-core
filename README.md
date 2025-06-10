@@ -18,6 +18,7 @@ zcx is currently maintained for these devices, with more planned:
 * Novation Launchpad X
 * Novation Launchpad Pro mk3
 * Novation Launchpad Mini mk3
+* [generic controllers](https://zcxcore.com/lessons/porting)
 
 [If your device isn't here
 ](https://zcxcore.com/tutorials/getting-started/installation/)

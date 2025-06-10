@@ -18,6 +18,9 @@ Scroll to the bottom of that page and check the 'Assets' dropdown.
 
 No problem. Have a look at the [zcx-core discord server](https://discord.zcxcore.com) to see if there is a pre-release version available. There may be a distribution ready to go that just needs someone who actually owns the hardware to confirm it works. And if there isn't, feel free to put in a request for your hardware!
 
+Alternatively, it is relatively easy to create a 'port' of zcx for your controller.
+See [the lesson](/lessons/porting) for details.
+
 ## install the script
 
 Each distribution comes as a .zip file. Unzip that file, and you'll see a folder with the same name. The directory structure looks like this:

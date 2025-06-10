@@ -12,6 +12,8 @@ This helps us to co-ordinate our efforts.
 By making a port, you can help bring zcx to more controllers (and more people).
 For the most part, this involves creating the yaml specification files for your hardware, and performing tests.
 
+See the [porting guide](/lessons/porting) for details.
+
 ### contributing to the 'core'
 
 This is the code that is common to all zcx installations, regardless of hardware.
