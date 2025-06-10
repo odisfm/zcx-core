@@ -95,6 +95,12 @@ ___
 
 Suppress most color change events that fire on this control, preventing colors set manually via the API from being overwritten.
 
+---
+### suppress_animations
+`boolean=false`
+
+Prevent LED animations from firing on this control.
+
 ___
 ### template
 `string | list[string] | null`
