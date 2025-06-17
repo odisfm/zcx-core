@@ -149,7 +149,7 @@ def create_instance(c_instance):
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
 
-    dir_name = __file__.split('/')[-2]
+    dir_name = Path(__file__).parent.name
     canon_name = dir_name.lstrip('_')
 
     ROOT_LOGGER.info(f'{canon_name} starting...')
