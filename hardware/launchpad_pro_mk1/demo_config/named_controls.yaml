@@ -1,0 +1,156 @@
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  gestures:
+    pressed: >
+      SCENE ${ring.scenes[me.index]}
+    pressed__shift: >
+      SCENE ${ring.scenes[me.index + 8]}
+    
+#scene_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_8:
+#  gestures:
+#    pressed: DUMMY
+
+__page_switcher:
+  includes: [
+    session, note, device
+  ]
+  type: page
+  page: ${me.index}
+  active_color:
+    palette: rainbow
+  inactive_color: white
+  gestures:
+    pressed:
+      page: ${me.index}
+      msg: >
+        Page ${me.page}: ${me.page_name}
+    released_delayed:
+      page: last
+
+#session:
+#  gestures:
+#    pressed: DUMMY
+    
+#note:
+#  gestures:
+#    pressed: DUMMY
+    
+#device:
+#  gestures:
+#    pressed: DUMMY
+
+nav_up:
+  gestures:
+    pressed: UP
+    pressed__shift:
+      ring:
+        y: -8
+
+nav_down:
+  gestures:
+    pressed: DOWN
+    pressed__shift:
+      ring:
+        y: 8
+
+nav_left:
+  gestures:
+    pressed: LEFT
+    pressed__shift:
+      ring:
+        x: -8
+
+nav_right:
+  gestures:
+    pressed: RIGHT
+    pressed__shift:
+      ring:
+        x: 8
+
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+record:
+  type: transport
+  transport: session_record
+  gestures:
+    pressed: SRECFIX 8
+    pressed__shift: SRECFIX 16
+
+duplicate:
+  gestures:
+    pressed: CLIP DUPE
+    pressed__shift: SCENE DUPE
+
+quantise:
+  gestures:
+    pressed: CLIP QNTZ 1/16 80
+    pressed__shift: CLIP QNTZ 1/16 100
+
+arm:
+  gestures:
+    pressed: SEL / ARM
+    pressed__shift: UNDO
+
+mute:
+  gestures:
+    pressed: SEL / MUTE
+    pressed__shift: REDO
+
+solo:
+  gestures:
+    pressed: SEL / SOLO
+    pressed__shift: METRO
+
+#volume:
+#  gestures:
+#    pressed: DUMMY
+
+#pan:
+#  gestures:
+#    pressed: DUMMY
+
+#sends:
+#  gestures:
+#    pressed: DUMMY
+
+#device:
+#  gestures:
+#    pressed:
+
+stop_clip:
+  gestures:
+    pressed: STOP
+    pressed__shift: STOP NQ

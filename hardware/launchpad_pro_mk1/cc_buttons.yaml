@@ -1,0 +1,95 @@
+scene_1:
+  cc: 89
+
+scene_2:
+  cc: 79
+
+scene_3:
+  cc: 69
+
+scene_4:
+  cc: 59
+
+scene_5:
+  cc: 49
+
+scene_6:
+  cc: 39
+
+scene_7:
+  cc: 29
+
+scene_8:
+  cc: 19
+
+nav_up:
+  cc: 91
+
+nav_down:
+  cc: 92
+
+nav_left:
+  cc: 93
+
+nav_right:
+  cc: 94
+
+session:
+  cc: 95
+
+note:
+  cc: 96
+
+device:
+  cc: 97
+
+user:
+  cc: 98
+
+shift:
+  cc: 80
+
+click:
+  cc: 70
+
+undo:
+  cc: 60
+
+delete:
+  cc: 50
+
+quantise:
+  cc: 40
+
+duplicate:
+  cc: 30
+
+double:
+  cc: 20
+
+record:
+  cc: 10
+
+arm:
+  cc: 1
+
+track_select:
+  cc: 2
+
+mute:
+  cc: 3
+
+solo:
+  cc: 4
+
+volume:
+  cc: 5
+
+pan:
+  cc: 6
+
+sends:
+  cc: 7
+
+stop_clip:
+  cc: 8
