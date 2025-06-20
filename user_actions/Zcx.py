@@ -64,7 +64,9 @@ class Zcx(UserActionsBase):
 
     def action_entry_point(self, action_def: dict[str], args: str):
         try:
+            self.log('zcx action running!!!!!!!!')
             _args = args.split()
+            self.log(_args)
             sub_action = _args[1]
 
             target_def = _args[0]
@@ -136,7 +138,8 @@ class Zcx(UserActionsBase):
 
             elif sub_action == 'bind':
                 encoder_name = _args[2]
-                bind_def = args.split('`')[1]
+                bind_def = args.split('"')[1]
+                bind_def = bind_def.replace('`', '"')
                 encoder_obj = target_script.get_encoder(encoder_name)
                 if encoder_obj is None:
                     raise RuntimeError(f'Encoder {encoder_name} does not exist on {target_script.name}.')

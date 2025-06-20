@@ -67,14 +67,28 @@ Enable, disable, or toggle a zcx mode.
 #### BIND
 
 Manually re-bind a zcx encoder to a new target.
-This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/action-reference/global-actions/#bind-i-x), but you **must** enclose the 'target' portion of the command with backticks (\`).
+This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/action-reference/global-actions/#bind-i-x).
+
 The `encoder name` is the same one you'd use in [encoders.yaml](/reference/configuration-files/encoders).
 
-_The backtick key is below the 'Escape' and above the 'Tab' key._
+The `mapping target` is any of the targets specified in the [Encoder Reference](/reference/encoder-reference#mapping-targets).
+The **entire** mapping target must be wrapped in double-quotes.
 
-``ZCX <target script> BIND <encoder name> `"my cool track" / VOL` ``
+!!!warning "Quotes within mapping targets"
+    
+    A special syntax is required when using double-quotes **within** your mapping target, e.g. `"my track" / VOL`.
+    You must replace all instances of the double-quote character (") with a _backtick_ (`).
 
-``ZCX zcx_push_1 BIND enc_3 `"bass" / PAN` ``
+    The mapping target `"my track" / DEV("my device") P1` becomes `` `my track` / DEV(`my device`) P1``
+
+    _The backtick key is below the escape key._
+
+
+`ZCX <target script> BIND <encoder name> "<mapping target>"`
+
+`ZCX zcx_push_1 BIND enc_3 "SEL / PAN"`
+
+```ZCX zcx_launchpad_x BIND enc_1 "`my track` / DEV(`my device`) P1"```
 
 #### MSG
 
