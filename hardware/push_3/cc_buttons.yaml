@@ -204,8 +204,6 @@ volume:
 device:
   cc: 110
 
-browse:
-  cc: 111
 
 quantize:
   cc: 116
