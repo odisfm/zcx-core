@@ -238,6 +238,18 @@ session_screen:
   gestures:
     pressed: TGLMAIN
 
+#clip:
+#  gestures:
+#    pressed: DUMMY
+
+#add:
+#  gestures:
+#    pressed: DUMMY
+
+#swap:
+#  gestures:
+#    pressed: DUMMY
+
 #session:
 #  gestures:
 #    pressed: DUMMY
@@ -287,10 +299,30 @@ master:
   gestures:
     pressed: MST / SEL
 
+#sets:
+#  gestures:
+#    pressed: DUMMY
+
+#learn:
+#  gestures:
+#    pressed: DUMMY
+
+#set_up:
+#  gestures:
+#    pressed: DUMMY
+
 user:
   gestures:
     pressed:
       hardware_mode: live
+
+save:
+  gestures:
+    pressed: DUMMY
+
+lock:
+  gestures:
+    pressed: DUMMY
 
 tap_tempo:
   gestures:
@@ -327,7 +359,10 @@ tap_tempo:
 #scale:
 #  gestures:
 #    pressed: DUMMY
-#
+
+#layout:
+#  gestures:
+#    pressed: DUMMY
 
 #octave_up:
 #  gestures:
@@ -336,3 +371,24 @@ tap_tempo:
 #octave_down:
 #  gestures:
 #    pressed: DUMMY
+
+enc_jog_wheel_press:
+  gestures:
+    pressed:
+      mode_on: jog_wheel
+    released:
+      mode_off: jog_wheel
+
+enc_volume_press:
+  gestures:
+    pressed:
+      mode_on: volume
+    released:
+      mode_off: swing
+
+enc_swing_press:
+  gestures:
+    pressed:
+      mode_on: swing
+    released:
+      mode_off: swing

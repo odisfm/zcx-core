@@ -40,7 +40,7 @@ __encoder_row:
 enc_jog_wheel:
   binding:
     default: MST / VOL
-    __shift: MST / CUE
+    __jog_wheel: MST / CUE
 
 enc_swing:
   binding: SEL / PAN
