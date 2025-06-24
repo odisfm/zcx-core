@@ -293,7 +293,7 @@ class Elements(ElementsBase):
             )
 
         self.encoders[name] = encoder
-        setattr(self, self.format_attribute_name(name), encoder)
+        setattr(self, f'_encoder_{name}', encoder)
 
     @staticmethod
     def format_attribute_name(name):
