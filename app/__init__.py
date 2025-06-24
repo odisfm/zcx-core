@@ -54,7 +54,7 @@ def create_mappings(arg) -> dict:
         hw_mapping_dict[button_name_formatted] = button_name_formatted
 
     for encoder_name in encoder_names:
-        encoder_name_formatted = naming_function(encoder_name)
+        encoder_name_formatted = f'_encoder_{encoder_name}'
         hw_mapping_dict[encoder_name_formatted] = encoder_name_formatted
 
     hw_mapping_dict['button_matrix'] = 'button_matrix'
@@ -109,7 +109,7 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
         setattr(_hardware_interface, encoder_name_prefixed, encoder_state)
         _hardware_interface.encoder_states[encoder_name] = encoder_state
 
-        def create_handler(encoder_name_prefixed):
+        def create_handler(name):
             def handler(self, value, encoder):
                 return self.handle_encoder_event(encoder_name, value)
 
