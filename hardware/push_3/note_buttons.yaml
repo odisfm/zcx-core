@@ -24,3 +24,12 @@ enc_8_touch:
 
 touchstrip:
   note: 12
+
+enc_volume_touch:
+  note: 11
+
+enc_jog_wheel_touch:
+  note: 8
+
+enc_swing_touch:
+  note: 10
