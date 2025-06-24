@@ -27,15 +27,15 @@ See also: [reading zcx configurations](/tutorials/getting-started/reading-zcx-co
 
 [See here.](/tutorials/getting-started/installation#get-a-distribution)
 
-### Does zcx replace ClyphX?
+### Does zcx replace ClyphX Pro?
 
-Nope. zcx provides a way to interact with ClyphX that greatly expands your possibilities for performing with hardware controllers.
+Nope. zcx provides a way to interact with ClyphX Pro that greatly expands your possibilities for performing with hardware controllers.
 
 ### Does zcx replace X-controls and G-controls
 
-That's up to you. zcx can be used to create a far more complex interface than is practical with native ClyphX. However, that power comes with a learning curve. Only you can decide whether this tradeoff is worth it.
+That's up to you. zcx can be used to create a far more complex interface than is practical with native ClyphX Pro. However, that power comes with a learning curve. Only you can decide whether this tradeoff is worth it.
 
-**Note:** You can absolutely use X/G Controls alongside a zcx script. It is recommended that you use zcx for any matrix controllers, and native ClyphX controls for non-matrix controllers.
+**Note:** You can absolutely use X/G Controls alongside a zcx script. It is recommended that you use zcx for any matrix controllers, and native ClyphX Pro controls for non-matrix controllers.
 
 ### Can I use zcx with a non-matrix controller?
 

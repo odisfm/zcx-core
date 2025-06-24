@@ -35,7 +35,7 @@ zcx is currently maintained for these devices, with more planned:
 ___
 ## features
 
-zcx scripts contain many features that are impractical or impossible to replicate natively in ClyphX
+zcx scripts contain many features that are impractical or impossible to replicate natively in ClyphX Pro
 
 ### built for modes
 
