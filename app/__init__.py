@@ -50,10 +50,12 @@ def create_mappings(arg) -> dict:
     naming_function = Elements.format_attribute_name
 
     for button_name in named_button_names:
-        hw_mapping_dict[button_name] = naming_function(button_name)
+        button_name_formatted = naming_function(button_name)
+        hw_mapping_dict[button_name_formatted] = button_name_formatted
 
     for encoder_name in encoder_names:
-        hw_mapping_dict[encoder_name] = naming_function(encoder_name)
+        encoder_name_formatted = naming_function(encoder_name)
+        hw_mapping_dict[encoder_name_formatted] = encoder_name_formatted
 
     hw_mapping_dict['button_matrix'] = 'button_matrix'
 
@@ -84,35 +86,37 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
 
     for button_name in button_names:
         button_state = ZState()
-        setattr(_hardware_interface, button_name, button_state)
+        button_name_prefixed = f'_button_{button_name}'
+        setattr(_hardware_interface, button_name_prefixed, button_state)
         _hardware_interface.named_button_states[button_name] = button_state
 
         for event in events:
-            def create_handler(event, button_name):
+            def create_handler(event, button_name_prefixed):
                 def handler(self, button):
                     return self.handle_control_event(event, button)
 
                 return handler
 
-            handler_name = f"{button_name}_{event}"
-            handler = create_handler(event, button_name)
+            handler_name = f"{button_name_prefixed}_{event}"
+            handler = create_handler(event, button_name_prefixed)
             event_decorator = getattr(button_state, event)
             decorated_handler = event_decorator(handler)
             setattr(_hardware_interface, handler_name, decorated_handler)
 
     for encoder_name in encoder_names:
         encoder_state = EncoderState()
-        setattr(_hardware_interface, encoder_name, encoder_state)
+        encoder_name_prefixed = f'_encoder_{encoder_name}'
+        setattr(_hardware_interface, encoder_name_prefixed, encoder_state)
         _hardware_interface.encoder_states[encoder_name] = encoder_state
 
-        def create_handler(encoder_name):
+        def create_handler(encoder_name_prefixed):
             def handler(self, value, encoder):
                 return self.handle_encoder_event(encoder_name, value)
 
             return handler
 
-        handler_name = f"{encoder_name}_value"
-        handler = create_handler(encoder_name)
+        handler_name = f"{encoder_name_prefixed}_value"
+        handler = create_handler(encoder_name_prefixed)
         event_decorator = getattr(encoder_state, 'value')
         decorated_handler = event_decorator(handler)
         setattr(_hardware_interface, handler_name, decorated_handler)

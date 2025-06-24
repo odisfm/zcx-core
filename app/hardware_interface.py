@@ -42,7 +42,7 @@ class HardwareInterface(ZCXComponent):
     def refresh_all_lights(self):
         count = 0
         for state_name in self.named_button_states.keys():
-            element = getattr(self, state_name)
+            element = getattr(self, f'_button_{state_name}')
             element.request_color_update()
             count += 1
         for state in self.button_matrix_state:
