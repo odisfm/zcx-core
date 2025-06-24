@@ -18,6 +18,14 @@ play:
   gestures:
     pressed: SETPLAY
 
+#new:
+#  gestures:
+#    pressed: DUMMY
+
+capture:
+  gestures:
+    pressed: CAP
+
 record:
   type: transport
   transport: session_record
@@ -288,7 +296,19 @@ tap_tempo:
   gestures:
     pressed: TAPBPM
 
+#double_loop:
+#  gestures:
+#    pressed: DUMMY
+
+#duplicate:
+#  gestures:
+#    pressed: DUMMY
+
 #convert:
+#  gestures:
+#    pressed: DUMMY
+
+#delete:
 #  gestures:
 #    pressed: DUMMY
 
@@ -303,8 +323,16 @@ tap_tempo:
 #accent:
 #  gestures:
 #    pressed: DUMMY
-#
+
 #scale:
 #  gestures:
 #    pressed: DUMMY
 #
+
+#octave_up:
+#  gestures:
+#    pressed: DUMMY
+
+#octave_down:
+#  gestures:
+#    pressed: DUMMY
