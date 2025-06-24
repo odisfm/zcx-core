@@ -110,12 +110,6 @@ session:
 session_screen:
   cc: 113
 
-add_device:
-  cc: 52
-
-add_track:
-  cc: 53
-
 octave_down:
   cc: 54
 
@@ -259,11 +253,17 @@ swap:
 layout:
   cc: 31
 
-jog_wheel_press:
+enc_jog_wheel_press:
   cc: 94
 
-jog_wheel_left:
+enc_jog_wheel_left:
   cc: 93
 
-jog_wheel_right:
+enc_jog_wheel_right:
   cc: 95
+
+enc_volume_press:
+  cc: 111
+
+enc_swing_press:
+  cc: 15
