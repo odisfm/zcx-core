@@ -420,7 +420,7 @@ class ZManager(ZCXComponent):
 
         for button_name, button_def in parsed_config.items():
             try:
-                state: ZState.State = getattr(hardware, button_name)
+                state: ZState.State = getattr(hardware, f'_button_{button_name}')
             except AttributeError:
                 raise CriticalConfigurationError(
                     f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
