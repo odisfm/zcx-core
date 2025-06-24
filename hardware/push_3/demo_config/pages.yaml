@@ -1,0 +1,15 @@
+pages:
+  main_page:
+    - actions_top_left
+    - actions_top_right
+    - actions_bottom_double
+  alt_page:
+    - actions_top_left
+    - actions_bottom_right
+    - actions_bottom_left
+    - actions_top_right
+  ring_page:
+    - ring_control
+  blank_page:
+    - blank_section
+
