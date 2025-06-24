@@ -201,9 +201,6 @@ clip:
 volume:
   cc: 114
 
-pan_send:
-  cc: 115
-
 device:
   cc: 110
 
