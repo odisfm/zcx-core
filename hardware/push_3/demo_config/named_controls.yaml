@@ -307,7 +307,7 @@ master:
 #  gestures:
 #    pressed: DUMMY
 
-#set_up:
+#setup:
 #  gestures:
 #    pressed: DUMMY
 
