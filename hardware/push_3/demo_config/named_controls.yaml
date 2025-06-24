@@ -384,7 +384,7 @@ enc_volume_press:
     pressed:
       mode_on: volume
     released:
-      mode_off: swing
+      mode_off: volume
 
 enc_swing_press:
   gestures:
