@@ -74,7 +74,7 @@ class EncoderManager(ZCXComponent):
         hw_interface = self.canonical_parent.component_map['HardwareInterface']
 
         for encoder_name, encoder_obj in self._encoders.items():
-            state = getattr(hw_interface, encoder_name)
+            state = getattr(hw_interface, f'_encoder_{encoder_name}')
             element = state._control_element
             encoder_obj._control_element = element
             encoder_obj._state = state
