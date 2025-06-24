@@ -1,0 +1,49 @@
+__encoder_row:
+  includes: [
+    enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
+  ]
+  binding:
+    default: >-
+      RING(${me.index}) / VOL
+    __shift: >-
+      RING(${me.index}) / PAN
+    __device: >-
+      SEL / DEV(1) P${me.Index}
+    __select: >-
+      RING(${me.index}) / SEND A
+  encoders:
+    - binding:
+        __mix: >-
+          SEL / SEND A
+    - binding:
+        __mix: >-
+          SEL / SEND B
+    - binding:
+        __mix: >-
+          SEL / SEND C
+    - binding:
+        __mix: >-
+          SEL / SEND D
+    - binding:
+        __mix: >-
+          SEL / SEND E
+    - binding:
+        __mix: >-
+          SEL / SEND F
+    - binding:
+        __mix: >-
+          SEL / SEND G
+    - binding:
+        __mix: >-
+          SEL / SEND H
+
+enc_jog_wheel:
+  binding:
+    default: MST / VOL
+    __shift: MST / CUE
+
+enc_swing:
+  binding: SEL / PAN
+
+enc_volume:
+  binding: SEL / VOL
