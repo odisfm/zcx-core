@@ -223,9 +223,8 @@ user:
 sets:
   cc: 80
 
-set_up:
+setup:
   cc: 30
-  # calling it 'setup' causes an exception
 
 learn:
   cc: 81
