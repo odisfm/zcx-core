@@ -1,0 +1,310 @@
+select:
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+play:
+  type: transport
+  transport: play
+  gestures:
+    pressed: SETPLAY
+
+record:
+  type: transport
+  transport: session_record
+  gestures:
+    pressed: SRECFIX 8
+
+
+__state_row:
+  # the top row
+  includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
+  type: page
+  page: ${me.index}
+  active_color: white
+  inactive_color:
+    palette: rainbow
+  gestures:
+    pressed:
+      page: ${me.index}
+      msg: >
+        Page ${me.page}: ${me.page_name}
+    released_delayed:
+      page: last
+
+#state_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#state_8:
+#  gestures:
+#    pressed: DUMMY
+
+__select_row:
+  # the bottom row
+  includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
+  color:
+    palette: nebula
+  gestures:
+    pressed: >
+      "${ring.tracks[me.index]}" / SEL
+    pressed_delayed: >
+      "${ring.tracks[me.index]}" / ARM
+    double_clicked: >
+      "${ring.tracks[me.index]}" / PLAY 1
+      
+#select_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#select_8:
+#  gestures:
+#    pressed: DUMMY
+
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color: cyan shade ${me.index % 4}
+  gestures:
+    pressed: SCENE ${ring.scenes[me.Index]}
+    pressed__shift: SCENE ${ring.scenes[me.Index + 8]}
+    pressed__select: SCENE SEL ${ring.scenes[me.Index]}
+    pressed__shift__select: SCENE SEL ${ring.scenes[me.Index + 8]}
+
+#scene_1:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_2:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_3:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_4:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_5:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_6:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_7:
+#  gestures:
+#    pressed: DUMMY
+    
+#scene_8:
+#  gestures:
+#    pressed: DUMMY
+
+__dpad:
+  includes: [dpad_left, dpad_right, dpad_up, dpad_down]
+  color: 127
+  repeat: true
+  controls:
+    dpad_left:
+      gestures:
+        pressed: LEFT
+        pressed__shift:
+          ring:
+            x: -1
+    dpad_right:
+      gestures:
+        pressed: RIGHT
+        pressed__shift:
+          ring:
+            x: 1
+    dpad_up:
+      gestures:
+        pressed: UP
+        pressed__shift:
+          ring:
+            y: -1
+    dpad_down:
+      gestures:
+        pressed: DOWN
+        pressed__shift:
+          ring:
+            y: 1
+
+#dpad_left:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_right:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_up:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_down:
+#  gestures:
+#    pressed: DUMMY
+
+dpad_enter:
+  gestures:
+    pressed: >
+      SEL / PLAY SEL
+    pressed__shift: >
+      SEL / STOP
+
+device:
+  gestures:
+    pressed:
+      mode_on: device
+    released:
+      mode_off: device
+
+mix:
+  gestures:
+    pressed:
+      mode_on: mix
+    released:
+      mode_off: mix
+
+session_screen:
+  gestures:
+    pressed: TGLMAIN
+
+#session:
+#  gestures:
+#    pressed: DUMMY
+#
+#touchstrip:
+#  gestures:
+#    pressed: DUMMY
+
+page_prev:
+  gestures:
+    pressed:
+      page: prev
+
+page_next:
+  gestures:
+    pressed:
+      page: next
+
+metronome:
+  type: transport
+  transport: metronome
+  gestures:
+    pressed: metro
+
+undo:
+  gestures:
+    pressed: undo
+    pressed__shift: redo
+
+mute:
+  color: red
+  gestures:
+    pressed: MUTE
+
+solo:
+  color: sky
+  gestures:
+    pressed: SOLO
+
+stop_clip:
+  color: pink
+  gestures:
+    pressed: SEL / STOP
+    pressed__shift: STOPALL
+
+master:
+  gestures:
+    pressed: MST / SEL
+
+user:
+  gestures:
+    pressed:
+      hardware_mode: live
+
+tap_tempo:
+  gestures:
+    pressed: TAPBPM
+
+#convert:
+#  gestures:
+#    pressed: DUMMY
+
+#note:
+#  gestures:
+#    pressed: DUMMY
+
+#repeat:
+#  gestures:
+#    pressed: DUMMY
+
+#accent:
+#  gestures:
+#    pressed: DUMMY
+#
+#scale:
+#  gestures:
+#    pressed: DUMMY
+#
