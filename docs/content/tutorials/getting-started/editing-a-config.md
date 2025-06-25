@@ -149,15 +149,12 @@ mute:
 
 We've changed the [key](/docs/lessons/reading-zcx-configurations.md#keys-and-values) `pressed` to `released_immediately`. zcx supports six gestures, five of which you'll be familiar with if you've used G-Controls:
 
-```
-zcx_gestures:
-  - pressed
-  - pressed_delayed
-  - released
-  - released_immediately
-  - released_delayed
-  - double_clicked
-```
+- `pressed`
+- `pressed_delayed`
+- `released`
+- `released_immediately`
+- `released_delayed`
+- `double_clicked`
 
 This change means that a quick press and release of `mute` will mute the selected track, but if you press and hold, after a moment all tracks will be muted, without the in-between step of muting the selected track.
 
