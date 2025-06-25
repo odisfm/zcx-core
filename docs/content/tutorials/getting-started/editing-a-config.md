@@ -320,7 +320,11 @@ enc_master:
     __shift: MST / CUE
 ```
 
-By now, you should have a pretty good idea of what this definition does. By default, the `master` encoder is mapped to the volume on the master track, but when `shift` is held the encoder maps to the cue volume.
+For each encoder, we define a target.
+Encoders are also mode-aware.
+In this example the encoder controls the Main track's volume by default, and the Preview volume when the Shift button is held.
+
+See the [Encoder Reference](/reference/encoder-reference#mapping-targets) for a list of valid targets.
 
 ## A note on templating
 
