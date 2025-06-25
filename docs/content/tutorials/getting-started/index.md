@@ -19,4 +19,4 @@ Here's the stuff you should know before you get stuck in designing your zcx conf
     >	Your first steps with configuring zcx.
 
 !!! note
-    If you're having trouble with any of this content, feel free to [join the discord](https://discord.zcxcore.com) to get help from a member of the community!
+    If you're having trouble with any of this content, feel free to [join the Discord](https://discord.zcxcore.com) to get help from a member of the community!
