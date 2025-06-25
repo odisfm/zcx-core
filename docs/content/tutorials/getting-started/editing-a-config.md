@@ -14,7 +14,9 @@ This demo config is included so that you can launch and test zcx without any man
 In this lesson you'll learn about the key files used to configure zcx.
 By modifying these files you can use the demo config as a template for your own configuration.
 
-Because every MIDI controller has different physical controls, each config is slightly different. The demo config we'll follow along with comes from the Ableton Push 1. You can follow along with the demo config you have, and it should be fairly similar.
+!!! note
+
+    Because every MIDI controller has different physical controls, each config is slightly different. The demo config we'll follow along with comes from the Ableton Push 1. You can follow along with the demo config you have, and it should be fairly similar.
 
 
 ## important files
