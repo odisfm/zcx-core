@@ -54,7 +54,7 @@ def create_mappings(arg) -> dict:
         hw_mapping_dict[button_name_formatted] = button_name_formatted
 
     for encoder_name in encoder_names:
-        encoder_name_formatted = naming_function(encoder_name)
+        encoder_name_formatted = f'_encoder_{encoder_name}'
         hw_mapping_dict[encoder_name_formatted] = encoder_name_formatted
 
     hw_mapping_dict['button_matrix'] = 'button_matrix'
