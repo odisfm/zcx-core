@@ -7,126 +7,95 @@ on:
   workflow_dispatch:
 
 jobs:
-  get-controllers:
+  build-and-release:
     runs-on: ubuntu-latest
-    outputs:
-      controllers: ${{ steps.set-controllers.outputs.controllers }}
     steps:
-      - uses: actions/checkout@v3
-
-      - id: set-controllers
-        run: |
-          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | jq -R -s -c 'split("\n")[:-1]')
-          echo "controllers=$CONTROLLERS" >> $GITHUB_OUTPUT
-
-  build:
-    needs: get-controllers
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        controller: ${{ fromJson(needs.get-controllers.outputs.controllers) }}
-
-    steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Set package name
+      - name: Set environment variables
         run: |
-          echo "PACKAGE_NAME=_zcx_${{ matrix.controller }}" >> $GITHUB_ENV
-          # Get repository name from GITHUB_REPOSITORY (owner/repo)
           echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV
-          # Get tag name or default to 'latest'
           echo "TAG_NAME=${GITHUB_REF_NAME:-latest}" >> $GITHUB_ENV
 
-      - name: Create package directory structure
+      - name: Get controllers list
+        id: controllers
         run: |
-          # Create main package directory
-          mkdir -p ${{ env.PACKAGE_NAME }}
-          # Create vendor directory
-          mkdir -p ${{ env.PACKAGE_NAME }}/vendor
+          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | jq -R -s -c 'split("\n")[:-1]')
+          echo "Found controllers: $CONTROLLERS"
+          echo "list=$CONTROLLERS" >> $GITHUB_OUTPUT
 
-      - name: Download and prepare vendor packages
+      - name: Create shared vendor directory
         run: |
+          mkdir -p shared_vendor
           # Define packages to download
           PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests" "semver>=3.0.4,<4.0.0")
-
-          # Create temporary directory for downloads
-          mkdir vendor_temp
-          cd vendor_temp
-
-          # Install each package and its dependencies into the vendor directory
+          
+          # Install all packages once into shared vendor directory
           for package in "${PACKAGES[@]}"; do
-            pip install "$package" --target "../${{ env.PACKAGE_NAME }}/vendor/"
+            pip install "$package" --target "./shared_vendor/"
           done
 
-          # Cleanup
-          cd ..
-          rm -rf vendor_temp
-
-      - name: Copy application files
+      - name: Build packages for all controllers
         run: |
-          # Copy all files from app/ to root of package
-          cp -r app/* ${{ env.PACKAGE_NAME }}/
-
-          # Create hardware directory and copy all controller-specific files
-          mkdir -p ${{ env.PACKAGE_NAME }}/hardware
-          cp -r hardware/${{ matrix.controller }}/* ${{ env.PACKAGE_NAME }}/hardware/
-
-          # Handle demo_config separately
-          if [ -d "hardware/${{ matrix.controller }}/demo_config" ]; then
-            # Rename demo_config to _config in the destination
-            mv "${{ env.PACKAGE_NAME }}/hardware/demo_config" "${{ env.PACKAGE_NAME }}/_config"
-          else
-            echo "Error: demo_config directory not found for controller '${{ matrix.controller }}'!" >&2
-            exit 1
-          fi
-
-      - name: Update zcx.yaml with version and hardware information
-        run: |
-          # Update the version field with the tag name and the hardware field with the controller name
-          # The file's comments are preserved as sed only modifies the matching lines.
-          sed -i "s/^version:.*/version: ${TAG_NAME:1}/" ${{ env.PACKAGE_NAME }}/zcx.yaml
-          sed -i "s/^hardware:.*/hardware: ${{ matrix.controller }}/" ${{ env.PACKAGE_NAME }}/zcx.yaml
-
-      - name: Create ZIP archive with README and user actions
-        run: |
-          # Copy bundled_instructions.txt to temporary location and rename to README.txt
-          cp resources/bundled_instructions.txt ./README.txt
+          CONTROLLERS='${{ steps.controllers.outputs.list }}'
           
-          # Prepend repo name and tag
-          sed -i "1i${REPO_NAME} ${TAG_NAME}\n\n" README.txt
-          
-          # Copy user_actions directory with new name
-          cp -r user_actions _user_actions
-          
-          # Create ZIP with README.txt at root, package folder, and _user_actions
-          zip -r ${{ env.PACKAGE_NAME }}.zip README.txt ${{ env.PACKAGE_NAME }} _user_actions
-          
-          # Clean up temporary files
-          rm README.txt
-          rm -rf _user_actions
-        
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: ${{ env.PACKAGE_NAME }}.zip
-
-  release:
-    needs: [get-controllers, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
+          # Parse JSON array of controllers
+          for controller in $(echo $CONTROLLERS | jq -r '.[]'); do
+            echo "Building package for controller: $controller"
+            
+            PACKAGE_NAME="_zcx_$controller"
+            
+            # Create package directory structure
+            mkdir -p "$PACKAGE_NAME"
+            mkdir -p "$PACKAGE_NAME/vendor"
+            
+            # Copy shared vendor files
+            cp -r shared_vendor/* "$PACKAGE_NAME/vendor/"
+            
+            # Copy application files
+            cp -r app/* "$PACKAGE_NAME/"
+            
+            # Create hardware directory and copy controller-specific files
+            mkdir -p "$PACKAGE_NAME/hardware"
+            cp -r "hardware/$controller"/* "$PACKAGE_NAME/hardware/"
+            
+            # Handle demo_config
+            if [ -d "$PACKAGE_NAME/hardware/demo_config" ]; then
+              mv "$PACKAGE_NAME/hardware/demo_config" "$PACKAGE_NAME/_config"
+            else
+              echo "Error: demo_config directory not found for controller '$controller'!" >&2
+              exit 1
+            fi
+            
+            # Update zcx.yaml with version and hardware information
+            sed -i "s/^version:.*/version: ${TAG_NAME:1}/" "$PACKAGE_NAME/zcx.yaml"
+            sed -i "s/^hardware:.*/hardware: $controller/" "$PACKAGE_NAME/zcx.yaml"
+            
+            # Create ZIP archive with README and user actions
+            cp resources/bundled_instructions.txt ./README.txt
+            sed -i "1i${REPO_NAME} ${TAG_NAME}\n\n" README.txt
+            cp -r user_actions _user_actions
+            
+            # Create ZIP
+            zip -r "$PACKAGE_NAME.zip" README.txt "$PACKAGE_NAME" _user_actions
+            
+            # Clean up for next iteration
+            rm README.txt
+            rm -rf _user_actions
+            rm -rf "$PACKAGE_NAME"
+            
+            echo "✅ Built $PACKAGE_NAME.zip"
+          done
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: "**/*.zip"
+          files: "*.zip"
           draft: false
           prerelease: false
         env:
