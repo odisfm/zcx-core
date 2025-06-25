@@ -4,7 +4,7 @@ Here's the stuff you should know before you get stuck in designing your zcx conf
 
 0. [installing zcx](installation)
 
-    > Alternatively, 'dragging one folder into another folder'.
+    > How to download, install, and enable zcx.
 
 1. [reading zcx configurations](reading-zcx-configurations)
 

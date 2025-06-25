@@ -8,9 +8,11 @@ hide:
 
 Alright, time to actually get started!
 
-When you downloaded zcx, it should have come with a pre-populated `_config` folder. The files in here were lovingly designed by your hardware maintainer so that when you load zcx for the first time it actually does something.
+When you downloaded zcx, it comes with a pre-populated `_config` folder. 
+This demo config is included so that you can launch and test zcx without any manual configuration.
 
-Now it's time to make the something that it does be the something that we want it to do.
+In this lesson you'll learn about the key files used to configure zcx.
+By modifying these files you can use the demo config as a template for your own configuration.
 
 Because every MIDI controller has different physical controls, each config is slightly different. The demo config we'll follow along with comes from the Ableton Push 1. You can follow along with the demo config you have, and it should be fairly similar.
 
@@ -37,20 +39,22 @@ _If you have a smaller matrix, the file `actions_top_left` might be called somet
 
 ```yaml title="pages.yaml"
 pages:
-  main:
-    - big_colors
-  test_page:
+  main_page:
+    - actions_top_left
+    - actions_top_right
+    - actions_bottom_double
+  alt_page:
     - actions_top_left
     - actions_bottom_right
     - actions_bottom_left
     - actions_top_right
-  track_page:
-    - actions_top_left
-    - mega_launcher
-    - track_half
+  ring_page:
+    - ring_control
+  blank_page:
+    - blank_section
 ```
 
-Your `pages.yaml` probably looks something like this. The page `main` contains the section `big_colors`, which is the pretty gradient that appears when you load zcx. The section we'll be working on is `actions_top_left`, which appears on `test_page` and `track_page`.
+Your `pages.yaml` probably looks something like this. The page `main_page` contains the section `actions_bottom_double`, which is the rainbow gradient that appears when you load zcx. The section we'll be working on is `actions_top_left`, which appears on `main_page` and `alt_page`.
 
 To navigate between pages, you use one of the predefined controls on your hardware. On the Push 1, it's the `state_row`, which is the second row of buttons below the display. **Note:** you can always redefine the page controls (or add more, or not engage with the pages system at all).
 
@@ -60,26 +64,28 @@ Feel free to change the order of pages:
 
 ```yaml title="pages.yaml"
 pages:
-  test_page:
+  blank_page:
+    - blank_section
+  main_page:
+    - actions_top_left
+    - actions_top_right
+    - actions_bottom_double
+  alt_page:
     - actions_top_left
     - actions_bottom_right
     - actions_bottom_left
     - actions_top_right
-  main:
-    - big_colors
-  track_page:
-    - actions_top_left
-    - mega_launcher
-    - track_half
+  ring_page:
+    - ring_control
 ```
 
 You also have the option to add an `order` key to your `pages.yaml` like so:
 
 ```yaml title="pages.yaml"
 order:
-  - test_page
-  - track_page
-  - main
+  - blank_page
+  - alt_page
+  - main_page
 ```
 
 The order here will take precedence. If you have an `order` key, pages not listed here will not be created.
@@ -110,8 +116,7 @@ duplicate:
     pressed: SCENEDUPE
 ```
 
-Inside `named_controls.yaml` you'll find some control definitions that look like this. There will probably be some that look quite scary, but once you get the basics down you'll be able to easily read and compose them yourself.
-
+Inside `named_controls.yaml` you'll find some control definitions that look like this.
 Lets have a look at the definition for `mute`:
 
 ```yaml title="named_controls.yaml"
@@ -144,20 +149,56 @@ mute:
 
 We've changed the [key](/docs/lessons/reading-zcx-configurations.md#keys-and-values) `pressed` to `released_immediately`. zcx supports six gestures, five of which you'll be familiar with if you've used G-Controls:
 
-```
-zcx_gestures:
-  - pressed
-  - pressed_delayed
-  - released
-  - released_immediately
-  - released_delayed
-  - double_clicked
-```
+- `pressed`
+- `pressed_delayed`
+- `released`
+- `released_immediately`
+- `released_delayed`
+- `double_clicked`
 
 This change means that a quick press and release of `mute` will mute the selected track, but if you press and hold, after a moment all tracks will be muted, without the in-between step of muting the selected track.
 
-Cool, lets do a little more!
+### complex definitions
 
+Some of the default definitions may seem complicated:
+
+```yaml
+__select_row:
+  includes: [ 
+    select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8 
+  ]
+  color: 1
+  gestures:
+    pressed: >
+      "${ring.tracks[me.index]}" / SEL
+```
+
+This is an example of a group definition, that uses templating to apply a similar control definition across a range of controls.
+In this definition, the Push 1's eight Select buttons selects a track in Live, relative to the zcx script's session ring.
+
+You can learn how to read and compose these definitions in the [Template Reference](/reference/template-reference).
+
+You may prefer to define each control individually.
+In this case, comment out (or delete) the group definition, and uncomment the single control definitions found underneath.
+
+```yaml
+#__select_row:
+#  includes: [ 
+#    select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8 
+#  ]
+#  color: 1
+#  gestures:
+#    pressed: >
+#      "${ring.tracks[me.index]}" / SEL
+    
+select_1:
+  gestures:
+    pressed: DUMMY
+    
+select_2:
+  gestures:
+    pressed: DUMMY
+```
 
 ## modes
 

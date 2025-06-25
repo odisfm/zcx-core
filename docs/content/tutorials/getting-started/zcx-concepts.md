@@ -8,7 +8,7 @@ zcx uses a lot of jargon. Here is a quick guide to the most important concepts.
 
 ## ZControls
 
-Roughly equivalent to an [X or G control from ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/) (first party controls). Original, I know. You define ZControls in your configuration file and when you press them they trigger action lists. Like with first party controls, you can configure the control's color. However, ZControls can have many additional options that give you more control(!) over how they behave. There are even special subclasses of controls that offer specific functionality. More on that [later](#control-classes).
+Roughly equivalent to an [X or G control from ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/) (first party controls). You define ZControls in your configuration file and when you press them they trigger action lists. Like with first party controls, you can configure the control's color. However, ZControls can have many additional options that give you more control(!) over how they behave. There are even special subclasses of controls that offer specific functionality. More on that [later](#control-classes).
 
 Although MIDI controllers come in all shapes and sizes, zcx is focused on controllers with a 'matrix' or grid of pads or buttons, such as the Ableton Push, Novation Launchpad, Akai APC, and  others like them. Because of this, zcx makes a distinction between controls that form the matrix, and those that don't.
 
@@ -131,7 +131,9 @@ gestures:
 
 ## pages
 
-There's a good chance pages are why you're interested in zcx in the first place. Pages contain sections which contain controls. Because of this, we can turn an 8×8 pad matrix into an 8×8×∞ matrix. This system allows you to design a multi-mode control surface script, like the one that shipped with your controller, while harnessing the power of ClyphX — all without learning Python!
+There's a good chance pages are why you're interested in zcx in the first place. 
+Pages contain sections which contain controls. 
+
 
 ```yaml title="pages.yaml"
 
@@ -155,13 +157,13 @@ One thing we can't do is have sections on a page that overlap:
 
 ```yaml title="matrix_sections.yaml"
 
-big_bad_section:
+big_section:
   col_start: 0
   col_end: 7
   row_start: 0
   row_end: 7
 
-teeny_tiny_section:
+tiny_section:
   col_start: 0
   col_end: 1
   row_start: 0
@@ -170,11 +172,11 @@ teeny_tiny_section:
 ```yaml title="pages.yaml"
 
 my_page:
-  - big_bad_section
-  - teeny_tiny_section    # not gonna fit :(
+  - big_section
+  - tiny_section    # not gonna fit :(
 ```
 
-If you try to pull this type of move, zcx will yell at you and refuse to run.
+If you try to do this, zcx will throw an error.
 
 !!! warning
     Matrix sections are always bound to their defined coordinates, which means while they can appear on multiple pages, they'll always be in the same place.
