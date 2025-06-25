@@ -109,7 +109,7 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
         setattr(_hardware_interface, encoder_name_prefixed, encoder_state)
         _hardware_interface.encoder_states[encoder_name] = encoder_state
 
-        def create_handler(name):
+        def create_handler(encoder_name):
             def handler(self, value, encoder):
                 return self.handle_encoder_event(encoder_name, value)
 
