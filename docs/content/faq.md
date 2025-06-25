@@ -17,6 +17,16 @@ Have a look at the [about page](/), or check out [the source on GitHub](https://
 * [Supported hardware](/tutorials/getting-started/installation#get-a-distribution)
 * A heart full of dreams
 
+### Does zcx change the default functionality of my control surface
+
+For most zcx-enabled controllers, there are two modes: Live mode, which is the default control surface script, and user mode, designed for custom mapping, or scripts like zcx.
+
+zcx only works on the user mode of your controller.
+This means that the default functionality of your controller is unaffected.
+You may use the default script and zcx simultaneously on one controller, switching between modes with the controller's `User` button.
+Doing so requires two control surface slots; one for each script.
+If you don't want to use the default functionality, you can unassign the default script.
+
 ### Do I need to be a coder to use zcx?
 
 No programming knowledge is necessary to configure zcx. zcx configurations **do** make extensive use of a format called [yaml](/tutorials/getting-started/reading-zcx-configurations/#yaml), but it's pretty easy to pick up.
