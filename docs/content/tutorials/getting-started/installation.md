@@ -67,6 +67,8 @@ When you assign the script to a slot in Live's preferences, the script automatic
 
 You should set the MIDI in and out ports to the relevant hardware before assigning the script to a slot.
 
+For your controller's input, check the boxes `Track` and `Remote`, and for the output `Track`, `Sync` , and `Remote`.
+
 At this point, you may need to [reload the script](/lessons/reloading-control-surfaces).
 
 ### if your controller has a distinct 'user mode'
@@ -76,6 +78,8 @@ Many controllers, such as the Push and Launchpad have a 'Live' mode and a 'user'
 When setting up the Input and Output of the zcx script, you must use the 'user mode' port.
 For example, Push 1 has the MIDI inputs `Ableton Push (Live mode)` and `Ableton Push (User mode)` — use the latter.
 You are able to use the 'Live' and 'user' modes of your controller by switching between them with the dedicated hardware button, though the official control surface and the zcx script will each need their own control surface slot.
+
+For the Launchpad series, use the port `Launchpad X MIDI In` or similar, rather than the `DAW in` and `DAW out` ports.
 
 If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](/docs/lessons/reporting-bugs.md).
 
