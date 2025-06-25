@@ -25,15 +25,6 @@ record:
 
 **Note:** while named controls are unaffected by page changes, they _are_ affected by [modes](#modes).
 
-These names have been mapped to MIDI messages already by the zcx maintainer for your hardware. The 'canonical' names for each control should be included in the documentation of your distribution. You can always find these names (and change them) in the following locations:
-
-```
-zcx/
-├─ hardware/
-│  ├─ note_buttons.yaml
-│  ├─ cc_buttons.yaml
-```
-
 All named controls are defined in one place, `named_controls.yaml`:
 
 ```
@@ -42,6 +33,17 @@ zcx/
 │  ├─ named_controls.yaml
 ```
 
+!!! note
+    The names used in `named_controls.yaml` and `encoders.yaml` have already been mapped to MIDI messages sent by your hardware.
+
+    To check the names of each control, look in the `hardware` folder.
+    
+    ```
+    zcx/
+    ├─ hardware/
+    │  ├─ note_buttons.yaml
+    │  ├─ cc_buttons.yaml
+    ```
 
 ### matrix controls
 
