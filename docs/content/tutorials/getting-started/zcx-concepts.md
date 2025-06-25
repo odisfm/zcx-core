@@ -222,7 +222,7 @@ The names of these modes are completely arbitrary, but they must be defined in y
 
 ## encoder mappings
 
-zcx allows you to dynamically map encoders (knobs, faders, etc.) to parameters in Live. Targeting of parameters follows the same syntax as ClyphX encoder bindings:
+zcx allows you to dynamically map encoders (knobs, faders, etc.) to parameters in Live. Targeting of parameters follows the same syntax as ClyphX Pro encoder bindings:
 
 ```yaml title="encoders.yaml"
 tempo:
