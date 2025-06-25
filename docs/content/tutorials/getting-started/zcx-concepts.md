@@ -138,19 +138,20 @@ Pages contain sections which contain controls.
 
 
 ```yaml title="pages.yaml"
-
-pages:  
-  main:  
-    - big_colors  
-  test_page:  
-    - actions_top_left  
-    - actions_bottom_right  
-    - actions_bottom_left  
-    - actions_top_right  
-  track_page:  
-    - actions_top_left  
-    - mega_launcher  
-    - track_half
+pages:
+  main_page:
+    - actions_top_left
+    - actions_top_right
+    - actions_bottom_double
+  alt_page:
+    - actions_top_left
+    - actions_bottom_right
+    - actions_bottom_left
+    - actions_top_right
+  ring_page:
+    - ring_control
+  blank_page:
+    - blank_section
 ```
 
 By assigning controls to sections, and not directly to pages, we can have one section appear on multiple pages, or even on all of them, without defining the same control every time.

@@ -54,7 +54,7 @@ pages:
     - blank_section
 ```
 
-Your `pages.yaml` probably looks something like this. The page `main_page` contains the section `actions_bottom_double`, which is the rainbow gradient that appears when you load zcx. The section we'll be working on is `actions_top_left`, which appears on `main_page` and `alt_page`.
+Your `pages.yaml` probably looks something like this. The page `main_page` contains the section `actions_bottom_double`, which is the pretty gradient that appears when you load zcx. The section we'll be working on is `actions_top_left`, which appears on `main_page` and `alt_page`.
 
 To navigate between pages, you use one of the predefined controls on your hardware. On the Push 1, it's the `state_row`, which is the second row of buttons below the display. **Note:** you can always redefine the page controls (or add more, or not engage with the pages system at all).
 
@@ -149,12 +149,15 @@ mute:
 
 We've changed the [key](/docs/lessons/reading-zcx-configurations.md#keys-and-values) `pressed` to `released_immediately`. zcx supports six gestures, five of which you'll be familiar with if you've used G-Controls:
 
-- `pressed`
-- `pressed_delayed`
-- `released`
-- `released_immediately`
-- `released_delayed`
-- `double_clicked`
+```
+zcx_gestures:
+  - pressed
+  - pressed_delayed
+  - released
+  - released_immediately
+  - released_delayed
+  - double_clicked
+```
 
 This change means that a quick press and release of `mute` will mute the selected track, but if you press and hold, after a moment all tracks will be muted, without the in-between step of muting the selected track.
 
