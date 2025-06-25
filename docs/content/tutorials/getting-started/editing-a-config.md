@@ -88,7 +88,7 @@ And that's where we'll leave `pages.yaml` for this lesson.
 
 ## named controls
 
-```yaml title="named_control.yaml"
+```yaml title="named_controls.yaml"
 mute:
   gestures:
     pressed: MUTE
