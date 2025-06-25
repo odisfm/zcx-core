@@ -18,6 +18,20 @@ By modifying these files you can use the demo config as a template for your own 
 
     Because every MIDI controller has different physical controls, each config is slightly different. The demo config we'll follow along with comes from the Ableton Push 1. You can follow along with the demo config you have, and it should be fairly similar.
 
+## using a code editor
+
+It is highly recommended to use a code editor to view these files, rather than a simple app like TextEdit or Notepad.
+Using a code editor will display the yaml files with helpful color-coding.
+The editor will also catch and highlight the most common yaml mistakes.
+
+One good editor is [Visual Studio Code from Microsoft](https://code.visualstudio.com/).
+
+### open the config folder
+
+By opening the `_config` folder, we can see all the necessary files at once.
+In Visual Studio Code, open the `File` menu, and select `Open Folder`.
+Navigate to your zcx installation and select the `_config` folder.
+Press `Open`.
 
 ## important files
 
