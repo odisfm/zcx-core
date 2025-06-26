@@ -130,7 +130,7 @@ class PreferenceManager:
     def evaluate_config_dir(self):
         song = self.find_song()
 
-        self.log(f'the song is called `{song.name}`')
+        self.log(f'the song is called `{song.name}`', level='debug')
 
         config_pattern_list = self.user_prefs.get('configs', [])
 
@@ -143,13 +143,13 @@ class PreferenceManager:
 
             # Skip if pattern or config is missing
             if not pattern_str or not config_name:
-                self.log(f'Skipping invalid config pattern: {config_pattern}')
+                self.log(f'Skipping invalid config pattern: {config_pattern}', level='error')
                 continue
 
             # Check if the pattern matches the song name using regex
             import re
             if re.search(pattern_str, song.name):
-                self.log(f'Found matching config "{config_name}" for song "{song.name}"')
+                self.log(f'Found matching config "{config_name}" for song "{song.name}"', level='debug')
                 config_dir = f'{DEFAULT_CONFIG_DIR}_{config_name}'
 
                 # Check if the directory exists
