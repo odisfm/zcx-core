@@ -352,7 +352,6 @@ class ZControl(EventObject):
     def force_color(self, color):
         self._color = color
         self._control_element.set_light(color)
-        self._control_element.send_value(127)
 
     @listens('current_modes')
     def modes_changed(self, _):
