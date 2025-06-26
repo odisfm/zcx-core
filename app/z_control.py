@@ -51,6 +51,8 @@ class ZControl(EventObject):
         self._control_element: ZElement = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
+        self._simple_feedback = False
+        self._hold_color = None
         self._initial_color_def = None
         self._color_swatch = None
         self._color_dict = {}
@@ -93,6 +95,13 @@ class ZControl(EventObject):
         on_threshold = int(config.get('threshold', DEFAULT_ON_THRESHOLD))
         self._on_threshold = on_threshold
         suppress_animations = config.get('suppress_animations', False)
+        simple_feedback_color_def = config.get('hold_color', False)
+        if simple_feedback_color_def:
+            self._simple_feedback = True
+            self._animate_on_release = False
+            simple_feedback_color = parse_color_definition(simple_feedback_color_def, self)
+            self._hold_color = simple_feedback_color
+
         self._suppress_animations = suppress_animations
         self._fake_momentary = config.get('tog_to_mom', False)
         self._repeat = config.get('repeat', False)
@@ -266,8 +275,13 @@ class ZControl(EventObject):
                 context=self._context
             )
 
-        if (gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
+        if not self._simple_feedback and (gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
             self.animate_success()
+        if self._simple_feedback:
+            if gesture == 'pressed':
+                self._do_simple_feedback_held()
+            elif gesture == 'released':
+                self._do_simple_feedback_release()
 
     @listens('in_view')
     def in_view_listener(self):
@@ -393,6 +407,14 @@ class ZControl(EventObject):
         self._color = self._color_dict['failure']
         self.request_color_update()
         self.task_group.add(timer)
+
+    @only_in_view
+    def _do_simple_feedback_held(self):
+        self.force_color(self._hold_color)
+
+    @only_in_view
+    def _do_simple_feedback_release(self):
+        self.force_color(self._color_dict['base'])
 
     def set_prop(self, prop_name, value):
         self._context['me'][prop_name] = value

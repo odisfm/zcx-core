@@ -16,6 +16,7 @@ These are options you can set on each control via its yaml definition. Some opti
 type: string
 alias: string
 color: color definition
+hold_color: color definition
 includes: list[string]
 buttons: dict[ZControl]
 gestures: dict[dict]
@@ -46,6 +47,14 @@ ___
 `color definition` 
 
 The base color of the control. See [color reference](/reference/color-reference).
+
+---
+
+### hold_color
+`color definition`
+
+By providing a `hold_color` option, the control will use this color while it is held, and return to its [base color](#color) when released.
+This will override the default blinking animation on control presses.
 
 ___
 ### includes
