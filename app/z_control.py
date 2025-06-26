@@ -283,6 +283,11 @@ class ZControl(EventObject):
 
         if not self._simple_feedback and (gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
             self.animate_success()
+        if self._simple_feedback:
+            if gesture == 'pressed':
+                self._do_simple_feedback_held()
+            elif gesture == 'released':
+                self._do_simple_feedback_release()
 
     @listens('in_view')
     def in_view_listener(self):
