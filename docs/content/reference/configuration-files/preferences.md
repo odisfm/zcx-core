@@ -46,7 +46,7 @@ configs:
 ```
 
 
-### inital_hw_mode
+### initial_hw_mode
 ```yaml
 initial_hw_mode: zcx
 ```
