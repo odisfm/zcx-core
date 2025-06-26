@@ -45,6 +45,23 @@ configs:
     pattern: MIX
 ```
 
+### force_config
+
+**This setting must be set in `_global_preferences.yaml`**
+
+Override [pattern matching for per-set configs](#configs) and explicitly load the specified config, or the default config.
+
+```yaml
+force_config: dj
+```
+
+Load config from the folder `_config_dj/`
+
+```yaml
+force_config: null
+```
+
+Load the default config `_config/`
 
 ### initial_hw_mode
 ```yaml

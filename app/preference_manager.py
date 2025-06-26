@@ -3,6 +3,7 @@ import os
 
 from .consts import DEFAULT_CONFIG_DIR, DEFAULT_PREFS_DIR
 from .vendor.yaml import safe_load
+from .errors import ConfigurationError, CriticalConfigurationError
 
 
 class PreferenceManager:
@@ -128,6 +129,33 @@ class PreferenceManager:
         return None
 
     def evaluate_config_dir(self):
+        config_override = self.user_prefs.get('force_config', False)
+
+        if isinstance(config_override, str):
+            config_dir = f'{DEFAULT_CONFIG_DIR}_{config_override}'
+            full_path = os.path.join(self.this_dir, config_dir)
+
+            if os.path.isdir(full_path):
+                self.log(f'Using forced config directory: {config_dir}')
+                return config_dir
+            else:
+                error_msg = f'Forced config directory {full_path} does not exist'
+                self.log(error_msg, level='error')
+                raise CriticalConfigurationError(error_msg)
+
+        # Skip pattern matching if config_override is None
+        if config_override is None:
+            # Jump directly to default config directory fallback
+            default_full_path = os.path.join(self.this_dir, DEFAULT_CONFIG_DIR)
+
+            if os.path.isdir(default_full_path):
+                self.log(f'Using default config directory: {DEFAULT_CONFIG_DIR}')
+                return DEFAULT_CONFIG_DIR
+            else:
+                error_msg = f'Default config directory {default_full_path} does not exist'
+                self.log(error_msg, level='error')
+                raise RuntimeError(error_msg)
+
         song = self.find_song()
 
         self.log(f'the song is called `{song.name}`', level='debug')
