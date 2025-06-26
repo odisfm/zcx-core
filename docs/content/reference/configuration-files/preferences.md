@@ -28,9 +28,9 @@ When set to `true`, all triggered ClyphX Pro action lists will be logged.
 
 ### configs
 
-Allows you to configure [per-set configs](/lessons/using-multiple-configs/).
-
 **This setting must be set in `_global_preferences.yaml`**
+
+Allows you to configure [per-set configs](/lessons/using-multiple-configs/).
 
 ```yaml
 configs:
