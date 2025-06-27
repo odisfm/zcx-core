@@ -293,6 +293,9 @@ class ZControl(EventObject):
 
     def _back_in_view(self):
         self.request_color_update()
+        if self._simple_feedback:
+            if not self._control_element.is_pressed:
+                self._do_simple_feedback_release()
         self.__state._repeat = self._repeat
 
     def set_color_to_base(self):
