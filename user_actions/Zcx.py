@@ -64,9 +64,7 @@ class Zcx(UserActionsBase):
 
     def action_entry_point(self, action_def: dict[str], args: str):
         try:
-            self.log('zcx action running!!!!!!!!')
             _args = args.split()
-            self.log(_args)
             sub_action = _args[1]
 
             target_def = _args[0]
