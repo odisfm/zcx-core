@@ -73,6 +73,7 @@ class ZControl(EventObject):
         self._fake_momentary = False
         self._last_received_value = 0
         self._repeat = False
+        self.__osc_label = ''
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
@@ -110,6 +111,24 @@ class ZControl(EventObject):
         if self._cascade_direction not in [False, "up", "down"]:
             self.log(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
             self._cascade_direction = False
+
+        osc_label_def = config.get('label')
+
+        if osc_label_def is None:
+            osc_label_def = self._gesture_dict.get('pressed')
+            if osc_label_def is None:
+                osc_label_def = self._gesture_dict.get('released_immediately')
+                if osc_label_def is None:
+                    for gesture, command in self._gesture_dict.items():
+                        if not gesture.startswith('pressed'):
+                            continue
+                        if isinstance(command, str):
+                            osc_label_def = command
+                            break
+
+        if osc_label_def is not None:
+            self.__osc_label = osc_label_def
+
 
     def log(self, *msg):
         for msg in msg:
@@ -444,6 +463,10 @@ class ZControl(EventObject):
     @staticmethod
     def is_pseq(obj):
         return isinstance(obj, Pseq)
+
+    @property
+    def osc_label(self):
+        return self.__osc_label
 
 class AnimationTimer(TimerTask):
 
