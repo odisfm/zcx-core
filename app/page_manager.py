@@ -2,6 +2,7 @@ import copy
 from typing import TYPE_CHECKING
 
 from ableton.v2.base.event import listenable_property
+from .osc_watcher import OscSectionWatcher
 
 from .errors import ConfigurationError, CriticalConfigurationError
 from .pad_section import PadSection
@@ -40,7 +41,9 @@ class PageManager(ZCXComponent):
         self.__osc_address_prefix = None
         self.__osc_address_page_name = None
         self.__osc_address_page_number = None
-        self.__does_send_osc = False
+        self.__does_send_page_change_osc = False
+        self.__does_send_matrix_label_osc = None
+        self.__osc_section_watchers = []
 
     @listenable_property
     def current_page(self):
@@ -70,7 +73,7 @@ class PageManager(ZCXComponent):
             self.handle_page_commands(self.__current_page, self.__last_page)
 
         try:
-            if self.__does_send_osc:
+            if self.__does_send_page_change_osc:
                 self.__osc_server.sendOSC(self.__osc_address_page_name, self.current_page_name)
                 self.__osc_server.sendOSC(self.__osc_address_page_number, self.__current_page)
         except:
@@ -200,9 +203,18 @@ class PageManager(ZCXComponent):
         from . import PREF_MANAGER
         osc_prefs = PREF_MANAGER.user_prefs.get('osc_output', {})
         try:
-            self.__does_send_osc = osc_prefs.get('page', False)
+            self.__does_send_page_change_osc = osc_prefs.get('page', False)
+            self.__does_send_matrix_label_osc = osc_prefs.get('matrix', False)
         except:
             pass
+
+        if self.__does_send_matrix_label_osc:
+            for section_obj in self.__pad_sections.values():
+                watcher = OscSectionWatcher(section_obj)
+                self.__osc_section_watchers.append(watcher)
+
+            for watcher in self.__osc_section_watchers:
+                watcher.update_osc_labels()
 
         self.set_page(0)
 

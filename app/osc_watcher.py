@@ -2,8 +2,8 @@ from ableton.v3.base import listens
 from ableton.v2.base.event import EventObject
 
 from .cxp_bridge import CxpBridge
-from .z_encoder import ZEncoder
 from .encoder_element import EncoderElement
+from .pad_section import PadSection
 
 def re_range_float_parameter(min_val, max_val, current):
    return (current - min_val) / (max_val - min_val)
@@ -47,7 +47,7 @@ class OscEncoderWatcher(OscWatcher):
 
     def __init__(self, z_encoder, *a, **kw):
         super().__init__(*a, **kw)
-        self._z_encoder: ZEncoder = z_encoder
+        self._z_encoder = z_encoder
         self._base_element: EncoderElement = self._z_encoder._control_element
 
         self._base_osc_address = self.address_prefix + f'enc/{self._z_encoder._name}/'
@@ -84,3 +84,23 @@ class OscEncoderWatcher(OscWatcher):
                 self._osc_server.sendOSC(self._name_osc_address, '-')
         else:
             self._osc_server.sendOSC(self._name_osc_address, self._base_element.parameter_name)
+
+class OscSectionWatcher(OscWatcher):
+
+    def __init__(self, pad_section: PadSection, *a, **kw):
+        super().__init__(*a, **kw)
+        self._pad_section = pad_section
+        self._base_osc_address = self.address_prefix + f'matrix/'
+        self.pad_section_view_changed.subject = self._pad_section
+
+    @listens('in_view')
+    def pad_section_view_changed(self):
+        in_view = self._pad_section.in_view
+        if in_view:
+            self.update_osc_labels()
+
+    def update_osc_labels(self):
+        for i, coord in enumerate(self._pad_section.owned_coordinates):
+            control = self._pad_section.owned_controls[i]
+            idx = ((7 - coord[0]) * 8) + coord[1]
+            self._osc_server.sendOSC(f'{self._base_osc_address}{idx}/', control.osc_label)
