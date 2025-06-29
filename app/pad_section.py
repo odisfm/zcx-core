@@ -67,6 +67,10 @@ class PadSection(EventObject):
     def width(self):
         return self.__width
 
+    @property
+    def height(self):
+        return len(self.__owned_coordinates) // self.__width
+
     @listenable_property
     def in_view(self):
         return self.__in_view

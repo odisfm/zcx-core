@@ -203,6 +203,9 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting SessionRing setup')
             self._session_ring_custom.setup()
             self.debug(f'finished SessionRing setup')
+            self.component_map['SessionView'].setup()
+            self.debug(f'starting SessionView setup')
+            self.debug(f'finished SessionView setup')
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
                 try:
@@ -211,6 +214,8 @@ class ZCXCore(ControlSurface):
                     self.debug(f'finished plugin {plugin_name} setup')
                 except Exception as e:
                     self.critical(f'{plugin_name} plugin setup failed:', e)
+
+            self.component_map['PageManager'].set_page(0)
 
         except Exception as e:
             self.critical(e)

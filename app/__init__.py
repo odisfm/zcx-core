@@ -28,6 +28,7 @@ from .z_state import ZState
 from .zcx_core import ZCXCore
 from .preference_manager import PreferenceManager
 from .session_ring import SessionRing
+from .session_view import SessionView
 
 
 ROOT_LOGGER = None
@@ -69,6 +70,7 @@ def create_mappings(arg) -> dict:
         "ZManager": {},
         "EncoderManager": {},
         "ApiManager": {},
+        "SessionView": {},
     }
 
     def add_plugin_mappings(plugin_dict):
@@ -203,6 +205,7 @@ def create_instance(c_instance):
         "ZManager": ZManager,
         "EncoderManager": EncoderManager,
         "ApiManager": ApiManager,
+        "SessionView": SessionView,
     }
 
     def add_plugins_to_component_map(plugin_dict):
