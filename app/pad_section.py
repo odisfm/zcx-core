@@ -87,3 +87,23 @@ class PadSection(EventObject):
 
     def register_owned_control(self, control):
         self.__owned_controls.append(control)
+
+    def get_row(self, row_num):
+        start = row_num * self.__width
+        end = start + self.__width
+        return self.owned_controls[start:end]
+
+    def get_column(self, column_num):
+        controls = []
+
+        if self.__bounds:
+            height = self.__bounds["height"]
+        else:
+            height = len(self.__owned_coordinates) // self.__width
+
+        for row in range(height):
+            index = row * self.__width + column_num
+            if index < len(self.__owned_coordinates):
+                controls.append(self.__owned_controls[index])
+
+        return controls
