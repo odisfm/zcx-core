@@ -66,6 +66,7 @@ class SessionClipControl(ZControl):
 
     @listens('is_recording')
     def is_recording(self):
+        self.log(f'im recording')
         self.update_status()
 
     @listens('is_triggered')
@@ -90,6 +91,7 @@ class SessionClipControl(ZControl):
             if self.__clip is not None:
                 if self.__clip.is_recording:
                     self._color = self.__color_dict['recording']
+                    self.log(f'clip is recording')
                 elif self.__clip_slot.is_playing:
                     self._color = self.__color_dict['playing']
                 elif self.__clip_slot.is_triggered:
