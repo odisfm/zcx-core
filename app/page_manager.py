@@ -249,7 +249,7 @@ class PageManager(ZCXComponent):
             section_name=section_name,
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
-            width=(row_end - row_start + 1),
+            width=(col_end - col_start + 1),
             raw_template=section_template,
         )
 
