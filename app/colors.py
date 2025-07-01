@@ -45,6 +45,9 @@ def get_named_color(name, calling_control=None):
         color = getattr(swatch, name, None)
         if color is not None:
             return color
+    else:
+        color = getattr(ColorSwatches.rgb, name, None)
+        return color
 
     return getattr(hardware_colors.Rgb, name, RgbColor(0))
 
