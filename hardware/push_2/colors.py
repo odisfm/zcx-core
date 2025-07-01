@@ -194,13 +194,4 @@ palettes = {
 
 
 def live_index_for_midi_index(live_index):
-    if live_index >= 0 and live_index < 14:
-        if live_index == 13:
-            return 122
-        return (live_index * 2) + 1
-    elif live_index >= 14 and live_index < 28:
-        if live_index == 27:
-            return 56
-        return (live_index * 2) - 26
-    else:
-        return live_index_for_midi_index(live_index % 27)
+    return translate_color_index(live_index)
