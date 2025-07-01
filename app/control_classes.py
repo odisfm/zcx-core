@@ -1,24 +1,22 @@
-from .z_controls import BasicZControl as Basic
-from .z_controls import ModeControl as Mode
-from .z_controls import PageControl as Page
-from .z_controls import TrackControl as Track
-from .z_controls import TransportControl as Transport
+from .z_controls import *
 
 
 def get_subclass(class_name):
     class_name = class_name.lower()
     match class_name:
         case "basic":
-            return Basic
+            return BasicZControl
         case "blank":
-            return Basic
+            return BasicZControl
         case "page":
-            return Page
+            return PageControl
         case "mode":
-            return Mode
+            return ModeControl
         case "transport":
-            return Transport
+            return TransportControl
         case "track":
-            return Track
+            return TrackControl
+        case "ring_track":
+            return RingTrackControl
         case _:
-            return Basic
+            return BasicZControl
