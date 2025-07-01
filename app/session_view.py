@@ -96,7 +96,7 @@ class SessionView(ZCXComponent):
 
         play_green = parse_color_definition("green")
         red = parse_color_definition("red")
-        arm = parse_color_definition("red")
+        arm = parse_color_definition("arm_red")
         off = parse_color_definition(0)
         triggered_to_record = parse_color_definition({"blink": {
             "a": "red",
