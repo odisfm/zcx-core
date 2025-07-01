@@ -17,12 +17,15 @@ class SessionClipControl(ZControl):
         self._suppress_attention_animations = True
 
     def setup(self):
-        pass
+        self._vars['track_name'] = 'me.obj.track_name'
+        self._vars['clip_target'] = 'me.obj.clip_target'
+        self._vars['user_clip_target'] = 'me.obj.user_clip_target'
+        self._vars['scene_number'] = 'me.obj.scene_number'
+        self._create_context([])
 
-    def handle_gesture(self, gesture):
-        self.log(f'gesture: {gesture}')
-        self.session_view_component.handle_gesture(gesture, self.__clip_slot)
-        self.log(f'notified session view component')
+        gesture_config = self._raw_config.get('gestures')
+        if gesture_config is not None:
+            self.set_gesture_dict(gesture_config)
 
     def set_clip_slot(self, clip_slot):
         if clip_slot is not None and clip_slot == self.__clip_slot:
@@ -114,3 +117,43 @@ class SessionClipControl(ZControl):
         
     def request_color_update(self):
         super().request_color_update()
+
+    @property
+    def clip_slot(self):
+        return self.__clip_slot
+
+    @property
+    def clip(self):
+        return self.__clip
+
+    @property
+    def scene_index(self):
+        if self.__clip_slot is None:
+            return 0
+        idx = list(self.__clip_slot.canonical_parent.clip_slots).index(self.__clip_slot)
+        return idx
+
+    @property
+    def scene_number(self):
+        return self.scene_index + 1
+
+    @property
+    def track_name(self):
+        if self.__clip_slot is None:
+            return 'NONE'
+        else:
+            return self.__clip_slot.canonical_parent.name
+
+    @property
+    def clip_target(self):
+        if self.__clip_slot is None:
+            return 'NONE / CLIP(NONE)'
+        else:
+            return f'"{self.track_name}" / CLIP ({self.scene_number})'
+
+    @property
+    def user_clip_target(self):
+        if self.__clip_slot is None:
+            return 'NONE / CLIP(NONE)'
+        else:
+            return f'"{self.track_name}" / USER_CLIP ({self.scene_number})'
