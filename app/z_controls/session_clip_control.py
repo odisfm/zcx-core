@@ -13,6 +13,8 @@ class SessionClipControl(ZControl):
         self.__clip = None
         self.__color_dict = self.empty_color_dict
         self._color = self.empty_color_dict['base']
+        self._suppress_animations = True
+        self._suppress_attention_animations = True
 
     def setup(self):
         pass
