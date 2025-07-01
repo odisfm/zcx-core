@@ -83,7 +83,7 @@ class ZControl(EventObject):
 
     def setup(self):
         config = self._raw_config
-        self.__create_context([
+        self._create_context([
             config.get('section_context', {}),
             config.get('group_context', {}),
             config.get('props', {})
@@ -185,7 +185,7 @@ class ZControl(EventObject):
     def set_vars(self, vars):
         self._vars = vars
 
-    def __create_context(self, config: list[dict]) -> None:
+    def _create_context(self, config: list[dict]) -> None:
         context = {k: v for d in config for k, v in d.items()}
         if 'index' not in context:
             if 'group_index' in context:
