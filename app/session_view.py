@@ -9,6 +9,11 @@ if TYPE_CHECKING:
     from .pad_section import PadSection
     from .session_ring import SessionRing
 
+DEFAULT_GESTURES = {
+    "pressed": '"${track_name}" / PLAY ${scene_number}',
+    "pressed__select": '"${track_name}" / SEL ${scene_number}'
+}
+
 class SessionView(ZCXComponent):
 
     def __init__(
@@ -36,6 +41,9 @@ class SessionView(ZCXComponent):
             self.debug('No session view section defined')
             return
 
+        control_config = {}
+        control_config['gestures'] = section_def.get('gestures', DEFAULT_GESTURES)
+
         matrix_state = self.component_map['HardwareInterface'].button_matrix_state
 
         section_obj: 'PadSection' = self.__page_manager.build_section(
@@ -55,7 +63,7 @@ class SessionView(ZCXComponent):
             control = SessionClipControl(
                 root_cs=self.canonical_parent,
                 parent_section=section_obj,
-                raw_config={},
+                raw_config=control_config,
                 button_name=None,
             )
             state = matrix_state.get_control(coord[0], coord[1])
@@ -78,13 +86,6 @@ class SessionView(ZCXComponent):
 
         self.ring_offsets_changed.subject = self._session_ring
         self.update_clip_slot_assignments()
-
-    def handle_gesture(self, gesture, clip_slot):
-
-        if gesture == 'pressed':
-
-            clip_slot.fire()
-
 
     @listens('offsets')
     def ring_offsets_changed(self):
