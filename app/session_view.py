@@ -77,23 +77,17 @@ class SessionView(ZCXComponent):
         self.__control_array = control_array
 
         self.ring_offsets_changed.subject = self._session_ring
-
-        self.critical(section_obj.owned_coordinates)
-
         self.update_clip_slot_assignments()
 
     def handle_gesture(self, gesture, clip_slot):
-        self.log(f'gesture: {gesture} gdgdfggdf')
 
         if gesture == 'pressed':
 
             clip_slot.fire()
-            self.log(f'fired clip')
 
 
     @listens('offsets')
     def ring_offsets_changed(self):
-        self.critical(f'ring offsets changed: {self._session_ring.offsets}')
         self.update_clip_slot_assignments()
 
     def __create_color_dict_lookup(self):
