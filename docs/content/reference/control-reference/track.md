@@ -1,3 +1,7 @@
+---
+weight: -6
+---
+
 # track control
 
 The `track` control binds to a particular track in the Live set. An RGB-enabled button will attempt to display animated feedback representing the track's state (playing, recording, etc.). 

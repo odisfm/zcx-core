@@ -1,3 +1,7 @@
+---
+weight: -7
+---
+
 # transport control
 
 The `transport` control binds to a particular function of Live's transport, displaying feedback based on the state of the function.
