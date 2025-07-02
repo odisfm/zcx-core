@@ -16,7 +16,7 @@ from Push2.colors import IndexedColor as PushIndexedColor
 from pushbase.colors import Color
 
 
-animation_speed_translation = [48, 24, 12, 8, 4]
+animation_speed_translation = [48, 24, 12, 6, 4]
 
 
 class IndexedColor(PushIndexedColor):
