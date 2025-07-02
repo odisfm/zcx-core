@@ -207,6 +207,10 @@ class ZManager(ZCXComponent):
             flat_config = []
             unnamed_groups = 0
 
+            # Handle empty yaml file as empty anonymous group def
+            if raw_config is None:
+                raw_config = {}
+
             # Handle single dict group section config
             if isinstance(raw_config, dict):
                 if "pad_group" in raw_config:
@@ -229,9 +233,6 @@ class ZManager(ZCXComponent):
                         else:
                             merged = merge_configs(deepcopy(group_template), override)
                             raw_config.append(merged)
-
-            elif not isinstance(raw_config, list):
-                raise ValueError()  # todo: raise config error with proper message
 
             for i, item in enumerate(raw_config):
                 config = deepcopy(item)
