@@ -111,7 +111,8 @@ class SessionView(ZCXComponent):
 
             color_dict['playing'] = parse_color_definition({"pulse": {
                 "a": 'green',
-                "b": '0'
+                "b": '0',
+                'speed': 0
             }})
             color_dict['recording'] = parse_color_definition({"pulse": {
                 "a": "red",
