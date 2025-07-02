@@ -128,7 +128,7 @@ class TrackControl(ZControl):
             'b': {'live': base_index},
             'speed': 1
         }}, calling_control=self)
-        color_dict['armed'] = parse_color_definition('red')
+        color_dict['armed'] = parse_color_definition('arm_red')
         color_dict['selected_armed'] = parse_color_definition({'pulse': {
             'a': 'white',
             'b': 'pink',
@@ -146,7 +146,7 @@ class TrackControl(ZControl):
         }}, calling_control=self)
         color_dict['selected_playing_armed'] = parse_color_definition({'pulse': {
             'a': 'white',
-            'b': 'red shade 1',
+            'b': 'arm_red',
             'speed': 1
         }}, calling_control=self)
         color_dict['selected_recording'] = parse_color_definition({'pulse': {
@@ -234,6 +234,9 @@ class TrackControl(ZControl):
                 self._color = self._color_dict['selected_stopping']
                 return True
             elif is_playing:
+                if is_armed:
+                    self._color = self._color_dict['selected_playing_armed']
+                    return True
                 self._color = self._color_dict['selected_playing']
                 return True
             elif is_armed:
