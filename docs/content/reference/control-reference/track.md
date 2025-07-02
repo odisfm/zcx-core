@@ -36,6 +36,10 @@ By default, the track control will attempt to create a palette of colors based o
 
 Inherits from [standard control](/reference/control-reference/z-control/#options).
 
+## properties
+
+These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
+
 ### track
 
 Returns the name of the bound track.
