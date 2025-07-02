@@ -239,9 +239,6 @@ class TrackControl(ZControl):
             elif is_armed:
                 self._color = self._color_dict['selected_armed']
                 return True
-            elif is_armed:
-                self._color = self._color_dict['selected_armed']
-                return True
             else:
                 self._color = self._color_dict['selected']
                 return True
