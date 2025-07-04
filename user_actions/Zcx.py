@@ -134,14 +134,17 @@ class Zcx(UserActionsBase):
                 message_portion = args.split('"')[1] # will fix
                 target_script.write_display_message(message_portion)
 
-            elif sub_action == 'bind':
+            elif sub_action in ['bind', 'bind_default']:
                 encoder_name = _args[2]
                 bind_def = args.split('"')[1]
                 bind_def = bind_def.replace('`', '"')
                 encoder_obj = target_script.get_encoder(encoder_name)
                 if encoder_obj is None:
                     raise RuntimeError(f'Encoder {encoder_name} does not exist on {target_script.name}.')
-                encoder_obj.bind_ad_hoc(bind_def)
+                if sub_action == 'bind':
+                    encoder_obj.bind_ad_hoc(bind_def)
+                elif sub_action == 'bind_default':
+                    encoder_obj.override_binding_definition(bind_def, 'default')
 
             elif sub_action == 'refresh':
                 target_script.refresh()
