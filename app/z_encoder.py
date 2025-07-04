@@ -495,6 +495,10 @@ class ZEncoder(EventObject):
         self._active_map = target_map
         self.bind_to_active()
 
+    def refresh_binding(self):
+        modes = self.mode_manager.current_modes
+        self.modes_changed(modes)
+
     def bind_ad_hoc(self, binding_def):
         parsed_target_string, status = self.action_resolver.compile(
             binding_def,
@@ -508,6 +512,19 @@ class ZEncoder(EventObject):
         target_map = self.action_resolver.parse_target_path(parsed_target_string)
         self._active_map = target_map
         self.bind_to_active()
+
+    def override_binding_definition(self, binding_def, mode='default', refresh_binding=True):
+        parsed_target_string, status = self.action_resolver.compile(
+            binding_def,
+            self._vars,
+            self._context,
+        )
+        if status != 0:
+            raise ConfigurationError(f"Unparseable binding definition: {binding_def}") # todo: error type
+        target_map = self.action_resolver.parse_target_path(parsed_target_string)
+        self._binding_dict[mode] = target_map
+        if refresh_binding:
+            self.refresh_binding()
 
     @listens("current_modes")
     def modes_changed(self, _):
