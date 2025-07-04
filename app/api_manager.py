@@ -92,7 +92,7 @@ class ZcxApi:
         try:
             return parse_color_definition(color_def, calling_control)
         except Exception as e:
-            self.root_cs
+            self.root_cs.critical(e)
 
     def refresh(self):
         self.root_cs.refresh_all_lights()
