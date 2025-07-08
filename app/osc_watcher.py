@@ -102,5 +102,4 @@ class OscSectionWatcher(OscWatcher):
     def update_osc_labels(self):
         for i, coord in enumerate(self._pad_section.owned_coordinates):
             control = self._pad_section.owned_controls[i]
-            idx = ((7 - coord[0]) * 8) + coord[1]
-            self._osc_server.sendOSC(f'{self._base_osc_address}{idx}/', control.osc_label)
+            self._osc_server.sendOSC(f'{self._base_osc_address}{coord[0] + 1}/{coord[1] + 1}/', control.osc_label)
