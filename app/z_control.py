@@ -120,7 +120,7 @@ class ZControl(EventObject):
                 osc_label_def = self._gesture_dict.get('released_immediately')
                 if osc_label_def is None:
                     for gesture, command in self._gesture_dict.items():
-                        if not gesture.startswith('pressed'):
+                        if not gesture.startswith('pressed') or gesture.startswith('double_clicked'):
                             continue
                         if isinstance(command, str):
                             osc_label_def = command
