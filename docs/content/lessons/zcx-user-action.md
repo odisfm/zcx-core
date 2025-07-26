@@ -98,6 +98,20 @@ Write a message to the controller's display. The message must be enclosed in dou
 
 `ZCX <target script> MSG "hello there"`
 
+### HW_MODE
+
+Set the controller to either 'Live' or zcx mode.
+
+`ZCX <target script> HW_MODE live`
+
+`ZCX <target script> HW_MODE zcx`
+
+### REFRESH
+
+Force a refresh of all controller feedback.
+
+`ZCX <target script> REFRESH`
+
 #### Color commands
 
 These commands allow you to set the color on an individual control by [alias](/reference/control-reference/z-control#alias), as well as across an entire section or group of controls.
