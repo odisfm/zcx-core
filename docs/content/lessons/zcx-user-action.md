@@ -98,7 +98,7 @@ Write a message to the controller's display. The message must be enclosed in dou
 
 `ZCX <target script> MSG "hello there"`
 
-### HW_MODE
+#### HW_MODE
 
 Set the controller to either 'Live' or zcx mode.
 
@@ -106,7 +106,7 @@ Set the controller to either 'Live' or zcx mode.
 
 `ZCX <target script> HW_MODE zcx`
 
-### REFRESH
+#### REFRESH
 
 Force a refresh of all controller feedback.
 
