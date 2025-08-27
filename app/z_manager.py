@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from ableton.v3.control_surface.controls import control_matrix
+from .z_controls import ParamControl
 
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
@@ -9,6 +10,7 @@ from .pad_section import PadSection
 from .z_control import ZControl
 from .z_state import ZState
 from .zcx_component import ZCXComponent
+from .encoder_manager import SelectedDeviceWatcher
 
 
 class ZManager(ZCXComponent):
@@ -636,6 +638,8 @@ class ZManager(ZCXComponent):
         return self.__control_aliases.get(alias)
 
     def song_ready(self):
+        selected_device_watcher = SelectedDeviceWatcher(self, self._song)
+        ParamControl.selected_device_watcher = selected_device_watcher
         for control in self.__all_controls:
             if isinstance(control, ParamControl):
                 control.bind_to_active()

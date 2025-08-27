@@ -6,6 +6,8 @@ from ..errors import ConfigurationError, CriticalConfigurationError
 
 class ParamControl(ZControl):
 
+    selected_device_watcher = None
+
     def __init__(self, *a, **kwargs):
         ZControl.__init__(self, *a, **kwargs)
         self._default_map = None
