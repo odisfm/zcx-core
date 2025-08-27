@@ -66,3 +66,12 @@ class CxpBridge(ZCXComponent):
 
         if self.__log_action_lists:
             self.log(f'did action list: `{action_list}`')
+
+    def get_cxp_variable(self, name):
+        if self.__clyph_x is None:
+            raise RuntimeError(f"Not connected to {CXP_NAME}.")
+
+        try:
+            return self.__clyph_x._user_variables[name]
+        except KeyError:
+            return None
