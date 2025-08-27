@@ -276,7 +276,7 @@ class ZControl(EventObject):
                                 sorted(candidates, key=lambda x: x[1], reverse=self._cascade_direction == "up")]
 
         if len(matching_actions) == 0:
-            return
+            return False
 
         for command in matching_actions:
 
