@@ -69,7 +69,7 @@ class ZControl(EventObject):
         self._animate_on_release = False
         self._current_animation_task = None
         self._current_mode_string = ''
-        self._allow_multiple_triggers = False
+        self._cascade_direction = False
         self._fake_momentary = False
         self._last_received_value = 0
         self._repeat = False
@@ -105,6 +105,11 @@ class ZControl(EventObject):
         self._suppress_animations = suppress_animations
         self._fake_momentary = config.get('tog_to_mom', False)
         self._repeat = config.get('repeat', False)
+
+        self._cascade_direction = config.get('cascade', False)
+        if self._cascade_direction not in [False, "up", "down"]:
+            self.log(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
+            self._cascade_direction = False
 
     def log(self, *msg):
         for msg in msg:
@@ -245,27 +250,30 @@ class ZControl(EventObject):
         lookup_key = gesture + self._current_mode_string
         matching_actions = []
 
-        if not self._allow_multiple_triggers:
+        if not self._cascade_direction:
             if action := self._gesture_dict.get(lookup_key):
                 matching_actions.append(action)
         else:
+            candidates = []
+
             for key, action in self._gesture_dict.items():
                 parts = key.split("__")
                 if parts[0] != gesture:
                     continue
 
                 if len(parts) == 1:
-                    matching_actions.append(action)
-                    if not self._allow_multiple_triggers:
-                        break
+                    mode_count = 0
+                    candidates.append((action, mode_count))
                     continue
 
                 mode_part = "__" + "__".join(parts[1:])
 
                 if mode_part in self._current_mode_string:
-                    matching_actions.append(action)
-                    if not self._allow_multiple_triggers:
-                        break
+                    mode_count = len(parts) - 1
+                    candidates.append((action, mode_count))
+
+            matching_actions = [action for action, _ in
+                                sorted(candidates, key=lambda x: x[1], reverse=self._cascade_direction == "up")]
 
         if len(matching_actions) == 0:
             return

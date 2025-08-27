@@ -27,6 +27,7 @@ externally_managed_light: boolean=false
 template: string, list[string], null
 props: dict[any]
 threshold: int=30
+cascade: false | "down" | "up" = false
 ```
 
 ### type
@@ -137,6 +138,12 @@ ___
 
 Override the global velocity threshold, which by default is `30`. Triggers under this threshold will be ignored.
 
+___
+### cascade
+`false | "down" | "up" = false`
+
+Configures the control's behaviour when [multiple command bundles match the performed gesture](/reference/command-reference/#multiple-matching-gestures).
+The default of `false` executes only one matching command bundle per gesture.
 
 ## properties
 
