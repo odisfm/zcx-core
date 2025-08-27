@@ -84,10 +84,25 @@ gestures:
 
 Gesture definitions always start with one of the [six supported gestures](#gestures). Modes can be added by appending the name of each mode prefixed with a double underscore (`__`). 
 
-!!! note
-    If you have a configuration like above, where there are multiple variations on the `pressed` gesture, only the **most specific** definition will be executed.
+#### multiple matching gestures
 
-    E.g. if `shift` is active, the action list `SREC FIX 8` will fire but `SREC FIX 4` will not. If both `shift` and `select` are active, only `SREC FIX 16` will fire.
+If you have a configuration like above, where there are multiple variations on the `pressed` gesture, only the **most specific** definition will be executed.
+
+E.g. if `shift` is active, the action list `SREC FIX 8` will fire but `SREC FIX 4` will not. If both `shift` and `select` are active, only `SREC FIX 16` will fire.
+
+##### cascading gestures
+
+You may [configure a control](/reference/control-reference/z-control#cascade) to execute all matching command bundles in sequence. 
+This is done by setting the control's `cascade` option to `up` or `down`:
+
+```yaml
+my_control:
+  cascade: down
+```
+
+This will execute command bundles in order of least-specific to most-specific, i.e `pressed`, `pressed__shift`, and `pressed__shift__select`.
+
+Setting `cascade: up` will reverse this order.
 
 ## command syntax
 
