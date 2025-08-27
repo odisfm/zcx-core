@@ -85,6 +85,7 @@ class SessionView(ZCXComponent):
         self.__control_array = control_array
 
         self.ring_offsets_changed.subject = self._session_ring
+        self.tracks_changed.subject = self._song
         self.update_clip_slot_assignments()
 
     @listens('offsets')
@@ -159,3 +160,7 @@ class SessionView(ZCXComponent):
             controls = self.__control_array[i]
             for j, control in enumerate(controls):
                 control.set_clip_slot(track.clip_slots[j + scene_offset])
+
+    @listens('tracks')
+    def tracks_changed(self):
+        self.update_clip_slot_assignments()
