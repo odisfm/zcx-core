@@ -110,7 +110,7 @@ class SessionView(ZCXComponent):
             color_dict = {"base": base_color}
 
             color_dict['playing'] = parse_color_definition({"pulse": {
-                "a": 'green',
+                "a": 'play_green',
                 "b": '0',
                 'speed': 0
             }})
@@ -121,7 +121,7 @@ class SessionView(ZCXComponent):
                 }}
             )
             color_dict['triggered_to_play'] = parse_color_definition({"blink": {
-                "a": "green",
+                "a": "play_green",
                 "b": {"live": i}
             }}
             )
@@ -134,7 +134,7 @@ class SessionView(ZCXComponent):
             "base": off,
             "playing": off,
             "triggered_to_play": parse_color_definition({"blink": {
-                "a": 'green',
+                "a": 'play_green',
                 "b": '0',
                 "speed": 1,
             }}),
