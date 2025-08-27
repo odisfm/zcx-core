@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from ableton.v3.control_surface.controls import control_matrix
+from .z_controls import ParamControl
 
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
@@ -631,3 +632,8 @@ class ZManager(ZCXComponent):
 
     def get_aliased_control(self, alias):
         return self.__control_aliases.get(alias)
+
+    def song_ready(self):
+        for control in self.__all_controls:
+            if isinstance(control, ParamControl):
+                control.bind_to_active()

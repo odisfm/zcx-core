@@ -405,7 +405,15 @@ class ActionResolver(ZCXComponent):
             'send': None,
             'chain_map': None,
             'error': None,
-            'send_track': None
+            'send_track': None,
+            'arm': False,
+            'monitor': False,
+            'mute': False,
+            'solo': False,
+            'track_select': False,
+            'play': False,
+            'stop': False,
+            'x_fade_assign': False
         }
 
         # Handle NONE and SELP special cases (case-insensitive)
@@ -416,7 +424,7 @@ class ActionResolver(ZCXComponent):
             result['parameter_type'] = 'SELP'
             return result
 
-        # Split track and rest
+            # Split track and rest
         if '/' not in target_string:
             # Check for ring(n) format
             ring_pattern = re.compile(r'^ring\((\d+)\)$', re.IGNORECASE)
@@ -432,7 +440,7 @@ class ActionResolver(ZCXComponent):
                 result['track'] = target_string
                 return result
 
-        # Split the target_string into track_part and rest
+                # Split the target_string into track_part and rest
         track_part, rest = target_string.split('/', 1)
         track_part = track_part.strip()
         rest = rest.strip()
@@ -454,11 +462,54 @@ class ActionResolver(ZCXComponent):
             result['track'] = None
 
         rest_upper = rest.upper()
+
+        if rest_upper == 'ARM':
+            result['parameter_type'] = 'ARM'
+            result['arm'] = True
+            return result
+        elif rest_upper.startswith('MON '):
+            parts = rest.split()
+            if len(parts) >= 2:
+                mon_state = parts[1].upper()
+                if mon_state in ['IN', 'AUTO', 'OFF']:
+                    result['parameter_type'] = 'MON'
+                    result['monitor'] = mon_state.lower()
+                    return result
+        elif rest_upper == 'MUTE':
+            result['parameter_type'] = 'MUTE'
+            result['mute'] = True
+            return result
+        elif rest_upper == 'PLAY':
+            result['parameter_type'] = 'PLAY'
+            result['play'] = True
+            return result
+        elif rest_upper == 'SEL':
+            result['parameter_type'] = 'SEL'
+            result['track_select'] = True
+            return result
+        elif rest_upper == 'SOLO':
+            result['parameter_type'] = 'SOLO'
+            result['solo'] = True
+            return result
+        elif rest_upper == 'STOP':
+            result['parameter_type'] = 'STOP'
+            result['stop'] = True
+            return result
+        elif rest_upper.startswith('XFADE '):
+            parts = rest.split()
+            if len(parts) >= 2:
+                xfade_state = parts[1].upper()
+                if xfade_state in ['A', 'B', 'OFF']:
+                    result['parameter_type'] = 'XFADE'
+                    result['x_fade_assign'] = xfade_state.lower()
+                    return result
+
+        # Existing parameter checks
         if rest_upper in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
             result['parameter_type'] = rest_upper
             return result
 
-        # Handle send parameters without device
+            # Handle send parameters without device
         if rest_upper.startswith('SEND'):
             result['parameter_type'] = 'SEND'
             parts = rest.split()
@@ -466,7 +517,7 @@ class ActionResolver(ZCXComponent):
                 result['send'] = parts[1]
             return result
 
-        # Handle device parameters
+            # Handle device parameters
         dev_pattern = re.compile(r'DEV\(', re.IGNORECASE)
         if dev_pattern.search(rest):
             dev_match = dev_pattern.search(rest)
@@ -509,11 +560,11 @@ class ActionResolver(ZCXComponent):
                         elif param_part_upper in ['PAN', 'VOL']:
                             result['parameter_type'] = param_part_upper
 
-                # Check for standard parameter types (PAN, VOL, etc.) first
+                            # Check for standard parameter types (PAN, VOL, etc.) first
                 param_part_upper = param_part.upper()
                 if param_part_upper in ['PAN', 'VOL', 'CUE', 'XFADER', 'PANL', 'PANR']:
                     result['parameter_type'] = param_part_upper
-                # Handle SEND directly after DEV(...)
+                    # Handle SEND directly after DEV(...)
                 elif param_part_upper.startswith('SEND'):
                     parts = param_part.split()
                     result['parameter_type'] = 'SEND'
