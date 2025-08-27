@@ -18,5 +18,7 @@ def get_subclass(class_name):
             return TrackControl
         case "ring_track":
             return RingTrackControl
+        case "param":
+            return ParamControl
         case _:
             return BasicZControl
