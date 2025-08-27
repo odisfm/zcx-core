@@ -29,6 +29,9 @@ class SessionRing(SessionRingBase):
 
         super().__init__(num_tracks=width, num_scenes=height, always_snap_track_offset=False,*a, **k)
 
+        self.__height = height
+        self.__width = width
+
         from . import CONFIG_DIR
 
         if TYPE_CHECKING:
@@ -87,10 +90,11 @@ class SessionRing(SessionRingBase):
             x = max(x, -current_x)
         if y < 0:
             y = max(y, -current_y)
-        if x + current_x >= self.track_count:
-            x = self.track_count - current_x
-        if y + current_y >= self.scene_count:
-            y = self.scene_count - current_y - 1
+
+        if x + current_x >= self.track_count - self.__width:
+            x = self.track_count - self.__width - current_x
+        if y + current_y >= self.scene_count - self.__height:
+            y = self.scene_count - self.__height - current_y
 
         super().move(x, y)
         self.notify_offsets()
