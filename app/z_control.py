@@ -268,7 +268,7 @@ class ZControl(EventObject):
                         break
 
         if len(matching_actions) == 0:
-            return
+            return False
 
         for command in matching_actions:
 
