@@ -1,7 +1,6 @@
 from copy import deepcopy
 
 from ableton.v3.control_surface.controls import control_matrix
-from .z_controls import ParamControl
 
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
@@ -32,6 +31,7 @@ class ZManager(ZCXComponent):
         self.__named_control_section: PadSection = None
         self.__matrix_sections: dict[PadSection] = {}
         self.__control_aliases = {}
+        self.__all_controls = []
 
     def setup(self):
         from . import z_controls
@@ -635,6 +635,8 @@ class ZManager(ZCXComponent):
                                                  f"\n{str(e)}") from e
             self.log(e)
             return get_control_class("basic")(self.canonical_parent, pad_section, {})
+
+        self.__all_controls.append(control)
 
         return control
 
