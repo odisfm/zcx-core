@@ -44,12 +44,15 @@ class SessionClipControl(ZControl):
     def has_clip_changed(self):
         if self.__clip_slot.has_clip:
             self.__clip = self.__clip_slot.clip
-            self.__set_listeners()
         else:
             self.__clip = None
-            self.__set_listeners()
+        self.__set_listeners()
+        self.color_index_changed()
+        self.update_status()
 
     def __set_listeners(self):
+        self.has_clip_changed.subject = self.__clip_slot
+
         self.__clip = None if not self.__clip_slot.has_clip else self.__clip_slot.clip
 
         self.is_playing_changed.subject = self.__clip
@@ -82,6 +85,7 @@ class SessionClipControl(ZControl):
             self.__color_dict = self.session_view_component.get_color_dict(self.__clip.color_index)
         else:
             self.__color_dict = self.empty_color_dict
+        self.update_status()
 
     @listens('arm')
     def track_arm_changed(self):
