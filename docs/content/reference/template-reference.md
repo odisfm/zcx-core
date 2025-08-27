@@ -141,7 +141,6 @@ pad 2 (with shift): "beats" / PLAY RND43-44
 
 !!! note "Notes"
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
-    - You cannot reference ClyphX Pro variables from **inside an expression**, e.g. `PLAY ${ %my_num% + 10 }`, but you **can** combine zcx templating with [ClyphX variables](https://www.cxpman.com/manual/core-concepts/#variables), e.g. `%my_track% / PLAY ${me.Index}` 
 
 ### template locals
 
@@ -166,6 +165,10 @@ Allows you to write to the log. Mostly useful with [Python commands](/reference/
 #### msg
 
 Briefly displays a message in the Live UI, like with the [msg command](/reference/command-reference#msg).
+
+#### cxp_var
+
+Retrieves the current value of a ClyphX Pro variable if that variable is defined, or the Python `None` if it is not defined.
 
 ## group templates
 

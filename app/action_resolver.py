@@ -75,6 +75,7 @@ class ActionResolver(ZCXComponent):
         self.__cxp_partial = partial(self.__cxp.trigger_action_list)
         self.__standard_context = self.__build_standard_context()
 
+
     def __build_standard_context(self) -> dict[str: Any]:
 
         context = {
@@ -84,7 +85,8 @@ class ActionResolver(ZCXComponent):
             'print': self.__log_func,
             'msg': self.__msg_func,
             'cxp': self.__cxp_partial,
-            'open': None
+            'open': None,
+            'cxp_var': self.__cxp.get_cxp_variable
         }
         return context
 
