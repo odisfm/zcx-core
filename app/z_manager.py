@@ -436,12 +436,16 @@ class ZManager(ZCXComponent):
     def parse_named_button_config(
             self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
     ) -> dict:
+        working_control_name = None
+        working_control_def = None
         try:
             ungrouped_buttons = {}
             groups = {}
 
             # Separate grouped and ungrouped buttons
             for item_name, item_def in raw_config.items():
+                working_control_name = item_name
+                working_control_def = item_def
                 if item_name.startswith("__"):
                     if item_name in groups:
                         raise ConfigurationError(f"Multiple definitions for {item_name}")
@@ -528,6 +532,8 @@ class ZManager(ZCXComponent):
             # Process ungrouped buttons
             processed_ungrouped = {}
             for button_name, button_def in ungrouped_buttons.items():
+                working_control_name = button_name
+                working_control_def = button_def
                 config = deepcopy(button_def)
                 if config is None:
                     config = {}
@@ -591,7 +597,10 @@ class ZManager(ZCXComponent):
             return processed_ungrouped
 
         except Exception as e:
-            raise
+            raise CriticalConfigurationError(f"Bad definition for control `{working_control_name}`: "
+                                             f"\nControl definition: "
+                                             f"\n{working_control_def}\n"
+                                             f"\n{str(e)}") from e
 
     def z_control_factory(self, config, pad_section, button_name=None) -> ZControl:
         try:
@@ -618,7 +627,11 @@ class ZManager(ZCXComponent):
             from . import SAFE_MODE
 
             if SAFE_MODE is True:
-                raise
+                name = f"`{button_name}`" if button_name is not None else f"in section {pad_section.name}"
+                raise CriticalConfigurationError(f"Bad definition for control {name}: "
+                                                 f"\nControl definition: "
+                                                 f"\n{config}\n"
+                                                 f"\n{str(e)}") from e
             self.log(e)
             return get_control_class("basic")(self.canonical_parent, pad_section, {})
 
