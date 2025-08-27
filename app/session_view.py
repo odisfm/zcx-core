@@ -36,7 +36,7 @@ class SessionView(ZCXComponent):
         self.__page_manager: 'PageManager' = self.component_map['PageManager']
         self._session_ring = self.canonical_parent._session_ring_custom
 
-        section_def = self.__page_manager.get_special_section_definition('session_view')
+        section_def = self.__page_manager.get_special_section_definition('__session_view')
         if section_def is None:
             self.debug('No session view section defined')
             return
@@ -47,7 +47,7 @@ class SessionView(ZCXComponent):
         matrix_state = self.component_map['HardwareInterface'].button_matrix_state
 
         section_obj: 'PadSection' = self.__page_manager.build_section(
-            'session_view',
+            '__session_view',
             section_def
         )
 
