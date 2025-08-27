@@ -225,6 +225,7 @@ class ZCXCore(ControlSurface):
     def song_ready(self):
         self.application.remove_control_surfaces_listener(self.song_ready)
         self.component_map['EncoderManager'].bind_all_encoders()
+        self.component_map['ZManager'].song_ready()
 
     def port_settings_changed(self):
         if not self._enabled:
