@@ -529,6 +529,8 @@ class ZManager(ZCXComponent):
             processed_ungrouped = {}
             for button_name, button_def in ungrouped_buttons.items():
                 config = deepcopy(button_def)
+                if config is None:
+                    config = {}
 
                 # Apply templates
                 skip_global = False
