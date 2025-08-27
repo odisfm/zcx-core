@@ -650,4 +650,5 @@ class ZManager(ZCXComponent):
 
     def song_ready(self):
         for control in self.__all_controls:
-            pass
+            if isinstance(control, ParamControl):
+                control.bind_to_active()
