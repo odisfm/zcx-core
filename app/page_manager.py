@@ -42,7 +42,7 @@ class PageManager(ZCXComponent):
         self.__osc_address_page_number = None
         self.__does_send_osc = False
         self.__special_sections_config = {
-            "session_view": None,
+            "__session_view": None,
         }
 
     @listenable_property
