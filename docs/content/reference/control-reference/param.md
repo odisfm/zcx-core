@@ -4,7 +4,7 @@ weight: 0
 # param control
 
 The `param` control binds to a device parameter, mixer parameter, or other special function, and displays feedback about the state of its target.
-This feature to emulate the Button Bindings feature from the [ClyphX Pro Bindings](https://www.cxpman.com/manual/optional-accessories/#clyphx-pro-bindings) optional accessory.
+This feature aims to emulate the Button Bindings feature from the [ClyphX Pro Bindings](https://www.cxpman.com/manual/optional-accessories/#clyphx-pro-bindings) optional accessory.
 
 ## behaviour
 
@@ -14,7 +14,7 @@ For [adjustable properties](https://www.cxpman.com/manual/general-action-informa
 
 Without defining any [gestures](reference/command-reference/#gestures), the param control will toggle its mapped parameter from "on" to "off" on a press.
 Binary targets will have their status inverted.
-For adjustable properties, a parameter currently at its minimum vale will be set to its maximum, and a parameter at any value above its minimum is set to its maximum.
+For adjustable properties, a parameter currently at its minimum value will be set to its maximum, and a parameter at any value above its minimum is set to its maximum.
 
 You can disable this behaviour by setting [toggle_param](#toggle_param) to `false`.
 Any defined gestures will be executed as normal.
