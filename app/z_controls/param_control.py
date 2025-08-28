@@ -20,6 +20,7 @@ class ParamControl(ZControl):
         self._log_failed_bindings = True
         self.__disabled = True
         self._suppress_animations = True
+        self._will_toggle_param = True
 
     def setup(self):
         try:
@@ -35,7 +36,7 @@ class ParamControl(ZControl):
 
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
 
-            self._default_toggle_behaviour = self._raw_config.get("toggle_param", True)
+            self._will_toggle_param = self._raw_config.get("toggle_param", True)
 
             bindings = self._raw_config.get("binding", {})
             if isinstance(bindings, dict):
@@ -720,7 +721,7 @@ class ParamControl(ZControl):
 
     def handle_gesture(self, gesture):
         super().handle_gesture(gesture)
-        if gesture == "pressed":
+        if gesture == "pressed" and self._will_toggle_param:
             self.toggle_mapped_parameter()
 
     def toggle_mapped_parameter(self):
