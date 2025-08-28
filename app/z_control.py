@@ -276,7 +276,10 @@ class ZControl(EventObject):
                                 sorted(candidates, key=lambda x: x[1], reverse=self._cascade_direction == "up")]
 
         if len(matching_actions) == 0:
-            return False
+            if base_gesture := self._gesture_dict.get(gesture):
+                matching_actions.append(base_gesture)
+            else:
+                return False
 
         for command in matching_actions:
 
