@@ -141,8 +141,6 @@ class ParamControl(ZControl):
     def bind_to_active(self):
 
         try:
-            dynamism = self.assess_dynamism(self._active_map)
-            self.apply_listeners(dynamism)
 
             try:
                 if self._active_map is None:
@@ -172,6 +170,9 @@ class ParamControl(ZControl):
             self.log(f"{e.__class__.__name__}: {e}")
             if self._log_failed_bindings:
                 self._parent_logger.error(f"Failed to bind to target: {self._active_map}")
+        finally:
+            dynamism = self.assess_dynamism(self._active_map)
+            self.apply_listeners(dynamism)
 
     def apply_listeners(self, listen_dict):
 
@@ -186,9 +187,10 @@ class ParamControl(ZControl):
             self.track_list_listener.subject = None
 
         if listen_dict.get("device_list"):
-            pass
+            self.device_list_listener.subject = self._mapped_track
         else:
-            pass
+            self.device_list_listener.subject = None
+        self.log(self.device_list_listener.subject)
 
         if listen_dict.get("parameter_list"):
             pass
@@ -354,6 +356,8 @@ class ParamControl(ZControl):
                 else:
                     track_obj = self.root_cs.song.view.selected_track
 
+                self._mapped_track = track_obj
+
                 par_def = target_map.get("parameter_name")
 
                 device_def = target_map.get("device")
@@ -502,9 +506,14 @@ class ParamControl(ZControl):
         device_def = target_map.get("device")
         if device_def is None:
             listen_dict["selected_device"] = False
-        elif device_def.lower() == "sel":
+            listen_dict["device_list"] = False
+        else:
             listen_dict["device_list"] = True
+
+        if device_def and device_def.lower() == "sel":
             listen_dict["selected_device"] = True
+        else:
+            listen_dict["selected_device"] = False
 
         chain_map = target_map.get("chain_map")
         if chain_map is None:
