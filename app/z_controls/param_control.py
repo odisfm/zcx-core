@@ -675,7 +675,6 @@ class ParamControl(ZControl):
                     self.set_feedback(True)
                 else:
                     self.set_feedback(False)
-
             elif map.get('mute'):
                 if self._mapped_track.mute:
                     self.set_feedback(True)
