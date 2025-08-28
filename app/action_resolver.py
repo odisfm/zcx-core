@@ -404,6 +404,7 @@ class ActionResolver(ZCXComponent):
         """Attempts to parse a target track or device in ClyphX notation,
         returns a dict you can use to find the target object manually."""
         result = {
+            'input_string': target_string,
             'track': None,
             'ring_track': None,
             'device': None,
