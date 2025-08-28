@@ -21,6 +21,8 @@ class ParamControl(ZControl):
         self.__disabled = True
         self._suppress_animations = True
         self._will_toggle_param = True
+        self._concerned_binding_modes = []
+        self._current_binding_mode_string = ""
 
     def setup(self):
         try:
@@ -101,7 +103,7 @@ class ParamControl(ZControl):
             else:
                 self._default_map = list(binding_dict.values())[0]
 
-            self._concerned_modes = concerned_modes
+            self._concerned_binding_modes = concerned_modes
             self._binding_dict = binding_dict
             self._active_map = self._default_map
 
@@ -865,22 +867,22 @@ class ParamControl(ZControl):
     @listens("current_modes")
     def modes_changed(self, _):
         super().modes_changed(_)
-        if self._current_mode_string == "":
+        if self._current_binding_mode_string == "":
             mode_string = "default"
         else:
-            mode_string = self._current_mode_string
-        self.log(self._binding_dict)
+            mode_string = self._current_binding_mode_string
         self.rebind_from_dict(mode_string)
 
     def update_mode_string(self, mode_states):
-        if len(self._concerned_modes) == 0:
-            self._current_mode_string = ""
+        super().update_mode_string(mode_states)
+        if len(self._concerned_binding_modes) == 0:
+            self._current_binding_mode_string = ""
             return
 
         active_concerned_modes = [
-            mode for mode in self._concerned_modes if mode_states.get(mode, False)
+            mode for mode in self._concerned_binding_modes if mode_states.get(mode, False)
         ]
         if not active_concerned_modes:
-            self._current_mode_string = ""
+            self._current_binding_mode_string = ""
         else:
-            self._current_mode_string = "__" + "__".join(active_concerned_modes)
+            self._current_binding_mode_string = "__" + "__".join(active_concerned_modes)
