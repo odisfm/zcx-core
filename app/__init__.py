@@ -1,4 +1,5 @@
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 from pathlib import Path
 from typing import Type
@@ -179,14 +180,36 @@ def create_instance(c_instance):
 
     ROOT_LOGGER.setLevel(log_level)
 
-    if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_filename for h in ROOT_LOGGER.handlers):
-        file_handler = logging.FileHandler(log_filename, mode="a")
+    has_rotating_handler = any(
+        isinstance(h, RotatingFileHandler) and h.baseFilename == log_filename
+        for h in ROOT_LOGGER.handlers
+    )
+
+    if not has_rotating_handler:
+        for handler in ROOT_LOGGER.handlers[:]:
+            if isinstance(handler, logging.FileHandler) and handler.baseFilename == log_filename:
+                ROOT_LOGGER.removeHandler(handler)
+                handler.close()
+
+        file_handler = RotatingFileHandler(
+            log_filename,
+            mode="a",
+            maxBytes=5 * 1024 * 1024,  # 5MB
+            backupCount=0,
+            encoding='utf-8'
+        )
         file_handler.setLevel(log_level)
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s') # todo
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(formatter)
 
         ROOT_LOGGER.addHandler(file_handler)
+
+        if os.path.exists(log_filename):
+            file_size = os.path.getsize(log_filename)
+            if file_size >= 5 * 1024 * 1024:
+                ROOT_LOGGER.info("Log file over size limit, rotating...")
+                file_handler.doRollover()
 
     ROOT_LOGGER.debug(pref_manager.user_prefs)
     PREF_MANAGER = pref_manager
