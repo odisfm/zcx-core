@@ -573,7 +573,7 @@ class ActionResolver(ZCXComponent):
 
                             # Check for standard parameter types (PAN, VOL, etc.) first
                 param_part_upper = param_part.upper()
-                if param_part_upper in ['PAN', 'VOL', 'CUE', 'XFADER', 'PANL', 'PANR']:
+                if param_part_upper in ['PAN', 'VOL', 'CUE', 'XFADER', 'PANL', 'PANR', 'SEL']:
                     result['parameter_type'] = param_part_upper
                     # Handle SEND directly after DEV(...)
                 elif param_part_upper.startswith('SEND'):

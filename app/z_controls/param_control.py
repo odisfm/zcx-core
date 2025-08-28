@@ -16,6 +16,7 @@ class ParamControl(ZControl):
         self._active_map = {}
         self._unbind_on_fail = True
         self._mapped_track = None
+        self._mapped_device = None
         self.action_resolver = self.root_cs.component_map["ActionResolver"]
         self._log_failed_bindings = True
         self.__disabled = True
@@ -224,14 +225,22 @@ class ParamControl(ZControl):
         else:
             self.selected_device_listener.subject = None
 
+        if listen_dict.get("mapped_device_selected") and self._mapped_track:
+            self.mapped_device_is_selected_listener.subject = self._mapped_track.view
+        else:
+            self.mapped_device_is_selected_listener.subject = None
+
     def map_self_to_par(self, target_map):
         try:
             par_type = target_map.get("parameter_type")
             if par_type is not None and par_type.lower() == "selp":
                 self.mapped_parameter = self.song.view.selected_parameter
+                if self.mapped_parameter:
+                    self._mapped_device = self.song.view.selected_parameter.canoncial_parent
                 return True
 
             if target_map.get("device") is None and target_map.get("chain_map") is None:
+                self._mapped_device = None
                 if target_map.get("track") is not None:
                     track_def = target_map.get("track")
                     track_obj = self.get_track(track_def)
@@ -377,6 +386,7 @@ class ParamControl(ZControl):
                                 list(track_obj.devices), device_def
                             )
                         except IndexError as e:
+                            self._mapped_device = None
                             return False
 
                     if device_obj is None:
@@ -405,12 +415,17 @@ class ParamControl(ZControl):
                 else:
                     raise ConfigurationError("") # todo:
 
+                self._mapped_device = device_obj
+
                 if par_type is not None and par_type.lower() == "cs":
                     self.mapped_parameter = device_obj.chain_selector
                     return True
 
                 par_num = target_map.get("parameter_number")
                 par_name = target_map.get("parameter_name")
+
+                if par_type is not None and par_type.lower() == "sel":
+                    return True
 
                 if par_type is None and par_name is None and par_num is None:
                     self.mapped_parameter = device_obj.parameters[0] # bypass parameter
@@ -463,6 +478,7 @@ class ParamControl(ZControl):
         except Exception as e:
             self.log(f"Error in map_self_to_par: {e}")
             self._mapped_track = None
+            self._mapped_device = None
             raise
 
 
@@ -495,6 +511,7 @@ class ParamControl(ZControl):
             "selected_parameter": False,
             "ring_tracks": False,
             "selected_device": False,
+            "mapped_device_selected": False,
         }
 
         track_def = target_map.get("track")
@@ -511,6 +528,9 @@ class ParamControl(ZControl):
             listen_dict["device_list"] = False
         else:
             listen_dict["device_list"] = True
+            par_type = target_map.get("parameter_type")
+            if isinstance(par_type, str) and par_type.lower() == "sel":
+                listen_dict["mapped_device_selected"] = True
 
         if device_def and device_def.lower() == "sel":
             listen_dict["selected_device"] = True
@@ -675,7 +695,12 @@ class ParamControl(ZControl):
                 self.set_feedback(True)
         else:
             map = self._active_map
-            if map.get('arm'):
+            if self._mapped_track and map.get("device") and map.get("parameter_type", "").lower() == "sel":
+                if self._mapped_device == self._mapped_track.view.selected_device:
+                    self.set_feedback(True)
+                else:
+                    self.set_feedback(False)
+            elif map.get('arm'):
                 if self._mapped_track.can_be_armed:
                     if self._mapped_track.arm:
                         self.set_feedback(True)
@@ -771,6 +796,10 @@ class ParamControl(ZControl):
                     self._mapped_track.mixer_device.crossfade_assign = bound_idx
             else:
                 self._mapped_track.mixer_device.crossfade_assign = 1
+        elif self._active_map.get("device") is not None:
+            param_type = self._active_map["parameter_type"] or ""
+            if param_type.lower() == "sel":
+                self.root_cs.song.view.select_device(self._mapped_device)
 
     def apply_track_param_listener(self, track, param: str):
         self.solo_listener.subject = None
@@ -806,6 +835,10 @@ class ParamControl(ZControl):
     @listens("selected_device")
     def selected_device_listener(self, _):
         self.bind_to_active()
+
+    @listens("selected_device")
+    def mapped_device_is_selected_listener(self):
+        self.update_feedback()
 
     @listens("devices")
     def device_list_listener(self):

@@ -48,6 +48,14 @@ All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are
 
 ---
 
+##### DEV SEL
+
+**Applies to**: The selection status of any device.
+
+**Example:** `"my track" / DEV(1) SEL`
+
+___
+
 ##### `track` / SEL
 
 **Applies to**: The selection status of any track.
