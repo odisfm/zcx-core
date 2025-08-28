@@ -193,7 +193,6 @@ class ParamControl(ZControl):
             self.device_list_listener.subject = self._mapped_track
         else:
             self.device_list_listener.subject = None
-        self.log(self.device_list_listener.subject)
 
         if listen_dict.get("parameter_list"):
             pass
