@@ -13,12 +13,19 @@ Inherits from [standard control](/reference/control-reference/z-control/#yaml-sc
 ```yaml
 mode: string
 # color: ignored
+active_color: color definition
+inactive_color: color definition
 ```
 
 ### mode
 `string`
 
 The mode to bind to.
+
+### active_color, inactive_color
+`color definition`
+
+The color when the control's mode is active or inactive.
 
 ___
 ### color

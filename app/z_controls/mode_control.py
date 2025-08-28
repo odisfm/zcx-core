@@ -2,6 +2,7 @@ from ableton.v2.base.event import listens
 
 from ..errors import ConfigurationError
 from ..z_control import ZControl
+from ..colors import parse_color_definition
 
 
 class ModeControl(ZControl):
@@ -46,6 +47,23 @@ class ModeControl(ZControl):
 
         self._bound_mode = mode
         self._suppress_animations = True
+
+        active_color_def = self._raw_config.get('active_color')
+        inactive_color_def = self._raw_config.get('inactive_color')
+        if self._feedback_type == "basic":
+            if active_color_def is None:
+                active_color_def = "full"
+            if inactive_color_def is None:
+                inactive_color_def = "half"
+
+        if active_color_def is not None:
+            active_color = parse_color_definition(active_color_def, self)
+            self._color_dict["attention"] = active_color
+        if inactive_color_def is not None:
+            inactive_color = parse_color_definition(inactive_color_def, self)
+            self._color_dict["base"] = inactive_color
+
+        self.modes_changed(self.mode_manager.current_modes)
 
     @listens('current_modes')
     def modes_changed(self, _):
