@@ -203,6 +203,9 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting SessionRing setup')
             self._session_ring_custom.setup()
             self.debug(f'finished SessionRing setup')
+            self.component_map['SessionView'].setup()
+            self.debug(f'starting SessionView setup')
+            self.debug(f'finished SessionView setup')
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
                 try:
@@ -212,6 +215,8 @@ class ZCXCore(ControlSurface):
                 except Exception as e:
                     self.critical(f'{plugin_name} plugin setup failed:', e)
 
+            self.component_map['PageManager'].set_page(0)
+
         except Exception as e:
             self.critical(e)
             raise
@@ -220,6 +225,7 @@ class ZCXCore(ControlSurface):
     def song_ready(self):
         self.application.remove_control_surfaces_listener(self.song_ready)
         self.component_map['EncoderManager'].bind_all_encoders()
+        self.component_map['ZManager'].song_ready()
 
     def port_settings_changed(self):
         if not self._enabled:

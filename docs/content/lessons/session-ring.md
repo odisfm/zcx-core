@@ -5,10 +5,14 @@ Like other control surface scripts, zcx provides a 'session ring' — a colored 
 ![A screenshot of the zcx session ring in Ableton Live 12](/lessons/img/session-ring-1.png)
 
 
-While zcx cannot display a representation of Live's session view (i.e., the session view on Push, Launchpad, and others), it is useful to be able to move the ring around the set, and use [template strings](/reference/template-reference/#template-strings) to target tracks or refer to scenes enclosed within the ring.
+!!! note "Session view"
+
+    This lesson deals only with the session ring itself.
+    To configure the session view (as seen on Launchpad and similar), see the [session view](/lessons/session-view) lesson.
 
 ## Resizing the ring
 
+By default, the session ring will be configured to the same width and height as your controller's matrix.
 You may resize the session ring via [preferences.yaml](/reference/configuration-files/preferences#session_ring).
 
 ## Disabling the ring

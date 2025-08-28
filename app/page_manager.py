@@ -41,6 +41,9 @@ class PageManager(ZCXComponent):
         self.__osc_address_page_name = None
         self.__osc_address_page_number = None
         self.__does_send_osc = False
+        self.__special_sections_config = {
+            "__session_view": None,
+        }
 
     @listenable_property
     def current_page(self):
@@ -177,8 +180,13 @@ class PageManager(ZCXComponent):
         for page_sections in self.__pages_sections.values():
             used_sections.update(page_sections)
 
+        special_section_names = self.__special_sections_config.keys()
+
         for section_name, section_config in sections_config.items():
             if section_name in used_sections:  # Only build sections that are used
+                if section_name in special_section_names:
+                    self.__special_sections_config[section_name] = section_config
+                    continue
                 self.__raw_sections[section_name] = section_config
                 section_obj = self.build_section(section_name, section_config)
                 self.__pad_sections[section_name] = section_obj
@@ -203,8 +211,6 @@ class PageManager(ZCXComponent):
             self.__does_send_osc = osc_prefs.get('page', False)
         except:
             pass
-
-        self.set_page(0)
 
     def build_section(self, section_name, section_config):
         matrix_element = self.canonical_parent.component_map[
@@ -243,7 +249,7 @@ class PageManager(ZCXComponent):
             section_name=section_name,
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
-            width=(row_end - row_start + 1),
+            width=(col_end - col_start + 1),
             raw_template=section_template,
         )
 
@@ -422,3 +428,6 @@ class PageManager(ZCXComponent):
                     matrix[row][col] = section_name
 
         return True
+
+    def get_special_section_definition(self, section_type):
+        return self.__special_sections_config.get(section_type)
