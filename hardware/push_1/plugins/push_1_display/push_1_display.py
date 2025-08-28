@@ -109,8 +109,10 @@ class Push1Display(ZCXPlugin):
 
         if self._selected_line is not False:
             self.selected_scene_changed.subject = self.song.view
-            self.selected_track_changed.subject = self.song.view
             self.selected_track_changed()
+
+        if self._selected_line is not False or self._ring_tracks_line is not False:
+            self.selected_track_changed.subject = self.song.view
 
         if self._message_line:
             self.write_message_to_line('                       welcome to  zcx for push 1', timeout=5.0)
@@ -312,12 +314,16 @@ class Push1Display(ZCXPlugin):
         for i in range(8):
             try:
                 track = tracks[i]
-                self.update_display_segment(self._ring_tracks_line, i, track.name)
+                if track == self._song.view.selected_track:
+                    self.update_display_segment(self._ring_tracks_line, i, f"▶{track.name}")
+                else:
+                    self.update_display_segment(self._ring_tracks_line, i, track.name)
             except IndexError:
                 self.update_display_segment(self._ring_tracks_line, i, '')
 
     @listens('selected_track')
     def selected_track_changed(self):
+        self.tracks_changed()
         self.update_selected_line()
 
     @listens('selected_scene')
@@ -392,6 +398,8 @@ class Push1Display(ZCXPlugin):
         Return the ASCII value of a character, but only if it's in the ASCII range (0-127).
         Raises ValueError for non-ASCII characters.
         """
+        if char == "▶":
+            return 127
         code_point = ord(char)
         if 0 <= code_point <= 127:
             return code_point
