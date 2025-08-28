@@ -332,6 +332,7 @@ class ZManager(ZCXComponent):
                     member_config["group_context"] = {
                         "group_name": group_name,
                         "group_index": j,
+                        "group_Index": j + 1,
                     }
                     flat_config.append(member_config)
         except Exception as e:
