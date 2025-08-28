@@ -10,6 +10,7 @@ from .pad_section import PadSection
 from .z_control import ZControl
 from .z_state import ZState
 from .zcx_component import ZCXComponent
+from .encoder_manager import SelectedDeviceWatcher
 
 
 class ZManager(ZCXComponent):
@@ -32,6 +33,7 @@ class ZManager(ZCXComponent):
         self.__named_control_section: PadSection = None
         self.__matrix_sections: dict[PadSection] = {}
         self.__control_aliases = {}
+        self.__all_controls = []
 
     def setup(self):
         from . import z_controls
@@ -636,6 +638,8 @@ class ZManager(ZCXComponent):
             self.log(e)
             return get_control_class("basic")(self.canonical_parent, pad_section, {})
 
+        self.__all_controls.append(control)
+
         return control
 
     def set_control_alias(self, alias, control):
@@ -649,5 +653,8 @@ class ZManager(ZCXComponent):
         return self.__control_aliases.get(alias)
 
     def song_ready(self):
+        selected_device_watcher = SelectedDeviceWatcher(self, self._song)
+        ParamControl.selected_device_watcher = selected_device_watcher
         for control in self.__all_controls:
-            pass
+            if isinstance(control, ParamControl):
+                control.bind_to_active()

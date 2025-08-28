@@ -6,6 +6,8 @@ from ..errors import ConfigurationError, CriticalConfigurationError
 
 class ParamControl(ZControl):
 
+    selected_device_watcher = None
+
     def __init__(self, *a, **kwargs):
         ZControl.__init__(self, *a, **kwargs)
         self._default_map = None
@@ -19,7 +21,6 @@ class ParamControl(ZControl):
         self.__disabled = True
 
     def setup(self):
-        self.log("Im a param control", self._raw_config)
         try:
             self.set_color(5)
 
@@ -32,6 +33,8 @@ class ParamControl(ZControl):
             self._vars = self._raw_config.get("vars", {})
 
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
+
+            self._default_toggle_behaviour = self._raw_config.get("toggle_param", True)
 
             bindings = self._raw_config.get("binding", {})
             if isinstance(bindings, dict):
@@ -91,13 +94,12 @@ class ParamControl(ZControl):
 
                 binding_dict[sorted_mode_string] = target_map
 
-            self.log('getting default binding')
-
             if "default" in binding_dict:
                 self._default_map = binding_dict["default"]
             else:
                 self._default_map = list(binding_dict.values())[0]
 
+            self._concerned_modes = concerned_modes
             self._binding_dict = binding_dict
             self._active_map = self._default_map
 
@@ -117,8 +119,6 @@ class ParamControl(ZControl):
                 color_disabled = RgbColor(0)
 
             self._color_dict = {"on": color_on, "off": color_off, "disabled": color_disabled}
-
-            self.log(self._binding_dict)
 
         except Exception as e:
             self.log(e, e.__class__.__name__)
@@ -140,11 +140,8 @@ class ParamControl(ZControl):
     def bind_to_active(self):
 
         try:
-            self.log("binding to active")
             dynamism = self.assess_dynamism(self._active_map)
-            self.log("applying listeners")
             self.apply_listeners(dynamism)
-            self.log("applied listeners")
 
             try:
                 if self._active_map is None:
@@ -154,7 +151,6 @@ class ParamControl(ZControl):
             except ConfigurationError:
                 map_success = False
 
-            self.log(f'map_success: {map_success}')
             if map_success is not True:
                 if self._log_failed_bindings:
                     self._log(f"Failed to bind to target: {self._active_map}")
@@ -163,6 +159,7 @@ class ParamControl(ZControl):
                         self.log(f'failed to find target, unmapping')
                     self.mapped_parameter = None
                     self.__disabled = True
+                    self.update_feedback()
                 return
 
             self.__disabled = False
@@ -171,7 +168,7 @@ class ParamControl(ZControl):
         except Exception as e:
             self.__disabled = True
             self.update_feedback()
-            self.log(e, e.__class__.__name__)
+            self.log(f"{e.__class__.__name__}: {e}")
             if self._log_failed_bindings:
                 self._parent_logger.error(f"Failed to bind to target: {self._active_map}")
 
@@ -223,8 +220,6 @@ class ParamControl(ZControl):
             self.selected_device_listener.subject = None
 
     def map_self_to_par(self, target_map):
-        self.log("map_self_to_par", target_map)
-
         try:
             par_type = target_map.get("parameter_type")
             if par_type is not None and par_type.lower() == "selp":
@@ -358,8 +353,6 @@ class ParamControl(ZControl):
                 else:
                     track_obj = self.root_cs.song.view.selected_track
 
-                self.log("track obj", track_obj)
-
                 par_def = target_map.get("parameter_name")
 
                 device_def = target_map.get("device")
@@ -390,8 +383,6 @@ class ParamControl(ZControl):
 
                         chain_mixer = device_obj.mixer_device
 
-                        self.log(target_map)
-
                         if par_type.lower() == 'vol':
                             self.mapped_parameter = chain_mixer.volume
                             return True
@@ -413,6 +404,10 @@ class ParamControl(ZControl):
 
                 par_num = target_map.get("parameter_number")
                 par_name = target_map.get("parameter_name")
+
+                if par_type is None and par_name is None and par_num is None:
+                    self.mapped_parameter = device_obj.parameters[0] # bypass parameter
+                    return True
 
                 if isinstance(par_name, str):
                     if "${" in par_name:
@@ -583,8 +578,6 @@ class ParamControl(ZControl):
                     return None
 
     def traverse_chain_map(self, track, chain_map):
-        self.log(f'trying to traverse chain map {chain_map}')
-
         def parse_templated_node(_node):
             if not isinstance(_node, str) or '${' not in _node:
                 try:
@@ -614,8 +607,6 @@ class ParamControl(ZControl):
         for i, node in enumerate(chain_map):
             is_device = i % 2 == 0
             node = parse_templated_node(node)
-
-            self.log(f'traversing part {i}: {node}')
 
             if i == 0:
                 # First node is always a device
@@ -660,7 +651,6 @@ class ParamControl(ZControl):
         return current_search_obj
 
     def update_feedback(self):
-        self.log(self.mapped_parameter)
         if self.__disabled:
             return self.replace_color(self._color_dict["disabled"])
 
@@ -680,13 +670,12 @@ class ParamControl(ZControl):
                     else:
                         self.set_feedback(False)
             elif map.get('monitor'):
-                routing_type = track.output_routing_type
-                if routing_type.display_name == map.get('monitor'):
+                monitoring_idx = self._mapped_track.current_monitoring_state
+                if ["in", "auto", "off"].index(self._active_map.get("monitor").lower()) == monitoring_idx:
                     self.set_feedback(True)
                 else:
                     self.set_feedback(False)
             elif map.get('mute'):
-                self.log(f"track is muted: {self._mapped_track.mute}")
                 if self._mapped_track.mute:
                     self.set_feedback(True)
                 else:
@@ -716,20 +705,15 @@ class ParamControl(ZControl):
                     self.set_feedback(False)
 
     def set_feedback(self, status: bool):
-        self.log(f'set_feedback: {status}')
         color = self._color_dict["on"] if status else self._color_dict["off"]
         self.replace_color(color)
 
     def handle_gesture(self, gesture):
-        self.log(self._gesture_dict)
-        result = super().handle_gesture(gesture)
-        if result is False and gesture == "pressed":
+        super().handle_gesture(gesture)
+        if gesture == "pressed":
             self.toggle_mapped_parameter()
 
     def toggle_mapped_parameter(self):
-        self.log("map", self._active_map)
-        self.log("track", self._mapped_track)
-        self.log("param", self._mapped_parameter)
         if self.mapped_parameter:
             if self.mapped_parameter.value == self.mapped_parameter.min:
                 self.mapped_parameter.value = self.mapped_parameter.max
@@ -739,14 +723,23 @@ class ParamControl(ZControl):
                 self.mapped_parameter.value = self.mapped_parameter.min
         elif self._active_map.get('arm'):
             if not self._mapped_track.can_be_armed:
-                self.log("track cant be armed")
                 return
-            self.log("notting arm")
             self._mapped_track.arm = not self._mapped_track.arm
         elif self._active_map.get('monitor'):
-            raise NotImplementedError()
+            current_monitoring_idx = self._mapped_track.current_monitoring_state
+            bound_idx = ["in", "auto", "off"].index(self._active_map.get("monitor").lower())
+            if bound_idx in [0, 1]:
+                if current_monitoring_idx == bound_idx:
+                    self._mapped_track.current_monitoring_state = 2
+                else:
+                    self._mapped_track.current_monitoring_state = bound_idx
+            else:
+                if current_monitoring_idx == bound_idx:
+                    self._mapped_track.current_monitoring_state = 1
+                else:
+                    self._mapped_track.current_monitoring_state = bound_idx
+
         elif self._active_map.get('mute'):
-            self.log("flipping mute")
             self._mapped_track.mute = not self._mapped_track.mute
         elif self._active_map.get('solo'):
             self._mapped_track.solo = not self._mapped_track.solo
@@ -757,7 +750,15 @@ class ParamControl(ZControl):
         elif self._active_map.get('stop'):
             raise NotImplementedError()
         elif self._active_map.get('x_fade_assign'):
-            raise NotImplementedError()
+            current_cross_idx = self._mapped_track.mixer_device.crossfade_assign
+            bound_idx = ["a", "off", "b"].index(self._active_map.get("x_fade_assign").lower())
+            if bound_idx in [0, 2]:
+                if current_cross_idx == bound_idx:
+                    self._mapped_track.mixer_device.crossfade_assign = 1
+                else:
+                    self._mapped_track.mixer_device.crossfade_assign = bound_idx
+            else:
+                self._mapped_track.mixer_device.crossfade_assign = 1
 
     def apply_track_param_listener(self, track, param: str):
         self.solo_listener.subject = None
@@ -773,9 +774,10 @@ class ParamControl(ZControl):
                 self.arm_listener.subject = track
             case "solo":
                 self.solo_listener.subject = track
-
-
-        self.log("applied listeners")
+            case "monitor":
+                self.monitor_listener.subject = track
+            case "x_fade_assign":
+                self.crossfade_assign_listener.subject = track.mixer_device
 
     @listens("selected_track")
     def selected_track_listener(self):
@@ -829,7 +831,7 @@ class ParamControl(ZControl):
     def arm_listener(self):
         self.update_feedback()
 
-    @listens("monitor")
+    @listens("current_monitoring_state")
     def monitor_listener(self):
         self.update_feedback()
 
@@ -847,5 +849,27 @@ class ParamControl(ZControl):
 
     @listens("value")
     def mapped_param_value_listener(self):
-        self.log('mapped_param_value_listener', self.mapped_parameter.value)
         self.update_feedback()
+
+    @listens("current_modes")
+    def modes_changed(self, _):
+        super().modes_changed(_)
+        if self._current_mode_string == "":
+            mode_string = "default"
+        else:
+            mode_string = self._current_mode_string
+        self.log(self._binding_dict)
+        self.rebind_from_dict(mode_string)
+
+    def update_mode_string(self, mode_states):
+        if len(self._concerned_modes) == 0:
+            self._current_mode_string = ""
+            return
+
+        active_concerned_modes = [
+            mode for mode in self._concerned_modes if mode_states.get(mode, False)
+        ]
+        if not active_concerned_modes:
+            self._current_mode_string = ""
+        else:
+            self._current_mode_string = "__" + "__".join(active_concerned_modes)
