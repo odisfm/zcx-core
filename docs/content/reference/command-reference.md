@@ -395,5 +395,5 @@ my_control:
 
 ### special commands
 
-Some [control types](/reference/control-reference) may feature unique command types.
+Some control types may feature unique command types.
 You can find information on these commands on each control's reference page.
