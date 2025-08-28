@@ -91,3 +91,27 @@ Color definition when the control is disabled, e.g. after failing to find its ta
 `boolean=true`
 
 If set to `false`, disables the [default behaviour](#behaviour) on control press.
+
+## special command types
+
+### do_toggle
+
+Manually trigger the [default toggle behaviour](#behaviour) from within a command bundle.
+
+```yaml hl_lines="4 9"
+my_control:
+  type: param
+  binding: SEL / DEV(1)
+  toggle_param: false
+  gestures:
+    pressed:
+      SEL / DEV(1) SEL
+    pressed__shift:
+      do_toggle: true
+```
+
+In this example, the control is bound to the bypass state of the first device on the selected track.
+Without holding `shift`, pressing the control selects the device.
+While holding `shift`, the device's bypass is toggled.
+
+**Note:** For this command to be useful, [toggle_param](#toggle_param) must be set to `false`, otherwise every press will always toggle the parameter.

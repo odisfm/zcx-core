@@ -17,6 +17,7 @@ from .page_manager import PageManager
 from .z_control import ZControl
 from .zcx_component import ZCXComponent
 from .colors import parse_color_definition
+from .errors import ConfigurationError
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -380,6 +381,13 @@ class ActionResolver(ZCXComponent):
                                     self.error(error_msg)
                                     if ABORT_ON_FAILURE:
                                         raise RuntimeError(error_msg)
+                        case 'do_toggle':
+                            if not command_def:
+                                return
+                            try:
+                                calling_control.toggle_mapped_parameter()
+                            except AttributeError:
+                                raise ConfigurationError("`toggle_param` is only available on `param` type controls.")
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)

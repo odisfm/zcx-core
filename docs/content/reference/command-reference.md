@@ -392,3 +392,8 @@ my_control:
 
     Generally, it should not be necessary to use this command.
     If you are using this command to work around an issue you're having, please consider [reporting a bug](/lessons/reporting-bugs).
+
+### special commands
+
+Some [control types](/reference/control-reference) may feature unique command types.
+You can find information on these commands on each control's reference page.
