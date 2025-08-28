@@ -14,7 +14,7 @@ A 'distribution' is what we call a finished release of a zcx script. It contains
 
 Scroll to the bottom of that page and check the 'Assets' dropdown.
 
-### my hardware isn't listed 💔
+### my hardware isn't listed
 
 No problem. Have a look at the [zcx-core discord server](https://discord.zcxcore.com) to see if there is a pre-release version available. There may be a distribution ready to go that just needs someone who actually owns the hardware to confirm it works. And if there isn't, feel free to put in a request for your hardware!
 
@@ -83,6 +83,6 @@ For the Launchpad series, use the port `Launchpad X MIDI In` or similar, rather 
 
 If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](/docs/lessons/reporting-bugs.md).
 
-## explore! 🌏
+## explore!
 
 Your zcx distribution comes with a carefully crafted demo config, put together by the maintainer for your hardware. It's designed to give a taste of zcx's capabilities out of the box, and be intuitive to edit. Once you're done with that, continue with this tutorial. :)

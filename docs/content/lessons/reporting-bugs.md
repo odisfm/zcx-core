@@ -1,4 +1,4 @@
-# how to report a bug 🐞
+# how to report a bug
 
 If you've found a bug, or think you've found a bug, please don't hesitate to raise an issue.
 
