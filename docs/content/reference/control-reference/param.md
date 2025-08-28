@@ -40,6 +40,12 @@ All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are
 
 #### additional mapping targets
 
+##### DEV
+
+**Applies to**: Any device's bypass state.
+
+**Example:** `"my track" / DEV(1)`
+
 ##### ARM
 
 **Applies to**: Any track's arm state.
