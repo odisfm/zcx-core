@@ -46,6 +46,12 @@ All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are
 
 **Example:** `"my track" / DEV(1)`
 
+##### `<track>` / SEL
+
+**Applies to**: The selection status of any track.
+
+**Example:** `"my track" / SEL`
+
 ##### ARM
 
 **Applies to**: Any track's arm state.
