@@ -173,6 +173,10 @@ _with a capital `I`_
 
 Returns [group_index](#group_index) + 1.
 
+#### group_count
+
+Returns the number of controls in this group.
+
 ### location properties
 _Only available on matrix controls._
 

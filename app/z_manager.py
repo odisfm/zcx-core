@@ -265,6 +265,7 @@ class ZManager(ZCXComponent):
                         "group_name": None,
                         "group_index": None,
                         "group_Index": None,
+                        "group_count": 0,
                     }
                     flat_config.append(final_config)
                     continue
@@ -304,6 +305,8 @@ class ZManager(ZCXComponent):
                     base_config = apply_global_template({})
                     group_config = merge_configs(base_config, group_config)
 
+                group_count = len(group_pads)
+
                 # Process each pad in group
                 for j, pad_config in enumerate(group_pads):
                     if pad_config is None:
@@ -334,6 +337,7 @@ class ZManager(ZCXComponent):
                         "group_name": group_name,
                         "group_index": j,
                         "group_Index": j + 1,
+                        "group_count": group_count,
                     }
                     flat_config.append(member_config)
         except Exception as e:
