@@ -46,11 +46,15 @@ All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are
 
 **Example:** `"my track" / DEV(1)`
 
-##### `<track>` / SEL
+---
+
+##### `track` / SEL
 
 **Applies to**: The selection status of any track.
 
 **Example:** `"my track" / SEL`
+
+---
 
 ##### ARM
 
@@ -58,11 +62,15 @@ All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are
 
 **Example:** `SEL/ARM`
 
+---
+
 ##### MON `x`
 
 **Applies to**: Any track's input monitoring state, where `x` is `in`, `auto`, or `off`.
 
 **Example:** `SEL/MON IN`
+
+---
 
 ##### MUTE
 
@@ -70,17 +78,23 @@ All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are
 
 **Example:** `SEL/MUTE`
 
+---
+
 ##### SOLO
 
 **Applies to**: Any track's solo state.
 
 **Example:** `SEL/SOLO`
 
+---
+
 ##### XFADE `x`
 
 **Applies to**: Any track's crossfader assignment, where `x` is `a`, `b`, or `off`.
 
 **Example:** `SEL/XFADE A`
+
+---
 
 
 ### on_color, off_color

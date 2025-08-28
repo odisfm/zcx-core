@@ -40,11 +40,15 @@ As such, nativeKONTROL's examples are reproduced below:
 
 **Example:** `SEL/VOL`
 
+---
+
 #### PAN
 
 **Applies to**: Any track's pan control.
 
 **Example:** `2/PAN`
+
+---
 
 #### SEND `z`
 
@@ -52,11 +56,15 @@ As such, nativeKONTROL's examples are reproduced below:
 
 **Example:** `SEL/SEND F`
 
+---
+
 #### PANL / PANR
 
 **Applies to**: Any track's left or right pan position when using [split-stereo panning](https://help.ableton.com/hc/en-us/articles/360000103324-Split-Stereo-Pan-Mode).
 
 **Example:** `"my cool track"/PANL`
+
+---
 
 #### SELP
 
@@ -64,11 +72,15 @@ As such, nativeKONTROL's examples are reproduced below:
 
 **Example:** `SELP`
 
+---
+
 #### DEV(`d`) CS
 
 **Applies to**: The Chain Selector of any Rack on any Track where `d` specifies the Device.
 
 **Example:** `1/DEV(SEL) CS`
+
+---
 
 #### DEV(`d`) P`p`
 
@@ -76,11 +88,15 @@ As such, nativeKONTROL's examples are reproduced below:
 
 **Example:** `1/DEV(SEL) P4`
 
+---
+
 #### DEV(`x`.`y`) PAN
 
 **Applies to**: A particular chain's pan control, targeted with [ClyphX Pro rack dot notation](https://www.cxpman.com/manual/general-action-information/#single-devices). 
 
 **Example:** `1/DEV(2.3) PAN`
+
+---
 
 #### DEV(`x`.`y`) SEND `z`
 
@@ -88,11 +104,15 @@ As such, nativeKONTROL's examples are reproduced below:
 
 **Example:** `1/DEV(1.4) SEND A`
 
+---
+
 #### DEV(`x`.`y`) VOL
 
 **Applies to**: A particular chain's volume control, targeted with [ClyphX Pro rack dot notation](https://www.cxpman.com/manual/general-action-information/#single-devices). 
 
 **Example:** `1/DEV(1.1) VOL`
+
+---
 
 #### XFADER
 
