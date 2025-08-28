@@ -153,11 +153,11 @@ class SessionClipControl(ZControl):
         if self.__clip_slot is None:
             return 'NONE / CLIP(NONE)'
         else:
-            return f'"{self.track_name}" / CLIP ({self.scene_number})'
+            return f'"{self.track_name}" / CLIP({self.scene_number})'
 
     @property
     def user_clip_target(self):
         if self.__clip_slot is None:
             return 'NONE / CLIP(NONE)'
         else:
-            return f'"{self.track_name}" / USER_CLIP ({self.scene_number})'
+            return f'"{self.track_name}" / USER_CLIP({self.scene_number})'
