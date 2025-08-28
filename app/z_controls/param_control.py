@@ -19,6 +19,7 @@ class ParamControl(ZControl):
         self.action_resolver = self.root_cs.component_map["ActionResolver"]
         self._log_failed_bindings = True
         self.__disabled = True
+        self._suppress_animations = True
 
     def setup(self):
         try:
