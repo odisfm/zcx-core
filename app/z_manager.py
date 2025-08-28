@@ -264,6 +264,7 @@ class ZManager(ZCXComponent):
                     final_config["group_context"] = {
                         "group_name": None,
                         "group_index": None,
+                        "group_Index": None,
                     }
                     flat_config.append(final_config)
                     continue
