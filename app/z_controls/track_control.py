@@ -128,21 +128,18 @@ class TrackControl(ZControl):
             'b': {'live': base_index},
             'speed': 1
         }}, calling_control=self)
-        color_dict['armed'] = parse_color_definition({'pulse': {
-            'a': {'live': base_index},
-            'b': 'arm_red',
-            'speed': 0
-        }}, calling_control=self)
+        color_dict['armed'] = parse_color_definition("arm_red", calling_control=self)
         color_dict['armed_playing'] = parse_color_definition({'pulse': {
             'a': {'live': base_index},
             'b': 'arm_red',
             'speed': 1
         }}, calling_control=self)
-        color_dict['selected_armed'] = parse_color_definition({'pulse': {
+        color_dict['selected_armed'] = parse_color_definition({'blink': {
             'a': 'white',
             'b': 'arm_red',
             'speed': 0
         }}, calling_control=self)
+        color_dict['selected_armed_song_stopped'] = parse_color_definition("red shade 1", calling_control=self)
         color_dict['counting_in'] = parse_color_definition({'blink': {
             'a': 'red',
             'b': {'live': base_index},
@@ -192,9 +189,15 @@ class TrackControl(ZControl):
 
         if not self.root_cs.song.is_playing:
             if self._track == self.root_cs.song.view.selected_track:
-                self._color = self._color_dict['selected']
+                if self._track.can_be_armed and self._track.arm:
+                    self._color = self._color_dict['selected_armed_song_stopped']
+                else:
+                    self._color = self._color_dict['selected']
             else:
-                self._color = self._color_dict['base']
+                if self._track.can_be_armed and self._track.arm:
+                    self._color = self._color_dict['armed']
+                else:
+                    self._color = self._color_dict['base']
             return True
 
         playing_index = self._track.playing_slot_index
