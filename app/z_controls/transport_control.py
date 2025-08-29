@@ -103,6 +103,34 @@ class TransportControl(ZControl):
                 self._stopped_active_color = parse_color_definition('full', self)
                 self._stopped_inactive_color = parse_color_definition('half', self)
 
+        stopped_active_def = self._raw_config.get('active_color')
+        if stopped_active_def is not None:
+            try:
+                active_color_obj = parse_color_definition(stopped_active_def, self)
+                playing_active_def = self._raw_config.get('playing_active_color')
+                self._stopped_active_color = active_color_obj
+                if playing_active_def is not None:
+                    playing_color_obj = parse_color_definition(playing_active_def, self)
+                    self._playing_active_color = playing_color_obj
+                else:
+                    self._playing_active_color = self._stopped_active_color
+            except Exception as e:
+                self.log(e)
+
+        stopped_inactive_def = self._raw_config.get('inactive_color')
+        if stopped_inactive_def is not None:
+            try:
+                inactive_color_obj = parse_color_definition(stopped_inactive_def, self)
+                playing_inactive_def = self._raw_config.get('playing_inactive_color')
+                self._stopped_inactive_color = inactive_color_obj
+                if playing_inactive_def is not None:
+                    playing_color_obj = parse_color_definition(playing_inactive_def, self)
+                    self._playing_inactive_color = playing_color_obj
+                else:
+                    self._playing_inactive_color = self._stopped_inactive_color
+            except Exception as e:
+                self.log(e)
+
         self._bound_function = bound_function
 
         self._song = self.root_cs.song

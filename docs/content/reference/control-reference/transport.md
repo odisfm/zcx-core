@@ -18,6 +18,10 @@ Inherits from [standard control](/reference/control-reference/z-control/#yaml-sc
 ```yaml
 transport: string
 # color: ignored
+active_color: color definition
+inactive_color: color definition
+playing_active_color: color definition
+playing_inactive_color: color definition
 ```
 
 ### transport
@@ -34,3 +38,17 @@ The name of the transport function to bind to. These functions are currently sup
 `ignored`
 
 Feedback is based on whether the control's bound transport function is active.
+
+### active_color, inactive_color
+
+Provide a color definition that will be used when the bound transport function is active or inactive.
+If either of these options are undefined, a default will be used.
+
+### playing_active_color, playing_inactive_color
+
+Similar to above, but this color will be used when the song is playing.
+
+**Notes:**
+- This is applicable to all transport functions, not just `play`
+- If no `active_color` or `inactive_color` is defined, this option will be ignored.
+
