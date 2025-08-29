@@ -383,10 +383,10 @@ class ZEncoder(EventObject):
                     bank_num = int(bank_def) - 1
                     banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1)
                     for param in list(device_obj.parameters):
-                        if param.name == banked_param_name:
+                        if param.original_name == banked_param_name:
                             self.mapped_parameter = param
                             return True
-                    raise RuntimeError(f"B{bank_num} P{par_num} parameter not found")
+                    raise RuntimeError(f"B{bank_num + 1} P{par_num} parameter {banked_param_name} not found")
 
                 if isinstance(par_name, str):
                     if "${" in par_name:
