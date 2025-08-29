@@ -489,14 +489,13 @@ class ParamControl(ZControl):
             raise
 
 
-    @classmethod
-    def get_device_from_list_by_name(cls, device_list, device_name):
+    def get_device_from_list_by_name(self, device_list, device_name):
         for device in device_list:
             if device.name == device_name:
                 return device
             elif hasattr(device, "chains"):
                 for chain in device.chains:
-                    result = cls.get_device_from_list_by_name(
+                    result = self.get_device_from_list_by_name(
                         chain.devices, device_name
                     )
                     if result is not None:
@@ -598,17 +597,17 @@ class ParamControl(ZControl):
         if refresh_binding:
             self.refresh_binding()
 
-    def get_track(cls, track_def):
-        tracklist = list(cls.root_cs.song.tracks)
+    def get_track(self, track_def):
+        tracklist = list(self.root_cs.song.tracks)
         try:
             track_num = int(track_def) - 1
             return tracklist[track_num]
         except (ValueError, IndexError):
             track_obj = None
             if track_def.lower() == "sel":
-                return cls.root_cs.song.view.selected_track
+                return self.root_cs.song.view.selected_track
             elif track_def.lower() == "mst":
-                return cls.root_cs.song.master_track
+                return self.root_cs.song.master_track
             else:
                 for track in tracklist:
                     if track.name == track_def:
