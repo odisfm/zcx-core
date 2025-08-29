@@ -166,9 +166,10 @@ Allows you to write to the log. Mostly useful with [Python commands](/reference/
 
 Briefly displays a message in the Live UI, like with the [msg command](/reference/command-reference#msg).
 
-#### cxp_var
+#### cxp_var(`variable_name`)
 
 Retrieves the current value of a ClyphX Pro variable if that variable is defined, or the Python `None` if it is not defined.
+`variable_name` is the name of the ClyphX variable **without** the enclosing `%`s.
 
 ## group templates
 
