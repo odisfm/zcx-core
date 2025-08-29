@@ -689,63 +689,66 @@ class ParamControl(ZControl):
         return current_search_obj
 
     def update_feedback(self):
-        if self.__disabled:
-            return self.replace_color(self._color_dict["disabled"])
+        try:
+            if self.__disabled:
+                return self.replace_color(self._color_dict["disabled"])
 
-        if self.mapped_parameter:
-            if self.mapped_parameter.value == self.mapped_parameter.max:
-                self.set_feedback(True)
-            elif self.mapped_parameter.value == self.mapped_parameter.min:
-                self.set_feedback(False)
-            else:
-                self.set_feedback(True)
-        else:
-            map = self._active_map
-            if self._mapped_track and map.get("device") and map.get("parameter_type", "").lower() == "sel":
-                if self._mapped_device == self._mapped_track.view.selected_device:
+            if self.mapped_parameter:
+                if self.mapped_parameter.value == self.mapped_parameter.max:
                     self.set_feedback(True)
-                else:
+                elif self.mapped_parameter.value == self.mapped_parameter.min:
                     self.set_feedback(False)
-            elif map.get('arm'):
-                if self._mapped_track.can_be_armed:
-                    if self._mapped_track.arm:
+                else:
+                    self.set_feedback(True)
+            else:
+                map = self._active_map
+                if self._mapped_track and map.get("device") and map.get("parameter_type", "").lower() == "sel":
+                    if self._mapped_device == self._mapped_track.view.selected_device:
                         self.set_feedback(True)
                     else:
                         self.set_feedback(False)
-            elif map.get('monitor'):
-                monitoring_idx = self._mapped_track.current_monitoring_state
-                if ["in", "auto", "off"].index(self._active_map.get("monitor").lower()) == monitoring_idx:
-                    self.set_feedback(True)
-                else:
-                    self.set_feedback(False)
-            elif map.get('mute'):
-                if self._mapped_track.mute:
-                    self.set_feedback(True)
-                else:
-                    self.set_feedback(False)
-            elif map.get('solo'):
-                if self._mapped_track.solo:
-                    self.set_feedback(True)
-                else:
-                    self.set_feedback(False)
-            elif map.get('track_select'):
-                if self._mapped_track == self.root_cs.song.view.selected_track:
-                    self.set_feedback(True)
-                else:
-                    self.set_feedback(False)
-            elif map.get('play'):
-                raise NotImplementedError()
-            elif map.get('stop'):
-                raise NotImplementedError()
-            elif map.get('x_fade_assign'):
-                assignment_def = map.get('x_fade_assign')
-                current_assignment = self._mapped_track.mixer_device.crossfade_assign
-                assignment_def_int = ["a", "off", "b"].index(assignment_def.lower())
+                elif map.get('arm'):
+                    if self._mapped_track.can_be_armed:
+                        if self._mapped_track.arm:
+                            self.set_feedback(True)
+                        else:
+                            self.set_feedback(False)
+                elif map.get('monitor'):
+                    monitoring_idx = self._mapped_track.current_monitoring_state
+                    if ["in", "auto", "off"].index(self._active_map.get("monitor").lower()) == monitoring_idx:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
+                elif map.get('mute'):
+                    if self._mapped_track.mute:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
+                elif map.get('solo'):
+                    if self._mapped_track.solo:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
+                elif map.get('track_select'):
+                    if self._mapped_track == self.root_cs.song.view.selected_track:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
+                elif map.get('play'):
+                    raise NotImplementedError()
+                elif map.get('stop'):
+                    raise NotImplementedError()
+                elif map.get('x_fade_assign'):
+                    assignment_def = map.get('x_fade_assign')
+                    current_assignment = self._mapped_track.mixer_device.crossfade_assign
+                    assignment_def_int = ["a", "off", "b"].index(assignment_def.lower())
 
-                if current_assignment == assignment_def_int:
-                    self.set_feedback(True)
-                else:
-                    self.set_feedback(False)
+                    if current_assignment == assignment_def_int:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
+        except Exception as e:
+            self.log(e)
 
     def set_feedback(self, status: bool):
         color = self._color_dict["on"] if status else self._color_dict["off"]

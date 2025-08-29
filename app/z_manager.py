@@ -662,5 +662,8 @@ class ZManager(ZCXComponent):
         selected_device_watcher = SelectedDeviceWatcher(self, self._song)
         ParamControl.selected_device_watcher = selected_device_watcher
         for control in self.__all_controls:
-            if isinstance(control, ParamControl):
-                control.bind_to_active()
+            try:
+                if isinstance(control, ParamControl):
+                    control.bind_to_active()
+            except Exception as e:
+                self.log(e)
