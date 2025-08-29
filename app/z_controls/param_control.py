@@ -317,7 +317,7 @@ class ParamControl(ZControl):
                         self.apply_track_param_listener(track_obj, "arm")
                         return True
                     else:
-                        raise RuntimeError(f"Track `{track_obj.name}` cannot be armed")
+                        return False
                 elif target_map.get('monitor'):
                     self.mapped_parameter = None
                     self.apply_track_param_listener(track_obj, "monitor")
