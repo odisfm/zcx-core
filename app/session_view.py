@@ -41,6 +41,10 @@ class SessionView(ZCXComponent):
             self.debug('No session view section defined')
             return
 
+        mode_manager = self.component_map['ModeManager']
+        if not "select" in mode_manager.all_modes:
+            del DEFAULT_GESTURES["pressed__select"]
+
         control_config = {}
         control_config['gestures'] = section_def.get('template', {}).get('gestures', DEFAULT_GESTURES)
 
