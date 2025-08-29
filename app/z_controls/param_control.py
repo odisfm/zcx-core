@@ -161,12 +161,13 @@ class ParamControl(ZControl):
                     if self._log_failed_bindings:
                         self.log(f'failed to find target, unmapping')
                     self.mapped_parameter = None
+                    self._mapped_track = None
+                    self._mapped_device = None
                     self.__disabled = True
                     self.update_feedback()
                 return
 
             self.__disabled = False
-            self.update_feedback()
 
         except Exception as e:
             self.__disabled = True
@@ -177,6 +178,7 @@ class ParamControl(ZControl):
         finally:
             dynamism = self.assess_dynamism(self._active_map)
             self.apply_listeners(dynamism)
+            self.update_feedback()
 
     def apply_listeners(self, listen_dict):
 
@@ -232,6 +234,9 @@ class ParamControl(ZControl):
 
     def map_self_to_par(self, target_map):
         try:
+            self._mapped_track = None
+            self._mapped_device = None
+            self._mapped_parameter = None
             par_type = target_map.get("parameter_type")
             if par_type is not None and par_type.lower() == "selp":
                 self.mapped_parameter = self.song.view.selected_parameter
