@@ -12,6 +12,8 @@ class TrackControl(ZControl):
         ZControl.__init__(self, *a, **kwargs)
         self._track = None
         self._track_color_dict = {}
+        self.__is_numbered_track = False
+        self.__track_number = None
 
     def setup(self):
         super().setup()
@@ -28,6 +30,13 @@ class TrackControl(ZControl):
                     raise ConfigurationError(f'Unparseable track definition: {track}\n'
                                              f'{self._raw_config}')
                 track = parse
+                try:
+                    track = int(parse)
+                    self.__is_numbered_track = True
+                    self.__track_number = track
+                    self.track_list_listener.subject = self.root_cs.song
+                except ValueError:
+                    pass
 
             self.set_track_by_name(track)
         except Exception as e:
@@ -324,3 +333,7 @@ class TrackControl(ZControl):
     @listens('is_playing')
     def is_playing_listener(self):
         self.request_color_update()
+
+    @listens("tracks")
+    def track_list_listener(self):
+        self.set_track_by_name(self.__track_number)
