@@ -87,7 +87,9 @@ class ActionResolver(ZCXComponent):
             'msg': self.__msg_func,
             'cxp': self.__cxp_partial,
             'open': None,
-            'cxp_var': self.__cxp.get_cxp_variable
+            'cxp_var': self.__cxp.get_cxp_variable,
+            'this_cs': self.canonical_parent.name,
+            'sel_track': SelectedTrackNameGetter(self._song.view)
         }
         return context
 
@@ -601,3 +603,22 @@ class ActionResolver(ZCXComponent):
         self.debug(f'{self.name} ring tracks changed: {self.__session_ring.tracks}')
         for track in new_tracks:
             self.debug(track.name)
+
+
+class SelectedTrackNameGetter(str):
+    def __new__(cls, view):
+        obj = str.__new__(cls, "")
+        obj._value_func = lambda: view.selected_track.name
+        return obj
+
+    def __str__(self):
+        return self._value_func()
+
+    def __repr__(self):
+        return repr(self._value_func())
+
+    def __format__(self, format_spec):
+        return format(self._value_func(), format_spec)
+
+    def __len__(self):
+        return len(self._value_func())

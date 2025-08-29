@@ -171,6 +171,15 @@ Briefly displays a message in the Live UI, like with the [msg command](/referenc
 Retrieves the current value of a ClyphX Pro variable if that variable is defined, or the Python `None` if it is not defined.
 `variable_name` is the name of the ClyphX variable **without** the enclosing `%`s.
 
+#### this_cs
+
+Returns the name of this zcx script.
+
+#### sel_track
+
+Returns the name of the selected track.
+Must be enclosed in double-quotes for use in a ClyphX Pro action list.
+
 ## group templates
 
 zcx allows you to define any arbitrary selection of controls as a **group** of controls. By grouping controls, we can apply a common configuration across all of them.
