@@ -90,6 +90,16 @@ As such, nativeKONTROL's examples are reproduced below:
 
 ---
 
+#### DEV(`d`) B`b` P`p`
+
+**Applies to**: Device Best-of-Bank parameter of any Device on any Track where `d` specifies the Device, `b` specifies the bank number, and `p` specifies the number of the parameter or Macro in the case of Racks.
+
+_When targeting an unknown device, e.g. the selected device, this option may provide more logical mappings than [the above option](#devd-pp)_
+
+**Example:** `1/DEV(SEL) B1 P4`
+
+---
+
 #### DEV(`x`.`y`) PAN
 
 **Applies to**: A particular chain's pan control, targeted with [ClyphX Pro rack dot notation](https://www.cxpman.com/manual/general-action-information/#single-devices). 
@@ -168,9 +178,3 @@ You can use the zcx user action to [manually rebind encoders](/lessons/zcx-user-
 
 When using [ClyphX Pro rack dot notation](https://www.cxpman.com/manual/general-action-information/#single-devices), the `FIRST`, `LAST`, and `SEL` keywords are not recognised.
 This may be added in a future release.
-
-### Bank syntax
-
-ClyphX Pro allows targeting of parameters by bank, e.g `SEL / DEV(1) B2 P1` to target the first parameter of the second bank.
-This is not recognised in zcx.
-Instead, you would use the parameter number (or name) directly (`P9` for the above example).

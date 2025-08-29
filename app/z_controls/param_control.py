@@ -3,6 +3,7 @@ from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
 from ..colors import parse_color_definition, RgbColor
 from ..errors import ConfigurationError, CriticalConfigurationError
+from ..bank_definitions import get_banked_parameter
 
 class ParamControl(ZControl):
 
@@ -236,7 +237,7 @@ class ParamControl(ZControl):
         try:
             self._mapped_track = None
             self._mapped_device = None
-            self._mapped_parameter = None
+            self.mapped_parameter = None
             par_type = target_map.get("parameter_type")
             if par_type is not None and par_type.lower() == "selp":
                 self.mapped_parameter = self.song.view.selected_parameter
@@ -430,6 +431,16 @@ class ParamControl(ZControl):
 
                 par_num = target_map.get("parameter_number")
                 par_name = target_map.get("parameter_name")
+
+                bank_def = target_map.get("bank")
+                if bank_def is not None:
+                    bank_num = int(bank_def) - 1
+                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1)
+                    for param in list(device_obj.parameters):
+                        if param.name == banked_param_name:
+                            self.mapped_parameter = param
+                            return True
+                    raise RuntimeError(f"B{bank_num} P{par_num} parameter not found")
 
                 if par_type is not None and par_type.lower() == "sel":
                     return True

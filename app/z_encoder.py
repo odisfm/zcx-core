@@ -10,6 +10,7 @@ from .encoder_state import EncoderState
 from .errors import ConfigurationError, CriticalConfigurationError
 from .mode_manager import ModeManager
 from .session_ring import SessionRing
+from .bank_definitions import get_banked_parameter
 
 
 class ZEncoder(EventObject):
@@ -376,6 +377,16 @@ class ZEncoder(EventObject):
 
                 par_num = target_map.get("parameter_number")
                 par_name = target_map.get("parameter_name")
+
+                bank_def = target_map.get("bank")
+                if bank_def is not None:
+                    bank_num = int(bank_def) - 1
+                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1)
+                    for param in list(device_obj.parameters):
+                        if param.name == banked_param_name:
+                            self.mapped_parameter = param
+                            return True
+                    raise RuntimeError(f"B{bank_num} P{par_num} parameter not found")
 
                 if isinstance(par_name, str):
                     if "${" in par_name:
