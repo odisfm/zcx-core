@@ -28,6 +28,7 @@ The name of the transport function to bind to. These functions are currently sup
 - `play`
 - `session_record`
 - `metronome`
+- `loop`
 
 ### color
 `ignored`

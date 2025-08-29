@@ -65,6 +65,11 @@ class TransportControl(ZControl):
                 self._playing_inactive_color = parse_color_definition('white', self)
                 self._stopped_active_color = parse_color_definition('white', self)
                 self._stopped_inactive_color = parse_color_definition('white', self)
+            elif bound_function == 'loop':
+                self._playing_active_color = parse_color_definition("white", self)
+                self._playing_inactive_color = self._playing_active_color
+                self._stopped_active_color = parse_color_definition('dark_grey', self)
+                self._stopped_inactive_color = self._stopped_active_color
         elif feedback == 'biled':
             if bound_function == 'play':
                 self._playing_active_color = parse_color_definition('green', self)
@@ -77,6 +82,11 @@ class TransportControl(ZControl):
                 self._stopped_active_color = parse_color_definition('yellow_half', self)
                 self._stopped_inactive_color = parse_color_definition('yellow_half', self)
             elif bound_function == 'metronome':
+                self._playing_active_color = parse_color_definition('yellow_blink_slow', self)
+                self._playing_inactive_color = parse_color_definition('yellow', self)
+                self._stopped_active_color = parse_color_definition('yellow', self)
+                self._stopped_inactive_color = parse_color_definition('yellow_half', self)
+            elif bound_function == 'loop':
                 self._playing_active_color = parse_color_definition('yellow_blink_slow', self)
                 self._playing_inactive_color = parse_color_definition('yellow', self)
                 self._stopped_active_color = parse_color_definition('yellow', self)
@@ -139,9 +149,9 @@ class TransportControl(ZControl):
                     self._color = self._stopped_inactive_color
         elif self._bound_function == 'loop':
             if self._song.loop:
-                pass
+                self._color = self._playing_active_color
             else:
-                pass
+                self._color = self._playing_inactive_color
 
         super().request_color_update()
 
