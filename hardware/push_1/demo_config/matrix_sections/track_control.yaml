@@ -1,7 +1,73 @@
-type: ring_track
-ring_index: ${me.index + 8}
-gestures:
-  pressed: >
-    "${me.track}" / SEL
-  pressed_delayed: >
-    "${me.track}" / ARM
+# !! row 1
+# col 1
+-
+  type: param
+  binding: SEL / MUTE
+  on_color: dark_grey
+  off_color: white
+
+# col 2
+-
+  type: param
+  binding: SEL / SOLO
+  on_color: blue
+  off_color: blue shade 2
+
+# col 3
+-
+  type: param
+  binding: SEL / ARM
+  on_color: red shade 1
+  off_color: red shade 2
+
+# col 4
+-
+  type: param
+  binding: SEL / MON IN
+  on_color: purple
+  off_color: grey
+# !! row 2
+- pad_group: device_select
+  controls:
+    -
+    -
+    -
+    -
+  type: param
+  binding:
+    default: >
+      SEL / DEV(${me.group_Index}) SEL
+    __shift: >
+      SEL / DEV(${me.group_Index})
+  on_color: yellow
+  off_color: yellow shade 2
+# !! row 3-4
+# col 1
+-
+  pad_group: device_params
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+  type: param
+  toggle_param: false
+  binding:
+    default: >
+      SEL / DEV(SEL) P${me.group_Index}
+    __shift: >
+      SEL / DEV(SEL) P${me.group_Index + me.group_count}
+  gestures:
+    pressed:
+      do_toggle: true
+    released_delayed:
+      do_toggle: true
+    released__shift: DUMMY
+  on_color: lime
+  off_color: lime shade 2
+
+
