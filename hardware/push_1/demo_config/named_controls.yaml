@@ -16,10 +16,13 @@ __select_row:
   includes: [ 
     select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8 
   ]
-  color: 1
+  type: param
+  on_color: 4
+  binding: >
+    ring(${me.index}) / SEL
   gestures:
-    pressed: >
-      "${ring.tracks[me.index]}" / SEL
+    pressed_delayed: >
+      "${ring.tracks[me.index]}" / ARM
     
 #select_1:
 #  gestures:
@@ -58,14 +61,25 @@ __state_row:
   includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
   type: page
   page: ${me.index}
-  active_color:
-    palette: rainbow
-  inactive_color: white
+  active_color: white
+  inactive_color:
+    palette: rainbow 1
   gestures:
     pressed:
       page: ${me.index}
     released_delayed:
       page: last
+#  ring_index: ${me.index}
+#  gestures:
+#    pressed: >
+#      "${me.track}" / SEL
+#    pressed_delayed: >
+#      ALL / ARM OFF;
+#      "${me.track}" / ARM
+#    pressed_delayed__shift: >
+#      "${me.track}" / ARM
+#    double_clicked: >
+#      "${me.track}" / PLAY >
 
 #state_1:
 #  gestures:
@@ -157,6 +171,7 @@ __scene_buttons:
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
   color: 127
+  repeat: true
   controls:
     dpad_left:
       gestures:
@@ -230,13 +245,26 @@ in:
   color: 127
   gestures:
     pressed:
-      page: next
+      ring:
+        x: -8
+    pressed__device: DEVLEFT
+    pressed_delayed__device: DEVFIRST
 
 out:
   color: 127
   gestures:
     pressed:
-      page: prev
+      ring:
+        x: 8
+    pressed__device: DEVRIGHT
+    pressed_delayed__device: DEVLAST
+
+volume:
+  color: 1
+  gestures:
+    pressed:
+      - mode_off: device
+      - mode_off: sends
 
 pan_send:
   type: mode
@@ -244,7 +272,8 @@ pan_send:
   gestures:
     pressed:
       mode_on: sends
-    released:
+      mode_off: device
+    released_delayed:
       mode_off: sends
 
 device:
@@ -253,7 +282,8 @@ device:
   gestures:
     pressed:
       mode_on: device
-    released:
+      mode_off: sends
+    released_delayed:
       mode_off: device
 
 undo:
@@ -283,6 +313,7 @@ metronome:
 new:
   gestures:
     pressed: ADDSCENE
+    pressed__shift: DUMMY
 
 duplicate:
   gestures:
@@ -321,10 +352,6 @@ duplicate:
 #    pressed: DUMMY
 
 #clip:
-#  gestures:
-#    pressed: DUMMY
-
-#volume:
 #  gestures:
 #    pressed: DUMMY
 

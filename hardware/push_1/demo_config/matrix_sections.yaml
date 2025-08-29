@@ -41,14 +41,26 @@ actions_bottom_double:
     color:
       palette: rainbow
 
-ring_control:
-  row_start: 0
-  row_end: 7
-  col_start: 0
-  col_end: 7
-
 blank_section:
   row_start: 0
   row_end: 7
   col_start: 0
   col_end: 7
+
+session_controls:
+  row_start: 6
+  row_end: 7
+  col_start: 0
+  col_end: 7
+
+__session_view:
+  row_start: 0
+  row_end: 5
+  col_start: 0
+  col_end: 7
+
+track_control:
+  col_start: 0
+  col_end: 3
+  row_start: 4
+  row_end: 7

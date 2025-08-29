@@ -3,12 +3,14 @@ __encoder_row:
     enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
   ]
   binding:
-    default: >-
+    default: >
       RING(${me.index}) / VOL
-    __shift: >-
+    __shift: >
       RING(${me.index}) / PAN
-    __device: >-
-      SEL / DEV(1) P${me.Index}
+    __device: >
+      SEL / DEV(SEL) B1 P${me.Index}
+    __device__shift: >
+      SEL / DEV(SEL) B2 P${me.Index}
 
   encoders:
     enc_1:
