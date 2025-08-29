@@ -1,0 +1,32 @@
+-
+  pad_group: mute_group
+  type: param
+  binding: >
+    ring(${me.group_index}) / MUTE
+  on_color: dark_grey
+  off_color: white
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+-
+  pad_group: solo_group
+  type: param
+  binding: >
+    ring(${me.group_index}) / SOLO
+  on_color: blue
+  off_color: blue shade 2
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -

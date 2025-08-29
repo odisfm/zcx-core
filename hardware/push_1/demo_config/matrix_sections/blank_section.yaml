@@ -1,7 +1,7 @@
 # !! row 1
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -9,7 +9,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -17,7 +17,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -25,7 +25,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -33,7 +33,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -41,7 +41,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -49,7 +49,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -57,7 +57,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -66,7 +66,7 @@
 # !! row 2
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -74,7 +74,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -82,7 +82,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -90,7 +90,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -98,7 +98,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -106,7 +106,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -114,7 +114,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -122,7 +122,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -131,7 +131,7 @@
 # !! row 3
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -139,7 +139,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -147,7 +147,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -155,7 +155,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -163,7 +163,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -171,7 +171,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -179,7 +179,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -187,7 +187,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -196,7 +196,7 @@
 # !! row 4
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -204,7 +204,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -212,7 +212,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -220,7 +220,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -228,7 +228,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -236,7 +236,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -244,7 +244,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -252,7 +252,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -261,7 +261,7 @@
 # !! row 5
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -269,7 +269,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -277,7 +277,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -285,7 +285,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -293,7 +293,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -301,7 +301,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -309,7 +309,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -317,7 +317,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -326,7 +326,7 @@
 # !! row 6
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -334,7 +334,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -342,7 +342,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -350,7 +350,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -358,7 +358,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -366,7 +366,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -374,7 +374,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -382,7 +382,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -391,7 +391,7 @@
 # !! row 7
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -399,7 +399,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -407,7 +407,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -415,7 +415,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -423,7 +423,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -431,7 +431,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -439,7 +439,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -447,7 +447,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -456,7 +456,7 @@
 # !! row 8
 # col 1
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -464,7 +464,7 @@
     double_clicked: DUMMY
 # col 2
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -472,7 +472,7 @@
     double_clicked: DUMMY
 # col 3
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -480,7 +480,7 @@
     double_clicked: DUMMY
 # col 4
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -488,7 +488,7 @@
     double_clicked: DUMMY
 # col 5
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -496,7 +496,7 @@
     double_clicked: DUMMY
 # col 6
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -504,7 +504,7 @@
     double_clicked: DUMMY
 # col 7
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY
@@ -512,7 +512,7 @@
     double_clicked: DUMMY
 # col 8
 - 
-  color: white
+  color: dark_grey
   gestures:
     pressed: DUMMY
     released_immediately: DUMMY

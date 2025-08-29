@@ -6,10 +6,11 @@ pages:
   alt_page:
     - actions_top_left
     - actions_bottom_right
-    - actions_bottom_left
+    - track_control
     - actions_top_right
-  ring_page:
-    - ring_control
+  session_view_page:
+    - session_controls
+    - __session_view
   blank_page:
     - blank_section
 
