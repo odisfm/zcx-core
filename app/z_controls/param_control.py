@@ -154,6 +154,9 @@ class ParamControl(ZControl):
                     map_success = self.map_self_to_par(self._active_map)
             except ConfigurationError:
                 map_success = False
+            except NumberedDeviceMissingError:
+                self.device_list_listener.subject = self._mapped_track
+                raise
 
             if map_success is not True:
                 if self._log_failed_bindings:
@@ -395,7 +398,8 @@ class ParamControl(ZControl):
                             )
                         except IndexError as e:
                             self._mapped_device = None
-                            return False
+                            self.__disabled = True
+                            raise NumberedDeviceMissingError()
 
                     if device_obj is None:
                         raise ConfigurationError(f"No device found for {device_def}")
@@ -492,7 +496,8 @@ class ParamControl(ZControl):
                     except IndexError as e:
                         return False
                     return True
-
+        except NumberedDeviceMissingError:
+            raise
         except Exception as e:
             self.log(f"Error in map_self_to_par: {e}")
             self._mapped_track = None
@@ -938,3 +943,6 @@ class ParamControl(ZControl):
             self._current_binding_mode_string = ""
         else:
             self._current_binding_mode_string = "__" + "__".join(active_concerned_modes)
+
+class NumberedDeviceMissingError(Exception):
+    pass
