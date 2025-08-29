@@ -112,7 +112,7 @@ class SessionClipControl(ZControl):
                     else:
                         self._color = self.__color_dict['triggered_to_play']
                 else:
-                    if self.__clip_slot.canonical_parent.can_be_armed and self.__clip_slot.canonical_parent.arm:
+                    if self.__clip_slot.has_stop_button and self.__clip_slot.canonical_parent.can_be_armed and self.__clip_slot.canonical_parent.arm:
                         self._color = self.__color_dict['arm']
                     else:
                         self._color = self.empty_color_dict['base']
