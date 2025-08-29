@@ -6,6 +6,11 @@ RgbColor = hardware_colors.RgbColor
 Pulse = hardware_colors.Pulse
 Blink = hardware_colors.Blink
 
+try:
+    from .hardware.colors import SIMPLE_SHADE
+except ImportError:
+    SIMPLE_SHADE = False
+
 
 class ColorSwatches:
 
@@ -37,7 +42,10 @@ def get_named_color(name, calling_control=None):
             factor = int(split[2])
         else:
             raise ConfigurationError(f'Invalid color def: {name}')
-        return getattr(calling_control._color_swatch, split[0].upper()).shade(factor)
+        if SIMPLE_SHADE:
+            return getattr(calling_control._color_swatch, split[0].upper()).shade(-1)
+        else:
+            return getattr(calling_control._color_swatch, split[0].upper()).shade(factor)
 
     name = name.upper()
     if calling_control is not None:

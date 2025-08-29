@@ -15,6 +15,7 @@ from Push2.colors import (
 from Push2.colors import IndexedColor as PushIndexedColor
 from pushbase.colors import Color
 
+SIMPLE_SHADE = True
 
 animation_speed_translation = [48, 24, 12, 6, 4]
 
