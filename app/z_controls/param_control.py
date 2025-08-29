@@ -320,6 +320,8 @@ class ParamControl(ZControl):
                         return False
                 elif target_map.get('monitor'):
                     self.mapped_parameter = None
+                    if track_obj.clip_slots[0].is_group_slot:
+                        return False
                     self.apply_track_param_listener(track_obj, "monitor")
                     return True
                 elif target_map.get('mute'):
