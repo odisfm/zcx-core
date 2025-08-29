@@ -1,4 +1,4 @@
-from ..z_control import ZControl
+from ..z_control import ZControl, only_in_view
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
 from ..colors import parse_color_definition, RgbColor
@@ -770,6 +770,7 @@ class ParamControl(ZControl):
         color = self._color_dict["on"] if status else self._color_dict["off"]
         self.replace_color(color)
 
+    @only_in_view
     def handle_gesture(self, gesture):
         super().handle_gesture(gesture)
         if gesture == "pressed" and self._will_toggle_param:
