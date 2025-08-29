@@ -338,11 +338,11 @@ class ZControl(EventObject):
             animate_success = Blink(simplified_color, play_green, 12)
             animate_failure = Blink(simplified_color, red, 4)
         elif self._feedback_type == 'basic':
-            attention_color = base_color
+            attention_color = parse_color_definition("full_blink_slow", self)
             animate_success = Blink(simplified_color, off, 48)
             animate_failure = Blink(simplified_color, off, 12)
         elif self._feedback_type == 'biled':
-            attention_color = base_color
+            attention_color = parse_color_definition("amber_blink_slow", self)
             animate_success = Pulse(simplified_color, green, 48)
             animate_failure = Blink(simplified_color, red, 12)
         else:
