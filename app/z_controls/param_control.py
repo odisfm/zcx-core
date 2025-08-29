@@ -176,8 +176,8 @@ class ParamControl(ZControl):
         except Exception as e:
             self.__disabled = True
             self.update_feedback()
-            self.log(f"{e.__class__.__name__}: {e}")
-            if self._log_failed_bindings:
+            if self._log_failed_bindings and not isinstance(e, NumberedDeviceMissingError):
+                self.log(f"{e.__class__.__name__}: {e}")
                 self._parent_logger.error(f"Failed to bind to target: {self._active_map}")
         finally:
             dynamism = self.assess_dynamism(self._active_map)
