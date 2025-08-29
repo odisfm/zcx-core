@@ -23,7 +23,7 @@ class TrackControl(ZControl):
 
             track = raw_config['track']
             if '${' in track:
-                parse, status = self.action_resolver.compile(track, self._vars, self._context)
+                parse, status = self.root_cs.component_map['ActionResolver'].compile(track, self._vars, self._context)
                 if status != 0:
                     raise ConfigurationError(f'Unparseable track definition: {track}\n'
                                              f'{self._raw_config}')
