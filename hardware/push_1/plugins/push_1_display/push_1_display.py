@@ -39,6 +39,8 @@ DEFAULT_CONFIG = {
     "ring_tracks": 4
 }
 
+PREFER_TRACK_NAME_FOR_VOLUME = True
+
 class Push1Display(ZCXPlugin):
 
     def __init__(
@@ -76,6 +78,10 @@ class Push1Display(ZCXPlugin):
         self.__session_ring = self.canonical_parent._session_ring_custom
 
         config = self._user_config or DEFAULT_CONFIG
+
+        global PREFER_TRACK_NAME_FOR_VOLUME
+        if "prefer_track_name" in config:
+            PREFER_TRACK_NAME_FOR_VOLUME = config["prefer_track_name"]
 
         if 'encoder_mappings' in config and config['encoder_mappings'] is not None:
             self._encoder_mapping_line = config['encoder_mappings'] - 1
@@ -449,7 +455,12 @@ class EncoderWatcher(EventObject):
         self._current_parameter = par
         par_name = par.name
         if par_name == 'Track Volume':
-            par_name = par.canonical_parent.canonical_parent.name
+            if PREFER_TRACK_NAME_FOR_VOLUME:
+                par_name = par.canonical_parent.canonical_parent.name
+            else:
+                par_name = "Volume"
+        elif par_name == 'Track Panning':
+            par_name = "Pan"
 
         if self._component._encoder_mapping_line is not False:
             self._component.update_display_segment(self._component._encoder_mapping_line, self._index, par_name)

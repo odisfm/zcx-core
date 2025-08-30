@@ -37,3 +37,15 @@ plugins:
     message: 3
     ring_tracks: 4
 ```
+
+### additional options
+
+#### prefer_track_name
+
+```yaml
+prefer_track_name: true
+```
+
+With the default of `true`, when an encoder is mapped to a track's volume fader, the [encoder mapping segment](#encoder-mappings) will display the track's name.
+With `false`, the parameter will be shown as `Volume`
+
