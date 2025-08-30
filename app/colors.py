@@ -99,12 +99,13 @@ def parse_color_definition(color, calling_control=None):
                 if isinstance(special_color_def, str):
                     a_def = special_color_def
                     b_def = None
+                    speed_def = 1
                 else:
                     a_def = special_color_def['a']
                     b_def = special_color_def.get('b')
+                    speed_def = special_color_def.get('speed', 1)
                 if b_def is None:
                     b_def = 0
-                speed_def = special_color_def.get('speed', 1)
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
@@ -115,14 +116,13 @@ def parse_color_definition(color, calling_control=None):
                 if isinstance(special_color_def, str):
                     a_def = special_color_def
                     b_def = special_color_def
+                    speed_def = 1
                 else:
                     a_def = special_color_def['a']
-                    b_def = special_color_def.get('a')
-                if b_def is None:
+                    b_def = special_color_def.get('b')
+                    speed_def = special_color_def.get('speed', 1)
+                if b_def is None or SINGLE_COLOR_PULSE:
                     b_def = a_def
-                if SINGLE_COLOR_PULSE:
-                    b_def = a_def
-                speed_def = special_color_def.get('speed', 1)
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
