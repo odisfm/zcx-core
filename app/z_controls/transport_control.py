@@ -141,6 +141,8 @@ class TransportControl(ZControl):
         self._is_counting_in_listener.subject = self._song
         self._loop_listener.subject = self._song
 
+        self._simple_feedback =  False
+
         self.request_color_update()
 
 
