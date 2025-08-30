@@ -231,6 +231,18 @@ palette_nebula = [
 palette_nebula_reverse = palette_nebula.copy()
 palette_nebula_reverse.reverse()
 
+palette_coral = [
+    RgbColorSwatch.CYAN.shade(1),
+    RgbColorSwatch.PURPLE.shade(1),
+    RgbColorSwatch.SKY.shade(1),
+    RgbColorSwatch.PURPLE.shade(0),
+    RgbColorSwatch.CYAN.shade(3),
+    RgbColorSwatch.MAGENTA.shade(2)
+]
+
+palette_coral_reverse = palette_coral.copy()
+palette_coral_reverse.reverse()
+
 palette_rainbow_reverse = palette_rainbow.copy()
 palette_rainbow_reverse.reverse()
 
@@ -243,6 +255,8 @@ palettes = {
     'rainbow_reverse': palette_rainbow_reverse,
     'nebula': palette_nebula,
     'nebula_reverse': palette_nebula_reverse,
+    'coral': palette_coral,
+    'coral_reverse': palette_coral_reverse,
 }
 
 LIVE_TO_MIDI = [
