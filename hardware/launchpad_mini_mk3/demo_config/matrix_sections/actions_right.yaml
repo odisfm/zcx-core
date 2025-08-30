@@ -1,7 +1,7 @@
 # !! row 1
 # col 1
 -
-  color: sky
+  color: purple
   gestures:
     pressed:
       msg: You can edit this section in `_config/matrix_sections/actions_right.yaml`

@@ -9,12 +9,6 @@
 #          0 1 2 3 4 5 6 7
 #
 
-big_colors:
-  row_start: 0
-  row_end: 5
-  col_start: 0
-  col_end: 7
-
 blank_section:
   row_start: 0
   row_end: 7
@@ -27,14 +21,13 @@ actions_left:
   col_start: 0
   col_end: 3
 
-actions_main:
-  row_start: 4
+actions_small:
+  row_start: 5
   row_end: 7
   col_start: 0
   col_end: 3
   template:
-    color:
-      palette: rainbow_reverse 3
+    color: dark_grey
 
 actions_right:
   row_start: 0
@@ -42,21 +35,26 @@ actions_right:
   col_start: 4
   col_end: 7
 
-
-nav_quadrant:
-  row_start: 4
+nav:
+  row_start: 5
   row_end: 7
   col_start: 4
   col_end: 7
 
-track_section:
+track_control:
+  row_start: 5
+  row_end: 7
+  col_start: 0
+  col_end: 3
+
+__session_view:
   row_start: 0
   row_end: 3
   col_start: 0
   col_end: 7
 
-track_control:
-  row_start: 0
-  row_end: 3
+ring_tracks:
+  row_start: 4
+  row_end: 4
   col_start: 0
   col_end: 7

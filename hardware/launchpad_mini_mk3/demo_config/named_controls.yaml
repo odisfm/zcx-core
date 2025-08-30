@@ -1,6 +1,6 @@
 session:
   color: 1
-  suppress_animations: true
+  hold_color: red
   gestures:
     pressed:
       refresh: true
@@ -22,11 +22,9 @@ __page_controls:
     released_delayed:
       page: last
   active_color:
-    pulse:
-      a: white
-      b: white
+    pulse: white
   inactive_color:
-    palette: rainbow
+    palette: coral_reverse
 
 #drums:
 #  color: 127
@@ -45,18 +43,18 @@ __page_controls:
 
 __scene_controls:
   includes:
-    [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+    [scene_1, scene_2, scene_3, scene_4]
   color:
-    palette: ocean
+    palette: coral
   gestures:
     pressed: >
       SCENE ${ring.scenes[me.Index]}
     pressed__shift: >
-      SCENE ${ring.scenes[me.Index + 8]}
+      SCENE ${ring.scenes[me.Index + me.group_count]}
     pressed__select: >
       SCENE SEL ${ring.scenes[me.Index]}
     pressed__shift__select: >
-      SCENE SEL ${ring.scenes[me.Index + 8]}
+      SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
 #scene_1:
 #  color: 127
@@ -88,42 +86,59 @@ __scene_controls:
 #  gestures:
 #    pressed: DUMMY
 
-#scene_7:
-#  color: 127
-#  gestures:
-#    pressed: DUMMY
+scene_7:
+  type: mode
+  mode: select
+  inactive_color: white
+  active_color: lime
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
 
-#scene_8:
-#  color: 127
-#  gestures:
-#    pressed: DUMMY
+scene_8:
+  type: mode
+  mode: shift
+  inactive_color: white
+  active_color: purple
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
 
 novation:
   type: transport
   transport: play
+  active_color: grey
+  inactive_color: dark_grey
 
 nav_up:
-  color: sky
+  repeat: true
+  color: purple
   gestures:
     pressed:
       ring:
-        y: -8
+        y: -4
     pressed__shift:
       ring:
         y: -1
 
 nav_down:
-  color: sky
+  repeat: true
+  color: purple
   gestures:
     pressed:
       ring:
-        y: 8
+        y: 4
     pressed__shift:
       ring:
         y: 1
 
 nav_left:
-  color: green
+  repeat: true
+  color: sky shade 2
   gestures:
     pressed:
       ring:
@@ -133,7 +148,8 @@ nav_left:
         x: -1
 
 nav_right:
-  color: green
+  repeat: true
+  color: sky shade 2
   gestures:
     pressed:
       ring:
