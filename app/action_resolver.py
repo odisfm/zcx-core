@@ -4,6 +4,7 @@ from itertools import chain
 from typing import Dict, Any, Tuple, Callable, Union
 from random import randint
 
+from .util import DynamicString
 from .vendor.asteval import Interpreter, make_symbol_table
 
 from ableton.v3.base import listens, listens_group
@@ -605,20 +606,8 @@ class ActionResolver(ZCXComponent):
             self.debug(track.name)
 
 
-class SelectedTrackNameGetter(str):
+class SelectedTrackNameGetter(DynamicString):
     def __new__(cls, view):
         obj = str.__new__(cls, "")
         obj._value_func = lambda: view.selected_track.name
         return obj
-
-    def __str__(self):
-        return self._value_func()
-
-    def __repr__(self):
-        return repr(self._value_func())
-
-    def __format__(self, format_spec):
-        return format(self._value_func(), format_spec)
-
-    def __len__(self):
-        return len(self._value_func())
