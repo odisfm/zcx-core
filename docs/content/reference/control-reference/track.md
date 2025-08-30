@@ -21,6 +21,8 @@ track: string, int
 color: color definition
 ```
 
+## options
+
 ### track
 `string | int`
 
@@ -31,10 +33,6 @@ ___
 `color definition`
 
 By default, the track control will attempt to create a palette of colors based on the color of the bound track. You may optionally pass a color option, and that color will be used as a base instead. **Note:** if an animated color is specified, only the 'a' color of the animation will be considered. See [color reference](/reference/color-reference).
-
-## options
-
-Inherits from [standard control](/reference/control-reference/z-control/#options).
 
 ## properties
 
