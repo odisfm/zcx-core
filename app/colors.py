@@ -96,8 +96,14 @@ def parse_color_definition(color, calling_control=None):
                 special_color_def = parse[0]
 
             if special_color_type == 'blink':
-                a_def = special_color_def['a']
-                b_def = special_color_def['b']
+                if isinstance(special_color_def, str):
+                    a_def = special_color_def
+                    b_def = None
+                else:
+                    a_def = special_color_def['a']
+                    b_def = special_color_def.get('b')
+                if b_def is None:
+                    b_def = 0
                 speed_def = special_color_def.get('speed', 1)
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
@@ -106,8 +112,14 @@ def parse_color_definition(color, calling_control=None):
                 return Blink(a, b, speed)
 
             elif special_color_type == 'pulse':
-                a_def = special_color_def['a']
-                b_def = special_color_def['b']
+                if isinstance(special_color_def, str):
+                    a_def = special_color_def
+                    b_def = special_color_def
+                else:
+                    a_def = special_color_def['a']
+                    b_def = special_color_def.get('a')
+                if b_def is None:
+                    b_def = a_def
                 if SINGLE_COLOR_PULSE:
                     b_def = a_def
                 speed_def = special_color_def.get('speed', 1)
