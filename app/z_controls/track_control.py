@@ -14,11 +14,14 @@ class TrackControl(ZControl):
         self._track_color_dict = {}
         self.__is_numbered_track = False
         self.__track_number = None
+        self._animate_while_stopped = False
 
     def setup(self):
         super().setup()
         try:
             raw_config = self._raw_config
+
+            self._animate_while_stopped = self._raw_config.get('animate_while_stopped', False)
 
             if 'track' not in raw_config:
                 return
@@ -197,7 +200,7 @@ class TrackControl(ZControl):
         if self._track is None:
             return False
 
-        if not self.root_cs.song.is_playing:
+        if not self._animate_while_stopped and not self.root_cs.song.is_playing:
             if self._track == self.root_cs.song.view.selected_track:
                 if self._track.can_be_armed and self._track.arm:
                     self._color = self._color_dict['selected_armed_song_stopped']
