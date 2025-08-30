@@ -13,6 +13,8 @@ An RGB-enabled button will attempt to display animated feedback representing the
 
 ## yaml schema
 
+Inherits from [track control](/reference/control-reference/track/#yaml-schema).
+
 ```yaml
 ring_index: int
 ```
