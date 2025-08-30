@@ -14,7 +14,11 @@ Here's the stuff you should know before you get stuck in designing your zcx conf
 
     > 	An introduction to the most important concepts and terminology used in zcx.
 
-3. [editing a config](editing-a-config)
+3. [demo config tour](demo-tour)
+
+    > 	An introduction to the most important concepts and terminology used in zcx.
+
+4. [editing a config](editing-a-config)
 
     >	Your first steps with configuring zcx.
 
