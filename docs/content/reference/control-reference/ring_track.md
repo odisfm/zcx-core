@@ -17,6 +17,8 @@ An RGB-enabled button will attempt to display animated feedback representing the
 ring_index: int
 ```
 
+## options
+
 ### ring_index
 `int`
 
