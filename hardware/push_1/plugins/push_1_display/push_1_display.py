@@ -5,6 +5,7 @@ from ableton.v3.base import EventObject
 from ableton.v3.base import listens_group, listens
 from Push.sysex import *
 from ableton.v2.base.task import TimerTask
+from util import to_percentage
 
 LIVE_MODE = (240, 71, 127, 21, 98, 0, 1, 0, 247)
 USER_MODE = (240, 71, 127, 21, 98, 0, 1, 1, 247)
@@ -40,6 +41,7 @@ DEFAULT_CONFIG = {
 }
 
 PREFER_TRACK_NAME_FOR_VOLUME = True
+USE_GRAPHICS = True
 
 class Push1Display(ZCXPlugin):
 
@@ -82,6 +84,9 @@ class Push1Display(ZCXPlugin):
         global PREFER_TRACK_NAME_FOR_VOLUME
         if "prefer_track_name" in config:
             PREFER_TRACK_NAME_FOR_VOLUME = config["prefer_track_name"]
+        global USE_GRAPHICS
+        if "use_graphics" in config:
+            USE_GRAPHICS = config["use_graphics"]
 
         if 'encoder_mappings' in config and config['encoder_mappings'] is not None:
             self._encoder_mapping_line = config['encoder_mappings'] - 1
@@ -404,6 +409,14 @@ class Push1Display(ZCXPlugin):
         Return the ASCII value of a character, but only if it's in the ASCII range (0-127).
         Raises ValueError for non-ASCII characters.
         """
+        if char == "│":
+            return 3
+        elif char == "┑":
+            return 4
+        elif char == "┃":
+            return 5
+        elif char == "┅":
+            return 6
         if char == "▶":
             return 127
         code_point = ord(char)
@@ -411,6 +424,51 @@ class Push1Display(ZCXPlugin):
             return code_point
         else:
             return 45
+
+    def create_slider_graphic(self, _min, _max, current, bipolar=False):
+        percentage = to_percentage(_min, _max, current)
+        if not bipolar:
+            if percentage < 12.5: # 8 chars to a segment
+                return "│┅┅┅┅┅┅┅"
+            full_bars, remainder = divmod(percentage, 12.5)
+
+            content = "┃┃┃┃┃┃┃┃"[0:int(full_bars)]
+            if remainder > 6.25:
+                content += "│"
+            while len(content) < 8:
+                content += "┅"
+            return content
+        else:
+            if percentage < 6.25:
+                return "┃┃┃┃┅┅┅┅"
+            elif percentage < 12.5:
+                return "┑┃┃┃┅┅┅┅"
+            elif percentage < 18.75:
+                return "┅┃┃┃┅┅┅┅"
+            elif percentage < 25:
+                return "┅┑┃┃┅┅┅┅"
+            elif percentage < 31.25:
+                return "┅┅┃┃┅┅┅┅"
+            elif percentage < 37.5:
+                return "┅┅┑┃┅┅┅┅"
+            elif percentage < 43.75:
+                return "┅┅┅┃┅┅┅┅"
+            elif percentage < 49:
+                return "┅┅┅┑┅┅┅┅"
+            elif 49 <= percentage <= 51:
+                return "┅┅┅┑│┅┅┅"
+            elif percentage < 56.25:
+                return "┅┅┅┅│┅┅┅"
+            elif percentage < 62.5:
+                return "┅┅┅┅┃┅┅┅"
+            elif percentage < 68.75:
+                return "┅┅┅┅┃│┅┅"
+            elif percentage < 75:
+                return "┅┅┅┅┃┃┅┅"
+            elif percentage < 87.5:
+                return "┅┅┅┅┃┃┃┅"
+            else:
+                return "┅┅┅┅┃┃┃┃"
 
 class DelayedDisplayRefreshTask(TimerTask):
 
@@ -473,9 +531,19 @@ class EncoderWatcher(EventObject):
         if not self._component._encoder_values_line:
             return
 
-        if self._current_parameter is None:
-            self._component.update_display_segment(self._component._encoder_values_line, self._index, '')
-            return
-        par_val = self._current_parameter.__str__()
+        par_val = ""
+
+        try:
+            if self._current_parameter is None:
+                self._component.update_display_segment(self._component._encoder_values_line, self._index, '')
+                return
+            if self._current_parameter.name == "Track Volume" and USE_GRAPHICS:
+                par_val = self._component.create_slider_graphic(self._current_parameter.min, self._current_parameter.max, self._current_parameter.value)
+            elif self._current_parameter.name == "Track Panning" and USE_GRAPHICS:
+                par_val = self._component.create_slider_graphic(self._current_parameter.min, self._current_parameter.max, self._current_parameter.value, True)
+            else:
+                par_val = self._current_parameter.__str__()
+        except Exception as e:
+            self._component.error(e)
 
         self._component.update_display_segment(self._component._encoder_values_line, self._index, par_val)

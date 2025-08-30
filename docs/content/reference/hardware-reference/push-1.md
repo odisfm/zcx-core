@@ -49,3 +49,12 @@ prefer_track_name: true
 With the default of `true`, when an encoder is mapped to a track's volume fader, the [encoder mapping segment](#encoder-mappings) will display the track's name.
 With `false`, the parameter will be shown as `Volume`
 
+#### use_graphics
+
+```yaml
+use_graphics: true
+```
+
+With the default of `true`, certain mapped parameters will show a graphical representation of the parameter's value.
+With `false`, you will see the normal textual representation.
+
