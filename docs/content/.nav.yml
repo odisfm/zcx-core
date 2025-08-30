@@ -10,7 +10,14 @@ nav:
       - demo tour:
           - "tutorials/getting-started/demo-tour/*.md"
 
-  - reference: reference
+  - reference:
+      - "reference/*.md"
+      - control reference:
+          - "reference/control/*.md"
+      - configuration files:
+          - "reference/configuration-files/*.md"
+      - hardware reference:
+          - "reference/hardware/*.md"
 
   - lessons:
     - "lessons/*.md"

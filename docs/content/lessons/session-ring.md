@@ -21,7 +21,7 @@ You may disable the ring in [preferences.yaml](../reference/configuration-files/
 
 ## Moving the ring
 
-A script's ring may be positioned with the [ring command](../reference/command-reference.md#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
+A script's ring may be positioned with the [ring command](../reference/command.md#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
 
 ## ClyphX Pro control surface actions
 
@@ -65,7 +65,7 @@ Looking at [the above screenshot](#using-the-zcx-session-ring), if `state_1` was
 ### Dynamic encoder mappings
 
 It is possible to map encoders to the parameter of a track at a certain position of the ring.
-See [Encoder Reference](../reference/encoder-reference.md#targeting-the-session-ring) for details.
+See [Encoder Reference](../reference/encoder.md#targeting-the-session-ring) for details.
 
 ### Out of bounds references
 

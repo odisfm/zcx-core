@@ -46,9 +46,9 @@ As you may notice, zcx template strings behave similarly to [Variables in ClyphX
 
 ### what is a property?
 
-A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](control-reference/z-control.md#properties).
+A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](control/z-control.md#properties).
 
-We can see from the control reference that `me.Index` refers to this control's [position](control-reference/z-control.md#index) with its containing [section](../lessons/getting-started/zcx-concepts.md#matrix-sections).
+We can see from the control reference that `me.Index` refers to this control's [position](control/z-control.md#index) with its containing [section](../lessons/getting-started/zcx-concepts.md#matrix-sections).
 
 ### basic expressions
 
@@ -160,11 +160,11 @@ Allows references to the enclosed tracks and scenes of [the zcx session ring](..
 
 #### print
 
-Allows you to write to the log. Mostly useful with [Python commands](command-reference.md#python).
+Allows you to write to the log. Mostly useful with [Python commands](command.md#python).
 
 #### msg
 
-Briefly displays a message in the Live UI, like with the [msg command](command-reference.md#msg).
+Briefly displays a message in the Live UI, like with the [msg command](command.md#msg).
 
 #### cxp_var(`variable_name`)
 

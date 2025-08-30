@@ -95,7 +95,7 @@ Determines whether any user plugins (located in `zcx/plugins`) will be loaded.
 log_failed_encoder_bindings: true
 ```
 
-By default, when an [encoder](../encoder-reference.md) fails to bind to the specified target an error message is written to the log.
+By default, when an [encoder](../encoder.md) fails to bind to the specified target an error message is written to the log.
 In some cases, it may be expected that bindings fail, so you may set this option to `false`.
 
 ### log_level
@@ -141,7 +141,7 @@ plugins:
 ```
 
 Consult the documentation of your plugin to see the available options.
-If the plugin came with zcx you will find this information in the [hardware reference](../hardware-reference/index.md) for your controller.
+If the plugin came with zcx you will find this information in the [hardware reference](../hardware/index.md) for your controller.
 
 ### session_ring
 ```yaml
@@ -160,7 +160,7 @@ startup_command:
   cxp: METRO
 ```
 
-Fire a [command bundle](../command-reference.md#command-bundles) when the script is finished loading.
+Fire a [command bundle](../command.md#command-bundles) when the script is finished loading.
 
 ### startup_page
 

@@ -71,7 +71,7 @@ This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/
 
 The `encoder name` is the same one you'd use in [encoders.yaml](../reference/configuration-files/encoders.md).
 
-The `mapping target` is any of the targets specified in the [Encoder Reference](../reference/encoder-reference.md#mapping-targets).
+The `mapping target` is any of the targets specified in the [Encoder Reference](../reference/encoder.md#mapping-targets).
 The **entire** mapping target must be wrapped in double-quotes.
 
 !!!warning "Quotes within mapping targets"
@@ -92,7 +92,7 @@ The **entire** mapping target must be wrapped in double-quotes.
 
 #### MSG
 
-**Only on [Push 1](../reference/hardware-reference/push-1.md)**
+**Only on [Push 1](../reference/hardware/push-1.md)**
 
 Write a message to the controller's display. The message must be enclosed in double-quotes.
 
@@ -114,8 +114,8 @@ Force a refresh of all controller feedback.
 
 #### Color commands
 
-These commands allow you to set the color on an individual control by [alias](../reference/control-reference/z-control.md#alias), as well as across an entire section or group of controls.
-Allowable color values are an [int](../reference/color-reference.md#midi-value) or a [named color](../reference/color-reference.md#name).
+These commands allow you to set the color on an individual control by [alias](../reference/control/z-control.md#alias), as well as across an entire section or group of controls.
+Allowable color values are an [int](../reference/color.md#midi-value) or a [named color](../reference/color.md#name).
 
 ##### set_color
 
@@ -133,7 +133,7 @@ Set the color of every control in a [matrix section](getting-started/zcx-concept
 
 ##### set_group_color
 
-Set the color of every control in a [group of controls](../reference/template-reference.md#group-templates).
+Set the color of every control in a [group of controls](../reference/template.md#group-templates).
 
 `ZCX <target script> SET_GROUP_COLOR scene_buttons 127`
 

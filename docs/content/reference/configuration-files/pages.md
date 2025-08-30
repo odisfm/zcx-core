@@ -22,7 +22,7 @@ order:
 
 ### on_enter, on_leave
 
-You can configure a [command bundle](../command-reference.md#command-bundles) that is executed when the page is entered and/or when the page is left. Doing so requires a slight change to the normal pages syntax:
+You can configure a [command bundle](../command.md#command-bundles) that is executed when the page is entered and/or when the page is left. Doing so requires a slight change to the normal pages syntax:
 
 ```yaml
 pages:

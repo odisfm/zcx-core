@@ -4,7 +4,7 @@
 
 ### Animated colors
 
-Support for [animated colors](../color-reference.md#animated-colors) is limited with this hardware.
+Support for [animated colors](../color.md#animated-colors) is limited with this hardware.
 See [issues on GitHub](https://github.com/odisfm/zcx-core/issues?q=is%3Aissue%20state%3Aopen%20label%3Aapc_mini_mk2) for details.
 
 ### Dim LEDs

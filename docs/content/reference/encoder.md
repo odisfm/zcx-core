@@ -29,7 +29,7 @@ When using this feature, the special key `default` applies when no other (more s
 ### Mapping targets
 
 Mapping targets are provided as a string in ClyphX Pro syntax. 
-[Template strings](template-reference.md#template-strings) may be used within these strings.
+[Template strings](template.md#template-strings) may be used within these strings.
 
 With [some exceptions](#limitations), the available targets are the same as ClyphX Pro bindings.
 As such, nativeKONTROL's examples are reproduced below:
@@ -147,7 +147,7 @@ enc_1:
 
 ### Encoder groups
 
-We can group encoders to apply common definitions to them. See [Template Reference](template-reference.md#encoder-groups) for details.
+We can group encoders to apply common definitions to them. See [Template Reference](template.md#encoder-groups) for details.
 
 ### Additional options
 

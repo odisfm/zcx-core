@@ -9,7 +9,7 @@ The `page` control is identical to the `standard` control, except it has a requi
 !!! Note
     Standard controls are already capable of changing pages, and page controls still require you to manually define the page change commands. The only purpose of this control is to enable control feedback.
 
-    See [command reference](../command-reference.md#page).
+    See [command reference](../command.md#page).
 
 
 ## yaml schema
@@ -48,7 +48,7 @@ Inverse of [active color](#active_color).
 
 ## properties
 
-These are values attached to controls that can be referenced from within [template strings](../template-reference.md#template-strings).
+These are values attached to controls that can be referenced from within [template strings](../template.md#template-strings).
 
 #### page
 

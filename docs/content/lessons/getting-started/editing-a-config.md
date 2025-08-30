@@ -192,7 +192,7 @@ __select_row:
 This is an example of a group definition, that uses templating to apply a similar control definition across a range of controls.
 In this definition, the Push 1's eight Select buttons selects a track in Live, relative to the zcx script's session ring.
 
-You can learn how to read and compose these definitions in the [Template Reference](../../reference/template-reference.md).
+You can learn how to read and compose these definitions in the [Template Reference](../../reference/template.md).
 
 You may prefer to define each control individually.
 In this case, comment out (or delete) the group definition, and uncomment the single control definitions found underneath.
@@ -381,7 +381,7 @@ For each encoder, we define a target.
 Encoders are also mode-aware.
 In this example the encoder controls the Main track's volume by default, and the Preview volume when the Shift button is held.
 
-See the [Encoder Reference](../../reference/encoder-reference.md#mapping-targets) for a list of valid targets.
+See the [Encoder Reference](../../reference/encoder.md#mapping-targets) for a list of valid targets.
 
 ## A note on templating
 
@@ -408,7 +408,7 @@ __page_section:
       page: last
 ```
 
-These definitions are using the templating system in zcx. When you're ready, check the [template reference](../../reference/template-reference.md) to see how it works.
+These definitions are using the templating system in zcx. When you're ready, check the [template reference](../../reference/template.md) to see how it works.
 
 # congratulations!
 

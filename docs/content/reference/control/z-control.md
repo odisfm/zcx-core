@@ -47,7 +47,7 @@ ___
 ### color
 `color definition` 
 
-The base color of the control. See [color reference](../color-reference.md).
+The base color of the control. See [color reference](../color.md).
 
 ---
 
@@ -63,7 +63,7 @@ ___
 
 _Only available on named control group definitions._
 
-See [template reference](../template-reference.md#named-controls).
+See [template reference](../template.md#named-controls).
 
 ___
 ### pad_group
@@ -71,27 +71,27 @@ ___
 
 _Only available on matrix control group definitions._
 
-See [template reference](../template-reference.md#matrix-controls).
+See [template reference](../template.md#matrix-controls).
 
 ___
 
 ### controls
 `list[ZControl] | dict[ZControl]`
 
-Used in a [group control definition](../template-reference.md#group-templates) to override properties on one or more ZControls in the group.
-Accepts a list for a [group of matrix controls](../template-reference.md#matrix-controls) or a dict for a [group of named controls](../template-reference.md#named-controls).
+Used in a [group control definition](../template.md#group-templates) to override properties on one or more ZControls in the group.
+Accepts a list for a [group of matrix controls](../template.md#matrix-controls) or a dict for a [group of named controls](../template.md#named-controls).
 
 ___
 ### gestures
 `dict[dict[command]]`
 
-See [command reference](../command-reference.md#gestures).
+See [command reference](../command.md#gestures).
 
 ___
 ### vars
 `dict[dict[string]]`
 
-See [template reference](../template-reference.md#complex-expressions).
+See [template reference](../template.md#complex-expressions).
 
 ___
 ### repeat
@@ -115,7 +115,7 @@ ___
 ### template
 `string | list[string] | null`
 
-The template(s) to apply to this control. See [template reference](../template-reference.md#control-templates).
+The template(s) to apply to this control. See [template reference](../template.md#control-templates).
 
 `string`
 Apply a single template.
@@ -130,7 +130,7 @@ ___
 ### props
 `dict[string | int]`
 
-Any arbitrary data. Can be referenced from within [template strings](../template-reference.md#template-strings).
+Any arbitrary data. Can be referenced from within [template strings](../template.md#template-strings).
 
 ___
 ### threshold
@@ -142,12 +142,12 @@ ___
 ### cascade
 `false | "down" | "up" = false`
 
-Configures the control's behaviour when [multiple command bundles match the performed gesture](../command-reference.md#multiple-matching-gestures).
+Configures the control's behaviour when [multiple command bundles match the performed gesture](../command.md#multiple-matching-gestures).
 The default of `false` executes only one matching command bundle per gesture.
 
 ## properties
 
-These are values attached to controls that can be referenced from within [template strings](../template-reference.md#template-strings).
+These are values attached to controls that can be referenced from within [template strings](../template.md#template-strings).
 
 ### obj
 

@@ -13,7 +13,7 @@ For more info, see the sub-section of [zcx concepts](../../lessons/getting-start
 
 ## Firing command bundles on mode changes
 
-You may fire a [command bundle](../command-reference.md#command-bundles) when a mode is enabled, disabled, or toggled.
+You may fire a [command bundle](../command.md#command-bundles) when a mode is enabled, disabled, or toggled.
 Instead of specifying just the mode name as a string, you should specify an object like so:
 
 ```yaml title="modes.yaml" hl_lines="2-6"

@@ -24,4 +24,4 @@ By following the [TouchOSC manual](https://hexler.net/touchosc/manual/editor-mes
 ## Notes
 
 * When using the TouchOSC Grid control to create a button matrix, you must set the `Start` [property](https://hexler.net/touchosc/manual/controls#grid) to `BOTTOM LEFT`.
-* Feedback from zcx is designed to work with hardware controllers, and may produce unexpected results with TouchOSC. One workaround is to set a [global control template](../reference/template-reference.md#control-templates) with the option `suppress_animations: true`.
+* Feedback from zcx is designed to work with hardware controllers, and may produce unexpected results with TouchOSC. One workaround is to set a [global control template](../reference/template.md#control-templates) with the option `suppress_animations: true`.

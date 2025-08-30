@@ -51,11 +51,11 @@ For a pad belonging to track `my track` and scene 2, these commands would evalua
 ```
 
 !!! note "Template strings"
-    To understand this syntax, see the [template reference](../reference/template-reference.md)
+    To understand this syntax, see the [template reference](../reference/template.md)
 
 ### Altering defaults
 
-We can change the default functionality by adding a [section template](../reference/template-reference.md#section-templates):
+We can change the default functionality by adding a [section template](../reference/template.md#section-templates):
 
 ```yaml title="matrix_sections.yaml" hl_lines="6-9"
 __session_view:

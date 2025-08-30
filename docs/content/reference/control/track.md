@@ -33,7 +33,7 @@ ___
 ### color
 `color definition`
 
-By default, the track control will attempt to create a palette of colors based on the color of the bound track. You may optionally pass a color option, and that color will be used as a base instead. **Note:** if an animated color is specified, only the 'a' color of the animation will be considered. See [color reference](../color-reference.md).
+By default, the track control will attempt to create a palette of colors based on the color of the bound track. You may optionally pass a color option, and that color will be used as a base instead. **Note:** if an animated color is specified, only the 'a' color of the animation will be considered. See [color reference](../color.md).
 
 ---
 ### animate_while_stopped
@@ -43,7 +43,7 @@ When `true`, animations will stay active when the transport is stopped.
 
 ## properties
 
-These are values attached to controls that can be referenced from within [template strings](../template-reference.md#template-strings).
+These are values attached to controls that can be referenced from within [template strings](../template.md#template-strings).
 
 ### track
 

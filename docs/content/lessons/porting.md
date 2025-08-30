@@ -274,17 +274,17 @@ Please ask for help in the Discord if you're having trouble here.
 
 ### colors.py
 
-This file determines how your controller responds to [named colors](../reference/color-reference.md#name) and [animated colors](../reference/color-reference.md#animated-colors).
+This file determines how your controller responds to [named colors](../reference/color.md#name) and [animated colors](../reference/color.md#animated-colors).
 
 The file provided in the generic release comes from the Push 1 release.
 The Push 1, Launchpad series, and APC Mini mk2 use a similar color mapping — hopefully your controller does too.
 
-If it doesn't, you can always specify colors by [MIDI value](../reference/color-reference.md#midi-value) in your config.
+If it doesn't, you can always specify colors by [MIDI value](../reference/color.md#midi-value) in your config.
 If you'd like to try creating a custom `colors.py`, that is beyond the scope of this lesson, but reach out in the Discord for guidance.
 
 #### problematic animations
 
-If, after pressing a control, the RGB feedback seems to 'glitch out', one workaround is to set a [global control template](../reference/template-reference.md#control-templates) with the option `suppress_animations: true`.
+If, after pressing a control, the RGB feedback seems to 'glitch out', one workaround is to set a [global control template](../reference/template.md#control-templates) with the option `suppress_animations: true`.
 
 ## notes
 

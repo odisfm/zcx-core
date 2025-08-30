@@ -92,7 +92,7 @@ E.g. if `shift` is active, the action list `SREC FIX 8` will fire but `SREC FIX 
 
 ##### cascading gestures
 
-You may [configure a control](../reference/control-reference/z-control.md#cascade) to execute all matching command bundles in sequence. 
+You may [configure a control](control/z-control.md#cascade) to execute all matching command bundles in sequence. 
 This is done by setting the control's `cascade` option to `up` or `down`:
 
 ```yaml
@@ -242,7 +242,7 @@ released:
 
 See also:
 
-- [Color reference](color-reference.md)
+- [Color reference](color.md)
 - [Change color via user action](../lessons/zcx-user-action.md)
 
 ### ring

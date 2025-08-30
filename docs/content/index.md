@@ -127,7 +127,7 @@ pad 2: SEL / PLAY 2
 pad 64: SEL / PLAY 64
 ```
 
-<sup>[see how](reference/template-reference.md/)</sup>
+<sup>[see how](reference/template.md/)</sup>
 
 ___
 ### deeper customisation
@@ -144,7 +144,7 @@ play:
   gestures:
     double_clicked: STOPALL NQ
 ```
-<sup>[see how](reference/control-reference/z-control.md)</sup>
+<sup>[see how](reference/control/z-control.md)</sup>
 ___
 
 ### intelligent controls
@@ -169,7 +169,7 @@ play:
     pressed: SETPLAY
 ```
 
-<sup>[see how](reference/control-reference/transport.md)</sup>
+<sup>[see how](reference/control/transport.md)</sup>
 
 ___
 
@@ -199,7 +199,7 @@ scene_1:
       # msg: You must hold this control to trigger it!
 ```
 
-<sup>[see how](reference/template-reference.md/#control-templates)</sup>
+<sup>[see how](reference/template.md/#control-templates)</sup>
 
 ___
 
