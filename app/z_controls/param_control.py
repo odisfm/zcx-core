@@ -839,9 +839,10 @@ class ParamControl(ZControl):
             bound_idx = monitoring_states.index(self._active_map.get("monitor").lower())
             if bound_idx in [0, 1]:
                 if current_monitoring_idx == bound_idx:
+                    new_idx = int(not bool(bound_idx))
                     if preview:
-                        return monitoring_states[2]
-                    self._mapped_track.current_monitoring_state = 2
+                        return monitoring_states[new_idx]
+                    self._mapped_track.current_monitoring_state = new_idx
                 else:
                     if preview:
                         return monitoring_states[bound_idx]
