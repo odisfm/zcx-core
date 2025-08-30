@@ -10,6 +10,10 @@ try:
     from .hardware.colors import SIMPLE_SHADE
 except ImportError:
     SIMPLE_SHADE = False
+try:
+    from .hardware.colors import SINGLE_COLOR_PULSE
+except ImportError:
+    SINGLE_COLOR_PULSE = False
 
 
 class ColorSwatches:
@@ -104,6 +108,8 @@ def parse_color_definition(color, calling_control=None):
             elif special_color_type == 'pulse':
                 a_def = special_color_def['a']
                 b_def = special_color_def['b']
+                if SINGLE_COLOR_PULSE:
+                    b_def = a_def
                 speed_def = special_color_def.get('speed', 1)
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
