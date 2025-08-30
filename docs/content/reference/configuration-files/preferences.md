@@ -153,6 +153,36 @@ session_ring:
 Sets the dimensions of the [session ring](/lessons/session-ring).
 You may disable the ring by setting one or both of `width` and `height` to `0`.
 
+### startup_command
+```yaml
+startup_command:
+  mode_on: shift
+  cxp: METRO
+```
+
+Fire a [command bundle](/reference/command-reference#command-bundles) when the script is finished loading.
+
+### startup_page
+
+```yaml 
+startup_page: 2
+```
+
+```yaml 
+startup_page: home_page
+```
+
+```yaml
+startup_page: ${2 if "dj" in song.name else 0}
+```
+
+Set the page that is active when the script loads.
+
+**Alternatively:**
+
+- Use a [startup_command](#startup_command)
+- Set a [page order](/reference/configuration-files/pages#order)
+
 ## developer preferences
 
 The following preferences are only useful when developing the 'core' of zcx.

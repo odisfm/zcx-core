@@ -11,7 +11,7 @@ from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT
 from .template_manager import TemplateManager
 from .session_ring import SessionRing
 from .consts import REQUIRED_LIVE_VERSION
-from .errors import ZcxStartupError
+from .errors import ZcxStartupError, ConfigurationError
 
 root_cs = None
 
@@ -215,7 +215,31 @@ class ZCXCore(ControlSurface):
                 except Exception as e:
                     self.critical(f'{plugin_name} plugin setup failed:', e)
 
-            self.component_map['PageManager'].set_page(0)
+            from . import PREF_MANAGER
+            user_prefs = PREF_MANAGER.user_prefs
+            startup_command = user_prefs.get('startup_command')
+            try:
+                if startup_command is not None:
+                    self.log("doing startup command", startup_command)
+                    self.component_map["ActionResolver"].execute_command_bundle(None, startup_command, {}, {})
+            except Exception as e:
+                self.critical(e)
+
+            startup_page = user_prefs.get('startup_page')
+            if startup_page is not None:
+                try:
+                    if isinstance(startup_page, str) and "${" in startup_page:
+                        startup_page, status = self.component_map["ActionResolver"].compile(startup_page, {}, {})
+                        if not status == 0:
+                            raise ValueError(f"Couldn't parse template string")
+                    success = self.component_map["PageManager"].request_page_change(startup_page)
+                    if not success:
+                        raise ConfigurationError(f"Invalid startup_page: {startup_page}")
+                except Exception as e:
+                    self.critical(e)
+                    self.component_map['PageManager'].set_page(0)
+            else:
+                self.component_map['PageManager'].set_page(0)
 
         except Exception as e:
             self.critical(e)
