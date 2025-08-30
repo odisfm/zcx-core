@@ -19,6 +19,8 @@ class RingTrackControl(TrackControl, SessionRingControl):
             self.ring_offset_changed.subject = self.__session_ring
             self.ring_offset_changed()
 
+            self._simple_feedback = False
+
         except Exception as e:
             self.log(e)
 

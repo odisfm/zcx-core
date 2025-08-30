@@ -53,6 +53,7 @@ class PageControl(ZControl):
             else:
                 self.log(error_message)
                 return
+        self._simple_feedback = False
         self.set_prop('page_active', False)
         self.page_changed()
         self.set_prop('page', self._page_number)

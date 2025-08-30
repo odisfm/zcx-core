@@ -38,6 +38,7 @@ class TrackControl(ZControl):
                 except ValueError:
                     pass
 
+            self._simple_feedback = False
             self.set_track_by_name(track)
         except Exception as e:
             self._parent_logger.error(e)

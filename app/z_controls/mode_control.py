@@ -63,6 +63,7 @@ class ModeControl(ZControl):
             inactive_color = parse_color_definition(inactive_color_def, self)
             self._color_dict["base"] = inactive_color
 
+        self._simple_feedback = False
         self.modes_changed(self.mode_manager.current_modes)
 
     @listens('current_modes')
