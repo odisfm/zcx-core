@@ -1,11 +1,11 @@
 # Building zcx from source
 
-If you would like to [contribute to zcx-core](/dev/contributing), you will need to use the build script to consolidate all necessary files into a folder in your Live `Remote Scripts` directory.
+If you would like to [contribute to zcx-core](contributing.md), you will need to use the build script to consolidate all necessary files into a folder in your Live `Remote Scripts` directory.
 
 !!! warning
 
     This lesson is only intended for developers.
-    To use zcx, see [getting started](/tutorials/getting-started).
+    To use zcx, see [getting started](../lessons/getting-started/index.md).
 
 ## Instructions
 
@@ -15,7 +15,7 @@ Clone the repo [from GitHub](https://github.com/odisfm/zcx-core/) to a convenien
 
 ### Install vendored dependencies
 
-zcx bundles [several packages](/dev/dependencies) with each install.
+zcx bundles [several packages](dependencies.md) with each install.
 These dependencies must be installed in the folder `zcx-core/app/vendor`.
 For Mac/Linux users, a simple script is provided at `zcx-core/tools/install_dependencies.sh` to install the packages (via pip) to the correct location.
 

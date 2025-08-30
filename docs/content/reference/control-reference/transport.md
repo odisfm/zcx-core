@@ -9,11 +9,11 @@ The `transport` control binds to a particular function of Live's transport, disp
 !!! Note
     Standard controls are already capable of controlling the transport, and transport controls still require you to manually define the action lists to fire. The only purpose of this control is to enable control feedback.
 
-    See [command reference](/reference/command-reference#cxp).
+    See [command reference](../command-reference.md#cxp).
 
 ## yaml schema
 
-Inherits from [standard control](/reference/control-reference/z-control/#yaml-schema).
+Inherits from [standard control](z-control.md#yaml-schema).
 
 ```yaml
 transport: string

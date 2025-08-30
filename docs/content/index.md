@@ -11,7 +11,7 @@ Extending [ClyphX Pro from NativeKontrol](https://isotonikstudios.com/product/cl
 
 <iframe width="896" height="504" src="https://www.youtube-nocookie.com/embed/REPAca6ncRs?si=PzQfciWctVQDJiuC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-[documentation :material-book:](/docs/){ .md-button .md-button--primary }
+[documentation :material-book:](docs.md){ .md-button .md-button--primary }
 
 [download :fontawesome-brands-github:](https://github.com/odisfm/zcx-core/releases/latest){ .md-button .md-button--primary }
 
@@ -28,10 +28,10 @@ zcx is currently maintained for these devices, with more planned:
 * Novation Launchpad X
 * Novation Launchpad Pro mk3
 * Novation Launchpad Mini mk3
-* [generic controllers](/lessons/porting)
+* [generic controllers](lessons/porting.md)
 
 [If your device isn't here
-](/tutorials/getting-started/installation/#my-hardware-isnt-listed)
+](lessons/getting-started/installation.md/#my-hardware-isnt-listed)
 ___
 ## features
 
@@ -65,7 +65,7 @@ select:
     released:
       mode_off: select
 ```
-<sup>[see how](/tutorials/getting-started/zcx-concepts/#modes)</sup>
+<sup>[see how](lessons/getting-started/zcx-concepts.md/#modes)</sup>
 ___
 
 ### unlimited pages
@@ -96,7 +96,7 @@ pages:
     - home_row
     - drums_section
 ```
-<sup>[see how](tutorials/getting-started/zcx-concepts/#pages)</sup>
+<sup>[see how](lessons/getting-started/zcx-concepts.md/#pages)</sup>
 ___
 
 ### rapid configuration
@@ -127,7 +127,7 @@ pad 2: SEL / PLAY 2
 pad 64: SEL / PLAY 64
 ```
 
-<sup>[see how](/reference/template-reference/)</sup>
+<sup>[see how](reference/template-reference.md/)</sup>
 
 ___
 ### deeper customisation
@@ -144,7 +144,7 @@ play:
   gestures:
     double_clicked: STOPALL NQ
 ```
-<sup>[see how](/reference/control-reference/z-control/)</sup>
+<sup>[see how](reference/control-reference/z-control.md)</sup>
 ___
 
 ### intelligent controls
@@ -169,7 +169,7 @@ play:
     pressed: SETPLAY
 ```
 
-<sup>[see how](/reference/control-reference/transport/)</sup>
+<sup>[see how](reference/control-reference/transport.md)</sup>
 
 ___
 
@@ -199,7 +199,7 @@ scene_1:
       # msg: You must hold this control to trigger it!
 ```
 
-<sup>[see how](/reference/template-reference/#control-templates)</sup>
+<sup>[see how](reference/template-reference.md/#control-templates)</sup>
 
 ___
 

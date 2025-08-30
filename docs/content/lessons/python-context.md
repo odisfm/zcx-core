@@ -1,6 +1,6 @@
 # understanding the zcx python evaluation context
 
-Whenever [expressions are evaluated](/reference/template-reference#template-strings), or the [python](/reference/command-reference#python) command is used, zcx will evaluate the code in a limited Python context.
+Whenever [expressions are evaluated](../reference/template-reference.md#template-strings), or the [python](../reference/command-reference.md#python) command is used, zcx will evaluate the code in a limited Python context.
 
 ## why?
 
@@ -18,4 +18,4 @@ asteval interprets your expressions with a limited context, which basically mean
 
 ### additional symbols
 
-Several [additional symbols](/reference/template-reference#template-locals) are made available in template strings.
+Several [additional symbols](../reference/template-reference.md#template-locals) are made available in template strings.

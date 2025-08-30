@@ -6,11 +6,11 @@ zcx can be configured to show an interactive representation of Live's session vi
 !!! note "Session ring"
 
     Session view shows clips within the session ring.
-    See the [session ring lesson](/lessons/session-ring) to learn about configuring and controlling the session ring.
+    See the [session ring lesson](session-ring.md) to learn about configuring and controlling the session ring.
 
 ## Configuration
 
-The zcx session view is actually a specialized [matrix section](/tutorials/getting-started/zcx-concepts/#matrix-sections).
+The zcx session view is actually a specialized [matrix section](getting-started/zcx-concepts.md#matrix-sections).
 To configure it, add a new section called `__session_view` to your `matrix_sections.yaml`:
 
 ```yaml title="matrix_sections.yaml"
@@ -23,10 +23,10 @@ __session_view:
 
 There is no need to create the file `matrix_sections/__session_view.yaml`.
 
-Once the section is created, [add it to a page](/tutorials/getting-started/zcx-concepts/#pages).
+Once the section is created, [add it to a page](getting-started/zcx-concepts.md#pages).
 
 !!! note
-    The `__session_view` section's dimensions must be no greater than the [height and width](/reference/configuration-files/preferences/#session_ring) of your session ring. 
+    The `__session_view` section's dimensions must be no greater than the [height and width](../reference/configuration-files/preferences.md#session_ring) of your session ring. 
 
 ## Commands
 
@@ -51,11 +51,11 @@ For a pad belonging to track `my track` and scene 2, these commands would evalua
 ```
 
 !!! note "Template strings"
-    To understand this syntax, see the [template reference](/reference/template-reference)
+    To understand this syntax, see the [template reference](../reference/template-reference.md)
 
 ### Altering defaults
 
-We can change the default functionality by adding a [section template](/reference/template-reference#section-templates):
+We can change the default functionality by adding a [section template](../reference/template-reference.md#section-templates):
 
 ```yaml title="matrix_sections.yaml" hl_lines="6-9"
 __session_view:

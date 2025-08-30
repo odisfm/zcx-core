@@ -28,4 +28,4 @@ If no pattern matches, the default config (`_config`) will be loaded.
 !!! note
     zcx only checks the set name when the control surface is reloaded.
 
-    After renaming the set, you may load the new config by [reloading zcx](/lessons/reloading-control-surfaces)
+    After renaming the set, you may load the new config by [reloading zcx](reloading-control-surfaces.md)

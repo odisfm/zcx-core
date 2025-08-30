@@ -2,26 +2,26 @@
 
 Like other control surface scripts, zcx provides a 'session ring' — a colored box that can be moved around the session to target different tracks or scenes.
 
-![A screenshot of the zcx session ring in Ableton Live 12](/lessons/img/session-ring-1.png)
+![A screenshot of the zcx session ring in Ableton Live 12](img/session-ring-1.png)
 
 
 !!! note "Session view"
 
     This lesson deals only with the session ring itself.
-    To configure the session view (as seen on Launchpad and similar), see the [session view](/lessons/session-view) lesson.
+    To configure the session view (as seen on Launchpad and similar), see the [session view](session_view.md) lesson.
 
 ## Resizing the ring
 
 By default, the session ring will be configured to the same width and height as your controller's matrix.
-You may resize the session ring via [preferences.yaml](/reference/configuration-files/preferences#session_ring).
+You may resize the session ring via [preferences.yaml](../reference/configuration-files/preferences.md#session_ring).
 
 ## Disabling the ring
 
-You may disable the ring in [preferences.yaml](/reference/configuration-files/preferences#session_ring).
+You may disable the ring in [preferences.yaml](../reference/configuration-files/preferences.md#session_ring).
 
 ## Moving the ring
 
-A script's ring may be positioned with the [ring command](/reference/command-reference#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
+A script's ring may be positioned with the [ring command](../reference/command-reference.md#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
 
 ## ClyphX Pro control surface actions
 
@@ -65,7 +65,7 @@ Looking at [the above screenshot](#using-the-zcx-session-ring), if `state_1` was
 ### Dynamic encoder mappings
 
 It is possible to map encoders to the parameter of a track at a certain position of the ring.
-See [Encoder Reference](/reference/encoder-reference#targeting-the-session-ring) for details.
+See [Encoder Reference](../reference/encoder-reference.md#targeting-the-session-ring) for details.
 
 ### Out of bounds references
 

@@ -6,7 +6,7 @@ hide:
 
 # standard control
 
-The below options are avaliable on the base [ZControl](/lessons/zcx-concepts#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
+The below options are avaliable on the base [ZControl](../../lessons/getting-started/zcx-concepts.md#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
 
 ## yaml schema
 
@@ -33,21 +33,21 @@ cascade: false | "down" | "up" = false
 ### type
 `string='standard'`
 
-Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](/tutorials/getting-started/zcx-concepts#control-classes).
+Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](../index.md).
 
 ___
 
 ### alias
 `string`
 
-Allows you to provide a name for a matrix control, or an alternate name for a named control, which can later be used to target this control via the zcx API, e.g. [the zcx user action](/lessons/zcx-user-action).
+Allows you to provide a name for a matrix control, or an alternate name for a named control, which can later be used to target this control via the zcx API, e.g. [the zcx user action](../../lessons/zcx-user-action.md).
 
 ___
 
 ### color
 `color definition` 
 
-The base color of the control. See [color reference](/reference/color-reference).
+The base color of the control. See [color reference](../color-reference.md).
 
 ---
 
@@ -63,7 +63,7 @@ ___
 
 _Only available on named control group definitions._
 
-See [template reference](/template-reference/#named-controls).
+See [template reference](../template-reference.md#named-controls).
 
 ___
 ### pad_group
@@ -71,27 +71,27 @@ ___
 
 _Only available on matrix control group definitions._
 
-See [template reference](/template-reference/#matrix-controls).
+See [template reference](../template-reference.md#matrix-controls).
 
 ___
 
 ### controls
 `list[ZControl] | dict[ZControl]`
 
-Used in a [group control definition](/reference/template-reference/#group-templates) to override properties on one or more ZControls in the group.
-Accepts a list for a [group of matrix controls](/template-reference/#matrix-controls) or a dict for a [group of named controls](/template-reference/#named-controls).
+Used in a [group control definition](../template-reference.md#group-templates) to override properties on one or more ZControls in the group.
+Accepts a list for a [group of matrix controls](../template-reference.md#matrix-controls) or a dict for a [group of named controls](../template-reference.md#named-controls).
 
 ___
 ### gestures
 `dict[dict[command]]`
 
-See [command reference](/command-reference#gestures).
+See [command reference](../command-reference.md#gestures).
 
 ___
 ### vars
 `dict[dict[string]]`
 
-See [template reference](/reference/template-reference#complex-expressions).
+See [template reference](../template-reference.md#complex-expressions).
 
 ___
 ### repeat
@@ -115,7 +115,7 @@ ___
 ### template
 `string | list[string] | null`
 
-The template(s) to apply to this control. See [template reference](/template-reference#control-templates).
+The template(s) to apply to this control. See [template reference](../template-reference.md#control-templates).
 
 `string`
 Apply a single template.
@@ -130,7 +130,7 @@ ___
 ### props
 `dict[string | int]`
 
-Any arbitrary data. Can be referenced from within [template strings](/reference/template-reference#template-strings).
+Any arbitrary data. Can be referenced from within [template strings](../template-reference.md#template-strings).
 
 ___
 ### threshold
@@ -142,12 +142,12 @@ ___
 ### cascade
 `false | "down" | "up" = false`
 
-Configures the control's behaviour when [multiple command bundles match the performed gesture](/reference/command-reference/#multiple-matching-gestures).
+Configures the control's behaviour when [multiple command bundles match the performed gesture](../command-reference.md#multiple-matching-gestures).
 The default of `false` executes only one matching command bundle per gesture.
 
 ## properties
 
-These are values attached to controls that can be referenced from within [template strings](/reference/template-reference#template-strings).
+These are values attached to controls that can be referenced from within [template strings](../template-reference.md#template-strings).
 
 ### obj
 

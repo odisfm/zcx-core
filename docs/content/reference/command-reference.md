@@ -20,7 +20,7 @@ Gestures are physical actions you can perform on a control to trigger a command.
 !!! note
 
     The `double_clicked` gesture may be unituitive.
-    See [the lesson](/lessons/double_clicked) to undestand how it works.
+    See [the lesson](../lessons/double_clicked.md) to undestand how it works.
 
 ### gesture syntax
 
@@ -74,7 +74,7 @@ gestures:
 
 ### modes syntax
 
-When using [modes](/tutorials/getting-started/zcx-concepts/#modes) in zcx, the syntax is extended:
+When using [modes](../lessons/getting-started/zcx-concepts.md#modes) in zcx, the syntax is extended:
 ```yaml
 gestures:
   pressed: SREC FIX 4
@@ -92,7 +92,7 @@ E.g. if `shift` is active, the action list `SREC FIX 8` will fire but `SREC FIX 
 
 ##### cascading gestures
 
-You may [configure a control](/reference/control-reference/z-control#cascade) to execute all matching command bundles in sequence. 
+You may [configure a control](../reference/control-reference/z-control.md#cascade) to execute all matching command bundles in sequence. 
 This is done by setting the control's `cascade` option to `up` or `down`:
 
 ```yaml
@@ -242,12 +242,12 @@ released:
 
 See also:
 
-- [Color reference](/reference/color-reference)
-- [Change color via user action](/lessons/zcx-user/action)
+- [Color reference](color-reference.md)
+- [Change color via user action](../lessons/zcx-user-action.md)
 
 ### ring
 
-Move the [session ring](/lessons/session-ring) of the script.
+Move the [session ring](../lessons/session-ring.md) of the script.
 
 #### relative moves
 
@@ -348,7 +348,7 @@ The value of a `pseq` or `rpseq` key must be a list, with each list item being a
 
 ### python
 
-Execute Python code in a [limited execution context](/lessons/python-context).
+Execute Python code in a [limited execution context](../lessons/python-context.md).
 
 ```yaml
 my_control:
@@ -391,7 +391,7 @@ my_control:
 !!! note
 
     Generally, it should not be necessary to use this command.
-    If you are using this command to work around an issue you're having, please consider [reporting a bug](/lessons/reporting-bugs).
+    If you are using this command to work around an issue you're having, please consider [reporting a bug](../lessons/reporting-bugs.md).
 
 ### special commands
 

@@ -117,7 +117,7 @@ And in each of those files you define every pad that belongs to that section:
     pressed: SETPLAY
 ```
 
-Or you can have [one definition that applies to all pads](/reference/template-reference/#whole-section-groups) based on their position within the section:
+Or you can have [one definition that applies to all pads](../../reference/template-reference.md/#whole-section-groups) based on their position within the section:
 
 ```yaml title="scene_section.yaml"
 color:
@@ -129,7 +129,7 @@ gestures:
 ```
 
 !!! tip
-    You will learn more about defining matrix controls in [the next lesson](/tutorials/getting-started/editing-a-config).
+    You will learn more about defining matrix controls in [the next lesson](editing-a-config.md).
 
 ## pages
 
@@ -241,6 +241,6 @@ tempo:
 
 ## control classes
 
-The most common type of control you'll use is the [standard ZControl](/reference/control-reference/z-control). There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
+The most common type of control you'll use is the [standard ZControl](../../reference/control-reference/z-control.md). There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
 
-One class of control is the [page control](/reference/control-reference/page),  which is bound to a page you specify. It shows one color when its bound page is in view, and another when it isn't. Another is the [transport](/reference/control-reference/transport) control: you can bind your `play` button to Live's transport, and it will turn green while the set is playing, and white when it stops. Just like it did on the original script for your controller.
+One class of control is the [page control](../../reference/control-reference/page.md),  which is bound to a page you specify. It shows one color when its bound page is in view, and another when it isn't. Another is the [transport](../../reference/control-reference/transport.md) control: you can bind your `play` button to Live's transport, and it will turn green while the set is playing, and white when it stops. Just like it did on the original script for your controller.

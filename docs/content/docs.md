@@ -7,22 +7,22 @@ hide:
 
 # zcx core documentation
 
-Welcome to the documentation for [zcx](/).
+Welcome to the documentation for [zcx](index.md).
 
-If you're brand new to zcx, check out the [getting started](/tutorials/getting-started) tutorial, or see [frequently asked questions](/faq).
+If you're brand new to zcx, check out the [getting started](lessons/getting-started/index.md) tutorial, or see [frequently asked questions](faq.md).
 
 !!! bug "Watch out"
     
     zcx is in beta, and so are these docs. Information here may be incorrect or missing.
 
-    If you think you've found an error in these docs or a problem with zcx, please [report a bug](/lessons/reporting-bugs). Alternatively, [reach out on Discord](https://discord.zcxcore.com).
+    If you think you've found an error in these docs or a problem with zcx, please [report a bug](lessons/reporting-bugs.md). Alternatively, [reach out on Discord](https://discord.zcxcore.com).
 
 
 ## Important guides
 
-- [zcx concepts](/tutorials/getting-started/zcx-concepts)
-- [control reference](/reference/control-reference/z-control)
--  [command reference](/reference/command-reference)
+- [zcx concepts](lessons/getting-started/zcx-concepts.md)
+- [control reference](reference/control-reference/z-control.md)
+-  [command reference](reference/command-reference.md)
 
 ## Navigating this site
 

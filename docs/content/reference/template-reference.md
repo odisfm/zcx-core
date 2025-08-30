@@ -46,9 +46,9 @@ As you may notice, zcx template strings behave similarly to [Variables in ClyphX
 
 ### what is a property?
 
-A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](/reference/control-reference/z-control#properties).
+A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](control-reference/z-control.md#properties).
 
-We can see from the control reference that `me.Index` refers to this control's [position](/reference/control-reference/z-control/#index_1) with its containing [section](/tutorials/getting-started/zcx-concepts#matrix-sections).
+We can see from the control reference that `me.Index` refers to this control's [position](control-reference/z-control.md#index) with its containing [section](../lessons/getting-started/zcx-concepts.md#matrix-sections).
 
 ### basic expressions
 
@@ -61,7 +61,7 @@ gestures:
 
 !!! note
 
-    To read about how zcx handles user-supplied expressions safely, see [this lesson](/lessons/python-context).
+    To read about how zcx handles user-supplied expressions safely, see [this lesson](../lessons/python-context.md).
 
 ### complex expressions
 
@@ -156,15 +156,15 @@ Provides access to the Live set's [song object](https://docs.cycling74.com/apire
 
 #### ring
 
-Allows references to the enclosed tracks and scenes of [the zcx session ring](/lessons/session-ring#referencing-the-ring-from-template-strings).
+Allows references to the enclosed tracks and scenes of [the zcx session ring](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
 
 #### print
 
-Allows you to write to the log. Mostly useful with [Python commands](/reference/command-reference#python).
+Allows you to write to the log. Mostly useful with [Python commands](command-reference.md#python).
 
 #### msg
 
-Briefly displays a message in the Live UI, like with the [msg command](/reference/command-reference#msg).
+Briefly displays a message in the Live UI, like with the [msg command](command-reference.md#msg).
 
 #### cxp_var(`variable_name`)
 
@@ -184,7 +184,7 @@ Must be enclosed in double-quotes for use in a ClyphX Pro action list.
 
 zcx allows you to define any arbitrary selection of controls as a **group** of controls. By grouping controls, we can apply a common configuration across all of them.
 
-The syntax for defining a group is different for [named controls](/tutorials/getting-started/zcx-concepts/#named-controls) and [controls that are part of the matrix](/tutorials/getting-started/zcx-concepts/#matrix-controls).
+The syntax for defining a group is different for [named controls](../lessons/getting-started/zcx-concepts.md#named-controls) and [controls that are part of the matrix](../lessons/getting-started/zcx-concepts.md#matrix-controls).
 
 
 ### named controls
@@ -226,7 +226,7 @@ controls:
 As matrix controls do not have names, the syntax used to group them is slightly different.
 
 !!! note "Groups vs Sections"
-    Do not confuse [matrix sections](/tutorials/getting-started/zcx-concepts/#matrix-sections) with groups.
+    Do not confuse [matrix sections](../lessons/getting-started/zcx-concepts.md#matrix-sections) with groups.
 
     Every matrix control inherently belongs to a matrix section. Groups can be used within a section, or ignored entirely.
 
@@ -283,7 +283,7 @@ controls:
 
 ```
 
-Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](/reference/template-reference/#overwriting-options), we are able to overwrite or extend individual group members:
+Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](#overwriting-options), we are able to overwrite or extend individual group members:
 
 ```yaml
 controls:
@@ -362,7 +362,7 @@ This template will be applied for every control in the section. You can imagine 
 
 #### section templates
 
-An alternative [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](/reference/configuration-files/matrix-sections). To do so, add a `template` key:
+An alternative [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](configuration-files/matrix-sections.md). To do so, add a `template` key:
 
 ```yaml hl_lines="6-7"
 my_section:

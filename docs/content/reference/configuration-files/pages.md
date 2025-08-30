@@ -1,6 +1,6 @@
 # pages.yaml
 
-`pages.yaml` is where you configure the different pages of the control matrix. For a basic explanation of pages see the sub-section of [zcx concepts](/tutorials/getting-started/zcx-concepts/#pages).
+`pages.yaml` is where you configure the different pages of the control matrix. For a basic explanation of pages see the sub-section of [zcx concepts](../../lessons/getting-started/zcx-concepts.md#pages).
 
 ## advanced settings
 
@@ -22,7 +22,7 @@ order:
 
 ### on_enter, on_leave
 
-You can configure a [command bundle](../../command-reference#command-bundles) that is executed when the page is entered and/or when the page is left. Doing so requires a slight change to the normal pages syntax:
+You can configure a [command bundle](../command-reference.md#command-bundles) that is executed when the page is entered and/or when the page is left. Doing so requires a slight change to the normal pages syntax:
 
 ```yaml
 pages:

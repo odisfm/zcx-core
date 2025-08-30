@@ -3,7 +3,7 @@ weight: -5
 ---
 # ring_track control
 
-A version of the [track control](track.md) that dynamically binds to the track at a particular index of the [session ring](/lessons/session-ring).
+A version of the [track control](track.md) that dynamically binds to the track at a particular index of the [session ring](../../lessons/session-ring.md).
 An RGB-enabled button will attempt to display animated feedback representing the track's state (playing, recording, etc.). 
 
 
@@ -13,7 +13,7 @@ An RGB-enabled button will attempt to display animated feedback representing the
 
 ## yaml schema
 
-Inherits from [track control](/reference/control-reference/track/#yaml-schema).
+Inherits from [track control](track.md#yaml-schema).
 
 ```yaml
 ring_index: int

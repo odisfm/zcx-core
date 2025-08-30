@@ -15,11 +15,11 @@ Displays the current value of the aforementioned parameter.
 
 ### message
 
-A reserved space, which can be written to from the [zcx user action](/lessons/zcx-user-action#msg).
+A reserved space, which can be written to from the [zcx user action](../../lessons/zcx-user-action.md#msg).
 
 ### ring_tracks
 
-Displays the name of the first 8 tracks highlighted by the [session ring](/lessons/session-ring)
+Displays the name of the first 8 tracks highlighted by the [session ring](../../lessons/session-ring.md)
 
 ### selected
 
@@ -27,7 +27,7 @@ Displays the selected track and scene. If the scene is named, the name will be s
 
 ---
 
-You can specify on which line each readout appears via [preferences.yaml](/reference/configuration-files/preferences#plugins).
+You can specify on which line each readout appears via [preferences.yaml](../configuration-files/preferences.md#plugins).
 
 ```yaml
 plugins:
