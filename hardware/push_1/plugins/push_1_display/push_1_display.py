@@ -537,7 +537,7 @@ class EncoderWatcher(EventObject):
             if self._current_parameter is None:
                 self._component.update_display_segment(self._component._encoder_values_line, self._index, '')
                 return
-            if self._current_parameter.name == "Track Volume" and USE_GRAPHICS:
+            if USE_GRAPHICS and (self._current_parameter.canonical_parent.__class__.__name__ == "MixerDevice" and self._current_parameter.__str__().endswith("dB")):
                 par_val = self._component.create_slider_graphic(self._current_parameter.min, self._current_parameter.max, self._current_parameter.value)
             elif self._current_parameter.name == "Track Panning" and USE_GRAPHICS:
                 par_val = self._component.create_slider_graphic(self._current_parameter.min, self._current_parameter.max, self._current_parameter.value, True)
