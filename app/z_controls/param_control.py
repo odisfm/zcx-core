@@ -1,3 +1,4 @@
+from ..util import to_percentage
 from ..z_control import ZControl, only_in_view
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
@@ -37,6 +38,8 @@ class ParamControl(ZControl):
             ])
             self.set_gesture_dict(self._raw_config.get('gestures', {}))
             self._vars = self._raw_config.get("vars", {})
+            self._vars["me.next_value"] = "me.obj.preview_next_value()"
+            self._vars["me.next_pct"] = "me.obj.preview_next_value_percentage()"
 
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
 
@@ -776,37 +779,62 @@ class ParamControl(ZControl):
         if gesture == "pressed" and self._will_toggle_param:
             self.toggle_mapped_parameter()
 
-    def toggle_mapped_parameter(self):
+    def toggle_mapped_parameter(self, preview=False):
         if self.mapped_parameter:
             if self.mapped_parameter.value == self.mapped_parameter.min:
+                if preview:
+                    return self.mapped_parameter.max
                 self.mapped_parameter.value = self.mapped_parameter.max
             elif self.mapped_parameter.value == self.mapped_parameter.max:
+                if preview:
+                    return self.mapped_parameter.min
                 self.mapped_parameter.value = self.mapped_parameter.min
             else:
+                if preview:
+                    return self.mapped_parameter.min
                 self.mapped_parameter.value = self.mapped_parameter.min
         elif self._active_map.get('arm'):
             if not self._mapped_track.can_be_armed:
+                if preview:
+                    return None
                 return
+            if preview:
+                return not self._mapped_track.arm
             self._mapped_track.arm = not self._mapped_track.arm
         elif self._active_map.get('monitor'):
             current_monitoring_idx = self._mapped_track.current_monitoring_state
-            bound_idx = ["in", "auto", "off"].index(self._active_map.get("monitor").lower())
+            monitoring_states = ["in", "auto", "off"]
+            bound_idx = monitoring_states.index(self._active_map.get("monitor").lower())
             if bound_idx in [0, 1]:
                 if current_monitoring_idx == bound_idx:
+                    if preview:
+                        return monitoring_states[2]
                     self._mapped_track.current_monitoring_state = 2
                 else:
+                    if preview:
+                        return monitoring_states[bound_idx]
                     self._mapped_track.current_monitoring_state = bound_idx
             else:
                 if current_monitoring_idx == bound_idx:
+                    if preview:
+                        return monitoring_states[1]
                     self._mapped_track.current_monitoring_state = 1
                 else:
+                    if preview:
+                        return monitoring_states[bound_idx]
                     self._mapped_track.current_monitoring_state = bound_idx
 
         elif self._active_map.get('mute'):
+            if preview:
+                return not self._mapped_track.mute
             self._mapped_track.mute = not self._mapped_track.mute
         elif self._active_map.get('solo'):
+            if preview:
+                return not self._mapped_track.solo
             self._mapped_track.solo = not self._mapped_track.solo
         elif self._active_map.get('track_select'):
+            if preview:
+                return True
             self.root_cs.song.view.selected_track = self._mapped_track
         elif self._active_map.get('play'):
             raise NotImplementedError()
@@ -814,17 +842,26 @@ class ParamControl(ZControl):
             raise NotImplementedError()
         elif self._active_map.get('x_fade_assign'):
             current_cross_idx = self._mapped_track.mixer_device.crossfade_assign
-            bound_idx = ["a", "off", "b"].index(self._active_map.get("x_fade_assign").lower())
+            assign_states = ["a", "off", "b"]
+            bound_idx = assign_states.index(self._active_map.get("x_fade_assign").lower())
             if bound_idx in [0, 2]:
                 if current_cross_idx == bound_idx:
+                    if preview:
+                        return assign_states[1]
                     self._mapped_track.mixer_device.crossfade_assign = 1
                 else:
+                    if preview:
+                        return assign_states[bound_idx]
                     self._mapped_track.mixer_device.crossfade_assign = bound_idx
             else:
+                if preview:
+                    return assign_states[1]
                 self._mapped_track.mixer_device.crossfade_assign = 1
         elif self._active_map.get("device") is not None:
             param_type = self._active_map["parameter_type"] or ""
             if param_type.lower() == "sel":
+                if preview:
+                    return True
                 self.root_cs.song.view.select_device(self._mapped_device)
 
     def apply_track_param_listener(self, track, param: str):
@@ -944,6 +981,16 @@ class ParamControl(ZControl):
             self._current_binding_mode_string = ""
         else:
             self._current_binding_mode_string = "__" + "__".join(active_concerned_modes)
+
+    def preview_next_value(self):
+        preview = self.toggle_mapped_parameter(preview=True)
+        return preview
+
+    def preview_next_value_percentage(self):
+        preview = self.preview_next_value()
+        if self.mapped_parameter:
+            preview = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, preview)
+        return preview
 
 class NumberedDeviceMissingError(Exception):
     pass

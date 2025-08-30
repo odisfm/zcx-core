@@ -120,6 +120,22 @@ Color definition when the control is disabled, e.g. after failing to find its ta
 
 If set to `false`, disables the [default behaviour](#behaviour) on control press.
 
+## properties
+
+### next_pct, next_value
+
+Returns the value that the parameter would be set to the next time it is toggled.
+`next_pct` returns that value as a number between `0.0` and `100.0`, which can be used in a ClyphX Pro action list to [ramp the parameter](https://www.cxpman.com/manual/general-action-information/#ramping-parameters).
+`next_value` returns a string value.
+
+**Example usage:**
+```yaml
+binding: >
+  "my cool track" / VOL
+pressed: >
+  "my cool track" / VOL RAMP 10 ${me.next_pct}% 
+```
+
 ## special command types
 
 ### do_toggle
