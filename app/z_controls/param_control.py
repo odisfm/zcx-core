@@ -26,6 +26,7 @@ class ParamControl(ZControl):
         self._will_toggle_param = True
         self._concerned_binding_modes = []
         self._current_binding_mode_string = ""
+        self._custom_midpoint = None
 
     def setup(self):
         try:
@@ -44,6 +45,20 @@ class ParamControl(ZControl):
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
 
             self._will_toggle_param = self._raw_config.get("toggle_param", True)
+
+            def get_percentage_def(key):
+                pct_def = self._raw_config.get(key)
+                if pct_def is not None:
+                    try:
+                        pct_def = float(pct_def)
+                        if pct_def < 0 or pct_def > 100:
+                            raise ValueError()
+                        return pct_def
+                    except ValueError:
+                        self.log("Option `midpoint` must be a number between 0 and 100.")
+                        return None
+
+            self._custom_midpoint = get_percentage_def("midpoint")
 
             bindings = self._raw_config.get("binding", {})
             if isinstance(bindings, dict):
@@ -713,12 +728,19 @@ class ParamControl(ZControl):
                 return self.replace_color(self._color_dict["disabled"])
 
             if self.mapped_parameter:
-                if self.mapped_parameter.value == self.mapped_parameter.max:
-                    self.set_feedback(True)
-                elif self.mapped_parameter.value == self.mapped_parameter.min:
-                    self.set_feedback(False)
+                if self._custom_midpoint:
+                    current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
+                    if current_pct >= self._custom_midpoint:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
                 else:
-                    self.set_feedback(True)
+                    if self.mapped_parameter.value == self.mapped_parameter.max:
+                        self.set_feedback(True)
+                    elif self.mapped_parameter.value == self.mapped_parameter.min:
+                        self.set_feedback(False)
+                    else:
+                        self.set_feedback(True)
             else:
                 map = self._active_map
                 if self._mapped_track and map.get("device") and map.get("parameter_type", "").lower() == "sel":
@@ -790,9 +812,19 @@ class ParamControl(ZControl):
                     return self.mapped_parameter.min
                 self.mapped_parameter.value = self.mapped_parameter.min
             else:
-                if preview:
-                    return self.mapped_parameter.min
-                self.mapped_parameter.value = self.mapped_parameter.min
+                if self._custom_midpoint:
+                    current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
+                    if current_pct > self._custom_midpoint:
+                        target_val = self.mapped_parameter.min
+                    else:
+                        target_val = self.mapped_parameter.max
+                    if preview:
+                        return target_val
+                    self.mapped_parameter.value = target_val
+                else:
+                    if preview:
+                        return self.mapped_parameter.min
+                    self.mapped_parameter.value = self.mapped_parameter.min
         elif self._active_map.get('arm'):
             if not self._mapped_track.can_be_armed:
                 if preview:

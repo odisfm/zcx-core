@@ -11,6 +11,7 @@ This feature aims to emulate the Button Bindings feature from the [ClyphX Pro Bi
 The param control displays [different colors](#on_color-off_color) based on whether its target is considered "on" or "off".
 For binary targets like [arm](#arm), this is straightforward.
 For [adjustable properties](https://www.cxpman.com/manual/general-action-information/#multiple-devices), like a track's volume, the parameter is considered "off" if the parameter is at its **minimum** value, and "on" for any other value.
+You can tweak this behaviour by setting a [midpoint](#midpoint).
 
 Without defining any [gestures](reference/command-reference/#gestures), the param control will toggle its mapped parameter from "on" to "off" on a press.
 Binary targets will have their status inverted.
@@ -29,6 +30,7 @@ on_color: color definition
 off_color: color definition
 disabled_color: color definition
 toggle_param: boolean=true
+midpoint: number
 # color: not implemented
 ```
 
@@ -119,6 +121,15 @@ Color definition when the control is disabled, e.g. after failing to find its ta
 `boolean=true`
 
 If set to `false`, disables the [default behaviour](#behaviour) on control press.
+
+### midpoint
+`number`
+
+A percentage between 0.0 and 100.0 to be used when [determining state](#behaviour).
+A parameter above this value will be considered active.
+With `midpoint: 0.0` the control will behave as normal.
+With `midpoint: 100.0` the default behaviour will be inverted.
+
 
 ## properties
 
