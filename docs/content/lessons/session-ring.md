@@ -8,7 +8,7 @@ Like other control surface scripts, zcx provides a 'session ring' — a colored 
 !!! note "Session view"
 
     This lesson deals only with the session ring itself.
-    To configure the session view (as seen on Launchpad and similar), see the [session view](session_view.md) lesson.
+    To configure the session view (as seen on Launchpad and similar), see the [session view](session-view.md) lesson.
 
 ## Resizing the ring
 
