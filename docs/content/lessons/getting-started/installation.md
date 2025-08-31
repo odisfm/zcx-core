@@ -19,7 +19,7 @@ Scroll to the bottom of that page and check the 'Assets' dropdown.
 No problem. Have a look at the [zcx-core discord server](https://discord.zcxcore.com) to see if there is a pre-release version available. There may be a distribution ready to go that just needs someone who actually owns the hardware to confirm it works. And if there isn't, feel free to put in a request for your hardware!
 
 Alternatively, it is relatively easy to create a 'port' of zcx for your controller.
-See [the lesson](/lessons/porting) for details.
+See [the lesson](../porting.md) for details.
 
 ## install the script
 
@@ -52,7 +52,7 @@ You can rename the folder to whatever you like, and that's the name that shows u
 
 ### optional: install the zcx user action
 
-By installing the zcx user action, you can [control zcx from ClyphX action lists](/lessons/zcx-user-action).
+By installing the zcx user action, you can [control zcx from ClyphX action lists](../zcx-user-action.md).
 Drag the contents of the `user_actions` folder into your ClyphX Pro user actions folder, which should be in `User Library/Remote Scripts/_user_actions`.
 
 ## activate the script
@@ -69,7 +69,7 @@ You should set the MIDI in and out ports to the relevant hardware before assigni
 
 For your controller's input, check the boxes `Track` and `Remote`, and for the output `Track`, `Sync` , and `Remote`.
 
-At this point, you may need to [reload the script](/lessons/reloading-control-surfaces).
+At this point, you may need to [reload the script](../reloading-control-surfaces.md).
 
 ### if your controller has a distinct 'user mode'
 
@@ -81,7 +81,7 @@ You are able to use the 'Live' and 'user' modes of your controller by switching 
 
 For the Launchpad series, use the port `Launchpad X MIDI In` or similar, rather than the `DAW in` and `DAW out` ports.
 
-If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](/docs/lessons/reporting-bugs.md).
+If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](../reporting-bugs.md).
 
 ## explore!
 

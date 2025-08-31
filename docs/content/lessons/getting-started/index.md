@@ -2,19 +2,23 @@
 
 Here's the stuff you should know before you get stuck in designing your zcx config:
 
-0. [installing zcx](installation)
+0. [installing zcx](installation.md)
 
     > How to download, install, and enable zcx.
 
-1. [reading zcx configurations](reading-zcx-configurations)
+1. [reading zcx configurations](reading-zcx-configurations.md)
 
     > 	This lesson will help you make sense of the syntax used in zcx. If you're already familiar with yaml, you can probably skip this.
 
-2. [zcx concepts](zcx-concepts)
+2. [zcx concepts](zcx-concepts.md)
 
     > 	An introduction to the most important concepts and terminology used in zcx.
 
-3. [editing a config](editing-a-config)
+3. [demo config tour](demo-tour/index.md)
+
+    > 	An introduction to the most important concepts and terminology used in zcx.
+
+4. [editing a config](editing-a-config.md)
 
     >	Your first steps with configuring zcx.
 

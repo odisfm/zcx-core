@@ -1,5 +1,5 @@
 ---
-weight: 3
+weight: 4
 hide:
   - footer
 ---
@@ -152,7 +152,7 @@ mute:
     pressed_delayed: ALL / MUTE
 ```
 
-Make that edit, then [reload zcx](/docs/lessons/reloading-control-surfaces).
+Make that edit, then [reload zcx](../reloading-control-surfaces.md).
 
 Now, when you hold down `mute`, every track in the set gets muted. Well, actually, as soon as you press `mute` the selected track is muted, then after a moment every other track is muted. This might not be what you want.
 
@@ -163,7 +163,7 @@ mute:
     pressed_delayed: ALL / MUTE
 ```
 
-We've changed the [key](/docs/lessons/reading-zcx-configurations.md#keys-and-values) `pressed` to `released_immediately`. zcx supports six gestures, five of which you'll be familiar with if you've used G-Controls:
+We've changed the [key](reading-zcx-configurations.md#keys-and-values) `pressed` to `released_immediately`. zcx supports six gestures, five of which you'll be familiar with if you've used G-Controls:
 
 - `pressed`
 - `pressed_delayed`
@@ -192,7 +192,7 @@ __select_row:
 This is an example of a group definition, that uses templating to apply a similar control definition across a range of controls.
 In this definition, the Push 1's eight Select buttons selects a track in Live, relative to the zcx script's session ring.
 
-You can learn how to read and compose these definitions in the [Template Reference](/reference/template-reference).
+You can learn how to read and compose these definitions in the [Template Reference](../../reference/template.md).
 
 You may prefer to define each control individually.
 In this case, comment out (or delete) the group definition, and uncomment the single control definitions found underneath.
@@ -306,7 +306,7 @@ Let's take a look at the `actions_top_left` section. Its config file is `_config
 
 This section was defined as a 4x4 quarter of the 8x8 pad matrix. This means it has 4 rows of controls, with 4 columns per row, for 16 controls total. This config file is pre-filled with a skeleton definition for each control, as well as helpful `#comments` indicating which control is which. 
 
-The data structure you're looking at is called a [list](/docs/lessons/reading-zcx-configurations.md#lists). When you see a `-` that begins the line, that is the start of a new item (control) that belongs to this list.
+The data structure you're looking at is called a [list](reading-zcx-configurations.md#lists). When you see a `-` that begins the line, that is the start of a new item (control) that belongs to this list.
 ```yaml title="actions_top_left.yaml"
 # row 1
 # col 1
@@ -327,7 +327,7 @@ If you like, you can start each list item with an empty line. You may find this 
 
     Your zcx distribution comes with a few mostly-blank sections, with helpful comments that indicate the coordinate of each control (like above).
 
-    If you'd like to generate your own blank config, of custom dimensions, you can use the [matrix config generator](/resources/matrix-gen).
+    If you'd like to generate your own blank config, of custom dimensions, you can use the [matrix config generator](../../resources/matrix-gen.md).
 
     
 
@@ -347,7 +347,7 @@ Now scroll through all three pages of the matrix. You'll see that **two** pages 
 
 !!! tip
 
-    The [strings](/docs/lessons/reading-zcx-configurations.md#strings) we've used so far have been free of 'single quotes' and "double quotes". ClyphX uses double quotes quite a bit, and this can cause a small problem with yaml:
+    The [strings](reading-zcx-configurations.md#strings) we've used so far have been free of 'single quotes' and "double quotes". ClyphX uses double quotes quite a bit, and this can cause a small problem with yaml:
 
     ```yaml
     gestures:
@@ -368,7 +368,7 @@ Now scroll through all three pages of the matrix. You'll see that **two** pages 
 
 ## encoder mappings
 
-We define [encoder mappings](/docs/lessons/zcx-concepts.md#zencoders) in `encoders.yaml`.
+We define [encoder mappings](zcx-concepts.md#encoder-mappings) in `encoders.yaml`.
 
 ```yaml title="encoders.yaml"
 enc_master:
@@ -381,7 +381,7 @@ For each encoder, we define a target.
 Encoders are also mode-aware.
 In this example the encoder controls the Main track's volume by default, and the Preview volume when the Shift button is held.
 
-See the [Encoder Reference](/reference/encoder-reference#mapping-targets) for a list of valid targets.
+See the [Encoder Reference](../../reference/encoder.md#mapping-targets) for a list of valid targets.
 
 ## A note on templating
 
@@ -408,7 +408,7 @@ __page_section:
       page: last
 ```
 
-These definitions are using the templating system in zcx. When you're ready, check the [template reference](/reference/template-reference) to see how it works.
+These definitions are using the templating system in zcx. When you're ready, check the [template reference](../../reference/template.md) to see how it works.
 
 # congratulations!
 

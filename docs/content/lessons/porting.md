@@ -1,18 +1,18 @@
 # Porting zcx to new hardware
 
-zcx has full support for [a limited set of MIDI controllers](/#hardware).
+zcx has full support for [a limited set of MIDI controllers](../index.md#hardware).
 If your controller is not one of those supported, it is relatively easy to create a 'port' for your hardware
 
 !!! note "Getting help"
     If you get stuck, feel free to reach out on [the Discord](https://discord.zcxcore.com) for help.
 
 !!! tip "Making your port available to others"
-    If you'd like to make your port available to all users of zcx, have a look at the [contributing guide](/dev/contributing) and reach out in the Discord before getting started.
+    If you'd like to make your port available to all users of zcx, have a look at the [contributing guide](../dev/contributing.md) and reach out in the Discord before getting started.
 
 ## Download the generic build
 
 Head over to [the latest release](https://github.com/odisfm/zcx-core/releases/latest) and download the file `_zcx_generic.zip`.
-Follow the [standard instructions](/tutorials/getting-started/installation/#install-the-script) for installation.
+Follow the [standard instructions](../lessons/getting-started/installation.md/#install-the-script) for installation.
 
 ## Optional: rename the folder
 
@@ -170,7 +170,7 @@ The default, `RELATIVE_SMOOTH_TWO_COMPLIMENT` is a safe choice.
 
 #### preferences
 
-Here we define [preferences](/reference/configuration-files/preferences#preference-reference) that are **specific to this controller**.
+Here we define [preferences](../reference/configuration-files/preferences.md#preference-reference) that are **specific to this controller**.
 Other preferences should be left to the user.
 
 In most cases, the only thing that should be added here is `session_ring`:
@@ -212,7 +212,7 @@ cc_button_placeholder:
 
 #### giving good names to controls
 
-The user will refer to these names in their [named_controls.yaml](/tutorials/getting-started/zcx-concepts/#named-controls), so it's important that the names you choose are intuitive.
+The user will refer to these names in their [named_controls.yaml](../lessons/getting-started/zcx-concepts.md#named-controls), so it's important that the names you choose are intuitive.
 
 Here are some pointers:
 
@@ -274,22 +274,22 @@ Please ask for help in the Discord if you're having trouble here.
 
 ### colors.py
 
-This file determines how your controller responds to [named colors](/reference/color-reference/#name) and [animated colors](/reference/color-reference/#animated-colors).
+This file determines how your controller responds to [named colors](../reference/color.md#name) and [animated colors](../reference/color.md#animated-colors).
 
 The file provided in the generic release comes from the Push 1 release.
 The Push 1, Launchpad series, and APC Mini mk2 use a similar color mapping — hopefully your controller does too.
 
-If it doesn't, you can always specify colors by [MIDI value](/reference/color-reference/#midi-value) in your config.
+If it doesn't, you can always specify colors by [MIDI value](../reference/color.md#midi-value) in your config.
 If you'd like to try creating a custom `colors.py`, that is beyond the scope of this lesson, but reach out in the Discord for guidance.
 
 #### problematic animations
 
-If, after pressing a control, the RGB feedback seems to 'glitch out', one workaround is to set a [global control template](/reference/template-reference/#control-templates) with the option `suppress_animations: true`.
+If, after pressing a control, the RGB feedback seems to 'glitch out', one workaround is to set a [global control template](../reference/template.md#control-templates) with the option `suppress_animations: true`.
 
 ## notes
 
-- Do **not** edit `zcx.yaml`. Specifically, `hardware` must be left as `generic`. Changing this means the [upgrade script](/lessons/upgrade) will **overwrite** the contents of your hardware folder, and you'll have to do all this again.
+- Do **not** edit `zcx.yaml`. Specifically, `hardware` must be left as `generic`. Changing this means the [upgrade script](../lessons/upgrade.md) will **overwrite** the contents of your hardware folder, and you'll have to do all this again.
 
 ## the fun begins
 
-Now that your controller is configured, see [getting started](/tutorials/getting-started) for details on creating your user configuration.
+Now that your controller is configured, see [getting started](getting-started/index.md) for details on creating your user configuration.

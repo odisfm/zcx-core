@@ -4,11 +4,11 @@ weight: -8
 
 # mode control
 
-The `mode` control binds to a particular [mode](/tutorials/getting-started/zcx-concepts/#modes) in zcx and displays feedback indicating whether that mode is currently active
+The `mode` control binds to a particular [mode](../../lessons/getting-started/zcx-concepts.md#modes) in zcx and displays feedback indicating whether that mode is currently active
 
 ## yaml schema
 
-Inherits from [standard control](/reference/control-reference/z-control/#yaml-schema).
+Inherits from [standard control](z-control.md#yaml-schema).
 
 ```yaml
 mode: string

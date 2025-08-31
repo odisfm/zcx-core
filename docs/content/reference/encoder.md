@@ -13,7 +13,7 @@ enc_1:
     SEL / VOL
 ```
 
-Just like with buttons or pads, we can dynamically rebind parameters based on the [active mode(s)](/tutorials/getting-started/zcx-concepts/#modes).
+Just like with buttons or pads, we can dynamically rebind parameters based on the [active mode(s)](../lessons/getting-started/zcx-concepts.md#modes).
 
 ```yaml title="encoders.yaml" hl_lines="2 4"
 enc_1:
@@ -29,7 +29,7 @@ When using this feature, the special key `default` applies when no other (more s
 ### Mapping targets
 
 Mapping targets are provided as a string in ClyphX Pro syntax. 
-[Template strings](/reference/template-reference#template-strings) may be used within these strings.
+[Template strings](template.md#template-strings) may be used within these strings.
 
 With [some exceptions](#limitations), the available targets are the same as ClyphX Pro bindings.
 As such, nativeKONTROL's examples are reproduced below:
@@ -132,7 +132,7 @@ _When targeting an unknown device, e.g. the selected device, this option may pro
 
 ### Targeting the session ring
 
-With a special syntax, we can dynamically target a track at a particular position of the [session ring](/lessons/session-ring/).
+With a special syntax, we can dynamically target a track at a particular position of the [session ring](../lessons/session-ring.md).
 We can use any [valid track target](#mapping-targets) with this syntax:
 
 ```yaml
@@ -147,7 +147,7 @@ enc_1:
 
 ### Encoder groups
 
-We can group encoders to apply common definitions to them. See [Template Reference](/reference/template-reference#encoder-groups) for details.
+We can group encoders to apply common definitions to them. See [Template Reference](template.md#encoder-groups) for details.
 
 ### Additional options
 
@@ -170,7 +170,7 @@ By setting `unbind_on_fail: false` for this control, `enc_1` would remain bound 
 
 ## Manually rebinding encoders
 
-You can use the zcx user action to [manually rebind encoders](/lessons/zcx-user-action/#bind).
+You can use the zcx user action to [manually rebind encoders](../lessons/zcx-user-action.md#bind).
 
 ## Limitations
 

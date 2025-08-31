@@ -1,6 +1,6 @@
 # understanding the double_clicked gesture
 
-The `double_clicked` [gesture](/reference/command-reference#gestures) is cool, but it behaves somewhat peculiarly.
+The `double_clicked` [gesture](../reference/command.md#gestures) is cool, but it behaves somewhat peculiarly.
 
 ## the problem
 

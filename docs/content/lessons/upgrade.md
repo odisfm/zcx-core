@@ -4,7 +4,7 @@ To get access to the latest features and bugfixes, you should keep your zcx inst
 If you use multiple zcx installations (for different controllers), you need to upgrade each install separately.
 
 !!! danger
-    ![Snake from 'The Simpsons' saying 'Oh, no! Beta.'](/lessons/img/oh-no-beta.jpg)
+    ![Snake from 'The Simpsons' saying 'Oh, no! Beta.'](img/oh-no-beta.jpg)
     
     zcx is pre v1. This means it's very likely a new version will have **breaking changes**.
     'Breaking changes' basically means that if you upgrade, your old config might rely on features that work differently now.
@@ -22,7 +22,7 @@ This script will:
 - Download the newest release
 - Replace all application code with the newest version
 - Restore your configuration files
-- Install or upgrade the [zcx user action](/lessons/zcx-user-action).
+- Install or upgrade the [zcx user action](zcx-user-action.md).
 
 ### running the script
 

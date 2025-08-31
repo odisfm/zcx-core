@@ -11,7 +11,7 @@ weight: -1
 At the root of your zcx installation is a file `_global_preferences.yaml`.
 Inside your `_config` folder, you may create the file `preferences.yaml`.
 
-As zcx allows [per-set configs](/lessons/using-multiple-configs/), the purpose of having multiple files is to allow you to have certain preferences across all of your configs, and expand or modify those preferences per-config.
+As zcx allows [per-set configs](../../lessons/using-multiple-configs.md), the purpose of having multiple files is to allow you to have certain preferences across all of your configs, and expand or modify those preferences per-config.
 If you only use one zcx config, you may choose to use either of these files.
 
 ## preference reference
@@ -30,7 +30,7 @@ When set to `true`, all triggered ClyphX Pro action lists will be logged.
 
 **This setting must be set in `_global_preferences.yaml`**
 
-Allows you to configure [per-set configs](/lessons/using-multiple-configs/).
+Allows you to configure [per-set configs](../../lessons/using-multiple-configs.md).
 
 ```yaml
 configs:
@@ -95,7 +95,7 @@ Determines whether any user plugins (located in `zcx/plugins`) will be loaded.
 log_failed_encoder_bindings: true
 ```
 
-By default, when an [encoder](/reference/encoder-reference) fails to bind to the specified target an error message is written to the log.
+By default, when an [encoder](../encoder.md) fails to bind to the specified target an error message is written to the log.
 In some cases, it may be expected that bindings fail, so you may set this option to `false`.
 
 ### log_level
@@ -129,7 +129,7 @@ osc_output:
 Configures what information is sent over OSC. 
 `osc_output: false` disables all OSC output.
 
-See [full lesson](/lessons/osc-output) for more details.
+See [full lesson](../../lessons/osc-output.md) for more details.
 
 ### plugins
 
@@ -141,7 +141,7 @@ plugins:
 ```
 
 Consult the documentation of your plugin to see the available options.
-If the plugin came with zcx you will find this information in the [hardware reference](/reference/hardware-reference) for your controller.
+If the plugin came with zcx you will find this information in the [hardware reference](../hardware/index.md) for your controller.
 
 ### session_ring
 ```yaml
@@ -150,7 +150,7 @@ session_ring:
   height: 8
 ```
 
-Sets the dimensions of the [session ring](/lessons/session-ring).
+Sets the dimensions of the [session ring](../../lessons/session-ring.md).
 You may disable the ring by setting one or both of `width` and `height` to `0`.
 
 ### startup_command
@@ -160,7 +160,7 @@ startup_command:
   cxp: METRO
 ```
 
-Fire a [command bundle](/reference/command-reference#command-bundles) when the script is finished loading.
+Fire a [command bundle](../command.md#command-bundles) when the script is finished loading.
 
 ### startup_page
 
@@ -181,7 +181,7 @@ Set the page that is active when the script loads.
 **Alternatively:**
 
 - Use a [startup_command](#startup_command)
-- Set a [page order](/reference/configuration-files/pages#order)
+- Set a [page order](pages.md#order)
 
 ## developer preferences
 

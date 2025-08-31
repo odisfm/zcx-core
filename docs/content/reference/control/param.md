@@ -13,7 +13,7 @@ For binary targets like [arm](#arm), this is straightforward.
 For [adjustable properties](https://www.cxpman.com/manual/general-action-information/#multiple-devices), like a track's volume, the parameter is considered "off" if the parameter is at its **minimum** value, and "on" for any other value.
 You can tweak this behaviour by setting a [midpoint](#midpoint).
 
-Without defining any [gestures](reference/command-reference/#gestures), the param control will toggle its mapped parameter from "on" to "off" on a press.
+Without defining any [gestures](../command.md#gestures), the param control will toggle its mapped parameter from "on" to "off" on a press.
 Binary targets will have their status inverted.
 For adjustable properties, a parameter currently at its minimum value will be set to its maximum, and a parameter at any value above its minimum is set to its maximum.
 
@@ -22,7 +22,7 @@ Any defined gestures will be executed as normal.
 
 ## yaml schema
 
-Inherits from [standard control](/reference/control-reference/z-control/#yaml-schema).
+Inherits from [standard control](z-control.md#yaml-schema).
 
 ```yaml
 binding: binding definition
@@ -37,8 +37,8 @@ midpoint: number
 ### binding
 `binding definition`
 
-Follows the same format as [encoder mapping definitions](/reference/encoder-reference/#configuration).
-All [encoder mapping targets](/reference/encoder-reference/#mapping-targets) are available to param controls, as well as the following additional options:
+Follows the same format as [encoder mapping definitions](../encoder.md#configuration).
+All [encoder mapping targets](../encoder.md#mapping-targets) are available to param controls, as well as the following additional options:
 
 #### additional mapping targets
 
