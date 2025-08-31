@@ -170,7 +170,7 @@ Briefly displays a message in the Live UI, like with the [msg command](command.m
 
 ##### `cxp_var(variable_name: str)`
 
-Retrieves the current value of a ClyphX Pro variable if that variable is defined, or the Python `None` if it is not defined.
+Retrieves the current value of a [ClyphX Pro variable](https://www.cxpman.com/manual/core-concepts/#variables) if that variable is defined, or the Python `None` if it is not defined.
 `variable_name` is the name of the ClyphX variable **without** the enclosing `%`s.
 
 ##### `this_cs`
