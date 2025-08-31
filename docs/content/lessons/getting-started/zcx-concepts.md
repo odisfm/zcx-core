@@ -21,7 +21,7 @@ record:
 ```
 
 A control definition is a [yaml object](reading-zcx-configurations.md#keys-and-values) provided by you that describes how a control should behave.
-Most control definitions will have the [keys](reading-zcx-configurations.md#nested-yaml) `color` and `gestures`.
+Most control definitions will have the [keys](reading-zcx-configurations.md#objects) `color` and `gestures`.
 
 #### gestures
 
@@ -263,6 +263,9 @@ my_page:
 ```
 
 If you try to do this, zcx will throw an error.
+
+!!! note "Named controls and pages"
+    Only matrix controls are affected by page changes; named controls will behave the same way regardless of the current page.
 
 ## encoder mappings
 
