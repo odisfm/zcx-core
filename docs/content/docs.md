@@ -21,7 +21,7 @@ If you're brand new to zcx, check out the [getting started](lessons/getting-star
 ## Important guides
 
 - [zcx concepts](lessons/getting-started/zcx-concepts.md)
-- [control reference](reference/control/z-control.md)
+- [control reference](reference/control/standard.md)
 -  [command reference](reference/command.md)
 
 ## Navigating this site

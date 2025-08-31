@@ -13,7 +13,7 @@ The `transport` control binds to a particular function of Live's transport, disp
 
 ## yaml schema
 
-Inherits from [standard control](z-control.md#yaml-schema).
+Inherits from [standard control](standard.md#yaml-schema).
 
 ```yaml
 transport: string

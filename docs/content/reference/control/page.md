@@ -14,7 +14,7 @@ The `page` control is identical to the `standard` control, except it has a requi
 
 ## yaml schema
 
-Inherits from [standard control](z-control.md#yaml-schema).
+Inherits from [standard control](standard.md#yaml-schema).
 
 ```yaml
 page: string, int

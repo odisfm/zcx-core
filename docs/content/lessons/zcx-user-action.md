@@ -114,7 +114,7 @@ Force a refresh of all controller feedback.
 
 #### Color commands
 
-These commands allow you to set the color on an individual control by [alias](../reference/control/z-control.md#alias), as well as across an entire section or group of controls.
+These commands allow you to set the color on an individual control by [alias](../reference/control/standard.md#alias), as well as across an entire section or group of controls.
 Allowable color values are an [int](../reference/color.md#midi-value) or a [named color](../reference/color.md#name).
 
 ##### set_color

@@ -22,7 +22,7 @@ Any defined gestures will be executed as normal.
 
 ## yaml schema
 
-Inherits from [standard control](z-control.md#yaml-schema).
+Inherits from [standard control](standard.md#yaml-schema).
 
 ```yaml
 binding: binding definition

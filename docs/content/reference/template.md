@@ -46,9 +46,9 @@ As you may notice, zcx template strings behave similarly to [Variables in ClyphX
 
 ### what is a property?
 
-A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](control/z-control.md#properties).
+A property is some value that is associated with a particular control. You can see the properties associated with each control in the [control reference](control/standard.md#properties).
 
-We can see from the control reference that `me.Index` refers to this control's [position](control/z-control.md#index) with its containing [section](../lessons/getting-started/zcx-concepts.md#matrix-sections).
+We can see from the control reference that `me.Index` refers to this control's [position](control/standard.md#index) with its containing [section](../lessons/getting-started/zcx-concepts.md#matrix-sections).
 
 ### basic expressions
 

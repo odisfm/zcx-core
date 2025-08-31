@@ -14,7 +14,7 @@ When the `track` option is configured, zcx will bind to the specified track on s
 
 ## yaml schema
 
-Inherits from [standard control](z-control.md#yaml-schema).
+Inherits from [standard control](standard.md#yaml-schema).
 
 ```yaml
 track: string, int

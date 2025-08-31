@@ -8,7 +8,7 @@ The `mode` control binds to a particular [mode](../../lessons/getting-started/zc
 
 ## yaml schema
 
-Inherits from [standard control](z-control.md#yaml-schema).
+Inherits from [standard control](standard.md#yaml-schema).
 
 ```yaml
 mode: string

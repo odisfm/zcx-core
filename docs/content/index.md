@@ -144,7 +144,7 @@ play:
   gestures:
     double_clicked: STOPALL NQ
 ```
-<sup>[see how](reference/control/z-control.md)</sup>
+<sup>[see how](reference/control/standard.md)</sup>
 ___
 
 ### intelligent controls
