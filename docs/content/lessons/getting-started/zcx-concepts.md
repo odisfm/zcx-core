@@ -210,7 +210,7 @@ And in each of those files you define a list, containing a definition for every 
 !!! info "Skeleton sections"
     The demo config that comes with zcx features several mostly-empty sections that are great for getting started, as they have a minimal control definition with helpful comments denoting the row and column of each control.
 
-    Later, you may want to use [the generator](../../../resources/matrix-gen) to create your own skeletons of custom size.
+    Later, you may want to use [the generator](../../resources/matrix-gen.md) to create your own skeletons of custom size.
 
 ## pages
 
