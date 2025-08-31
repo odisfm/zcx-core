@@ -146,36 +146,36 @@ pad 2 (with shift): "beats" / PLAY RND43-44
 
 The following variables and functions can be accessed within template strings.
 
-#### zcx
+##### `zcx`
 
 Provides access to a `ZcxApi` object. See [the source code](https://github.com/odisfm/zcx-core/blob/main/app/api_manager.py) for available properties and methods,
 
-#### song
+##### `song`
 
 Provides access to the Live set's [song object](https://docs.cycling74.com/apiref/lom/song/).
 
-#### ring
+##### `ring`
 
 Allows references to the enclosed tracks and scenes of [the zcx session ring](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
 
-#### print
+##### `print(message: str)`
 
 Allows you to write to the log. Mostly useful with [Python commands](command.md#python).
 
-#### msg
+##### `msg(message: str)`
 
 Briefly displays a message in the Live UI, like with the [msg command](command.md#msg).
 
-#### cxp_var(`variable_name`)
+##### `cxp_var(variable_name: str)`
 
 Retrieves the current value of a ClyphX Pro variable if that variable is defined, or the Python `None` if it is not defined.
 `variable_name` is the name of the ClyphX variable **without** the enclosing `%`s.
 
-#### this_cs
+##### `this_cs`
 
 Returns the name of this zcx script.
 
-#### sel_track
+##### `sel_track`
 
 Returns the name of the selected track.
 Must be enclosed in double-quotes for use in a ClyphX Pro action list.
