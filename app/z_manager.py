@@ -383,9 +383,12 @@ class ZManager(ZCXComponent):
             for i in range(len(flat_config)):
                 item = flat_config[i]
                 global_y, global_x = section_obj.owned_coordinates[i]
-                global_y_flip = global_y - section_height
-                global_x_flip = global_x - section_width
-
+                global_y_flip = (global_y - section_height) * -1 -1
+                global_x_flip = (global_x - section_width) * -1 -1
+                x = global_x - section_obj._PadSection__bounds["min_x"]
+                y = global_y - section_obj._PadSection__bounds["min_y"],
+                x_flip =  global_x_flip - section_obj._PadSection__bounds["min_x"] * -1
+                y_flip = global_y_flip - section_obj._PadSection__bounds["min_y"] *-1,
                 item_context = deepcopy(section_context)
                 item_context.update(
                     {
@@ -394,16 +397,10 @@ class ZManager(ZCXComponent):
                         "global_y": global_y,
                         "global_y_flip": global_y_flip,
                         "global_x_flip": global_x_flip,
-                        "x": global_x - section_obj._PadSection__bounds["min_x"],
-                        "y": global_y - section_obj._PadSection__bounds["min_y"],
-                        "x_flip": (
-                            global_x_flip - section_obj._PadSection__bounds["min_x"]
-                        )
-                        * -1,
-                        "y_flip": (
-                            global_y_flip - section_obj._PadSection__bounds["min_y"]
-                        )
-                        * -1,
+                        "x": x,
+                        "y": y,
+                        "x_flip": x_flip,
+                        "y_flip": y_flip
                     }
                 )
 
