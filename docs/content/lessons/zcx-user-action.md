@@ -66,12 +66,14 @@ Enable, disable, or toggle a zcx mode.
 
 #### BIND
 
-Manually re-bind a zcx encoder to a new target.
+Manually re-bind a zcx [encoder](../reference/encoder.md) or [param control](../reference/control/param.md) to a new target.
 This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/action-reference/global-actions/#bind-i-x).
 
-The `encoder name` is the same one you'd use in [encoders.yaml](../reference/configuration-files/encoders.md).
+If binding an encoder, `control name` is the same one you'd use in [encoders.yaml](../reference/configuration-files/encoders.md).
+If binding a named control, `control name` must be the name from [named controls.yaml](../reference/configuration-files/named_controls.md) or the control's [alias](../reference/control/standard.md#alias) if one exists.
+If binding a matrix control, it must have an [alias](../reference/control/standard.md#alias), which you will use for `control name`.
 
-The `mapping target` is any of the targets specified in the [Encoder Reference](../reference/encoder.md#mapping-targets).
+For valid `mapping targets`, see [Encoder Reference](../reference/encoder.md#mapping-targets) or [Control Reference](../reference/control/param.md#additional-mapping-targets) for param controls.
 The **entire** mapping target must be wrapped in double-quotes.
 
 !!!warning "Quotes within mapping targets"
@@ -84,11 +86,26 @@ The **entire** mapping target must be wrapped in double-quotes.
     _The backtick key is below the escape key._
 
 
-`ZCX <target script> BIND <encoder name> "<mapping target>"`
+!!! warning
+    This binding is temporary: if the control rebinds itself due to a mode change it will never rebind to a target set by this action.
+    For a more permanent solution, [see below](#bind_mode).
+
+`ZCX <target script> BIND <control name> "<mapping target>"`
 
 `ZCX zcx_push_1 BIND enc_3 "SEL / PAN"`
 
 ```ZCX zcx_launchpad_x BIND enc_1 "`my track` / DEV(`my device`) P1"```
+
+#### BIND_`mode`
+
+Same as [above](#bind), but overrides an existing mapping target permanently, and allows targeting certain modes.
+
+`ZCX <target script> BIND_<mode> <control name> "<mapping target>"`
+
+`ZCX zcx_push_1 BIND_default my_button "SEL / PAN"`
+
+`ZCX zcx_launchpad_x BIND_shift__select enc_1 "SEL / DEV(1) P1"`
+
 
 #### MSG
 

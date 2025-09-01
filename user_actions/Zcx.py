@@ -138,7 +138,7 @@ class Zcx(UserActionsBase):
                 message_portion = args.split('"')[1] # will fix
                 target_script.write_display_message(message_portion)
 
-            elif sub_action in ['bind', 'bind_default']:
+            elif sub_action.startswith("bind"):
                 target_name = _args[2]
                 bind_def = args.split('"')[1]
                 bind_def = bind_def.replace('`', '"')
@@ -148,8 +148,9 @@ class Zcx(UserActionsBase):
                 try:
                     if sub_action == 'bind':
                         target_obj.bind_ad_hoc(bind_def)
-                    elif sub_action == 'bind_default':
-                        target_obj.override_binding_definition(bind_def, 'default')
+                    else:
+                        modes_portion = sub_action[5:].lstrip('_') # remove `bind_` and any erroneous `_`
+                        target_obj.override_binding_definition(bind_def, unparsed_mode_string= modes_portion)
                 except AttributeError as e:
                     self.log(f'`{target_name}` is not a bindable control', e, level="error")
                 except Exception as e:
