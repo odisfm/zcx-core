@@ -1,8 +1,12 @@
 # https://github.com/odisfm/zcx-core
 from functools import partial
+from typing import TYPE_CHECKING
 
 from ClyphX_Pro.clyphx_pro.UserActionsBase import UserActionsBase
 from ClyphX_Pro.clyphx_pro.ClyphX_ProComponent import logger
+
+if TYPE_CHECKING:
+    from ..app.api_manager import ZcxApi, ZCXCore
 
 
 class Zcx(UserActionsBase):
@@ -21,7 +25,7 @@ class Zcx(UserActionsBase):
             5: None,
         }
 
-        self.__names_to_scripts = {}
+        self.__names_to_scripts: dict[str, "ZcxApi"] = {}
 
         self.error = partial(self.log, level='error')
         self.debug = partial(self.log, level='debug')
