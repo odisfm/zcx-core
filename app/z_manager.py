@@ -383,24 +383,40 @@ class ZManager(ZCXComponent):
             for i in range(len(flat_config)):
                 item = flat_config[i]
                 global_y, global_x = section_obj.owned_coordinates[i]
+                global_Y = global_y + 1
+                global_X = global_x + 1
                 global_y_flip = (global_y - section_height) * -1 -1
                 global_x_flip = (global_x - section_width) * -1 -1
+                global_Y_flip = global_y_flip + 1
+                global_X_flip = global_x_flip + 1
                 x = global_x - section_obj._PadSection__bounds["min_x"]
-                y = global_y - section_obj._PadSection__bounds["min_y"],
+                y = global_y - section_obj._PadSection__bounds["min_y"]
+                X = x + 1
+                Y = y + 1
                 x_flip =  global_x_flip - section_obj._PadSection__bounds["min_x"] * -1
-                y_flip = global_y_flip - section_obj._PadSection__bounds["min_y"] *-1,
+                y_flip = global_y_flip - section_obj._PadSection__bounds["min_y"] * -1
+                X_flip = x_flip + 1
+                Y_flip = y_flip + 1
                 item_context = deepcopy(section_context)
                 item_context.update(
                     {
                         "index": i,
                         "global_x": global_x,
                         "global_y": global_y,
+                        "global_X": global_X,
+                        "global_Y": global_Y,
                         "global_y_flip": global_y_flip,
                         "global_x_flip": global_x_flip,
+                        "global_Y_flip": global_Y_flip,
+                        "global_X_flip": global_X_flip,
                         "x": x,
                         "y": y,
+                        "X": X,
+                        "Y": Y,
                         "x_flip": x_flip,
-                        "y_flip": y_flip
+                        "y_flip": y_flip,
+                        "X_flip": X_flip,
+                        "Y_flip": Y_flip,
                     }
                 )
 

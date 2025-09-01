@@ -180,6 +180,8 @@ Returns the number of controls in this group.
 ### location properties
 _Only available on matrix controls._
 
+Use a capital `X` or `Y` to retrieve a one-indexed value.
+
 #### x, x_flip
 Returns the **zero-indexed** column of the control (**x**) or its mirrored position (**x_flip**), **relative to its containing section**.
 
