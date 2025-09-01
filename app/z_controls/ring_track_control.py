@@ -1,6 +1,7 @@
 from ableton.v3.base import listens
 from .track_control import TrackControl
 from .session_ring_control import SessionRingControl
+from ..colors import RgbColor
 
 
 class RingTrackControl(TrackControl, SessionRingControl):
@@ -21,6 +22,8 @@ class RingTrackControl(TrackControl, SessionRingControl):
 
             self._simple_feedback = False
 
+            self.tracks_changed.subject = self.root_cs.song
+
         except Exception as e:
             self.log(e)
 
@@ -31,9 +34,17 @@ class RingTrackControl(TrackControl, SessionRingControl):
             return
         self.acquire_ring_track()
 
+    @listens('tracks')
+    def tracks_changed(self):
+        self.acquire_ring_track()
+
     def acquire_ring_track(self):
         try:
             track = self.__session_ring.get_ring_track(self._ring_index)
             self.track = track
         except Exception as e:
-            self.log(e)
+            self.track = None
+        finally:
+            if self.track is None:
+                self.replace_color(RgbColor(0))
+
