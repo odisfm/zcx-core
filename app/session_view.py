@@ -46,7 +46,8 @@ class SessionView(ZCXComponent):
             del DEFAULT_GESTURES["pressed__select"]
 
         control_config = {}
-        control_config['gestures'] = section_def.get('template', {}).get('gestures', DEFAULT_GESTURES)
+        gesture_def= section_def.get('template', {}).get('gestures', {})
+        control_config["gestures"] = DEFAULT_GESTURES | gesture_def
 
         matrix_state = self.component_map['HardwareInterface'].button_matrix_state
 
