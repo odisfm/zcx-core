@@ -245,8 +245,10 @@ class ParamControl(ZControl):
 
         if listen_dict.get("ring_tracks"):
             self.session_ring_track_listener.subject = self.root_cs._session_ring_custom
+            self.track_list_listener.subject = self.root_cs.song
         else:
             self.session_ring_track_listener.subject = None
+            self.track_list_listener.subject = None
 
         if listen_dict.get("selected_device"):
             self.selected_device_listener.subject = self.selected_device_watcher
@@ -382,21 +384,21 @@ class ParamControl(ZControl):
                     track_obj = self.get_track(track_def)
                     if track_obj is None:
                         raise ConfigurationError(f"No track found for {track_def}")
-                    elif target_map.get("ring_track") is not None:
-                        ring_track_def = target_map.get("ring_track")
-                        ring_track_parsed, status = self.action_resolver.compile(
-                            ring_track_def,
-                            self._vars,
-                            self._context
-                        )
-                        if status != 0:
-                            raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
+                elif target_map.get("ring_track") is not None:
+                    ring_track_def = target_map.get("ring_track")
+                    ring_track_parsed, status = self.action_resolver.compile(
+                        ring_track_def,
+                        self._vars,
+                        self._context
+                    )
+                    if status != 0:
+                        raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
 
-                        track_num = int(ring_track_parsed) - 1
+                    track_num = int(ring_track_parsed) - 1
 
-                        track_obj = self.get_track_by_number(track_num)
-                        if track_obj is None:
-                            raise ConfigurationError(f"Invalid ring target: `{target_map}`")
+                    track_obj = self.get_track_by_number(track_num)
+                    if track_obj is None:
+                        raise ConfigurationError(f"Invalid ring target: `{target_map}`")
                 else:
                     track_obj = self.root_cs.song.view.selected_track
 
