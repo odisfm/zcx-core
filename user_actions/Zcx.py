@@ -139,16 +139,21 @@ class Zcx(UserActionsBase):
                 target_script.write_display_message(message_portion)
 
             elif sub_action in ['bind', 'bind_default']:
-                encoder_name = _args[2]
+                target_name = _args[2]
                 bind_def = args.split('"')[1]
                 bind_def = bind_def.replace('`', '"')
-                encoder_obj = target_script.get_encoder(encoder_name)
-                if encoder_obj is None:
-                    raise RuntimeError(f'Encoder {encoder_name} does not exist on {target_script.name}.')
-                if sub_action == 'bind':
-                    encoder_obj.bind_ad_hoc(bind_def)
-                elif sub_action == 'bind_default':
-                    encoder_obj.override_binding_definition(bind_def, 'default')
+                target_obj = target_script.get_control_or_encoder(target_name)
+                if target_obj is None:
+                    raise RuntimeError(f'Encoder {target_name} does not exist on {target_script.name}.')
+                try:
+                    if sub_action == 'bind':
+                        target_obj.bind_ad_hoc(bind_def)
+                    elif sub_action == 'bind_default':
+                        target_obj.override_binding_definition(bind_def, 'default')
+                except AttributeError as e:
+                    self.log(f'`{target_name}` is not a bindable control', e, level="error")
+                except Exception as e:
+                    self.log(f"error binding `{target_name}`", e, level="error")
 
             elif sub_action == 'refresh':
                 target_script.refresh()

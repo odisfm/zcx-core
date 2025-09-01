@@ -81,6 +81,9 @@ class ZcxApi:
     def get_control(self, control_name) -> 'Optional[ZControl]':
         return self.z_manager.get_aliased_control(control_name) or self.get_named_control(control_name)
 
+    def get_control_or_encoder(self, target_name) -> "Optional[ ZControl | ZEncoder]":
+        return self.get_control(target_name) or self.get_encoder(target_name)
+
     def create_color(self, color_def: Any, calling_control: 'ZControl'=None) -> Color:
         """
         Takes a color_def in normal zcx format and returns a Color object.
