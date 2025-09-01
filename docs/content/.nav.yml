@@ -8,7 +8,7 @@ nav:
   - getting started:
       - "lessons/getting-started/*.md"
       - demo tour:
-          - "tutorials/getting-started/demo-tour/*.md"
+          - "lessons/getting-started/demo-tour/*.md"
 
   - reference:
       - "reference/*.md"
