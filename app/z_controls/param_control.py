@@ -122,6 +122,7 @@ class ParamControl(ZControl):
                 self._default_map = binding_dict["default"]
             else:
                 self._default_map = list(binding_dict.values())[0]
+            concerned_modes.sort()
 
             self._concerned_binding_modes = concerned_modes
             self._binding_dict = binding_dict
@@ -622,6 +623,9 @@ class ParamControl(ZControl):
 
     def rebind_from_dict(self, lookup_key: str):
         target_map = self._binding_dict.get(lookup_key)
+
+        if target_map is None:
+            target_map = self._binding_dict["default"]
 
         self._active_map = target_map
         self.bind_to_active()
