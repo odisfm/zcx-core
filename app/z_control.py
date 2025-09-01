@@ -131,6 +131,10 @@ class ZControl(EventObject):
     def name(self):
         return self.__name
 
+    @property
+    def coordinates(self) -> str:
+        return f"x{self._context['me']['global_x']}y{self._context['me']['global_y']}"
+
     def set_gesture_dict(self, gesture_config):
         if type(gesture_config) is not dict:
             raise ValueError(f'gesture_config must be a dict: {gesture_config}')
