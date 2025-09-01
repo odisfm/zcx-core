@@ -127,12 +127,16 @@ class ParamControl(ZControl):
             self._binding_dict = binding_dict
             self._active_map = self._default_map
 
-            color_on_def = self._raw_config.get("on_color") or self._raw_config.get("color") or 127
+            color_on_def = self._raw_config.get("on_color") or self._raw_config.get("color")
+            if color_on_def is None:
+                color_on_def = 127
             color_on = parse_color_definition(color_on_def, self)
             if not color_on:
                 color_on = RgbColor(127)
 
-            color_off_def = self._raw_config.get("off_color") or 1
+            color_off_def = self._raw_config.get("off_color")
+            if color_off_def is None:
+                color_off_def = 1
             color_off = parse_color_definition(color_off_def, self)
             if not color_off:
                 color_off = RgbColor(1)
