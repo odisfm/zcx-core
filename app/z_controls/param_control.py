@@ -559,9 +559,9 @@ class ParamControl(ZControl):
         }
 
         track_def = target_map.get("track")
-        if track_def is None:
-            listen_dict["selected_track"] = True
-        elif track_def.lower() == "sel":
+        if track_def is None and target_map.get("track_select") is not True:
+            listen_dict["selected_track"] = False
+        elif (isinstance(track_def, str) and track_def.lower() == "sel") or target_map.get("track_select"):
             listen_dict["selected_track"] = True
         else:
             listen_dict["track_list"] = True
