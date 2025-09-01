@@ -207,58 +207,72 @@ class ParamControl(ZControl):
             self.update_feedback()
 
     def apply_listeners(self, listen_dict):
+        try:
+            if listen_dict.get("selected_track"):
+                self.selected_track_listener.subject = self.root_cs.song.view
+            else:
+                self.selected_track_listener.subject = None
 
-        if listen_dict.get("selected_track"):
-            self.selected_track_listener.subject = self.root_cs.song.view
-        else:
-            self.selected_track_listener.subject = None
+            if listen_dict.get("track_list"):
+                self.track_list_listener.subject = self.root_cs.song
+            else:
+                self.track_list_listener.subject = None
 
-        if listen_dict.get("track_list"):
-            self.track_list_listener.subject = self.root_cs.song
-        else:
-            self.track_list_listener.subject = None
+            if listen_dict.get("device_list"):
+                self.device_list_listener.subject = self._mapped_track
+            else:
+                self.device_list_listener.subject = None
 
-        if listen_dict.get("device_list"):
-            self.device_list_listener.subject = self._mapped_track
-        else:
-            self.device_list_listener.subject = None
+            if listen_dict.get("parameter_list"):
+                pass
+            else:
+                pass
 
-        if listen_dict.get("parameter_list"):
-            pass
-        else:
-            pass
+            if listen_dict.get("chain_list"):
+                self.selected_chain_listener.subject = self.selected_device_watcher
+            else:
+                self.selected_chain_listener.subject = None
 
-        if listen_dict.get("chain_list"):
-            self.selected_chain_listener.subject = self.selected_device_watcher
-        else:
-            self.selected_chain_listener.subject = None
+            if listen_dict.get("sends_list"):
+                self.return_list_listener.subject = self.root_cs.song
+            else:
+                self.return_list_listener.subject = None
 
-        if listen_dict.get("sends_list"):
-            self.return_list_listener.subject = self.root_cs.song
-        else:
-            self.return_list_listener.subject = None
+            if listen_dict.get("selected_parameter"):
+                self.selected_parameter_listener.subject = self.root_cs.song.view
+            else:
+                self.selected_parameter_listener.subject = None
 
-        if listen_dict.get("selected_parameter"):
-            self.selected_parameter_listener.subject = self.root_cs.song.view
-        else:
-            self.selected_parameter_listener.subject = None
+            if listen_dict.get("ring_tracks"):
+                self.session_ring_track_listener.subject = self.root_cs._session_ring_custom
+                self.track_list_listener.subject = self.root_cs.song
+            else:
+                self.session_ring_track_listener.subject = None
+                self.track_list_listener.subject = None
 
-        if listen_dict.get("ring_tracks"):
-            self.session_ring_track_listener.subject = self.root_cs._session_ring_custom
-            self.track_list_listener.subject = self.root_cs.song
-        else:
-            self.session_ring_track_listener.subject = None
-            self.track_list_listener.subject = None
+            if listen_dict.get("selected_device"):
+                self.selected_device_listener.subject = self.selected_device_watcher
+            else:
+                self.selected_device_listener.subject = None
 
-        if listen_dict.get("selected_device"):
-            self.selected_device_listener.subject = self.selected_device_watcher
-        else:
-            self.selected_device_listener.subject = None
+            if listen_dict.get("mapped_device_selected") and self._mapped_track:
+                self.mapped_device_is_selected_listener.subject = self._mapped_track.view
+            else:
+                self.mapped_device_is_selected_listener.subject = None
 
-        if listen_dict.get("mapped_device_selected") and self._mapped_track:
-            self.mapped_device_is_selected_listener.subject = self._mapped_track.view
-        else:
-            self.mapped_device_is_selected_listener.subject = None
+            if listen_dict.get("play_clip"):
+                self.playing_slot_index_listener.subject = self._mapped_track
+                self.fired_slot_index_listener.subject = self._mapped_track
+                self.selected_scene_listener.subject = self.root_cs.song.view
+            elif listen_dict.get("stop_clip") and self._mapped_track:
+                self.playing_slot_index_listener.subject = self._mapped_track
+                self.fired_slot_index_listener.subject = self._mapped_track
+            else:
+                self.playing_slot_index_listener.subject = None
+                self.fired_slot_index_listener.subject = None
+                self.selected_scene_listener.subject = None
+        except Exception as e:
+            self.log(e)
 
     def map_self_to_par(self, target_map):
         try:
@@ -366,11 +380,11 @@ class ParamControl(ZControl):
                     return True
                 elif target_map.get('play'):
                     self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "play")
+                    self._mapped_track = track_obj
                     return True
                 elif target_map.get('stop'):
                     self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "stop")
+                    self._mapped_track = track_obj
                     return True
                 elif target_map.get('x_fade_assign'):
                     self.mapped_parameter = None
@@ -546,7 +560,6 @@ class ParamControl(ZControl):
         return self.root_cs._session_ring_custom.get_ring_track(track_number)
 
     def assess_dynamism(self, target_map) -> dict:
-
         listen_dict = {
             "selected_track": False,
             "track_list": False,
@@ -558,6 +571,8 @@ class ParamControl(ZControl):
             "ring_tracks": False,
             "selected_device": False,
             "mapped_device_selected": False,
+            "play_clip": False,
+            "stop_clip": False,
         }
 
         track_def = target_map.get("track")
@@ -597,6 +612,11 @@ class ParamControl(ZControl):
 
         if target_map.get('ring_track') is not None:
             listen_dict["ring_tracks"] = True
+
+        if target_map.get("play"):
+            listen_dict["play_clip"] = True
+        elif target_map.get("stop"):
+            listen_dict["stop_clip"] = True
 
         return listen_dict
 
@@ -781,10 +801,6 @@ class ParamControl(ZControl):
                         self.set_feedback(True)
                     else:
                         self.set_feedback(False)
-                elif map.get('play'):
-                    raise NotImplementedError()
-                elif map.get('stop'):
-                    raise NotImplementedError()
                 elif map.get('x_fade_assign'):
                     assignment_def = map.get('x_fade_assign')
                     current_assignment = self._mapped_track.mixer_device.crossfade_assign
@@ -794,6 +810,25 @@ class ParamControl(ZControl):
                         self.set_feedback(True)
                     else:
                         self.set_feedback(False)
+                elif map.get("play"):
+                    track = self._mapped_track
+                    sel_scene_index = list(self.root_cs.song.scenes).index(self.root_cs.song.view.selected_scene)
+                    if track.playing_slot_index == sel_scene_index:
+                        if track.fired_slot_index >= 0 and track.fired_slot_index != track.playing_slot_index:
+                            self.set_feedback(True)
+                        else:
+                            self.set_feedback(False)
+                    else:
+                        if track.clip_slots[sel_scene_index].has_clip:
+                            self.set_feedback(True)
+                        else:
+                            self.set_feedback(False)
+                elif map.get("stop"):
+                    if self._mapped_track.playing_slot_index >= 0 or self._mapped_track.fired_slot_index >= 0:
+                        self.set_feedback(True)
+                    else:
+                        self.set_feedback(False)
+
         except Exception as e:
             self.log(e)
 
@@ -808,100 +843,105 @@ class ParamControl(ZControl):
             self.toggle_mapped_parameter()
 
     def toggle_mapped_parameter(self, preview=False):
-        if self.mapped_parameter:
-            if self.mapped_parameter.value == self.mapped_parameter.min:
-                if preview:
-                    return self.mapped_parameter.max
-                self.mapped_parameter.value = self.mapped_parameter.max
-            elif self.mapped_parameter.value == self.mapped_parameter.max:
-                if preview:
-                    return self.mapped_parameter.min
-                self.mapped_parameter.value = self.mapped_parameter.min
-            else:
-                if self._custom_midpoint:
-                    current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
-                    if current_pct > self._custom_midpoint:
-                        target_val = self.mapped_parameter.min
-                    else:
-                        target_val = self.mapped_parameter.max
+        try:
+            if self.mapped_parameter:
+                if self.mapped_parameter.value == self.mapped_parameter.min:
                     if preview:
-                        return target_val
-                    self.mapped_parameter.value = target_val
-                else:
+                        return self.mapped_parameter.max
+                    self.mapped_parameter.value = self.mapped_parameter.max
+                elif self.mapped_parameter.value == self.mapped_parameter.max:
                     if preview:
                         return self.mapped_parameter.min
                     self.mapped_parameter.value = self.mapped_parameter.min
-        elif self._active_map.get('arm'):
-            if not self._mapped_track.can_be_armed:
+                else:
+                    if self._custom_midpoint:
+                        current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
+                        if current_pct > self._custom_midpoint:
+                            target_val = self.mapped_parameter.min
+                        else:
+                            target_val = self.mapped_parameter.max
+                        if preview:
+                            return target_val
+                        self.mapped_parameter.value = target_val
+                    else:
+                        if preview:
+                            return self.mapped_parameter.min
+                        self.mapped_parameter.value = self.mapped_parameter.min
+            elif self._active_map.get('arm'):
+                if not self._mapped_track.can_be_armed:
+                    if preview:
+                        return None
+                    return
                 if preview:
-                    return None
-                return
-            if preview:
-                return not self._mapped_track.arm
-            self._mapped_track.arm = not self._mapped_track.arm
-        elif self._active_map.get('monitor'):
-            current_monitoring_idx = self._mapped_track.current_monitoring_state
-            monitoring_states = ["in", "auto", "off"]
-            bound_idx = monitoring_states.index(self._active_map.get("monitor").lower())
-            if bound_idx in [0, 1]:
-                if current_monitoring_idx == bound_idx:
-                    new_idx = int(not bool(bound_idx))
-                    if preview:
-                        return monitoring_states[new_idx]
-                    self._mapped_track.current_monitoring_state = new_idx
+                    return not self._mapped_track.arm
+                self._mapped_track.arm = not self._mapped_track.arm
+            elif self._active_map.get('monitor'):
+                current_monitoring_idx = self._mapped_track.current_monitoring_state
+                monitoring_states = ["in", "auto", "off"]
+                bound_idx = monitoring_states.index(self._active_map.get("monitor").lower())
+                if bound_idx in [0, 1]:
+                    if current_monitoring_idx == bound_idx:
+                        new_idx = int(not bool(bound_idx))
+                        if preview:
+                            return monitoring_states[new_idx]
+                        self._mapped_track.current_monitoring_state = new_idx
+                    else:
+                        if preview:
+                            return monitoring_states[bound_idx]
+                        self._mapped_track.current_monitoring_state = bound_idx
                 else:
-                    if preview:
-                        return monitoring_states[bound_idx]
-                    self._mapped_track.current_monitoring_state = bound_idx
-            else:
-                if current_monitoring_idx == bound_idx:
-                    if preview:
-                        return monitoring_states[1]
-                    self._mapped_track.current_monitoring_state = 1
-                else:
-                    if preview:
-                        return monitoring_states[bound_idx]
-                    self._mapped_track.current_monitoring_state = bound_idx
+                    if current_monitoring_idx == bound_idx:
+                        if preview:
+                            return monitoring_states[1]
+                        self._mapped_track.current_monitoring_state = 1
+                    else:
+                        if preview:
+                            return monitoring_states[bound_idx]
+                        self._mapped_track.current_monitoring_state = bound_idx
 
-        elif self._active_map.get('mute'):
-            if preview:
-                return not self._mapped_track.mute
-            self._mapped_track.mute = not self._mapped_track.mute
-        elif self._active_map.get('solo'):
-            if preview:
-                return not self._mapped_track.solo
-            self._mapped_track.solo = not self._mapped_track.solo
-        elif self._active_map.get('track_select'):
-            if preview:
-                return True
-            self.root_cs.song.view.selected_track = self._mapped_track
-        elif self._active_map.get('play'):
-            raise NotImplementedError()
-        elif self._active_map.get('stop'):
-            raise NotImplementedError()
-        elif self._active_map.get('x_fade_assign'):
-            current_cross_idx = self._mapped_track.mixer_device.crossfade_assign
-            assign_states = ["a", "off", "b"]
-            bound_idx = assign_states.index(self._active_map.get("x_fade_assign").lower())
-            if bound_idx in [0, 2]:
-                if current_cross_idx == bound_idx:
+            elif self._active_map.get('mute'):
+                if preview:
+                    return not self._mapped_track.mute
+                self._mapped_track.mute = not self._mapped_track.mute
+            elif self._active_map.get('solo'):
+                if preview:
+                    return not self._mapped_track.solo
+                self._mapped_track.solo = not self._mapped_track.solo
+            elif self._active_map.get('track_select'):
+                if preview:
+                    return True
+                self.root_cs.song.view.selected_track = self._mapped_track
+            elif self._active_map.get('x_fade_assign'):
+                current_cross_idx = self._mapped_track.mixer_device.crossfade_assign
+                assign_states = ["a", "off", "b"]
+                bound_idx = assign_states.index(self._active_map.get("x_fade_assign").lower())
+                if bound_idx in [0, 2]:
+                    if current_cross_idx == bound_idx:
+                        if preview:
+                            return assign_states[1]
+                        self._mapped_track.mixer_device.crossfade_assign = 1
+                    else:
+                        if preview:
+                            return assign_states[bound_idx]
+                        self._mapped_track.mixer_device.crossfade_assign = bound_idx
+                else:
                     if preview:
                         return assign_states[1]
                     self._mapped_track.mixer_device.crossfade_assign = 1
-                else:
+            elif self._active_map.get("device") is not None:
+                param_type = self._active_map["parameter_type"] or ""
+                if param_type.lower() == "sel":
                     if preview:
-                        return assign_states[bound_idx]
-                    self._mapped_track.mixer_device.crossfade_assign = bound_idx
-            else:
-                if preview:
-                    return assign_states[1]
-                self._mapped_track.mixer_device.crossfade_assign = 1
-        elif self._active_map.get("device") is not None:
-            param_type = self._active_map["parameter_type"] or ""
-            if param_type.lower() == "sel":
-                if preview:
-                    return True
-                self.root_cs.song.view.select_device(self._mapped_device)
+                        return True
+                    self.root_cs.song.view.select_device(self._mapped_device)
+            elif self._active_map.get("stop"):
+                self._mapped_track.stop_all_clips()
+            elif self._active_map.get("play"):
+                idx = list(self.root_cs.song.scenes).index(self.root_cs.song.view.selected_scene)
+                slot = self._mapped_track.clip_slots[idx]
+                slot.fire()
+        except Exception as e:
+            self.log("failed to toggle mapped param", e)
 
     def apply_track_param_listener(self, track, param: str):
         self.solo_listener.subject = None
@@ -996,6 +1036,15 @@ class ParamControl(ZControl):
 
     @listens("value")
     def mapped_param_value_listener(self):
+        self.update_feedback()
+
+    @listens("playing_slot_index")
+    def playing_slot_index_listener(self):
+        self.update_feedback()
+
+
+    @listens("fired_slot_index")
+    def fired_slot_index_listener(self):
         self.update_feedback()
 
     @listens("current_modes")

@@ -106,6 +106,26 @@ ___
 
 ---
 
+##### `track` / PLAY
+
+**Applies to**: The playing status of the selected clip slot on the targeted track.
+
+If a clip exists in the relevant clip slot, this control will be considered on if that clip is **not playing**.
+If the relevant clip is already playing, or if no clip exists, the control will be considered off.
+
+**Example:** `SEL/PLAY`
+
+---
+
+##### `track` / STOP
+
+**Applies to**: The playing status the targeted track.
+
+This control will be considered on if the targeted track has a playing clip slot.
+
+**Example:** `SEL/STOP`
+
+---
 
 ### on_color, off_color
 `color definition`
