@@ -193,9 +193,9 @@ page: last
 
 Goes back to the page that was active before the current one.
 
-### mode_on, mode_off
+### mode_on, mode_off, mode
 
-Enables or disables the given mode:
+Enables, disables, or toggles the given mode:
 
 ```yaml hl_lines="3 5"
 gestures:
