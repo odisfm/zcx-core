@@ -9,21 +9,21 @@
 
 # col 2
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
@@ -31,28 +31,28 @@
 # !! row 2
 # col 1
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 2
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
@@ -60,56 +60,56 @@
 # !! row 3
 # col 1
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 2
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 # row 4
 # col 1
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 2
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 3
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
 
 # col 4
 -
-  color: dark_grey
+  color: grey
   gestures:
     released_immediately: DUMMY
     pressed_delayed: DUMMY
