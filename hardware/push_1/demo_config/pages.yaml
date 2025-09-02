@@ -5,12 +5,13 @@ pages:
     - actions_bottom_double
   alt_page:
     - actions_top_left
-    - actions_bottom_right
-    - track_control
     - actions_top_right
+    - select_control
+    - track_control
   session_view_page:
     - session_controls
     - __session_view
+  ring_devices_page:
+    - ring_devices
   blank_page:
     - blank_section
-
