@@ -610,9 +610,10 @@ class ZManager(ZCXComponent):
                     processed_sub_buttons[sub_button] = merged_def
 
                 cleaned_group_name = group_name[2:]
+                group_count = len(processed_sub_buttons.values())
 
                 for i, (name, _def) in enumerate(processed_sub_buttons.items()):
-                    group_context = {"group_name": cleaned_group_name, "group_index": i}
+                    group_context = {"group_name": cleaned_group_name, "group_index": i, "group_Index": i+1, "group_count": group_count}
                     _def["group_context"] = group_context
                     processed_ungrouped[name] = _def
 
