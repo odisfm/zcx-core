@@ -32,7 +32,9 @@ The navigation menu on the left lets you move between different sections of the 
 
 The table of contents on the right lets you quickly jump between headings on the current page.
 
-Both of these menus are "scrollable" if they are too tall to fit on screen. If your browser window is narrow, one or both sidebars will disappear. In this case you can use the :material-menu: button to navigate the site. You can also 'zoom out' your browser window to keep both menus open at smaller screen sizes.
+Both of these menus are "scrollable" if they are too tall to fit on screen. 
+If your browser window is narrow, one or both sidebars will disappear. 
+In this case you can use the :material-menu: button in the top-left of this tab to navigate the site. You can also 'zoom out' your browser window to keep both menus open at smaller screen sizes.
 
 ### On mobile
 
