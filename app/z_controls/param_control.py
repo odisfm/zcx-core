@@ -74,6 +74,7 @@ class ParamControl(ZControl):
 
             binding_dict = {}
             concerned_modes = []
+            all_zcx_modes = self._mode_manager.all_modes
 
             for binding_mode, binding_def in bindings.items():
                 if isinstance(binding_def, str):
@@ -94,6 +95,9 @@ class ParamControl(ZControl):
 
                 these_modes = binding_mode.split("__")
                 for mode in these_modes:
+                    if mode not in ["default", ""]:
+                        if mode not in all_zcx_modes:
+                            raise CriticalConfigurationError(f"Definition for encoder `{self._name}` references mode `{mode}` that does not appear in `modes.yaml`")
                     if mode not in concerned_modes:
                         concerned_modes.append(mode)
 
