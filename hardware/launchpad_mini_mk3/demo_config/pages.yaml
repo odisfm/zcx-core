@@ -6,7 +6,7 @@ pages:
     - actions_small
     - ring_tracks
   session_view_page:
-    - track_control
+    - select_control
     - nav
     - __session_view
     - ring_tracks
