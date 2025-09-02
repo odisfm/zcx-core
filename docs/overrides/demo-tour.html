@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ page.title }}</h1>
+<p>
+    This is a guided tour of the {{ page.title }} demo configuration.
+    <br>
+    Make sure to also see the <a href="../../../../reference/hardware/{{ page.file.name }}">hardware reference</a>, to find out important information regarding your controller.
+</p>
+
+{{ page.content }}
+
+<h2>next up</h2>
+
+<a href="../../editing-a-config">Click here</a> to head to the next lesson in the getting started guide.
+
+{% endblock %}
