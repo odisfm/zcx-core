@@ -109,7 +109,7 @@
     # released_immediately:
     # double_clicked:
 #col 4
-- color: sky
+- color: grey
   gestures:
     pressed:
     # pressed_delayed:

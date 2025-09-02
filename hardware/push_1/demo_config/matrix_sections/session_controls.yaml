@@ -1,8 +1,7 @@
 -
-  pad_group: mute_group
+  pad_group: session_mute
   type: param
-  binding: >
-    ring(${me.group_index}) / MUTE
+  binding: RING(${me.group_index}) / MUTE
   on_color: dark_grey
   off_color: white
   controls:
@@ -14,11 +13,11 @@
     -
     -
     -
+
 -
-  pad_group: solo_group
+  pad_group: session_solo
   type: param
-  binding: >
-    ring(${me.group_index}) / SOLO
+  binding: RING(${me.group_index}) / SOLO
   on_color: blue
   off_color: blue shade 2
   controls:
@@ -30,3 +29,4 @@
     -
     -
     -
+
