@@ -287,14 +287,14 @@ tempo:
 
 You can read more about encoder mappings in the [Encoder Reference](../../reference/encoder.md)
 
-## control types
+## dynamic controls
 
 The most common type of control you'll use is the [standard ZControl](../../reference/control/standard.md). 
-There are also special subclasses of control that offer extra functionality, often in the LED feedback they provide.
+There are also special classes of control that offer extra functionality, usually in the LED feedback they provide.
 
 One class of control is the [page control](../../reference/control/page.md),  which is bound to a page you specify.
 It shows one color when its bound page is in view, and another when it isn't. 
-Another is the [transport](../../reference/control/transport.md) control: you can bind your `play` button to Live's transport, and it will turn green while the set is playing, and white when it stops.
+Another is the [param](../../reference/control/param.md) control, which binds to almost any parameter in Live, indicating its status.
 
 See the [Control Reference](../../reference/control/index.md) to learn more about the different control types.
 
