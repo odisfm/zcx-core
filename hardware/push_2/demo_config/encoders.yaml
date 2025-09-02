@@ -8,35 +8,9 @@ __encoder_row:
     __shift: >-
       RING(${me.index}) / PAN
     __device: >-
-      SEL / DEV(1) P${me.Index}
-    __select: >-
-      RING(${me.index}) / SEND A
-  encoders:
-    - binding:
-        __mix: >-
-          SEL / SEND A
-    - binding:
-        __mix: >-
-          SEL / SEND B
-    - binding:
-        __mix: >-
-          SEL / SEND C
-    - binding:
-        __mix: >-
-          SEL / SEND D
-    - binding:
-        __mix: >-
-          SEL / SEND E
-    - binding:
-        __mix: >-
-          SEL / SEND F
-    - binding:
-        __mix: >-
-          SEL / SEND G
-    - binding:
-        __mix: >-
-          SEL / SEND H
-
+      SEL / DEV(SEL) B1 P${me.Index}
+    __shift__device: >
+      SEL / DEV(SEL) B2 P${me.Index}
 enc_master:
   binding:
     default: MST / VOL

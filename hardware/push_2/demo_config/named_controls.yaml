@@ -1,4 +1,8 @@
 select:
+  type: mode
+  mode: select
+  active_color: 127
+  inactive_color: 40
   gestures:
     pressed:
       mode_on: select
@@ -6,6 +10,10 @@ select:
       mode_off: select
 
 shift:
+  type: mode
+  mode: shift
+  active_color: 127
+  inactive_color: 40
   gestures:
     pressed:
       mode_on: shift
@@ -22,7 +30,8 @@ record:
   type: transport
   transport: session_record
   gestures:
-    pressed: SRECFIX 8
+    pressed: SRECFIX
+    pressed_delayed: SRECFIX 8
 
 
 __state_row:
@@ -76,15 +85,17 @@ __state_row:
 __select_row:
   # the bottom row
   includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
-  color:
-    palette: nebula
+  type: ring_track
+  ring_index: ${me.index}
   gestures:
     pressed: >
-      "${ring.tracks[me.index]}" / SEL
+      "${me.track}" / SEL
     pressed_delayed: >
-      "${ring.tracks[me.index]}" / ARM
+      "${me.track}" / ARM
     double_clicked: >
-      "${ring.tracks[me.index]}" / PLAY 1
+      "${me.track}" / PLAY >
+    pressed__delete: >
+      "${me.track}" / DEL
       
 #select_1:
 #  gestures:
@@ -123,9 +134,9 @@ __scene_buttons:
   color: cyan shade ${me.index % 4}
   gestures:
     pressed: SCENE ${ring.scenes[me.Index]}
-    pressed__shift: SCENE ${ring.scenes[me.Index + 8]}
+    pressed__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
     pressed__select: SCENE SEL ${ring.scenes[me.Index]}
-    pressed__shift__select: SCENE SEL ${ring.scenes[me.Index + 8]}
+    pressed__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
 #scene_1:
 #  gestures:
@@ -206,18 +217,24 @@ __dpad:
 #    pressed: DUMMY
 
 device:
+  type: mode
+  mode: device
+  active_color: 127
+  inactive_color: 20
   gestures:
     pressed:
       mode_on: device
-    released:
+    released_delayed:
       mode_off: device
 
 mix:
+  type: mode
+  mode: device
+  active_color: 20
+  inactive_color: 127
   gestures:
     pressed:
-      mode_on: mix
-    released:
-      mode_off: mix
+      mode_off: device
 
 #session:
 #  gestures:
@@ -228,15 +245,40 @@ mix:
 #    pressed: DUMMY
 
 page_prev:
+  repeat: true
   gestures:
     pressed:
-      page: prev
+      ring:
+        x: -8
+    pressed__shift:
+      ring: left
 
 page_next:
-  color: red
+  repeat: true
   gestures:
     pressed:
-      page: next
+      ring:
+        x: 8
+    pressed__shift:
+      ring: right
+
+octave_up:
+  repeat: true
+  gestures:
+    pressed:
+      ring:
+        y: -8
+    pressed__shift:
+      ring: up
+
+octave_down:
+  repeat: true
+  gestures:
+    pressed:
+      ring:
+        y: 8
+    pressed__shift:
+      ring: down
 
 metronome:
   type: transport
@@ -244,30 +286,51 @@ metronome:
   gestures:
     pressed: metro
 
+delete:
+  type: mode
+  mode: delete
+  gestures:
+    pressed:
+      mode_on: delete
+    released:
+      mode_off: delete
+
 undo:
   gestures:
     pressed: undo
     pressed__shift: redo
 
 mute:
-  color: red
-  gestures:
-    pressed: MUTE
+  type: param
+  binding: SEL / MUTE
+  on_color: amber
+  off_color: white
 
 solo:
-  color: sky
-  gestures:
-    pressed: SOLO
+  type: param
+  binding: SEL / SOLO
+  on_color: blue
+  off_color: white
 
 stop_clip:
-  color: pink
+  type: param
+  binding: SEL / STOP
+  on_color: white
+  off_color: grey
+
+new:
   gestures:
-    pressed: SEL / STOP
-    pressed__shift: STOPALL
+    pressed: ADDSCENE
+
+duplicate:
+  gestures:
+    pressed: SCENE DUPE
 
 master:
-  gestures:
-    pressed: MST / SEL
+  type: param
+  binding: MST / SEL
+  on_color: 127
+  off_color: 20
 
 user:
   gestures:
@@ -278,13 +341,19 @@ tap_tempo:
   gestures:
     pressed: TAPBPM
 
+note:
+  gestures:
+    pressed: SHOWCLIP
+
+session:
+  gestures:
+    pressed: SHOWDEV
+
+
 #convert:
 #  gestures:
 #    pressed: DUMMY
 
-#note:
-#  gestures:
-#    pressed: DUMMY
 
 #add_device:
 #  gestures:
