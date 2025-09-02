@@ -2,7 +2,7 @@
 
 ## Limitations
 
-- The touchstrip cannot be used by zcx, but will function as normal if `track` is enabled for this script in Live's MIDI preferences.
+- The touchstrip continuous input cannot be used by zcx, but will function as normal if `track` is enabled for this script in Live's MIDI preferences. The touchstrip sends an on/off message on press and release, which is available as a named control called `touchstrip`.
 - The touchstrip cannot be toggled between pitchbend and modulation mode from within zcx. You must enter Live mode and press the touchstrip while holding `select`.
 
 ## Display plugin
@@ -83,10 +83,11 @@ These are the names you must use in [named_controls.yaml](../../lessons/getting-
 - `new` - the button labelled `new`
 - `record` - the button with the red ⏺️ symbol
 - `play` - the button with the green ▶️ symbol
+- `touchstrip` - the press/release status of the touchstrip
 
 **Surrounding display**
 
-- `enc_1_touch` through `enc_8_touch` and `enc_master_touch` - the encoders at the top of Push 1 are touch sensitive and work with zcx gestures.
+- `enc_1_touch` through `enc_8_touch`, `enc_master_touch`, `enc_swing_touch`, `enc_tempo_touch` - the encoders are touch sensitive and work with zcx gestures
 - `select_1` through `select_8` - the top row of buttons below the display
 - `state_1` through `state_8` - the bottom row of buttons below the display
 
