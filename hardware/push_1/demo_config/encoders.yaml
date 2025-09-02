@@ -17,34 +17,62 @@ __encoder_row:
       binding:
         __sends: >-
           SEL / SEND A
+        __track: >
+          SEL / VOL
     enc_2:
       binding:
         __sends: >-
           SEL / SEND B
+        __track: >
+          SEL / PAN
     enc_3:
       binding:
         __sends: >-
+          SEL / SEND C
+        __track: >
+          SEL / SEND A
+        __track__shift: >
           SEL / SEND C
     enc_4:
       binding:
         __sends: >-
           SEL / SEND D
+        __track: >
+          SEL / SEND B
+        __track__shift: >
+          SEL / SEND D
     enc_5:
       binding:
         __sends: >-
           SEL / SEND E
+        __track: >
+          SEL / DEV(SEL) B1 P1
+        __track__shift: >
+          SEL / DEV(SEL) B1 P5
     enc_6:
       binding:
         __sends: >-
           SEL / SEND F
+        __track: >
+          SEL / DEV(SEL) B1 P2
+        __track__shift: >
+          SEL / DEV(SEL) B1 P6
     enc_7:
       binding:
         __sends: >-
           SEL / SEND G
+        __track: >
+          SEL / DEV(SEL) B1 P3
+        __track__shift: >
+          SEL / DEV(SEL) B1 P7
     enc_8:
       binding:
         __sends: >-
           SEL / SEND H
+        __track: >
+          SEL / DEV(SEL) B1 P4
+        __track__shift: >
+          SEL / DEV(SEL) B1 P8
 
 enc_master:
   binding:
