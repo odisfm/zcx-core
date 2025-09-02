@@ -9,9 +9,4 @@ Apart from using the correct name for [named controls](../../lessons/getting-sta
 
 However, certain controllers may have special features, or even limitations when used with zcx.
 In such cases, you can refer to the page for your hardware.
-If you are using a smaller screen, press the :material-menu: icon in the top-right to expand this section and see the articles within.
-
-If a page doesn't exist for your hardware, you can assume that no special zcx functionality exists for that hardware.
-You can [check here](https://github.com/odisfm/zcx-core/milestone/2) to see all known hardware-specific issues.
-
-If you think you've found a bug, please see [this article](../../lessons/reporting-bugs.md) to learn how to report it.
+If you are using a smaller screen, press the :material-menu: icon in the top-left of the screen to expand this section and see the articles within.
