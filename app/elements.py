@@ -5,7 +5,6 @@ from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 from ableton.v2.control_surface.elements.encoder import _map_modes
 from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
 
-from .colors import ColorSwatches
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
 from .encoder_element import EncoderElement
 from .errors import HardwareSpecificationError
@@ -18,6 +17,7 @@ class Elements(ElementsBase):
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
         from . import ROOT_LOGGER
+        from .colors import ColorSwatches
 
         self.logger = ROOT_LOGGER.getChild(self.__class__.__name__)
         self.log = partial(self.logger.info, *a)
@@ -130,6 +130,7 @@ class Elements(ElementsBase):
         mod.ENCODERS = self.encoders
 
     def process_cc_buttons(self, cc_button_globals: dict, cc_button_yaml: dict) -> None:
+        from .colors import ColorSwatches
 
         global_channel = cc_button_globals.get("channel", 0)
         global_momentary = cc_button_globals.get("momentary", True)
@@ -160,6 +161,7 @@ class Elements(ElementsBase):
     def process_note_buttons(
         self, note_button_globals: dict, note_button_yaml: dict
     ) -> None:
+        from .colors import ColorSwatches
 
         global_channel = note_button_globals.get("channel", 0)
         global_momentary = note_button_globals.get("momentary", True)
@@ -188,6 +190,7 @@ class Elements(ElementsBase):
             self.register_named_button(element, button_name)
 
     def process_encoders(self, encoders_globals: dict, encoders_yaml: dict) -> None:
+        from .colors import ColorSwatches
 
         global_channel = encoders_globals.get("channel", 0)
         global_feedback = encoders_globals.get("feedback", False)

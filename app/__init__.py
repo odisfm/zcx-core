@@ -1,36 +1,7 @@
-import logging
-from logging.handlers import RotatingFileHandler
-import os
-from pathlib import Path
-from typing import Type
-
 from ableton.v3.control_surface import (
     ControlSurfaceSpecification,
     create_skin
 )
-from ableton.v3.control_surface.controls import (
-    control_matrix,
-)
-
-from .action_resolver import ActionResolver
-from .api_manager import ApiManager
-from .consts import SUPPORTED_GESTURES
-from .cxp_bridge import CxpBridge
-from .elements import Elements
-from .encoder_manager import EncoderManager
-from .encoder_state import EncoderState
-from .hardware_interface import HardwareInterface
-from .mode_manager import ModeManager
-from .page_manager import PageManager
-from .plugin_loader import PluginLoader
-from .skin import Skin
-from .z_manager import ZManager
-from .z_state import ZState
-from .zcx_core import ZCXCore
-from .preference_manager import PreferenceManager
-from .session_ring import SessionRing
-from .session_view import SessionView
-
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
@@ -42,6 +13,7 @@ PREF_MANAGER = None
 plugin_loader: 'Optional[PluginLoader]' = None
 
 def create_mappings(arg) -> dict:
+    from .elements import Elements
     ROOT_LOGGER.debug('Creating mappings')
 
     named_button_names = NAMED_BUTTONS.keys()
@@ -83,7 +55,12 @@ def create_mappings(arg) -> dict:
 
     return mappings
 
-def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInterface]:
+def prepare_hardware_interface(button_names, encoder_names) -> "Type[HardwareInterface]":
+    from .hardware_interface import HardwareInterface
+    from .encoder_state import EncoderState
+    from .z_state import ZState
+    from .consts import SUPPORTED_GESTURES
+
     _hardware_interface: Type[HardwareInterface] = HardwareInterface
     events = SUPPORTED_GESTURES
 
@@ -124,6 +101,10 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
         decorated_handler = event_decorator(handler)
         setattr(_hardware_interface, handler_name, decorated_handler)
 
+    from ableton.v3.control_surface.controls import (
+        control_matrix,
+    )
+
     matrix_control = control_matrix(ZState)
     setattr(_hardware_interface, 'button_matrix', matrix_control)
 
@@ -143,11 +124,19 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
     return _hardware_interface
 
 class Specification(ControlSurfaceSpecification):
+    from .elements import Elements
+    from .skin import Skin
     elements_type = Elements
     control_surface_skin = create_skin(skin=Skin)
     create_mappings_function = create_mappings
 
 def create_instance(c_instance):
+    import logging
+    from logging.handlers import RotatingFileHandler
+    import os
+    from pathlib import Path
+    from typing import Type
+    from .preference_manager import PreferenceManager
     global ROOT_LOGGER
     global plugin_loader
     global CONFIG_DIR
@@ -215,6 +204,19 @@ def create_instance(c_instance):
     PREF_MANAGER = pref_manager
 
     CONFIG_DIR = pref_manager.config_dir
+
+    from .action_resolver import ActionResolver
+    from .api_manager import ApiManager
+    from .cxp_bridge import CxpBridge
+    from .encoder_manager import EncoderManager
+    from .hardware_interface import HardwareInterface
+    from .mode_manager import ModeManager
+    from .page_manager import PageManager
+    from .plugin_loader import PluginLoader
+    from .z_manager import ZManager
+    from .zcx_core import ZCXCore
+    from .session_ring import SessionRing
+    from .session_view import SessionView
 
     plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
 
