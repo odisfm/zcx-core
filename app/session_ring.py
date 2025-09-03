@@ -75,7 +75,7 @@ class SessionRing(SessionRingBase):
 
     def setup(self):
         self.__osc_server = self.component_map['CxpBridge']._osc_server
-        self.__osc_address_base_prefix = f'zcx/{self.canonical_parent.name}/ring/'
+        self.__osc_address_base_prefix = f'/zcx/{self.canonical_parent.name}/ring/'
         self.__osc_address_track_prefix = self.__osc_address_base_prefix + f'track/'
         self.__osc_address_pos_x_address = self.__osc_address_base_prefix + f'pos_x/'
         self.__osc_address_pos_y_address = self.__osc_address_base_prefix + f'pos_y/'

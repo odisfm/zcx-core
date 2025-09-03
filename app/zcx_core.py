@@ -72,7 +72,7 @@ class ZCXCore(ControlSurface):
                     self.plugin_map[plugin_name] = self.component_map[plugin_name]
 
                 from .osc_watcher import OscWatcher
-                OscWatcher.address_prefix = f'zcx/{self.name}/'
+                OscWatcher.address_prefix = f'/zcx/{self.name}/'
 
                 self.post_init()
 

@@ -205,7 +205,7 @@ class PageManager(ZCXComponent):
         self.__z_manager.process_named_buttons(named_pad_section)
 
         self.__osc_server = self.component_map['CxpBridge']._osc_server
-        self.__osc_address_prefix = f'zcx/{self.canonical_parent.name}/page'
+        self.__osc_address_prefix = f'/zcx/{self.canonical_parent.name}/page'
         self.__osc_address_page_name = self.__osc_address_prefix + '/name'
         self.__osc_address_page_number = self.__osc_address_prefix + '/number'
 

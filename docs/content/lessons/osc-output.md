@@ -34,7 +34,7 @@ You can disable some (or all) of these outputs via the zcx file [preferences.yam
 
 An OSC message sent from zcx will use an address like this:
 
-`zcx/zcx_push_1/enc/enc_1/value`
+`/zcx/zcx_push_1/enc/enc_1/value`
 
 The first part, `zcx`, indicates that the message comes from a zcx script, which is useful when using an external tool to route messages.
 
@@ -54,7 +54,7 @@ You may configure the datatypes sent in [preferences.yaml](../reference/configur
 
 The name of the mapped parameter, as it appears in the Live UI:
 
-Address: `zcx/<script name>/enc/<encoder name>/name`
+Address: `/zcx/<script name>/enc/<encoder name>/name`
 
 Value: string
 
@@ -62,7 +62,7 @@ Value: string
 
 The value of the mapped parameter, as it appears in the Live UI:
 
-Address: `zcx/<script name>/enc/<encoder name>/value`
+Address: `/zcx/<script name>/enc/<encoder name>/value`
 
 Value: string
 
@@ -70,7 +70,7 @@ Value: string
 
 The value of the mapped parameter, as an integer between 0-127:
 
-Address: `zcx/<script name>/enc/<encoder name>/int`
+Address: `/zcx/<script name>/enc/<encoder name>/int`
 
 Value: int
 
@@ -78,7 +78,7 @@ Value: int
 
 The value of the mapped parameter, as a float between 0.0-1.0:
 
-Address: `zcx/<script name>/enc/<encoder name>/float`
+Address: `/zcx/<script name>/enc/<encoder name>/float`
 
 Value: float
 
@@ -88,13 +88,13 @@ zcx will send messages when the page is changed.
 
 #### page number
 
-Address: `zcx/<script name>/page/number/<current page number>`
+Address: `/zcx/<script name>/page/number/<current page number>`
 
 Value: int
 
 #### page name
 
-Address: `zcx/<script name>/page/name/<current page name>`
+Address: `/zcx/<script name>/page/name/<current page name>`
 
 Value: string
 
@@ -106,7 +106,7 @@ zcx will send messages relating to the [session ring](session-ring.md).
 
 When the ring moves horizontally, zcx will send one message for each column (track) of the ring:
 
-Address: `zcx/<script name>/ring/track/<index>/<track name>`
+Address: `/zcx/<script name>/ring/track/<index>/<track name>`
 
 Value: string
 
@@ -114,6 +114,6 @@ Value: string
 
 When the ring moves, zcx will send the x (track) and y (scene) positions of the top-left corner of the ring:
 
-Address: `zcx/<script name>/ring/pos_x/<x position>` **and** `zcx/<script name>/ring/pos_y/<y position>`
+Address: `/zcx/<script name>/ring/pos_x/<x position>` **and** `/zcx/<script name>/ring/pos_y/<y position>`
 
 Value: int

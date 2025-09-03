@@ -31,7 +31,7 @@ def re_range_int_parameter(min_val, max_val, current):
 
 class OscWatcher(EventObject):
 
-    address_prefix: str = 'zcx/'
+    address_prefix: str = '/zcx/'
     _osc_server = None
 
     def __init__(self, *a, **kw):
