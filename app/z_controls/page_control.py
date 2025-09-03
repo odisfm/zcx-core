@@ -60,6 +60,7 @@ class PageControl(ZControl):
         self.set_prop('Page', self._page_number + 1)
         page_name = self.__page_manager.get_page_name_from_index(self._page_number)
         self.set_prop('page_name', page_name)
+        self.create_osc_label()
 
 
     def __set_page(self, page_number):

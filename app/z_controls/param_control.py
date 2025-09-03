@@ -153,6 +153,8 @@ class ParamControl(ZControl):
 
             self._color_dict = {"on": color_on, "off": color_off, "disabled": color_disabled}
 
+            self.create_osc_label()
+
         except Exception as e:
             self.log(e, e.__class__.__name__)
 
