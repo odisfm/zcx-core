@@ -1,5 +1,6 @@
 from copy import copy, deepcopy
 from typing import TYPE_CHECKING, Any
+from functools import partial
 
 from ableton.v3.control_surface import ControlSurface
 from ableton.v3.control_surface.elements.color import Color
@@ -52,9 +53,9 @@ class ZcxApi:
         self.request_page_change = self.page_manager.request_page_change
         self.set_page = self.page_manager.set_page
         self.increment_page = self.page_manager.increment_page
-        self.add_mode = self.mode_manager.add_mode
-        self.remove_mode = self.mode_manager.remove_mode
-        self.toggle_mode = self.mode_manager.toggle_mode
+        self.add_mode = partial(self.mode_manager.add_mode)
+        self.remove_mode = partial(self.mode_manager.remove_mode)
+        self.toggle_mode = partial(self.mode_manager.toggle_mode)
 
     @property
     def script_name(self):
