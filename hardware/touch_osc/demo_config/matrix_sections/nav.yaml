@@ -80,7 +80,7 @@
 
 # col 3
 -
-  label: ➡
+  label: ⮕
   repeat: true
   gestures:
     pressed: RIGHT
