@@ -555,12 +555,15 @@ class ZEncoder(EventObject):
 
     @listens("current_modes")
     def modes_changed(self, _):
+        old_mode_string = self._current_mode_string
         self.update_mode_string(_)
         if self._current_mode_string == "":
             mode_string = "default"
         else:
             mode_string = self._current_mode_string
-        self.rebind_from_dict(mode_string)
+        new_mode_string = self._current_mode_string
+        if old_mode_string != new_mode_string:
+            self.rebind_from_dict(mode_string)
 
     def update_mode_string(self, mode_states):
         if len(self._concerned_modes) == 0:

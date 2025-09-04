@@ -1070,12 +1070,14 @@ class ParamControl(ZControl):
 
     @listens("current_modes")
     def modes_changed(self, _):
+        old_mode_string = self._current_binding_mode_string
         super().modes_changed(_)
         if self._current_binding_mode_string == "":
             mode_string = "default"
         else:
             mode_string = self._current_binding_mode_string
-        self.rebind_from_dict(mode_string)
+        if self._current_binding_mode_string != old_mode_string:
+            self.rebind_from_dict(mode_string)
 
     def update_mode_string(self, mode_states):
         super().update_mode_string(mode_states)
