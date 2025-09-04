@@ -1,0 +1,17 @@
+pages:
+  home_page:
+    - nav
+    - actions
+  alt_page:
+    sections:
+      - nav
+      - select_control
+    on_enter:
+      cxp: OSC INT /zcx/${this_cs}/encoder_pager 1
+  channel_strip_page:
+    sections:
+      - channel_strip
+    on_enter:
+      cxp: OSC INT /zcx/${this_cs}/encoder_pager 0
+  blank_page:
+    - blank_section

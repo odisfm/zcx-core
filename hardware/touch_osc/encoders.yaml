@@ -1,0 +1,155 @@
+enc_1:
+  cc: 11
+
+enc_2:
+  cc: 12
+
+enc_3:
+  cc: 13
+
+enc_4:
+  cc: 14
+
+enc_5:
+  cc: 15
+
+enc_6:
+  cc: 16
+
+enc_7:
+  cc: 17
+
+enc_8:
+  cc: 18
+
+enc_9:
+  cc: 19
+
+enc_10:
+  cc: 20
+
+enc_11:
+  cc: 21
+
+enc_12:
+  cc: 22
+
+enc_13:
+  cc: 23
+
+enc_14:
+  cc: 24
+
+enc_15:
+  cc: 25
+
+enc_16:
+  cc: 26
+
+enc_17:
+  cc: 27
+
+enc_18:
+  cc: 28
+
+enc_19:
+  cc: 29
+
+enc_20:
+  cc: 30
+
+enc_21:
+  cc: 31
+
+enc_22:
+  cc: 32
+
+enc_23:
+  cc: 33
+
+enc_24:
+  cc: 34
+
+enc_25:
+  cc: 35
+
+enc_26:
+  cc: 36
+
+enc_27:
+  cc: 37
+
+enc_28:
+  cc: 38
+
+enc_29:
+  cc: 39
+
+enc_30:
+  cc: 40
+
+enc_31:
+  cc: 41
+
+enc_32:
+  cc: 42
+
+enc_33:
+  cc: 43
+
+enc_34:
+  cc: 44
+
+enc_35:
+  cc: 45
+
+enc_36:
+  cc: 46
+
+track_fader_1:
+  cc: 50
+
+track_fader_2:
+  cc: 51
+
+track_fader_3:
+  cc: 52
+
+track_fader_4:
+  cc: 53
+
+track_fader_5:
+  cc: 54
+
+track_fader_6:
+  cc: 55
+
+track_fader_7:
+  cc: 56
+
+track_fader_8:
+  cc: 57
+
+track_pan_1:
+ cc: 70
+
+track_pan_2:
+ cc: 71
+
+track_pan_3:
+ cc: 72
+
+track_pan_4:
+ cc: 73
+
+track_pan_5:
+ cc: 74
+
+track_pan_6:
+ cc: 75
+
+track_pan_7:
+ cc: 76
+
+track_pan_8:
+ cc: 77

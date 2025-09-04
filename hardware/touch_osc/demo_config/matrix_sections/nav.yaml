@@ -1,0 +1,122 @@
+# !! row 1
+# col 1
+-
+  label: ▶
+  type: transport
+  transport: play
+  gestures:
+    released_immediately: SETPLAY
+    pressed_delayed: DUMMY
+
+# col 2
+-
+  label: ●
+  type: transport
+  transport: session_record
+  gestures:
+    released_immediately: SREC
+    pressed_delayed: SRECFIX 8
+
+# col 3
+-
+  label: 🕑
+  type: transport
+  transport: metronome
+  gestures:
+    released_immediately: METRO
+# col 4
+-
+  label: 🔁
+  type: transport
+  transport: loop
+  gestures:
+    released_immediately: LOOP
+# !! row 2
+# col 1
+-
+  label: ⇇
+  repeat: true
+  gestures:
+    pressed__shift:
+      ring:
+        x: -8
+    pressed:
+        ring: left
+# col 2
+-
+  label: ⬆
+  repeat: true
+  gestures:
+    pressed: UP
+
+# col 3
+-
+  label: ⇉
+  repeat: true
+  gestures:
+    pressed__shift:
+      ring:
+        x: 8
+    pressed:
+        ring: right
+# col 4
+-
+  type: standard
+# !! row 3
+# col 1
+-
+  label: ⬅
+  repeat: true
+  gestures:
+    pressed: LEFT
+# col 2
+-
+  type: param
+  binding: SEL / PLAY
+  label: ▶
+  gestures:
+    released_immediately: DUMMY
+    pressed_delayed: DUMMY
+
+# col 3
+-
+  label: ➡
+  repeat: true
+  gestures:
+    pressed: RIGHT
+# col 4
+-
+  type: standard
+# !! row 4
+# col 1
+-
+  label: ⇈
+  repeat: true
+  gestures:
+    pressed__shift:
+      ring:
+        y: -8
+    pressed:
+      ring: left
+
+# col 2
+-
+  label: ⬇
+  repeat: true
+  gestures:
+    pressed: DOWN
+
+
+# col 3
+-
+  label: ⇊
+  repeat: true
+  gestures:
+    pressed__shift:
+      ring:
+        y: 8
+    pressed:
+      ring: right
+# col 4
+-
+  type: standard

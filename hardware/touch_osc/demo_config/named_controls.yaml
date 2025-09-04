@@ -1,0 +1,116 @@
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+select:
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+__track_select:
+  includes: [
+    track_select_1,
+    track_select_2,
+    track_select_3,
+    track_select_4,
+    track_select_5,
+    track_select_6,
+    track_select_7,
+    track_select_8,
+  ]
+  type: param
+  hold_color: 0
+  binding:
+    default: >
+      RING(${me.index}) / SEL
+    __shift: >
+      RING(${me.index}) / MUTE
+  gestures:
+    pressed_delayed: >
+      "${ring.tracks[me.index]}" / ARM
+
+dock_1:
+  label: shift
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+dock_2:
+  label: select
+  type: mode
+  mode: select
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+#dock_3:
+# gestures:
+#   pressed: DUMMY
+
+#dock_4:
+# gestures:
+#   pressed: DUMMY
+
+dock_5:
+  label: ↦
+  repeat: true
+  gestures:
+    pressed:
+      ring:
+        x: 8
+
+dock_6:
+  label: ↤
+  repeat: true
+  gestures:
+    pressed:
+      ring:
+        x: -8
+
+#dock_7:
+# gestures:
+#   pressed: DUMMY
+
+#dock_8:
+# gestures:
+#   pressed: DUMMY
+
+__page_changer:
+  includes: [
+    dock_12, dock_11, dock_10, dock_9, dock_8, dock_7
+  ]
+  type: page
+  page: ${me.index}
+  label: ${me.page_name.replace("_", " ").rstrip("page") if me.page_name else ""}
+  gestures:
+    pressed:
+      page: ${me.page}
+    released_delayed:
+      page: last
+
+#dock_9:
+# gestures:
+#   pressed: DUMMY
+
+#dock_10:
+# gestures:
+#   pressed: DUMMY
+
+#dock_11:
+# gestures:
+#   pressed: DUMMY
+
+#dock_12:
+# gestures:
+#   pressed: DUMMY

@@ -1,0 +1,65 @@
+shift:
+  cc: 0
+
+select:
+  cc: 1
+
+track_select_1:
+  cc: 60
+
+track_select_2:
+  cc: 61
+
+track_select_3:
+  cc: 62
+
+track_select_4:
+  cc: 63
+
+track_select_5:
+  cc: 64
+
+track_select_6:
+  cc: 65
+
+track_select_7:
+  cc: 66
+
+track_select_8:
+  cc: 67
+
+dock_1:
+ cc: 100
+
+dock_2:
+ cc: 101
+
+dock_3:
+ cc: 102
+
+dock_4:
+ cc: 103
+
+dock_5:
+ cc: 104
+
+dock_6:
+ cc: 105
+
+dock_7:
+ cc: 106
+
+dock_8:
+ cc: 107
+
+dock_9:
+ cc: 108
+
+dock_10:
+ cc: 109
+
+dock_11:
+ cc: 110
+
+dock_12:
+ cc: 111

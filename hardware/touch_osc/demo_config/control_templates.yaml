@@ -1,0 +1,8 @@
+__global__:
+  color: 0
+  hold_color: 64
+  active_color: 80
+  inactive_color: 1
+  on_color: 100
+  off_color: 0
+  suppress_animations: true

@@ -1,0 +1,68 @@
+# row 1
+-
+  label: 🔇
+  type: param
+  binding:
+    default: >
+      RING(${me.x}) / MUTE
+  pad_group:
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+# row 2
+-
+  label: 🔊
+  type: param
+  binding:
+    default: >
+      RING(${me.x}) / SOLO
+  pad_group:
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+# row 3
+-
+  label: 👂
+  type: param
+  binding:
+    default: >
+      RING(${me.x}) / MON IN
+  pad_group:
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+# row 4
+-
+  label: ●
+  type: param
+  binding:
+    default: >
+      RING(${me.x}) / arm
+  pad_group:
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
