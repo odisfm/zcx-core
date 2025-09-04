@@ -28,6 +28,7 @@ zcx is currently maintained for these devices, with more planned:
 * Novation Launchpad X
 * Novation Launchpad Pro mk3
 * Novation Launchpad Mini mk3
+* TouchOSC
 * [generic controllers](lessons/porting.md)
 
 [If your device isn't here
