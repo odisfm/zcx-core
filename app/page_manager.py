@@ -2,7 +2,7 @@ import copy
 from typing import TYPE_CHECKING
 
 from ableton.v2.base.event import listenable_property
-from .osc_watcher import OscSectionWatcher
+from .osc_watcher import OscSectionWatcher, OscNamedSectionWatcher
 
 from .errors import ConfigurationError, CriticalConfigurationError
 from .pad_section import PadSection
@@ -47,6 +47,7 @@ class PageManager(ZCXComponent):
         }
         self.__does_send_page_change_osc = False
         self.__does_send_matrix_label_osc = None
+        self.__does_send_named_label_osc = False
         self.__osc_section_watchers = []
 
     @listenable_property
@@ -214,6 +215,7 @@ class PageManager(ZCXComponent):
         try:
             self.__does_send_page_change_osc = osc_prefs.get('page', False)
             self.__does_send_matrix_label_osc = osc_prefs.get('matrix', False)
+            self.__does_send_named_label_osc = osc_prefs.get('controls', False)
         except:
             pass
 
@@ -222,8 +224,12 @@ class PageManager(ZCXComponent):
                 watcher = OscSectionWatcher(section_obj)
                 self.__osc_section_watchers.append(watcher)
 
-            for watcher in self.__osc_section_watchers:
-                watcher.update_osc_labels()
+        if self.__does_send_named_label_osc:
+            named_watcher = OscNamedSectionWatcher(named_pad_section)
+            self.__osc_section_watchers.append(named_watcher)
+
+        for watcher in self.__osc_section_watchers:
+            watcher.update_osc_labels()
 
         self.set_page(0)
 

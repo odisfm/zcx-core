@@ -103,3 +103,17 @@ class OscSectionWatcher(OscWatcher):
         for i, coord in enumerate(self._pad_section.owned_coordinates):
             control = self._pad_section.owned_controls[i]
             self._osc_server.sendOSC(f'{self._base_osc_address}{coord[0] + 1}/{coord[1] + 1}/', control.osc_label)
+
+class OscNamedSectionWatcher(OscSectionWatcher):
+
+    def __init__(self, pad_section: PadSection, *a, **kw):
+        super().__init__(pad_section=pad_section, *a, **kw)
+        self._base_osc_address = self.address_prefix + 'ctr'
+
+    def update_osc_labels(self):
+        try:
+            for i, control in enumerate(self._pad_section.owned_controls):
+                self._osc_server.sendOSC(f'{self._base_osc_address}/{control.name}/', control.osc_label)
+        except Exception as e:
+            self._pad_section.log(e)
+
