@@ -506,14 +506,12 @@ class ZEncoder(EventObject):
         return listen_dict
 
     def rebind_from_dict(self, lookup_key: str):
-        target_map = self._binding_dict.get(lookup_key)
-
+        target_map = self._binding_dict.get(lookup_key or "default")
         self._active_map = target_map
         self.bind_to_active()
 
     def refresh_binding(self):
-        modes = self.mode_manager.current_modes
-        self.modes_changed(modes)
+        self.rebind_from_dict(self._current_mode_string)
 
     def bind_ad_hoc(self, binding_def):
         parsed_target_string, status = self.action_resolver.compile(
@@ -530,28 +528,31 @@ class ZEncoder(EventObject):
         self.bind_to_active()
 
     def override_binding_definition(self, binding_def, mode='default', unparsed_mode_string=False, refresh_binding=True):
-        parsed_target_string, status = self.action_resolver.compile(
-            binding_def,
-            self._vars,
-            self._context,
-        )
-        if status != 0:
-            raise ConfigurationError(f"Unparseable binding definition: {binding_def}") # todo: error type
-        target_map = self.action_resolver.parse_target_path(parsed_target_string)
-        if unparsed_mode_string:
-            modes = unparsed_mode_string.split("__")
-            modes.sort()
-            mode = "__".join(modes)
+        try:
+            parsed_target_string, status = self.action_resolver.compile(
+                binding_def,
+                self._vars,
+                self._context,
+            )
+            if status != 0:
+                raise ConfigurationError(f"Unparseable binding definition: {binding_def}") # todo: error type
+            target_map = self.action_resolver.parse_target_path(parsed_target_string)
+            if unparsed_mode_string:
+                modes = unparsed_mode_string.split("__")
+                modes.sort()
+                mode = "__".join(modes)
 
-        if mode != "default":
-            mode = f"__{mode}"
+            if mode != "default":
+                mode = f"__{mode}"
 
-        if self._binding_dict.get(mode) is None:
-            raise ConfigurationError(f"Unable to set binding for mode `{mode}`. Mode did not exist on target at startup.")
+            if self._binding_dict.get(mode) is None:
+                raise ConfigurationError(f"Unable to set binding for mode `{mode}`. Mode did not exist on target at startup.")
 
-        self._binding_dict[mode] = target_map
-        if refresh_binding:
-            self.refresh_binding()
+            self._binding_dict[mode] = target_map
+            self.rebind_from_dict(self._current_mode_string)
+
+        except Exception as e:
+            self.log(e)
 
     @listens("current_modes")
     def modes_changed(self, _):
