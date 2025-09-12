@@ -25,7 +25,7 @@ jobs:
       - name: Get controllers list
         id: controllers
         run: |
-          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | jq -R -s -c 'split("\n")[:-1]')
+          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | grep -v '^__test$' | jq -R -s -c 'split("\n")[:-1]')
           echo "Found controllers: $CONTROLLERS"
           echo "list=$CONTROLLERS" >> $GITHUB_OUTPUT
 
