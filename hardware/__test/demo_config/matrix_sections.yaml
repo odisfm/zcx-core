@@ -68,3 +68,10 @@ blank_section:
   row_end: 7
   col_start: 0
   col_end: 7
+
+test_section_1:
+  row_start: 0
+  row_end: 7
+  col_start: 0
+  col_end: 7
+
