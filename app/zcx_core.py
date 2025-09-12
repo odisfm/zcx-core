@@ -54,7 +54,6 @@ class ZCXCore(ControlSurface):
                 self.__initial_hw_mode = initial_hw_mode
 
                 self.template_manager = TemplateManager(self)
-                self.component_map["ZManager"].load_control_templates()
 
                 from . import plugin_loader
                 plugin_names = plugin_loader.plugin_names
@@ -246,8 +245,33 @@ class ZCXCore(ControlSurface):
             raise
         self.component_map['HardwareInterface'].refresh_all_lights()
 
+    def hot_reload(self):
+        try:
+            self.log("doing hot reload")
+            self.log("unloading components")
+            self.template_manager = TemplateManager(self)
+            from . import PREF_MANAGER
+            PREF_MANAGER.setup()
+            self.component_map["HardwareInterface"]._unload()
+            self.component_map["ZManager"]._unload()
+            self.component_map["PageManager"]._unload()
+            self.component_map["EncoderManager"]._unload()
+            self._session_ring_custom._unload()
+            self.component_map["SessionView"]._unload()
+            self.log("doing setup on components")
+            self.post_init()
+            self.log("finishing setup")
+            self.song_ready()
+            self.refresh_required()
+            self.log("hot reload complete")
+        except Exception as e:
+            self.critical(e)
+            self.critical("Hot reload failed. You should perform a full reload.")
+            self.show_message("Hot reload failed. You should perform a full reload.")
+
     def song_ready(self):
-        self.application.remove_control_surfaces_listener(self.song_ready)
+        if self.application.control_surfaces_has_listener(self.song_ready):
+            self.application.remove_control_surfaces_listener(self.song_ready)
         self.component_map['EncoderManager'].bind_all_encoders()
         self.component_map['ZManager'].song_ready()
 

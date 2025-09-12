@@ -19,7 +19,7 @@ class EncoderManager(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
 
-        self._encoders = {}
+        self._encoders: dict[str, ZEncoder] = {}
         self.__encoder_groups = {}
         self._selected_device_watcher = None
 
@@ -29,6 +29,13 @@ class EncoderManager(ZCXComponent):
         ZEncoder.selected_device_watcher = self._selected_device_watcher
         self.create_encoders()
         self.create_osc_watchers()
+
+    def _unload(self):
+        for encoder in self._encoders.values():
+            encoder.unbind_control()
+            encoder.disconnect()
+        self._encoders: dict[str, ZEncoder] = {}
+        self.__encoder_groups = {}
 
     def bind_all_encoders(self):
         for enc_name, enc_obj in self._encoders.items():

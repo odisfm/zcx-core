@@ -19,7 +19,12 @@ class PreferenceManager:
         except Exception as e:
             self._logger.error(f'Failed to load preferences.yaml:', {e}) # todo: handle separately
             raise e
+        self.__first_cs = None
+        self.__config_dir = None
+        self.__flattened_prefs = {}
+        self.setup()
 
+    def setup(self):
         specs = self.load_yaml('hardware/specs.yaml')
         hardware_prefs = specs.get('preferences', {})
 

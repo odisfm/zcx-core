@@ -53,14 +53,8 @@ class SessionRing(SessionRingBase):
         self.__osc_address_track_prefix = None
         self.__osc_address_pos_x_address = None
         self.__osc_address_pos_y_address = None
-
-        osc_prefs = user_prefs.get('osc_output', {})
-
-        if not isinstance(osc_prefs, dict):
-            osc_prefs = {}
-
-        self.__does_send_osc_tracks = osc_prefs.get('ring_tracks', False)
-        self.__does_send_osc_positions = osc_prefs.get('ring_pos', False)
+        self.__does_send_osc_tracks = False
+        self.__does_send_osc_positions = False
 
         self.debug(f'{self.name} created')
 
@@ -74,6 +68,16 @@ class SessionRing(SessionRingBase):
         self._logger.setLevel(level)
 
     def setup(self):
+        from . import PREF_MANAGER
+        user_prefs = PREF_MANAGER.user_prefs
+        osc_prefs = user_prefs.get('osc_output', {})
+
+        if not isinstance(osc_prefs, dict):
+            osc_prefs = {}
+
+        self.__does_send_osc_tracks = osc_prefs.get('ring_tracks', False)
+        self.__does_send_osc_positions = osc_prefs.get('ring_pos', False)
+
         self.__osc_server = self.component_map['CxpBridge']._osc_server
         self.__osc_address_base_prefix = f'/zcx/{self.canonical_parent.name}/ring/'
         self.__osc_address_track_prefix = self.__osc_address_base_prefix + f'track/'
@@ -81,6 +85,13 @@ class SessionRing(SessionRingBase):
         self.__osc_address_pos_y_address = self.__osc_address_base_prefix + f'pos_y/'
 
         self.update_osc()
+
+    def _unload(self):
+        self.__osc_server = None
+        self.__osc_address_base_prefix = None
+        self.__osc_address_track_prefix = None
+        self.__osc_address_pos_x_address = None
+        self.__osc_address_pos_y_address = None
 
     def move(self, x=0, y=0):
         current_x = self.track_offset

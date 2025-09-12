@@ -33,10 +33,11 @@ class ZManager(ZCXComponent):
         self.__named_control_section: PadSection = None
         self.__matrix_sections: dict[PadSection] = {}
         self.__control_aliases = {}
-        self.__all_controls = []
+        self.__all_controls: "list[ZControl]" = []
 
     def setup(self):
         from . import z_controls
+        self.load_control_templates()
 
         ZControl.task_group = self.canonical_parent._task_group
         z_controls.page_manager = self.canonical_parent.component_map["PageManager"]
@@ -44,6 +45,19 @@ class ZManager(ZCXComponent):
             "ActionResolver"
         ]
         z_controls.mode_manager = self.canonical_parent.component_map["ModeManager"]
+
+    def _unload(self):
+        self.log("unloading")
+        for section in self.__matrix_sections.values():
+            section.disconnect()
+        self.__global_control_template = {}
+        self.__control_templates = {}
+        self.__control_groups = {}
+        self.__named_controls = {}
+        self.__named_control_section: PadSection = None
+        self.__matrix_sections: dict[PadSection] = {}
+        self.__control_aliases = {}
+        self.__all_controls = []
 
     def reinit(self):
         pass

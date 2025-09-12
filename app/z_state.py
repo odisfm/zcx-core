@@ -29,3 +29,10 @@ class ZState(ButtonControl):
                     color = z_control._color
                     self._control_element._force_next_send = True
                     self._control_element._do_draw(color)
+
+        def _unload(self):
+            for z_control in self.__registered_z_controls:
+                z_control.disconnect()
+                del z_control
+            self.__registered_z_controls = set()
+

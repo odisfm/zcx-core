@@ -233,6 +233,31 @@ class PageManager(ZCXComponent):
 
         self.set_page(0)
 
+    def _unload(self):
+        self.__raw_sections: Dict[str, Dict] = {}
+        self.__current_page = -1
+        self.__last_page = -1
+        self.__page_count = 1
+        self.__pages_sections = {}
+        self.__page_names = []
+        self.__pad_sections: Dict[PadSection] = {}
+        self.__named_button_section: Optional[PadSection] = None
+        self.__page_definitions = {}
+        self.__osc_server = None
+        self.__osc_address_prefix = None
+        self.__osc_address_page_name = None
+        self.__osc_address_page_number = None
+        self.__does_send_osc = False
+        self.__special_sections_config = {
+            "__session_view": None,
+        }
+        self.__does_send_page_change_osc = False
+        self.__does_send_matrix_label_osc = None
+        self.__does_send_named_label_osc = False
+        for watcher in self.__osc_section_watchers:
+            watcher.disconnect()
+        self.__osc_section_watchers = []
+
     def build_section(self, section_name, section_config):
         matrix_element = self.canonical_parent.component_map[
             "HardwareInterface"

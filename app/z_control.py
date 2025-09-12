@@ -82,6 +82,10 @@ class ZControl(EventObject):
         )
         self.parent_section.register_owned_control(self)
 
+    def _unload(self):
+        self.in_view_listener.subject = None
+        self.modes_changed.subject = None
+
     def setup(self):
         config = self._raw_config
         self._create_context([
@@ -479,6 +483,10 @@ class ZControl(EventObject):
             self._osc_label = osc_label_def
         else:
             self._osc_label = self.name if self.parent_section.name == "__named_buttons_section" else "-"
+
+    def disconnect(self):
+        super().disconnect()
+        self._unload()
 
 
 class AnimationTimer(TimerTask):

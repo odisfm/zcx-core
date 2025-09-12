@@ -384,6 +384,12 @@ class ActionResolver(ZCXComponent):
                                     self.error(error_msg)
                                     if ABORT_ON_FAILURE:
                                         raise RuntimeError(error_msg)
+                        case 'hot_reload':
+                            if not command_def:
+                                self.debug("`hot_reload` called with falsy value")
+                                return
+
+                            self.canonical_parent.hot_reload()
                         case 'do_toggle':
                             if not command_def:
                                 return

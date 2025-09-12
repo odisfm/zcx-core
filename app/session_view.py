@@ -93,6 +93,16 @@ class SessionView(ZCXComponent):
         self.tracks_changed.subject = self._song
         self.update_clip_slot_assignments()
 
+    def _unload(self):
+        self.__pad_section = None
+        self.__page_manager: 'PageManager' = None
+        self._session_ring = None
+        self.__color_dict_lookup = []
+        self.__empty_color_dict = {}
+        self.__width = 0
+        self.__height = 0
+        self.__control_array = None
+
     @listens('offsets')
     def ring_offsets_changed(self):
         self.update_clip_slot_assignments()
