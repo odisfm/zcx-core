@@ -26,14 +26,9 @@ class TestRunner(ZCXComponent):
     def setup(self):
         """Discover and load tests from the tests/ directory"""
         try:
-            self.log("Doing setup")
 
             project_root = Path(__file__).parent
             tests_dir = project_root / "tests"
-
-            if not tests_dir.exists():
-                self.log("Tests directory doesn't exist")
-                return
 
             for name in list(sys.modules):
                 if name.startswith("tests.") or fnmatch.fnmatch(name, "test*"):
