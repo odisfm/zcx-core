@@ -21,7 +21,7 @@ class SessionClipControl(ZControl):
         self._vars['clip_target'] = 'me.obj.clip_target'
         self._vars['user_clip_target'] = 'me.obj.user_clip_target'
         self._vars['scene_number'] = 'me.obj.scene_number'
-        self._create_context([])
+        self._create_context(generated_contexts=[], user_props=self._raw_config.get('props', {}))
 
         gesture_config = self._raw_config.get('gestures')
         if gesture_config is not None:

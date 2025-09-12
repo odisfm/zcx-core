@@ -88,11 +88,14 @@ class ZControl(EventObject):
 
     def setup(self):
         config = self._raw_config
-        self._create_context([
+        self._create_context(
+            generated_contexts=
+            [
             config.get('section_context', {}),
             config.get('group_context', {}),
-            config.get('props', {})
-        ])
+            ],
+            user_props=config.get("props", {})
+        )
         color = config.get('color', 127)
         self.set_gesture_dict(config.get('gestures', {}))
         self.set_vars(config.get('vars', {}))
@@ -196,8 +199,8 @@ class ZControl(EventObject):
     def set_vars(self, vars):
         self._vars = vars
 
-    def _create_context(self, config: list[dict]) -> None:
-        context = {k: v for d in config for k, v in d.items()}
+    def _create_context(self, generated_contexts: list[dict], user_props: dict = None) -> None:
+        context = {k: v for d in generated_contexts for k, v in d.items()}
         if 'index' not in context:
             if 'group_index' in context:
                 context['index'] = context['group_index']
@@ -212,6 +215,13 @@ class ZControl(EventObject):
         self.set_prop('velps', 0.0)
 
         self.set_prop('obj', self)
+
+        self._context["me"]["props"] = {}
+        if not user_props:
+            user_props = {}
+
+        for key, value in user_props.items():
+            self._context["me"]["props"][key] = value
 
     def bind_to_state(self, state):
         state.register_z_control(self)

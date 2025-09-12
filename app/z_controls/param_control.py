@@ -32,11 +32,14 @@ class ParamControl(ZControl):
         try:
             self.set_color(5)
 
-            self._create_context([
-                self._raw_config.get('section_context', {}),
-                self._raw_config.get('group_context', {}),
-                self._raw_config.get('props', {})
-            ])
+            self._create_context(
+                generated_contexts=
+                [
+                    self._raw_config.get('section_context', {}),
+                    self._raw_config.get('group_context', {}),
+                ],
+                user_props=config.get("props", {})
+            )
             self.set_gesture_dict(self._raw_config.get('gestures', {}))
             self._vars = self._raw_config.get("vars", {})
             self._vars["me.next_value"] = "me.obj.preview_next_value()"
