@@ -35,6 +35,10 @@ class ZManager(ZCXComponent):
         self.__control_aliases = {}
         self.__all_controls: "list[ZControl]" = []
 
+    @property
+    def all_controls(self):
+        return copy(self.__all_controls)
+
     def setup(self):
         from . import z_controls
         self.load_control_templates()

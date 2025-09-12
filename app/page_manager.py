@@ -58,6 +58,10 @@ class PageManager(ZCXComponent):
     def current_page_name(self):
         return self.__page_names[self.current_page]
 
+    @property
+    def all_page_names(self):
+        return self.__page_names
+
     def increment_page(self, increment=1):
         new_page = (self.__current_page + increment) % self.__page_count
         self.set_page(page_number=new_page)
