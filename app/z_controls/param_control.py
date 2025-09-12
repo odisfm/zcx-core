@@ -5,6 +5,7 @@ from ableton.v3.base import listens
 from ..colors import parse_color_definition, RgbColor
 from ..errors import ConfigurationError, CriticalConfigurationError
 from ..bank_definitions import get_banked_parameter
+from ..parse_target_path import parse_target_path
 
 class ParamControl(ZControl):
 
@@ -118,7 +119,7 @@ class ParamControl(ZControl):
                 if status != 0:
                     raise ConfigurationError(f"Unparseable target\n" f"{binding_def}")
 
-                target_map = self.action_resolver.parse_target_path(parsed_target_string)
+                target_map = parse_target_path(parsed_target_string)
 
                 if target_map["error"] is not None:
                     raise ConfigurationError(target_map["error"])
@@ -504,7 +505,7 @@ class ParamControl(ZControl):
                 if isinstance(par_name, str):
                     if "${" in par_name:
                         parsed_par_name, status = (
-                            self.action_resolver.parse_target_path(par_num)
+                            parse_target_path(par_num)
                         )
                         if status != 0:
                             raise ConfigurationError(
@@ -522,7 +523,7 @@ class ParamControl(ZControl):
                     )
                 else:
                     if isinstance(par_num, str) and "${" in par_num:
-                        parsed_par_num, status = self.action_resolver.parse_target_path(
+                        parsed_par_num, status = parse_target_path(
                             par_num
                         )
                         if status != 0:
@@ -653,7 +654,7 @@ class ParamControl(ZControl):
         if status != 0:
             raise ConfigurationError(f"Unparseable binding definition: {binding_def}")
 
-        target_map = self.action_resolver.parse_target_path(parsed_target_string)
+        target_map = parse_target_path(parsed_target_string)
         self._active_map = target_map
         self.bind_to_active()
 
@@ -665,7 +666,7 @@ class ParamControl(ZControl):
         )
         if status != 0:
             raise ConfigurationError(f"Unparseable binding definition: {binding_def}") # todo: error type
-        target_map = self.action_resolver.parse_target_path(parsed_target_string)
+        target_map = parse_target_path(parsed_target_string)
         if unparsed_mode_string:
             modes = unparsed_mode_string.split("__")
             modes.sort()
