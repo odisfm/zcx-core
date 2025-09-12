@@ -2,6 +2,7 @@ from copy import copy
 
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v2.base.event import listens
+from .z_control import ZControl
 
 
 class PadSection(EventObject):
@@ -40,7 +41,7 @@ class PadSection(EventObject):
                 "width": max_x - min_x + 1,
                 "height": max_y - min_y + 1,
             }
-        self.__owned_controls = []
+        self.__owned_controls: list[ZControl] = []
         self._raw_template = raw_template if raw_template is not None else {}
 
     def log(self, *msg):
