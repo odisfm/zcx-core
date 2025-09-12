@@ -71,7 +71,7 @@ class PageManager(ZCXComponent):
         if incoming_page_num == self.__current_page:
             return True
         self.__last_page = self.__current_page
-        self.__current_page = page_number
+        self.__current_page = incoming_page_num
         self.notify_current_page()
 
         if not initial_page_set:
