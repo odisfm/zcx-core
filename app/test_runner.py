@@ -49,6 +49,9 @@ class TestRunner(ZCXComponent):
                         case.log = partial(self.log)
 
             test_count = self.test_suite.countTestCases()
+            if test_count == 0:
+                return
+
             self.log(f"Discovered {test_count} test cases in {tests_dir}")
 
             self.run_tests()
