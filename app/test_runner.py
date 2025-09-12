@@ -4,6 +4,7 @@ import sys
 import unittest
 import os
 from pathlib import Path
+from functools import partial
 from .zcx_component import ZCXComponent
 
 if TYPE_CHECKING:
@@ -50,6 +51,7 @@ class TestRunner(ZCXComponent):
                     for case in (test if isinstance(test, unittest.TestSuite) else [test]):
                         self.log(case)
                         case._zcx = self.canonical_parent
+                        case.log = partial(self.log)
 
             test_count = self.test_suite.countTestCases()
             self.log(f"Discovered {test_count} test cases in {tests_dir}")
