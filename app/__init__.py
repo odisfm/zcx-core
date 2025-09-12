@@ -44,6 +44,7 @@ def create_mappings(arg) -> dict:
         "EncoderManager": {},
         "ApiManager": {},
         "SessionView": {},
+        "TestRunner": {},
     }
 
     def add_plugin_mappings(plugin_dict):
@@ -217,6 +218,7 @@ def create_instance(c_instance):
     from .zcx_core import ZCXCore
     from .session_ring import SessionRing
     from .session_view import SessionView
+    from .test_runner import TestRunner
 
     plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
 
@@ -231,6 +233,7 @@ def create_instance(c_instance):
         "EncoderManager": EncoderManager,
         "ApiManager": ApiManager,
         "SessionView": SessionView,
+        "TestRunner": TestRunner,
     }
 
     def add_plugins_to_component_map(plugin_dict):

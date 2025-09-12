@@ -71,6 +71,8 @@ class BuildManager:
 
         self.hardware_root = self.project_root / "hardware" / self.hardware_config
 
+        self.test_root = self.project_root / "tests"
+
         self.ignore_patterns = {  # i dont know man
             ".git",
             "__pycache__",
@@ -324,6 +326,14 @@ class BuildManager:
             hardware_dest = self.dest_root / "hardware"
             self.sync_directory(self.hardware_root, hardware_dest)
 
+            if self.hardware_config == "__test":
+                if self.test_root.exists():
+                    test_dest = self.dest_root / "tests"
+                    logging.info(f"Syncing test directory: {self.test_root} -> {test_dest}")
+                    self.sync_directory(self.test_root, test_dest)
+                else:
+                    logging.warning(f"Test directory not found: {self.test_root}")
+
             # Sync config from either custom_config_path or hardware-specific demo_config
             config_path = (
                 self.custom_config_path
@@ -425,7 +435,13 @@ def main():
         builder.hardware_root,
         builder.hardware_root / "demo_config",
         # builder.project_root / "preferences",
+        builder.test_root
     ]
+
+    # Add test directory to watch list if hardware config is __test
+    if builder.hardware_config == "__test" and builder.test_root.exists():
+        dirs_to_watch.append(builder.test_root)
+        logging.info(f"Added test directory to watch list: {builder.test_root}")
 
     # Dynamically add custom config path to watched directories if provided
     if args.custom_config:

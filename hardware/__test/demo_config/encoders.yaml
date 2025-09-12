@@ -1,0 +1,23 @@
+__encoder_row:
+  includes: [
+    enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
+  ]
+  binding:
+    default: >-
+      RING(${me.index}) / VOL
+    __shift: >-
+      RING(${me.index}) / PAN
+    __device: >-
+      SEL / DEV(SEL) B1 P${me.Index}
+    __shift__device: >
+      SEL / DEV(SEL) B2 P${me.Index}
+enc_master:
+  binding:
+    default: MST / VOL
+    __shift: MST / CUE
+
+tempo:
+  binding: SEL / PAN
+
+swing:
+  binding: SEL / VOL

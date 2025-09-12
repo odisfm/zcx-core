@@ -1,0 +1,226 @@
+tap_tempo:
+  cc: 3
+
+metronome:
+  cc: 9
+
+convert:
+  cc: 35
+
+dpad_left:
+  cc: 44
+
+dpad_right:
+  cc: 45
+
+dpad_up:
+  cc: 46
+
+dpad_down:
+  cc: 47
+
+select_1:
+  cc: 20
+  feedback: rgb
+
+select_2:
+  cc: 21
+  feedback: rgb
+
+select_3:
+  cc: 22
+  feedback: rgb
+
+select_4:
+  cc: 23
+  feedback: rgb
+
+select_5:
+  cc: 24
+  feedback: rgb
+
+select_6:
+  cc: 25
+  feedback: rgb
+
+select_7:
+  cc: 26
+  feedback: rgb
+
+select_8:
+  cc: 27
+  feedback: rgb
+
+master:
+  cc: 28
+
+stop_clip:
+  cc: 29
+  feedback: rgb
+
+scene_1:
+  cc: 43
+  feedback: rgb
+
+scene_2:
+  cc: 42
+  feedback: rgb
+
+scene_3:
+  cc: 41
+  feedback: rgb
+
+scene_4:
+  cc: 40
+  feedback: rgb
+
+scene_5:
+  cc: 39
+  feedback: rgb
+
+scene_6:
+  cc: 38
+  feedback: rgb
+
+scene_7:
+  cc: 37
+  feedback: rgb
+
+scene_8:
+  cc: 36
+  feedback: rgb
+
+select:
+  cc: 48
+  stock_modifier: true
+
+shift:
+  cc: 49
+  stock_modifier: true
+
+note:
+  cc: 50
+
+session:
+  cc: 51
+
+add_device:
+  cc: 52
+
+add_track:
+  cc: 53
+
+octave_down:
+  cc: 54
+
+octave_up:
+  cc: 55
+
+repeat:
+  cc: 56
+
+accent:
+  cc: 57
+
+scales:
+  cc: 58
+
+mute:
+  cc: 60
+  feedback: rgb
+
+solo:
+  cc: 61
+  feedback: rgb
+
+page_prev:
+  cc: 62
+
+page_next:
+  cc: 63
+
+duplicate:
+  cc: 88
+
+new:
+  cc: 87
+
+record:
+  cc: 86
+  feedback: rgb
+
+play:
+  cc: 85
+  feedback: rgb
+
+automate:
+  cc: 89
+  feedback: rgb
+
+fixed_length:
+  cc: 90
+
+state_1:
+  cc: 102
+  feedback: rgb
+
+state_2:
+  cc: 103
+  feedback: rgb
+
+state_3:
+  cc: 104
+  feedback: rgb
+
+state_4:
+  cc: 105
+  feedback: rgb
+
+state_5:
+  cc: 106
+  feedback: rgb
+
+state_6:
+  cc: 107
+  feedback: rgb
+
+state_7:
+  cc: 108
+  feedback: rgb
+
+state_8:
+  cc: 109
+  feedback: rgb
+
+mix:
+  cc: 112
+
+clip:
+  cc: 113
+
+volume:
+  cc: 114
+
+device:
+  cc: 110
+
+browse:
+  cc: 111
+
+quantize:
+  cc: 116
+
+double_loop:
+  cc: 117
+
+delete:
+  cc: 118
+
+undo:
+  cc: 119
+
+user:
+  cc: 59
+
+layout:
+  cc: 31
