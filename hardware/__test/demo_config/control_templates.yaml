@@ -1,3 +1,21 @@
 __global__:
   color: 127
   threshold: 20
+  props:
+    global_template: true
+
+test_1:
+  color: 1
+  gestures:
+    pressed: test_1
+    released: test_1
+  props:
+    test_1: true
+
+test_2:
+  color: 2
+  gestures:
+    pressed: test_2
+    double_clicked: test_2
+  props:
+    test_2: true
