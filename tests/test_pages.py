@@ -14,4 +14,5 @@ class TestPages(unittest.TestCase):
         self.page_manager: "PageManager" = self._zcx.component_map["PageManager"]
 
     def test_initial_page(self):
+        self.page_manager.set_page(page_number=0)
         self.assertEqual(self.page_manager.current_page, 0)

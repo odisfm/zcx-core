@@ -15,3 +15,5 @@ pages:
     - ring_devices
   blank_page:
     - blank_section
+  test_page_1:
+    - test_section_1
