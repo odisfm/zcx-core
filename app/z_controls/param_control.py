@@ -39,7 +39,7 @@ class ParamControl(ZControl):
                     self._raw_config.get('section_context', {}),
                     self._raw_config.get('group_context', {}),
                 ],
-                user_props=config.get("props", {})
+                user_props=self._raw_config.get("props", {})
             )
             self.set_gesture_dict(self._raw_config.get('gestures', {}))
             self._vars = self._raw_config.get("vars", {})
