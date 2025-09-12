@@ -234,10 +234,12 @@ class ZControl(EventObject):
         return (val - _min) / (_max - _min) * 100
 
     @only_in_view
-    def handle_gesture(self, gesture):
+    def handle_gesture(self, gesture, dry_run=False):
         val = self._control_element._last_received_value
         self._last_received_value = val
-        if self._fake_momentary:
+        if dry_run:
+            pass
+        elif self._fake_momentary:
             if gesture in ['pressed', 'released']:
                 gesture = 'pressed'
             else:
@@ -291,6 +293,9 @@ class ZControl(EventObject):
                 matching_actions.append(base_gesture)
             else:
                 return False
+
+        if dry_run:
+            return matching_actions
 
         for command in matching_actions:
 
