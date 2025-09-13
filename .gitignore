@@ -4,5 +4,5 @@ app/vendor
 docs/.cache
 docs/site/
 user/
-tests/zcx\ test\ set/*
-!tests/zcx\ test\ set/zcx\ test\ set.als
+tests/zcx\ test\ set\ Project/*
+!tests/zcx\ test\ set\ Project/zcx\ test\ set.als
