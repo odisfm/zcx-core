@@ -249,12 +249,13 @@ class ZCXCore(ControlSurface):
         try:
             self.log("doing hot reload")
             self.log("unloading components")
-            self.template_manager = TemplateManager(self)
             from . import PREF_MANAGER
             PREF_MANAGER.setup()
+            self.template_manager = TemplateManager(self)
             self.component_map["HardwareInterface"]._unload()
-            self.component_map["ZManager"]._unload()
+            self.component_map["ModeManager"]._unload()
             self.component_map["PageManager"]._unload()
+            self.component_map["ZManager"]._unload()
             self.component_map["EncoderManager"]._unload()
             self._session_ring_custom._unload()
             self.component_map["SessionView"]._unload()
@@ -265,6 +266,7 @@ class ZCXCore(ControlSurface):
             self.refresh_required()
             self.log("hot reload complete")
         except Exception as e:
+            self.critical(traceback.format_exception(e))
             self.critical(e)
             self.critical("Hot reload failed. You should perform a full reload.")
             self.show_message("Hot reload failed. You should perform a full reload.")

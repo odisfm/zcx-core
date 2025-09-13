@@ -85,6 +85,11 @@ class OscEncoderWatcher(OscWatcher):
         else:
             self._osc_server.sendOSC(self._name_osc_address, self._base_element.parameter_name)
 
+    def disconnect(self):
+        super().disconnect()
+        self.parameter_name_changed.subject = None
+        self.parameter_value_changed.subject = None
+
 class OscSectionWatcher(OscWatcher):
 
     def __init__(self, pad_section: PadSection, *a, **kw):
@@ -103,6 +108,10 @@ class OscSectionWatcher(OscWatcher):
         for i, coord in enumerate(self._pad_section.owned_coordinates):
             control = self._pad_section.owned_controls[i]
             self._osc_server.sendOSC(f'{self._base_osc_address}{coord[0] + 1}/{coord[1] + 1}/', control.osc_label)
+
+    def disconnect(self):
+        super().disconnect()
+        self.pad_section_view_changed.subject = None
 
 class OscNamedSectionWatcher(OscSectionWatcher):
 

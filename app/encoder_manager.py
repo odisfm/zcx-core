@@ -31,6 +31,7 @@ class EncoderManager(ZCXComponent):
         self.create_osc_watchers()
 
     def _unload(self):
+        super()._unload()
         for encoder in self._encoders.values():
             encoder.unbind_control()
             encoder.disconnect()

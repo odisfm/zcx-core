@@ -28,6 +28,9 @@ class PreferenceManager:
         specs = self.load_yaml('hardware/specs.yaml')
         hardware_prefs = specs.get('preferences', {})
 
+        self.__default_prefs = self.load_yaml('default_preferences.yaml')
+        self.__user_prefs = self.load_yaml(f'_global_preferences.yaml')
+
         hw_default = self.deep_merge(self.__default_prefs, hardware_prefs)
 
         user_hw = self.deep_merge(hw_default, self.__user_prefs)
@@ -38,11 +41,14 @@ class PreferenceManager:
 
         self.__config_dir = self.evaluate_config_dir()
 
+        config_override_prefs = None
+
         try:
             config_override_prefs = self.load_yaml(f'{self.__config_dir}/preferences.yaml')
-            self.__flattened_prefs = self.deep_merge(self.__flattened_prefs, config_override_prefs)
         except FileNotFoundError:
             pass
+        finally:
+            self.__flattened_prefs = self.deep_merge(self.__flattened_prefs, config_override_prefs)
 
         self.log(f'Configuration dir: {self.__config_dir}', level='debug')
 

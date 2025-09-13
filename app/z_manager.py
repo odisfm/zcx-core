@@ -51,6 +51,7 @@ class ZManager(ZCXComponent):
         z_controls.mode_manager = self.canonical_parent.component_map["ModeManager"]
 
     def _unload(self):
+        super()._unload()
         self.log("unloading")
         for section in self.__matrix_sections.values():
             section.disconnect()

@@ -238,6 +238,10 @@ class PageManager(ZCXComponent):
         self.set_page(0)
 
     def _unload(self):
+        super()._unload()
+        for watcher in self.__osc_section_watchers:
+            watcher.disconnect()
+            del watcher
         self.__raw_sections: Dict[str, Dict] = {}
         self.__current_page = -1
         self.__last_page = -1
@@ -258,8 +262,6 @@ class PageManager(ZCXComponent):
         self.__does_send_page_change_osc = False
         self.__does_send_matrix_label_osc = None
         self.__does_send_named_label_osc = False
-        for watcher in self.__osc_section_watchers:
-            watcher.disconnect()
         self.__osc_section_watchers = []
 
     def build_section(self, section_name, section_config):

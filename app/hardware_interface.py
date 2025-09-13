@@ -67,6 +67,7 @@ class HardwareInterface(ZCXComponent):
         self.__page_manager = self.canonical_parent.component_map['PageManager']
 
     def _unload(self):
+        super()._unload()
         for state_name in self.named_button_states.keys():
             element = getattr(self, f'_button_{state_name}')
             element._unload()

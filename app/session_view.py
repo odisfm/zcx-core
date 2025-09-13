@@ -94,6 +94,7 @@ class SessionView(ZCXComponent):
         self.update_clip_slot_assignments()
 
     def _unload(self):
+        super()._unload()
         self.__pad_section = None
         self.__page_manager: 'PageManager' = None
         self._session_ring = None

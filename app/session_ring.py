@@ -32,14 +32,14 @@ class SessionRing(SessionRingBase):
         self.__height = height
         self.__width = width
 
-        from . import CONFIG_DIR
+        from . import PREF_MANAGER
 
         if TYPE_CHECKING:
             from .page_manager import PageManager
             self.canonical_parent: ZCXCore
             self.page_manager: 'PageManager'
 
-        self._config_dir = CONFIG_DIR
+        self._config_dir = PREF_MANAGER.config_dir
         from .yaml_loader import yaml_loader
 
         self.yaml_loader = yaml_loader
@@ -87,6 +87,8 @@ class SessionRing(SessionRingBase):
         self.update_osc()
 
     def _unload(self):
+        from . import PREF_MANAGER
+        self._config_dir = PREF_MANAGER.config_dir
         self.__osc_server = None
         self.__osc_address_base_prefix = None
         self.__osc_address_track_prefix = None

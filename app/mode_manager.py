@@ -32,6 +32,7 @@ class ModeManager(ZCXComponent):
         self.debug(f"Configured modes: {self.all_modes}")
 
     def _unload(self):
+        super()._unload()
         self.__all_modes = []
         self.__mode_command_dict = {}
         self.__modes_state = {}
