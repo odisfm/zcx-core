@@ -36,7 +36,7 @@ class ZManager(ZCXComponent):
         self.__all_controls: "list[ZControl]" = []
 
     @property
-    def all_controls(self):
+    def all_controls(self) -> "list[ZControl]":
         return copy(self.__all_controls)
 
     def setup(self):
