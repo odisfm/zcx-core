@@ -57,6 +57,8 @@ class TestRunner(ZCXComponent):
             self.run_tests()
 
         except Exception as e:
+            if str(e).startswith("Start directory is not importable"):
+                return
             self.log(f"Error discovering tests: {e}")
             self.test_suite = unittest.TestSuite()
 
