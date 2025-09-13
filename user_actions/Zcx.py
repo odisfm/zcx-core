@@ -163,6 +163,9 @@ class Zcx(UserActionsBase):
                 mode_def = _args[2]
                 target_script.set_hardware_mode(mode_def)
 
+            elif sub_action == 'hot_reload':
+                target_script.root_cs.hot_reload()
+
             else:
                 raise ValueError(f'Unknown action {sub_action}')
         except Exception as e:
