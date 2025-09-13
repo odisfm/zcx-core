@@ -40,13 +40,18 @@ class TestRunner(ZCXComponent):
                 top_level_dir=str(project_root)
             )
 
+            injected_classes = []
 
             for suite in self.test_suite:
                 for test in (suite if isinstance(suite, unittest.TestSuite) else [suite]):
                     for case in (test if isinstance(test, unittest.TestSuite) else [test]):
                         self.log(case)
-                        case._zcx = self.canonical_parent
-                        case.log = partial(self.log)
+                        cls = case.__class__
+                        if cls in injected_classes:
+                            continue
+                        case.__class__._zcx = self.canonical_parent
+                        case.__class__.log = partial(self.log)
+                        injected_classes.append(cls)
 
             test_count = self.test_suite.countTestCases()
             if test_count == 0:
