@@ -53,9 +53,9 @@ For a pad belonging to track `my track` and scene 2, these commands would evalua
 !!! note "Template strings"
     To understand this syntax, see the [template reference](../reference/template.md)
 
-### Altering defaults
+### Extending defaults
 
-We can change the default functionality by adding a [section template](../reference/template.md#section-templates):
+We can extend the default functionality by adding a [section template](../reference/template.md#section-templates):
 
 ```yaml title="matrix_sections.yaml" hl_lines="6-9"
 __session_view:
@@ -123,3 +123,22 @@ ${user_clip_target} MY_USER_ACTION
 # evaluates to something like:
 "my cool track" / USER_CLIP(6) MY_USER_ACTION
 ```
+
+### Overwriting defaults
+
+In the [section template](#extending-defaults), simply define new commands for the gesture `pressed` and/or `pressed__select`:
+
+```yaml title="matrix_sections.yaml" hl_lines="8 10"
+__session_view:
+  row_start: 0
+  row_end: 7
+  col_start: 0
+  col_end: 7
+  template:
+    gestures:
+      pressed: >
+        ${clip_target} COLOR 1
+      pressed__select: >
+        "${track_target}" / SOLO
+```
+
