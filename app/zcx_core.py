@@ -1,11 +1,14 @@
 import logging
 from functools import partial
 import traceback
+from typing import TYPE_CHECKING
 
 from ableton.v2.base.task import TimerTask
 from ableton.v3.control_surface import (
     ControlSurface
 )
+if TYPE_CHECKING:
+    from .api_manager import ZcxApi
 
 from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT
 from .template_manager import TemplateManager
@@ -149,7 +152,7 @@ class ZCXCore(ControlSurface):
         return self.__name
 
     @property
-    def zcx_api(self):
+    def zcx_api(self) -> "ZcxApi":
         if not self._enabled:
             raise RuntimeError(f'{self.name} is not enabled.')
         return self.component_map["ApiManager"].get_api_object()
