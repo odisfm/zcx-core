@@ -4,25 +4,57 @@ weight: -5
 
 # seeing changes in your zcx config
 
-Any changes made to your zcx configuration will not be effective until the control surface script is reloaded. There are several ways to achieve this:
+Any changes made to your zcx configuration will not be effective until the control surface script is reloaded.
+There are two ways to reload zcx:
 
-## reload ableton live 😡
+## hot reload
 
-Sucks to do, obviously. This should only be necessary if you are tinkering with the Python part of the script and screw things up (ask me how I know).
+With a "hot reload", your config is reloaded without reloading the zcx application code.
 
-## reload the set 😒
+A hot reload can be triggered via:
 
-cmd + S, then in the menu bar `File -> Open Recent Set -> <my cool set>.als`. Much better than reloading Live, but still sucks with heavier sets.
+* The [hot_reload command](../reference/command.md#hot_reload)
+* The [zcx user action](zcx-user-action.md#hot_reload)
 
-## manually reload zcx 😏
+!!! tip ""
+    Each [demo configuration](getting-started/demo-tour/index.md) has a pre-configured hot reload button combination.
 
-In Live's MIDI preferences, reassign the zcx slot to any other script, then select zcx again. **Note:** if a script throws too serious of an error, Live will not allow this script to be loaded until all control surface scripts are reloaded. The impacted zcx script will disappear from the dropdown. This probably won't happen, but since zcx is in beta it's not impossible.
+!!! note
+    The hot reload feature is designed to speed up your workflow when creating your config.
+    It should not be relied upon in a performance situation.
 
-And if it does happen, it will require a full reload of Live, or...
+### unaffected by hot reload
 
-## reload all scripts at will 😎
+The following config changes will require a [full reload](#full-reload) to take effect:
 
-If you have the Ableton 12 beta, you can enable a special `Tools` item in the menu bar. In this menu is an option to `Reload MIDI Remote Scripts`, which has a hotkey assigned. It's an awful hotkey, and you might want to reassign it with BetterTouchTool, AutoHotkey, etc. This will reload all scripts connected, including ClyphX Pro.
+* Changes to the width and/or height of the [session ring](session-ring.md#resizing-the-ring).
+* Changes to files in the `hardware/` directory. This is only relevant if you've [made your own port](porting.md).
+
+## full reload
+
+With a full reload, all zcx code is restarted and then your config is loaded again.
+There are several ways to achieve this, listed here from most to least tedious.
+
+### restart ableton live
+
+Quit Ableton Live and re-open it, reloading all control surface scripts.
+
+### reload the set
+
+Save your set and re-open it.
+After saving, click "Open Recent Set" in the menu bar to easily reload the current set.
+This will reload all control surface scripts.
+
+### manually reload zcx
+
+In Live's MIDI preferences, reassign the zcx slot to any other script, then select zcx again.
+This will reload only the chosen zcx script.
+
+### reload all scripts at will
+
+If you have the Ableton 12 Beta, you can enable a special `Tools` item in the menu bar. 
+In this menu is an option to `Reload MIDI Remote Scripts`, which has a hotkey assigned. 
+This will reload all scripts connected, including ClyphX Pro.
 
 **Note:** If you own a copy of Ableton 12, you are automatically eligible for the [beta](https://www.ableton.com/en/beta/) program.
 

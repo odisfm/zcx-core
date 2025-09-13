@@ -154,3 +154,8 @@ Set the color of every control in a [group of controls](../reference/template.md
 
 `ZCX <target script> SET_GROUP_COLOR scene_buttons 127`
 
+#### HOT_RELOAD
+
+Perform a [hot reload](reloading-control-surfaces.md#hot-reload).
+
+`ZCX <target script> HOT_RELOAD`

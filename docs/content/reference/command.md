@@ -393,6 +393,17 @@ my_control:
     Generally, it should not be necessary to use this command.
     If you are using this command to work around an issue you're having, please consider [reporting a bug](../lessons/reporting-bugs.md).
 
+### hot_reload
+
+Perform a [hot reload](../lessons/reloading-control-surfaces.md#hot-reload).
+
+```yaml
+my_control:
+  gestures:
+    pressed:
+      hot_reload: true
+```
+
 ### special commands
 
 Some control types may feature unique command types.
