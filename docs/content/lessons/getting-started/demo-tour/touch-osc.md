@@ -70,7 +70,6 @@ As two buttons are unassigned, if you add a new page it will automatically be as
 ### Named controls
 
 `track_select_1` through `track_select_8` are [param controls](../../../reference/control/param.md), bound to the selection state of the eight tracks in view of the [session ring](../../session-ring.md).
-They are [param controls](../../../reference/control/param.md), bound to the selection state of the eight tracks in view of the [session ring](../../session-ring.md).
 Pressing one will select the relevant track, and the button will become brighter to indicate that.
 Holding one of these buttons will arm the track.
 With the mode `shift` active, the buttons will control the mute state of each track.
