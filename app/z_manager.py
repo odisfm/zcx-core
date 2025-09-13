@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import deepcopy, copy
 
 from ableton.v3.control_surface.controls import control_matrix
 from .z_controls import ParamControl
