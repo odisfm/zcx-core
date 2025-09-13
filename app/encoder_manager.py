@@ -1,4 +1,5 @@
 import copy
+from typing import Optional
 
 from ableton.v3.base import EventObject, listens, listens_group, listenable_property
 
@@ -215,8 +216,15 @@ class EncoderManager(ZCXComponent):
             self.__encoder_groups[group_name].append(encoder)
         else:
             self.__encoder_groups[group_name] = [encoder]
-    
-    def get_encoder_group(self, group_name):
+
+    def get_encoder_group(self, group_name) -> Optional[ZEncoder]:
+        names = self.get_encoder_group_member_names(group_name)
+        _list = []
+        for name in names:
+            _list.append(self.get_encoder(name))
+        return _list or None
+
+    def get_encoder_group_member_names(self, group_name):
         if group_name in self.__encoder_groups:
             return self.__encoder_groups[group_name]
         else:
