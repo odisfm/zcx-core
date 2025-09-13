@@ -1,19 +1,15 @@
 import unittest
 from typing import TYPE_CHECKING
+from tests.zcx_test_case import ZCXTestCase
 
 if TYPE_CHECKING:
-    from zcx_core import ZCXCore
-    from z_manager import ZManager
     from pad_section import PadSection
 
 
-class TestMatrix(unittest.TestCase):
-
-    _zcx: "ZCXCore"
+class TestMatrix(ZCXTestCase):
 
     def setUp(self):
-        self.z_manager: "ZManager" = self._zcx.component_map["ZManager"]
-        self.blank_section: "PadSection" = self.z_manager.get_matrix_section("blank_section")
+        self.blank_section: "PadSection" = self._z_manager.get_matrix_section("blank_section")
 
     def test_coords(self):
         control1 = self.blank_section.owned_controls[0]

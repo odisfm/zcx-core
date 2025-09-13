@@ -1,42 +1,30 @@
 import unittest
 from typing import TYPE_CHECKING
+from tests.zcx_test_case import ZCXTestCase
 
 if TYPE_CHECKING:
-    from zcx_core import ZCXCore
-    from z_manager import ZManager
     from pad_section import PadSection
-    from page_manager import PageManager
-    from mode_manager import ModeManager
-    from encoder_manager import EncoderManager
     from z_encoder import ZEncoder
 
 
-class TestWithSet(unittest.TestCase):
-
-    _zcx: "ZCXCore"
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.encoder_manager: "EncoderManager" = cls._zcx.component_map["EncoderManager"]
-        cls.mode_manager: "ModeManager" = cls._zcx.component_map["ModeManager"]
-        cls.song = cls._zcx.song
+class TestWithSet(ZCXTestCase):
 
     def setUp(self):
-        if not str(self.song.name).startswith("zcx test set"):
-            self.skipTest("Set is not called `zcx test set.als`")
-        self._zcx._session_ring_custom.go_to_scene(0)
-        self._zcx._session_ring_custom.go_to_track(0)
+        if not self._is_using_test_set:
+            self.skipTest("Test set is not loaded")
+        self._session_ring.go_to_scene(0)
+        self._session_ring.go_to_track(0)
 
     def test_ring_encoders(self):
         encoders = []
         for i in range(1, 8):
-            encoders.append(self._zcx.zcx_api.get_encoder(f"enc_{i}"))
+            encoders.append(self.zcx_api.get_encoder(f"enc_{i}"))
 
         actual_tracks = list(self.song.tracks)[:7]
         ring_tracks = []
 
         for i in range(0, 7):
-            ring_tracks.append(self._zcx._session_ring_custom.get_ring_track(i))
+            ring_tracks.append(self._session_ring.get_ring_track(i))
 
         def test_correct_tracks():
             for j in range(len(actual_tracks)):
@@ -49,7 +37,7 @@ class TestWithSet(unittest.TestCase):
             self.assertEqual(param.canonical_parent.canonical_parent, actual_tracks[i])
             self.assertEqual(param.name, "Track Volume")
 
-        self.mode_manager.add_mode("shift")
+        self._mode_manager.add_mode("shift")
 
         test_correct_tracks()
 

@@ -1,32 +1,19 @@
 import unittest
 from typing import TYPE_CHECKING
+from tests.zcx_test_case import ZCXTestCase
 
 if TYPE_CHECKING:
-    from zcx_core import ZCXCore
-    from z_manager import ZManager
-    from pad_section import PadSection
-    from page_manager import PageManager
-    from mode_manager import ModeManager
-    from encoder_manager import EncoderManager
     from z_control import ZControl
 
 
-class TestColors(unittest.TestCase):
-
-    _zcx: "ZCXCore"
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.z_manager: "ZManager" = cls._zcx.component_map["ZManager"]
-        cls.mode_manager: "ModeManager" = cls._zcx.component_map["ModeManager"]
-        cls.song = cls._zcx.song
+class TestColors(ZCXTestCase):
 
     def setUp(self):
-        for mode in self.mode_manager.all_modes:
-            self.mode_manager.remove_mode(mode)
+        for mode in self._mode_manager.all_modes:
+            self._mode_manager.remove_mode(mode)
 
     def test_all_controls_have_color(self):
-        controls = self.z_manager.all_controls
+        controls = self._z_manager.all_controls
         for control in controls:
             color = control._color
             self.assertIsNotNone(color)
@@ -43,8 +30,8 @@ class TestColors(unittest.TestCase):
                 self.assertTrue(0 <= color_2 <= 127)
 
     def test_attention_animation(self):
-        control: "ZControl" = self.z_manager.get_named_control("scene_1")
+        control: "ZControl" = self._z_manager.get_named_control("scene_1")
         color = control._color
-        self.mode_manager.add_mode("shift")
+        self._mode_manager.add_mode("shift")
         self.assertNotEqual(color, control._color)
         self.assertEqual(control._color_dict["attention"], control._color)

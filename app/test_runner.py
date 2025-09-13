@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from functools import partial
 from .zcx_component import ZCXComponent
+from .consts import ZCX_TEST_SET_NAME
 
 if TYPE_CHECKING:
     from zcx_core import ZCXCore
@@ -29,6 +30,8 @@ class TestRunner(ZCXComponent):
 
             project_root = Path(__file__).parent
             tests_dir = project_root / "tests"
+            sys.path.insert(0, project_root.as_posix())
+
 
             for name in list(sys.modules):
                 if name.startswith("tests.") or fnmatch.fnmatch(name, "test*"):
@@ -40,18 +43,12 @@ class TestRunner(ZCXComponent):
                 top_level_dir=str(project_root)
             )
 
-            injected_classes = []
+            from tests.zcx_test_case import ZCXTestCase
 
-            for suite in self.test_suite:
-                for test in (suite if isinstance(suite, unittest.TestSuite) else [suite]):
-                    for case in (test if isinstance(test, unittest.TestSuite) else [test]):
-                        self.log(case)
-                        cls = case.__class__
-                        if cls in injected_classes:
-                            continue
-                        case.__class__._zcx = self.canonical_parent
-                        case.__class__.log = partial(self.log)
-                        injected_classes.append(cls)
+            ZCXTestCase.zcx = self.canonical_parent
+            ZCXTestCase.song = self.song
+            ZCXTestCase.log = partial(self.log)
+            ZCXTestCase._is_using_test_set = self.song.name.startswith(ZCX_TEST_SET_NAME)
 
             test_count = self.test_suite.countTestCases()
             if test_count == 0:
