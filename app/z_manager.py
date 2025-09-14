@@ -31,7 +31,7 @@ class ZManager(ZCXComponent):
         self.__control_groups = {}
         self.__named_controls = {}
         self.__named_control_section: PadSection = None
-        self.__matrix_sections: dict[PadSection] = {}
+        self.__matrix_sections: dict[str, PadSection] = {}
         self.__control_aliases = {}
         self.__all_controls: "list[ZControl]" = []
 
@@ -93,7 +93,7 @@ class ZManager(ZCXComponent):
             )
             return None
 
-    def get_matrix_section(self, section_name):
+    def get_matrix_section(self, section_name) -> "PadSection | None":
         if section_name in self.__matrix_sections:
             return self.__matrix_sections[section_name]
         else:
