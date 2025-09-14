@@ -40,8 +40,7 @@ class TestEncoders(ZCXTestCase):
                     self.assertIsNotNone(_enc._mapped_parameter, f"{_enc._name} param is None")
                     self.assertEqual(_enc._mapped_parameter.name, expected_name, f"{_enc._name} (param {i})")
                 else:
-                    self.log(f'should be mapped to `{expected_name}`, is mapped to {_enc._mapped_parameter.__class__.__name__}.')
-                    self.assertIs(_enc._mapped_parameter, None)
+                    self.assertIsNone(_enc._mapped_parameter)
             return True
 
         track = self.get_track_by_name("analog")
