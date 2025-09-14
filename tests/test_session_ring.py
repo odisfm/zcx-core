@@ -4,6 +4,7 @@ from tests.zcx_test_case import ZCXTestCase
 class TestSessionRing(ZCXTestCase):
 
     def setUp(self):
+        self.assertUsingTestSet()
         self._session_ring.go_to_track(0)
         self._session_ring.go_to_scene(0)
         self.tracklist = list(self.song.tracks)
