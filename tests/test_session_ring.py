@@ -8,6 +8,10 @@ class TestSessionRing(ZCXTestCase):
         self._session_ring.go_to_scene(0)
         self.tracklist = list(self.song.tracks)
 
+    def tearDown(self):
+        self._session_ring.go_to_track(0)
+        self._session_ring.go_to_scene(0)
+
     def test_ring_tracks(self):
         for i in range(8):
             self.assertEqual(self.tracklist[i], self._session_ring.get_ring_track(i))
