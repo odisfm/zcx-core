@@ -190,7 +190,7 @@ class ActionResolver(ZCXComponent):
     ) -> Tuple[str, int]:
         """Compile an action string, resolving variables and template patterns."""
         # self.log(action_string, vars, context, mode)
-        if not isinstance(action_string, str) or ("@{" not in action_string and "${" not in action_string):
+        if not isinstance(action_string, str) or "${" not in action_string:
             return action_string, 0
 
         resolved_vars, status = self._resolve_vars(vars, context, mode)
