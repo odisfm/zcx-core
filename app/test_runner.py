@@ -45,6 +45,15 @@ class TestRunner(ZCXComponent):
                 if name.startswith("tests.") or fnmatch.fnmatch(name, "test*"):
                     sys.modules.pop(name, None)
 
+            from tests.zcx_test_case import ZCXTestCase
+
+            ZCXTestCase.zcx = self.canonical_parent
+            ZCXTestCase.song = self.song
+            ZCXTestCase.log = self.write_to_stream
+            ZCXTestCase._is_using_test_set = self.song.name.startswith(
+                ZCX_TEST_SET_NAME
+            )
+
             try:
                 if tests_dir.exists() and tests_dir.is_dir():
                     self.test_suite = self.test_loader.discover(
@@ -68,15 +77,6 @@ class TestRunner(ZCXComponent):
                     self.user_test_suite = unittest.TestSuite()
             except Exception:
                 self.user_test_suite = unittest.TestSuite()
-
-            from tests.zcx_test_case import ZCXTestCase
-
-            ZCXTestCase.zcx = self.canonical_parent
-            ZCXTestCase.song = self.song
-            ZCXTestCase.log = self.write_to_stream
-            ZCXTestCase._is_using_test_set = self.song.name.startswith(
-                ZCX_TEST_SET_NAME
-            )
 
             def do_run_tests(test_suite, _tests_dir):
                 if test_suite is None:
