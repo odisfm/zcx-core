@@ -27,4 +27,27 @@ class TestEncoders(ZCXTestCase):
         self.assertEqual(param.name, "Preview Volume")
 
     def test_best_of_bank(self):
-        pass
+        if not self._is_using_test_set:
+            self.skipTest("Not using test set")
+
+        encoder_group = self.zcx_api.get_encoder_group("best_of_bank_test")
+        self.assertIsNotNone(encoder_group)
+
+        track = self.get_track_by_name("analog")
+        assert track is not None
+        eq_8_dev = self.get_device_by_name(device_name="EQ Eight", device_class_name=None, device_list=track.devices)
+        self.song.view.select_device(eq_8_dev)
+        self.song.view.selected_track = track
+
+        eq_8_expected_names = [
+            '1 Frequency A', '1 Gain A', '2 Frequency A', '2 Gain A', '3 Frequency A', '3 Gain A', '4 Frequency A', '4 Gain A',
+            '1 Filter On A', '2 Filter On A', '3 Filter On A', '4 Filter On A', '5 Filter On A', '6 Filter On A', '7 Filter On A', '8 Filter On A'
+        ]
+
+        for i, enc in enumerate(encoder_group):
+            expected_name = eq_8_expected_names[i]
+            self.assertIsNotNone(enc._mapped_parameter, f"{enc._name} param is None")
+            self.assertEqual(enc._mapped_parameter.name, expected_name, f"{enc._name} (param i)")
+
+
+

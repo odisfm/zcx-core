@@ -21,3 +21,10 @@ tempo:
 
 swing:
   binding: SEL / VOL
+
+__best_of_bank_test:
+  includes: [
+    test_2_0, test_2_1, test_2_2, test_2_3, test_2_4, test_2_5, test_2_6, test_2_7, test_2_8, test_2_9, test_2_10, test_2_11, test_2_12, test_2_13, test_2_14, test_2_15
+  ]
+  binding:
+    SEL / DEV(SEL) B${1 if me.Index <= 8 else 2} P${me.Index if me.Index <= 8 else me.Index - 8}
