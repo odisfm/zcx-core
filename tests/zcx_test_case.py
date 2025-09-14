@@ -1,5 +1,5 @@
 import unittest
-from typing import Any, TYPE_CHECKING, TypedDict
+from typing import Any, TYPE_CHECKING, TypedDict, Iterable
 
 if TYPE_CHECKING:
     from action_resolver import ActionResolver
@@ -47,3 +47,36 @@ class ZCXTestCase(unittest.TestCase):
         cls._session_view: "SessionView" = cls.zcx.component_map["SessionView"]
         cls._z_manager: "ZManager" = cls.zcx.component_map["ZManager"]
         cls.zcx_api: "ZcxApi" = cls.zcx.zcx_api
+
+    @classmethod
+    def get_track_by_name(cls, name: str):
+        tracklist = list(cls.song.tracks)
+        for track in tracklist:
+            if track.name == name:
+                return track
+        return None
+
+    @classmethod
+    def is_rack_device(cls, device):
+        return device.class_name in ['AudioEffectGroupDevice', 'MidiEffectGroupDevice', 'InstrumentGroupDevice']
+
+    @classmethod
+    def get_device_by_name(cls, device_name: str, device_class_name: None, device_list: Iterable[Any]):
+        for device in device_list:
+            if device_class_name and device.class_name == device_class_name:
+                return device
+            if device.name == device_name:
+                return device
+            if cls.is_rack_device(device):
+                chains = device.chains
+                for chain in chains:
+                    return cls.get_device_by_name(device_name, device_class_name, chain.devices)
+        return None
+
+    @classmethod
+    def get_track_for_device(cls, device):
+        parent = device.canonical_parent
+        if parent.__class__.__name__ == "Track":
+            return parent
+        else:
+            return cls.get_track_for_device(parent)
