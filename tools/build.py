@@ -72,6 +72,7 @@ class BuildManager:
         self.hardware_root = self.project_root / "hardware" / self.hardware_config
 
         self.test_root = self.project_root / "tests"
+        self.user_test_root = self.project_root / "user_tests"
 
         self.ignore_patterns = {  # i dont know man
             ".git",
@@ -346,6 +347,9 @@ class BuildManager:
 
             logging.info("Build completed successfully")
 
+            # Sync user test dir
+            self.sync_directory(self.user_test_root, self.dest_root / "user_tests")
+
         except Exception as e:
             logging.error(f"Build failed: {e}")
             raise
@@ -435,7 +439,8 @@ def main():
         builder.hardware_root,
         builder.hardware_root / "demo_config",
         # builder.project_root / "preferences",
-        builder.test_root
+        builder.test_root,
+        builder.user_test_root
     ]
 
     # Add test directory to watch list if hardware config is __test

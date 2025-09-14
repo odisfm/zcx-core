@@ -22,6 +22,7 @@ class TestRunner(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
         self.test_suite = None
+        self.user_test_suite = None
         self.test_loader = unittest.TestLoader()
         self.stream = None
 
@@ -35,21 +36,38 @@ class TestRunner(ZCXComponent):
     def setup(self):
         """Discover and load tests from the tests/ directory"""
         try:
-
             project_root = Path(__file__).parent
             tests_dir = project_root / "tests"
+            user_tests_dir = project_root / "user_tests"
             sys.path.insert(0, project_root.as_posix())
-
 
             for name in list(sys.modules):
                 if name.startswith("tests.") or fnmatch.fnmatch(name, "test*"):
                     sys.modules.pop(name, None)
 
-            self.test_suite = self.test_loader.discover(
-                start_dir=str(tests_dir),
-                pattern='test*.py',
-                top_level_dir=str(project_root)
-            )
+            try:
+                if tests_dir.exists() and tests_dir.is_dir():
+                    self.test_suite = self.test_loader.discover(
+                        start_dir=str(tests_dir),
+                        pattern='test*.py',
+                        top_level_dir=str(project_root)
+                    )
+                else:
+                    self.test_suite = unittest.TestSuite()
+            except Exception:
+                self.test_suite = unittest.TestSuite()
+
+            try:
+                if user_tests_dir.exists() and user_tests_dir.is_dir():
+                    self.user_test_suite = self.test_loader.discover(
+                        start_dir=str(user_tests_dir),
+                        pattern='test*.py',
+                        top_level_dir=str(project_root)
+                    )
+                else:
+                    self.user_test_suite = unittest.TestSuite()
+            except Exception:
+                self.user_test_suite = unittest.TestSuite()
 
             from tests.zcx_test_case import ZCXTestCase
 
@@ -60,13 +78,23 @@ class TestRunner(ZCXComponent):
                 ZCX_TEST_SET_NAME
             )
 
-            test_count = self.test_suite.countTestCases()
-            if test_count == 0:
-                return
+            def do_run_tests(test_suite, _tests_dir):
+                if test_suite is None:
+                    return
+                test_count = test_suite.countTestCases()
 
-            self.log(f"Discovered {test_count} test cases in {tests_dir}")
+                if test_count:
+                    self.log(f"Discovered {test_count} test cases in {_tests_dir}")
+                    result = self.run_tests(test_suite)
+                    if result is False:
+                        return
+                    if result.wasSuccessful():
+                        self.log(f"{test_count} tests passed!")
+                    else:
+                        self.log(f"{len(result.failures)}/{test_count} tests failed!")
 
-            self.run_tests()
+            do_run_tests(self.test_suite, tests_dir)
+            do_run_tests(self.user_test_suite, user_tests_dir)
 
         except Exception as e:
             if str(e).startswith("Start directory is not importable"):
@@ -74,9 +102,9 @@ class TestRunner(ZCXComponent):
             self.log(f"Error discovering tests: {e}")
             self.test_suite = unittest.TestSuite()
 
-    def run_tests(self):
+    def run_tests(self, test_suite):
         """Run the discovered tests"""
-        if self.test_suite is None:
+        if test_suite is None:
             self.log("No test suite available. Run setup() first.")
             return False
 
@@ -87,10 +115,10 @@ class TestRunner(ZCXComponent):
             self.stream = log_file
 
             runner = unittest.TextTestRunner(stream=log_file, verbosity=2)
-            result = runner.run(self.test_suite)
+            result = runner.run(test_suite)
 
             self.stream = None
 
         self.log(f"Test results logged to {log_file_path}")
 
-        return result.wasSuccessful()
+        return result
