@@ -27,8 +27,7 @@ class TestEncoders(ZCXTestCase):
         self.assertEqual(param.name, "Preview Volume")
 
     def test_best_of_bank(self):
-        if not self._is_using_test_set:
-            self.skipTest("Not using test set")
+        self.assertUsingTestSet()
 
         encoder_group = self.zcx_api.get_encoder_group("best_of_bank_test")
         self.assertIsNotNone(encoder_group)
@@ -94,4 +93,35 @@ class TestEncoders(ZCXTestCase):
 
         bulk_check_param_names(encoder_group, grain_delay_expected_names)
 
+    def test_ring_encoders(self):
+        self.assertUsingTestSet()
+
+        encoders = []
+        for i in range(1, 8):
+            encoders.append(self.zcx_api.get_encoder(f"enc_{i}"))
+
+        actual_tracks = list(self.song.tracks)[:7]
+        ring_tracks = []
+
+        for i in range(0, 7):
+            ring_tracks.append(self._session_ring.get_ring_track(i))
+
+        def test_correct_tracks():
+            for j in range(len(actual_tracks)):
+                self.assertEqual(actual_tracks[j], ring_tracks[j])
+
+        test_correct_tracks()
+
+        for i in range(len(actual_tracks)):
+            param = encoders[i]._mapped_parameter
+            self.assertEqual(param.canonical_parent.canonical_parent, actual_tracks[i])
+            self.assertEqual(param.name, "Track Volume")
+
+        self._mode_manager.add_mode("shift")
+
+        test_correct_tracks()
+
+        for encoder in encoders:
+            param = encoder._mapped_parameter
+            self.assertEqual(param.name, "Track Panning")
 

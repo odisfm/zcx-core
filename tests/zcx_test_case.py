@@ -84,3 +84,7 @@ class ZCXTestCase(unittest.TestCase):
             return parent
         else:
             return cls.get_track_for_device(parent)
+
+    def assertUsingTestSet(self):
+        if not self._is_using_test_set:
+            self.skipTest("Test set is not loaded")
