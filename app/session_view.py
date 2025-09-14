@@ -55,6 +55,7 @@ class SessionView(ZCXComponent):
             '__session_view',
             section_def
         )
+        self.__pad_section = section_obj
 
         self.__width = section_obj.width
         self.__height = section_obj.height
@@ -180,3 +181,7 @@ class SessionView(ZCXComponent):
     @listens('tracks')
     def tracks_changed(self):
         self.update_clip_slot_assignments()
+
+    @property
+    def pad_section(self):
+        return self.__pad_section
