@@ -23,6 +23,14 @@ class TestRunner(ZCXComponent):
         super().__init__(name=name, *a, **k)
         self.test_suite = None
         self.test_loader = unittest.TestLoader()
+        self.stream = None
+
+    def write_to_stream(self, message):
+        """Write message to the test runner's stream"""
+        if self.stream:
+            msg_str = str(message)
+            self.stream.write(f"\n>> {msg_str}\n")
+            self.stream.flush()
 
     def setup(self):
         """Discover and load tests from the tests/ directory"""
@@ -47,8 +55,10 @@ class TestRunner(ZCXComponent):
 
             ZCXTestCase.zcx = self.canonical_parent
             ZCXTestCase.song = self.song
-            ZCXTestCase.log = partial(self.log)
-            ZCXTestCase._is_using_test_set = self.song.name.startswith(ZCX_TEST_SET_NAME)
+            ZCXTestCase.log = self.write_to_stream
+            ZCXTestCase._is_using_test_set = self.song.name.startswith(
+                ZCX_TEST_SET_NAME
+            )
 
             test_count = self.test_suite.countTestCases()
             if test_count == 0:
@@ -73,12 +83,13 @@ class TestRunner(ZCXComponent):
         project_root = Path(__file__).parent
         log_file_path = project_root / "test_log.txt"
 
-        with open(log_file_path, 'a') as log_file:
-            runner = unittest.TextTestRunner(
-                stream=log_file,
-                verbosity=2
-            )
+        with open(log_file_path, "a") as log_file:
+            self.stream = log_file
+
+            runner = unittest.TextTestRunner(stream=log_file, verbosity=2)
             result = runner.run(self.test_suite)
+
+            self.stream = None
 
         self.log(f"Test results logged to {log_file_path}")
 
