@@ -180,6 +180,14 @@ class SessionRing(SessionRingBase):
     def tracks_in_view(self):
         return self.tracks_to_use()[self.track_offset:self.track_offset + self.num_tracks]
 
+    @property
+    def width(self):
+        return self.__width
+
+    @property
+    def height(self):
+        return self.__height
+
 class TrackLookup:
 
     def __init__(self, parent):

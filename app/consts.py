@@ -33,3 +33,22 @@ LIVE_TEMPLATE_IDENTIFIER = "$"
 DEFAULT_ON_THRESHOLD = 30
 
 ZCX_TEST_SET_NAME = "zcx test set"
+
+NAMED_COLORS = [
+    "white",
+    "grey",
+    "dark_grey",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "play_green",
+    "lime",
+    "blue",
+    "sky",
+    "cyan",
+    "purple",
+    "magenta",
+    "indigo",
+    "pink"
+]
