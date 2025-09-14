@@ -28,6 +28,7 @@ class ParamControl(ZControl):
         self._concerned_binding_modes = []
         self._current_binding_mode_string = ""
         self._custom_midpoint = None
+        self._prefer_left = True
 
     def setup(self):
         try:
@@ -47,6 +48,7 @@ class ParamControl(ZControl):
             self._vars["me.next_pct"] = "me.obj.preview_next_value_percentage()"
 
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
+            self._prefer_left = self._raw_config.get("prefer_left", self._prefer_left)
 
             self._will_toggle_param = self._raw_config.get("toggle_param", True)
 
@@ -488,12 +490,12 @@ class ParamControl(ZControl):
                 bank_def = target_map.get("bank")
                 if bank_def is not None:
                     bank_num = int(bank_def) - 1
-                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1)
+                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1, self._prefer_left)
                     for param in list(device_obj.parameters):
                         if param.original_name == banked_param_name:
                             self.mapped_parameter = param
                             return True
-                    raise RuntimeError(f"B{bank_num + 1} P{par_num} parameter not found")
+                    return False
 
                 if par_type is not None and par_type.lower() == "sel":
                     return True
@@ -551,6 +553,7 @@ class ParamControl(ZControl):
             self.log(f"Error in map_self_to_par: {e}")
             self._mapped_track = None
             self._mapped_device = None
+            self.mapped_parameter = None
             raise
 
 

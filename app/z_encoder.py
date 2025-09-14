@@ -42,6 +42,7 @@ class ZEncoder(EventObject):
         self._binding_dict = {}
         self._active_map = {}
         self._unbind_on_fail = True
+        self._prefer_left = True
         self.modes_changed.subject = self.mode_manager
 
     def log(self, *msg):
@@ -53,6 +54,9 @@ class ZEncoder(EventObject):
         self._vars = self._raw_config.get("vars", {})
 
         self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
+        self._prefer_left = self._raw_config.get("prefer_left", self._prefer_left)
+        if not isinstance(self._prefer_left, bool):
+            self._prefer_left = True
 
         bindings = self._raw_config.get("binding", {})
         if isinstance(bindings, dict):
@@ -171,7 +175,13 @@ class ZEncoder(EventObject):
 
         except Exception as e:
             if self._log_failed_bindings:
-                self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
+                self._logger.error(f"Failed to bind {self._name} to target: {self._active_map} ....")
+            if self._unbind_on_fail:
+                if self._log_failed_bindings:
+                    self.log(f'{self._name} failed to find target, unmapping')
+                self.unbind_control()
+                self.mapped_parameter = None
+            return
 
     def apply_listeners(self, listen_dict):
 
@@ -387,12 +397,12 @@ class ZEncoder(EventObject):
                 bank_def = target_map.get("bank")
                 if bank_def is not None:
                     bank_num = int(bank_def) - 1
-                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1)
+                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1, self._prefer_left)
                     for param in list(device_obj.parameters):
                         if param.original_name == banked_param_name:
                             self.mapped_parameter = param
                             return True
-                    raise RuntimeError(f"B{bank_num + 1} P{par_num} parameter {banked_param_name} not found")
+                    return False
 
                 if isinstance(par_name, str):
                     if "${" in par_name:
