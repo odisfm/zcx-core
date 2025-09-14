@@ -48,6 +48,10 @@ class ZCXTestCase(unittest.TestCase):
         cls._z_manager: "ZManager" = cls.zcx.component_map["ZManager"]
         cls.zcx_api: "ZcxApi" = cls.zcx.zcx_api
 
+    def setUp(self) -> None:
+        for mode in self._mode_manager.all_modes:
+            self._mode_manager.remove_mode(mode)
+
     @classmethod
     def get_track_by_name(cls, name: str):
         tracklist = list(cls.song.tracks)
