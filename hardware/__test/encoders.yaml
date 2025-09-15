@@ -32,70 +32,87 @@ tempo:
 swing:
   cc: 15
 
+# used
 test_2_0:
   cc: 0
   channel: 1
 
+# used
 test_2_1:
   cc: 1
   channel: 1
 
+# used
 test_2_2:
   cc: 2
   channel: 1
 
+# used
 test_2_3:
   cc: 3
   channel: 1
 
+# used
 test_2_4:
   cc: 4
   channel: 1
 
+# used
 test_2_5:
   cc: 5
   channel: 1
 
+# used
 test_2_6:
   cc: 6
   channel: 1
 
+# used
 test_2_7:
   cc: 7
   channel: 1
 
+# used
 test_2_8:
   cc: 8
   channel: 1
 
+# used
 test_2_9:
   cc: 9
   channel: 1
 
+# used
 test_2_10:
   cc: 10
   channel: 1
 
+# used
 test_2_11:
   cc: 11
   channel: 1
 
+# used
 test_2_12:
   cc: 12
   channel: 1
 
+# used
 test_2_13:
   cc: 13
   channel: 1
 
+# used
 test_2_14:
   cc: 14
   channel: 1
 
+# used
 test_2_15:
   cc: 15
   channel: 1
 
+# used
 test_2_16:
   cc: 16
   channel: 1
