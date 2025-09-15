@@ -1,3 +1,4 @@
+import functools
 from typing import TYPE_CHECKING
 import fnmatch
 import sys
@@ -7,6 +8,7 @@ from pathlib import Path
 from functools import partial
 from .zcx_component import ZCXComponent
 from .consts import ZCX_TEST_SET_NAME
+from .parse_target_path import parse_target_path
 
 if TYPE_CHECKING:
     from zcx_core import ZCXCore
@@ -53,6 +55,7 @@ class TestRunner(ZCXComponent):
             ZCXTestCase._is_using_test_set = self.song.name.startswith(
                 ZCX_TEST_SET_NAME
             )
+            ZCXTestCase._parse_target_path = functools.partial(parse_target_path)
 
             try:
                 if tests_dir.exists() and tests_dir.is_dir():
