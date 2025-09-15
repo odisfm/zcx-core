@@ -312,17 +312,39 @@ class ActionResolver(ZCXComponent):
                             scene_def_parsed = None
 
                             if isinstance(command_def, str):
-                                match (command_def.lower()):
-                                    case 'left':
-                                        x_parsed = -1
-                                    case 'right':
-                                        x_parsed = 1
-                                    case 'up':
-                                        y_parsed = -1
-                                    case 'down':
-                                        y_parsed = 1
-                                    case _:
-                                        raise ValueError(f'Invalid ring command: {command_def}')
+                                command_def, status = self.compile(command_def, vars_dict, context)
+                                if status != 0:
+                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+
+                            if isinstance(command_def, str):
+                                try:
+                                    match (command_def.lower()):
+                                        case 'left':
+                                            x_parsed = -1
+                                        case 'right':
+                                            x_parsed = 1
+                                        case 'up':
+                                            y_parsed = -1
+                                        case 'down':
+                                            y_parsed = 1
+                                        case _:
+                                            _command_def = command_def.split(" ")
+                                            if len(_command_def) == 1:
+                                                raise ValueError()
+                                            interval = int(_command_def[1])
+                                            match (_command_def[0].lower()):
+                                                case 'left':
+                                                    x_parsed = interval * -1
+                                                case 'right':
+                                                    x_parsed = interval
+                                                case 'up':
+                                                    y_parsed = interval * -1
+                                                case 'down':
+                                                    y_parsed = interval
+                                except:
+                                    self.error(f"Invalid command definition: {command_type}: {command_def}")
+                                    raise
+
 
                             elif isinstance(command_def, dict):
 

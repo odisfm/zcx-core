@@ -288,6 +288,8 @@ left:
   gestures:
     pressed:
       ring: left
+    pressed__shift:
+      ring: left 2
 ```
 
 #### absolute moves
