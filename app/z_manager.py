@@ -73,7 +73,7 @@ class ZManager(ZCXComponent):
         else:
             self.__control_groups[group_name] = [control]
 
-    def get_control_group(self, group_name):
+    def get_control_group(self, group_name) -> "list[ZControl] | None":
         if group_name in self.__control_groups:
             return self.__control_groups[group_name]
         else:
@@ -83,7 +83,7 @@ class ZManager(ZCXComponent):
             )
             return None
 
-    def get_named_control(self, control_name):
+    def get_named_control(self, control_name) -> "ZControl | None":
         if control_name in self.__named_controls:
             return self.__named_controls[control_name]
         else:
@@ -688,7 +688,7 @@ class ZManager(ZCXComponent):
             raise ConfigurationError(f'Canonical control already exists called "{alias}". You cannot use this name.')
         self.__control_aliases[alias] = control
 
-    def get_aliased_control(self, alias):
+    def get_aliased_control(self, alias) -> "ZControl | None":
         return self.__control_aliases.get(alias)
 
     def song_ready(self):
