@@ -863,8 +863,8 @@ class ParamControl(ZControl):
         self.replace_color(color)
 
     @only_in_view
-    def handle_gesture(self, gesture):
-        super().handle_gesture(gesture)
+    def handle_gesture(self, gesture, dry_run=False, testing=False):
+        super().handle_gesture(gesture, dry_run, testing)
         if gesture == "pressed" and self._will_toggle_param:
             self.toggle_mapped_parameter()
 

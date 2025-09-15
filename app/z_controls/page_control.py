@@ -17,9 +17,9 @@ class PageControl(ZControl):
         self._disabled_color = None
         self._suppress_attention_animations = True
 
-    def handle_gesture(self, gesture):
+    def handle_gesture(self, gesture, dry_run=False, testing=False):
         try:
-            super().handle_gesture(gesture)
+            super().handle_gesture(gesture, dry_run, testing)
         except ValueError as e:
             self.animate_failure()
             raise
