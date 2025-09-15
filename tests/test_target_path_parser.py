@@ -25,7 +25,7 @@ class TestTargetPathParser(ZCXTestCase):
 
         end_time = time.perf_counter()
         execution_time = end_time - start_time
-        self.log(f"check_valid_result executed in {execution_time:.6f} seconds")
+        # self.log(f"check_valid_result executed in {execution_time:.6f} seconds")
 
     def test_parse_simple_paths(self):
         test_cases = [
