@@ -4,5 +4,11 @@ app/vendor
 docs/.cache
 docs/site/
 user/
+
 tests/zcx\ test\ set\ Project/*
 !tests/zcx\ test\ set\ Project/zcx\ test\ set.als
+!tests/zcx\ test\ set\ Project/Samples/
+tests/zcx\ test\ set\ Project/Samples/**
+!tests/zcx\ test\ set\ Project/Samples/Imported/
+!tests/zcx\ test\ set\ Project/Samples/Imported/*.wav
+!tests/zcx\ test\ set\ Project/Samples/Imported/*.asd
