@@ -366,7 +366,7 @@ This template will be applied for every control in the section. You can imagine 
 
 #### section templates
 
-An alternative [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](configuration-files/matrix-sections.md). To do so, add a `template` key:
+An alternative to [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](configuration-files/matrix-sections.md). To do so, add a `template` key:
 
 ```yaml hl_lines="6-7"
 my_section:
@@ -377,6 +377,9 @@ my_section:
   template:
     color: red
 ```
+
+When supplying a section template, it is possible to omit the usual file `matrix_sections/<section name>.yaml`.
+You may still choose to supply both.
 
 ### encoder groups
 

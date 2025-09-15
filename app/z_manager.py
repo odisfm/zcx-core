@@ -112,9 +112,15 @@ class ZManager(ZCXComponent):
 
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
 
-        raw_section_config = self.yaml_loader.load_yaml(
+        try:
+            raw_section_config = self.yaml_loader.load_yaml(
             f"{self._config_dir}/matrix_sections/{pad_section.name}.yaml"
-        )
+            )
+        except FileNotFoundError:
+            if pad_section._raw_template:
+                raw_section_config = {}
+            else:
+                raise CriticalConfigurationError(f"section `{pad_section.name}` referenced in `matrix_sections.yaml` without corresponding file `matrix_sections/{pad_section.name}.yaml`")
 
         flat_config = self.flatten_section_config(pad_section, raw_section_config)
         context_config = self.apply_section_context(pad_section, flat_config)
