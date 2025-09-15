@@ -246,9 +246,13 @@ class ZEncoder(EventObject):
 
         try:
             par_type = target_map.get("parameter_type")
-            if par_type is not None and par_type.lower() == "selp":
-                self.mapped_parameter = self.song.view.selected_parameter
-                return True
+            if par_type is not None:
+                if par_type.lower() == "selp":
+                    self.mapped_parameter = self.song.view.selected_parameter
+                    return True
+                elif par_type.lower() == "xfader":
+                    self.mapped_parameter = self.song.master_track.mixer_device.crossfader
+                    return True
 
             if target_map.get("device") is None and target_map.get("chain_map") is None:
                 if target_map.get("track") is not None:
@@ -310,9 +314,6 @@ class ZEncoder(EventObject):
                     return True
                 elif par_type == "cue":
                     self.mapped_parameter = track_obj.mixer_device.cue_volume
-                    return True
-                elif par_type == "xfader":
-                    self.mapped_parameter = track_obj.mixer_device.crossfader
                     return True
                 else:
                     raise ConfigurationError(f"Unsupported parameter type: {par_type}")

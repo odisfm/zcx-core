@@ -292,11 +292,13 @@ class ParamControl(ZControl):
             self._mapped_device = None
             self.mapped_parameter = None
             par_type = target_map.get("parameter_type")
-            if par_type is not None and par_type.lower() == "selp":
-                self.mapped_parameter = self.song.view.selected_parameter
-                if self.mapped_parameter:
-                    self._mapped_device = self.song.view.selected_parameter.canoncial_parent
-                return True
+            if par_type is not None:
+                if par_type.lower() == "selp":
+                    self.mapped_parameter = self.song.view.selected_parameter
+                    return True
+                elif par_type.lower() == "xfader":
+                    self.mapped_parameter = self.song.master_track.mixer_device.crossfader
+                    return True
 
             if target_map.get("device") is None and target_map.get("chain_map") is None:
                 self._mapped_device = None
@@ -362,9 +364,6 @@ class ParamControl(ZControl):
                     return True
                 elif par_type == "cue":
                     self.mapped_parameter = track_obj.mixer_device.cue_volume
-                    return True
-                elif par_type == "xfader":
-                    self.mapped_parameter = track_obj.mixer_device.crossfader
                     return True
                 elif target_map.get('arm'):
                     if track_obj.can_be_armed:
