@@ -125,8 +125,6 @@ class ZEncoder(EventObject):
 
         if "default" in binding_dict:
             self._default_map = binding_dict["default"]
-        else:
-            self._default_map = list(binding_dict.values())[0]
 
         concerned_modes.sort()
         self._concerned_modes = concerned_modes
