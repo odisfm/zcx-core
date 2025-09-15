@@ -33,3 +33,531 @@ enc_swing_touch:
 
 touchstrip:
   note: 12
+
+# used
+test_2_0:
+  note: 0
+  channel: 1
+
+# used
+test_2_1:
+  note: 1
+  channel: 1
+
+# used
+test_2_2:
+  note: 2
+  channel: 1
+
+# used
+test_2_3:
+  note: 3
+  channel: 1
+
+# used
+test_2_4:
+  note: 4
+  channel: 1
+
+# used
+test_2_5:
+  note: 5
+  channel: 1
+
+# used
+test_2_6:
+  note: 6
+  channel: 1
+
+# used
+test_2_7:
+  note: 7
+  channel: 1
+
+# used
+test_2_8:
+  note: 8
+  channel: 1
+
+# used
+test_2_9:
+  note: 9
+  channel: 1
+
+# used
+test_2_10:
+  note: 10
+  channel: 1
+
+# used
+test_2_11:
+  note: 11
+  channel: 1
+
+# used
+test_2_12:
+  note: 12
+  channel: 1
+
+# used
+test_2_13:
+  note: 13
+  channel: 1
+
+# used
+test_2_14:
+  note: 14
+  channel: 1
+
+# used
+test_2_15:
+  note: 15
+  channel: 1
+
+test_2_16:
+  note: 16
+  channel: 1
+
+test_2_17:
+  note: 17
+  channel: 1
+
+test_2_18:
+  note: 18
+  channel: 1
+
+test_2_19:
+  note: 19
+  channel: 1
+
+test_2_20:
+  note: 20
+  channel: 1
+
+test_2_21:
+  note: 21
+  channel: 1
+
+test_2_22:
+  note: 22
+  channel: 1
+
+test_2_23:
+  note: 23
+  channel: 1
+
+test_2_24:
+  note: 24
+  channel: 1
+
+test_2_25:
+  note: 25
+  channel: 1
+
+test_2_26:
+  note: 26
+  channel: 1
+
+test_2_27:
+  note: 27
+  channel: 1
+
+test_2_28:
+  note: 28
+  channel: 1
+
+test_2_29:
+  note: 29
+  channel: 1
+
+test_2_30:
+  note: 30
+  channel: 1
+
+test_2_31:
+  note: 31
+  channel: 1
+
+test_2_32:
+  note: 32
+  channel: 1
+
+test_2_33:
+  note: 33
+  channel: 1
+
+test_2_34:
+  note: 34
+  channel: 1
+
+test_2_35:
+  note: 35
+  channel: 1
+
+test_2_36:
+  note: 36
+  channel: 1
+
+test_2_37:
+  note: 37
+  channel: 1
+
+test_2_38:
+  note: 38
+  channel: 1
+
+test_2_39:
+  note: 39
+  channel: 1
+
+test_2_40:
+  note: 40
+  channel: 1
+
+test_2_41:
+  note: 41
+  channel: 1
+
+test_2_42:
+  note: 42
+  channel: 1
+
+test_2_43:
+  note: 43
+  channel: 1
+
+test_2_44:
+  note: 44
+  channel: 1
+
+test_2_45:
+  note: 45
+  channel: 1
+
+test_2_46:
+  note: 46
+  channel: 1
+
+test_2_47:
+  note: 47
+  channel: 1
+
+test_2_48:
+  note: 48
+  channel: 1
+
+test_2_49:
+  note: 49
+  channel: 1
+
+test_2_50:
+  note: 50
+  channel: 1
+
+test_2_51:
+  note: 51
+  channel: 1
+
+test_2_52:
+  note: 52
+  channel: 1
+
+test_2_53:
+  note: 53
+  channel: 1
+
+test_2_54:
+  note: 54
+  channel: 1
+
+test_2_55:
+  note: 55
+  channel: 1
+
+test_2_56:
+  note: 56
+  channel: 1
+
+test_2_57:
+  note: 57
+  channel: 1
+
+test_2_58:
+  note: 58
+  channel: 1
+
+test_2_59:
+  note: 59
+  channel: 1
+
+test_2_60:
+  note: 60
+  channel: 1
+
+test_2_61:
+  note: 61
+  channel: 1
+
+test_2_62:
+  note: 62
+  channel: 1
+
+test_2_63:
+  note: 63
+  channel: 1
+
+test_2_64:
+  note: 64
+  channel: 1
+
+test_2_65:
+  note: 65
+  channel: 1
+
+test_2_66:
+  note: 66
+  channel: 1
+
+test_2_67:
+  note: 67
+  channel: 1
+
+test_2_68:
+  note: 68
+  channel: 1
+
+test_2_69:
+  note: 69
+  channel: 1
+
+test_2_70:
+  note: 70
+  channel: 1
+
+test_2_71:
+  note: 71
+  channel: 1
+
+test_2_72:
+  note: 72
+  channel: 1
+
+test_2_73:
+  note: 73
+  channel: 1
+
+test_2_74:
+  note: 74
+  channel: 1
+
+test_2_75:
+  note: 75
+  channel: 1
+
+test_2_76:
+  note: 76
+  channel: 1
+
+test_2_77:
+  note: 77
+  channel: 1
+
+test_2_78:
+  note: 78
+  channel: 1
+
+test_2_79:
+  note: 79
+  channel: 1
+
+test_2_80:
+  note: 80
+  channel: 1
+
+test_2_81:
+  note: 81
+  channel: 1
+
+test_2_82:
+  note: 82
+  channel: 1
+
+test_2_83:
+  note: 83
+  channel: 1
+
+test_2_84:
+  note: 84
+  channel: 1
+
+test_2_85:
+  note: 85
+  channel: 1
+
+test_2_86:
+  note: 86
+  channel: 1
+
+test_2_87:
+  note: 87
+  channel: 1
+
+test_2_88:
+  note: 88
+  channel: 1
+
+test_2_89:
+  note: 89
+  channel: 1
+
+test_2_90:
+  note: 90
+  channel: 1
+
+test_2_91:
+  note: 91
+  channel: 1
+
+test_2_92:
+  note: 92
+  channel: 1
+
+test_2_93:
+  note: 93
+  channel: 1
+
+test_2_94:
+  note: 94
+  channel: 1
+
+test_2_95:
+  note: 95
+  channel: 1
+
+test_2_96:
+  note: 96
+  channel: 1
+
+test_2_97:
+  note: 97
+  channel: 1
+
+test_2_98:
+  note: 98
+  channel: 1
+
+test_2_99:
+  note: 99
+  channel: 1
+
+test_2_100:
+  note: 100
+  channel: 1
+
+test_2_101:
+  note: 101
+  channel: 1
+
+test_2_102:
+  note: 102
+  channel: 1
+
+test_2_103:
+  note: 103
+  channel: 1
+
+test_2_104:
+  note: 104
+  channel: 1
+
+test_2_105:
+  note: 105
+  channel: 1
+
+test_2_106:
+  note: 106
+  channel: 1
+
+test_2_107:
+  note: 107
+  channel: 1
+
+test_2_108:
+  note: 108
+  channel: 1
+
+test_2_109:
+  note: 109
+  channel: 1
+
+test_2_110:
+  note: 110
+  channel: 1
+
+test_2_111:
+  note: 111
+  channel: 1
+
+test_2_112:
+  note: 112
+  channel: 1
+
+test_2_113:
+  note: 113
+  channel: 1
+
+test_2_114:
+  note: 114
+  channel: 1
+
+test_2_115:
+  note: 115
+  channel: 1
+
+test_2_116:
+  note: 116
+  channel: 1
+
+test_2_117:
+  note: 117
+  channel: 1
+
+test_2_118:
+  note: 118
+  channel: 1
+
+test_2_119:
+  note: 119
+  channel: 1
+
+test_2_120:
+  note: 120
+  channel: 1
+
+test_2_121:
+  note: 121
+  channel: 1
+
+test_2_122:
+  note: 122
+  channel: 1
+
+test_2_123:
+  note: 123
+  channel: 1
+
+test_2_124:
+  note: 124
+  channel: 1
+
+test_2_125:
+  note: 125
+  channel: 1
+
+test_2_126:
+  note: 126
+  channel: 1
+
+test_2_127:
+  note: 127
+  channel: 1
