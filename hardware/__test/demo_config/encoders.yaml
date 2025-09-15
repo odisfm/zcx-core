@@ -29,3 +29,7 @@ __best_of_bank_test:
   ]
   binding:
     SEL / DEV(SEL) B${1 if me.Index <= 8 else 2} P${me.Index if me.Index <= 8 else me.Index - 8}
+
+test_2_16:
+  binding:
+    __shift: SEL / VOL

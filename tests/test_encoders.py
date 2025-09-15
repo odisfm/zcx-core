@@ -124,3 +124,12 @@ class TestEncoders(ZCXTestCase):
             param = encoder._mapped_parameter
             self.assertEqual(param.name, "Track Panning")
 
+    def test_encoder_no_default(self):
+        self.assertUsingTestSet()
+        encoder = self.zcx_api.get_encoder("test_2_16")
+        self.assertIsNone(encoder.mapped_parameter)
+        self._mode_manager.add_mode("shift")
+        self.assertIsNotNone(encoder.mapped_parameter)
+        self._mode_manager.remove_mode("shift")
+        self.assertIsNone(encoder.mapped_parameter)
+
