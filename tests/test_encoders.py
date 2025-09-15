@@ -12,6 +12,8 @@ class TestEncoders(ZCXTestCase):
     def setUp(self):
         for mode in self._mode_manager.all_modes:
             self._mode_manager.remove_mode(mode)
+        self._session_ring.go_to_scene(0)
+        self._session_ring.go_to_track(0)
 
     def test_encoder_simple(self):
         enc: "ZEncoder" = self._encoder_manager.get_encoder("enc_master")
