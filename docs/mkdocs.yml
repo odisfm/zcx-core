@@ -78,6 +78,8 @@ extra:
       link: https://github.com/odisfm/zcx-core
     - icon: fontawesome/brands/discord
       link: https://discord.zcxcore.com
+  analytics:
+    provider: custom
 #
 #not_in_nav: |
 #  other/
