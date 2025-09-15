@@ -160,8 +160,6 @@ Allows references to the enclosed tracks and scenes of the zcx session ring.
 
 See [the session ring lesson](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
 
-See [the session ring lesson](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
-
 ##### `print(message: str)`
 
 Allows you to write to the log. Mostly useful with [Python commands](command.md#python).
