@@ -42,7 +42,7 @@ class TestRunner(ZCXComponent):
             sys.path.insert(0, project_root.as_posix())
 
             for name in list(sys.modules):
-                if name.startswith("tests.") or fnmatch.fnmatch(name, "test*"):
+                if name.startswith("tests.") or name.startswith("user_tests."):
                     sys.modules.pop(name, None)
 
             from tests.zcx_test_case import ZCXTestCase
