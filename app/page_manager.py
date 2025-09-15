@@ -121,11 +121,7 @@ class PageManager(ZCXComponent):
                 self.increment_page(1)
                 return True
             else:
-                page_num = self.get_page_number_from_name(page)
-                if page_num:
-                    self.set_page(page_number=page_num)
-                    return True
-                return False
+                return self.set_page(page_name=page)
         else:
             raise ValueError(f"invalid value {page} for request_page_change()")
 
