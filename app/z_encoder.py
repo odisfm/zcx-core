@@ -58,7 +58,7 @@ class ZEncoder(EventObject):
         if not isinstance(self._prefer_left, bool):
             self._prefer_left = True
 
-        bindings = self._raw_config.get("binding", {})
+        bindings = self._raw_config.get("binding")
         if isinstance(bindings, dict):
             pass
         elif isinstance(bindings, str):
@@ -66,7 +66,9 @@ class ZEncoder(EventObject):
         else:
             raise CriticalConfigurationError(
                 f"Invalid binding config for {self._name}"
-                f"\n`bindings` key must be a dict or a string"
+                f"\n`binding` key must be a dict or a string. was:"
+                f"\n{bindings}"
+                f"\n\nconfig:"
                 f"\n{self._raw_config}"
             )
 
