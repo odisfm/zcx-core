@@ -99,6 +99,9 @@ class Push1Display(ZCXPlugin):
         if 'selected' in config and config['selected'] is not None:
             self._selected_line = config['selected'] - 1
 
+        if 'force' in config and config['force'] is True:
+            self.__suppress_send = False
+
         if self._encoder_mapping_line is not False or self._encoder_values_line is not False:
             watching_encoders = True
         else:
