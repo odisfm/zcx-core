@@ -375,3 +375,8 @@ session:
 #  gestures:
 #    pressed: DUMMY
 #
+
+setup:
+  gestures:
+    pressed_delayed:
+      hot_reload: true
