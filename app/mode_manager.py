@@ -109,6 +109,12 @@ class ModeManager(ZCXComponent):
     def is_valid_mode(self, mode):
         return mode in self.__modes_state
 
+    def check_mode_state(self, mode):
+        if self.is_valid_mode(mode):
+            return self.__modes_state[mode]
+        else:
+            raise ValueError(f'check_mode_state: Invalid mode {mode}')
+
     def __execute_mode_change_command(self, mode_name, event):
         command_bundle = self.__mode_command_dict.get(mode_name, {}).get(event, None)
         if command_bundle is None:
