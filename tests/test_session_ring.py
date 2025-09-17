@@ -52,3 +52,14 @@ class TestSessionRing(ZCXTestCase):
         self._session_ring.move(x=10000, y=10000)
         self.assertEqual(self._session_ring.get_ring_track(self._session_ring.width - 1), self.tracklist[-1])
         self.assertEqual(self._session_ring.scene_offset, len(list(self.song.scenes)) - self._session_ring.height)
+
+    def test_ring_via_cxp(self):
+        self._cxp_bridge.trigger_action_list(f'CS "{self.zcx.name}" RING T>')
+        self.assertEqual(self._session_ring.track_offset, 1)
+        self._cxp_bridge.trigger_action_list(f'CS "{self.zcx.name}" RING T<')
+        self.assertEqual(self._session_ring.track_offset, 0)
+        self._cxp_bridge.trigger_action_list(f'CS "{self.zcx.name}" RING S>')
+        self.assertEqual(self._session_ring.scene_offset, 1)
+        self._cxp_bridge.trigger_action_list(f'CS "{self.zcx.name}" RING S<')
+        self.assertEqual(self._session_ring.scene_offset, 0)
+
