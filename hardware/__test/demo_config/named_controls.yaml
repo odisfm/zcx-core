@@ -412,3 +412,7 @@ setup:
   gestures:
     pressed:
       hot_reload: true
+
+__test_ua_colors_group:
+  includes: [test_2_16, test_2_17]
+  color: 1

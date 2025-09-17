@@ -17,3 +17,5 @@ pages:
     - blank_section
   test_page_1:
     - test_section_1
+  test_ua_colors:
+    - test_ua_colors
