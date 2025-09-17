@@ -1,4 +1,4 @@
-from tests.zcx_test_case import ZCXTestCase
+from zcx_test_case import ZCXTestCase
 
 
 class TestSessionRing(ZCXTestCase):

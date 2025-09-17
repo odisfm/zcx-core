@@ -1,6 +1,6 @@
 from typing import Any
 import time
-from tests.zcx_test_case import ZCXTestCase
+from zcx_test_case import ZCXTestCase
 
 
 class TestTargetPathParser(ZCXTestCase):

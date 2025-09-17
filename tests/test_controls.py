@@ -1,6 +1,6 @@
 import time
 
-from tests.zcx_test_case import ZCXTestCase
+from zcx_test_case import ZCXTestCase
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

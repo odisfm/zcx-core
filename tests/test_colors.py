@@ -1,6 +1,6 @@
 import unittest
 from typing import TYPE_CHECKING
-from tests.zcx_test_case import ZCXTestCase
+from zcx_test_case import ZCXTestCase
 from consts import NAMED_COLORS
 
 if TYPE_CHECKING:

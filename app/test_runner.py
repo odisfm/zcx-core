@@ -44,10 +44,10 @@ class TestRunner(ZCXComponent):
             sys.path.insert(0, project_root.as_posix())
 
             for name in list(sys.modules):
-                if name.startswith("tests.") or name.startswith("user_tests."):
+                if name.startswith("tests.") or name.startswith("user_tests.") or name.startswith("zcx_test_case"):
                     sys.modules.pop(name, None)
 
-            from tests.zcx_test_case import ZCXTestCase
+            from zcx_test_case import ZCXTestCase
 
             ZCXTestCase.zcx = self.canonical_parent
             ZCXTestCase.song = self.song

@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from tests.zcx_test_case import ZCXTestCase
+from zcx_test_case import ZCXTestCase
 
 if TYPE_CHECKING:
     from z_controls.session_clip_control import SessionClipControl

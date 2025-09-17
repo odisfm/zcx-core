@@ -1,6 +1,6 @@
 import unittest
 from typing import TYPE_CHECKING
-from tests.zcx_test_case import ZCXTestCase
+from zcx_test_case import ZCXTestCase
 
 if TYPE_CHECKING:
     from pad_section import PadSection
