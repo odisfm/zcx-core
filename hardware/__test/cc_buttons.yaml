@@ -224,3 +224,6 @@ user:
 
 layout:
   cc: 31
+
+setup:
+  cc: 30

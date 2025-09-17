@@ -407,3 +407,8 @@ __track_control_test_1:
   gestures:
     pressed: >
       "${me.track}" / SEL
+
+setup:
+  gestures:
+    pressed:
+      hot_reload: true
