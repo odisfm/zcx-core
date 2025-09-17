@@ -280,6 +280,7 @@ class ZCXCore(ControlSurface):
         self.component_map['EncoderManager'].bind_all_encoders()
         self.component_map['ZManager'].song_ready()
         self.component_map['TestRunner'].setup()
+        self.invoke_all_plugins("song_ready")
 
     def port_settings_changed(self):
         if not self._enabled:

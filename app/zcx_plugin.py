@@ -24,6 +24,9 @@ class ZCXPlugin(ZCXComponent):
         self.debug(f'Loading plugin {self.name}')
         self.__zcx_api = self.canonical_parent.zcx_api
 
+    def song_ready(self):
+        pass
+
     @property
     def api(self):
         return self.__zcx_api
