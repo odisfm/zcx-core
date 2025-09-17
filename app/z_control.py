@@ -109,6 +109,11 @@ class ZControl(EventObject):
             self._animate_on_release = False
             simple_feedback_color = parse_color_definition(simple_feedback_color_def, self)
             self._hold_color = simple_feedback_color
+        elif self._control_element.color_swatch.__class__.__name__ == 'BasicColorSwatch':
+            self._simple_feedback = True
+            self._animate_on_release = False
+            simple_feedback_color = parse_color_definition(0, self)
+            self._hold_color = simple_feedback_color
 
         self._suppress_animations = suppress_animations
         self._fake_momentary = config.get('tog_to_mom', False)
