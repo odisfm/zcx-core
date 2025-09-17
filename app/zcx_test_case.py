@@ -51,6 +51,7 @@ class ZCXTestCase(unittest.TestCase):
     def setUp(self) -> None:
         for mode in self._mode_manager.all_modes:
             self._mode_manager.remove_mode(mode)
+        self._page_manager.set_page(0)
 
     @classmethod
     def get_track_by_name(cls, name: str):
