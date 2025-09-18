@@ -21,7 +21,7 @@ To manually upgrade an existing zcx installation:
     1. Open the zcx folder next to this file (e.g., `_zcx_push_1`)
     2. Delete the folder `_config`
     3. Delete the file `_global_preferences.yaml`
-    4. Locate your old zcx folder (inside `Ableton/User Library/Remote Scripts`
+    4. Locate your old zcx folder (inside `Ableton/User Library/Remote Scripts`)
     5. Drag the contents of the upgraded folder into the old folder
     6. Overwrite all existing files
 
