@@ -193,7 +193,10 @@ class PageManager(ZCXComponent):
                     self.__special_sections_config[section_name] = section_config
                     continue
                 self.__raw_sections[section_name] = section_config
-                section_obj = self.build_section(section_name, section_config)
+                try:
+                    section_obj = self.build_section(section_name, section_config)
+                except Exception as e:
+                    raise CriticalConfigurationError(f"Failed to build section `{section_name}`: {e}")
                 self.__pad_sections[section_name] = section_obj
 
         for section in self.__pad_sections.values():
@@ -384,6 +387,9 @@ class PageManager(ZCXComponent):
         - Valid note range is MATRIX_MIN_NOTE to MATRIX_MAX_NOTE
         """
         required_fields = ["col_start", "col_end", "row_start", "row_end"]
+
+        if not isinstance(section_config, dict):
+            raise CriticalConfigurationError(f"section config for `{section_name}` must be a dict")
 
         # Check all required fields exist
         for field in required_fields:
