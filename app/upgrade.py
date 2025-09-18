@@ -52,7 +52,7 @@ logger = logging.getLogger("zcx_updater")
 
 
 def setup_environment():
-    """Setup the environment and add vendor packages to path"""
+    """Set up the environment and add vendor packages to path"""
     try:
         globals()["yaml"] = importlib.import_module("yaml")
         globals()["requests"] = importlib.import_module("requests")
