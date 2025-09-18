@@ -23,6 +23,7 @@ class ZManager(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
 
+        self.__named_controls_section = None
         self.__hardware_interface: HardwareInterface = (
             self.canonical_parent.component_map["HardwareInterface"]
         )
