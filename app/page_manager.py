@@ -434,7 +434,7 @@ class PageManager(ZCXComponent):
 
         Args:
             page_name: name of the page (for logging)
-            page_sections: list of section anmes
+            page_sections: list of section names
             all_sections_config: Raw YAML config containing section definitions with coordinates
 
         Returns:
