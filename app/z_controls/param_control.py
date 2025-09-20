@@ -488,12 +488,9 @@ class ParamControl(ZControl):
                 bank_def = target_map.get("bank")
                 if bank_def is not None:
                     bank_num = int(bank_def) - 1
-                    banked_param_name = get_banked_parameter(device_obj.class_name, bank_num, int(par_num) - 1, self._prefer_left)
-                    for param in list(device_obj.parameters):
-                        if param.original_name == banked_param_name:
-                            self.mapped_parameter = param
-                            return True
-                    return False
+                    banked_param = get_banked_parameter(device_obj, device_obj.class_name, bank_num, int(par_num) - 1, False)[0]
+                    self.mapped_parameter = banked_param
+                    return self.mapped_parameter is not None
 
                 if par_type is not None and par_type.lower() == "sel":
                     return True
