@@ -851,6 +851,8 @@ class ParamControl(ZControl):
                         self.set_feedback(True)
                     else:
                         self.set_feedback(False)
+                else:
+                    self.replace_color(self._color_dict["disabled"])
 
         except Exception as e:
             self.log(e)
