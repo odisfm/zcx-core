@@ -56,12 +56,21 @@ class ParamControl(ZControl):
                 pct_def = self._raw_config.get(key)
                 if pct_def is not None:
                     try:
+                        if isinstance(pct_def, str):
+                            if "${" in pct_def:
+                                parsed, _status = self.action_resolver.compile(pct_def, self._vars, self._context)
+                                if _status != 0:
+                                    raise ValueError(f"Unparsable: {pct_def}")
+                                pct_def = parsed
+                            else:
+                                raise ValueError()
                         pct_def = float(pct_def)
                         if pct_def < 0 or pct_def > 100:
                             raise ValueError()
                         return pct_def
-                    except ValueError:
+                    except ValueError as e:
                         self.log("Option `midpoint` must be a number between 0 and 100.")
+                        self.log(e)
                         return None
 
             self._custom_midpoint = get_percentage_def("midpoint")
