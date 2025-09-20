@@ -586,10 +586,36 @@ class ZEncoder(EventObject):
         active_concerned_modes = [
             mode for mode in self._concerned_modes if mode_states.get(mode, False)
         ]
+
         if not active_concerned_modes:
             self._current_mode_string = ""
+            return
+
+        candidates = []
+
+        for binding_key in self._binding_dict.keys():
+            if binding_key == "default":
+                continue
+
+            if binding_key.startswith("__"):
+                clean_key = binding_key[2:]
+            else:
+                continue
+
+            if clean_key:
+                binding_modes = clean_key.split("__")
+            else:
+                continue
+
+            if all(mode in active_concerned_modes for mode in binding_modes):
+                mode_count = len(binding_modes)
+                candidates.append((binding_key, mode_count))
+
+        if candidates:
+            best_match = min(candidates, key=lambda x: (-x[1], x[0]))
+            self._current_mode_string = best_match[0]
         else:
-            self._current_mode_string = "__" + "__".join(active_concerned_modes)
+            self._current_mode_string = ""
 
     @classmethod
     def get_track(cls, track_def):

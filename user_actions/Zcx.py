@@ -149,7 +149,7 @@ class Zcx(UserActionsBase):
                     if sub_action == 'bind':
                         target_obj.bind_ad_hoc(bind_def)
                     else:
-                        modes_portion = sub_action[5:].lstrip('_') # remove `bind_` and any erroneous `_`
+                        modes_portion = sub_action[5:]
                         target_obj.override_binding_definition(bind_def, unparsed_mode_string= modes_portion)
                 except AttributeError as e:
                     self.log(f'`{target_name}` is not a bindable control', e, level="error")
