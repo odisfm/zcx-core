@@ -1,4 +1,5 @@
 from copy import deepcopy, copy
+from typing import Optional
 
 from ableton.v3.control_surface.controls import control_matrix
 from .z_controls import ParamControl
@@ -32,6 +33,7 @@ class ZManager(ZCXComponent):
         self.__control_groups = {}
         self.__named_controls = {}
         self.__named_control_section: PadSection = None
+        self.__overlay_sections: dict[str, PadSection] = {}
         self.__matrix_sections: dict[str, PadSection] = {}
         self.__control_aliases = {}
         self.__all_controls: "list[ZControl]" = []
@@ -39,6 +41,18 @@ class ZManager(ZCXComponent):
     @property
     def all_controls(self) -> "list[ZControl]":
         return copy(self.__all_controls)
+
+    @property
+    def all_matrix_sections(self) -> "dict[str, PadSection]":
+        return copy(self.__matrix_sections)
+
+    @property
+    def named_controls_section(self) -> "PadSection":
+        return self.__named_controls_section
+
+    @property
+    def all_overlay_sections(self) -> "dict[str, OverlaySection]":
+        return copy(self.__overlay_sections)
 
     def setup(self):
         from . import z_controls
@@ -69,12 +83,27 @@ class ZManager(ZCXComponent):
         pass
 
     def create_named_controls(self):
-        page_count = len(self.page_manager.all_pages)
+        page_count = len(self.component_map["PageManager"].all_page_names)
         named_pad_section = PadSection(
             "__named_buttons_section", None, {i for i in range(page_count)}, 0
         )
-
         self.process_named_buttons(named_pad_section)
+
+        general_overlay_def, overlay_defs = self.load_overlay_definitions()
+        for overlay_name, overlay_def in overlay_defs.items():
+            general_def_content = general_overlay_def["overlays"][overlay_name]
+            layer_def = general_def_content.get("layer", 1)
+            if not(isinstance(layer_def, int)):
+                raise CriticalConfigurationError(f"Invalid layer for overlay `{overlay_name}`: {layer_def}\nMust be a positive integer.")
+            elif layer_def < 1:
+                raise CriticalConfigurationError(f"Invalid datatype for layer in overlay `{overlay_name}`: {layer_def}\nMust be a positive integer.")
+            section_obj = PadSection(
+                f"__named_buttons_section__{overlay_name}", None, {i for i in range(page_count)}, 0, overlay_def, layer_def
+            )
+            self.process_named_buttons(section_obj, overlay_name)
+            section_obj._PadSection__in_view = True
+
+            self.log(overlay_name, self.__overlay_sections[overlay_name], self.__overlay_sections[overlay_name].owned_controls)
 
     def add_control_to_group(self, control, group_name):
         if group_name in self.__control_groups:
@@ -488,12 +517,16 @@ class ZManager(ZCXComponent):
                 raise CriticalConfigurationError(
                     f'`{this_file}` specifies control called `{button_name}` which does not exist.'
                 )
-            control = self.z_control_factory(button_def, pad_section, button_name)
+            formatted_name = f'{button_name}{"" if not overlay else f"_{overlay}"}'
+            control = self.z_control_factory(button_def, pad_section, formatted_name)
             control.bind_to_state(state)
             control.setup()
-            self.__named_controls[button_name] = control
+            self.__named_controls[formatted_name] = control
 
-        self.__named_controls_section = pad_section
+        if not overlay:
+            self.__named_controls_section = pad_section
+        else:
+            self.__overlay_sections[overlay] = pad_section
 
     def parse_named_button_config(
             self, pad_section: PadSection, raw_config: dict, ignore_global_template=False, this_file=None
@@ -501,6 +534,9 @@ class ZManager(ZCXComponent):
         working_control_name = None
         working_control_def = None
         try:
+            if not isinstance(raw_config, dict):
+                raw_config = {}
+
             ungrouped_buttons = {}
             groups = {}
 
@@ -721,3 +757,47 @@ class ZManager(ZCXComponent):
                     control.bind_to_active()
             except Exception as e:
                 self.log(e)
+
+    def load_overlay_definitions(self):
+
+        try:
+            general_def = self.yaml_loader.load_yaml(f"{self._config_dir}/overlays.yaml")
+        except FileNotFoundError as e:
+            self.warning(f"No filed called `{self._config_dir}/overlays.yaml`")
+            return {}, {}
+        if general_def is None:
+            self.warning(f"`overlays.yaml` is empty")
+            return {}, {}
+
+        overlay_defs: dict[str, dict] = {}
+
+        overlays_obj = general_def.get("overlays")
+        overlay_names = list(overlays_obj.keys())
+        for i, name in enumerate(overlay_names):
+            lower_name = name.lower()
+            if lower_name != name:
+                self.warning(f"Overlay `{name}` was renamed to `{lower_name}")
+                overlay_names[i] = lower_name
+
+        if overlays_obj is None:
+            self.warning(f"Key `overlays` in `overlays.yaml` is missing")
+            return {}, {}
+        elif not isinstance(overlays_obj, dict):
+            raise CriticalConfigurationError(f"Key `overlays` in `overlays.yaml` must be a dict:\n{overlays_obj}")
+        elif len(overlay_names) == 0:
+            self.warning(f"Dict `overlays` in `overlays.yaml` is empty")
+            return {}, {}
+
+        for overlay_name in overlay_names:
+            try:
+                obj = self.yaml_loader.load_yaml(f"{self._config_dir}/overlays/{overlay_name.lower()}.yaml")
+                if obj is None:
+                    self.warning(f"File `{self._config_dir}/overlays/{overlay_name}.yaml is empty")
+                    overlay_defs[overlay_name] = {}
+                elif not isinstance(obj, dict):
+                    raise CriticalConfigurationError(f"File `{self._config_dir}/overlays/{overlay_name}.yaml must be a dict (is `{obj.__class__.__name__}`):\n{obj}")
+            except FileNotFoundError as e:
+                raise CriticalConfigurationError(f"`overlays.yaml` specifies overlay name `{overlay_name}` but missing file `{self._config_dir}/overlays/{overlay_name}.yaml`")
+            overlay_defs[overlay_name] = obj
+
+        return general_def, overlay_defs

@@ -3,6 +3,7 @@ from copy import copy
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v2.base.event import listens
 from .z_control import ZControl
+from .errors import CriticalConfigurationError
 
 
 class PadSection(EventObject):
@@ -16,7 +17,8 @@ class PadSection(EventObject):
             owned_coordinates,
             pages_in,
             width,
-            raw_template=None
+            raw_template=None,
+            layer=0
     ):
         super().__init__()
         self.__name = section_name
@@ -24,6 +26,9 @@ class PadSection(EventObject):
         self.__owned_coordinates = owned_coordinates
         self.__width = width
         self.__in_view = False
+        if not isinstance(layer, int):
+            raise CriticalConfigurationError(f"Invalid layer for section '{section_name}': {layer}\nLayer must be an integer.")
+        self.__layer  = layer
         self._logger = self.page_manager._logger.getChild(
             f"matrix_section__{section_name}"
         )
