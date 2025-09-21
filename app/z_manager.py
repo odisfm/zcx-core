@@ -68,6 +68,14 @@ class ZManager(ZCXComponent):
     def reinit(self):
         pass
 
+    def create_named_controls(self):
+        page_count = len(self.page_manager.all_pages)
+        named_pad_section = PadSection(
+            "__named_buttons_section", None, {i for i in range(page_count)}, 0
+        )
+
+        self.process_named_buttons(named_pad_section)
+
     def add_control_to_group(self, control, group_name):
         if group_name in self.__control_groups:
             self.__control_groups[group_name].append(control)

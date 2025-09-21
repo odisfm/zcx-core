@@ -202,11 +202,7 @@ class PageManager(ZCXComponent):
         for section in self.__pad_sections.values():
             self.__z_manager.process_pad_section(section)
 
-        named_pad_section = PadSection(
-            "__named_buttons_section", None, {i for i in range(self.__page_count)}, 0
-        )
-
-        self.__z_manager.process_named_buttons(named_pad_section)
+        self.__z_manager.create_named_controls()
 
         self.__osc_server = self.component_map['CxpBridge']._osc_server
         self.__osc_address_prefix = f'/zcx/{self.canonical_parent.name}/page'
