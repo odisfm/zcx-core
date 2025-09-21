@@ -1,4 +1,6 @@
 import unittest
+import time
+
 from typing import TYPE_CHECKING
 from zcx_test_case import ZCXTestCase
 
@@ -47,3 +49,14 @@ class TestGestures(ZCXTestCase):
         self.assertEqual(test_control.handle_gesture("pressed", dry_run=True),
                          ["test_2", "test_1", "pressed"]
                          )
+
+    def test_many_gestures(self):
+        test_control = self.zcx_api.get_control("test_2_18")
+        for i in range(1, 21):
+            self._mode_manager.add_mode(f"test_{i}")
+        self.assertIsNotNone(test_control)
+        start_time = time.perf_counter()
+        bundle = test_control.handle_gesture("pressed", dry_run=True)
+        end_time = time.perf_counter()
+        execution_time = end_time - start_time
+        self.log(f"Execution time: {execution_time:.4f} seconds")

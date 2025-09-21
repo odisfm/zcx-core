@@ -416,3 +416,51 @@ setup:
 __test_ua_colors_group:
   includes: [test_2_16, test_2_17]
   color: 1
+
+test_2_18:
+#  cascade: down
+  gestures:
+    pressed:
+      log: no mode
+    pressed__test_1__test_2:
+      log: test_1__test_2
+    pressed__test_1:
+      log: test_1
+    pressed__test_2:
+      log: test_2
+    pressed__test_3:
+      log: test_3
+    pressed__test_4:
+      log: test_4
+    pressed__test_5:
+      log: test_5
+    pressed__test_6:
+      log: test_6
+    pressed__test_7:
+      log: test_7
+    pressed__test_8:
+      log: test_8
+    pressed__test_9:
+      log: test_9
+    pressed__test_10:
+      log: test_10
+    pressed__test_11:
+      log: test_11
+    pressed__test_12:
+      log: test_12
+    pressed__test_13:
+      log: test_13
+    pressed__test_14:
+      log: test_14
+    pressed__test_15:
+      log: test_15
+    pressed__test_16:
+      log: test_16
+    pressed__test_17:
+      log: test_17
+    pressed__test_18:
+      log: test_18
+    pressed__test_19:
+      log: test_19
+    pressed__test_20:
+      log: test_20

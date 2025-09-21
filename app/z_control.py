@@ -168,7 +168,7 @@ class ZControl(EventObject):
                 raise ValueError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
             if gesture in OFF_GESTURES:
                 has_off_gestures = True
-            elif gesture in OFF_GESTURES:
+            elif gesture in ON_GESTURES:
                 has_on_gestures = True
             modes = split[1:] if len(split) > 1 else []
             modes.sort()
@@ -275,39 +275,56 @@ class ZControl(EventObject):
             self.set_prop('velp', vel_p)
             self.set_prop('velps', vel_p_s)
 
-        lookup_key = gesture + self._current_mode_string
-        matching_actions = []
+        current_active_modes = set()
+        if self._current_mode_string:
+            current_active_modes = set(self._current_mode_string.lstrip("__").split("__"))
+
+        matching_candidates = []
+
+        gesture_keys = []
+        for key in self._gesture_dict.keys():
+            parts = key.split("__")
+            if parts[0] == gesture:
+                gesture_keys.append(key)
+
+        for order_idx, key in enumerate(gesture_keys):
+            action = self._gesture_dict[key]
+            parts = key.split("__")
+
+            if len(parts) == 1:
+                mode_count = 0
+                matching_candidates.append({
+                    'action': action,
+                    'mode_count': mode_count,
+                    'key': key,
+                    'config_order': order_idx
+                })
+                continue
+
+            required_modes = set(parts[1:])
+
+            if required_modes.issubset(current_active_modes):
+                mode_count = len(required_modes)
+                matching_candidates.append({
+                    'action': action,
+                    'mode_count': mode_count,
+                    'key': key,
+                    'config_order': order_idx
+                })
+
+        if not matching_candidates:
+            return False
 
         if not self._cascade_direction:
-            if action := self._gesture_dict.get(lookup_key):
-                matching_actions.append(action)
+            matching_candidates.sort(key=lambda x: (x['mode_count'], x['config_order']), reverse=True)
+            matching_actions = [matching_candidates[0]['action']]
         else:
-            candidates = []
+            if self._cascade_direction == "down":
+                matching_candidates.sort(key=lambda x: (x['mode_count'], x['config_order']))
+            else:  # "up"
+                matching_candidates.sort(key=lambda x: (x['mode_count'], x['config_order']), reverse=True)
 
-            for key, action in self._gesture_dict.items():
-                parts = key.split("__")
-                if parts[0] != gesture:
-                    continue
-
-                if len(parts) == 1:
-                    mode_count = 0
-                    candidates.append((action, mode_count))
-                    continue
-
-                mode_part = "__" + "__".join(parts[1:])
-
-                if mode_part in self._current_mode_string:
-                    mode_count = len(parts) - 1
-                    candidates.append((action, mode_count))
-
-            matching_actions = [action for action, _ in
-                                sorted(candidates, key=lambda x: x[1], reverse=self._cascade_direction == "up")]
-
-        if len(matching_actions) == 0:
-            if base_gesture := self._gesture_dict.get(gesture):
-                matching_actions.append(base_gesture)
-            else:
-                return False
+            matching_actions = [candidate['action'] for candidate in matching_candidates]
 
         if dry_run:
             return matching_actions
@@ -323,7 +340,8 @@ class ZControl(EventObject):
                 context=self._context
             )
 
-        if not self._simple_feedback and (gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
+        if not self._simple_feedback and (gesture in ON_GESTURES or (
+                gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
             self.animate_success()
 
     @listens('in_view')
