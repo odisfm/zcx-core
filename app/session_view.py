@@ -93,6 +93,8 @@ class SessionView(ZCXComponent):
         self.ring_offsets_changed.subject = self._session_ring
         self.tracks_changed.subject = self._song
         self.update_clip_slot_assignments()
+        self.__page_manager.register_special_section_object(section_obj, '__session_view')
+        self.component_map["ZManager"].register_special_section_object(section_obj, '__session_view')
         self.pad_section.current_page_listener()
 
     def _unload(self):

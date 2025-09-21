@@ -259,7 +259,7 @@ class PageManager(ZCXComponent):
         self.__does_send_named_label_osc = False
         self.__osc_section_watchers = []
 
-    def build_section(self, section_name, section_config):
+    def build_section(self, section_name, section_config, layer=None):
         matrix_element = self.canonical_parent.component_map[
             "HardwareInterface"
         ].button_matrix_state
@@ -292,12 +292,21 @@ class PageManager(ZCXComponent):
             if section_name in sections_list:
                 pages_in.add(page_num)
 
+        layer_def = layer or section_config.get("layer")
+        if not layer_def:
+            layer_def = 0
+        elif not isinstance(layer_def, int):
+            self.warning(f"Invalid layer definition for section `{section_name}`: {layer_def}\n"
+                         f"Must be an integer.")
+            layer_def = 0
+
         section_object = PadSection(
             section_name=section_name,
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
             width=(col_end - col_start + 1),
             raw_template=section_template,
+            layer=layer_def,
         )
 
         self._registered_disconnectables.append(section_object)
@@ -431,17 +440,18 @@ class PageManager(ZCXComponent):
         Args:
             page_name: name of the page (for logging)
             page_sections: list of section names
-            all_sections_config: Raw YAML config containing section definitions with coordinates
+            all_sections_config: Raw YAML config containing section definitions with coordinates and optional layer
 
         Returns:
             bool: True if all sections are valid, raises ValueError if invalid
 
         Raises:
-            ValueError: If sections overlap or exceed matrix bounds
+            ValueError: If sections overlap on the same layer or exceed matrix bounds
+            CriticalConfigurationError: If layer is specified but not an integer
         """
-        # Create a matrix to track which cells are claimed
-        # Using None for unclaimed, section name for claimed
-        matrix = [[None for x in range(MATRIX_WIDTH)] for y in range(MATRIX_HEIGHT)]
+        # Create a matrix to track which cells are claimed at each layer
+        # Using dict of layer -> section_name for claimed cells
+        matrix = [[{} for x in range(MATRIX_WIDTH)] for y in range(MATRIX_HEIGHT)]
 
         # Check each section's coordinates
         for section_name in page_sections:
@@ -456,28 +466,39 @@ class PageManager(ZCXComponent):
             row_start = section["row_start"]
             row_end = section["row_end"]
 
+            # Get layer, defaulting to 0 if not specified
+            layer = section.get("layer", 0)
+            if not isinstance(layer, int):
+                raise CriticalConfigurationError(
+                    f"Section '{section_name}' has invalid layer '{layer}' - must be an integer"
+                )
+
             # Check bounds
             if not (
-                0 <= col_start <= col_end < MATRIX_WIDTH
-                and 0 <= row_start <= row_end < MATRIX_HEIGHT
+                    0 <= col_start <= col_end < MATRIX_WIDTH
+                    and 0 <= row_start <= row_end < MATRIX_HEIGHT
             ):
                 raise ValueError(
                     f"Section '{section_name}' in page '{page_name}' has coordinates "
                     f"outside matrix bounds: ({col_start}-{col_end}, {row_start}-{row_end})"
                 )
 
-            # Check for overlaps by trying to claim cells
+            # Check for overlaps by trying to claim cells at this layer
             for row in range(row_start, row_end + 1):
                 for col in range(col_start, col_end + 1):
-                    existing = matrix[row][col]
-                    if existing is not None:
+                    cell_layers = matrix[row][col]
+                    if layer in cell_layers:
+                        existing_section = cell_layers[layer]
                         raise ValueError(
-                            f"Section '{section_name}' overlaps with section '{existing}' "
-                            f"at coordinates ({row}, {col}) in page '{page_name}'"
+                            f"Section '{section_name}' overlaps with section '{existing_section}' "
+                            f"at coordinates ({row}, {col}) on layer {layer} in page '{page_name}'"
                         )
-                    matrix[row][col] = section_name
+                    cell_layers[layer] = section_name
 
         return True
 
     def get_special_section_definition(self, section_type):
         return self.__special_sections_config.get(section_type)
+
+    def register_special_section_object(self, pad_section: PadSection, name: str):
+        self.__pad_sections[name] = pad_section

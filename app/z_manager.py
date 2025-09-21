@@ -98,7 +98,7 @@ class ZManager(ZCXComponent):
             elif layer_def < 1:
                 raise CriticalConfigurationError(f"Invalid datatype for layer in overlay `{overlay_name}`: {layer_def}\nMust be a positive integer.")
             section_obj = PadSection(
-                f"__named_buttons_section__{overlay_name}", None, {i for i in range(page_count)}, 0, overlay_def, layer_def
+                f"__named_buttons_section__{overlay_name}", None, {i for i in range(page_count)}, 0, overlay_def, layer_def, overlay_def=general_def_content
             )
             self.process_named_buttons(section_obj, overlay_name)
             section_obj._PadSection__in_view = True
@@ -801,3 +801,6 @@ class ZManager(ZCXComponent):
             overlay_defs[overlay_name] = obj
 
         return general_def, overlay_defs
+
+    def register_special_section_object(self, pad_section: PadSection, name: str):
+        self.__matrix_sections[name] = pad_section

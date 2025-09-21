@@ -1,0 +1,6 @@
+overlays:
+  scales: {}
+
+  session_view:
+    layer: 1
+

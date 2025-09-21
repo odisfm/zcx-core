@@ -9,7 +9,11 @@ zcx uses a lot of jargon. Here is a quick guide to the most important concepts.
 ## ZControls
 
 Roughly equivalent to an [X or G control from ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/). 
-You define ZControls in your configuration files and when you press them they trigger action lists or some other functionality.
+You define ZControls in your configuration files and when you press their associated button they trigger action lists or some other functionality.
+
+!!! note "Terminology"
+    In this documentation, when we use the word "button" we are referring to the physical input on your MIDI controller.
+    When we use the terms "control" or "ZControl", we are referring to the abstract concept.
 
 ### control definitions
 
@@ -25,7 +29,7 @@ Most control definitions will have the [keys](reading-zcx-configurations.md#obje
 
 #### gestures
 
-Gestures are physical actions you can perform on a control to trigger a command. 
+Gestures are physical actions you can perform on a button, which will in turn trigger a **command** on a ZControl. 
 There are six gestures supported by zcx:
 
 - **pressed** always fired immediately after a control is pressed
@@ -239,7 +243,9 @@ By assigning controls to sections, and not directly to pages, we can have one se
 
 Matrix sections are always bound to their defined coordinates, which means while they can appear on multiple pages, they'll always be in the same place.
 
-One thing we can't do is have sections on a page that overlap: 
+### intersecting sections
+
+By default, we can't have two sections that intersect, i.e share one or more of the same coordinates.
 
 ```yaml title="matrix_sections.yaml"
 
@@ -251,9 +257,9 @@ big_section:
 
 tiny_section:
   col_start: 0
-  col_end: 1
+  col_end: 7
   row_start: 0
-  row_end: 1
+  row_end: 0
 ```
 ```yaml title="pages.yaml"
 
@@ -262,10 +268,17 @@ my_page:
   - tiny_section    # not gonna fit :(
 ```
 
-If you try to do this, zcx will throw an error.
+`big_section` and `tiny_row` are both reserving the first row of the matrix on the page `my_page`.
+In this situation, zcx will throw an error on startup.
 
-!!! note "Named controls and pages"
-    Only matrix controls are affected by page changes; named controls will behave the same way regardless of the current page.
+You can learn how to intentionally intersect sections in [this lesson](../overlays-layers.md).
+
+## overlays
+
+Only matrix controls are affected by page changes; named controls will behave the same way regardless of the current page.
+We can define multiple [named controls](#named-controls) associated with the same button by using an **overlay**.
+
+In [the next lesson](demo-tour/index.md), you will learn about any overlays that come with the zcx demo config, or you can skip ahead to [the overlay lesson](../overlays-layers.md#overlays).
 
 ## encoder mappings
 

@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from .z_encoder import ZEncoder
     from .zcx_core import ZCXCore
     from .page_manager import PageManager
+    from .view_manager import ViewManager
 
 
 class ApiManager(ZCXComponent):
@@ -49,6 +50,7 @@ class ZcxApi:
         self.encoder_manager = self.root_cs.component_map['EncoderManager']
         self.page_manager: PageManager = self.root_cs.component_map['PageManager']
         self.mode_manager: ModeManager = self.root_cs.component_map['ModeManager']
+        self.view_manager: ViewManager = self.root_cs.component_map['ViewManager']
 
         self.request_page_change = self.page_manager.request_page_change
         self.set_page = self.page_manager.set_page

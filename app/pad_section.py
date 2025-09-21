@@ -18,7 +18,8 @@ class PadSection(EventObject):
             pages_in,
             width,
             raw_template=None,
-            layer=0
+            layer=0,
+            overlay_def=None
     ):
         super().__init__()
         self.__name = section_name
@@ -29,6 +30,7 @@ class PadSection(EventObject):
         if not isinstance(layer, int):
             raise CriticalConfigurationError(f"Invalid layer for section '{section_name}': {layer}\nLayer must be an integer.")
         self.__layer  = layer
+        self.__overlay_def = overlay_def
         self._logger = self.page_manager._logger.getChild(
             f"matrix_section__{section_name}"
         )
@@ -76,6 +78,18 @@ class PadSection(EventObject):
     @property
     def height(self):
         return len(self.__owned_coordinates) // self.__width
+
+    @property
+    def layer(self):
+        return self.__layer
+
+    @property
+    def in_pages(self):
+        return copy(self.__pages_in)
+    
+    @property
+    def overlay_def(self):
+        return self.__overlay_def
 
     @listenable_property
     def in_view(self):

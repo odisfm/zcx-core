@@ -316,9 +316,14 @@ solo:
   type: param
   binding: SEL / SOLO
 
-#scales:
-#  gestures:
-#    pressed: DUMMY
+scales:
+  gestures:
+    pressed:
+      overlay:
+        enable: scales
+    released:
+      overlay:
+        disable: scales
 
 #repeat:
 #  gestures:

@@ -205,6 +205,27 @@ gestures:
     mode_off: shift
 ```
 
+### overlay
+
+Enable, disable, or toggle the given [overlay](../lessons/overlays-layers.md).
+
+```yaml hl_lines="3 4 6 7"
+gestures:
+  pressed:
+    overlay:
+      enable: my_overlay
+  released:
+    overlay:
+      disable: my_overlay
+```
+
+```yaml hl_lines="3 4"
+gestures:
+  pressed:
+    overlay:
+      toggle: my_overlay
+```
+
 ### msg
 
 Shows a message briefly at the bottom of Live's UI:

@@ -64,6 +64,16 @@ Enable, disable, or toggle a zcx mode.
 
 `ZCX <target script> MODE TGL SHIFT`
 
+#### OVERLAY
+
+Enable, disable, or toggle an [overlay](overlays-layers.md#overlays).
+
+`ZCX <target script> OVERLAY ON my_overlay`
+
+`ZCX <target script> OVERLAY OFF my_overlay`
+
+`ZCX <target script> OVERLAY TGL my_overlay`
+
 #### BIND
 
 Manually re-bind a zcx [encoder](../reference/encoder.md) or [param control](../reference/control/param.md) to a new target.

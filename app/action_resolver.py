@@ -291,6 +291,20 @@ class ActionResolver(ZCXComponent):
                         case 'mode_off':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.remove_mode(parsed)
+                        case "overlay":
+                            overlay_def = list(command_def.items())[0]
+                            def_type = overlay_def[0]
+                            overlay_name_def = overlay_def[1]
+                            parsed_overlay = self._compile_and_check(overlay_name_def, vars_dict, context)
+                            if not parsed_overlay:
+                                raise RuntimeError(f'unparseable overlay definition: {overlay_name_def}')
+                            if def_type == "enable":
+                                self.component_map["ViewManager"].enable_overlay(parsed_overlay)
+                            elif def_type == "disable":
+                                self.component_map["ViewManager"].disable_overlay(parsed_overlay)
+                            elif def_type == "toggle":
+                                self.component_map["ViewManager"].toggle_overlay(parsed_overlay)
+
                         case 'refresh':
                             self.__hardware_interface.refresh_all_lights()
                         case 'hardware_mode':

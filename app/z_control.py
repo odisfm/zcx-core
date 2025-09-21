@@ -43,10 +43,10 @@ class ZControl(EventObject):
             x = raw_config.get('section_context', {}).get('x', -1)
             y = raw_config.get('section_context', {}).get('y', -1)
             self.__name = f"{self.parent_section.name}_{x}_{y}"
-        self.__state: Optional[ZState] = None
+        self._state: Optional[ZState] = None
         self._parent_logger = self.parent_section._logger
         self._in_view = False
-        self.in_view_listener.subject = self.parent_section
+        # self.in_view_listener.subject = self.parent_section
         self._raw_config = raw_config
         self._control_element: ZElement = None
         self.__z_manager = self.root_cs.component_map['ZManager']
@@ -133,6 +133,15 @@ class ZControl(EventObject):
     @property
     def in_view(self):
         return self._in_view
+
+    @in_view.setter
+    def in_view(self, value):
+        if not isinstance(value, bool):
+            raise ValueError('in_view must be a boolean')
+        back_in_view = not self._in_view and value
+        self._in_view = value
+        if back_in_view:
+            self._back_in_view()
 
     @property
     def context(self):
@@ -230,14 +239,14 @@ class ZControl(EventObject):
 
     def bind_to_state(self, state):
         state.register_z_control(self)
-        self.__state = state
+        self._state = state
         self._control_element = state._control_element
         self._feedback_type = self._control_element._feedback_type
         self._color_swatch = self._control_element.color_swatch
 
     def unbind_from_state(self):
-        if self.__state is not None:
-            self.__state.unregister_z_control(self)
+        if self._state is not None:
+            self._state.unregister_z_control(self)
             self._control_element = None
 
     @classmethod
@@ -356,7 +365,7 @@ class ZControl(EventObject):
         if self._simple_feedback:
             if not self._control_element.is_pressed:
                 self._do_simple_feedback_release()
-        self.__state._repeat = self._repeat
+        self._state._repeat = self._repeat
 
     def set_color_to_base(self):
         self._control_element.set_light(self._control_element.color_swatch.base)

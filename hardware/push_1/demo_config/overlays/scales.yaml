@@ -1,0 +1,16 @@
+__scale_changer:
+  includes: [
+    state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8,
+    select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8
+  ]
+  color: 50
+  hold_color: 0
+  gestures:
+    pressed:
+      log: ${me.index}
+
+scene_1:
+  color: 1
+
+play:
+  color: 1

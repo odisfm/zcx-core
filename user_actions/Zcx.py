@@ -101,6 +101,17 @@ class Zcx(UserActionsBase):
                     target_script.remove_mode(mode_name)
                 elif status == 'tgl':
                     target_script.toggle_mode(mode_name)
+            elif sub_action == "overlay":
+                overlay_args = _args[2:]
+                status = overlay_args[0]
+                overlay_name = overlay_args[1]
+
+                if status == 'on':
+                    target_script.view_manager.enable_overlay(overlay_name)
+                elif status == 'off':
+                    target_script.view_manager.disable_overlay(overlay_name)
+                elif status == 'tgl':
+                    target_script.view_manager.toggle_overlay(overlay_name)
 
             elif sub_action == 'set_color':
                 color_args = _args[2:]

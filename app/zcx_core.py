@@ -243,8 +243,10 @@ class ZCXCore(ControlSurface):
                 except Exception as e:
                     self.critical(e)
                     self.component_map['PageManager'].set_page(0)
+                    self.component_map['ViewManager']._update_in_view_controls()
             else:
                 self.component_map['PageManager'].set_page(0)
+                self.component_map['ViewManager']._update_in_view_controls()
 
         except Exception as e:
             self.critical(e)
