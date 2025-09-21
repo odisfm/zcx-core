@@ -454,16 +454,22 @@ class ZManager(ZCXComponent):
         except Exception as e:
             self.log(e)
 
-    def process_named_buttons(self, pad_section: PadSection):
+    def process_named_buttons(self, pad_section: PadSection, overlay: Optional[str] = None):
+        if overlay:
+            this_file = f"{overlay}.yaml"
+            path = f"overlays/{this_file}"
+        else:
+            this_file = f"named_controls.yaml"
+            path = this_file
         raw_config = self.yaml_loader.load_yaml(
-            f"{self._config_dir}/named_controls.yaml"
+            f"{self._config_dir}/{path}"
         )
         if raw_config is None:
             self.log(
-                "warning, named_controls.yaml appears to be empty"
+                f"warning, {this_file} appears to be empty"
             )  # todo: change logging level
 
-        parsed_config = self.parse_named_button_config(pad_section, raw_config)
+        parsed_config = self.parse_named_button_config(pad_section, raw_config, False, this_file)
 
         hardware = self.__hardware_interface
 
@@ -472,7 +478,7 @@ class ZManager(ZCXComponent):
                 state: ZState.State = getattr(hardware, f'_button_{button_name}')
             except AttributeError:
                 raise CriticalConfigurationError(
-                    f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
+                    f'`{this_file}` specifies control called `{button_name}` which does not exist.'
                 )
             control = self.z_control_factory(button_def, pad_section, button_name)
             control.bind_to_state(state)
@@ -482,7 +488,7 @@ class ZManager(ZCXComponent):
         self.__named_controls_section = pad_section
 
     def parse_named_button_config(
-            self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
+            self, pad_section: PadSection, raw_config: dict, ignore_global_template=False, this_file=None
     ) -> dict:
         working_control_name = None
         working_control_def = None
@@ -496,11 +502,11 @@ class ZManager(ZCXComponent):
                 working_control_def = item_def
                 if item_name.startswith("__"):
                     if item_name in groups:
-                        raise ConfigurationError(f"Multiple definitions for {item_name}")
+                        raise ConfigurationError(f"Multiple definitions for {item_name} in {this_file}")
                     groups[item_name] = item_def
                 else:
                     if item_name in ungrouped_buttons:
-                        raise ConfigurationError(f"Multiple definitions for {item_name}")
+                        raise ConfigurationError(f"Multiple definitions for {item_name} in {this_file}")
                     ungrouped_buttons[item_name] = item_def
 
             global_template = self.__global_control_template
@@ -547,7 +553,7 @@ class ZManager(ZCXComponent):
                     template = control_templates.get(template_value)
                     if template is None:
                         raise ValueError(
-                            f'Specified non-existent template "{template_value}"'
+                            f'Specified non-existent template "{template_value}" in "{this_file}"'
                         )
                     result_config = deepcopy(template)
                 elif isinstance(template_value, list):
@@ -565,12 +571,12 @@ class ZManager(ZCXComponent):
                             template = control_templates.get(template_name)
                             if template is None:
                                 raise ValueError(
-                                    f'Specified non-existent template "{template_name}"'
+                                    f'Specified non-existent template "{template_name}" in "{this_file}"'
                                 )
                             result_config = merge_configs(result_config, deepcopy(template))
                 else:
                     raise ValueError(
-                        f'Invalid template value "{template_value}"'
+                        f'Invalid template value "{template_value}" in "{this_file}"'
                     )
 
                 # Merge with original config
@@ -646,7 +652,7 @@ class ZManager(ZCXComponent):
             return processed_ungrouped
 
         except Exception as e:
-            raise CriticalConfigurationError(f"Bad definition for control `{working_control_name}`: "
+            raise CriticalConfigurationError(f"Bad definition for control `{working_control_name}` in `{this_file}`: "
                                              f"\nControl definition: "
                                              f"\n{working_control_def}\n"
                                              f"\n{str(e)}") from e
