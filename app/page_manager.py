@@ -32,10 +32,10 @@ class PageManager(ZCXComponent):
         self.__last_page = -1
         self.__page_count = 1
         self.__pages_sections = {}
-        self.__page_names = []
+        self.__page_names: list[str] = []
         self.__pad_sections: Dict[PadSection] = {}
         self.__named_button_section: Optional[PadSection] = None
-        self.__page_definitions = {}
+        self.__page_definitions: dict[str, dict] = {}
         self.__action_resolver: ActionResolver = None
         self.__osc_server = None
         self.__osc_address_prefix = None
