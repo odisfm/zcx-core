@@ -45,6 +45,7 @@ def create_mappings(arg) -> dict:
         "ApiManager": {},
         "SessionView": {},
         "TestRunner": {},
+        "ViewManager": {},
     }
 
     def add_plugin_mappings(plugin_dict):
@@ -219,6 +220,7 @@ def create_instance(c_instance):
     from .session_ring import SessionRing
     from .session_view import SessionView
     from .test_runner import TestRunner
+    from .view_manager import ViewManager
 
     plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
 
@@ -234,6 +236,7 @@ def create_instance(c_instance):
         "ApiManager": ApiManager,
         "SessionView": SessionView,
         "TestRunner": TestRunner,
+        "ViewManager": ViewManager,
     }
 
     def add_plugins_to_component_map(plugin_dict):

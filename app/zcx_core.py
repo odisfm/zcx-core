@@ -208,6 +208,9 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting SessionView setup')
             self.component_map['SessionView'].setup()
             self.debug(f'finished SessionView setup')
+            self.debug(f'starting ViewManager setup')
+            self.component_map['ViewManager'].setup()
+            self.debug(f'finished ViewManager setup')
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
                 try:
@@ -262,6 +265,7 @@ class ZCXCore(ControlSurface):
             self.component_map["EncoderManager"]._unload()
             self._session_ring_custom._unload()
             self.component_map["SessionView"]._unload()
+            self.component_map["ViewManager"]._unload()
             self.log("doing setup on components")
             self.post_init()
             self.log("finishing setup")
