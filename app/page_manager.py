@@ -359,6 +359,15 @@ class PageManager(ZCXComponent):
         incoming_command_bundle = get_page_command(incoming_page_name)
         outgoing_command_bundle = get_page_command(outgoing_page_name, True)
 
+        if outgoing_command_bundle:
+            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
+            context = make_context_dict(incoming_page_name, incoming_page_num)
+
+            self.__action_resolver.execute_command_bundle(
+                bundle=outgoing_command_bundle,
+                vars_dict=outgoing_vars,
+                context=context
+            )
 
         if incoming_command_bundle:
             incoming_vars = self.__page_definitions[incoming_page_name].get('vars', {})
@@ -370,15 +379,6 @@ class PageManager(ZCXComponent):
                 context=context
             )
 
-        if outgoing_command_bundle:
-            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
-            context = make_context_dict(incoming_page_name, incoming_page_num)
-
-            self.__action_resolver.execute_command_bundle(
-                bundle=outgoing_command_bundle,
-                vars_dict=outgoing_vars,
-                context=context
-            )
 
     @staticmethod
     def validate_section_config(section_name, section_config):
