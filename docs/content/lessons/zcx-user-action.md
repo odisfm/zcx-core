@@ -42,7 +42,7 @@ This is the number of the control surface script slot the zcx script resides in.
 
 #### PAGE
 
-Activate a particular page by name or number.
+Activate a particular [page](getting-started/zcx-concepts.md#pages) by name or number.
 
 `ZCX <target script> PAGE 0`
 
@@ -56,7 +56,7 @@ Or cycle through pages.
 
 #### MODE
 
-Enable, disable, or toggle a zcx mode.
+Enable, disable, or toggle a zcx [mode](getting-started/zcx-concepts.md#modes).
 
 `ZCX <target script> MODE ON SHIFT`
 

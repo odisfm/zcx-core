@@ -158,7 +158,7 @@ gestures:
 
 ### page
 
-Accepts a page name, page number, or keyword, and switches to that page:
+Accepts a page name, page number, or keyword, and switches to that [page](../lessons/getting-started/zcx-concepts.md#pages):
 
 ```yaml hl_lines="3 5 7"
 gestures:
@@ -195,7 +195,7 @@ Goes back to the page that was active before the current one.
 
 ### mode_on, mode_off, mode
 
-Enables, disables, or toggles the given mode:
+Enables, disables, or toggles the given [mode](../lessons/getting-started/zcx-concepts.md#modes):
 
 ```yaml hl_lines="3 5"
 gestures:
