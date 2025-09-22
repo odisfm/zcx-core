@@ -110,7 +110,8 @@ class PadSection(EventObject):
             self.notify_in_view()
 
     def register_owned_control(self, control):
-        self.__owned_controls.append(control)
+        if not control in self.__owned_controls:
+            self.__owned_controls.append(control)
 
     def get_row(self, row_num):
         start = row_num * self.__width
