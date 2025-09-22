@@ -185,3 +185,5 @@ def parse_color_definition(color, calling_control=None):
 
 def simplify_color(color):
     return hardware_colors.simplify_color(color)
+
+ALL_LIVE_COLORS = [parse_color_definition({"live": i}) for i in range(70)] # 70 colors in the picker
