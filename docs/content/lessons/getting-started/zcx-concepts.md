@@ -14,6 +14,7 @@ You define ZControls in your configuration files and when you press their associ
 !!! note "Terminology"
     In this documentation, when we use the word "button" we are referring to the physical input on your MIDI controller.
     When we use the terms "control" or "ZControl", we are referring to the abstract concept.
+    As one button is usually associated with several ZControls, this distinction will become important.
 
 ### control definitions
 
@@ -128,14 +129,7 @@ zcx/
 !!! note
     The names used in `named_controls.yaml` and `encoders.yaml` have already been mapped to MIDI messages sent by your hardware.
 
-    To check the names of each control, look in the `hardware` folder.
-    
-    ```
-    zcx/
-    ├─ hardware/
-    │  ├─ note_buttons.yaml
-    │  ├─ cc_buttons.yaml
-    ```
+    To check the names of each control, see the [Hardware Reference](../../reference/hardware/index.md)
 
 #### matrix controls
 
