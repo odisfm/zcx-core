@@ -4,6 +4,7 @@ import traceback
 from typing import TYPE_CHECKING
 
 from ableton.v2.base.task import TimerTask
+from ableton.v2.control_surface.input_control_element import ScriptForwarding
 from ableton.v3.control_surface import (
     ControlSurface
 )
@@ -22,6 +23,7 @@ root_cs = None
 class ZCXCore(ControlSurface):
 
     def __init__(self, *a, **k):
+        self._midi_map_locked = False
         super().__init__(*a, **k)
         try:
             try:
@@ -76,6 +78,7 @@ class ZCXCore(ControlSurface):
                 from .osc_watcher import OscWatcher
                 OscWatcher.address_prefix = f'/zcx/{self.name}/'
 
+                self._doing_note_translations = False
                 self.post_init()
 
                 if initial_hw_mode == 'zcx' and USER_MODE is not None:
@@ -173,7 +176,6 @@ class ZCXCore(ControlSurface):
     def setup(self):
         super().setup()
 
-
     def post_init(self):
         try:
             global root_cs
@@ -208,9 +210,13 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting SessionView setup')
             self.component_map['SessionView'].setup()
             self.debug(f'finished SessionView setup')
+            self.debug(f'starting MelodicComponent setup')
+            self.component_map['MelodicComponent'].setup()
+            self.debug(f'finished MelodicComponent setup')
             self.debug(f'starting ViewManager setup')
             self.component_map['ViewManager'].setup()
             self.debug(f'finished ViewManager setup')
+
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
                 try:
@@ -251,7 +257,13 @@ class ZCXCore(ControlSurface):
         except Exception as e:
             self.critical(e)
             raise
+
         self.component_map['HardwareInterface'].refresh_all_lights()
+
+    def build_midi_map(self, midi_map_handle):
+        super().build_midi_map(midi_map_handle)
+        if not self._doing_note_translations:
+            self.component_map["MelodicComponent"].update_translation()
 
     def hot_reload(self):
         try:
@@ -267,6 +279,7 @@ class ZCXCore(ControlSurface):
             self.component_map["EncoderManager"]._unload()
             self._session_ring_custom._unload()
             self.component_map["SessionView"]._unload()
+            self.component_map["MelodicComponent"]._unload()
             self.component_map["ViewManager"]._unload()
             self.log("doing setup on components")
             self.post_init()
@@ -316,6 +329,8 @@ class ZCXCore(ControlSurface):
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
         self.invoke_all_plugins('refresh_feedback')
+        self.component_map["MelodicComponent"].update_translation()
+        self.component_map["MelodicComponent"].refresh_all_feedback()
 
     def show_popup(self, message):
         self.application.show_on_the_fly_message(message)
@@ -360,4 +375,3 @@ class DelayedSysexTask(TimerTask):
 
     def on_finish(self):
         self._owner._do_send_midi(self.sysex_tuple)
-

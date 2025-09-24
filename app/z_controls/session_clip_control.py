@@ -11,7 +11,7 @@ class SessionClipControl(ZControl):
         super().__init__(*a, **kw)
         self.__clip_slot = None
         self.__clip = None
-        self.__color_dict = self.empty_color_dict
+        self._color_dict = self.empty_color_dict
         self._color = self.empty_color_dict['base']
         self._suppress_animations = True
         self._suppress_attention_animations = True
@@ -82,9 +82,9 @@ class SessionClipControl(ZControl):
     @listens('color_index')
     def color_index_changed(self):
         if self.__clip is not None:
-            self.__color_dict = self.session_view_component.get_color_dict(self.__clip.color_index)
+            self._color_dict = self.session_view_component.get_color_dict(self.__clip.color_index)
         else:
-            self.__color_dict = self.empty_color_dict
+            self._color_dict = self.empty_color_dict
         self.update_status()
 
     @listens('arm')
@@ -97,23 +97,23 @@ class SessionClipControl(ZControl):
         else:
             if self.__clip is not None:
                 if self.__clip.is_recording:
-                    self._color = self.__color_dict['recording']
+                    self._color = self._color_dict['recording']
                 elif self.__clip_slot.is_playing:
-                    self._color = self.__color_dict['playing']
+                    self._color = self._color_dict['playing']
                 elif self.__clip_slot.is_triggered:
-                    self._color = self.__color_dict['triggered_to_play']
+                    self._color = self._color_dict['triggered_to_play']
                 else:
-                    self._color = self.__color_dict['base']
+                    self._color = self._color_dict['base']
             else:
                 if self.__clip_slot.is_triggered:
                     track = self.__clip_slot.canonical_parent
                     if track.can_be_armed and track.arm:
-                        self._color = self.__color_dict['triggered_to_record']
+                        self._color = self._color_dict['triggered_to_record']
                     else:
-                        self._color = self.__color_dict['triggered_to_play']
+                        self._color = self._color_dict['triggered_to_play']
                 else:
                     if self.__clip_slot.has_stop_button and self.__clip_slot.canonical_parent.can_be_armed and self.__clip_slot.canonical_parent.arm:
-                        self._color = self.__color_dict['arm']
+                        self._color = self._color_dict['arm']
                     else:
                         self._color = self.empty_color_dict['base']
 

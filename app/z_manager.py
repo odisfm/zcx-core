@@ -2,7 +2,7 @@ from copy import deepcopy, copy
 from typing import Optional
 
 from ableton.v3.control_surface.controls import control_matrix
-from .z_controls import ParamControl
+from .z_controls import ParamControl, KeyboardControl
 
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
@@ -749,12 +749,18 @@ class ZManager(ZCXComponent):
         return self.__control_aliases.get(alias)
 
     def song_ready(self):
+        """
+        Some controls rely on objects that are not ready when the control is created,
+        so we iterate over every control and call necessary methods based on the control's class
+        """
         selected_device_watcher = SelectedDeviceWatcher(self, self._song)
         ParamControl.selected_device_watcher = selected_device_watcher
         for control in self.__all_controls:
             try:
                 if isinstance(control, ParamControl):
                     control.bind_to_active()
+                if isinstance(control, KeyboardControl):
+                    control.finish_setup()
             except Exception as e:
                 self.log(e)
 

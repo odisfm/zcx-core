@@ -1,16 +1,17 @@
-from ableton.v3.control_surface.controls import ButtonControl
+from ableton.v3.control_surface.controls import ButtonControl, PlayableControl
 from ableton.v3.control_surface.display import Renderable
 
 
-class ZState(ButtonControl):
+class ZState(PlayableControl):
 
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
 
-    class State(ButtonControl.State, Renderable):
+    class State(PlayableControl.State, Renderable):
 
         def __init__(self, *a, **k):
             super().__init__(*a, **k)
+            self.set_mode(1)
             self.__registered_z_controls = set()
 
         def register_z_control(self, z_control):
