@@ -24,5 +24,7 @@ def get_subclass(class_name):
             return ParamControl
         case "keyboard":
             return KeyboardControl
+        case "overlay":
+            return OverlayControl
         case _:
             return BasicZControl

@@ -43,6 +43,14 @@ class ViewManager(ZCXComponent):
     def in_view_controls(self):
         return copy(self.__in_view_named_controls)
 
+    @listenable_property
+    def active_overlay_names(self):
+        return self.__active_overlay_names
+
+    @property
+    def all_overlay_names(self):
+        return list(self.__overlay_sections.keys())
+
     def setup(self):
         self._z_manager: "PageManager" = self.component_map['ZManager']
         self._action_resolver: "ActionResolver" = self.component_map['ActionResolver']
@@ -231,6 +239,7 @@ class ViewManager(ZCXComponent):
         bundle = detail.incoming_bundle
         if bundle is not None:
             self._action_resolver.execute_command_bundle(None, bundle, {}, detail.context)
+        self.notify_active_overlay_names(self.__active_overlay_names)
 
     def disable_overlay(self, overlay_name):
         if not overlay_name in self.__overlay_sections.keys():
@@ -244,6 +253,7 @@ class ViewManager(ZCXComponent):
         bundle = detail.outgoing_bundle
         if bundle is not None:
             self._action_resolver.execute_command_bundle(None, bundle, {}, detail.context)
+        self.notify_active_overlay_names(self.__active_overlay_names)
 
     def toggle_overlay(self, overlay_name):
         if not overlay_name in self.__overlay_sections.keys():

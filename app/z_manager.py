@@ -2,7 +2,7 @@ from copy import deepcopy, copy
 from typing import Optional
 
 from ableton.v3.control_surface.controls import control_matrix
-from .z_controls import ParamControl, KeyboardControl
+from .z_controls import ParamControl, KeyboardControl, OverlayControl
 
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
@@ -761,8 +761,15 @@ class ZManager(ZCXComponent):
                     control.bind_to_active()
                 if isinstance(control, KeyboardControl):
                     control.finish_setup()
+                if isinstance(control, OverlayControl):
+                    control.finish_setup()
             except Exception as e:
-                self.log(e)
+                if isinstance(e, ConfigurationError):
+                    if SAFE_MODE:
+                        raise e
+                else:
+                    self.error(f"Error finishing control setup in section `{control.parent_section.name}`")
+                    self.error(e)
 
     def load_overlay_definitions(self):
 
