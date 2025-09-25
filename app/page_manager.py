@@ -186,14 +186,35 @@ class PageManager(ZCXComponent):
         PadSection.root_cs = self.canonical_parent
         PadSection.page_manager = self
 
-        used_sections = set()
+        used_section_names = set()
         for page_sections in self.__pages_sections.values():
-            used_sections.update(page_sections)
+            used_section_names.update(page_sections)
+
+        try:
+            overlays_config = self.yaml_loader.load_yaml(
+                f"{self._config_dir}/overlays.yaml"
+            )
+            if overlays_config is None:
+                self.warning("`overlays.yaml` appears to be blank")
+            if not isinstance(overlays_config, dict) or "overlays" not in overlays_config:
+                raise CriticalConfigurationError(f"`overlays.yaml` must be an object with key `overlays`")
+            overlays_config = overlays_config["overlays"]
+        except FileNotFoundError:
+            overlays_config = {}
+
+        for overlay_name, overlay_def in overlays_config.items():
+            sections_def = overlay_def.get("matrix_sections", [])
+            if not isinstance(sections_def, list):
+                raise CriticalConfigurationError(f"Overlay `{overlay_name}` key `matrix_sections` must be a list")
+            for section_name in sections_def:
+                if section_name not in sections_config:
+                    raise CriticalConfigurationError(f"Overlay `{overlay_name}` references matrix section `{section_name}` that does not exist in `matrix_sections.yaml`")
+                used_section_names.add(section_name)
 
         special_section_names = self.__special_sections_config.keys()
 
         for section_name, section_config in sections_config.items():
-            if section_name in used_sections:  # Only build sections that are used
+            if section_name in used_section_names:  # Only build sections that are used
                 if section_name in special_section_names:
                     self.__special_sections_config[section_name] = section_config
                     continue

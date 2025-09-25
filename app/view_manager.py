@@ -124,11 +124,15 @@ class ViewManager(ZCXComponent):
         named_set_in_view: "dict[str, tuple[ZControl, int, str]]" = {}
         matrix_set_in_view: "dict[tuple[int, int], tuple[ZControl, int, str]]" = {}
 
+        overlay_matrix_section_names = set()
+
         for section_name, section_obj in self.__overlay_sections.items():
             if section_name not in self.__active_overlay_names:
                 continue
             section_obj: "PadSection" = section_obj
             layer_idx = section_obj.layer
+            overlay_detail = self.__overlay_details[section_name]
+            overlay_matrix_section_names.update(overlay_detail.matrix_sections)
 
             for control in section_obj.owned_controls:
                 if control.name.endswith(f"_{section_name}"):
@@ -154,12 +158,29 @@ class ViewManager(ZCXComponent):
                 continue
             named_set_in_view[control.name] = (control, 0, named_control_section_name)
 
-        for section_name, section_obj in self.__matrix_sections.items():
+        invoked_matrix_sections = set()
+        current_page = self._page_manager.current_page
+        for section_name in overlay_matrix_section_names:
+            invoked_matrix_sections.add(self.__matrix_sections[section_name])
+        for section_obj in self.__matrix_sections.values():
+            self.log(f"current_page: {current_page}, {section_obj.name} pages: {section_obj.in_pages}")
+            if current_page in section_obj.in_pages:
+                self.log(f"including {section_obj.name}")
+                invoked_matrix_sections.add(section_obj)
+
+        invoked_matrix_sections = list(invoked_matrix_sections)
+
+        def sort_key(section):
+            is_overlay = section.name in overlay_matrix_section_names
+            return (is_overlay, section.layer)
+
+        invoked_matrix_sections.sort(key=sort_key, reverse=True)
+
+        self.log([section.name for section in invoked_matrix_sections])
+
+        for section_obj in invoked_matrix_sections:
             section_obj: "PadSection" = section_obj
-            if self._page_manager.current_page in section_obj.in_pages or section_obj.in_view:
-                pass
-            else:
-                continue
+            section_name = section_obj.name
             layer_idx = section_obj.layer
             for i, coord in enumerate(section_obj.owned_coordinates):
                 control = section_obj.owned_controls[i]
@@ -167,13 +188,12 @@ class ViewManager(ZCXComponent):
                 if existing_def:
                     existing_layer = existing_def[1]
                     existing_section_name = existing_def[2]
-                    if existing_layer == layer_idx:
+                    if existing_layer == layer_idx and existing_section_name not in overlay_matrix_section_names:
                         self.warning(f"Sections `{section_name}` and `{existing_section_name}` share a layer ({layer_idx}) and the same control (`idx #{i}`)\n"
                                      f"The control from `{section_name}` will be disabled.")
-                        continue
+                    continue
 
                 matrix_set_in_view[coord] = (control, layer_idx, section_name)
-
         named_to_enable = [entry[0] for entry in named_set_in_view.values()]
         matrix_to_enable = [entry[0] for entry in matrix_set_in_view.values()]
 
@@ -274,6 +294,7 @@ class OverlayDetail:
             "overlay_name": self.__name,
             "overlay_layer": self.__layer,
         }
+        self.__included_matrix_section_names = set(raw_config.get("matrix_sections", []))
 
     @property
     def name(self):
@@ -294,4 +315,8 @@ class OverlayDetail:
     @property
     def context(self):
         return self.__context
+
+    @property
+    def matrix_sections(self) -> list[str]:
+        return self.__included_matrix_section_names
 

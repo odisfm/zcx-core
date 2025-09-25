@@ -48,11 +48,13 @@ It is also valid to give matrix sections a negative layer index, i.e `layer: -1`
 
 ## Overlays
 
-Overlays are like a combination of modes and pages, but specifically for [named controls](../lessons/getting-started/zcx-concepts.md#named-controls), which are not affected by the page system.
+Overlays are like a combination of modes and pages.
+When an overlay is active, we can enable any number of matrix sections or alternate named control definitions.
 
-An overlay is a collection of named control definitions, just like in `named_controls.yaml`.
-When we enable the overlay, we associate any number of buttons with alternative control definitions.
-When we disable the overlay, we return to the default definitions in `named_controls.yaml`.
+The pages system still functions as normal.
+However, when an overlay is active, we can override the usual sections that appear on that page with different ones.
+
+Overlays can also define new versions of your named controls, which isn't possible with the pages system.
 
 ### Defining overlays
 
@@ -69,6 +71,8 @@ If you are using a newer zcx demo config, there will be one or more overlays def
 Each entry in `overlays` is a dict.
 Above, we defined a new overlay called `my_overlay`, and gave it an empty definition (the `{}` means an empty dict/object).
 
+#### Overlaying named controls
+
 We must now create a new yaml file for our overlay.
 This file goes in the `overlays/` folder inside your config folder.
 Create the file `overlays/<overlay name>.yaml`
@@ -82,6 +86,23 @@ my_button:
 
 The overlay file works just like `named_controls.yaml`.
 We specify a button name, and provide a [control definition](../lessons/getting-started/zcx-concepts.md#control-definitions).
+
+!!! note ""
+    You may leave the overlay file blank if you only want to use the overlay to enable matrix sections.
+
+#### Overlaying matrix sections
+
+To associate a matrix section with this overlay, add the key `matrix sections` to the overlay definition:
+
+```yaml title="zcx/_config/overlays.yaml"
+overlays:
+  my_overlay:
+    matrix_sections:
+      - my_matrix_section
+      - my_other_matrix_section
+```
+
+`matrix_sections` is just a list of matrix sections you have already defined in [matrix_sections.yaml](../reference/configuration-files/matrix-sections.md).
 
 ### Enabling overlays
 
@@ -108,10 +129,17 @@ Now, while the button `scales` is held the overlay `my_overlay` is active.
 When `my_button` is pressed, it will show the message `This is the overlay button!`
 When we leave `my_overlay` and press `my_button` again it will show `This is the base button.`
 
-### Multiple overlays
+!!! tip
+    You can use a [startup command](../reference/configuration-files/preferences.md#startup_command) to enable an overlay when zcx loads.
+!!! tip
+    You can use an [overlay control](../reference/control/overlay.md) to get LED feedback about an overlay's status.
 
-You can define and enable any number of overlays at the same time.
+### Conflicts with multiple overlays
+
+You can enable any number of overlays at the same time.
 However, if two overlays define the same control, which takes priority?
+
+### Named controls
 
 By default, when this conflict occurs zcx will resolve it like so:
 
@@ -131,10 +159,17 @@ overlays:
 ```
 
 If `my_overlay` and `other_overlay` both define the same control, and they are both enabled, `other_overlay` will win as it has a higher layer number.
-So layers here work similarly to [matrix layers](#matrix-sections-and-layers), with a key difference:
+So priority here work similarly to [matrix layers](#matrix-sections-and-layers), with a key difference:
 
 The default layer is 1, and an overlay's layer cannot be lower than 1.
 The default named controls definition (in `named_controls.yaml`) can be considered as layer 0.
+
+### Matrix controls
+
+Priority here works similarly to [matrix layers](#matrix-sections-and-layers), with some key differences:
+
+- When two overlays try to enable a matrix section at the same coordinates, the **section** with the higher layer number wins.
+- Matrix sections enabled by an overlay always have priority over any section enabled by a page, even if the overlaid section has a lower layer number than the page's section.
 
 ### Disabling controls with an overlay
 
@@ -233,7 +268,7 @@ When getting a control by name, i.e. from the zcx [user action](zcx-user-action.
 This name is just the base control name suffixed with the overlay name.
 So with a button called `my_button` and an overlay called `my_overlay`, you would use the name `my_button_my_overlay`.
 
-You can also refer to a control by its [alias](../reference/control/standard.md#alias).
+You can also refer to a control by its [alias](../reference/control/standard.md#alias), if you have defined one.
 
 #### Group names
 
