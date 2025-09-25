@@ -4,7 +4,7 @@ weight: -7
 
 # page control
 
-The `page` control is identical to the `standard` control, except it has a required `page` option. This control's LED feedback will reflect whether its bound page is currently active. As such, the `color` option is ignored in favor of [active color](#active_color) and [inactive color](#inactive_color)
+The `page` control is identical to the `standard` control, except it has a required `page` option. This control's LED feedback will reflect whether its bound [page](../../lessons/getting-started/zcx-concepts.md#pages) is currently active. As such, the `color` option is ignored in favor of [active color](#active_color) and [inactive color](#inactive_color)
 
 !!! Note
     Standard controls are already capable of changing pages, and page controls still require you to manually define the page change commands. The only purpose of this control is to enable control feedback.
