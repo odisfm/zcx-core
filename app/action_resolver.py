@@ -390,6 +390,71 @@ class ActionResolver(ZCXComponent):
                             elif scene_def_parsed is not None:
                                 ring_component.go_to_scene(scene_def_parsed)
 
+                        case 'keyboard':
+                            self.log("got keybaord cmd")
+                            self.log(command_def)
+                            melodic_inst = self.component_map["MelodicComponent"]
+
+                            for key_type, key_def in command_def.items():
+                                match key_type.lower():
+                                    case 'in_key':
+                                        if isinstance(key_def, bool):
+                                            key_def = not key_def  # internal name is `chromatic`, user is `in_key`
+                                        melodic_inst.chromatic = key_def
+                                    case 'layout':
+                                        melodic_inst.layout = key_def
+                                    case 'full_velo':
+                                        melodic_inst.full_velo = key_def
+                                    case 'repeat_rate':
+                                        rate_def = key_def
+                                        if not isinstance(key_def, str):
+                                            raise RuntimeError(f'invalid key definition: {key_def}')
+                                        if "${" in key_def:
+                                            parsed, status = self.compile(key_def, vars_dict, context)
+                                            if status != 0:
+                                                raise RuntimeError(f"Couldn't parse key: {key_def}")
+                                            rate_def = parsed
+                                        melodic_inst.repeat_rate = rate_def
+                                    case 'octave':
+                                        if isinstance(key_def, str):
+                                            if "${" in key_def:
+                                                parsed, status = self.compile(key_def, vars_dict, context)
+                                                if status != 0:
+                                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                                key_def = parsed
+                                            else:
+                                                try:
+                                                    key_def = int(key_def)
+                                                except ValueError:
+                                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                            melodic_inst.octave = key_def
+                                        elif isinstance(key_def, dict):
+                                            direction = None
+                                            dir_def = key_def.get('down')
+                                            if dir_def is not None:
+                                                direction = "down"
+                                            else:
+                                                dir_def = key_def.get('up')
+                                                if dir_def is not None:
+                                                    direction = "up"
+                                                else:
+                                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                            if isinstance(dir_def, str):
+                                                if "${" in dir_def:
+                                                    parsed, status = self.compile(dir_def, vars_dict, context)
+                                                    if status != 0:
+                                                        raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                                    dir_def = parsed
+                                            try:
+                                                dir_def = int(dir_def)
+                                            except ValueError:
+                                                raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+
+                                            if direction == "down":
+                                                dir_def *= -1
+
+                                            melodic_inst.increment_octave(dir_def)
+
                         case 'color':
                             if isinstance(command_def, str):
                                 command_def = self._compile_and_check(command_def, vars_dict, context)

@@ -6,6 +6,8 @@ def get_subclass(class_name):
     match class_name:
         case "basic":
             return BasicZControl
+        case "standard":
+            return BasicZControl
         case "blank":
             return BasicZControl
         case "page":
@@ -20,5 +22,7 @@ def get_subclass(class_name):
             return RingTrackControl
         case "param":
             return ParamControl
+        case "keyboard":
+            return KeyboardControl
         case _:
             return BasicZControl

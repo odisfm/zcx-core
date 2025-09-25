@@ -6,6 +6,7 @@ from ableton.v3.control_surface import (
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
 ENCODERS = None
+PLAYABLE = False
 CONFIG_DIR = '_config'
 SAFE_MODE = False
 PREF_MANAGER = None
@@ -32,6 +33,8 @@ def create_mappings(arg) -> dict:
         hw_mapping_dict[encoder_name_formatted] = encoder_name_formatted
 
     hw_mapping_dict['button_matrix'] = 'button_matrix'
+    if PLAYABLE:
+        hw_mapping_dict['playable_matrix'] = 'playable_matrix'
 
     mappings = {
         "HardwareInterface": hw_mapping_dict,
@@ -46,6 +49,7 @@ def create_mappings(arg) -> dict:
         "SessionView": {},
         "TestRunner": {},
         "ViewManager": {},
+        "MelodicComponent": {},
     }
 
     def add_plugin_mappings(plugin_dict):
@@ -109,6 +113,10 @@ def prepare_hardware_interface(button_names, encoder_names) -> "Type[HardwareInt
 
     matrix_control = control_matrix(ZState)
     setattr(_hardware_interface, 'button_matrix', matrix_control)
+    if PLAYABLE:
+        from .playable.playable_state import PlayableState
+        playable_matrix = control_matrix(PlayableState)
+        setattr(_hardware_interface, 'playable_matrix', playable_matrix)
 
     for event in events:
         def create_handler(event_type=event, name='button_matrix'):
@@ -221,6 +229,7 @@ def create_instance(c_instance):
     from .session_view import SessionView
     from .test_runner import TestRunner
     from .view_manager import ViewManager
+    from .playable.melodic_component import MelodicComponent
 
     plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
 
@@ -237,6 +246,7 @@ def create_instance(c_instance):
         "SessionView": SessionView,
         "TestRunner": TestRunner,
         "ViewManager": ViewManager,
+        "MelodicComponent": MelodicComponent,
     }
 
     def add_plugins_to_component_map(plugin_dict):

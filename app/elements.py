@@ -7,7 +7,7 @@ from ableton.v3.control_surface import ElementsBase, create_matrix_identifiers
 
 from .consts import REQUIRED_HARDWARE_SPECS, APP_NAME
 from .encoder_element import EncoderElement
-from .errors import HardwareSpecificationError
+from .errors import HardwareSpecificationError, CriticalConfigurationError
 from .vendor.yaml import safe_load as load_yaml
 from .z_element import ZElement
 
@@ -102,11 +102,11 @@ class Elements(ElementsBase):
                 raise HardwareSpecificationError("matrix identifiers not defined or defined incorrectly")
 
 
-        channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
+        matrix_channel = matrix_config.get("channel") or specs_dict.get("channel") or 0
 
 
         self.add_matrix(
-            channels=channel,
+            channels=matrix_channel,
             identifiers=identifiers,
             base_name="button_matrix",
             is_rgb=True,
@@ -123,11 +123,44 @@ class Elements(ElementsBase):
             element._color_swatch = color_swatch()
             element._feedback_type = feedback
 
+        from . import PREF_MANAGER
+        from .yaml_loader import yaml_loader
+        user_prefs = PREF_MANAGER.user_prefs
+        config_dir = PREF_MANAGER.config_dir
+        matrix_sections_yaml = yaml_loader.load_yaml(f"{config_dir}/matrix_sections.yaml")
+        if "__keyboard" in matrix_sections_yaml:
+            playable_channel = user_prefs.get("playable_channel")
+            if playable_channel is None:
+                from .consts import DEFAULT_PLAYABLE_MIDI_CHANNEL
+                playable_channel = DEFAULT_PLAYABLE_MIDI_CHANNEL
+
+            if playable_channel == matrix_channel:
+                raise CriticalConfigurationError(
+                    f"Provided channel for the playable component ({playable_channel}) is same as default matrix channel ({matrix_channel})."
+                )
+
+            playable_identifiers = create_matrix_identifiers(
+                0, 127 + 1, 128, flip_rows=True
+            )
+
+            self.add_matrix(
+                channels=playable_channel,
+                identifiers=playable_identifiers,
+                base_name="playable_matrix",
+                is_rgb=True,
+                msg_type=matrix_msg_type,
+                element_factory=matrix_button_factory,
+            )
+            self.log(f"created playable matrix on channel {playable_channel} ({playable_channel + 1}).")
+        else:
+            self.log(f"no playable section defined")
+
         import sys
 
         mod = sys.modules[__package__]
         mod.NAMED_BUTTONS = self.named_buttons
         mod.ENCODERS = self.encoders
+        mod.PLAYABLE = hasattr(self, "playable_matrix")
 
     def process_cc_buttons(self, cc_button_globals: dict, cc_button_yaml: dict) -> None:
         from .colors import ColorSwatches

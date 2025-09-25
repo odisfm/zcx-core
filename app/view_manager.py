@@ -188,6 +188,20 @@ class ViewManager(ZCXComponent):
 
         self.__in_view_named_controls = named_to_enable
         self.__in_view_matrix_controls = matrix_to_enable
+        self.debug_in_view()
+        self.component_map["MelodicComponent"].update_translation()
+        self.component_map["MelodicComponent"].refresh_all_feedback()
+
+
+    def debug_in_view(self):
+        self.log(f"---- debug in view ----")
+        for section_obj in self.__matrix_sections.values():
+            self.log(f"{section_obj.name} >>")
+            count = 0
+            for control in section_obj.owned_controls:
+                if control.in_view:
+                    count += 1
+            self.log(f"{count} out of {len(section_obj.owned_controls)} in view")
 
     def enable_overlay(self, overlay_name):
         if not overlay_name in self.__overlay_sections.keys():

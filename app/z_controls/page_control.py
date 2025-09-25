@@ -35,7 +35,7 @@ class PageControl(ZControl):
         if page_config is None:
             self._disabled_color = self._control_element.color_swatch.OFF
             self._color = self._disabled_color
-            self.__color_dict['base'] = self._disabled_color
+            self._color_dict['base'] = self._disabled_color
             self._control_element.set_light(self._color)
             error_message = f'page control defined with no `page` key\n{self._raw_config}'
             if SAFE_MODE:

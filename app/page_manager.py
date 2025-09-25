@@ -44,6 +44,7 @@ class PageManager(ZCXComponent):
         self.__does_send_osc = False
         self.__special_sections_config = {
             "__session_view": None,
+            "__keyboard": None,
         }
         self.__does_send_page_change_osc = False
         self.__does_send_matrix_label_osc = None
@@ -257,6 +258,7 @@ class PageManager(ZCXComponent):
         self.__does_send_osc = False
         self.__special_sections_config = {
             "__session_view": None,
+            "__keyboard": None,
         }
         self.__does_send_page_change_osc = False
         self.__does_send_matrix_label_osc = None
