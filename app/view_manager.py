@@ -163,9 +163,7 @@ class ViewManager(ZCXComponent):
         for section_name in overlay_matrix_section_names:
             invoked_matrix_sections.add(self.__matrix_sections[section_name])
         for section_obj in self.__matrix_sections.values():
-            self.log(f"current_page: {current_page}, {section_obj.name} pages: {section_obj.in_pages}")
             if current_page in section_obj.in_pages:
-                self.log(f"including {section_obj.name}")
                 invoked_matrix_sections.add(section_obj)
 
         invoked_matrix_sections = list(invoked_matrix_sections)
@@ -175,8 +173,6 @@ class ViewManager(ZCXComponent):
             return (is_overlay, section.layer)
 
         invoked_matrix_sections.sort(key=sort_key, reverse=True)
-
-        self.log([section.name for section in invoked_matrix_sections])
 
         for section_obj in invoked_matrix_sections:
             section_obj: "PadSection" = section_obj
