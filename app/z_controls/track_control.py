@@ -122,8 +122,8 @@ class TrackControl(ZControl):
 
         color_dict['stopped'] = base_color
         color_dict['playing'] = parse_color_definition({'pulse': {
-            'a': 'play_green',
-            'b': {'live': base_index},
+            'a': {'live': base_index},
+            'b': 0,
             'speed': 1
         }}, calling_control=self)
         color_dict['fired'] = parse_color_definition({'blink': {
