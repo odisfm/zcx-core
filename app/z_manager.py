@@ -103,7 +103,6 @@ class ZManager(ZCXComponent):
             self.process_named_buttons(section_obj, overlay_name)
             section_obj._PadSection__in_view = True
 
-            self.log(overlay_name, self.__overlay_sections[overlay_name], self.__overlay_sections[overlay_name].owned_controls)
 
     def add_control_to_group(self, control, group_name):
         if group_name in self.__control_groups:
