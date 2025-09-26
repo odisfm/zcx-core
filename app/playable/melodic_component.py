@@ -42,7 +42,7 @@ class MelodicComponent(ZCXComponent):
         self.__translated_pitches_to_controls: list[list[PlayableZControl]] = [[] for _ in range(128)]
         self.__concerned_pitches: list[int] = []
         self.__note_layout = "fourths"
-        self.__octave = 1
+        self.__octave = 3
         self.__does_exist = False
         self.__sounding_pitches = []
         self.__repeat_rate = 0
