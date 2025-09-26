@@ -496,6 +496,8 @@ class ZEncoder(EventObject):
         elif device_def.lower() == "sel":
             listen_dict["device_list"] = True
             listen_dict["selected_device"] = True
+        if target_map.get("track") is None:
+            listen_dict["selected_track"] = True
 
         chain_map = target_map.get("chain_map")
         if chain_map is None:

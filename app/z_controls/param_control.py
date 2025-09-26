@@ -610,6 +610,8 @@ class ParamControl(ZControl):
             par_type = target_map.get("parameter_type")
             if isinstance(par_type, str) and par_type.lower() == "sel":
                 listen_dict["mapped_device_selected"] = True
+            if target_map.get("track") is None:
+                listen_dict["selected_track"] = True
 
         if device_def and device_def.lower() == "sel":
             listen_dict["selected_device"] = True
