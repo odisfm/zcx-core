@@ -189,7 +189,6 @@ class KeyboardControl(ZControl):
     def _back_in_view(self):
         super()._back_in_view()
         self.update_feedback()
-        self.log(f"my repeat rate: {self.__repeat_rate}")
 
     @listens("chromatic")
     def _listener_chromatic(self, _):
