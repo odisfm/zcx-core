@@ -212,7 +212,6 @@ class ViewManager(ZCXComponent):
 
         self.__in_view_named_controls = named_to_enable
         self.__in_view_matrix_controls = matrix_to_enable
-        self.debug_in_view()
         self.component_map["MelodicComponent"].update_translation()
         self.component_map["MelodicComponent"].refresh_all_feedback()
 
