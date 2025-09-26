@@ -165,17 +165,26 @@ class ZManager(ZCXComponent):
 
         try:
             for i in range(len(pad_section.owned_coordinates)):
-                coord = pad_section.owned_coordinates[i]
-                item_config = context_config[i]
-                state: ZState.State = matrix_state.get_control(coord[0], coord[1])
-                control = self.z_control_factory(item_config, pad_section)
-                self.debug(f'instantiated {pad_section.name} control #{i}')
-                control.bind_to_state(state)
-                control.raw_config = context_config[i]
-                control.setup()
-                self.debug(f'{pad_section.name} control #{i} successfully setup')
+                try:
+                    coord = pad_section.owned_coordinates[i]
+                    item_config = context_config[i]
+                    state: ZState.State = matrix_state.get_control(coord[0], coord[1])
+                    control = self.z_control_factory(item_config, pad_section)
+                    self.debug(f'instantiated {pad_section.name} control #{i}')
+                    control.bind_to_state(state)
+                    control.raw_config = context_config[i]
+                    control.setup()
+                    self.debug(f'{pad_section.name} control #{i} successfully setup')
+                except CriticalConfigurationError:
+                    raise
+                except Exception as e:
+                    from . import SAFE_MODE
+                    if SAFE_MODE:
+                        raise
+                    self.error(e)
+
         except Exception as e:
-            self.error(e)
+            raise
 
         self.__matrix_sections[pad_section.name] = pad_section
 
@@ -512,16 +521,24 @@ class ZManager(ZCXComponent):
 
         for button_name, button_def in parsed_config.items():
             try:
-                state: ZState.State = getattr(hardware, f'_button_{button_name}')
-            except AttributeError:
-                raise CriticalConfigurationError(
-                    f'`{this_file}` specifies control called `{button_name}` which does not exist.'
-                )
-            formatted_name = f'{button_name}{"" if not overlay else f"_{overlay}"}'
-            control = self.z_control_factory(button_def, pad_section, formatted_name)
-            control.bind_to_state(state)
-            control.setup()
-            self.__named_controls[formatted_name] = control
+                try:
+                    state: ZState.State = getattr(hardware, f'_button_{button_name}')
+                except AttributeError:
+                    raise CriticalConfigurationError(
+                        f'`{this_file}` specifies control called `{button_name}` which does not exist.'
+                    )
+                formatted_name = f'{button_name}{"" if not overlay else f"_{overlay}"}'
+                control = self.z_control_factory(button_def, pad_section, formatted_name)
+                control.bind_to_state(state)
+                control.setup()
+                self.__named_controls[formatted_name] = control
+            except CriticalConfigurationError as e:
+                raise
+            except Exception as e:
+                from . import SAFE_MODE
+                if SAFE_MODE:
+                    raise
+                self.error(e)
 
         if not overlay:
             self.__named_controls_section = pad_section
@@ -765,6 +782,7 @@ class ZManager(ZCXComponent):
                     control.finish_setup()
             except Exception as e:
                 if isinstance(e, ConfigurationError):
+                    from . import SAFE_MODE
                     if SAFE_MODE:
                         raise e
                 else:

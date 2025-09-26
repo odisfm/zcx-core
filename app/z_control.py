@@ -160,55 +160,59 @@ class ZControl(EventObject):
         return f"x{self._context['me']['global_x']}y{self._context['me']['global_y']}"
 
     def set_gesture_dict(self, gesture_config):
-        if type(gesture_config) is not dict:
-            raise ValueError(f'gesture_config must be a dict: {gesture_config}')
+        try:
+            if type(gesture_config) is not dict:
+                raise ValueError(f'gesture_config must be a dict: {gesture_config}')
 
-        processed_dict = {}
-        all_modes = []
+            processed_dict = {}
+            all_modes = []
 
-        has_off_gestures = False
-        has_on_gestures = False
+            has_off_gestures = False
+            has_on_gestures = False
 
-        for trigger, definition in gesture_config.items():
-            split = trigger.split('__')
-            gesture = split[0]
-            if gesture not in SUPPORTED_GESTURES:
-                # todo: replace with ConfigError
-                raise ValueError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
-            if gesture in OFF_GESTURES:
-                has_off_gestures = True
-            elif gesture in ON_GESTURES:
-                has_on_gestures = True
-            modes = split[1:] if len(split) > 1 else []
-            modes.sort()
-            for mode in modes:
-                if not self._mode_manager.is_valid_mode(mode):
-                    raise ValueError(f"'{mode}' is not configured in config/modes.yaml")
-                if mode not in all_modes:
-                    all_modes.append(mode)
+            for trigger, definition in gesture_config.items():
+                split = trigger.split('__')
+                gesture = split[0]
+                if gesture not in SUPPORTED_GESTURES:
+                    # todo: replace with ConfigError
+                    raise ConfigurationError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
+                if gesture in OFF_GESTURES:
+                    has_off_gestures = True
+                elif gesture in ON_GESTURES:
+                    has_on_gestures = True
+                modes = split[1:] if len(split) > 1 else []
+                modes.sort()
+                for mode in modes:
+                    if not self._mode_manager.is_valid_mode(mode):
+                        raise ValueError(f"'{mode}' is not configured in config/modes.yaml")
+                    if mode not in all_modes:
+                        all_modes.append(mode)
 
-            new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
+                new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
 
-            if isinstance(definition, dict):
-                first_key = next(iter(definition.keys()))
-                first_val = definition[first_key]
-                pseq_obj = None
+                if isinstance(definition, dict):
+                    first_key = next(iter(definition.keys()))
+                    first_val = definition[first_key]
+                    pseq_obj = None
 
-                if first_key == 'pseq':
-                    pseq_obj = Pseq(first_val, False)
-                elif first_key == 'rpseq':
-                    pseq_obj = Pseq(first_val, True)
+                    if first_key == 'pseq':
+                        pseq_obj = Pseq(first_val, False)
+                    elif first_key == 'rpseq':
+                        pseq_obj = Pseq(first_val, True)
 
-                definition = pseq_obj or definition
+                    definition = pseq_obj or definition
 
-            processed_dict[new_key] = definition
+                processed_dict[new_key] = definition
 
-        if has_off_gestures and not has_on_gestures:
-            self._animate_on_release = True
+            if has_off_gestures and not has_on_gestures:
+                self._animate_on_release = True
 
-        all_modes.sort()
-        self._concerned_modes = all_modes
-        self._gesture_dict = processed_dict
+            all_modes.sort()
+            self._concerned_modes = all_modes
+            self._gesture_dict = processed_dict
+        except Exception as e:
+            self.log(e)
+            raise e
 
     def set_vars(self, vars):
         self._vars = vars
@@ -504,32 +508,36 @@ class ZControl(EventObject):
         return self._osc_label
 
     def create_osc_label(self):
-        osc_label_def = self._raw_config.get('label')
+        try:
+            osc_label_def = self._raw_config.get('label')
 
-        if osc_label_def is None:
-            osc_label_def = self._gesture_dict.get('pressed')
             if osc_label_def is None:
-                osc_label_def = self._gesture_dict.get('released_immediately')
+                osc_label_def = self._gesture_dict.get('pressed')
                 if osc_label_def is None:
-                    for gesture, command in self._gesture_dict.items():
-                        if not gesture.startswith('pressed') or gesture.startswith('double_clicked'):
-                            continue
-                        if isinstance(command, str):
-                            osc_label_def = command
-                            break
+                    osc_label_def = self._gesture_dict.get('released_immediately')
+                    if osc_label_def is None:
+                        for gesture, command in self._gesture_dict.items():
+                            if not gesture.startswith('pressed') or gesture.startswith('double_clicked'):
+                                continue
+                            if isinstance(command, str):
+                                osc_label_def = command
+                                break
 
-        if isinstance(osc_label_def, str) and "${" in osc_label_def:
-            parsed, status = self.root_cs.component_map["ActionResolver"].compile(osc_label_def, self._vars, self._context)
-            if status != 0:
-                self.log(f"Unparsable osc label: {osc_label_def}")
-                osc_label_def = None
+            if isinstance(osc_label_def, str) and "${" in osc_label_def:
+                parsed, status = self.root_cs.component_map["ActionResolver"].compile(osc_label_def, self._vars, self._context)
+                if status != 0:
+                    self.log(f"Unparsable osc label: {osc_label_def}")
+                    osc_label_def = None
+                else:
+                    osc_label_def = parsed
+
+            if osc_label_def is not None and osc_label_def != "DUMMY":
+                self._osc_label = osc_label_def
             else:
-                osc_label_def = parsed
-
-        if osc_label_def is not None and osc_label_def != "DUMMY":
-            self._osc_label = osc_label_def
-        else:
-            self._osc_label = self.name if self.parent_section.name == "__named_buttons_section" else "-"
+                self._osc_label = self.name if self.parent_section.name == "__named_buttons_section" else "-"
+        except Exception as e:
+            self._osc_label = "-"
+            self.log(f"Error creating OSC label: {e}")
 
     def disconnect(self):
         super().disconnect()

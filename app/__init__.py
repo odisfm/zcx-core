@@ -8,7 +8,7 @@ NAMED_BUTTONS = None
 ENCODERS = None
 PLAYABLE = False
 CONFIG_DIR = '_config'
-SAFE_MODE = False
+SAFE_MODE = True
 PREF_MANAGER = None
 
 plugin_loader: 'Optional[PluginLoader]' = None
