@@ -22,6 +22,11 @@ def get_index_from_note_name(note_name):
         return None
 
 def validate_scale_name(scale_name):
+    try:
+        scale_num = int(scale_name)
+        return SCALE_NAMES[scale_num]
+    except [ValueError, IndexError]:
+        ...
     if scale_name in scale_names_lower:
         return SCALE_NAMES[scale_names_lower.index(scale_name)]
     else:
@@ -126,17 +131,16 @@ class KeyboardControl(ZControl):
 
                         name_def = scale_def.get("name")
                         if name_def is not None:
-                            if not isinstance(name_def, str):
-                                raise ConfigurationError(f"Invalid scale name `{name_def}`. Must be in: {scale_names_lower}")
                             if "${" in name_def:
                                 parsed, status = self.action_resolver.compile(name_def, self._vars, self._context)
                                 if status != 0:
                                     raise ConfigurationError(f"Unparseable name def: `{name_def}`")
                                 name_def = parsed
-                            valid = validate_scale_name(name_def)
-                            if not valid:
+                            validated_scale_name = validate_scale_name(name_def)
+                            if not validated_scale_name:
                                 raise ConfigurationError(f"Invalid scale name `{name_def}`. Must be in: {scale_names_lower}")
-                            self.__scale_name = name_def
+                            self.__scale_name = validated_scale_name
+                            self._context['me']['scale_name'] = validated_scale_name
                     else:
                         raise ConfigurationError(f"Invalid scale definition `{item_def}`. Must be dict with keys root and/or name")
         elif isinstance(item_def, str):
