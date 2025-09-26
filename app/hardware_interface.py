@@ -26,7 +26,6 @@ class HardwareInterface(ZCXComponent):
         return self.button_matrix
 
     def handle_control_event(self, event, state: ZState.State):
-        self.log(f"got control event {event}")
         state.forward_gesture(event)
 
     def handle_encoder_event(self, encoder_name: str, value: int):
