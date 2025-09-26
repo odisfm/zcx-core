@@ -76,6 +76,7 @@ class TrackControl(ZControl):
                 self.is_recording_listener.subject = clip
             else:
                 self.is_recording_listener.subject = None
+            self.track_name_listener.subject = self._track
         else:
             self.selected_track_listener.subject = None
             self.playing_slot_listener.subject = None
@@ -83,6 +84,7 @@ class TrackControl(ZControl):
             self.arm_listener.subject = None
             self.is_recording_listener.subject = None
             self.color_index_listener.subject = None
+            self.track_name_listener.subject = None
 
         self.is_playing_listener.subject = self.root_cs.song
 
@@ -341,3 +343,7 @@ class TrackControl(ZControl):
     @listens("tracks")
     def track_list_listener(self):
         self.set_track_by_name(self.__track_number)
+
+    @listens("name")
+    def track_name_listener(self):
+        self._context['me']['track'] = self.track.name
