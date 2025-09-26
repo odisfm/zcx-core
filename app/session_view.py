@@ -92,6 +92,7 @@ class SessionView(ZCXComponent):
 
         self.ring_offsets_changed.subject = self._session_ring
         self.tracks_changed.subject = self._song
+        self.scenes_changed.subject = self._song
         self.update_clip_slot_assignments()
         self.__page_manager.register_special_section_object(section_obj, '__session_view')
         self.component_map["ZManager"].register_special_section_object(section_obj, '__session_view')
@@ -183,6 +184,10 @@ class SessionView(ZCXComponent):
 
     @listens('tracks')
     def tracks_changed(self):
+        self.update_clip_slot_assignments()
+
+    @listens('scenes')
+    def scenes_changed(self):
         self.update_clip_slot_assignments()
 
     @property
