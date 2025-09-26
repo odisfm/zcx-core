@@ -124,6 +124,7 @@ class Push1Display(ZCXPlugin):
         if self._selected_line is not False:
             self.selected_scene_changed.subject = self.song.view
             self.selected_track_changed()
+            self.selected_device_changed.subject = self.song.view.selected_track.view
 
         if self._selected_line is not False or self._ring_tracks_line is not False:
             self.selected_track_changed.subject = self.song.view
@@ -338,10 +339,15 @@ class Push1Display(ZCXPlugin):
     @listens('selected_track')
     def selected_track_changed(self):
         self.tracks_changed()
+        self.selected_device_changed.subject = self.song.view.selected_track.view
         self.update_selected_line()
 
     @listens('selected_scene')
     def selected_scene_changed(self):
+        self.update_selected_line()
+
+    @listens('selected_device')
+    def selected_device_changed(self):
         self.update_selected_line()
 
     def update_selected_line(self):
@@ -351,6 +357,7 @@ class Push1Display(ZCXPlugin):
         track = self.song.view.selected_track
         scene = self.song.view.selected_scene
         scene_num = list(self.song.scenes).index(scene)
+        device = track.view.selected_device
 
         track_name = track.name
         scene_name = scene.name
@@ -366,7 +373,11 @@ class Push1Display(ZCXPlugin):
         scene_name_format = '' if not scene_name else f'- {scene_name}'
 
         self.multi_segment_message(self._selected_line, 0, 3, f't: {track_name}')
-        self.multi_segment_message(self._selected_line, 4, 7, f's: {scene_num + 1}{scene_name_format}')
+        if device:
+            self.multi_segment_message(self._selected_line, 4, 5, f'd: {device.name}')
+        else:
+            self.multi_segment_message(self._selected_line, 4, 5, f'd: ---')
+        self.multi_segment_message(self._selected_line, 6, 7, f's: {scene_num + 1}{scene_name_format}')
 
 
     def shorten_string_fast(self, s, max_len=8):

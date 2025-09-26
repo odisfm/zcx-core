@@ -31,7 +31,9 @@ Displays the name of the first 8 tracks highlighted by the [session ring](../../
 
 ### selected
 
-Displays the selected track and scene. If the scene is named, the name will be shown. If the scene is an [X-Scene](https://www.cxpman.com/manual/core-concepts/#x-scenes), the scene name (action list) will not be shown, unless there is text within the [identifier](https://www.cxpman.com/manual/core-concepts/#identifiers), e.g. an X-Scene with the name `[my cool scene] METRO` will display `my cool scene`.
+Displays the selected track, device, and scene.
+If the scene is named, the name will be shown.
+If the scene is an [X-Scene](https://www.cxpman.com/manual/core-concepts/#x-scenes), the scene name (action list) will not be shown, unless there is text within the [identifier](https://www.cxpman.com/manual/core-concepts/#identifiers), e.g. an X-Scene with the name `[my cool scene] METRO` will display `my cool scene`.
 
 ---
 
