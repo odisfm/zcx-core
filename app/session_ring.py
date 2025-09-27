@@ -110,8 +110,11 @@ class SessionRing(SessionRingBase):
             y = self.scene_count - self.__height - current_y
 
         super().move(x, y)
-        self.notify_offsets()
-        self.update_osc()
+        new_x = self.track_offset
+        new_y = self.scene_offset
+        if new_x != current_x or new_y != current_y:
+            self.notify_offsets()
+            self.update_osc()
 
     def go_to_track(self, track_id):
         self.log(f'go_to_track {track_id}')
