@@ -81,6 +81,7 @@ class ZControl(EventObject):
             calling_control=self,
         )
         self.parent_section.register_owned_control(self)
+        self.__is_pressed = False
 
     def _unload(self):
         self.in_view_listener.subject = None
@@ -264,7 +265,6 @@ class ZControl(EventObject):
     @only_in_view
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         val = self._control_element._last_received_value
-        self._last_received_value = val
         if dry_run or testing:
             pass
         elif self._fake_momentary:
@@ -272,8 +272,17 @@ class ZControl(EventObject):
                 gesture = 'pressed'
             else:
                 return
-        elif 'pressed' in gesture and val < self._on_threshold:
+        elif 'pressed' in gesture:
+            if val < self._on_threshold:
+                return
+            if gesture == "pressed":
+                self.__is_pressed = True
+
+        if not self.__is_pressed and gesture in OFF_GESTURES:
             return
+
+        if gesture in ["released_immediately", "released_delayed"]:
+            self.__is_pressed = False
 
         if self._simple_feedback:
             if gesture == 'pressed':
@@ -365,6 +374,7 @@ class ZControl(EventObject):
             self._back_in_view()
 
     def _back_in_view(self):
+        self.__is_pressed = False
         self.request_color_update()
         if self._simple_feedback:
             if not self._control_element.is_pressed:
