@@ -112,7 +112,7 @@ class ParamControl(ZControl):
                 for mode in these_modes:
                     if mode not in ["default", ""]:
                         if mode not in all_zcx_modes:
-                            raise CriticalConfigurationError(f"Definition for encoder `{self._name}` references mode `{mode}` that does not appear in `modes.yaml`")
+                            raise CriticalConfigurationError(f"Definition for param control `{self._name}` references mode `{mode}` that does not appear in `modes.yaml`")
                     if mode not in concerned_modes:
                         concerned_modes.append(mode)
 
