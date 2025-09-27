@@ -15,6 +15,7 @@ class SessionClipControl(ZControl):
         self._color = self.empty_color_dict['base']
         self._suppress_animations = True
         self._suppress_attention_animations = True
+        self.__is_group_track = False
 
     def setup(self):
         self._vars['track_name'] = 'me.obj.track_name'
@@ -33,11 +34,12 @@ class SessionClipControl(ZControl):
 
         try:
             self.__clip_slot = clip_slot
+            self.__is_group_track = clip_slot.is_group_slot
             self.__set_listeners()
-            self._on_clip_color_index_changed()
+            self._on_color_index_changed()
 
-        except:
-            pass
+        except Exception as e:
+            self.error(e)
         self.update_status()
 
     @listens('has_clip')
@@ -47,18 +49,23 @@ class SessionClipControl(ZControl):
         else:
             self.__clip = None
         self.__set_listeners()
-        self._on_clip_color_index_changed()
+        self._on_color_index_changed()
         self.update_status()
 
     def __set_listeners(self):
-        self._on_has_clip_changed.subject = self.__clip_slot
-
-        self.__clip = None if not self.__clip_slot.has_clip else self.__clip_slot.clip
+        if self.__is_group_track:
+            self._on_has_clip_changed.subject = None
+            self._on_controls_other_clips_changed.subject = self.__clip_slot
+            self.__clip = None
+        else:
+            self._on_has_clip_changed.subject = self.__clip_slot
+            self._on_controls_other_clips_changed.subject = None
+            self.__clip = None if not self.__clip_slot.has_clip else self.__clip_slot.clip
 
         self._on_is_playing_changed.subject = self.__clip
         self._on_is_recording.subject = self.__clip
         self._on_is_triggered.subject = self.__clip_slot
-        self._on_clip_color_index_changed.subject = self.__clip
+        self._on_color_index_changed.subject = self.__clip if not self.__is_group_track else self.__clip_slot.canonical_parent
 
         track = self.__clip_slot.canonical_parent
 
@@ -80,21 +87,26 @@ class SessionClipControl(ZControl):
         self.update_status()
 
     @listens('color_index')
-    def _on_clip_color_index_changed(self):
-        if self.__clip is not None:
+    def _on_color_index_changed(self):
+        if self.__is_group_track:
+            self._color_dict = self.session_view_component.get_color_dict(self.__clip_slot.canonical_parent.color_index)
+        elif self.__clip is not None:
             self._color_dict = self.session_view_component.get_color_dict(self.__clip.color_index)
         else:
             self._color_dict = self.empty_color_dict
         self.update_status()
 
     @listens('arm')
-    def track_arm_changed(self):
+    def _on_track_arm_changed(self):
+        self.update_status()
+
+    @listens('controls_other_clips')
+    def _on_controls_other_clips_changed(self):
         self.update_status()
 
     def update_status(self):
-        if self.__clip_slot is None:
-            self._color = self.empty_color_dict['base']
-        else:
+
+        if not self.__is_group_track:
             if self.__clip is not None:
                 if self.__clip.is_recording:
                     self._color = self._color_dict['recording']
@@ -115,7 +127,16 @@ class SessionClipControl(ZControl):
                     if self.__clip_slot.has_stop_button and self.__clip_slot.canonical_parent.can_be_armed and self.__clip_slot.canonical_parent.arm:
                         self._color = self._color_dict['arm']
                     else:
-                        self._color = self.empty_color_dict['base']
+                        self._color = self._color_dict['base']
+
+        else:
+            if self.__clip_slot.controls_other_clips:
+                if self.__clip_slot.is_triggered:
+                    self._color = self._color_dict['triggered_to_play']
+                else:
+                    self._color = self._color_dict['base']
+            else:
+                self._color = self.empty_color_dict['base']
 
         self.request_color_update()
         
@@ -161,3 +182,11 @@ class SessionClipControl(ZControl):
             return 'NONE / CLIP(NONE)'
         else:
             return f'"{self.track_name}" / USER_CLIP({self.scene_number})'
+
+    def _debug(self):
+        self.log(f"clip_slot: {self.clip_slot}")
+        self.log(f"clip: {self.clip}")
+        self.log(f"scene_index: {self.scene_index}")
+        self.log(f"track_name: {self.track_name}")
+        self.log(f"clip_target: {self.clip_target}")
+        self.log("base midi color:", self._color_dict["base"].midi_value)
