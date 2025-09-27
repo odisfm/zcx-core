@@ -1,3 +1,4 @@
+from enum import Enum
 from ..util import to_percentage
 from ..z_control import ZControl, only_in_view
 from ableton.v2.base import EventObject, listenable_property
@@ -12,6 +13,11 @@ from ..consts import DEFAULT_ON_THRESHOLD
 
 UPDATE_RATE = 1 / 3 # 3 times per second
 
+class PressBehaviour(Enum):
+    NONE = 0
+    TOGGLE = 1
+    MOMENTARY = 2
+
 
 class ParamControl(ZControl):
 
@@ -19,6 +25,7 @@ class ParamControl(ZControl):
 
     def __init__(self, *a, **kwargs):
         ZControl.__init__(self, *a, **kwargs)
+        self.__behaviour: PressBehaviour = PressBehaviour.NONE
         self._default_map = None
         self._mapped_parameter = None
         self._binding_dict = {}
@@ -29,6 +36,7 @@ class ParamControl(ZControl):
         self.action_resolver = self.root_cs.component_map["ActionResolver"]
         self._log_failed_bindings = True
         self.__disabled = True
+        self._suppress_animations = True
         self._suppress_animations = True
         self._will_toggle_param = True
         self._concerned_binding_modes = []
@@ -61,7 +69,18 @@ class ParamControl(ZControl):
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
             self._prefer_left = self._raw_config.get("prefer_left", self._prefer_left)
 
-            self._will_toggle_param = self._raw_config.get("toggle_param", True)
+            behaviour_def = self._raw_config.get("toggle_param", True)
+            if behaviour_def is True:
+                behaviour = PressBehaviour.TOGGLE
+            elif behaviour_def is False:
+                behaviour = PressBehaviour.NONE
+            elif behaviour_def == "momentary":
+                behaviour = PressBehaviour.MOMENTARY
+            else:
+                self.log("Invalid option for param control `toggle_param`. Valid values are `true`, `false`, or `momentary`")
+                behaviour = PressBehaviour.NONE
+
+            self.__behaviour = behaviour
 
             def get_percentage_def(key):
                 pct_def = self._raw_config.get(key)
@@ -893,8 +912,14 @@ class ParamControl(ZControl):
 
     @only_in_view
     def handle_gesture(self, gesture, dry_run=False, testing=False):
+        was_pressed = self._ZControl__is_pressed
         super().handle_gesture(gesture, dry_run, testing)
-        if gesture == "pressed" and self._will_toggle_param and self._control_element._last_received_value > self._on_threshold:
+        self.log(self.__behaviour)
+        if gesture == "pressed" and (self.__behaviour == PressBehaviour.TOGGLE or self.__behaviour == PressBehaviour.MOMENTARY) and self._control_element._last_received_value > self._on_threshold:
+            self.log("toggling")
+            self.toggle_mapped_parameter()
+        elif gesture == "released" and self.__behaviour == PressBehaviour.MOMENTARY and was_pressed:
+            self.log("toggling")
             self.toggle_mapped_parameter()
 
     def toggle_mapped_parameter(self, preview=False):

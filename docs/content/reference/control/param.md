@@ -19,7 +19,7 @@ Without defining any [gestures](../command.md#gestures), the param control will 
 Binary targets will have their status inverted.
 For adjustable properties, a parameter currently at its minimum value will be set to its maximum, and a parameter at any value above its minimum is set to its maximum.
 
-You can disable this behaviour by setting [toggle_param](#toggle_param) to `false`.
+You can modify this behaviour via the [toggle_param](#toggle_param) option.
 Any defined gestures will be executed as normal.
 
 ## yaml schema
@@ -31,7 +31,7 @@ binding: binding definition
 on_color: color definition
 off_color: color definition
 disabled_color: color definition
-toggle_param: boolean=true
+toggle_param: true | false | "momentary"
 midpoint: number
 # color: not implemented
 ```
@@ -140,9 +140,11 @@ Color definitions based on the [state](#behaviour) of the mapped parameter.
 Color definition when the control is disabled, e.g. after failing to find its target.
 
 ### toggle_param
-`boolean=true`
+`true | false | "momentary"`
 
-If set to `false`, disables the [default behaviour](#behaviour) on control press.
+If set to `momentary`, the [default behaviour](#behaviour) will execute on both press and release.
+
+If set to `false`, the [default behaviour](#behaviour) will not execute unless invoked with the [do_toggle](#do_toggle) command.
 
 ### midpoint
 `number`
