@@ -81,7 +81,6 @@ class OverlayControl(ZControl):
         pass
 
     def update_feedback(self):
-        self.log(self._color_dict)
         if self.__overlay_name in self.__view_manager.active_overlay_names:
             self.replace_color(self._active_color)
         else:
