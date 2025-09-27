@@ -43,7 +43,7 @@ class ZControl(EventObject):
             x = raw_config.get('section_context', {}).get('x', -1)
             y = raw_config.get('section_context', {}).get('y', -1)
             self.__name = f"{self.parent_section.name}_{x}_{y}"
-        self._state: Optional[ZState] = None
+        self._state: Optional[ZState.State] = None
         self._parent_logger = self.parent_section._logger
         self._in_view = False
         # self.in_view_listener.subject = self.parent_section
@@ -82,6 +82,8 @@ class ZControl(EventObject):
         )
         self.parent_section.register_owned_control(self)
         self.__is_pressed = False
+        self.__was_pressed_on_exit = False
+        self.__release_on_exit = True
 
     def _unload(self):
         self.in_view_listener.subject = None
@@ -120,6 +122,8 @@ class ZControl(EventObject):
         self._fake_momentary = config.get('tog_to_mom', False)
         self._repeat = config.get('repeat', False)
 
+        self.__release_on_exit = (config.get('release_on_exit', True))
+
         self._cascade_direction = config.get('cascade', False)
         if self._cascade_direction not in [False, "up", "down"]:
             self.log(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
@@ -140,6 +144,15 @@ class ZControl(EventObject):
         if not isinstance(value, bool):
             raise ValueError('in_view must be a boolean')
         back_in_view = not self._in_view and value
+        if not value:
+            if self._state._is_pressed and self.__release_on_exit:
+                was_held = not self._state._delay_task.is_running
+                self.handle_gesture("released")
+                if was_held:
+                    self.handle_gesture("released_delayed")
+                else:
+                    self.handle_gesture("released_immediately")
+
         self._in_view = value
         if back_in_view:
             self._back_in_view()
@@ -375,6 +388,8 @@ class ZControl(EventObject):
 
     def _back_in_view(self):
         self.__is_pressed = False
+        self._state._delay_task.kill()
+        self._state._double_click_task.kill()
         self.request_color_update()
         if self._simple_feedback:
             if not self._control_element.is_pressed:

@@ -28,6 +28,7 @@ template: string, list[string], null
 props: dict[any]
 threshold: int=30
 cascade: false | "down" | "up" = false
+release_on_ext: bool = true
 ```
 
 ### type
@@ -144,6 +145,17 @@ ___
 
 Configures the control's behaviour when [multiple command bundles match the performed gesture](../command.md#multiple-matching-gestures).
 The default of `false` executes only one matching command bundle per gesture.
+
+---
+### release_on_exit
+`bool = true`
+
+Concerns the scenario where a control leaves view while being pressed, e.g. the page changed.
+
+With the default of `true`, the control will fire its `released` gesture.
+Additionally, it will fire its `released_delayed` gesture if the control had been held a short while, or the `released_immediately` gesture if it had not.
+
+If set to `false`, none of the above will happen.
 
 ## properties
 
