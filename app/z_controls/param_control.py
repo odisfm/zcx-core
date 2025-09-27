@@ -2,11 +2,16 @@ from ..util import to_percentage
 from ..z_control import ZControl, only_in_view
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
+from ableton.v2.base.task import TimerTask
+
 from ..colors import parse_color_definition, RgbColor
 from ..errors import ConfigurationError, CriticalConfigurationError
 from ..bank_definitions import get_banked_parameter
 from ..parse_target_path import parse_target_path
 from ..consts import DEFAULT_ON_THRESHOLD
+
+UPDATE_RATE = 1 / 3 # 3 times per second
+
 
 class ParamControl(ZControl):
 
@@ -30,6 +35,8 @@ class ParamControl(ZControl):
         self._current_binding_mode_string = ""
         self._custom_midpoint = None
         self._prefer_left = True
+        self.__debounce_feedback_update_task = DebounceFeedbackUpdateTask(self, UPDATE_RATE)
+        self.root_cs._task_group.add(self.__debounce_feedback_update_task)
 
     def setup(self):
         super().setup()
@@ -787,9 +794,17 @@ class ParamControl(ZControl):
         return current_search_obj
 
     def update_feedback(self):
+        if self.__debounce_feedback_update_task.is_running:
+            return
+        self._do_update_feedback()
+        self.__debounce_feedback_update_task.restart()
+
+    def _do_update_feedback(self):
         try:
             if self.__disabled:
                 return self.replace_color(self._color_dict["disabled"])
+
+            self.log("updating feedback")
 
             if self.mapped_parameter:
                 if self._custom_midpoint:
@@ -1150,3 +1165,12 @@ class ParamControl(ZControl):
 
 class NumberedDeviceMissingError(Exception):
     pass
+
+class DebounceFeedbackUpdateTask(TimerTask):
+
+    def __init__(self, owner, duration, **k):
+        super().__init__(duration, **k)
+        self.owner: ZControl = owner
+
+    def on_finish(self):
+        self.owner._do_update_feedback()
