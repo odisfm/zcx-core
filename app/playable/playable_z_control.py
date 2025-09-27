@@ -9,4 +9,4 @@ class PlayableZControl(ZControl):
         self._pitch_class = None
 
     def handle_gesture(self, gesture, dry_run=False, testing=False):
-        self.log(gesture)
+        pass
