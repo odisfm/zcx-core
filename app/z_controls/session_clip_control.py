@@ -34,53 +34,53 @@ class SessionClipControl(ZControl):
         try:
             self.__clip_slot = clip_slot
             self.__set_listeners()
-            self.color_index_changed()
+            self._on_clip_color_index_changed()
 
         except:
             pass
         self.update_status()
 
     @listens('has_clip')
-    def has_clip_changed(self):
+    def _on_has_clip_changed(self):
         if self.__clip_slot.has_clip:
             self.__clip = self.__clip_slot.clip
         else:
             self.__clip = None
         self.__set_listeners()
-        self.color_index_changed()
+        self._on_clip_color_index_changed()
         self.update_status()
 
     def __set_listeners(self):
-        self.has_clip_changed.subject = self.__clip_slot
+        self._on_has_clip_changed.subject = self.__clip_slot
 
         self.__clip = None if not self.__clip_slot.has_clip else self.__clip_slot.clip
 
-        self.is_playing_changed.subject = self.__clip
-        self.is_recording.subject = self.__clip
-        self.is_triggered.subject = self.__clip_slot
-        self.color_index_changed.subject = self.__clip
+        self._on_is_playing_changed.subject = self.__clip
+        self._on_is_recording.subject = self.__clip
+        self._on_is_triggered.subject = self.__clip_slot
+        self._on_clip_color_index_changed.subject = self.__clip
 
         track = self.__clip_slot.canonical_parent
 
         if track.can_be_armed:
-            self.track_arm_changed.subject = track
+            self._on_track_arm_changed.subject = track
         else:
-            self.track_arm_changed.subject = None
+            self._on_track_arm_changed.subject = None
 
     @listens('playing_status')
-    def is_playing_changed(self):
+    def _on_is_playing_changed(self):
         self.update_status()
 
     @listens('is_recording')
-    def is_recording(self):
+    def _on_is_recording(self):
         self.update_status()
 
     @listens('is_triggered')
-    def is_triggered(self):
+    def _on_is_triggered(self):
         self.update_status()
 
     @listens('color_index')
-    def color_index_changed(self):
+    def _on_clip_color_index_changed(self):
         if self.__clip is not None:
             self._color_dict = self.session_view_component.get_color_dict(self.__clip.color_index)
         else:
