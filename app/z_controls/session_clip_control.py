@@ -119,7 +119,7 @@ class SessionClipControl(ZControl):
             else:
                 if self.__clip_slot.is_triggered:
                     track = self.__clip_slot.canonical_parent
-                    if track.can_be_armed and track.arm:
+                    if track.can_be_armed and track.arm and self.__clip_slot.will_record_on_start:
                         self._color = self._color_dict['triggered_to_record']
                     else:
                         self._color = self._color_dict['triggered_to_play']
