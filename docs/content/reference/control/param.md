@@ -6,6 +6,8 @@ weight: -8
 The `param` control binds to a device parameter, mixer parameter, or other special function, and displays feedback about the state of its target.
 This feature aims to emulate the Button Bindings feature from the [ClyphX Pro Bindings](https://www.cxpman.com/manual/optional-accessories/#clyphx-pro-bindings) optional accessory.
 
+Param controls can be bound to [all the targets that encoders can](../encoder.md#mapping-targets), as well as [some others](#additional-mapping-targets).
+
 ## behaviour
 
 The param control displays [different colors](#on_color-off_color) based on whether its target is considered "on" or "off".
