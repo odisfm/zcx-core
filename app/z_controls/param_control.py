@@ -6,6 +6,7 @@ from ..colors import parse_color_definition, RgbColor
 from ..errors import ConfigurationError, CriticalConfigurationError
 from ..bank_definitions import get_banked_parameter
 from ..parse_target_path import parse_target_path
+from ..consts import DEFAULT_ON_THRESHOLD
 
 class ParamControl(ZControl):
 
@@ -51,6 +52,9 @@ class ParamControl(ZControl):
             self._prefer_left = self._raw_config.get("prefer_left", self._prefer_left)
 
             self._will_toggle_param = self._raw_config.get("toggle_param", True)
+
+            on_threshold = int(self._raw_config.get('threshold', DEFAULT_ON_THRESHOLD))
+            self._on_threshold = on_threshold
 
             def get_percentage_def(key):
                 pct_def = self._raw_config.get(key)
@@ -875,7 +879,7 @@ class ParamControl(ZControl):
     @only_in_view
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         super().handle_gesture(gesture, dry_run, testing)
-        if gesture == "pressed" and self._will_toggle_param:
+        if gesture == "pressed" and self._will_toggle_param and self._control_element._last_received_value > self._on_threshold:
             self.toggle_mapped_parameter()
 
     def toggle_mapped_parameter(self, preview=False):
