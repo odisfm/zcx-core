@@ -32,7 +32,11 @@ class ParamControl(ZControl):
         self._prefer_left = True
 
     def setup(self):
+        super().setup()
         try:
+            self._simple_feedback = False
+            self._suppress_animations = True
+
             self.set_color(5)
 
             self._create_context(
@@ -43,8 +47,7 @@ class ParamControl(ZControl):
                 ],
                 user_props=self._raw_config.get("props", {})
             )
-            self.set_gesture_dict(self._raw_config.get('gestures', {}))
-            self._vars = self._raw_config.get("vars", {})
+
             self._vars["me.next_value"] = "me.obj.preview_next_value()"
             self._vars["me.next_pct"] = "me.obj.preview_next_value_percentage()"
 
@@ -52,9 +55,6 @@ class ParamControl(ZControl):
             self._prefer_left = self._raw_config.get("prefer_left", self._prefer_left)
 
             self._will_toggle_param = self._raw_config.get("toggle_param", True)
-
-            on_threshold = int(self._raw_config.get('threshold', DEFAULT_ON_THRESHOLD))
-            self._on_threshold = on_threshold
 
             def get_percentage_def(key):
                 pct_def = self._raw_config.get(key)
