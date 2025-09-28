@@ -191,6 +191,19 @@ class SessionRing(SessionRingBase):
     def height(self):
         return self.__height
 
+    """
+    When using ClyphX Pro script linking, cxp will
+    attempt to set these properties and error if there is no setter
+    """
+
+    @height.setter
+    def height(self, height):
+        return
+
+    @width.setter
+    def width(self, width):
+        return
+
 class TrackLookup:
 
     def __init__(self, parent):
