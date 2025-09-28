@@ -61,7 +61,7 @@ class PageManager(ZCXComponent):
 
     @property
     def all_page_names(self):
-        return self.__page_names
+        return copy.copy(self.__page_names)
 
     @property
     def page_count(self):
