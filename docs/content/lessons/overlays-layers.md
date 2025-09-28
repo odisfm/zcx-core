@@ -233,6 +233,8 @@ It will be disabled when **leaving** the pages `my_cool_page` or `alt_page`, but
 
 You may define a `pages_out` without `pages_in`.
 
+You may set either `pages_in` or `pages_out` to `true` to enable or disable the overlay whenever the page changes.
+
 ### Pitfalls
 
 #### Design

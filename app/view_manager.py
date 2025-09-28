@@ -74,8 +74,10 @@ class ViewManager(ZCXComponent):
                 return_list = []
                 if pages_def is None:
                     return None
-                if not isinstance(pages_def, list):
-                    raise CriticalConfigurationError(f"Overlay `{overlay_name}` has invalid option for `{key}`. Must be a list. Provided:"
+                elif pages_def is True:
+                    return [i for i in range(self._page_manager.page_count)]
+                elif not isinstance(pages_def, list):
+                    raise CriticalConfigurationError(f"Overlay `{overlay_name}` has invalid option for `{key}`. Must be a list or `true` for all pages. Provided:"
                                                      f"\n{pages_def}")
                 for page in pages_def:
                     try:
