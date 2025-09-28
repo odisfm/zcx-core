@@ -17,7 +17,7 @@ You can tweak this behaviour by setting a [midpoint](#midpoint).
 
 Without defining any [gestures](../command.md#gestures), the param control will toggle its mapped parameter from "on" to "off" on a press.
 Binary targets will have their status inverted.
-For adjustable properties, a parameter currently at its minimum value will be set to its maximum, and a parameter at any value above its minimum is set to its maximum.
+For adjustable properties, a parameter currently at its minimum value will be set to its maximum, and a parameter at any value above its minimum is set to its minimum.
 
 You can modify this behaviour via the [toggle_param](#toggle_param) option.
 Any defined gestures will be executed as normal.
