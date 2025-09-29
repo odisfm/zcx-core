@@ -61,6 +61,10 @@ class Push1Display(ZCXPlugin):
             bytearray(WRITE_LINE4 + (32,) * 68 + (247,)),
         ]
 
+        # Batching system - one timer per line
+        self._dirty_lines = [False, False, False, False]
+        self._line_timers = [None, None, None, None]
+
         self._encoder_mapping_line = False
         self._encoder_values_line = False
         self._message_line = False
@@ -154,6 +158,32 @@ class Push1Display(ZCXPlugin):
             msg = tuple(msg)
         self.__send_midi(msg)
 
+    def _mark_line_dirty(self, line_num):
+        """Mark a line as dirty and schedule its update"""
+        if line_num is False or not (0 <= line_num <= 3):
+            return
+
+        self._dirty_lines[line_num] = True
+
+        # Kill existing timer if it exists
+        if self._line_timers[line_num] is not None:
+            self._line_timers[line_num].kill()
+
+        # Create new timer
+        timer = DisplayUpdateDebounceTimer(self, line_num, duration=0.01)
+        self._line_timers[line_num] = timer
+        self.canonical_parent._task_group.add(timer)
+        timer.restart()
+
+    def _flush_line(self, line_num):
+        """Send the cached line data to the display"""
+        if not self._dirty_lines[line_num]:
+            return
+
+        self.send_sysex(self._line_bytes_cache[line_num])
+        self._dirty_lines[line_num] = False
+        self._line_timers[line_num] = None
+
     def refresh_feedback(self):
         wait_timer = DelayedDisplayRefreshTask(self)
         self.canonical_parent._task_group.add(wait_timer)
@@ -163,12 +193,13 @@ class Push1Display(ZCXPlugin):
         for line_bytes in self._line_bytes_cache:
             self.send_sysex(line_bytes)
 
-    def write_message_to_line(self, msg: str, line_number=None, timeout: float = 0.0):
+    def write_message_to_line(self, msg: str, line_number=None, timeout: float = 0.0, immediate=False):
         """
         Writes a message of up to 68 chars to a line on display.
         :param line_number:
         :param msg:
         :param timeout:
+        :param immediate: If True, bypass batching and send immediately
         :return:
         """
         if line_number is None:
@@ -193,7 +224,10 @@ class Push1Display(ZCXPlugin):
         for i, char in enumerate(msg[:68]):
             line_cache[8 + i] = self.ascii_ord(char)
 
-        self.send_sysex(line_cache)
+        if immediate:
+            self.send_sysex(line_cache)
+        else:
+            self._mark_line_dirty(line_number)
 
         if timeout != 0.0:
             task = DeleteMessageTask(self, line_number, duration=timeout)
@@ -235,7 +269,8 @@ class Push1Display(ZCXPlugin):
                 break
             line_bytes[actual_start + i] = self.ascii_ord(char)
 
-        self.send_sysex(line_bytes)
+        # Mark line as dirty instead of sending immediately
+        self._mark_line_dirty(line_num)
 
     def multi_segment_message(self, line_num, start_segment, end_segment, msg):
         """
@@ -277,7 +312,8 @@ class Push1Display(ZCXPlugin):
         for i, char in enumerate(msg_to_write):
             line_bytes[actual_start + i] = self.ascii_ord(char)
 
-        self.send_sysex(line_bytes)
+        # Mark line as dirty instead of sending immediately
+        self._mark_line_dirty(line_num)
 
     @classmethod
     def splice_tuple(cls, t, start_index, end_index, new) -> tuple:
@@ -391,7 +427,7 @@ class Push1Display(ZCXPlugin):
         try:
             message = str(message)
             self.write_message_to_line(
-                message, line_number=self._message_line, timeout=timeout
+                message, line_number=self._message_line, timeout=timeout, immediate=True
             )
 
         except Exception as e:
@@ -402,25 +438,8 @@ class Push1Display(ZCXPlugin):
         return True
 
     def ascii_ord(self, char):
-        """
-        Return the ASCII value of a character, but only if it's in the ASCII range (0-127).
-        Raises ValueError for non-ASCII characters.
-        """
-        if char == "│":
-            return 3
-        elif char == "┑":
-            return 4
-        elif char == "┃":
-            return 5
-        elif char == "┅":
-            return 6
-        if char == "▶":
-            return 127
-        code_point = ord(char)
-        if 0 <= code_point <= 127:
-            return code_point
-        else:
-            return 45
+        SPECIAL_CHARS = {"│": 3, "┑": 4, "┃": 5, "┅": 6, "▶": 127}
+        return SPECIAL_CHARS.get(char, min(ord(char), 127))
 
     def create_slider_graphic(self, _min, _max, current, bipolar=False):
         percentage = to_percentage(_min, _max, current)
@@ -492,6 +511,17 @@ class DeleteMessageTask(TimerTask):
         self._owner._clear_old_message(line_number=self._line_number)
 
 
+class DisplayUpdateDebounceTimer(TimerTask):
+
+    def __init__(self, owner, line_num, duration=0.01, **k):
+        super().__init__(duration=duration, **k)
+        self._owner: Push1Display = owner
+        self._line_num: int = line_num
+
+    def on_finish(self):
+        self._owner._flush_line(self._line_num)
+
+
 class EncoderWatcher(EventObject):
 
     def __init__(self, component, encoder, index):
@@ -535,8 +565,6 @@ class EncoderWatcher(EventObject):
         if not self._component._encoder_values_line:
             return
 
-        start_time = time.time()
-
         par_val = ""
 
         try:
@@ -570,8 +598,3 @@ class EncoderWatcher(EventObject):
         self._component.update_display_segment(
             self._component._encoder_values_line, self._index, par_val
         )
-
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        self._component.log(f"Elapsed time: {elapsed_time * 1000:.5f} ms")
-
