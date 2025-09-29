@@ -375,8 +375,7 @@ class ZControl(EventObject):
                 context=self._context
             )
 
-        if not self._simple_feedback and (gesture in ON_GESTURES or (
-                gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
+        if not self._simple_feedback and self._suppress_animations is False and len(matching_actions) > 0:
             self.animate_success()
 
     @listens('in_view')
