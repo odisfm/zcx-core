@@ -129,8 +129,8 @@ class TrackControl(ZControl):
             'speed': 1
         }}, calling_control=self)
         color_dict['fired'] = parse_color_definition({'blink': {
-            'a': 'play_green',
-            'b': {'live': base_index},
+            'a': {'live': base_index},
+            'b': "play_green",
             'speed': 1
         }}, calling_control=self)
         color_dict['recording'] = parse_color_definition({'pulse': {
@@ -139,8 +139,8 @@ class TrackControl(ZControl):
             'speed': 1
         }}, calling_control=self)
         color_dict['stopping'] = parse_color_definition({'blink': {
-            'a': 0,
-            'b': {'live': base_index},
+            'a': {'live': base_index},
+            'b': 0,
             'speed': 1
         }}, calling_control=self)
         color_dict['armed'] = parse_color_definition("arm_red", calling_control=self)
@@ -156,13 +156,8 @@ class TrackControl(ZControl):
         }}, calling_control=self)
         color_dict['selected_armed_song_stopped'] = parse_color_definition("red shade 1", calling_control=self)
         color_dict['counting_in'] = parse_color_definition({'blink': {
-            'a': 'red',
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['counting_in'] = parse_color_definition({'blink': {
-            'a': 'red',
-            'b': 'white',
+            'a': {'live': base_index},
+            'b': "white",
             'speed': 1
         }}, calling_control=self)
         color_dict['selected_playing_armed'] = parse_color_definition({'pulse': {
@@ -276,12 +271,6 @@ class TrackControl(ZControl):
             if is_recording:
                 self._color = self._color_dict['recording']
                 return True
-            elif is_playing:
-                if is_armed:
-                    self._color = self._color_dict['armed_playing']
-                    return True
-                self._color = self._color_dict['playing']
-                return True
             elif is_armed:
                 self._color = self._color_dict['armed']
                 return True
@@ -291,8 +280,20 @@ class TrackControl(ZControl):
             elif is_stopping:
                 self._color = self._color_dict['stopping']
                 return True
+            elif is_playing:
+                if is_armed:
+                    self._color = self._color_dict['armed_playing']
+                    return True
+                self._color = self._color_dict['playing']
+                return True
             elif is_fired:
                 self._color = self._color_dict['fired']
+                return True
+            elif is_playing:
+                if is_armed:
+                    self._color = self._color_dict['armed_playing']
+                    return True
+                self._color = self._color_dict['playing']
                 return True
             else:
                 self._color = self._color_dict['stopped']
