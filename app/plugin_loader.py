@@ -42,10 +42,20 @@ class PluginLoader:
         return list(self.hardware_plugins.keys()) + list(self.user_plugins.keys())
 
     def __get_plugins(self):
-        self.__hardware_plugins = self.collect_plugin_classes('hardware/plugins/')
-        self.__user_plugins = self.collect_plugin_classes('plugins/')
+        from . import PREF_MANAGER
+        user_prefs = PREF_MANAGER.user_prefs
+        plugin_prefs = user_prefs.get("plugins", {})
+        if not plugin_prefs:
+            plugin_prefs = {}
+        plugin_names = []
+        for key, val in plugin_prefs.items():
+            if not val:
+                continue
+            plugin_names.append(key)
+        self.__hardware_plugins = self.collect_plugin_classes('hardware/plugins/', plugin_names)
+        self.__user_plugins = self.collect_plugin_classes('plugins/', plugin_names)
 
-    def collect_plugin_classes(self, plugin_dir: str) -> dict[Any, Type[ZCXPlugin]] | None:
+    def collect_plugin_classes(self, plugin_dir: str, plugin_names_to_load) -> dict[Any, Type[ZCXPlugin]] | None:
         """
         Scans a directory for plugin classes and returns them in a dictionary.
         """
@@ -65,7 +75,6 @@ class PluginLoader:
             if not folder.is_dir():
                 continue
 
-            plugin_found = False
             sys.path.insert(0, str(folder))
 
             try:
@@ -74,6 +83,8 @@ class PluginLoader:
                         continue
 
                     module_name = file_path.stem
+                    if not module_name in plugin_names_to_load:
+                        continue
                     self.log(f"Attempting to import module: {module_name} from {folder}")
 
                     try:
@@ -89,18 +100,11 @@ class PluginLoader:
                                     issubclass(obj, ZCXPlugin) and
                                     obj != ZCXPlugin):
                                 plugin_classes[folder.name] = obj
-                                plugin_found = True
                                 self.log(f"Found plugin class: {obj.__name__} in {module_name}")
                                 break
 
-                        if plugin_found:
-                            break
-
                     except Exception as e:
                         self.log(f"Failed to import {module_name} from {folder}: {e}")
-
-                if not plugin_found:
-                    raise RuntimeError(f"No valid ZCXPlugin class found in folder: {folder}")
 
             finally:
                 sys.path.remove(str(folder))
