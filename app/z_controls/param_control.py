@@ -235,8 +235,6 @@ class ParamControl(ZControl):
                 if self._log_failed_bindings:
                     self.log(f"Failed to bind to target: {self._active_map}")
                 if self._unbind_on_fail:
-                    if self._log_failed_bindings:
-                        self.log(f'failed to find target, unmapping')
                     self.mapped_parameter = None
                     self._mapped_track = None
                     self._mapped_device = None
@@ -823,8 +821,6 @@ class ParamControl(ZControl):
             if self.__disabled:
                 return self.replace_color(self._color_dict["disabled"])
 
-            self.log("updating feedback")
-
             if self.mapped_parameter:
                 if self._custom_midpoint:
                     current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
@@ -914,12 +910,9 @@ class ParamControl(ZControl):
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         was_pressed = self._ZControl__is_pressed
         super().handle_gesture(gesture, dry_run, testing)
-        self.log(self.__behaviour)
         if gesture == "pressed" and (self.__behaviour == PressBehaviour.TOGGLE or self.__behaviour == PressBehaviour.MOMENTARY) and self._control_element._last_received_value > self._on_threshold:
-            self.log("toggling")
             self.toggle_mapped_parameter()
         elif gesture == "released" and self.__behaviour == PressBehaviour.MOMENTARY and was_pressed:
-            self.log("toggling")
             self.toggle_mapped_parameter()
 
     def toggle_mapped_parameter(self, preview=False):

@@ -188,7 +188,6 @@ class KeyboardControl(ZControl):
 
         self.update_feedback()
         self.request_color_update()
-        self.log("finished kb control setup")
 
     def _back_in_view(self):
         super()._back_in_view()
