@@ -77,7 +77,13 @@ class PageControl(ZControl):
                     self._color_dict['base'] = self._disabled_color
                     self.page_changed.subject = self.__page_manager
                     self._page_number = None
-                    raise ConfigurationError(f'Invalid page assignment: {page_number}')
+                    try:
+                        int(page_number)
+                    except ValueError:
+                        raise ConfigurationError(f'Invalid page assignment: {page_number}')
+                    finally:
+                        self.log(f'Invalid page assignment: {page_number}')
+
             self._page_number = _page_number
             active_color = self._raw_config.get('active_color')
             inactive_color = self._raw_config.get('inactive_color')
