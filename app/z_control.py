@@ -394,6 +394,7 @@ class ZControl(EventObject):
             if not self._control_element.is_pressed:
                 self._do_simple_feedback_release()
         self._state._repeat = self._repeat
+        self.update_mode_string(self._mode_manager.current_modes)
 
     def set_color_to_base(self):
         self._control_element.set_light(self._control_element.color_swatch.base)
