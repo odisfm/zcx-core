@@ -644,13 +644,18 @@ class ParamControl(ZControl):
         if device_def and device_def.lower() == "sel":
             listen_dict["selected_device"] = True
         else:
-            listen_dict["selected_device"] = False
+            try:
+                int(device_def)
+                listen_dict["device_list"] = True
+            except ValueError:
+                pass
 
         chain_map = target_map.get("chain_map")
         if chain_map is None:
             pass
         else:
             listen_dict["chain_list"] = True
+            listen_dict["device_list"] = True
 
         sends_def = target_map.get("send_track")
         if sends_def is None:

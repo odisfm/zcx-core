@@ -37,6 +37,7 @@ class ZEncoder(EventObject):
         self._vars = {}
         self._default_map = None
         self._mapped_parameter = None
+        self._mapped_track = None
         self._concerned_modes = []
         self._current_mode_string = ""
         self._binding_dict = {}
@@ -154,9 +155,6 @@ class ZEncoder(EventObject):
     def bind_to_active(self):
 
         try:
-            dynamism = self.assess_dynamism(self._active_map)
-            self.apply_listeners(dynamism)
-
             try:
                 if self._active_map is None:
                     map_success = False
@@ -174,6 +172,7 @@ class ZEncoder(EventObject):
                         self.log(f'{self._name} failed to find target, unmapping')
                     self.unbind_control()
                     self.mapped_parameter = None
+                    self._mapped_track = None
                 return
 
             self.bind_control()
@@ -186,7 +185,11 @@ class ZEncoder(EventObject):
                     self.log(f'{self._name} failed to find target, unmapping')
                 self.unbind_control()
                 self.mapped_parameter = None
+                self._mapped_track = None
             return
+        finally:
+            dynamism = self.assess_dynamism(self._active_map)
+            self.apply_listeners(dynamism)
 
     def apply_listeners(self, listen_dict):
 
@@ -201,9 +204,10 @@ class ZEncoder(EventObject):
             self.track_list_listener.subject = None
 
         if listen_dict.get("device_list"):
-            pass
+            self.log(f"setting device_list subject to {self._mapped_track}")
+            self.device_list_listener.subject = self._mapped_track
         else:
-            pass
+            self.device_list_listener.subject = None
 
         if listen_dict.get("parameter_list"):
             pass
@@ -249,6 +253,8 @@ class ZEncoder(EventObject):
         # perhaps some of the worst code ever written?
         self._logger.debug(target_map)
 
+        self._mapped_track = None
+        self.mapped_parameter = None
         try:
             par_type = target_map.get("parameter_type")
             if par_type is not None:
@@ -282,6 +288,8 @@ class ZEncoder(EventObject):
                         raise ConfigurationError(f"Invalid ring target: `{target_map}`")
                 else:
                     return False
+
+                self._mapped_track = track_obj
 
                 par_type = target_map.get("parameter_type")
                 if par_type is None:
@@ -345,6 +353,8 @@ class ZEncoder(EventObject):
                             raise ConfigurationError(f"Invalid ring target: `{target_map}`")
                 else:
                     track_obj = self.song.view.selected_track
+
+                self._mapped_track = track_obj
 
                 par_def = target_map.get("parameter_name")
 
@@ -501,6 +511,13 @@ class ZEncoder(EventObject):
         elif device_def.lower() == "sel":
             listen_dict["device_list"] = True
             listen_dict["selected_device"] = True
+        else:
+            try:
+                int(device_def)
+                listen_dict["device_list"] = True
+            except ValueError:
+                pass
+
         if target_map.get("track") is None:
             listen_dict["selected_track"] = True
 
@@ -509,6 +526,7 @@ class ZEncoder(EventObject):
             pass
         else:
             listen_dict["chain_list"] = True
+            listen_dict["device_list"] = True
 
         sends_def = target_map.get("send_track")
         if sends_def is None:
@@ -736,6 +754,7 @@ class ZEncoder(EventObject):
 
     @listens("devices")
     def device_list_listener(self):
+        self.log("device_list_listener")
         self.bind_to_active()
 
     @listens("tracks")
