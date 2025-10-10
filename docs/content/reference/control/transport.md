@@ -31,8 +31,14 @@ The name of the transport function to bind to. These functions are currently sup
 
 - `play`
 - `session_record`
+- `arrangement_record`
+- `record` — a combination of the two above options
 - `metronome`
 - `loop`
+- `punch_in`
+- `punch_out`
+- `automation` — the state of Live's Automation Arm
+- `overdub` — the state of Live's MIDI Arrangement Overdub button
 
 ### color
 `ignored`
