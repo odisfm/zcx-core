@@ -808,7 +808,7 @@ class ZManager(ZCXComponent):
         try:
             general_def = self.yaml_loader.load_yaml(f"{self._config_dir}/overlays.yaml")
         except FileNotFoundError as e:
-            self.warning(f"No filed called `{self._config_dir}/overlays.yaml`")
+            self.warning(f"No file called `{self._config_dir}/overlays.yaml`")
             return {}, {}
         if general_def is None:
             self.warning(f"`overlays.yaml` is empty")
