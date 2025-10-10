@@ -1,4 +1,5 @@
 from copy import deepcopy, copy
+from copy import deepcopy, copy
 from typing import Optional
 
 from ableton.v3.control_surface.controls import control_matrix
@@ -202,7 +203,21 @@ class ZManager(ZCXComponent):
                 merged = deepcopy(base)
                 for key, value in override.items():
                     if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
-                        merged[key] = merge_configs(merged[key], value)
+                        if key == "color":
+
+                            base_color_def = merged["color"]
+                            override_color_def = value
+
+                            try:
+                                if list(base_color_def.keys())[0] == list(override_color_def.keys())[0]:
+                                    merged["color"] = base_color_def | override_color_def
+                                else:
+                                    merged["color"] = override_color_def
+                            except IndexError:
+                                merged["color"] = override_color_def
+
+                        else:
+                            merged[key] = merge_configs(merged[key], value)
                     else:
                         merged[key] = deepcopy(value)
                 return merged
