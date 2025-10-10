@@ -145,6 +145,11 @@ class ZEncoder(EventObject):
         self._mapped_parameter = value
         if old != self.mapped_parameter:
             self.notify_mapped_parameter(self.mapped_parameter)
+        if self.mapped_parameter:
+            if self.mapped_parameter.is_quantized:
+                self._control_element.mapping_sensitivity = 0.05
+            else:
+                self._control_element.mapping_sensitivity = self._control_element._original_sensitivity
 
     def bind_to_active(self):
 

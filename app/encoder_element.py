@@ -23,6 +23,7 @@ class EncoderElement(ElementBase):
             **k
         )
         self.name = 'unnamed_encoder_element'
+        self._original_sensitivity = k['mapping_sensitivity']
 
 
     def log(self, *msg):
