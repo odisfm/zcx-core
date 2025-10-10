@@ -67,9 +67,9 @@ class TransportControl(ZControl):
                 self._stopped_inactive_color = parse_color_definition('white', self)
             elif bound_function == 'loop':
                 self._playing_active_color = parse_color_definition("white", self)
-                self._playing_inactive_color = self._playing_active_color
-                self._stopped_active_color = parse_color_definition('dark_grey', self)
-                self._stopped_inactive_color = self._stopped_active_color
+                self._playing_inactive_color = parse_color_definition('dark_grey', self)
+                self._stopped_active_color = self._playing_active_color
+                self._stopped_inactive_color = self._playing_inactive_color
         elif feedback == 'biled':
             if bound_function == 'play':
                 self._playing_active_color = parse_color_definition('green', self)
