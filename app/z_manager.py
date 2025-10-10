@@ -800,7 +800,7 @@ class ZManager(ZCXComponent):
                     if SAFE_MODE:
                         raise e
                 else:
-                    self.error(f"Error finishing control setup in section `{control.parent_section.name}`")
+                    self.error(f"Error finishing control setup in section `{control.parent_section.name}` control `{control.name}`")
                     self.error(e)
 
     def load_overlay_definitions(self):
