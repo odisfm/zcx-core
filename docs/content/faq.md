@@ -49,7 +49,7 @@ That's up to you. zcx can be used to create a far more complex interface than is
 
 ### Can I use zcx with a non-matrix controller?
 
-zcx is designed for matrix-equipped controllers. You could make a port for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.
+zcx is designed for matrix-equipped controllers. You could [make a port](lessons/porting.md) for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.
 
 ### Is there a Discord?
 
