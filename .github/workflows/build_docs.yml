@@ -32,4 +32,33 @@ jobs:
       - run: pip install mkdocs-nav-weight
       - run: pip install mkdocs-open-in-new-tab
       - run: pip install "mkdocs-material[imaging]"
+      - run: pip install PyYAML
+      - name: Add social plugin to mkdocs.yml
+        run: |
+          python3 << 'EOF'
+          import yaml
+
+          # Read the current mkdocs.yml
+          with open('docs/mkdocs.yml', 'r') as f:
+              content = f.read()
+
+          # Find the plugins section and add social plugin
+          lines = content.split('\n')
+          new_lines = []
+          for i, line in enumerate(lines):
+              new_lines.append(line)
+              # Add social after the plugins: line
+              if line.strip() == 'plugins:':
+                  new_lines.append('  - social')
+                  break
+
+          # Add remaining lines
+          new_lines.extend(lines[i+1:])
+
+          # Write back to mkdocs.yml
+          with open('docs/mkdocs.yml', 'w') as f:
+              f.write('\n'.join(new_lines))
+
+          print("✓ Added 'social' plugin to mkdocs.yml")
+          EOF
       - run: cd docs && mkdocs gh-deploy --force

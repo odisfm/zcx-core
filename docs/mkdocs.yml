@@ -72,7 +72,6 @@ plugins:
       warning: true
       reverse: false
       headless_included: false
-  - social
 extra:
   social:
     - icon: fontawesome/brands/github
