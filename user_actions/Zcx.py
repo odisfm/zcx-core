@@ -66,7 +66,7 @@ class Zcx(UserActionsBase):
     def is_zcx_script(self, script):
         return script is not None and hasattr(script, 'zcx_api')
 
-    def action_entry_point(self, action_def: dict[str], args: str):
+    def action_entry_point(self, action_def: dict[str], args: str, target_is_all = False):
         try:
             _args = args.split()
             sub_action = _args[1]
@@ -74,11 +74,21 @@ class Zcx(UserActionsBase):
             target_def = _args[0]
             target_slot = None
 
+            if target_def == "all":
+                for i in range(1, 6):
+                    try:
+                        self.action_entry_point({}, f'{i} {" ".join(_args[1:])}', True)
+                    except Exception as e:
+                        self.log(e)
+                return
+
             if target_def.isdigit():
                 try:
                     target_slot = int(target_def)
                     target_script = self.__slots_to_scripts[target_slot - 1]
                     if target_script is None:
+                        if target_is_all:
+                            return
                         raise RuntimeError(f'Control surface slot {target_slot} does not seem to contain a zcx script.', self.__slots_to_scripts)
                 except KeyError:
                     raise ValueError(f'Invalid zcx script target: {target_def}')

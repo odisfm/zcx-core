@@ -38,6 +38,12 @@ This is the name of the folder containing the zcx script (similar to as seen in 
 
 This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old name.
 
+#### Target all scripts
+
+`ZCX ALL REFRESH`
+
+Apply the command to all zcx scripts.
+
 ### Available commands
 
 #### PAGE
