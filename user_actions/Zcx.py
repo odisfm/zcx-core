@@ -78,8 +78,10 @@ class Zcx(UserActionsBase):
                 try:
                     target_slot = int(target_def)
                     target_script = self.__slots_to_scripts[target_slot - 1]
+                    if target_script is None:
+                        raise RuntimeError(f'Control surface slot {target_slot} does not seem to contain a zcx script.', self.__slots_to_scripts)
                 except KeyError:
-                    raise RuntimeError(f'Control surface slot {target_slot} does not seem to contain a zcx script.', self.__slots_to_scripts)
+                    raise ValueError(f'Invalid zcx script target: {target_def}')
                 except ValueError:
                     raise RuntimeError(f'Something went seriously wrong parsing `ZCX {args}`')
             else:
