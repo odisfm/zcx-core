@@ -354,7 +354,8 @@ class Push1Display(ZCXPlugin):
 
     @listens("selected_track")
     def selected_track_changed(self):
-        self.tracks_changed()
+        if self._ring_tracks_line:
+            self.tracks_changed()
         self.selected_device_changed.subject = self.song.view.selected_track.view
         self.update_selected_line()
 
