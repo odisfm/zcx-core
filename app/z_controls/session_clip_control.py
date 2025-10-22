@@ -40,7 +40,7 @@ class SessionClipControl(ZControl):
             self._on_color_index_changed()
 
         except Exception as e:
-            self.error(e)
+            self.log(e)
         self.update_status()
 
     @listens('has_clip')
