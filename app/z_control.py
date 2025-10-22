@@ -303,7 +303,7 @@ class ZControl(EventObject):
             elif gesture == 'released':
                 self._do_simple_feedback_release()
 
-        elif gesture in ['pressed', 'double_clicked']:
+        if gesture in ['pressed', 'double_clicked']:
             self.set_prop('vel', val)
             vel_p = round((val / 127) * 100, 1)
             vel_p_s = round(self.re_range_percent(val, self._on_threshold, 127), 1)
