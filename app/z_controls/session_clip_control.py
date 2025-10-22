@@ -1,4 +1,5 @@
 from ..z_control import ZControl
+from ..z_control import ZControl, only_in_view
 from ableton.v3.base import listens
 
 
@@ -43,6 +44,7 @@ class SessionClipControl(ZControl):
         self.update_status()
 
     @listens('has_clip')
+    @only_in_view
     def _on_has_clip_changed(self):
         if self.__clip_slot.has_clip:
             self.__clip = self.__clip_slot.clip
@@ -75,18 +77,22 @@ class SessionClipControl(ZControl):
             self._on_track_arm_changed.subject = None
 
     @listens('playing_status')
+    @only_in_view
     def _on_is_playing_changed(self):
         self.update_status()
 
     @listens('is_recording')
+    @only_in_view
     def _on_is_recording(self):
         self.update_status()
 
     @listens('is_triggered')
+    @only_in_view
     def _on_is_triggered(self):
         self.update_status()
 
     @listens('color_index')
+    @only_in_view
     def _on_color_index_changed(self):
         if self.__is_group_track:
             self._color_dict = self.session_view_component.get_color_dict(self.__clip_slot.canonical_parent.color_index)
@@ -97,13 +103,16 @@ class SessionClipControl(ZControl):
         self.update_status()
 
     @listens('arm')
+    @only_in_view
     def _on_track_arm_changed(self):
         self.update_status()
 
     @listens('controls_other_clips')
+    @only_in_view
     def _on_controls_other_clips_changed(self):
         self.update_status()
 
+    @only_in_view
     def update_status(self):
 
         if not self.__is_group_track:
@@ -142,6 +151,10 @@ class SessionClipControl(ZControl):
         
     def request_color_update(self):
         super().request_color_update()
+
+    def _back_in_view(self):
+        self.update_status()
+        super()._back_in_view()
 
     @property
     def clip_slot(self):

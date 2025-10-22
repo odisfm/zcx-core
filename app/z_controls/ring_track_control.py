@@ -2,6 +2,7 @@ from ableton.v3.base import listens
 from .track_control import TrackControl
 from .session_ring_control import SessionRingControl
 from ..colors import RgbColor
+from ..z_control import only_in_view
 
 
 class RingTrackControl(TrackControl, SessionRingControl):
@@ -28,6 +29,7 @@ class RingTrackControl(TrackControl, SessionRingControl):
             self.log(e)
 
     @listens('offsets')
+    @only_in_view
     def ring_offset_changed(self):
         scene_offset = self.__session_ring.offsets['scene_offset']
         if scene_offset == self.__current_scene_offset:
@@ -35,8 +37,13 @@ class RingTrackControl(TrackControl, SessionRingControl):
         self.acquire_ring_track()
 
     @listens('tracks')
+    @only_in_view
     def tracks_changed(self):
         self.acquire_ring_track()
+
+    def _back_in_view(self):
+        super()._back_in_view()
+        self.ring_offset_changed()
 
     def acquire_ring_track(self):
         try:
