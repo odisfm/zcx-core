@@ -355,6 +355,11 @@ class ZCXCore(ControlSurface):
         self._task_group.add(task)
         task.restart()
 
+    def disconnect(self):
+        self.log("disconnecting")
+        self.invoke_all_plugins("_on_disconnect")
+        super().disconnect()
+
 class RefreshLightsTask(TimerTask):
 
     def __init__(self, owner, duration=1, **k):
