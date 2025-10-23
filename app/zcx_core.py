@@ -341,6 +341,7 @@ class ZCXCore(ControlSurface):
             method = getattr(plugin_instance, method_name, None)
             if method is None:
                 self.debug(f'plugin {plugin_name} has no method {method_name}')
+                continue
             method(**k)
 
     def set_hardware_mode(self, mode: str, wait=0.2):
