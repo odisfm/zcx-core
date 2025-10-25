@@ -144,6 +144,7 @@ class ZControl(EventObject):
         if not isinstance(value, bool):
             raise ValueError('in_view must be a boolean')
         back_in_view = not self._in_view and value
+        leaving_view = self._in_view and not value
         if not value:
             if self._state._is_pressed and self.__release_on_exit:
                 was_held = not self._state._delay_task.is_running
@@ -156,6 +157,8 @@ class ZControl(EventObject):
         self._in_view = value
         if back_in_view:
             self._back_in_view()
+        elif leaving_view:
+            self._control_element.send_value(0, force=True)
 
     @property
     def context(self):
