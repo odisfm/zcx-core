@@ -23,7 +23,6 @@ gestures: dict[dict]
 pad_group: string
 vars: dict
 repeat: boolean=false
-externally_managed_light: boolean=false
 template: string, list[string], null
 props: dict[any]
 threshold: int=30
@@ -99,12 +98,6 @@ ___
 `boolean=false`
 
 Repeatedly trigger this control's `pressed` gesture (with modifiers) while it is held.
-
-___
-### externally_managed_light
-`boolean=false`
-
-Suppress most color change events that fire on this control, preventing colors set manually via the API from being overwritten.
 
 ---
 ### suppress_animations
