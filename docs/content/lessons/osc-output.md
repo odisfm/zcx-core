@@ -28,7 +28,7 @@ OSC_DEVICE_IP_ADDRESS = 127.0.0.1
 ## Configuring what information is sent
 
 By default, all the data listed in [available outputs](#available-outputs) is sent.
-You can disable some (or all) of these outputs via the zcx file [preferences.yaml](../reference/configuration-files/preferences.md/#osc_output).
+You can disable some (or all) of these outputs via the zcx file [preferences.yaml](../reference/file/preferences.md/#osc_output).
 
 ## OSC namespace
 
@@ -48,7 +48,7 @@ One such routing tool is [OSCRouter](https://github.com/ETCLabs/OSCRouter) from 
 ### Encoder mappings
 
 For encoders, zcx will send the name of the mapped parameter, as well as the value as several datatypes.
-You may configure the datatypes sent in [preferences.yaml](../reference/configuration-files/preferences.md/#osc_output).
+You may configure the datatypes sent in [preferences.yaml](../reference/file/preferences.md/#osc_output).
 
 #### name
 

@@ -364,7 +364,7 @@ This template will be applied for every control in the section. You can imagine 
 
 #### section templates
 
-An alternative to [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](configuration-files/matrix-sections.md). To do so, add a `template` key:
+An alternative to [the above method](#whole-section-groups) is to define a template inside [matrix_sections.yaml](file/matrix-sections.md). To do so, add a `template` key:
 
 ```yaml hl_lines="6-7"
 my_section:

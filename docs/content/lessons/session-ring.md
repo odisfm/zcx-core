@@ -13,11 +13,11 @@ Like other control surface scripts, zcx provides a 'session ring' — a colored 
 ## Resizing the ring
 
 By default, the session ring will be configured to the same width and height as your controller's matrix.
-You may resize the session ring via [preferences.yaml](../reference/configuration-files/preferences.md#session_ring).
+You may resize the session ring via [preferences.yaml](../reference/file/preferences.md#session_ring).
 
 ## Disabling the ring
 
-You may disable the ring in [preferences.yaml](../reference/configuration-files/preferences.md#session_ring).
+You may disable the ring in [preferences.yaml](../reference/file/preferences.md#session_ring).
 
 ## Moving the ring
 

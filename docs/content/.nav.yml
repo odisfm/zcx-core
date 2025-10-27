@@ -15,7 +15,7 @@ nav:
       - control reference:
           - "reference/control/*.md"
       - configuration files:
-          - "reference/configuration-files/*.md"
+          - "reference/file/*.md"
       - hardware reference:
           - "reference/hardware/*.md"
 

@@ -170,7 +170,7 @@ The default, `RELATIVE_SMOOTH_TWO_COMPLIMENT` is a safe choice.
 
 #### preferences
 
-Here we define [preferences](../reference/configuration-files/preferences.md#preference-reference) that are **specific to this controller**.
+Here we define [preferences](../reference/file/preferences.md#preference-reference) that are **specific to this controller**.
 Other preferences should be left to the user.
 
 In most cases, the only thing that should be added here is `session_ring`:

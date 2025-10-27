@@ -6,7 +6,7 @@
 
 zcx will not make any use of Push 2's display.
 However, it is possible to keep the default display function active in zcx mode.
-If the preference [initial_hw_mode](../configuration-files/preferences.md#initial_hw_mode) is set to `zcx`, when zcx loads the screen will stay active.
+If the preference [initial_hw_mode](../file/preferences.md#initial_hw_mode) is set to `zcx`, when zcx loads the screen will stay active.
 However, if you enter Live mode, and then use Push 2's `User` button to re-enter zcx mode, the display will be disabled.
 If instead, you re-enter zcx mode via the [zcx user action](../../lessons/zcx-user-action.md#hw_mode), the screen will stay active.
 

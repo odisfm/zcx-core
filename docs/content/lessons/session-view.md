@@ -26,7 +26,7 @@ There is no need to create the file `matrix_sections/__session_view.yaml`.
 Once the section is created, [add it to a page](getting-started/zcx-concepts.md#pages).
 
 !!! note
-    The `__session_view` section's dimensions must be no greater than the [height and width](../reference/configuration-files/preferences.md#session_ring) of your session ring. 
+    The `__session_view` section's dimensions must be no greater than the [height and width](../reference/file/preferences.md#session_ring) of your session ring. 
 
 ## Commands
 

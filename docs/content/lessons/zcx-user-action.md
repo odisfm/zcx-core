@@ -85,8 +85,8 @@ Enable, disable, or toggle an [overlay](overlays-layers.md#overlays).
 Manually re-bind a zcx [encoder](../reference/encoder.md) or [param control](../reference/control/param.md) to a new target.
 This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/action-reference/global-actions/#bind-i-x).
 
-If binding an encoder, `control name` is the same one you'd use in [encoders.yaml](../reference/configuration-files/encoders.md).
-If binding a named control, `control name` must be the name from [named controls.yaml](../reference/configuration-files/named_controls.md) or the control's [alias](../reference/control/standard.md#alias) if one exists.
+If binding an encoder, `control name` is the same one you'd use in [encoders.yaml](../reference/file/encoders.md).
+If binding a named control, `control name` must be the name from [named controls.yaml](../reference/file/named_controls.md) or the control's [alias](../reference/control/standard.md#alias) if one exists.
 If binding a matrix control, it must have an [alias](../reference/control/standard.md#alias), which you will use for `control name`.
 
 For valid `mapping targets`, see [Encoder Reference](../reference/encoder.md#mapping-targets) or [Control Reference](../reference/control/param.md#additional-mapping-targets) for param controls.

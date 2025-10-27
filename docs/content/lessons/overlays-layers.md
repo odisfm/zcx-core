@@ -102,7 +102,7 @@ overlays:
       - my_other_matrix_section
 ```
 
-`matrix_sections` is just a list of matrix sections you have already defined in [matrix_sections.yaml](../reference/configuration-files/matrix-sections.md).
+`matrix_sections` is just a list of matrix sections you have already defined in [matrix_sections.yaml](../reference/file/matrix-sections.md).
 
 ### Enabling overlays
 
@@ -130,7 +130,7 @@ When `my_button` is pressed, it will show the message `This is the overlay butto
 When we leave `my_overlay` and press `my_button` again it will show `This is the base button.`
 
 !!! tip
-    You can use a [startup command](../reference/configuration-files/preferences.md#startup_command) to enable an overlay when zcx loads.
+    You can use a [startup command](../reference/file/preferences.md#startup_command) to enable an overlay when zcx loads.
 !!! tip
     You can use an [overlay control](../reference/control/overlay.md) to get LED feedback about an overlay's status.
 

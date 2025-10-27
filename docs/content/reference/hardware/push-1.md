@@ -37,7 +37,7 @@ If the scene is an [X-Scene](https://www.cxpman.com/manual/core-concepts/#x-scen
 
 ---
 
-You can specify on which line each readout appears via [preferences.yaml](../configuration-files/preferences.md#plugins).
+You can specify on which line each readout appears via [preferences.yaml](../file/preferences.md#plugins).
 
 ```yaml
 plugins:
