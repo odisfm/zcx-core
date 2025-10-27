@@ -179,6 +179,18 @@ def create_instance(c_instance):
 
     ROOT_LOGGER.setLevel(log_level)
 
+    default_max_log_size = 5 # megabytes
+    log_file_max_size_def = prefs.get('log_file_max_size', default_max_log_size)
+    if not isinstance(log_file_max_size_def, int):
+        ROOT_LOGGER.error(f"Invalid value `{log_file_max_size_def}` for preference `log_file_max_size`. Using default of `{default_max_log_size}`MB.")
+        log_file_max_size_def = default_max_log_size
+
+    default_log_backup_count = 2
+    log_backup_count_def = prefs.get('log_file_backups', 2)
+    if not isinstance(log_backup_count_def, int) or log_backup_count_def < 0:
+        ROOT_LOGGER.error(f"Invalid value `{log_backup_count_def}` for preference `log_file_backups`. Using default of `{default_log_backup_count}`.")
+        log_backup_count_def = default_log_backup_count
+
     has_rotating_handler = any(
         isinstance(h, RotatingFileHandler) and h.baseFilename == log_filename
         for h in ROOT_LOGGER.handlers
@@ -193,8 +205,8 @@ def create_instance(c_instance):
         file_handler = RotatingFileHandler(
             log_filename,
             mode="a",
-            maxBytes=5 * 1024 * 1024,  # 5MB
-            backupCount=0,
+            maxBytes= log_file_max_size_def * 1024 * 1024,
+            backupCount= log_backup_count_def,
             encoding='utf-8'
         )
         file_handler.setLevel(log_level)

@@ -98,11 +98,28 @@ log_failed_encoder_bindings: true
 By default, when an [encoder](../encoder.md) fails to bind to the specified target an error message is written to the log.
 In some cases, it may be expected that bindings fail, so you may set this option to `false`.
 
+### log_file_max_size
+
+```yaml
+log_file_max_size: 5
+```
+
+Max size of [the log file](log.md) in megabytes.
+
+### log_file_backups
+
+```yaml
+log_file_backups: 2
+```
+
+Number of [log file backups](log.md#backups) to keep.
+
 ### log_level
 
 ```yaml
 log_level: info
 ```
+
 
 Configures how detailed the zcx logs are. From most to least detailed, the options are:
 
