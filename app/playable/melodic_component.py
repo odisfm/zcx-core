@@ -265,6 +265,14 @@ class MelodicComponent(ZCXComponent):
 
         self.__color_dict = color_dict
 
+        initial_octave_def = section_def.get("octave")
+        if not initial_octave_def:
+            pass
+        elif not isinstance(initial_octave_def, int) or not 0 <= initial_octave_def <= 10:
+            self.warning(f'Keyboard: invalid setting for octave `{initial_octave_def}`. Using default octave `{self.octave}`')
+        else:
+            self.__octave = initial_octave_def
+
         from .playable_state import PlayableState
         PlayableState.State.melodic_component = self
         self.__does_exist = True
