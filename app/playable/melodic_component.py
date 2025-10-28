@@ -29,6 +29,7 @@ class MelodicComponent(ZCXComponent):
         **k,
     ):
         super().__init__(name=name, *a, **k)
+        self.__last_repeat_rate = None
         self.__base_status_message = None
         self.__color_dict = None
         self.__pad_section = None
@@ -107,7 +108,18 @@ class MelodicComponent(ZCXComponent):
 
     @repeat_rate.setter
     def repeat_rate(self, value):
-        if value.lower() not in repeat_rates_lower:
+        value = value.lower()
+        if value not in repeat_rates_lower:
+            if value == "on":
+                if self.__last_repeat_rate:
+                    return setattr(self, "repeat_rate", self.__last_repeat_rate)
+                else:
+                    return setattr(self, "repeat_rate", "1/4")
+            elif value == "toggle":
+                if self.__repeat_rate == 0:
+                    return setattr(self, "repeat_rate", "on")
+                else:
+                    return setattr(self, "repeat_rate", "off")
             raise ValueError(f'Invalid repeat rate `{value}`. Valid: {REPEAT_RATES}')
         self.canonical_parent.component_map["ActionResolver"].execute_command_bundle(
             None,
@@ -115,6 +127,8 @@ class MelodicComponent(ZCXComponent):
             {},
             {}
         )
+        if value != "off":
+            self.__last_repeat_rate = value
         self.__repeat_rate = repeat_rates_lower.index(value.lower())
         self.notify_repeat_rate(value)
 
