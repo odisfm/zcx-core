@@ -13,7 +13,7 @@ Have a look at the [about page](index.md), or check out [the source on GitHub](h
 ### What do I need to use zcx?
 
 * Ableton Live 12.1 or above <sup>[why?](lessons/why-live-12.md)</sup>
-* ClyphX Pro
+* ClyphX Pro 1.3.1 or above
 * [Supported hardware](index.md#hardware)
 * A heart full of dreams
 
