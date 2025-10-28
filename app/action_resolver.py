@@ -399,11 +399,21 @@ class ActionResolver(ZCXComponent):
                                 match key_type.lower():
                                     case 'in_key':
                                         if isinstance(key_def, bool):
-                                            key_def = not key_def  # internal name is `chromatic`, user is `in_key`
-                                        melodic_inst.chromatic = key_def
+                                            melodic_inst.chromatic = not key_def  # internal name is `chromatic`, user is `in_key`
+                                        elif key_def == "toggle":
+                                            melodic_inst.chromatic = not melodic_inst.chromatic
+                                        else:
+                                            raise ValueError(f'Invalid keyboard command: `in_key` must be a boolean or `toggle`.\n{command_def}')
+
                                     case 'layout':
                                         melodic_inst.layout = key_def
                                     case 'full_velo':
+                                        if isinstance(key_def, bool):
+                                            melodic_inst.full_velo = key_def
+                                        elif key_def == "toggle":
+                                            melodic_inst.full_velo = not melodic_inst.full_velo
+                                        else:
+                                            raise ValueError(f'Invalid keyboard command: `full_velo` must be a boolean or `toggle`.\n{command_def}')
                                         melodic_inst.full_velo = key_def
                                     case 'repeat_rate':
                                         rate_def = key_def
@@ -416,6 +426,8 @@ class ActionResolver(ZCXComponent):
                                             rate_def = parsed
                                         melodic_inst.repeat_rate = rate_def
                                     case 'octave':
+                                        if isinstance(key_def, int):
+                                            melodic_inst.octave = key_def
                                         if isinstance(key_def, str):
                                             if "${" in key_def:
                                                 parsed, status = self.compile(key_def, vars_dict, context)
