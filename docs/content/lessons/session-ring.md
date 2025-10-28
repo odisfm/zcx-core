@@ -23,6 +23,8 @@ You may disable the ring in [preferences.yaml](../reference/file/preferences.md#
 
 A script's ring may be positioned with the [ring command](../reference/command.md#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
 
+zcx scripts are compatible with ClyphX Pro's [script linking feature](https://www.cxpman.com/manual/core-concepts/#script-linking).
+
 ## ClyphX Pro control surface actions
 
 ClyphX Pro includes a variety of [control surface actions](https://www.cxpman.com/action-reference/control-surface-actions/), which can be used to interact with control surfaces. Many of these actions are compatible with zcx scripts.
