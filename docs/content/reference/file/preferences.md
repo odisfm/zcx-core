@@ -133,6 +133,10 @@ Configures how detailed the zcx logs are. From most to least detailed, the optio
 
 See [the OSC lesson](../../lessons/osc-output.md).
 
+### playable_channel
+
+See [the keyboard view lesson](../../lessons/keyboard.md).
+
 ### plugins
 
 ```yaml

@@ -351,6 +351,10 @@ my_button:
     scene: my cool scene
 ```
 
+### keyboard
+
+Adjust the settings of the [melodic keyboard view](../lessons/keyboard.md#melodic-settings).
+
 ### pseq / rpseq
 
 Emulates [sequential action lists](https://www.cxpman.com/manual/core-concepts/#sequential-action-lists) from ClyphX Pro.
