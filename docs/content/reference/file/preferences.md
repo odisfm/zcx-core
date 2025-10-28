@@ -131,22 +131,7 @@ Configures how detailed the zcx logs are. From most to least detailed, the optio
 
 ### osc_output
 
-```yaml
-osc_output:
-  encoders:
-    name: true
-    value: true
-    int: true
-    float: true
-  page: true
-  ring_tracks: true
-  ring_pos: true
-```
-
-Configures what information is sent over OSC. 
-`osc_output: false` disables all OSC output.
-
-See [full lesson](../../lessons/osc-output.md) for more details.
+See [the OSC lesson](../../lessons/osc-output.md).
 
 ### plugins
 
