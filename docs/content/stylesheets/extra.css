@@ -47,3 +47,12 @@ ul.md-nav__list, .md-nav__link {
     margin-bottom: .5rem;
   }
 }
+
+.md-typeset a:not(.md-icon) {
+    &[target="_blank"][rel="noopener"]::after {
+        content: "↗";
+        font-size: smaller;
+        margin-left: .2em;
+        vertical-align: top;
+    }
+}
