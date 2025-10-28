@@ -240,6 +240,10 @@ class EncoderManager(ZCXComponent):
                      f'{self._encoders.keys()}')
             return None
 
+    def refresh_all_bindings(self):
+        for encoder in self._encoders.values():
+            encoder.refresh_binding()
+
 
 class SelectedDeviceWatcher(EventObject):
 

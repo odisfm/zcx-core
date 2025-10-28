@@ -306,7 +306,7 @@ class ActionResolver(ZCXComponent):
                                 self.component_map["ViewManager"].toggle_overlay(parsed_overlay)
 
                         case 'refresh':
-                            self.__hardware_interface.refresh_all_lights()
+                            self.canonical_parent.manual_refresh()
                         case 'hardware_mode':
                             if command_def == 'user':
                                 bytes = USER_MODE

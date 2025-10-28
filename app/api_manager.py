@@ -101,7 +101,7 @@ class ZcxApi:
             self.root_cs.critical(e)
 
     def refresh(self):
-        self.root_cs.refresh_all_lights()
+        self.root_cs.manual_refresh()
 
     def set_hardware_mode(self, mode_def):
         self.root_cs.set_hardware_mode(mode_def)

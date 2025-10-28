@@ -316,6 +316,11 @@ class ZCXCore(ControlSurface):
         refresh_task = RefreshLightsTask(self, duration)
         self._task_group.add(refresh_task)
 
+    def manual_refresh(self):
+        self.refresh_required(duration=0)
+        self.component_map["EncoderManager"].refresh_all_bindings()
+        self.component_map["ZManager"].refresh_all_bindings()
+
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
         if self._enabled and midi_chunk[0][0] == 240:

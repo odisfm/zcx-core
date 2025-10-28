@@ -38,6 +38,7 @@ class ZManager(ZCXComponent):
         self.__matrix_sections: dict[str, PadSection] = {}
         self.__control_aliases = {}
         self.__all_controls: "list[ZControl]" = []
+        self._param_controls: "list[ParamControl]" = []
 
     @property
     def all_controls(self) -> "list[ZControl]":
@@ -790,6 +791,7 @@ class ZManager(ZCXComponent):
             try:
                 if isinstance(control, ParamControl):
                     control.bind_to_active()
+                    self._param_controls.append(control)
                 if isinstance(control, KeyboardControl):
                     control.finish_setup()
                 if isinstance(control, OverlayControl):
@@ -849,3 +851,7 @@ class ZManager(ZCXComponent):
 
     def register_special_section_object(self, pad_section: PadSection, name: str):
         self.__matrix_sections[name] = pad_section
+
+    def refresh_all_bindings(self):
+        for control in self._param_controls:
+            control.refresh_binding()
