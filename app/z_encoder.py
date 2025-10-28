@@ -412,8 +412,8 @@ class ZEncoder(EventObject):
 
                 bank_def = target_map.get("bank")
                 if bank_def is not None:
-                    bank_num = int(bank_def) - 1
-                    banked_param = get_banked_parameter(device_obj, device_obj.class_name, bank_num, int(par_num) - 1, self._prefer_left)[0]
+                    bank_num = int(bank_def)
+                    banked_param = get_banked_parameter(device_obj, device_obj.class_name, bank_num, int(par_num), self._prefer_left)
                     self.mapped_parameter = banked_param
                     return self.mapped_parameter is not None
 
