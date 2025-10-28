@@ -58,6 +58,7 @@ class ZcxApi:
         self.add_mode = partial(self.mode_manager.add_mode)
         self.remove_mode = partial(self.mode_manager.remove_mode)
         self.toggle_mode = partial(self.mode_manager.toggle_mode)
+        self.execute_command_bundle = partial(self.root_cs.component_map['ActionResolver'].execute_command_bundle)
 
     @property
     def script_name(self):
