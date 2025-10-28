@@ -189,6 +189,112 @@ class Zcx(UserActionsBase):
             elif sub_action == 'hot_reload':
                 target_script.root_cs.hot_reload()
 
+            elif sub_action == 'kb': # keyboard
+                kb_args = _args[2:]
+                kb_action = kb_args[0]
+                match kb_action:
+                    case 'oct':
+                        octave_def = kb_args[1]
+                        if octave_def[0] in ["<", ">"]:
+                            try:
+                                if len(octave_def) == 1:
+                                    increment = 1
+                                else:
+                                    increment = int(octave_def[1:])
+                                direction = "down" if octave_def[0] == "<" else "up"
+                                command = {
+                                    "keyboard": {
+                                        "octave": {
+                                            direction: increment
+                                        }
+                                    }
+                                }
+                                target_script.execute_command_bundle(
+                                    calling_control=None,
+                                    bundle=command,
+                                    vars_dict={},
+                                    context={}
+                                )
+                            except ValueError:
+                                raise ValueError(f'Invalid octave increment {octave_def}.')
+                        else:
+                            try:
+                                octave = int(octave_def)
+                                command = {
+                                    "keyboard": {
+                                        "octave": octave
+                                    }
+                                }
+                                target_script.execute_command_bundle(
+                                    calling_control=None,
+                                    bundle=command,
+                                    vars_dict={},
+                                    context={}
+                                )
+                            except ValueError:
+                                raise ValueError(f'Invalid octave definition {octave_def}.')
+                    case 'fullvelo':
+                        if len(kb_args) == 2:
+                            match kb_args[1]:
+                                case "on":
+                                    command = {
+                                        "keyboard": {"full_velo": True}
+                                    }
+                                case "off":
+                                    command = {
+                                        "keyboard": {"full_velo": False}
+                                    }
+                                case _:
+                                    raise ValueError(f'Invalid fullvelo option {kb_args}')
+                        else:
+                            command = {
+                                "keyboard": {"full_velo": "toggle"}
+                            }
+
+                        target_script.execute_command_bundle(
+                            calling_control=None,
+                            bundle=command,
+                            vars_dict={},
+                            context={}
+                        )
+                    case 'rpt':
+                        if len(kb_args) == 1:
+                            command = {
+                                "keyboard": {"repeat_rate": "toggle"}
+                            }
+                        else:
+                            command = {
+                                "keyboard": {"repeat_rate": kb_args[1]}
+                            }
+                        target_script.execute_command_bundle(
+                            calling_control=None,
+                            bundle=command,
+                            vars_dict={},
+                            context={}
+                        )
+                    case 'inkey':
+                        if len(kb_args) == 1:
+                            command = {
+                                "keyboard": {"in_key": "toggle"}
+                            }
+                        elif kb_args[1] == "on":
+                            command = {
+                                "keyboard": {"in_key": True}
+                            }
+                        elif kb_args[1] == "off":
+                            command = {
+                                "keyboard": {"in_key": False}
+                            }
+                        else:
+                            raise ValueError(f'Invalid in_key {kb_args[1]}.')
+
+                        target_script.execute_command_bundle(
+                            calling_control=None,
+                            bundle=command,
+                            vars_dict={},
+                            context={}
+                        )
+
             else:
                 raise ValueError(f'Unknown action {sub_action}')
         except Exception as e:

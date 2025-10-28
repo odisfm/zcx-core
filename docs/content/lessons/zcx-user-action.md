@@ -122,6 +122,9 @@ Same as [above](#bind), but overrides an existing mapping target permanently, an
 
 `ZCX zcx_launchpad_x BIND_shift__select enc_1 "SEL / DEV(1) P1"`
 
+#### KB
+
+Control settings related to the [keyboard view](keyboard.md#melodic-settings).
 
 #### MSG
 
