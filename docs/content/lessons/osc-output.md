@@ -25,11 +25,6 @@ OSC_DEVICE_IP_ADDRESS = 127.0.0.1
 !!! warning
     The above settings are an example only; they will need to be set according to your network and situation.
 
-## Configuring what information is sent
-
-By default, all the data listed in [available outputs](#available-outputs) is sent.
-You can disable some (or all) of these outputs via the zcx file [preferences.yaml](../reference/file/preferences.md/#osc_output).
-
 ## OSC namespace
 
 An OSC message sent from zcx will use an address like this:
@@ -42,13 +37,29 @@ The second part, `zcx_push_1`, is the name of the particular zcx script sending 
 This is useful when using multiple zcx scripts simultaneously, as it allows you to route messages per-script.
 
 One such routing tool is [OSCRouter](https://github.com/ETCLabs/OSCRouter) from ETC Labs.
+
+## Configuring what information is sent
+
+By default, no OSC data is sent.
+You may enable the particular OSC output you want through the [preferences.yaml](../reference/file/preferences.md) option `osc_output`.
+
+Read on to see the appropriate values for `osc_output`.
     
 ## Available outputs
 
 ### Encoder mappings
 
 For encoders, zcx will send the name of the mapped parameter, as well as the value as several datatypes.
-You may configure the datatypes sent in [preferences.yaml](../reference/file/preferences.md/#osc_output).
+
+
+```yaml title="preferences.yaml"
+osc_output:
+  encoders:
+    name: true
+    value: true
+    int: true
+    float: true
+```
 
 #### name
 
@@ -86,6 +97,11 @@ Value: float
 
 zcx will send messages when the page is changed.
 
+```yaml title="preferences.yaml"
+osc_output:
+  page: true
+```
+
 #### page number
 
 Address: `/zcx/<script name>/page/number/<current page number>`
@@ -101,6 +117,12 @@ Value: string
 ### session ring
 
 zcx will send messages relating to the [session ring](session-ring.md).
+
+```yaml title="preferences.yaml"
+osc_output:
+  ring_tracks: true
+  ring_pos: true
+```
 
 #### ring tracks
 
