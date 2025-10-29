@@ -97,3 +97,5 @@ jobs:
             # Deploy with 'latest' alias for main/master branches
             mike deploy --update-aliases ${{ steps.get_version.outputs.version }} latest --push
           fi
+          
+          mike set-default --push latest
