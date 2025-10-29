@@ -50,3 +50,13 @@ Use the [blank config](../lessons/blank-config.md) folder instead of the `demo_c
 
 By default, the script will determine the default path to your Live User Library depending on your operating system.
 If you use a non-default location for your User Library, you will need to provide the path as an argument.
+
+### Building with your own config
+
+While working on zcx, you'll likely prefer to use your own config, rather than the demo config.
+
+One option is to use the [--custom-config](#--custom-config) argument and pass the path to your own config.
+
+Another is to use symbolic links in the destination directory to other files or directories on your computer.
+The build script will ignore symbolic links in the destination directory.
+
