@@ -25,6 +25,7 @@ class BuildManager:
             control_surface_name: Optional[str] = None,
             custom_config_path: Optional[Path] = None,
             user_library_path: Optional[Path] = None,
+            use_blank_config: bool = False,
     ):
         # Import config here so CLI args can override
         from sync_config import (
@@ -60,6 +61,7 @@ class BuildManager:
             self.control_surface_name = CONTROL_SURFACE_NAME
 
         self.custom_config_path = custom_config_path
+        self.use_blank_config = use_blank_config
 
         self.remote_scripts_path = remote_scripts_path
         self._validate_remote_scripts_path(self.remote_scripts_path)
@@ -341,11 +343,11 @@ class BuildManager:
                 else:
                     logging.warning(f"Test directory not found: {self.test_root}")
 
-            # Sync config from either custom_config_path or hardware-specific demo_config
+            # Sync config from either custom_config_path or hardware-specific demo_config/blank_config
             config_path = (
                 self.custom_config_path
                 if self.custom_config_path
-                else self.hardware_root / "demo_config"
+                else self.hardware_root / ("blank_config" if self.use_blank_config else "demo_config")
             )
             if config_path.exists():
                 config_dest = self.dest_root / "_config"
@@ -411,6 +413,11 @@ def main():
         help="Path to a custom config folder to override demo_config/",
     )
     parser.add_argument(
+        "--blank-config",
+        action="store_true",
+        help="Use blank_config instead of demo_config",
+    )
+    parser.add_argument(
         "--user-library",
         type=Path,
         help="Custom path to Ableton User Library Remote Scripts directory",
@@ -424,6 +431,7 @@ def main():
             args.control_surface_name,
             args.custom_config,
             args.user_library,
+            args.blank_config,
         )
 
 

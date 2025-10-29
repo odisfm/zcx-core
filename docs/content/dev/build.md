@@ -42,6 +42,10 @@ You must manually create the destination folder.
 
 Provide the path to a folder that will be copied into the destination instead of the `demo_config` folder.
 
+##### --blank-config
+
+Use the [blank config](../lessons/blank-config.md) folder instead of the `demo_config` folder.
+
 ##### --user-library
 
 By default the script will determine the default path to your Live User Library depending on your operating system.
