@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 
 {% block outdated %}
-  {% if not page.url.startswith('dev/') %}
-  You're not viewing the latest version.
-  <a href="{{ '../' ~ base_url }}">
-    <strong>Click here to go to latest.</strong>
-  </a>
-  {% endif %}
+  <div id="outdated-notice">
+    You're not viewing the latest version.
+    <a href="{{ '../' ~ base_url }}">
+      <strong>Click here to go to latest.</strong>
+    </a>
+  </div>
+  <script>
+    if (window.location.pathname.startsWith('/dev')) {
+      document.getElementById('outdated-notice').style.display = 'none';
+    }
+  </script>
 {% endblock %}
 
