@@ -88,4 +88,12 @@ jobs:
       - name: Deploy with mike
         run: |
           cd docs
-          mike deploy --update-aliases ${{ steps.get_version.outputs.version }} latest --push
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          
+          if [ "$BRANCH_NAME" = "dev" ]; then
+            # Deploy dev version without alias
+            mike deploy ${{ steps.get_version.outputs.version }} --push
+          else
+            # Deploy with 'latest' alias for main/master branches
+            mike deploy --update-aliases ${{ steps.get_version.outputs.version }} latest --push
+          fi
