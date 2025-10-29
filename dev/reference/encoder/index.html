@@ -120,55 +120,6 @@
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
         
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-<div id="outdated-notice">
-  <span id="latest-version-text">You're not viewing the latest version.</span>
-  <a href="../../..">
-    <strong id="click-here-text">Click here to go to latest.</strong>
-  </a>
-  <button id="dismiss-outdated-notice-button">
-    dismiss
-  </button>
-</div>
-
-
-
-  <script>
-
-    document.getElementById('dismiss-outdated-notice-button').addEventListener('click', function () {
-      localStorage.setItem('dismissedVersionNoticeDate', JSON.stringify(new Date()));
-      document.querySelector('[data-md-component="outdated"]').style.display = 'none';
-    })
-
-    if (window.location.pathname.startsWith('/dev')) {
-      document.querySelector('[data-md-component="outdated"]').classList.add("dev")
-
-      document.getElementById('latest-version-text').textContent = `You are viewing the docs for a pre-release version.`
-      document.getElementById('click-here-text').textContent = `Click here to see the latest stable version.`
-    }
-
-    let dismissedVersionNoticeDate = localStorage.getItem('dismissedVersionNoticeDate');
-      if (dismissedVersionNoticeDate) {
-        dismissedVersionNoticeDate = JSON.parse(dismissedVersionNoticeDate);
-        const dismissedDate = new Date(dismissedVersionNoticeDate);
-        const currentDate = new Date();
-        const oneMonthAgo = new Date(currentDate);
-        oneMonthAgo.setMonth(currentDate.getMonth() - 1);
-
-        if (dismissedDate < oneMonthAgo) {
-          localStorage.removeItem('dismissedVersionNoticeDate');
-        } else {
-          document.querySelector('[data-md-component="outdated"]').style.display = 'none';
-        }
-      }
-  </script>
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
-        
       </div>
     
     
