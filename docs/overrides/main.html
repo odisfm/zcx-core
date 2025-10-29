@@ -9,7 +9,7 @@
   </div>
   <script>
     if (window.location.pathname.startsWith('/dev')) {
-      document.getElementById('outdated-notice').style.display = 'none';
+      document.querySelector('[data-md-component="outdated"]').style.display = 'none';
     }
   </script>
 {% endblock %}
