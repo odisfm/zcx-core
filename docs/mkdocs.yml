@@ -72,6 +72,8 @@ plugins:
       warning: true
       reverse: false
       headless_included: false
+  - mike:
+      canonical_version: latest
 extra:
   social:
     - icon: fontawesome/brands/github
