@@ -41,7 +41,7 @@ jobs:
         id: get_version
         run: |
           # Check if we're on the dev branch
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          BRANCH_NAME="${{ github.ref_name }}"
           
           if [ "$BRANCH_NAME" = "dev" ]; then
             VERSION="dev"
@@ -88,7 +88,7 @@ jobs:
       - name: Deploy with mike
         run: |
           cd docs
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          BRANCH_NAME="${{ github.ref_name }}"
           
           if [ "$BRANCH_NAME" = "dev" ]; then
             # Deploy dev version without alias
