@@ -56,3 +56,27 @@ ul.md-nav__list, .md-nav__link {
         vertical-align: top;
     }
 }
+
+[data-md-component="outdated"].dev aside {
+    background-color: black !important;
+    color: white;
+}
+
+
+#outdated-notice {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+}
+
+#dismiss-outdated-notice-button {
+    margin-left: auto;
+    color: white;
+    padding: .2rem .6rem;
+    background-color: var(--md-primary-fg-color--dark);
+    cursor: pointer;
+
+    &:hover {
+        background-color: transparent;
+    }
+}
