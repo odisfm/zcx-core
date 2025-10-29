@@ -2462,6 +2462,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#building-with-your-own-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building with your own config
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2638,6 +2647,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#building-with-your-own-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building with your own config
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2682,13 +2700,22 @@ For Mac/Linux users, a simple script is provided at <code>zcx-core/tools/install
 <h3 id="run-the-script">Run the script<a class="headerlink" href="#run-the-script" title="Permanent link">&para;</a></h3>
 <p>From the project root, run:</p>
 <p><code>python tools/build.py &lt;hardware name&gt; &lt;destination folder name&gt;</code></p>
-<p>Where <code>&lt;hardware name&gt;</code> is the name of a folder in <code>zcx-core/hardware</code>, e.g. <code>push_1</code> and <code>&lt;desintation folder name&gt;</code> is a name of your choice, e.g. <code>my_zcx_script</code>.</p>
+<p>Where <code>&lt;hardware name&gt;</code> is the name of a folder in <code>zcx-core/hardware</code>, e.g. <code>push_1</code> and <code>&lt;desintation folder name&gt;</code> is a name of your choice, e.g. <code>my_zcx_script</code>.
+Omit <code>&lt;destination folder name&gt;</code> to use <code>zcx_&lt;hardware name&gt;</code>.</p>
+<p>You must manually create the destination folder.</p>
 <h4 id="extra-arguments">Extra arguments<a class="headerlink" href="#extra-arguments" title="Permanent link">&para;</a></h4>
 <h5 id="-custom-config">--custom-config<a class="headerlink" href="#-custom-config" title="Permanent link">&para;</a></h5>
 <p>Provide the path to a folder that will be copied into the destination instead of the <code>demo_config</code> folder.</p>
+<h5 id="-blank-config">--blank-config<a class="headerlink" href="#-blank-config" title="Permanent link">&para;</a></h5>
+<p>Use the <a href="../lessons/blank-config.md">blank config</a> folder instead of the <code>demo_config</code> folder.</p>
 <h5 id="-user-library">--user-library<a class="headerlink" href="#-user-library" title="Permanent link">&para;</a></h5>
-<p>By default the script will determine the default path to your Live User Library depending on your operating system.
+<p>By default, the script will determine the default path to your Live User Library depending on your operating system.
 If you use a non-default location for your User Library, you will need to provide the path as an argument.</p>
+<h3 id="building-with-your-own-config">Building with your own config<a class="headerlink" href="#building-with-your-own-config" title="Permanent link">&para;</a></h3>
+<p>While working on zcx, you'll likely prefer to use your own config, rather than the demo config.</p>
+<p>One option is to use the <a href="#--custom-config">--custom-config</a> argument and pass the path to your own config.</p>
+<p>Another is to use symbolic links in the destination directory to other files or directories on your computer.
+The build script will ignore symbolic links in the destination directory.</p>
 
 
 
