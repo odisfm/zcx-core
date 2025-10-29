@@ -31,7 +31,7 @@ Once the section is created, [add it to a page](getting-started/zcx-concepts.md#
 Notes from the keyboard are sent on a dedicated MIDI channel.
 The default channel is 10, unless specified otherwise in the [hardware reference](../reference/hardware/index.md) for your controller.
 
-You may change this with the [preferences.yaml](../reference/file/preferences.md#playable_channel) option.
+You may change this with the [preferences.yaml](../reference/file/preferences.md#playable_channel) option `playable_channel`.
 
 !!! warning ""
     This preference is zero-indexed: the lowest channel is 0 and the highest 15.
