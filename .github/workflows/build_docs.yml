@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - main
+      - dev
   workflow_dispatch:
 permissions:
   contents: write
@@ -39,13 +40,22 @@ jobs:
       - name: Extract version from latest tag
         id: get_version
         run: |
-          # Get the most recent tag on main branch
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
-          echo "Latest tag: $LATEST_TAG"
+          # Check if we're on the dev branch
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           
-          # Extract major.minor from tag (remove 'v' prefix and everything after patch)
-          VERSION=$(echo "$LATEST_TAG" | sed -E 's/^v([0-9]+\.[0-9]+)\..*/\1/')
-          echo "Extracted version: $VERSION"
+          if [ "$BRANCH_NAME" = "dev" ]; then
+            VERSION="dev"
+            echo "Using dev version for dev branch"
+          else
+            # Get the most recent tag on main branch
+            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
+            echo "Latest tag: $LATEST_TAG"
+            
+            # Extract major.minor from tag (remove 'v' prefix and everything after patch)
+            VERSION=$(echo "$LATEST_TAG" | sed -E 's/^v([0-9]+\.[0-9]+)\..*/\1/')
+            echo "Extracted version: $VERSION"
+          fi
+          
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Add social plugin to mkdocs.yml
         run: |  
