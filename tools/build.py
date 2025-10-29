@@ -49,10 +49,16 @@ class BuildManager:
             else:
                 raise RuntimeError(f"Unsupported OS: {system}")
 
-
-
         self.hardware_config = hardware_config or HARDWARE_CONFIG
-        self.control_surface_name = control_surface_name or CONTROL_SURFACE_NAME
+
+        # Auto-generate control surface name if not provided
+        if control_surface_name:
+            self.control_surface_name = control_surface_name
+        elif self.hardware_config:
+            self.control_surface_name = f"_zcx_{self.hardware_config}"
+        else:
+            self.control_surface_name = CONTROL_SURFACE_NAME
+
         self.custom_config_path = custom_config_path
 
         self.remote_scripts_path = remote_scripts_path
@@ -398,7 +404,7 @@ def main():
     parser.add_argument(
         "hardware_config", nargs="?", help="Hardware configuration name"
     )
-    parser.add_argument("control_surface_name", nargs="?", help="Control surface name")
+    parser.add_argument("control_surface_name", nargs="?", help="Control surface name (defaults to _zcx_<hardware_config>)")
     parser.add_argument(
         "--custom-config",
         type=Path,

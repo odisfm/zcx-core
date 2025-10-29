@@ -32,6 +32,9 @@ From the project root, run:
 `python tools/build.py <hardware name> <destination folder name>`
 
 Where `<hardware name>` is the name of a folder in `zcx-core/hardware`, e.g. `push_1` and `<desintation folder name>` is a name of your choice, e.g. `my_zcx_script`.
+Omit `<destination folder name>` to use `zcx_<hardware name>`.
+
+You must manually create the destination folder.
 
 #### Extra arguments
 
