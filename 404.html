@@ -10,10 +10,15 @@
 </head>
 <body>
     <script>
+
+        // this is here so that links from before the docs were versioned may be resolved to the new docs
+
+
         const allowedPrefixes = ["latest", "dev"]
         const regexPattern = /^\d+\.\d+$/  // Matches digits.digits (e.g., "1.2", "10.5")
 
         const badUrl = window.location.pathname;
+        const hash = window.location.hash; // Preserve the anchor
         const firstPath = badUrl.split('/').filter(p => p).shift(); // Get first non-empty path segment
 
         // If first path is "latest", do nothing
@@ -25,12 +30,12 @@
             // Replace first path with "latest" and redirect
             const pathParts = badUrl.split('/').filter(p => p);
             pathParts[0] = "latest";
-            window.location.href = "/" + pathParts.join('/');
+            window.location.href = "/" + pathParts.join('/') + hash;
         }
         // If first path matches nothing
         else {
             // Add "latest/" prefix and redirect
-            window.location.href = "/latest" + badUrl;
+            window.location.href = "/latest" + badUrl + hash;
         }
     </script>
 </body>
