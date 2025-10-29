@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script>
+    const allowedPrefixes = ["latest", "dev"]
+    const regexPattern = /^\d+\.\d+$/  // Matches digits.digits (e.g., "1.2", "10.5")
+
+    const badUrl = window.location.pathname;
+    const firstPath = badUrl.split('/').filter(p => p).shift(); // Get first non-empty path segment
+
+    // If first path is "latest", do nothing
+    if (firstPath === "latest") {
+        // Do nothing
+    }
+    // If first path matches pattern or is in allowedPrefixes (but not "latest")
+    else if (regexPattern.test(firstPath) || (allowedPrefixes.includes(firstPath) && firstPath !== "latest")) {
+        // Replace first path with "latest" and redirect
+        const pathParts = badUrl.split('/').filter(p => p);
+        pathParts[0] = "latest";
+        window.location.href = "/" + pathParts.join('/');
+    }
+    // If first path matches nothing
+    else {
+        // Add "latest/" prefix and redirect
+        window.location.href = "/latest" + badUrl;
+    }
+</script>
+  <h1>404 - Page Not Found</h1>
+  <p>The page you're looking for doesn't exist.</p>
+  <p>You tried to access: <code id="missing-url"></code></p>
+  
+  <script>
+    document.getElementById('missing-url').textContent = window.location.pathname;
+  </script>
+  
+  <p><a href="{{ base_url }}">Return to docs</a></p>
+
+{% endblock %}

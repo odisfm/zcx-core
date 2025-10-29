@@ -12,9 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for tags
       - name: Configure Git Credentials
-        run: |
-          git config user.name github-actions[bot]
+        run: |  
+          git config user.name github-actions[bot]  
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - uses: actions/setup-python@v5
         with:
@@ -24,7 +26,7 @@ jobs:
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
-          restore-keys: |
+          restore-keys: |  
             mkdocs-material-
       - run: pip install mkdocs-material
       - run: pip install mkdocs-awesome-nav
@@ -33,32 +35,47 @@ jobs:
       - run: pip install mkdocs-open-in-new-tab
       - run: pip install "mkdocs-material[imaging]"
       - run: pip install PyYAML
-      - name: Add social plugin to mkdocs.yml
+      - run: pip install mike
+      - name: Extract version from latest tag
+        id: get_version
         run: |
-          python3 << 'EOF'
-          import yaml
-
-          # Read the current mkdocs.yml
-          with open('docs/mkdocs.yml', 'r') as f:
-              content = f.read()
-
-          # Find the plugins section and add social plugin
-          lines = content.split('\n')
-          new_lines = []
-          for i, line in enumerate(lines):
-              new_lines.append(line)
-              # Add social after the plugins: line
-              if line.strip() == 'plugins:':
-                  new_lines.append('  - social')
-                  break
-
-          # Add remaining lines
-          new_lines.extend(lines[i+1:])
-
-          # Write back to mkdocs.yml
-          with open('docs/mkdocs.yml', 'w') as f:
-              f.write('\n'.join(new_lines))
-
-          print("✓ Added 'social' plugin to mkdocs.yml")
+          # Get the most recent tag on main branch
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
+          echo "Latest tag: $LATEST_TAG"
+          
+          # Extract major.minor from tag (remove 'v' prefix and everything after patch)
+          VERSION=$(echo "$LATEST_TAG" | sed -E 's/^v([0-9]+\.[0-9]+)\..*/\1/')
+          echo "Extracted version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Add social plugin to mkdocs.yml
+        run: |  
+          python3 << 'EOF'  
+          import yaml  
+  
+          # Read the current mkdocs.yml  
+          with open('docs/mkdocs.yml', 'r') as f:  
+              content = f.read()  
+  
+          # Find the plugins section and add social plugin  
+          lines = content.split('\n')  
+          new_lines = []  
+          for i, line in enumerate(lines):  
+              new_lines.append(line)  
+              # Add social after the plugins: line  
+              if line.strip() == 'plugins:':  
+                  new_lines.append('  - social')  
+                  break  
+  
+          # Add remaining lines  
+          new_lines.extend(lines[i+1:])  
+  
+          # Write back to mkdocs.yml  
+          with open('docs/mkdocs.yml', 'w') as f:  
+              f.write('\n'.join(new_lines))  
+  
+          print("✓ Added 'social' plugin to mkdocs.yml")  
           EOF
-      - run: cd docs && mkdocs gh-deploy --force
+      - name: Deploy with mike
+        run: |
+          cd docs
+          mike deploy ${{ steps.get_version.outputs.version }} latest --push
