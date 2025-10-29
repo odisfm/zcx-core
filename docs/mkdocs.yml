@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: zcx core
-site_url: https://zcxcore.com
+site_url: https://zcxcore.com/
 docs_dir: content
 theme:
   name: material
