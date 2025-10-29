@@ -80,6 +80,9 @@ extra:
       link: https://discord.zcxcore.com
   analytics:
     provider: custom
+  version:
+    provider: mike
+    alias: true
 #
 #not_in_nav: |
 #  other/
