@@ -48,5 +48,5 @@ Use the [blank config](../lessons/blank-config.md) folder instead of the `demo_c
 
 ##### --user-library
 
-By default the script will determine the default path to your Live User Library depending on your operating system.
+By default, the script will determine the default path to your Live User Library depending on your operating system.
 If you use a non-default location for your User Library, you will need to provide the path as an argument.
