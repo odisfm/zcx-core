@@ -1,0 +1,44 @@
+
+enc_1:
+  binding:
+    default: NONE
+
+enc_2:
+  binding:
+    default: NONE
+
+enc_3:
+  binding:
+    default: NONE
+
+enc_4:
+  binding:
+    default: NONE
+
+enc_5:
+  binding:
+    default: NONE
+
+enc_6:
+  binding:
+    default: NONE
+
+enc_7:
+  binding:
+    default: NONE
+
+enc_8:
+  binding:
+    default: NONE
+
+enc_master:
+  binding:
+    default: NONE
+
+tempo:
+  binding:
+    default: NONE
+
+swing:
+  binding:
+    default: NONE

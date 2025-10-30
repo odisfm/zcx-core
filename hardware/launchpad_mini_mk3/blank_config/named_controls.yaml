@@ -1,0 +1,95 @@
+###
+### top row
+###
+
+#nav_up:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#nav_down:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#nav_left:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#nav_right:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#session:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#drums:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#keys:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+user:
+  gestures:
+    pressed_delayed:
+      hw_mode: live
+
+novation:
+  color: purple
+
+
+###
+### right side
+###
+
+#scene_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+scene_8:
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift

@@ -11,6 +11,9 @@ You will also find several examples of the [templating system](../zcx-concepts.m
 Several of the matrix sections will be blank or mostly blank, and some named controls will be left undefined.
 The idea is to give you a starting point, so you can start assigning action lists to controls right away, without having to manually set up matrix sections and pages.
 
+!!! tip 
+    If you'd prefer to start with an even simpler config, check out the [blank config](../../blank-config.md) that came with your download.
+
 ## Choose your hardware
 
 If you are on desktop, select your hardware from the navigation on the left to begin the tour.
