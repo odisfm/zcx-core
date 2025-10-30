@@ -2171,6 +2171,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#sview-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      SVIEW action
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#extending-defaults" class="md-nav__link">
     <span class="md-ellipsis">
       Extending defaults
@@ -2588,6 +2597,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#sview-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      SVIEW action
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#extending-defaults" class="md-nav__link">
     <span class="md-ellipsis">
       Extending defaults
@@ -2672,29 +2690,42 @@ Pressing a pad with a <code>select</code> mode active will select the correspond
 <p>This is achieved with ClyphX Pro action lists:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">gestures</span><span class="p">:</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="no">&quot;${track_name}&quot; / PLAY ${scene_number}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="no">${track_name}&quot; / SVIEW ${scene_number} PRESS</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">pressed__select</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="no">&quot;${track_name}&quot; / SEL ${scene_number}</span>
-</span></code></pre></div>
-<p>For a pad belonging to track <code>my track</code> and scene 2, these commands would evaluate to:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&quot;my track&quot; / PLAY 2
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&quot;my track&quot; / SEL 2
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Template strings</p>
 <p>To understand this syntax, see the <a href="../../reference/template/">template reference</a></p>
 </div>
+<h3 id="sview-action">SVIEW action<a class="headerlink" href="#sview-action" title="Permanent link">&para;</a></h3>
+<p>By default, pressing a session view pad will fire the action <code>SVIEW</code>.
+For an un-armed track, pressing a pad will fire the associated clip slot.</p>
+<p>For an armed track, pressing a pad will fire the ClyphX Pro action <a href="https://www.cxpman.com/action-reference/track-actions/#recfix-x-y">RECFIX</a>, starting a fixed-length recording in the clip.</p>
+<p><code>RECFIX</code> will use the <a href="https://www.cxpman.com/manual/core-concepts/#variables">ClyphX Pro variable</a> called <code>%zcx_fixed_record%</code> as the record length.
+If you have not set this variable, it will default to <code>0</code>, starting a non-fixed-length recording.</p>
+<p>By setting this variable, like with the action list <code>%zcx_fixed_record% = 4</code>, you can set the length of the recording (in this case 4 bars).
+By setting the variable back to 0, you can disable fixed-length recording.</p>
+<div class="admonition note">
+<p>The variable <code>%zcx_fixed_record%</code> is shared across all running zcx scripts.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Nothing happening when you press a session view control?</p>
+<p>The most likely reason is that you haven't installed the user action <code>ZcxSessionView.py</code> which is bundled with your zcx download.
+<a href="../getting-started/installation/#recommended-install-zcx-user-actions">See here</a> for installation instructions.</p>
+</div>
 <h3 id="extending-defaults">Extending defaults<a class="headerlink" href="#extending-defaults" title="Permanent link">&para;</a></h3>
 <p>We can extend the default functionality by adding a <a href="../../reference/template/#section-templates">section template</a>:</p>
-<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">__session_view</span><span class="p">:</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="hll"><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-</span></span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="hll"><span class="w">    </span><span class="nt">gestures</span><span class="p">:</span>
-</span></span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="hll"><span class="w">      </span><span class="nt">released_delayed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
-</span></span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="hll"><span class="w">        </span><span class="no">&quot;{track_name}&quot; / STOPNQ</span>
+<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">__session_view</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="hll"><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+</span></span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="hll"><span class="w">    </span><span class="nt">gestures</span><span class="p">:</span>
+</span></span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="hll"><span class="w">      </span><span class="nt">released_delayed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span></span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="hll"><span class="w">        </span><span class="no">&quot;{track_name}&quot; / STOPNQ</span>
 </span></span></code></pre></div>
 <p>In addition to the two previous commands, releasing after a long press will immediately stop the playing clip.</p>
 <h4 id="special-properties">Special properties<a class="headerlink" href="#special-properties" title="Permanent link">&para;</a></h4>
@@ -2703,45 +2734,45 @@ Pressing a pad with a <code>select</code> mode active will select the correspond
 <p>The name of the track to which the control belongs.
 Good for use with <a href="https://www.cxpman.com/action-reference/track-actions/">track actions</a>.</p>
 <p><strong>Example:</strong>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&quot;${track_name}&quot; / MUTE
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&quot;${track_name}&quot; / MUTE
 </span></code></pre></div></p>
 <hr />
 <p><strong><code>scene_number</code></strong></p>
 <p>The <strong>one-indexed</strong> scene number to which the control belongs.</p>
 <p><strong>Example:</strong>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&quot;${track_name}&quot; / PLAY ${scene_number}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&quot;${track_name}&quot; / PLAY ${scene_number}
 </span></code></pre></div></p>
 <hr />
 <p><strong><code>clip_target</code></strong></p>
 <p>A convenience property for use with <a href="https://www.cxpman.com/action-reference/clip-actions/">clip actions</a>.</p>
 <p><strong>Example:</strong>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>${clip_target} DEL
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a># evaluates to something like:
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>&quot;my cool track&quot; / CLIP(6) DEL
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>${clip_target} DEL
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a># evaluates to something like:
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>&quot;my cool track&quot; / CLIP(6) DEL
 </span></code></pre></div></p>
 <hr />
 <p><strong><code>user_clip_target</code></strong></p>
 <p>As above, but for use with <a href="https://www.cxpman.com/manual/core-concepts/#user-actions">user clip actions</a>, which require a special syntax.</p>
 <p><strong>Example:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>${user_clip_target} MY_USER_ACTION
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a># evaluates to something like:
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>&quot;my cool track&quot; / USER_CLIP(6) MY_USER_ACTION
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>${user_clip_target} MY_USER_ACTION
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a># evaluates to something like:
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>&quot;my cool track&quot; / USER_CLIP(6) MY_USER_ACTION
 </span></code></pre></div>
 <h3 id="overwriting-defaults">Overwriting defaults<a class="headerlink" href="#overwriting-defaults" title="Permanent link">&para;</a></h3>
 <p>In the <a href="#extending-defaults">section template</a>, simply define new commands for the gesture <code>pressed</code> and/or <code>pressed__select</code>:</p>
-<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">__session_view</span><span class="p">:</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="hll"><span class="w">      </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
-</span></span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">        </span><span class="no">${clip_target} COLOR 1</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="hll"><span class="w">      </span><span class="nt">pressed__select</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
-</span></span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">        </span><span class="no">&quot;${track_target}&quot; / SOLO</span>
+<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">__session_view</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">gestures</span><span class="p">:</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="hll"><span class="w">      </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span></span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="no">${clip_target} COLOR 1</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="hll"><span class="w">      </span><span class="nt">pressed__select</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span></span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="no">&quot;${track_target}&quot; / SOLO</span>
 </span></code></pre></div>
 
 
