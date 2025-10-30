@@ -38,20 +38,35 @@ This is achieved with ClyphX Pro action lists:
 ```yaml
 gestures:
   pressed: >
-    "${track_name}" / PLAY ${scene_number}
+    ${track_name}" / SVIEW ${scene_number} PRESS
   pressed__select: >
     "${track_name}" / SEL ${scene_number}
 ```
 
-For a pad belonging to track `my track` and scene 2, these commands would evaluate to:
-
-```
-"my track" / PLAY 2
-"my track" / SEL 2
-```
-
 !!! note "Template strings"
     To understand this syntax, see the [template reference](../reference/template.md)
+
+### SVIEW action
+
+By default, pressing a session view pad will fire the action `SVIEW`.
+For an un-armed track, pressing a pad will fire the associated clip slot.
+
+For an armed track, pressing a pad will fire the ClyphX Pro action [RECFIX](https://www.cxpman.com/action-reference/track-actions/#recfix-x-y), starting a fixed-length recording in the clip.
+
+`RECFIX` will use the [ClyphX Pro variable](https://www.cxpman.com/manual/core-concepts/#variables) called `%zcx_fixed_record%` as the record length.
+If you have not set this variable, it will default to `0`, starting a non-fixed-length recording.
+
+By setting this variable, like with the action list `%zcx_fixed_record% = 4 `, you can set the length of the recording (in this case 4 bars).
+By setting the variable back to 0, you can disable fixed-length recording.
+
+!!! note ""
+    The variable `%zcx_fixed_record%` is shared across all running zcx scripts.
+
+!!! warning
+    Nothing happening when you press a session view control?
+
+    The most likely reason is that you haven't installed the user action `ZcxSessionView.py` which is bundled with your zcx download.
+    [See here](getting-started/installation.md#recommended-install-zcx-user-actions) for installation instructions.
 
 ### Extending defaults
 

@@ -50,7 +50,7 @@ On Windows it's:
 
 You can rename the folder to whatever you like, and that's the name that shows up in Live's preferences. We include a leading underscore, because that should push it to the top of the control surface list. Feel free to remove it.
 
-### optional: install the zcx user action
+### recommended: install zcx user actions
 
 By installing the zcx user action, you can [control zcx from ClyphX action lists](../zcx-user-action.md).
 Drag the contents of the `user_actions` folder into your ClyphX Pro user actions folder, which should be in `User Library/Remote Scripts/_user_actions`.

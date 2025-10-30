@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from .session_ring import SessionRing
 
 DEFAULT_GESTURES = {
-    "pressed": '"${track_name}" / PLAY ${scene_number}',
+    "pressed": '"${track_name}" / SVIEW ${scene_number} PRESS',
     "pressed__select": '"${track_name}" / SEL ${scene_number}'
 }
 
