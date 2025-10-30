@@ -67,7 +67,9 @@ gestures:
 
 There may be times when then value you want to fill is impractical or impossible to write inside the braces. In this case you can use the `vars` option in your yaml config.
 
-`vars` is a dict, where each key is a variable, and each value is an expression. The variable will be assigned to the result of that expression. We can then reference that variable within a template string. For instance:
+`vars` is a dict, where each key is the name of a variable, and each value is an expression. 
+The variable will be assigned to the result of that expression. 
+We can then reference that variable within a template string. For instance:
 
 ```yaml
 my_control:
