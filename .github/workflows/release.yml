@@ -11,11 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history to check branch
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+
+      - name: Determine if prerelease
+        id: prerelease
+        run: |
+          # Check if tag is on dev branch
+          if git branch -r --contains $GITHUB_SHA | grep -q 'origin/dev'; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            echo "This is a prerelease (tag on dev branch)"
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            echo "This is a stable release"
+          fi
 
       - name: Set environment variables
         run: |
@@ -97,6 +111,6 @@ jobs:
         with:
           files: "*.zip"
           draft: false
-          prerelease: false
+          prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
