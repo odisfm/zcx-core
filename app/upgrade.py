@@ -785,7 +785,7 @@ def main():
 
         upgrade_ua = input(f'{PURPLE}Install/upgrade the Zcx user action? (Y/n): {RESET}')
         if upgrade_ua.lower() != "n":
-            user_actions_source = os.path.join(download_dir, "_user_actions", "Zcx.py")
+            user_actions_source = os.path.join(download_dir, "_user_actions")
 
             parent_dir = os.path.dirname(script_dir)
             parent_dir_name = os.path.basename(parent_dir)
@@ -797,20 +797,29 @@ def main():
             user_actions_target_dir = os.path.join(parent_dir, "_user_actions")
 
             if not os.path.exists(user_actions_source):
-                logger.error(f"Zcx user action file not found in update package: {user_actions_source}")
-                raise RuntimeError("Zcx user action file not found in update package")
+                logger.error(f"_user_actions directory not found in update package: {user_actions_source}")
+                raise RuntimeError("_user_actions directory not found in update package")
 
             if not os.path.exists(user_actions_target_dir):
                 logger.error(f"_user_actions directory does not exist: {user_actions_target_dir}")
-                raise RuntimeError("_user_actions directory does not exist. Cannot install Zcx user action.")
+                raise RuntimeError("_user_actions directory does not exist. Cannot install user actions.")
 
-            target_file = os.path.join(user_actions_target_dir, "Zcx.py")
             try:
-                shutil.copy2(user_actions_source, target_file)
-                logger.info(f"Successfully installed Zcx user action to: {target_file}")
+                for item in os.listdir(user_actions_source):
+                    source_item = os.path.join(user_actions_source, item)
+                    target_item = os.path.join(user_actions_target_dir, item)
+
+                    if os.path.isfile(source_item):
+                        shutil.copy2(source_item, target_item)
+                        logger.info(f"Successfully installed user action: {item}")
+                    elif os.path.isdir(source_item):
+                        shutil.copytree(source_item, target_item, dirs_exist_ok=True)
+                        logger.info(f"Successfully installed user action directory: {item}")
+
+                logger.info(f"Successfully installed all user actions to: {user_actions_target_dir}")
             except Exception as e:
-                logger.error(f"Failed to copy Zcx user action: {e}")
-                raise RuntimeError("Failed to install Zcx user action")
+                logger.error(f"Failed to copy user actions: {e}")
+                raise RuntimeError("Failed to install user actions")
 
         new_upgrade_path = os.path.join(core_dir, "upgrade.py")
 
