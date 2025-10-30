@@ -1950,6 +1950,8 @@
       
         
       
+        
+      
     
     
     
@@ -2022,6 +2024,29 @@
   
   <span class="md-ellipsis">
     Controlling zcx from ClyphX Pro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lessons/blank-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Starting from a blank config
     
   </span>
   
@@ -2690,7 +2715,7 @@ If instead, you re-enter zcx mode via the <a href="../../../lessons/zcx-user-act
 <p>Because of this confusing behaviour, <code>initial_hw_mode</code> defaults to <code>live</code>.</p>
 <h3 id="other">Other<a class="headerlink" href="#other" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The touchstrip cannot be used by zcx, but will function as normal if <code>track</code> is enabled for this script in Live's MIDI preferences.</li>
+<li>The touchstrip continuous input cannot be used by zcx, but will function as normal if <code>track</code> is enabled for this script in Live's MIDI preferences. The touchstrip sends an on/off message on press and release, which is available as a named control called <code>touchstrip</code>.</li>
 <li>The touchstrip cannot be toggled between pitchbend and modulation mode from within zcx. You must enter Live mode and press the touchstrip while holding <code>select</code>.</li>
 </ul>
 <h2 id="control-names">control names<a class="headerlink" href="#control-names" title="Permanent link">&para;</a></h2>
@@ -2715,10 +2740,11 @@ If instead, you re-enter zcx mode via the <a href="../../../lessons/zcx-user-act
 <li><code>automate</code> - the button labelled <code>automate</code></li>
 <li><code>record</code> - the button with the  ⏺️ symbol</li>
 <li><code>play</code> - the button with the  ▶️ symbol</li>
+<li><code>touchstrip</code> - the press/release status of the touchstrip</li>
 </ul>
 <p><strong>Surrounding display</strong></p>
 <ul>
-<li><code>enc_1_touch</code> through <code>enc_8_touch</code> and <code>enc_master_touch</code> - the encoders at the top of Push 1 are touch sensitive and work with zcx gestures.</li>
+<li><code>enc_1_touch</code> through <code>enc_8_touch</code>, <code>enc_swing_touch</code>, <code>enc_tempo_touch</code>, <code>enc_master_touch</code> - the encoders at the top of Push 2 are touch sensitive and work with zcx gestures.</li>
 <li><code>state_1</code> through <code>state_8</code> - the row of buttons above the display</li>
 <li><code>select_1</code> through <code>select_8</code> - the row of buttons below the display</li>
 </ul>
@@ -2749,7 +2775,6 @@ If instead, you re-enter zcx mode via the <a href="../../../lessons/zcx-user-act
 <p><code>shift</code> - the button labelled <code>shift</code></p>
 </li>
 <li><code>select</code> - the button labelled <code>select</code></li>
-<li></li>
 </ul>
 <h3 id="encoders">encoders<a class="headerlink" href="#encoders" title="Permanent link">&para;</a></h3>
 <p>These are the names you must use in <a href="../../encoder/">encoders.yaml</a></p>
