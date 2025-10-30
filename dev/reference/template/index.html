@@ -2896,7 +2896,9 @@
 </div>
 <h3 id="complex-expressions">complex expressions<a class="headerlink" href="#complex-expressions" title="Permanent link">&para;</a></h3>
 <p>There may be times when then value you want to fill is impractical or impossible to write inside the braces. In this case you can use the <code>vars</code> option in your yaml config.</p>
-<p><code>vars</code> is a dict, where each key is a variable, and each value is an expression. The variable will be assigned to the result of that expression. We can then reference that variable within a template string. For instance:</p>
+<p><code>vars</code> is a dict, where each key is the name of a variable, and each value is an expression. 
+The variable will be assigned to the result of that expression. 
+We can then reference that variable within a template string. For instance:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">my_control</span><span class="p">:</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1 + 1</span>
