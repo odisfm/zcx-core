@@ -6,6 +6,12 @@ weight: -6
 
 The `mode` control binds to a particular [mode](../../lessons/getting-started/zcx-concepts.md#modes) in zcx and displays feedback indicating whether that mode is currently active
 
+!!! Note
+    Standard controls are already capable of changing modes, and mode controls still require you to manually define the mode change commands. 
+    The only purpose of this control is to enable LED feedback.
+
+    See [command reference](../command.md#mode).
+
 ## yaml schema
 
 Inherits from [standard control](standard.md#yaml-schema).
