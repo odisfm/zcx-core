@@ -1,5 +1,6 @@
 from ..z_control import ZControl
 from ..z_control import ZControl, only_in_view
+from ..consts import DEFAULT_ON_THRESHOLD
 from ableton.v3.base import listens
 
 
@@ -24,6 +25,8 @@ class SessionClipControl(ZControl):
         self._vars['user_clip_target'] = 'me.obj.user_clip_target'
         self._vars['scene_number'] = 'me.obj.scene_number'
         self._create_context(generated_contexts=[], user_props=self._raw_config.get('props', {}))
+
+        self._on_threshold = self.root_cs.template_manager.global_control_template.get('threshold', DEFAULT_ON_THRESHOLD)
 
         gesture_config = self._raw_config.get('gestures')
         if gesture_config is not None:
