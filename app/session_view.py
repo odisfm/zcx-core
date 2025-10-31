@@ -60,7 +60,14 @@ class SessionView(ZCXComponent):
         self.__width = section_obj.width
         self.__height = section_obj.height
 
-        self.__create_color_dict_lookup()
+        clip_color_is_play_color = section_def.get("clip_color_is_play_color", False)
+        if not isinstance(clip_color_is_play_color, bool):
+            self.warning(f"invalid value for `clip_color_is_play_color` ({clip_color_is_play_color}), setting false")
+            clip_color_is_play_color = False
+
+        self.__create_color_dict_lookup(
+            clip_color_is_play_color=clip_color_is_play_color,
+        )
 
         SessionClipControl.session_view_component = self
         SessionClipControl.empty_color_dict = self.__empty_color_dict
@@ -113,7 +120,7 @@ class SessionView(ZCXComponent):
     def ring_offsets_changed(self):
         self.update_clip_slot_assignments()
 
-    def __create_color_dict_lookup(self):
+    def __create_color_dict_lookup(self, clip_color_is_play_color=False):
         lookup = []
 
         play_green = parse_color_definition("green")
@@ -132,7 +139,7 @@ class SessionView(ZCXComponent):
             color_dict = {"base": base_color}
 
             color_dict['playing'] = parse_color_definition({"pulse": {
-                "a": 'play_green',
+                "a": "play_green" if not clip_color_is_play_color else {"live": i},
                 "b": '0',
                 'speed': 0
             }})

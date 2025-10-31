@@ -157,3 +157,19 @@ __session_view:
         "${track_target}" / SOLO
 ```
 
+## Additional options
+
+### clip_color_is_play_color
+
+```yaml title="matrix_sections.yaml" hl_lines="6"
+__session_view:
+  row_start: 0
+  row_end: 7
+  col_start: 0
+  col_end: 7
+  clip_color_is_play_color: true
+```
+
+When `false`, a playing clip will pulse green.
+When `true`, a playing clip will pulse with the clip color from bright to dark.
+The `true` option does not look good on many controllers.
