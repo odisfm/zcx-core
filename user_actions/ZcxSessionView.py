@@ -60,7 +60,7 @@ class ZcxSessionView(UserActionsBase):
                             f'"{target_track.name}" / RECFIX %{FIXED_RECORD_VAR_NAME}% {target_slot_idx + 1}'
                         )
 
-                    elif target_slot.has_clip:
+                    else:
                         self.cxp_action(
                             f'"{target_track.name}" / PLAY {target_slot_idx + 1}'
                         )
