@@ -44,6 +44,7 @@ class SessionClipControl(ZControl):
 
         except Exception as e:
             self.log(e)
+        self._update_color_dict()
         self.update_status()
 
     @listens('has_clip')
@@ -97,12 +98,7 @@ class SessionClipControl(ZControl):
     @listens('color_index')
     @only_in_view
     def _on_color_index_changed(self):
-        if self.__is_group_track:
-            self._color_dict = self.session_view_component.get_color_dict(self.__clip_slot.canonical_parent.color_index)
-        elif self.__clip is not None:
-            self._color_dict = self.session_view_component.get_color_dict(self.__clip.color_index)
-        else:
-            self._color_dict = self.empty_color_dict
+        self._update_color_dict()
         self.update_status()
 
     @listens('arm')
@@ -206,3 +202,15 @@ class SessionClipControl(ZControl):
         self.log(f"track_name: {self.track_name}")
         self.log(f"clip_target: {self.clip_target}")
         self.log("base midi color:", self._color_dict["base"].midi_value)
+
+    def _update_color_dict(self):
+        if self.__is_group_track:
+            self._color_dict = self.session_view_component.get_color_dict(
+                self.__clip_slot.canonical_parent.color_index
+            )
+        elif self.__clip is not None:
+            self._color_dict = self.session_view_component.get_color_dict(
+                self.__clip.color_index
+            )
+        else:
+            self._color_dict = self.empty_color_dict
