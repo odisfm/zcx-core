@@ -62,26 +62,25 @@ jobs:
           python3 << 'EOF'  
           import yaml  
   
-          # Read the current mkdocs.yml  
+          # Read and parse the current mkdocs.yml  
           with open('docs/mkdocs.yml', 'r') as f:  
-              content = f.read()  
+              config = yaml.unsafe_load(f)  
   
-          # Find the plugins section and add social plugin  
-          lines = content.split('\n')  
-          new_lines = []  
-          for i, line in enumerate(lines):  
-              new_lines.append(line)  
-              # Add social after the plugins: line  
-              if line.strip() == 'plugins:':  
-                  new_lines.append('  - social')  
-                  break  
-  
-          # Add remaining lines  
-          new_lines.extend(lines[i+1:])  
+          # Add social plugin if plugins section exists
+          if 'plugins' in config:
+              if isinstance(config['plugins'], list):
+                  # Insert social at the beginning of plugins list
+                  config['plugins'].insert(0, 'social')
+              else:
+                  # If plugins is a dict or other structure, convert to list
+                  config['plugins'] = ['social'] + list(config['plugins'])
+          else:
+              # Create plugins section if it doesn't exist
+              config['plugins'] = ['social']
   
           # Write back to mkdocs.yml  
           with open('docs/mkdocs.yml', 'w') as f:  
-              f.write('\n'.join(new_lines))  
+              yaml.dump(config, f, default_flow_style=False, sort_keys=False)  
   
           print("✓ Added 'social' plugin to mkdocs.yml")  
           EOF
