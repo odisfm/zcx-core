@@ -17,9 +17,14 @@ Clone the repo [from GitHub](https://github.com/odisfm/zcx-core/) to a convenien
 
 zcx bundles [several packages](dependencies.md) with each install.
 These dependencies must be installed in the folder `zcx-core/app/vendor`.
-For Mac/Linux users, a simple script is provided at `zcx-core/tools/install_dependencies.sh` to install the packages (via pip) to the correct location.
+A simple script is provided at `zcx-core/tools/install_dependencies.py` to install the packages (via pip) to the correct location.
 
-**Note:** these packages **must** be located in the `vendor/` directory.
+!!! warning
+    These packages **must** be located in the `vendor/` directory.
+
+!!! note
+    After installing, your IDE might warn you that required packages are missing.
+    You can disregard this warning.
 
 ### Install watchdog
 

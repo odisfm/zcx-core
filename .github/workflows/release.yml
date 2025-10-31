@@ -46,13 +46,9 @@ jobs:
       - name: Create shared vendor directory
         run: |
           mkdir -p shared_vendor
-          # Define packages to download
-          PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests" "semver>=3.0.4,<4.0.0")
-          
-          # Install all packages once into shared vendor directory
-          for package in "${PACKAGES[@]}"; do
-            pip install "$package" --target "./shared_vendor/"
-          done
+
+          # Install all packages from requirements.txt
+          pip install -r requirements.txt --target "./shared_vendor/"
 
       - name: Build packages for all controllers
         run: |
