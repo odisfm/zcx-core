@@ -53,3 +53,4 @@ Static site generator powering this documentation.
 - [mkdocs-awesome-nav](https://github.com/lukasgeiter/mkdocs-awesome-nav)
 - [mkdocs-nav-weight](https://github.com/shu307/mkdocs-nav-weight)
 - [mkdocs-open-in-new-tab](https://github.com/JakubAndrysek/mkdocs-open-in-new-tab)
+- [mike](https://github.com/jimporter/mike)
