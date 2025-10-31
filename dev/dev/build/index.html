@@ -2718,8 +2718,16 @@ To use zcx, see <a href="../../lessons/getting-started/">getting started</a>.</p
 <h3 id="install-vendored-dependencies">Install vendored dependencies<a class="headerlink" href="#install-vendored-dependencies" title="Permanent link">&para;</a></h3>
 <p>zcx bundles <a href="../dependencies/">several packages</a> with each install.
 These dependencies must be installed in the folder <code>zcx-core/app/vendor</code>.
-For Mac/Linux users, a simple script is provided at <code>zcx-core/tools/install_dependencies.sh</code> to install the packages (via pip) to the correct location.</p>
-<p><strong>Note:</strong> these packages <strong>must</strong> be located in the <code>vendor/</code> directory.</p>
+A simple script is provided at <code>zcx-core/tools/install_dependencies.py</code> to install the packages (via pip) to the correct location.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>These packages <strong>must</strong> be located in the <code>vendor/</code> directory.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>After installing, your IDE might warn you that required packages are missing.
+You can disregard this warning.</p>
+</div>
 <h3 id="install-watchdog">Install watchdog<a class="headerlink" href="#install-watchdog" title="Permanent link">&para;</a></h3>
 <p>You will need to install <a href="https://pypi.org/project/watchdog/">watchdog</a> in your Python environment to monitor the codebase for changes.</p>
 <h3 id="run-the-script">Run the script<a class="headerlink" href="#run-the-script" title="Permanent link">&para;</a></h3>
