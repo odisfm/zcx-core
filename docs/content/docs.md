@@ -17,6 +17,10 @@ If you're brand new to zcx, check out the [getting started](lessons/getting-star
 
     If you think you've found an error in these docs or a problem with zcx, please [report a bug](lessons/reporting-bugs.md). Alternatively, [reach out on Discord](https://discord.zcxcore.com).
 
+!!! tip "Offline copy"
+    You may download an offline copy of this documentation from [GitHub](https://get.zcxcore.com).
+    Scroll down to "assets" and download the zipped documentation, then unzip and open `index.html`.
+
 
 ## Important guides
 
