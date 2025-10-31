@@ -256,8 +256,6 @@ class PageManager(ZCXComponent):
         for watcher in self.__osc_section_watchers:
             watcher.update_osc_labels()
 
-        self.set_page(0)
-
     def _unload(self):
         super()._unload()
         for watcher in self.__osc_section_watchers:
