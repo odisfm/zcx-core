@@ -1098,6 +1098,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Name">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rgb-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      RGB controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biled-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      BiLed controls
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2675,6 +2708,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Name">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rgb-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      RGB controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biled-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      BiLed controls
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2713,28 +2779,64 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
 </span></code></pre></div>
 <h2 id="name">Name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h2>
-<p>There are several colors that you can reference by name:</p>
-<ul>
-<li>white</li>
-<li>grey</li>
-<li>dark_grey</li>
-<li>red</li>
-<li>orange</li>
-<li>yellow</li>
-<li>green</li>
-<li>play_green</li>
-<li>lime</li>
-<li>blue</li>
-<li>sky</li>
-<li>cyan</li>
-<li>purple</li>
-<li>magenta</li>
-<li>indigo</li>
-<li>pink</li>
-</ul>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">my_control</span><span class="p">:</span>
+<p>There are several colors that you can reference by name</p>
+<p><div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">my_control</span><span class="p">:</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">purple</span>
 </span></code></pre></div>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">my_control</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">half_blink_slow</span>
+</span></code></pre></div></p>
+<h3 id="rgb-controls">RGB controls<a class="headerlink" href="#rgb-controls" title="Permanent link">&para;</a></h3>
+<p>Controls with full color feedback.</p>
+<ul>
+<li><code>white</code></li>
+<li><code>grey</code></li>
+<li><code>dark_grey</code></li>
+<li><code>red</code></li>
+<li><code>orange</code></li>
+<li><code>yellow</code></li>
+<li><code>green</code></li>
+<li><code>play_green</code></li>
+<li><code>lime</code></li>
+<li><code>blue</code></li>
+<li><code>sky</code></li>
+<li><code>cyan</code></li>
+<li><code>purple</code></li>
+<li><code>magenta</code></li>
+<li><code>indigo</code></li>
+<li><code>pink</code></li>
+</ul>
+<h3 id="basic-controls">Basic controls<a class="headerlink" href="#basic-controls" title="Permanent link">&para;</a></h3>
+<p>Controls with single-color feedback.</p>
+<ul>
+<li><code>on</code></li>
+<li><code>off</code></li>
+<li><code>half</code></li>
+<li><code>half_blink_slow</code></li>
+<li><code>half_blink_fast</code></li>
+<li><code>full_blink_slow</code></li>
+<li><code>full_blink_fast</code></li>
+</ul>
+<h3 id="biled-controls">BiLed controls<a class="headerlink" href="#biled-controls" title="Permanent link">&para;</a></h3>
+<p>Controls with red, green, and yellow feedback.</p>
+<ul>
+<li><code>green</code></li>
+<li><code>green_half</code></li>
+<li><code>green_blink_slow</code></li>
+<li><code>green_blink_fast</code></li>
+<li><code>red</code></li>
+<li><code>red_half</code></li>
+<li><code>red_blink_slow</code></li>
+<li><code>red_blink_fast</code></li>
+<li><code>yellow</code></li>
+<li><code>yellow_half</code></li>
+<li><code>yellow_blink_slow</code></li>
+<li><code>yellow_blink_fast</code></li>
+<li><code>amber</code></li>
+<li><code>amber_half</code></li>
+<li><code>amber_blink_slow</code></li>
+<li><code>amber_blink_fast</code></li>
+</ul>
 <h2 id="animated-colors">Animated colors<a class="headerlink" href="#animated-colors" title="Permanent link">&para;</a></h2>
 <p>If your hardware supports it, you may define one of two available animations for your control.
 To sync these animations with Live's tempo, you must enable <code>Sync</code> on the MIDI out port of your hardware in Live's MIDI preferences.</p>
@@ -2742,16 +2844,16 @@ To sync these animations with Live's tempo, you must enable <code>Sync</code> on
 <code>pulse</code> blends between the two colors, while <code>blink</code> quickly alternates between them.</p>
 <p>For each animation type, you must define an <code>a</code> and <code>b</code> color, and optionally a <code>speed</code> between 1-5 (slowest to fastest).
 You may omit the <code>speed</code> option to accept the default of 1.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">my_control</span><span class="p">:</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">pulse</span><span class="p">:</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">49</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nt">my_other_control</span><span class="p">:</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nt">blink</span><span class="p">:</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nt">a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blue</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">my_control</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">pulse</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">49</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nt">my_other_control</span><span class="p">:</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">blink</span><span class="p">:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nt">a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blue</span>
 </span></code></pre></div>
 
 
@@ -2879,10 +2981,12 @@ You may omit the <code>speed</code> option to accept the default of 1.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../js/extra.js"></script>
       
         <script src="../../js/open_in_new_tab.js"></script>
       

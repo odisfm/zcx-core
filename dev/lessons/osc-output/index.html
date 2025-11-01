@@ -3022,10 +3022,10 @@ You may enable the particular OSC output you want through the <a href="../../ref
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
 <h4 id="page-number">page number<a class="headerlink" href="#page-number" title="Permanent link">&para;</a></h4>
-<p>Address: <code>/zcx/&lt;script name&gt;/page/number/&lt;current page number&gt;</code></p>
+<p>Address: <code>/zcx/&lt;script name&gt;/page/number/</code></p>
 <p>Value: int</p>
 <h4 id="page-name">page name<a class="headerlink" href="#page-name" title="Permanent link">&para;</a></h4>
-<p>Address: <code>/zcx/&lt;script name&gt;/page/name/&lt;current page name&gt;</code></p>
+<p>Address: <code>/zcx/&lt;script name&gt;/page/name/</code></p>
 <p>Value: string</p>
 <h3 id="session-ring">session ring<a class="headerlink" href="#session-ring" title="Permanent link">&para;</a></h3>
 <p>zcx will send messages relating to the <a href="../session-ring/">session ring</a>.</p>
@@ -3034,12 +3034,12 @@ You may enable the particular OSC output you want through the <a href="../../ref
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">ring_pos</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
 <h4 id="ring-tracks">ring tracks<a class="headerlink" href="#ring-tracks" title="Permanent link">&para;</a></h4>
-<p>When the ring moves horizontally, zcx will send one message for each column (track) of the ring:</p>
-<p>Address: <code>/zcx/&lt;script name&gt;/ring/track/&lt;index&gt;/&lt;track name&gt;</code></p>
+<p>zcx will send the name of each track inside the ring:</p>
+<p>Address: <code>/zcx/&lt;script name&gt;/ring/track/&lt;index&gt;/</code></p>
 <p>Value: string</p>
 <h4 id="ring-coordinates">ring coordinates<a class="headerlink" href="#ring-coordinates" title="Permanent link">&para;</a></h4>
-<p>When the ring moves, zcx will send the x (track) and y (scene) positions of the top-left corner of the ring:</p>
-<p>Address: <code>/zcx/&lt;script name&gt;/ring/pos_x/&lt;x position&gt;</code> <strong>and</strong> <code>/zcx/&lt;script name&gt;/ring/pos_y/&lt;y position&gt;</code></p>
+<p>When the ring moves, zcx will send the x (track) and y (scene) positions of the top-left corner of the ring as an integer:</p>
+<p>Address: <code>/zcx/&lt;script name&gt;/ring/pos_x/</code> <strong>and</strong> <code>/zcx/&lt;script name&gt;/ring/pos_y/</code></p>
 <p>Value: int</p>
 
 
@@ -3167,10 +3167,12 @@ You may enable the particular OSC output you want through the <a href="../../ref
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../js/extra.js"></script>
       
         <script src="../../js/open_in_new_tab.js"></script>
       

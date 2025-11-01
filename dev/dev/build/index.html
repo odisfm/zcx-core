@@ -2510,6 +2510,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#create-a-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a virtual environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#install-vendored-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       Install vendored dependencies
@@ -2519,9 +2528,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-watchdog" class="md-nav__link">
+  <a href="#install-development-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
-      Install watchdog
+      Install development dependencies
     </span>
   </a>
   
@@ -2562,6 +2571,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building the documentation
+    </span>
+  </a>
   
 </li>
       
@@ -2718,6 +2736,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#create-a-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a virtual environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#install-vendored-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       Install vendored dependencies
@@ -2727,9 +2754,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-watchdog" class="md-nav__link">
+  <a href="#install-development-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
-      Install watchdog
+      Install development dependencies
     </span>
   </a>
   
@@ -2773,6 +2800,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#building-the-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building the documentation
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2802,6 +2838,8 @@ To use zcx, see <a href="../../lessons/getting-started/">getting started</a>.</p
 <h2 id="instructions">Instructions<a class="headerlink" href="#instructions" title="Permanent link">&para;</a></h2>
 <h3 id="clone-the-repo">Clone the repo<a class="headerlink" href="#clone-the-repo" title="Permanent link">&para;</a></h3>
 <p>Clone the repo <a href="https://github.com/odisfm/zcx-core/">from GitHub</a> to a convenient location on your computer.</p>
+<h3 id="create-a-virtual-environment">Create a virtual environment<a class="headerlink" href="#create-a-virtual-environment" title="Permanent link">&para;</a></h3>
+<p>It is highly recommended that you create a <a href="https://docs.python.org/3/library/venv.html">Python virtual environment</a> before proceeding.</p>
 <h3 id="install-vendored-dependencies">Install vendored dependencies<a class="headerlink" href="#install-vendored-dependencies" title="Permanent link">&para;</a></h3>
 <p>zcx bundles <a href="../dependencies/">several packages</a> with each install.
 These dependencies must be installed in the folder <code>zcx-core/app/vendor</code>.
@@ -2810,18 +2848,13 @@ A simple script is provided at <code>zcx-core/tools/install_vendored_dependencie
 <p class="admonition-title">Warning</p>
 <p>These packages <strong>must</strong> be located in the <code>vendor/</code> directory.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>After installing, your IDE might warn you that required packages are missing.
-You can disregard this warning.</p>
-</div>
-<h3 id="install-watchdog">Install watchdog<a class="headerlink" href="#install-watchdog" title="Permanent link">&para;</a></h3>
-<p>You will need to install <a href="https://pypi.org/project/watchdog/">watchdog</a> in your Python environment to monitor the codebase for changes.</p>
+<h3 id="install-development-dependencies">Install development dependencies<a class="headerlink" href="#install-development-dependencies" title="Permanent link">&para;</a></h3>
+<p>From the project root, run <code>pip install -r requirements.txt</code> to install all <a href="../dependencies/">development dependencies</a>.</p>
 <h3 id="run-the-script">Run the script<a class="headerlink" href="#run-the-script" title="Permanent link">&para;</a></h3>
 <p>From the project root, run:</p>
 <p><code>python tools/build.py &lt;hardware name&gt; &lt;destination folder name&gt;</code></p>
 <p>Where <code>&lt;hardware name&gt;</code> is the name of a folder in <code>zcx-core/hardware</code>, e.g. <code>push_1</code> and <code>&lt;desintation folder name&gt;</code> is a name of your choice, e.g. <code>my_zcx_script</code>.
-Omit <code>&lt;destination folder name&gt;</code> to use <code>zcx_&lt;hardware name&gt;</code>.</p>
+Omit <code>&lt;destination folder name&gt;</code> to use <code>_zcx_&lt;hardware name&gt;</code>.</p>
 <p>You must manually create the destination folder.</p>
 <h4 id="extra-arguments">Extra arguments<a class="headerlink" href="#extra-arguments" title="Permanent link">&para;</a></h4>
 <h5 id="-custom-config">--custom-config<a class="headerlink" href="#-custom-config" title="Permanent link">&para;</a></h5>
@@ -2836,6 +2869,18 @@ If you use a non-default location for your User Library, you will need to provid
 <p>One option is to use the <a href="#--custom-config">--custom-config</a> argument and pass the path to your own config.</p>
 <p>Another is to use symbolic links in the destination directory to other files or directories on your computer.
 The build script will ignore symbolic links in the destination directory.</p>
+<h2 id="building-the-documentation">Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permanent link">&para;</a></h2>
+<p>This documentation is powered by <a href="https://www.mkdocs.org/">mkdocs</a>, the <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs theme</a>, and <a href="https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt">several plugins</a> for mkdocs.</p>
+<p>From the project root, run <code>pip install -r docs/requirements.txt</code> to install all documentation dependencies.
+To start the dev server, run:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>docs
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdocs<span class="w"> </span>serve
+</span></code></pre></div></p>
+<p>For more information, refer to the documentation for the projects above.</p>
+<div class="admonition note">
+<p class="admonition-title">Suggestions welcome</p>
+<p>If you have feedback about the existing docs, or think something should be added, feel free to post in <a href="https://discord.zcxcore.com">the Discord</a>.</p>
+</div>
 
 
 
@@ -2962,10 +3007,12 @@ The build script will ignore symbolic links in the destination directory.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../js/extra.js"></script>
       
         <script src="../../js/open_in_new_tab.js"></script>
       

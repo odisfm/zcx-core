@@ -2866,6 +2866,7 @@ For an un-armed track, pressing a pad will fire the associated clip slot.</p>
 If you have not set this variable, it will default to <code>0</code>, starting a non-fixed-length recording.</p>
 <p>By setting this variable, like with the action list <code>%zcx_fixed_record% = 4</code>, you can set the length of the recording (in this case 4 bars).
 By setting the variable back to 0, you can disable fixed-length recording.</p>
+<p>If you would like the fixed record length to be set when zcx loads, consider setting it via a <a href="../../reference/file/preferences/#startup_command">startup command</a>, or in <a href="https://www.cxpman.com/manual/core-concepts/#settings-foldersfiles">ClyphX Pro</a> via Variables.txt or Preferences.txt.</p>
 <div class="admonition note">
 <p>The variable <code>%zcx_fixed_record%</code> is shared across all running zcx scripts.</p>
 </div>
@@ -2934,14 +2935,19 @@ Good for use with <a href="https://www.cxpman.com/action-reference/track-actions
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="hll"><span class="w">      </span><span class="nt">pressed__select</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
 </span></span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="no">&quot;${track_target}&quot; / SOLO</span>
 </span></code></pre></div>
+<p>Or to disable a default:</p>
+<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nt">gestures</span><span class="p">:</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="hll"><span class="w">      </span><span class="nt">pressed__select</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DUMMY</span><span class="w"> </span><span class="c1"># do nothing</span>
+</span></span></code></pre></div>
 <h2 id="additional-options">Additional options<a class="headerlink" href="#additional-options" title="Permanent link">&para;</a></h2>
 <h3 id="clip_color_is_play_color">clip_color_is_play_color<a class="headerlink" href="#clip_color_is_play_color" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">__session_view</span><span class="p">:</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="hll"><span class="w">  </span><span class="nt">clip_color_is_play_color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="language-yaml highlight"><span class="filename">matrix_sections.yaml</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">__session_view</span><span class="p">:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="hll"><span class="w">  </span><span class="nt">clip_color_is_play_color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></span></code></pre></div>
 <p>When <code>false</code>, a playing clip will pulse green.
 When <code>true</code>, a playing clip will pulse with the clip color from bright to dark.
@@ -3072,10 +3078,12 @@ The <code>true</code> option does not look good on many controllers.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../js/extra.js"></script>
       
         <script src="../../js/open_in_new_tab.js"></script>
       
