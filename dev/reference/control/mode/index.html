@@ -120,6 +120,18 @@
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
         
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You're not viewing the latest version.
+  <a href="../../../..">
+    <strong>Click here to go to latest.</strong>
+  </a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
       </div>
     
     
@@ -2658,6 +2670,12 @@
 
 <h1 id="mode-control">mode control<a class="headerlink" href="#mode-control" title="Permanent link">&para;</a></h1>
 <p>The <code>mode</code> control binds to a particular <a href="../../../lessons/getting-started/zcx-concepts/#modes">mode</a> in zcx and displays feedback indicating whether that mode is currently active</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Standard controls are already capable of changing modes, and mode controls still require you to manually define the mode change commands. 
+The only purpose of this control is to enable LED feedback.</p>
+<p>See <a href="../../command/#mode">command reference</a>.</p>
+</div>
 <h2 id="yaml-schema">yaml schema<a class="headerlink" href="#yaml-schema" title="Permanent link">&para;</a></h2>
 <p>Inherits from <a href="../standard/#yaml-schema">standard control</a>.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
