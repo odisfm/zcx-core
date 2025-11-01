@@ -59,6 +59,8 @@ If you have not set this variable, it will default to `0`, starting a non-fixed-
 By setting this variable, like with the action list `%zcx_fixed_record% = 4 `, you can set the length of the recording (in this case 4 bars).
 By setting the variable back to 0, you can disable fixed-length recording.
 
+If you would like the fixed record length to be set when zcx loads, consider setting it via a [startup command](../reference/file/preferences.md#startup_command), or in [ClyphX Pro](https://www.cxpman.com/manual/core-concepts/#settings-foldersfiles) via Variables.txt or Preferences.txt.
+
 !!! note ""
     The variable `%zcx_fixed_record%` is shared across all running zcx scripts.
 
@@ -156,6 +158,15 @@ __session_view:
       pressed__select: >
         "${track_target}" / SOLO
 ```
+
+Or to disable a default:
+
+```yaml title="matrix_sections.yaml" hl_lines="3"
+  template:
+    gestures:
+      pressed__select: DUMMY # do nothing
+```
+
 
 ## Additional options
 
