@@ -85,6 +85,9 @@ extra:
     provider: mike
     alias: true
 
+extra_javascript:
+  - js/extra.js
+
 extra_css:
   - stylesheets/extra.css
 

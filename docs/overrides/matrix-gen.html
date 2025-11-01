@@ -106,6 +106,14 @@
 
     document$.subscribe(function() {
         initializeForm();
+        document.getElementById('generate-button').onclick = () => {
+          try {
+            const formData = new FormData(document.getElementById('matrix-gen-form'));
+            umami.track("matrix_gen_generated", Object.fromEntries(formData))
+          } catch (e) {
+            console.error(e);
+          }
+        }
     })
 
   </script>
@@ -115,7 +123,7 @@
 {% block content %}
   {{ super() }}
 
-  <div aria-labelledby="form-title" id="matrix-gen-form">
+  <form aria-labelledby="form-title" id="matrix-gen-form">
     <h2 id="form-title">Configure Settings</h2>
 
     <div class="form-group">
@@ -200,6 +208,6 @@
     <div class="form-actions">
       <button type="button" id="generate-button" class="md-button md-button--primary">Generate</button>
     </div>
-  </div>
+  </form>
 
 {% endblock %}
