@@ -67,6 +67,8 @@ action_list: SRECFIX 8
 Instead of putting everything on one long line, separated by commas, we label the data with a **key**, and pair it with a **value**.
 
 When we have a collection of key-value pairs, we call it an **object**.
+You may also see it referred to as a **dict**, or **dictionary**.
+In this context, all these terms mean the same thing.
 
 ## data types
 
