@@ -278,6 +278,12 @@ def preserve_user_data(script_dir, hardware):
                 preserved_items.append("hardware")
                 logger.info(f"{PURPLE}Generic hardware detected - preserving existing hardware configuration{RESET}")
 
+        # Preserve user_tests directory
+        user_tests_dir = os.path.join(script_dir, "user_tests")
+        if os.path.exists(user_tests_dir) and os.path.isdir(user_tests_dir):
+            shutil.copytree(user_tests_dir, os.path.join(temp_dir, "user_tests"))
+            preserved_items.append("user_tests")
+
         if preserved_items:
             logger.info(f"Preserved user data: {', '.join(preserved_items)}")
         else:
