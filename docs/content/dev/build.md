@@ -17,7 +17,7 @@ Clone the repo [from GitHub](https://github.com/odisfm/zcx-core/) to a convenien
 
 zcx bundles [several packages](dependencies.md) with each install.
 These dependencies must be installed in the folder `zcx-core/app/vendor`.
-A simple script is provided at `zcx-core/tools/install_dependencies.py` to install the packages (via pip) to the correct location.
+A simple script is provided at `zcx-core/tools/install_vendored_dependencies.py` to install the packages (via pip) to the correct location.
 
 !!! warning
     These packages **must** be located in the `vendor/` directory.

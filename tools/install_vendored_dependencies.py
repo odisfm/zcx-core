@@ -9,7 +9,7 @@ def main():
     # Get paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    requirements_file = project_root / "requirements.txt"
+    requirements_file = project_root / "app" / "vendor" / "requirements.txt"
     vendor_dir = project_root / "app" / "vendor"
 
     # Validate requirements.txt exists

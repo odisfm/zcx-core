@@ -1,6 +1,8 @@
 .idea/
 config/
-app/vendor
+!app/vendor/
+app/vendor/*
+!app/vendor/requirements.txt
 docs/.cache
 docs/site/
 user/

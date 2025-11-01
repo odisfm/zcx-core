@@ -31,6 +31,8 @@ Used only by the [upgrade script](../lessons/upgrade.md#automatic-upgrade) for c
 
 ## Development dependencies
 
+You can install all development dependencies with `pip install -r requirements.txt` from the repo root.
+
 ### Watchdog
 
 Used by the [build script](build.md) to watch for code changes.
@@ -39,18 +41,6 @@ Used by the [build script](build.md) to watch for code changes.
 
 ### Documentation
 
-The following packages are only necessary if you want to build the documentation locally.
+This documentation is powered by [mkdocs](https://www.mkdocs.org/), the [Material for MkDocs theme](https://squidfunk.github.io/mkdocs-material/), and [several plugins](https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt) for mkdocs.
 
-#### mkdocs
-
-Static site generator powering this documentation.
-
-[link](https://www.mkdocs.org/)
-
-#### mkdocs plugins
-
-- [mkdocs-material](https://squidfunk.github.io/mkdocs-material/)
-- [mkdocs-awesome-nav](https://github.com/lukasgeiter/mkdocs-awesome-nav)
-- [mkdocs-nav-weight](https://github.com/shu307/mkdocs-nav-weight)
-- [mkdocs-open-in-new-tab](https://github.com/JakubAndrysek/mkdocs-open-in-new-tab)
-- [mike](https://github.com/jimporter/mike)
+You can install mkdocs and all required plugins with `pip install -r docs/requirements.txt`.

@@ -30,90 +30,85 @@ jobs:
 
       - name: Determine if prerelease
         id: prerelease
-        run: |
-          # Check if tag is on dev branch
-          if git branch -r --contains $GITHUB_SHA | grep -q 'origin/dev'; then
-            echo "is_prerelease=true" >> $GITHUB_OUTPUT
-            echo "This is a prerelease (tag on dev branch)"
-          else
-            echo "is_prerelease=false" >> $GITHUB_OUTPUT
-            echo "This is a stable release"
-          fi
+        run: |  
+          # Check if tag is on dev branch  
+          if git branch -r --contains $GITHUB_SHA | grep -q 'origin/dev'; then  
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT  
+            echo "This is a prerelease (tag on dev branch)"  
+          else  
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT  
+            echo "This is a stable release"  
+          fi  
 
       - name: Set environment variables
-        run: |
-          echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV
-          echo "TAG_NAME=${GITHUB_REF_NAME:-latest}" >> $GITHUB_ENV
+        run: |  
+          echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)" >> $GITHUB_ENV  
+          echo "TAG_NAME=${GITHUB_REF_NAME:-latest}" >> $GITHUB_ENV  
 
       - name: Get controllers list
         id: controllers
-        run: |
-          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | grep -v '^__test$' | jq -R -s -c 'split("\n")[:-1]')
-          echo "Found controllers: $CONTROLLERS"
-          echo "list=$CONTROLLERS" >> $GITHUB_OUTPUT
+        run: |  
+          CONTROLLERS=$(ls -d hardware/*/ | cut -f2 -d'/' | grep -v '^__test$' | jq -R -s -c 'split("\n")[:-1]')  
+          echo "Found controllers: $CONTROLLERS"  
+          echo "list=$CONTROLLERS" >> $GITHUB_OUTPUT  
 
       - name: Create shared vendor directory
-        run: |
-          mkdir -p shared_vendor
-          # Define packages to download
-          PACKAGES=("pyyaml>=6.0.2,<7.0.0" "asteval>=1.0.6,<2.0.0" "requests" "semver>=3.0.4,<4.0.0")
-          
-          # Install all packages once into shared vendor directory
-          for package in "${PACKAGES[@]}"; do
-            pip install "$package" --target "./shared_vendor/"
-          done
+        run: |  
+          mkdir -p shared_vendor  
+          # Install packages from app/vendor/requirements.txt
+          pip install -r app/vendor/requirements.txt --target "./shared_vendor/"
 
       - name: Build packages for all controllers
-        run: |
-          CONTROLLERS='${{ steps.controllers.outputs.list }}'
-          
-          # Parse JSON array of controllers
-          for controller in $(echo $CONTROLLERS | jq -r '.[]'); do
-            echo "Building package for controller: $controller"
+        run: |  
+          CONTROLLERS='${{ steps.controllers.outputs.list }}'  
             
-            PACKAGE_NAME="_zcx_$controller"
-            
-            # Create package directory structure
-            mkdir -p "$PACKAGE_NAME"
-            mkdir -p "$PACKAGE_NAME/vendor"
-            
-            # Copy shared vendor files
-            cp -r shared_vendor/* "$PACKAGE_NAME/vendor/"
-            
-            # Copy application files
-            cp -r app/* "$PACKAGE_NAME/"
-            
-            # Create hardware directory and copy controller-specific files
-            mkdir -p "$PACKAGE_NAME/hardware"
-            cp -r "hardware/$controller"/* "$PACKAGE_NAME/hardware/"
-            
-            # Handle demo_config
-            if [ -d "$PACKAGE_NAME/hardware/demo_config" ]; then
-              mv "$PACKAGE_NAME/hardware/demo_config" "$PACKAGE_NAME/_config"
-            else
-              echo "Error: demo_config directory not found for controller '$controller'!" >&2
-              exit 1
-            fi
-            
-            # Update zcx.yaml with version and hardware information
-            sed -i "s/^version:.*/version: ${TAG_NAME:1}/" "$PACKAGE_NAME/zcx.yaml"
-            sed -i "s/^hardware:.*/hardware: $controller/" "$PACKAGE_NAME/zcx.yaml"
-            
-            # Create ZIP archive with README and user actions
-            cp resources/bundled_instructions.txt ./README.txt
-            sed -i "1i${REPO_NAME} ${TAG_NAME}\n\n" README.txt
-            cp -r user_actions _user_actions
-            
-            # Create ZIP
-            zip -r "$PACKAGE_NAME.zip" README.txt "$PACKAGE_NAME" _user_actions
-            
-            # Clean up for next iteration
-            rm README.txt
-            rm -rf _user_actions
-            rm -rf "$PACKAGE_NAME"
-            
-            echo "✅ Built $PACKAGE_NAME.zip"
-          done
+          # Parse JSON array of controllers  
+          for controller in $(echo $CONTROLLERS | jq -r '.[]'); do  
+            echo "Building package for controller: $controller"  
+              
+            PACKAGE_NAME="_zcx_$controller"  
+              
+            # Create package directory structure  
+            mkdir -p "$PACKAGE_NAME"  
+            mkdir -p "$PACKAGE_NAME/vendor"  
+              
+            # Copy shared vendor files  
+            cp -r shared_vendor/* "$PACKAGE_NAME/vendor/"  
+              
+            # Copy application files  
+            cp -r app/* "$PACKAGE_NAME/"  
+              
+            # Create hardware directory and copy controller-specific files  
+            mkdir -p "$PACKAGE_NAME/hardware"  
+            cp -r "hardware/$controller"/* "$PACKAGE_NAME/hardware/"  
+              
+            # Handle demo_config  
+            if [ -d "$PACKAGE_NAME/hardware/demo_config" ]; then  
+              mv "$PACKAGE_NAME/hardware/demo_config" "$PACKAGE_NAME/_config"  
+            else  
+              echo "Error: demo_config directory not found for controller '$controller'!" >&2  
+              exit 1  
+            fi  
+              
+            # Update zcx.yaml with version and hardware information  
+            sed -i "s/^version:.*/version: ${TAG_NAME:1}/" "$PACKAGE_NAME/zcx.yaml"  
+            sed -i "s/^hardware:.*/hardware: $controller/" "$PACKAGE_NAME/zcx.yaml"  
+              
+            # Create ZIP archive with README and user actions  
+            cp resources/bundled_instructions.txt ./README.txt  
+            sed -i "1i${REPO_NAME} ${TAG_NAME}\n\n" README.txt  
+            cp -r user_actions _user_actions  
+              
+            # Create ZIP  
+            zip -r "$PACKAGE_NAME.zip" README.txt "$PACKAGE_NAME" _user_actions  
+              
+            # Clean up for next iteration  
+            rm README.txt  
+            rm -rf _user_actions  
+            rm -rf "$PACKAGE_NAME"  
+              
+            echo "✅ Built $PACKAGE_NAME.zip"  
+          done  
 
       - name: Download offline documentation
         uses: actions/download-artifact@v4
@@ -124,7 +119,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: |
+          files: |  
             *.zip
           draft: false
           prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
