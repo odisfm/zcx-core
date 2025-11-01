@@ -193,6 +193,14 @@ Set the page that is active when the script loads.
 
 The following preferences are only useful when developing the 'core' of zcx.
 
+### log_includes_tests:
+```yaml
+log_includes_tests: false
+```
+
+When `true`, [log.txt](../file/log.md) includes the output of any [tests](../../dev/tests.md) or [user tests](../../dev/tests.md#user-tests).
+Test output is written to `test_log.txt` in either case.
+
 ### refresh_on_all_sysex
 
 ```yaml

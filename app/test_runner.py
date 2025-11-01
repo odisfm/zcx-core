@@ -57,6 +57,14 @@ class TestRunner(ZCXComponent):
             )
             ZCXTestCase._parse_target_path = functools.partial(parse_target_path)
 
+            from . import PREF_MANAGER
+
+            user_prefs = PREF_MANAGER.user_prefs
+            log_includes_tests = user_prefs.get("log_includes_tests", False)
+            if not isinstance(log_includes_tests, bool):
+                self.warning(f"Invalid value for preference `log_includes_tests`: {log_includes_tests}. Using `false`.")
+                log_includes_tests = False
+
             try:
                 if tests_dir.exists() and tests_dir.is_dir():
                     self.test_suite = self.test_loader.discover(
@@ -88,7 +96,7 @@ class TestRunner(ZCXComponent):
 
                 if test_count:
                     self.log(f"Discovered {test_count} test cases in {_tests_dir}")
-                    result = self.run_tests(test_suite)
+                    result = self.run_tests(test_suite, log_includes_tests)
                     if result is False:
                         return
                     if result.wasSuccessful():
@@ -105,8 +113,13 @@ class TestRunner(ZCXComponent):
             self.log(f"Error discovering tests: {e}")
             self.test_suite = unittest.TestSuite()
 
-    def run_tests(self, test_suite):
-        """Run the discovered tests"""
+    def run_tests(self, test_suite, log_to_default=False):
+        """Run the discovered tests
+
+        Args:
+            test_suite: The test suite to run
+            log_to_default: If True, also output to the Live log and log.txt in addition to test_log.txt
+        """
         if test_suite is None:
             self.log("No test suite available. Run setup() first.")
             return False
@@ -117,7 +130,26 @@ class TestRunner(ZCXComponent):
         with open(log_file_path, "a") as log_file:
             self.stream = log_file
 
-            runner = unittest.TextTestRunner(stream=log_file, verbosity=2)
+            # Create a custom stream that writes to both file and logger if requested
+            if log_to_default:
+                class DualStream:
+                    def __init__(self, file_stream, logger):
+                        self.file_stream = file_stream
+                        self.logger = logger
+
+                    def write(self, text):
+                        self.file_stream.write(text)
+                        if text.strip():  # Only log non-empty lines
+                            self.logger.info(text.rstrip())
+
+                    def flush(self):
+                        self.file_stream.flush()
+
+                dual_stream = DualStream(log_file, self._logger)
+                runner = unittest.TextTestRunner(stream=dual_stream, verbosity=2)
+            else:
+                runner = unittest.TextTestRunner(stream=log_file, verbosity=2)
+
             result = runner.run(test_suite)
 
             self.stream = None
