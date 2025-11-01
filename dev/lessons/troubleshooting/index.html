@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     
     
       
@@ -1969,6 +1969,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Reading logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-logs-in-real-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading logs in real time
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reading logs in real time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminal-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Terminal commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apps
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2747,6 +2786,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Reading logs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-logs-in-real-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading logs in real time
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reading logs in real time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminal-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Terminal commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apps
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2890,6 +2968,29 @@ The zcx log file is helpful if you have multiple zcx scripts and/or a busy Live 
 <p><strong>Windows:</strong> <code>\Users\[username]\AppData\Roaming\Ableton\Live x.x.x\Preferences\Log.txt</code>
 <strong>Mac:</strong> <code>/Users/[username]/Library/Preferences/Ableton/Live x.x.x/Log.txt</code></p>
 <p>You may configure the detail level of the log in <a href="../../reference/file/preferences/#log_level">preferences.yaml</a>.</p>
+<h3 id="reading-logs-in-real-time">Reading logs in real time<a class="headerlink" href="#reading-logs-in-real-time" title="Permanent link">&para;</a></h3>
+<h4 id="terminal-commands">Terminal commands<a class="headerlink" href="#terminal-commands" title="Permanent link">&para;</a></h4>
+<p>These terminal commands allow you to view the log without installing additional software.</p>
+<h5 id="macos-linux">macOS / Linux<a class="headerlink" href="#macos-linux" title="Permanent link">&para;</a></h5>
+<p>From Terminal:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tail<span class="w"> </span>-f<span class="w"> </span>/path/to/logfile
+</span></code></pre></div>
+<p>Same as above, but takes a regex pattern that will be highlighted in a different color.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tail<span class="w"> </span>-f<span class="w"> </span>/path/to/logfile<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>--color<span class="o">=</span>always<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;regex-pattern|$&#39;</span>
+</span></code></pre></div>
+<h5 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h5>
+<p>From Powershell:</p>
+<div class="language-ps1 highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">Get-Content</span> <span class="n">-Path</span> <span class="s2">&quot;/path/to/logfile&quot;</span> <span class="n">-Wait</span>
+</span></code></pre></div>
+<h4 id="apps">Apps<a class="headerlink" href="#apps" title="Permanent link">&para;</a></h4>
+<h5 id="gui">GUI<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://apps.apple.com/au/app/log-viewer/id1543753042?mt=12">Log-Viewer (macOS)</a></li>
+</ul>
+<h5 id="tui">TUI<a class="headerlink" href="#tui" title="Permanent link">&para;</a></h5>
+<ul>
+<li><a href="https://lnav.org/">lnav (macOS/Linux)</a></li>
+</ul>
 <h2 id="common-issues">Common issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h2>
 <h3 id="zcx-doesnt-appear-in-lives-control-surface-list">zcx doesn't appear in Live's control surface list<a class="headerlink" href="#zcx-doesnt-appear-in-lives-control-surface-list" title="Permanent link">&para;</a></h3>
 <ul>
