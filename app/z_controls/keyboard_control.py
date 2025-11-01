@@ -247,7 +247,10 @@ class KeyboardControl(ZControl):
             case KeyboardFunction.FULL_VELO:
                 self.set_feedback(self.__melodic_component.full_velo)
             case KeyboardFunction.REPEAT_RATE:
-                self.set_feedback(self.__melodic_component.repeat_rate == self.__repeat_rate)
+                if self.__repeat_rate == "on":
+                    self.set_feedback(self.__melodic_component.repeat_rate != "off")
+                else:
+                    self.set_feedback(self.__melodic_component.repeat_rate == self.__repeat_rate)
             case KeyboardFunction.OCTAVE_DOWN:
                 self.set_feedback(self.__melodic_component.octave > 0)
             case KeyboardFunction.OCTAVE_UP:
