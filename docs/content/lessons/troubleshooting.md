@@ -22,6 +22,42 @@ Live's log file can be found at:
 
 You may configure the detail level of the log in [preferences.yaml](../reference/file/preferences.md#log_level).
 
+### Reading logs in real time
+
+#### Terminal commands
+
+These terminal commands allow you to view the log without installing additional software.
+
+##### macOS / Linux
+
+From Terminal:
+
+```bash
+tail -f /path/to/logfile
+```
+
+Same as above, but takes a regex pattern that will be highlighted in a different color.
+
+```bash
+tail -f /path/to/logfile | grep --color=always -E 'regex-pattern|$'
+```
+
+##### Windows
+
+From Powershell:
+
+```ps1
+Get-Content -Path "/path/to/logfile" -Wait
+```
+
+#### Apps
+
+##### GUI 
+- [Log-Viewer (macOS)](https://apps.apple.com/au/app/log-viewer/id1543753042?mt=12)
+
+##### TUI
+- [lnav (macOS/Linux)](https://lnav.org/)
+
 ## Common issues
 
 ### zcx doesn't appear in Live's control surface list
