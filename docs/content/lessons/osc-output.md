@@ -104,13 +104,13 @@ osc_output:
 
 #### page number
 
-Address: `/zcx/<script name>/page/number/<current page number>`
+Address: `/zcx/<script name>/page/number/`
 
 Value: int
 
 #### page name
 
-Address: `/zcx/<script name>/page/name/<current page name>`
+Address: `/zcx/<script name>/page/name/`
 
 Value: string
 
@@ -126,16 +126,16 @@ osc_output:
 
 #### ring tracks
 
-When the ring moves horizontally, zcx will send one message for each column (track) of the ring:
+zcx will send the name of each track inside the ring:
 
-Address: `/zcx/<script name>/ring/track/<index>/<track name>`
+Address: `/zcx/<script name>/ring/track/<index>/`
 
 Value: string
 
 #### ring coordinates
 
-When the ring moves, zcx will send the x (track) and y (scene) positions of the top-left corner of the ring:
+When the ring moves, zcx will send the x (track) and y (scene) positions of the top-left corner of the ring as an integer:
 
-Address: `/zcx/<script name>/ring/pos_x/<x position>` **and** `/zcx/<script name>/ring/pos_y/<y position>`
+Address: `/zcx/<script name>/ring/pos_x/` **and** `/zcx/<script name>/ring/pos_y/`
 
 Value: int
