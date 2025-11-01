@@ -13,6 +13,10 @@ If you would like to [contribute to zcx-core](contributing.md), you will need to
 
 Clone the repo [from GitHub](https://github.com/odisfm/zcx-core/) to a convenient location on your computer.
 
+### Create a virtual environment
+
+It is highly recommended that you create a [Python virtual environment](https://docs.python.org/3/library/venv.html) before proceeding.
+
 ### Install vendored dependencies
 
 zcx bundles [several packages](dependencies.md) with each install.
@@ -22,13 +26,9 @@ A simple script is provided at `zcx-core/tools/install_vendored_dependencies.py`
 !!! warning
     These packages **must** be located in the `vendor/` directory.
 
-!!! note
-    After installing, your IDE might warn you that required packages are missing.
-    You can disregard this warning.
+### Install development dependencies
 
-### Install watchdog
-
-You will need to install [watchdog](https://pypi.org/project/watchdog/) in your Python environment to monitor the codebase for changes.
+From the project root, run `pip install -r requirements.txt` to install all [development dependencies](dependencies.md).
 
 ### Run the script
 
@@ -65,3 +65,18 @@ One option is to use the [--custom-config](#--custom-config) argument and pass t
 Another is to use symbolic links in the destination directory to other files or directories on your computer.
 The build script will ignore symbolic links in the destination directory.
 
+## Building the documentation
+
+This documentation is powered by [mkdocs](https://www.mkdocs.org/), the [Material for MkDocs theme](https://squidfunk.github.io/mkdocs-material/), and [several plugins](https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt) for mkdocs.
+
+From the project root, run `pip install -r docs/requirements.txt` to install all documentation dependencies.
+To start the dev server, run:
+```bash
+cd docs
+mkdocs serve
+```
+
+For more information, refer to the documentation for the projects above.
+
+!!! note "Suggestions welcome"
+    If you have feedback about the existing docs, or think something should be added, feel free to post in [the Discord](https://discord.zcxcore.com).
