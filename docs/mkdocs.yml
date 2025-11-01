@@ -15,7 +15,7 @@ theme:
     - navigation.header
     - navigation.indexes
     - navigation.top
-#    - toc.integrate
+
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -63,9 +63,6 @@ plugins:
   - awesome-nav
   - meta
   - open-in-new-tab
-#  - git-revision-date-localized:
-#        enable_creation_date: true
-#        type: timeago
   - mkdocs-nav-weight:
       section_renamed: false
       index_weight: -10
@@ -85,10 +82,6 @@ extra:
   version:
     provider: mike
     alias: true
-#
-#not_in_nav: |
-#  other/
-#  reference/
 
 extra_css:
   - stylesheets/extra.css
