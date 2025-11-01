@@ -132,3 +132,11 @@ These are the names you must use in [encoders.yaml](../encoder.md)
 - `enc_master` - the encoder to the right of `enc_8`
 - `tempo` - the encoder above the `undo` button
 - `swing` - the encoder above the touchstrip
+
+## Colors
+
+The matrix and `state` buttons have [RGB](../color.md#rgb-controls) feedback.
+
+The `scene` and `select` buttons have [BiLed](../color.md#biled-controls) feedback.
+
+All other controls [basic](../color.md#basic-controls) feedback.

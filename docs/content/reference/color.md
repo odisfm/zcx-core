@@ -17,29 +17,71 @@ my_control:
 
 ## Name
 
-There are several colors that you can reference by name:
+There are several colors that you can reference by name
 
-- white
-- grey
-- dark_grey
-- red
-- orange
-- yellow
-- green
-- play_green
-- lime
-- blue
-- sky
-- cyan
-- purple
-- magenta
-- indigo
-- pink
 
 ```yaml
 my_control:
   color: purple
 ```
+```yaml
+my_control:
+  color: half_blink_slow
+```
+
+### RGB controls
+
+Controls with full color feedback.
+
+- `white`
+- `grey`
+- `dark_grey`
+- `red`
+- `orange`
+- `yellow`
+- `green`
+- `play_green`
+- `lime`
+- `blue`
+- `sky`
+- `cyan`
+- `purple`
+- `magenta`
+- `indigo`
+- `pink`
+
+### Basic controls
+
+Controls with single-color feedback.
+
+- `on`
+- `off`
+- `half`
+- `half_blink_slow`
+- `half_blink_fast`
+- `full_blink_slow`
+- `full_blink_fast`
+
+### BiLed controls
+
+Controls with red, green, and yellow feedback.
+
+- `green`
+- `green_half`
+- `green_blink_slow`
+- `green_blink_fast`
+- `red`
+- `red_half`
+- `red_blink_slow`
+- `red_blink_fast`
+- `yellow`
+- `yellow_half`
+- `yellow_blink_slow`
+- `yellow_blink_fast`
+- `amber`
+- `amber_half`
+- `amber_blink_slow`
+- `amber_blink_fast`
 
 ## Animated colors
 
