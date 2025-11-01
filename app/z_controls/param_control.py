@@ -643,7 +643,7 @@ class ParamControl(ZControl):
 
         if device_def and device_def.lower() == "sel":
             listen_dict["selected_device"] = True
-        else:
+        elif device_def:
             try:
                 int(device_def)
                 listen_dict["device_list"] = True
