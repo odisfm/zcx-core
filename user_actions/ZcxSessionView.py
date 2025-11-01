@@ -56,9 +56,15 @@ class ZcxSessionView(UserActionsBase):
                             f'"{target_track.name}" / PLAY {target_slot_idx + 1}'
                         )
                     elif target_track.can_be_armed and target_track.arm and not target_slot.has_clip:
-                        self.cxp_action(
-                            f'"{target_track.name}" / RECFIX %{FIXED_RECORD_VAR_NAME}% {target_slot_idx + 1}'
-                        )
+                        fixed_record = self.canonical_parent.clyphx_pro_component._user_variables.get(FIXED_RECORD_VAR_NAME, "0")
+                        if fixed_record == '0':
+                            self.cxp_action(
+                                f'"{target_track.name}" / PLAY {target_slot_idx + 1}'
+                            )
+                        else:
+                            self.cxp_action(
+                                f'"{target_track.name}" / RECFIX %{FIXED_RECORD_VAR_NAME}% {target_slot_idx + 1}'
+                            )
 
                     else:
                         self.cxp_action(
