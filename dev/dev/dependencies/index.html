@@ -2613,30 +2613,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Documentation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mkdocs" class="md-nav__link">
-    <span class="md-ellipsis">
-      mkdocs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mkdocs-plugins" class="md-nav__link">
-    <span class="md-ellipsis">
-      mkdocs plugins
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
       </ul>
@@ -2808,30 +2784,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Documentation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mkdocs" class="md-nav__link">
-    <span class="md-ellipsis">
-      mkdocs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mkdocs-plugins" class="md-nav__link">
-    <span class="md-ellipsis">
-      mkdocs plugins
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
       </ul>
@@ -2875,22 +2827,13 @@
 <p>Used only by the <a href="../../lessons/upgrade/#automatic-upgrade">upgrade script</a> for comparing <a href="https://semver.org/#spec-item-11">Semantic Versioning precedence</a> between versions.</p>
 <p><a href="https://pypi.org/project/semver/">link</a></p>
 <h2 id="development-dependencies">Development dependencies<a class="headerlink" href="#development-dependencies" title="Permanent link">&para;</a></h2>
+<p>You can install all development dependencies with <code>pip install -r requirements.txt</code> from the repo root.</p>
 <h3 id="watchdog">Watchdog<a class="headerlink" href="#watchdog" title="Permanent link">&para;</a></h3>
 <p>Used by the <a href="../build/">build script</a> to watch for code changes.</p>
 <p><a href="https://pypi.org/project/watchdog/">link</a></p>
 <h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h3>
-<p>The following packages are only necessary if you want to build the documentation locally.</p>
-<h4 id="mkdocs">mkdocs<a class="headerlink" href="#mkdocs" title="Permanent link">&para;</a></h4>
-<p>Static site generator powering this documentation.</p>
-<p><a href="https://www.mkdocs.org/">link</a></p>
-<h4 id="mkdocs-plugins">mkdocs plugins<a class="headerlink" href="#mkdocs-plugins" title="Permanent link">&para;</a></h4>
-<ul>
-<li><a href="https://squidfunk.github.io/mkdocs-material/">mkdocs-material</a></li>
-<li><a href="https://github.com/lukasgeiter/mkdocs-awesome-nav">mkdocs-awesome-nav</a></li>
-<li><a href="https://github.com/shu307/mkdocs-nav-weight">mkdocs-nav-weight</a></li>
-<li><a href="https://github.com/JakubAndrysek/mkdocs-open-in-new-tab">mkdocs-open-in-new-tab</a></li>
-<li><a href="https://github.com/jimporter/mike">mike</a></li>
-</ul>
+<p>This documentation is powered by <a href="https://www.mkdocs.org/">mkdocs</a>, the <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs theme</a>, and <a href="https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt">several plugins</a> for mkdocs.</p>
+<p>You can install mkdocs and all required plugins with <code>pip install -r docs/requirements.txt</code>.</p>
 
 
 
