@@ -2282,16 +2282,6 @@
       
     
   <script>
-    // Will run every time MkDocs Material loads a new page
-    window.addEventListener('DOMContentLoaded', () => {
-      // also works for the initial load
-      initializeForm();
-    });
-
-    // For internal navigation (when changing pages without full reload)
-    document$.subscribe(() => {
-      initializeForm();
-    });
 
     function initializeForm() {
       const generateButton = document.getElementById('generate-button');
@@ -2392,6 +2382,11 @@
     function getRandomInt(max) {
       return Math.floor(Math.random() * max);
     }
+
+    document$.subscribe(function() {
+        initializeForm();
+    })
+
   </script>
 
 
