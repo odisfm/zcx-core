@@ -72,6 +72,7 @@ class Push1Display(ZCXPlugin):
         self._selected_line = False
 
         self._persistent_message = ""
+        self.__force_send = False
 
     def setup(self):
         super().setup()
@@ -99,7 +100,9 @@ class Push1Display(ZCXPlugin):
             self._selected_line = config["selected"] - 1
 
         if "force" in config and config["force"] is True:
-            self.__suppress_send = False
+            self.__force_send = True
+        else:
+            self._on_control_surfaces_changed()
 
         if (
             self._encoder_mapping_line is not False
@@ -137,10 +140,14 @@ class Push1Display(ZCXPlugin):
             )
 
         self.add_api_method("write_display_message", self.receive_message_from_ua)
+        self._on_control_surfaces_changed.subject = self.canonical_parent.application
 
     @property
     def suppress_send(self):
-        return self.__suppress_send
+        if self.__force_send is True:
+            return False
+        else:
+            return self.__suppress_send
 
     def receive_sysex(self, midi_bytes: tuple[int]):
         if midi_bytes == LIVE_MODE:
@@ -151,7 +158,7 @@ class Push1Display(ZCXPlugin):
     def send_sysex(self, msg):
         # Suppressing write here, because even if we are not writing to display,
         # we still want to process and cache messages
-        if self.__suppress_send:
+        if self.suppress_send:
             return
         # Convert bytearray to tuple for MIDI sending
         if isinstance(msg, bytearray):
@@ -314,6 +321,17 @@ class Push1Display(ZCXPlugin):
 
         # Mark line as dirty instead of sending immediately
         self._mark_line_dirty(line_num)
+
+    @listens('control_surfaces')
+    def _on_control_surfaces_changed(self):
+        push_1_factory = False
+        for cs in list(self.canonical_parent.application.control_surfaces):
+            if cs.__class__.__name__ == "Push":
+                push_1_factory = True
+                break
+
+        self.__force_send = not push_1_factory
+        self.refresh_feedback()
 
     @classmethod
     def splice_tuple(cls, t, start_index, end_index, new) -> tuple:

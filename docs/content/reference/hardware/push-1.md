@@ -50,13 +50,6 @@ plugins:
 
 ### additional options
 
-#### force
-```yaml
-force: true
-```
-
-If the default Push script is not active alongside zcx, you will need to set `force: true` to make this plugin output to the display.
-
 #### prefer_track_name
 
 ```yaml
