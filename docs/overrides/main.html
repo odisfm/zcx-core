@@ -42,8 +42,10 @@
   outdatedEl.querySelector('button').addEventListener('click', () => {
     if (isDevPath) {
       localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
+      umami.track('dismiss-warning-dev')
     } else {
       localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
+      umami.track('dismiss-warning-outdated')
     }
 
     outdatedEl.remove()
