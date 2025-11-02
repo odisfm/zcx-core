@@ -1,9 +1,7 @@
 [data-md-color-scheme="slate"] {
-  --md-hue: 210;
 }
 
 [data-md-color-scheme="default"] {
-  --md-default-bg-color: #ededed;
 }
 
 .md-tabs__item:first-child {
@@ -56,5 +54,44 @@ ul.md-nav__list, .md-nav__link {
             margin-left: .2em;
             vertical-align: top;
         }
+    }
+}
+
+body.dev-mode {
+
+        aside {
+            background-color: black;
+            color: white;
+
+            strong {
+                color: var(--md-primary-fg-color--light);
+            }
+        }
+}
+
+[data-md-component="outdated"] {
+    .outdated-text-wrapper {
+        display: flex;
+        gap: 1ch;
+        align-items: center;
+    }
+
+    button {
+        margin-left: auto;
+        border-radius: 50%;
+        padding: .2rem;
+        cursor: pointer;
+
+        svg {
+            fill: var(--md-primary-fg-color--light);
+            height: 1rem;
+        }
+    }
+}
+
+.md-version__current.version-number, .md-version__list li.version-number a {
+    &::before {
+        content: "v";
+        opacity: .5;
     }
 }
