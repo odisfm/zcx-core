@@ -58,7 +58,7 @@ ul.md-nav__list, .md-nav__link {
 }
 
 body.dev-mode {
-
+    [data-md-component="outdated"] {
         aside {
             background-color: black;
             color: white;
@@ -67,6 +67,7 @@ body.dev-mode {
                 color: var(--md-primary-fg-color--light);
             }
         }
+    }
 }
 
 [data-md-component="outdated"] {
