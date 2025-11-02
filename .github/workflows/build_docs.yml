@@ -93,7 +93,7 @@ jobs:
           
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Add social plugin to mkdocs.yml
+      - name: Production-only changes to mkdocs.yml
         if: inputs.build_offline == false
         run: |
           python3 << 'PYEOF'
@@ -103,13 +103,20 @@ jobs:
           with open('docs/mkdocs.yml', 'r') as f:
               config = yaml.unsafe_load(f)
           
-          config['plugins'].insert(0, 'social')
+          config['plugins'].append('social')
+          
+          git_revision_date_def = {"git-revision-date-localized": {
+            "type": "timeago",
+            "enable_creation_date": True
+            }
+          }
+          config['plugins'].append(git_revision_date_def)
           
           # Write back to mkdocs.yml
           with open('docs/mkdocs.yml', 'w') as f:
               yaml.dump(config, f, default_flow_style=False, sort_keys=False)
           
-          print("✓ Added 'social' plugin to mkdocs.yml")
+          print("✓ Made production-only changes to mkdocs.yml")
           PYEOF
 
       - name: Deploy with mike
