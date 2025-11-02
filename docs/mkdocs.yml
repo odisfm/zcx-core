@@ -34,7 +34,7 @@ theme:
         name: Switch to dark mode
 
   font:
-    text: Open Sans
+    text: DM Sans
   icon:
     logo: zcx-logo-cutout
     repo: fontawesome/brands/github
