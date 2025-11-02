@@ -50,4 +50,4 @@ Use the :material-magnify: search bar at the top of this site to find your searc
 
 ### Light/dark theme
 
-Use the :material-brightness-4: button at the top of this site to switch the theme between light and dark.
+Use the :material-lightbulb: button at the top of this site to switch the theme between light and dark.
