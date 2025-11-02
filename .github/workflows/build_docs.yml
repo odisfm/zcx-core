@@ -103,17 +103,7 @@ jobs:
           with open('docs/mkdocs.yml', 'r') as f:
               config = yaml.unsafe_load(f)
           
-          # Add social plugin if plugins section exists
-          if 'plugins' in config:
-              if isinstance(config['plugins'], list):
-                  # Insert social at the beginning of plugins list
-                  config['plugins'].insert(0, 'social')
-              else:
-                  # If plugins is a dict or other structure, convert to list
-                  config['plugins'] = ['social'] + list(config['plugins'])
-          else:
-              # Create plugins section if it doesn't exist
-              config['plugins'] = ['social']
+          config['plugins'].insert(0, 'social')
           
           # Write back to mkdocs.yml
           with open('docs/mkdocs.yml', 'w') as f:
