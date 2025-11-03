@@ -96,3 +96,17 @@ body.dev-mode {
         opacity: .5;
     }
 }
+
+#about-pitch {
+    width: clamp(350px, 80%, 800px);
+    margin-bottom: 1rem;
+}
+
+#about-heading {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+
+    a.headerlink {
+        display: none;
+    }
+}
