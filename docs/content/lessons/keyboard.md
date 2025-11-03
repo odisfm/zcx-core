@@ -96,7 +96,7 @@ gestures:
       octave: 5
 ```
 
-Or via the [zcx user action](zcx-user-action.md#kb):
+Or via the [zcx user action](zcx-user-action.md):
 
 ```ClyphXPro
 ZCX <target script> KB OCT 4
@@ -116,7 +116,7 @@ gestures:
         down: 1
 ```
 
-Or via the [zcx user action](zcx-user-action.md#kb):
+Or via the [zcx user action](zcx-user-action.md):
 
 ```ClyphXPro
 ZCX <target script> KB OCT <
@@ -158,7 +158,7 @@ gestures:
 
 Valid options are `true`, `false`, or `toggle`.
 
-Or via the [zcx user action](zcx-user-action.md#kb):
+Or via the [zcx user action](zcx-user-action.md):
 
 ```ClyphXPro
 ZCX <target script> KB FULLVELO
@@ -182,7 +182,7 @@ Valid options are: `ON`, `OFF`, `1/4D`, `1/4`, `1/4T`, `1/8D`, `1/8`, `1/8T`, `1
 !!! note ""
     `ON` will activate the last repeat rate set, or `1/4` if no rate previously set.
 
-Or via the [zcx user action](zcx-user-action.md#kb):
+Or via the [zcx user action](zcx-user-action.md):
 
 ```ClyphXPro
 ZCX <target script> KB RPT
