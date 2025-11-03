@@ -33,7 +33,7 @@ release_on_ext: bool = true
 ### type
 `string='standard'`
 
-Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](../index.md).
+Changing this option from the default `standard` will create a specialised ZControl. Allowed value is the name of any installed [control classes](index.md).
 
 ___
 

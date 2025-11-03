@@ -10,7 +10,7 @@ The `mode` control binds to a particular [mode](../../lessons/getting-started/zc
     Standard controls are already capable of changing modes, and mode controls still require you to manually define the mode change commands. 
     The only purpose of this control is to enable LED feedback.
 
-    See [command reference](../command.md#mode).
+    See [command reference](../command.md#mode_on-mode_off-mode).
 
 ## yaml schema
 

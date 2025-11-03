@@ -41,7 +41,7 @@ Reflect the keyboard's [note repeat rate](../../lessons/keyboard.md#note-repeat)
 function: in_key
 ```
 
-Reflect if they keyboard is using [in key](../../lessons/keyboard.md#in-key--chromatic) mode.
+Reflect if they keyboard is using [in key](../../lessons/keyboard.md#in-key-chromatic) mode.
 
 #### full_velo
 ```yaml

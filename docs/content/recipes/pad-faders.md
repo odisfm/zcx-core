@@ -60,7 +60,7 @@ We're using a cheeky [magic number](https://en.wikipedia.org/wiki/Magic_number_(
 Instead of `me.y`, we're using `me.y_flip` so that higher rows produce higher values: the bottom row sets the parameter to `0%`, the next to `12.5%`, and so on 'til `100%` at the top.
 
 But this still isn't quite there.
-We'll need to disable the param control's default behaviour with `toggle_param: false`, and set the parameter with a ClyphX Pro action list, using a [different syntax](../lessons/session-ring/#dynamic-track-controls) to target ring tracks:
+We'll need to disable the param control's default behaviour with `toggle_param: false`, and set the parameter with a ClyphX Pro action list, using a [different syntax](../lessons/session-ring.md/#dynamic-track-controls) to target ring tracks:
 
 ```yaml title="matrix_sections/pad_faders.yaml" hl_lines="8 11"
 pad_group: pad_faders
