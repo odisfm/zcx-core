@@ -10,9 +10,6 @@
 zcx for Push 1 ships with a plugin that enables display output.
 Each line of the display will be used for a specific purpose:
 
-!!! warning
-    If you are not using the default Push script alongside zcx, you will need to set the option [force](#force) to `true`.
-
 ### encoder mappings
 
 Displays the name of the parameter that the main encoder above it (`enc_1` - `enc_8`) is currently bound to.
