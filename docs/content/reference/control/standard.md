@@ -6,7 +6,7 @@ hide:
 
 # standard control
 
-The below options are avaliable on the base [ZControl](../../lessons/getting-started/zcx-concepts.md#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
+The below options are available on the base [ZControl](../../lessons/getting-started/zcx-concepts.md#zcontrols) class which all other control types descend from. Unless otherwise specified, they behave the same way for all control types.
 
 ## yaml schema
 

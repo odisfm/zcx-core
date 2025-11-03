@@ -74,7 +74,7 @@ __keyboard:
 ```
 
 Set the initial octave of the keyboard.
-With the default of `3`, and in the key of C, the lowest pad will play note C-1 (MIDI note 36).
+With the default of `3`, and in the key of C, the lowest pad will play note C1 (MIDI note 36).
 
 ## Melodic settings
 
