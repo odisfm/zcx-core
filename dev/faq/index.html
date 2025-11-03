@@ -132,7 +132,7 @@
       <strong>Click here to go to latest.</strong>
     </a>
   </div>
-  <button>
+  <button aria-label="Dismiss this warning for one month">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
   </button>
 </div>
@@ -718,6 +718,15 @@
   <a href="#can-i-use-zcx-with-a-non-matrix-controller" class="md-nav__link">
     <span class="md-ellipsis">
       Can I use zcx with a non-matrix controller?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-does-zcx-require-live-121" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why does zcx require Live 12.1?
     </span>
   </a>
   
@@ -2038,8 +2047,6 @@
       
         
       
-        
-      
     
     
     
@@ -2444,29 +2451,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lessons/why-live-12/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Why does zcx require Live 12.1?
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -2566,6 +2550,8 @@
       
         
       
+        
+      
     
     
     
@@ -2638,6 +2624,29 @@
   
   <span class="md-ellipsis">
     Pad faders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recipes/percussive-parameter-control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Percussive parameter control
     
   </span>
   
@@ -2953,6 +2962,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-does-zcx-require-live-121" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why does zcx require Live 12.1?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#is-there-a-discord" class="md-nav__link">
     <span class="md-ellipsis">
       Is there a Discord?
@@ -3005,7 +3023,7 @@
 <p>Have a look at the <a href="../">about page</a>, or check out <a href="https://www.github.com/odisfm/zcx-core">the source on GitHub</a>.</p>
 <h3 id="what-do-i-need-to-use-zcx">What do I need to use zcx?<a class="headerlink" href="#what-do-i-need-to-use-zcx" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Ableton Live 12.1 or above <sup><a href="../lessons/why-live-12/">why?</a></sup></li>
+<li>Ableton Live 12.1 or above <sup><a href="#why-does-zcx-require-live-121">why?</a></sup></li>
 <li>ClyphX Pro 1.3.1 or above</li>
 <li><a href="../#hardware">Supported hardware</a></li>
 <li>A heart full of dreams</li>
@@ -3029,11 +3047,15 @@ If you don't want to use the default functionality, you can unassign the default
 <p><strong>Note:</strong> You can absolutely use X/G Controls alongside a zcx script. It is recommended that you use zcx for any matrix controllers, and native ClyphX Pro controls for non-matrix controllers.</p>
 <h3 id="can-i-use-zcx-with-a-non-matrix-controller">Can I use zcx with a non-matrix controller?<a class="headerlink" href="#can-i-use-zcx-with-a-non-matrix-controller" title="Permanent link">&para;</a></h3>
 <p>zcx is designed for matrix-equipped controllers. You could <a href="../lessons/porting/">make a port</a> for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.</p>
+<h3 id="why-does-zcx-require-live-121">Why does zcx require Live 12.1?<a class="headerlink" href="#why-does-zcx-require-live-121" title="Permanent link">&para;</a></h3>
+<p>zcx is written in the Python programming language. With newer versions of Python, developers have access to more features when writing code. </p>
+<p>The Python environment that zcx runs in is provided by Live. With Live 12.1 came an upgrade to Python 3.11.6. 
+This newer version of Python includes several features that are very useful for zcx, and so early in development, a decision was made to target Live 12.1 as the minimum version compatible with zcx.</p>
 <h3 id="is-there-a-discord">Is there a Discord?<a class="headerlink" href="#is-there-a-discord" title="Permanent link">&para;</a></h3>
 <p><a href="https://discord.zcxcore.com">But of course.
 </a></p>
 <h3 id="how-can-i-contribute">How can I contribute?<a class="headerlink" href="#how-can-i-contribute" title="Permanent link">&para;</a></h3>
-<p>See <code>#contributing</code> in the Discord.</p>
+<p><a href="../dev/contributing/">See here</a>.</p>
 <h3 id="what-does-zcx-stand-for">What does 'zcx' stand for?<a class="headerlink" href="#what-does-zcx-stand-for" title="Permanent link">&para;</a></h3>
 <p><strong>Z</strong>really<br>
 <strong>C</strong>ool<br>
@@ -3060,7 +3082,7 @@ If you don't want to use the default functionality, you can unassign the default
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-10-28T21:31:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-10-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-03T21:40:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-03</span>
   </span>
 
     
