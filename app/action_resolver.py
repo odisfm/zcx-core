@@ -417,13 +417,16 @@ class ActionResolver(ZCXComponent):
                                         melodic_inst.full_velo = key_def
                                     case 'repeat_rate':
                                         rate_def = key_def
-                                        if not isinstance(key_def, str):
-                                            raise RuntimeError(f'invalid key definition: {key_def}')
-                                        if "${" in key_def:
-                                            parsed, status = self.compile(key_def, vars_dict, context)
-                                            if status != 0:
-                                                raise RuntimeError(f"Couldn't parse key: {key_def}")
-                                            rate_def = parsed
+                                        if isinstance(key_def, bool):
+                                            rate_def = "on" if key_def else "off"
+                                        else:
+                                            if not isinstance(key_def, str):
+                                                raise RuntimeError(f'invalid key definition: {key_def}')
+                                            if "${" in key_def:
+                                                parsed, status = self.compile(key_def, vars_dict, context)
+                                                if status != 0:
+                                                    raise RuntimeError(f"Couldn't parse key: {key_def}")
+                                                rate_def = parsed
                                         melodic_inst.repeat_rate = rate_def
                                     case 'octave':
                                         if isinstance(key_def, int):
