@@ -23,7 +23,10 @@ nav:
     - "lessons/*.md"
 
   - resources:
-      - "resources/*"
+      - "resources/*.md"
+
+  - recipes:
+      - "recipes/*.md"
 
   - developer: dev
 
