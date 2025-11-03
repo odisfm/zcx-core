@@ -12,7 +12,7 @@ Have a look at the [about page](index.md), or check out [the source on GitHub](h
 
 ### What do I need to use zcx?
 
-* Ableton Live 12.1 or above <sup>[why?](lessons/why-live-12.md)</sup>
+* Ableton Live 12.1 or above <sup>[why?](#why-does-zcx-require-live-121)</sup>
 * ClyphX Pro 1.3.1 or above
 * [Supported hardware](index.md#hardware)
 * A heart full of dreams
@@ -51,6 +51,14 @@ That's up to you. zcx can be used to create a far more complex interface than is
 
 zcx is designed for matrix-equipped controllers. You could [make a port](lessons/porting.md) for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.
 
+### Why does zcx require Live 12.1?
+
+zcx is written in the Python programming language. With newer versions of Python, developers have access to more features when writing code. 
+
+The Python environment that zcx runs in is provided by Live. With Live 12.1 came an upgrade to Python 3.11.6. 
+This newer version of Python includes several features that are very useful for zcx, and so early in development, a decision was made to target Live 12.1 as the minimum version compatible with zcx.
+
+
 ### Is there a Discord?
 
 [But of course.
@@ -58,7 +66,7 @@ zcx is designed for matrix-equipped controllers. You could [make a port](lessons
 
 ### How can I contribute?
 
-See `#contributing` in the Discord.
+[See here](dev/contributing.md).
 
 ### What does 'zcx' stand for?
 
