@@ -1,5 +1,6 @@
 ---
 template: matrix-gen.html
+description: Generate the "skeleton" yaml code for a matrix section.
 ---
 
 # Matrix section config generator
