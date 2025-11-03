@@ -2,7 +2,7 @@
 
 Have you seen the videos where people create [lightshows on their Launchpads?](https://www.youtube.com/watch?v=EUW480TtH1M)
 
-Let's make a button that turns one on!
+Let's make a control that turns one on!
 
 ## The lightshow
 
@@ -73,7 +73,7 @@ pages:
 
 For `on_leave`, we're using the ClyphX Pro [WAIT](https://www.cxpman.com/action-reference/global-actions/#wait-x) action to wait 100 milliseconds, then the [zcx user action](../lessons/zcx-user-action.md#refresh) to force zcx to refresh all LED feedback.
 
-If you don't already have some buttons set up as a page changer, you'll need to set a button up to activate the lightshow page:
+If you don't already have some controls set up as a page changer, you'll need to set up a controls to activate the lightshow page:
 
 ```yaml title="named_controls.yaml"
 quantize:
