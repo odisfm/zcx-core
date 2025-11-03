@@ -24,7 +24,7 @@ def get_index_from_note_name(note_name):
 def validate_scale_name(scale_name):
     try:
         scale_num = int(scale_name)
-        return SCALE_NAMES[scale_num]
+        return SCALE_NAMES[scale_num % len(SCALE_NAMES)]
     except [ValueError, IndexError]:
         ...
     if scale_name in scale_names_lower:
