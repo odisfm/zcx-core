@@ -1,6 +1,6 @@
 # Screensaver
 
-Have you seen the videos where people create [lightshows on their Launchpads?](https://www.youtube.com/watch?v=EUW480TtH1M)
+Have you seen the videos where people create [lightshows on their Launchpads?](https://www.youtube.com/watch?v=Zz1IF6IP9zs)
 
 Let's make a control that turns one on!
 
