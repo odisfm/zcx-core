@@ -203,7 +203,8 @@ class ParamControl(ZControl):
             self.create_osc_label()
 
         except Exception as e:
-            self.log(e, e.__class__.__name__)
+            self.critical(e, e.__class__.__name__)
+            raise
 
     @property
     def mapped_parameter(self):
