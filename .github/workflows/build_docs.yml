@@ -6,86 +6,121 @@ on:
       - main
       - dev
   workflow_dispatch:
+    inputs:
+      build_offline:
+        description: 'Build offline documentation'
+        required: false
+        type: boolean
+        default: false
+      version:
+        description: 'Version to use for docs deployment (optional)'
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      build_offline:
+        description: 'Build offline documentation'
+        required: false
+        type: boolean
+        default: false
+      version:
+        description: 'Version to use for docs deployment (optional)'
+        required: false
+        type: string
+    outputs:
+      docs_version:
+        description: 'The version used for documentation'
+        value: ${{ jobs.deploy.outputs.docs_version }}
+
 permissions:
   contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      docs_version: ${{ steps.get_version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for tags
+
       - name: Configure Git Credentials
-        run: |  
-          git config user.name github-actions[bot]  
+        run: |
+          git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+
       - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
-          restore-keys: |  
+          restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material
-      - run: pip install mkdocs-awesome-nav
-      - run: pip install mkdocs-git-revision-date-localized-plugin
-      - run: pip install mkdocs-nav-weight
-      - run: pip install mkdocs-open-in-new-tab
-      - run: pip install "mkdocs-material[imaging]"
-      - run: pip install PyYAML
-      - run: pip install mike
+
+      - name: Install documentation dependencies
+        run: pip install -r docs/requirements.txt
+
       - name: Extract version from latest tag
         id: get_version
         run: |
-          # Check if we're on the dev branch
-          BRANCH_NAME="${{ github.ref_name }}"
-          
-          if [ "$BRANCH_NAME" = "dev" ]; then
-            VERSION="dev"
-            echo "Using dev version for dev branch"
+          # Use provided version input if available
+          if [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+            echo "Using provided version: $VERSION"
           else
-            # Get the most recent tag on main branch
-            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
-            echo "Latest tag: $LATEST_TAG"
+            # Check if we're on the dev branch
+            BRANCH_NAME="${{ github.ref_name }}"
             
-            # Extract major.minor from tag (remove 'v' prefix and everything after patch)
-            VERSION=$(echo "$LATEST_TAG" | sed -E 's/^v([0-9]+\.[0-9]+)\..*/\1/')
-            echo "Extracted version: $VERSION"
+            if [ "$BRANCH_NAME" = "dev" ]; then
+              VERSION="dev"
+              echo "Using dev version for dev branch"
+            else
+              # Get the most recent tag on main branch
+              LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
+              echo "Latest tag: $LATEST_TAG"
+              
+              # Extract major.minor from tag (remove 'v' prefix and everything after patch)
+              VERSION=$(echo "$LATEST_TAG" | sed -E 's/^v([0-9]+\.[0-9]+)\..*/\1/')
+              echo "Extracted version: $VERSION"
+            fi
           fi
           
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-      - name: Add social plugin to mkdocs.yml
-        run: |  
-          python3 << 'EOF'  
-          import yaml  
-  
-          # Read the current mkdocs.yml  
-          with open('docs/mkdocs.yml', 'r') as f:  
-              content = f.read()  
-  
-          # Find the plugins section and add social plugin  
-          lines = content.split('\n')  
-          new_lines = []  
-          for i, line in enumerate(lines):  
-              new_lines.append(line)  
-              # Add social after the plugins: line  
-              if line.strip() == 'plugins:':  
-                  new_lines.append('  - social')  
-                  break  
-  
-          # Add remaining lines  
-          new_lines.extend(lines[i+1:])  
-  
-          # Write back to mkdocs.yml  
-          with open('docs/mkdocs.yml', 'w') as f:  
-              f.write('\n'.join(new_lines))  
-  
-          print("✓ Added 'social' plugin to mkdocs.yml")  
-          EOF
+
+      - name: Production-only changes to mkdocs.yml
+        if: inputs.build_offline == false
+        run: |
+          python3 << 'PYEOF'
+          import yaml
+          
+          # Read and parse the current mkdocs.yml
+          with open('docs/mkdocs.yml', 'r') as f:
+              config = yaml.unsafe_load(f)
+          
+          config['plugins'].append('social')
+          
+          git_revision_date_def = {"git-revision-date-localized": {
+            "type": "timeago",
+            "enable_creation_date": True
+            }
+          }
+          config['plugins'].append(git_revision_date_def)
+          
+          # Write back to mkdocs.yml
+          with open('docs/mkdocs.yml', 'w') as f:
+              yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+          
+          print("✓ Made production-only changes to mkdocs.yml")
+          PYEOF
+
       - name: Deploy with mike
+        if: inputs.build_offline == false
         run: |
           cd docs
           BRANCH_NAME="${{ github.ref_name }}"
@@ -97,3 +132,76 @@ jobs:
             # Deploy with 'latest' alias for main/master branches
             mike deploy --update-aliases ${{ steps.get_version.outputs.version }} latest --push
           fi
+          
+          mike set-default --push latest
+
+      - name: Build offline documentation
+        if: inputs.build_offline == true
+        run: |
+          python3 << 'PYEOF'
+          import yaml
+          
+          # Configuration: items to add/remove
+          PLUGINS_TO_ADD = ['offline']
+          PLUGINS_TO_REMOVE = ['mike']
+          FEATURES_TO_REMOVE = ['navigation.instant']
+          EXTRA_KEYS_TO_REMOVE = ['analytics', 'version']
+          
+          # Read the current mkdocs.yml
+          with open('docs/mkdocs.yml', 'r') as f:
+              config = yaml.unsafe_load(f)
+          
+          # Process plugins
+          # Remove specified plugins (handle both string and dict formats)
+          config['plugins'] = [
+              p for p in config['plugins']
+              if not any(
+                  p == name or (isinstance(p, dict) and name in p)
+                  for name in PLUGINS_TO_REMOVE
+              )
+          ]
+          
+          # Add new plugins if not already present
+          for plugin in PLUGINS_TO_ADD:
+              if plugin not in config['plugins']:
+                  config['plugins'].append(plugin)
+          
+          # Process theme features
+          theme_features = config['theme']['features']
+          config['theme']['features'] = [
+              f for f in theme_features
+              if f not in FEATURES_TO_REMOVE
+          ]
+          
+          # Remove specified keys from extra
+          extra = config['extra']
+          for key in EXTRA_KEYS_TO_REMOVE:
+              extra.pop(key, None)
+          
+          # Write to mkdocs-offline.yml
+          with open('docs/mkdocs-offline.yml', 'w') as f:
+              yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+          
+          print("✓ Created mkdocs-offline.yml with offline plugin")
+          PYEOF
+          
+          # Build offline documentation
+          cd docs
+          mkdocs build -f mkdocs-offline.yml -d site-offline
+          echo "✓ Built offline documentation"
+
+      - name: Create offline documentation zip
+        if: inputs.build_offline == true
+        run: |
+          cd docs/site-offline
+          zip -r ../../zcx_docs_v${{ steps.get_version.outputs.version }}.zip .
+          cd ../..
+          echo "✓ Created zcx_docs_v${{ steps.get_version.outputs.version }}.zip"
+
+      - name: Upload offline documentation artifact
+        if: inputs.build_offline == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: offline-docs
+          path: zcx_docs_v${{ steps.get_version.outputs.version }}.zip
+          retention-days: 1

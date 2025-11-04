@@ -15,27 +15,26 @@ theme:
     - navigation.header
     - navigation.indexes
     - navigation.top
-#    - toc.integrate
-  palette:
-    # Palette toggle for light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: deep purple
-      accent: blue
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+    - content.tooltips
 
-    # Palette toggle for dark mode
-    - media: "(prefers-color-scheme: dark)"
+  palette:
+    -
       scheme: slate
       primary: deep purple
       accent: amber
       toggle:
-        icon: material/brightness-4
-        name: Switch to system preference
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+    -
+      scheme: default
+      primary: deep purple
+      accent: blue
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+
   font:
-    text: Open Sans
+    text: DM Sans
   icon:
     logo: zcx-logo-cutout
     repo: fontawesome/brands/github
@@ -51,6 +50,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - attr_list
+  - abbr
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -63,15 +63,14 @@ plugins:
   - awesome-nav
   - meta
   - open-in-new-tab
-#  - git-revision-date-localized:
-#        enable_creation_date: true
-#        type: timeago
   - mkdocs-nav-weight:
       section_renamed: false
       index_weight: -10
       warning: true
       reverse: false
       headless_included: false
+  - mike
+
 extra:
   social:
     - icon: fontawesome/brands/github
@@ -83,10 +82,9 @@ extra:
   version:
     provider: mike
     alias: true
-#
-#not_in_nav: |
-#  other/
-#  reference/
+
+extra_javascript:
+  - js/extra.js
 
 extra_css:
   - stylesheets/extra.css
