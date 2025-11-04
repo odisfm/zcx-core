@@ -1267,6 +1267,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#none" class="md-nav__link">
+    <span class="md-ellipsis">
+      NONE
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3134,6 +3143,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#none" class="md-nav__link">
+    <span class="md-ellipsis">
+      NONE
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3309,6 +3327,16 @@ As such, nativeKONTROL's examples are reproduced below:</p>
 <h4 id="xfader">XFADER<a class="headerlink" href="#xfader" title="Permanent link">&para;</a></h4>
 <p><strong>Applies to</strong>: Main (master) track's crossfader.</p>
 <p><strong>Example:</strong> <code>XFADER</code></p>
+<hr />
+<h4 id="none">NONE<a class="headerlink" href="#none" title="Permanent link">&para;</a></h4>
+<p>Sometimes you may want an encoder to be unbound, perhaps for a certain mode.
+Using <code>NONE</code> (in uppercase) as the mapping target will stop zcx logging a "failure" when this encoder attempts to bind.</p>
+<p>Alternatively:</p>
+<ul>
+<li>Delete the definition for this encoder</li>
+<li>Set the preference <a href="../file/preferences/#log_failed_encoder_bindings">log_failed_encoder_bindings</a> to <code>false</code>.</li>
+</ul>
+<hr />
 <h3 id="targeting-the-session-ring">Targeting the session ring<a class="headerlink" href="#targeting-the-session-ring" title="Permanent link">&para;</a></h3>
 <p>With a special syntax, we can dynamically target a track at a particular position of the <a href="../../lessons/session-ring/">session ring</a>.
 We can use any <a href="#mapping-targets">valid track target</a> with this syntax:</p>
@@ -3362,7 +3390,7 @@ This may be added in a future release.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-08-30T23:16:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-08-30</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T06:21:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
   </span>
 
     

@@ -1696,6 +1696,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#strict_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      strict_mode
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3159,6 +3168,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#strict_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      strict_mode
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3330,15 +3348,30 @@ You may disable the ring by setting one or both of <code>width</code> and <code>
 <li>Use a <a href="#startup_command">startup_command</a></li>
 <li>Set a <a href="../pages/#order">page order</a></li>
 </ul>
+<h3 id="strict_mode">strict_mode<a class="headerlink" href="#strict_mode" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">strict_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>When loading your config with <code>strict_mode: false</code>, some errors that would normally be fatal are handled gracefully, and zcx attempts to continue loading.
+Such errors are normally the result of misconfiguring a single control or encoder.
+These errors will be written to <a href="log.md">the log file</a>.</p>
+<p>With the default, <code>strict_mode: true</code>, an error with a single control will crash the script.
+This will be immediately obvious from the popup error message in Live, and the fact that your controller is not functional.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Keeping <code>strict_mode: true</code> is highly recommended, as it allows you to notice errors soon after you make them.
+Turning off strict mode means you risk discovering such errors at inopportune moments, like while on stage.
+If you disable strict mode while debugging, remember to turn it back on once finished.</p>
+<p>Disable strict mode at your own peril!</p>
+</div>
 <h2 id="developer-preferences">developer preferences<a class="headerlink" href="#developer-preferences" title="Permanent link">&para;</a></h2>
 <p>The following preferences are only useful when developing the 'core' of zcx.</p>
 <h3 id="log_includes_tests">log_includes_tests:<a class="headerlink" href="#log_includes_tests" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">log_includes_tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">log_includes_tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
 <p>When <code>true</code>, <a href="../file/log.md">log.txt</a> includes the output of any <a href="../../../dev/tests/">tests</a> or <a href="../../../dev/tests/#user-tests">user tests</a>.
 Test output is written to <code>test_log.txt</code> in either case.</p>
 <h3 id="refresh_on_all_sysex">refresh_on_all_sysex<a class="headerlink" href="#refresh_on_all_sysex" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">refresh_on_all_sysex</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nt">refresh_on_all_sysex</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
 <p>When set to <code>true</code>, zcx will refresh all LED feedback upon receipt of <strong>any</strong> MIDI Sysex message.
 This may be useful if you are trying to test controller-specific code for a controller you don't have access to.</p>
@@ -3364,7 +3397,7 @@ This may be useful if you are trying to test controller-specific code for a cont
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-01T07:41:38+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T07:40:50+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
   </span>
 
     
