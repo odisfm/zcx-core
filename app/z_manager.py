@@ -329,6 +329,10 @@ class ZManager(ZCXComponent):
 
                 if config is None:
                     config = {}
+                elif not isinstance(config, dict):
+                    raise CriticalConfigurationError(
+                        f"Config error in {section_obj.name}. Control definition must be dict or null, provided: {config}  ({type(config)})"
+                    )
 
                 # Handle single pad configuration
                 if "pad_group" not in config:
