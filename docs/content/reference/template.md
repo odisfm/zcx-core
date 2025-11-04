@@ -143,6 +143,7 @@ pad 2 (with shift): "beats" / PLAY RND43-44
 
 !!! note "Notes"
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
+    - If you want to declare a var that is just a string, without evaluating anything, you must do: `my_var: str("this is a string")`.
 
 ### template locals
 
