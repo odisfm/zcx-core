@@ -175,6 +175,55 @@ class ZManager(ZCXComponent):
                     control.bind_to_state(state)
                     control.raw_config = context_config[i]
                     control.setup()
+
+                    if "alias" in control.raw_config:
+                        if not isinstance(control.raw_config["alias"], str):
+                            msg = f'Bad alias for control `{control.name}`, alias must be a string.'
+                            from . import STRICT_MODE
+                            if STRICT_MODE:
+                                raise CriticalConfigurationError(msg)
+                            else:
+                                self.warning(msg + " Ignoring alias.")
+
+                            alias = None
+
+                        elif "$" in control.raw_config["alias"]:
+                            parsed, status = self.component_map["ActionResolver"].compile(
+                                control.raw_config["alias"],
+                                control._vars,
+                                control._context
+                            )
+
+                            if status != 0:
+                                msg = f'Unparseable template string in alias for control `{control.name}`: {control.raw_config["alias"]}'
+                                from . import STRICT_MODE
+                                if STRICT_MODE:
+                                    raise CriticalConfigurationError(msg)
+                                else:
+                                    self.warning(msg)
+                                    alias = None
+                            else:
+                                alias = parsed
+                        else:
+                            alias = control.raw_config["alias"]
+
+                        if alias:
+                            alias_lower = alias.lower()
+                            if alias_lower != alias:
+                                self.warning(
+                                    f'Invalid alias `{alias}`: alias must be lowercase. Using `{alias_lower}`'
+                                )
+                                alias = alias_lower
+                            try:
+                                self.set_control_alias(alias, control)
+                                control._alias = alias
+                            except ConfigurationError as e:
+                                from . import STRICT_MODE
+                                if STRICT_MODE:
+                                    raise CriticalConfigurationError(e)
+                                else:
+                                    self.warning(str(e) + f" Ignoring alias for control `{control.name}`.")
+
                     self.debug(f'{pad_section.name} control #{i} successfully setup')
                 except CriticalConfigurationError:
                     raise
@@ -772,10 +821,6 @@ class ZManager(ZCXComponent):
                         control, config["group_context"]["group_name"]
                     )
 
-            alias = config.get("alias", None)
-            if alias is not None:
-                self.set_control_alias(alias, control)
-
         except ConfigurationError as e:
             from . import STRICT_MODE
 
@@ -802,9 +847,9 @@ class ZManager(ZCXComponent):
 
     def set_control_alias(self, alias, control):
         if alias in self.__control_aliases:
-            raise ConfigurationError(f'multiple controls with alias "{alias}"')
+            raise ConfigurationError(f'multiple controls with alias `{alias}`.')
         if alias in self.__named_controls:
-            raise ConfigurationError(f'Canonical control already exists called "{alias}". You cannot use this name.')
+            raise ConfigurationError(f'Canonical control already exists called `{alias}`. You cannot use this name.')
         self.__control_aliases[alias] = control
 
     def get_aliased_control(self, alias) -> "ZControl | None":

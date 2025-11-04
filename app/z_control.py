@@ -74,6 +74,7 @@ class ZControl(EventObject):
         self._last_received_value = 0
         self._repeat = False
         self._osc_label = ''
+        self._alias = None
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
@@ -576,6 +577,10 @@ class ZControl(EventObject):
     def disconnect(self):
         super().disconnect()
         self._unload()
+
+    @property
+    def alias(self):
+        return self._alias
 
 
 class AnimationTimer(TimerTask):
