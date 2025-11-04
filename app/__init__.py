@@ -140,6 +140,7 @@ def create_instance(c_instance):
     global plugin_loader
     global CONFIG_DIR
     global PREF_MANAGER
+    global STRICT_MODE
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
@@ -215,6 +216,23 @@ def create_instance(c_instance):
     PREF_MANAGER = pref_manager
 
     CONFIG_DIR = pref_manager.config_dir
+
+    strict_mode_def = prefs.get("strict_mode")
+
+    if strict_mode_def is None:
+        strict_mode_def = True
+    elif not isinstance(strict_mode_def, bool):
+        ROOT_LOGGER.error(f"Invalid value {strict_mode_def} for preference `strict_mode`, using `true`")
+        strict_mode_def = True
+
+    if not strict_mode_def:
+        ROOT_LOGGER.info(
+            f"WARNING: strict mode is disabled!"
+            f"\nThe purpose of strict mode is to help you catch configuration errors early, not while on stage."
+            f"\nLeave strict mode disabled at your own peril!"
+        )
+
+    STRICT_MODE = strict_mode_def
 
     from .action_resolver import ActionResolver
     from .api_manager import ApiManager

@@ -189,6 +189,25 @@ Set the page that is active when the script loads.
 - Use a [startup_command](#startup_command)
 - Set a [page order](pages.md#order)
 
+### strict_mode
+```yaml
+strict_mode: true
+```
+
+When loading your config with `strict_mode: false`, some errors that would normally be fatal are handled gracefully, and zcx attempts to continue loading.
+Such errors are normally the result of misconfiguring a single control or encoder.
+These errors will be written to [the log file](log.md).
+
+With the default, `strict_mode: true`, an error with a single control will crash the script.
+This will be immediately obvious from the popup error message in Live, and the fact that your controller is not functional.
+
+!!! danger
+    Keeping `strict_mode: true` is highly recommended, as it allows you to notice errors soon after you make them.
+    Turning off strict mode means you risk discovering such errors at inopportune moments, like while on stage.
+    If you disable strict mode while debugging, remember to turn it back on once finished.
+
+    Disable strict mode at your own peril!
+
 ## developer preferences
 
 The following preferences are only useful when developing the 'core' of zcx.
