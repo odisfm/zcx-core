@@ -78,6 +78,13 @@ function:
     name: major
 ```
 
+For either `root` or `name` you may provide an integer.
+For `root`, C is 0 and B is 11.
+For `name`, the order follows the order of scales in the Live GUI.
+
+In either case you may provide an integer greater than the number of options and your choice will be "wrapped" to a valid one.
+E.g. providing `12` for `root` will result in C, as will `24`.
+
 ### color
 `not implemented`
 

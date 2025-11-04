@@ -28,7 +28,7 @@ A simple script is provided at `zcx-core/tools/install_vendored_dependencies.py`
 
 ### Install development dependencies
 
-From the project root, run `pip install -r requirements.txt` to install all [development dependencies](dependencies.md).
+From the project root, run `pip install -r requirements.txt` to install all [development dependencies](dependencies.md#development-dependencies).
 
 ### Run the script
 
@@ -40,6 +40,8 @@ Where `<hardware name>` is the name of a folder in `zcx-core/hardware`, e.g. `pu
 Omit `<destination folder name>` to use `_zcx_<hardware name>`.
 
 You must manually create the destination folder.
+
+The script will copy the relevant files to the destination folder, then watch the repo and copy any updates.
 
 #### Extra arguments
 
@@ -60,12 +62,15 @@ If you use a non-default location for your User Library, you will need to provid
 
 While working on zcx, you'll likely prefer to use your own config, rather than the demo config.
 
-One option is to use the [--custom-config](#--custom-config) argument and pass the path to your own config.
+One option is to use the [--custom-config](#-custom-config) argument and pass the path to your own config.
 
 Another is to use symbolic links in the destination directory to other files or directories on your computer.
 The build script will ignore symbolic links in the destination directory.
 
 ## Building the documentation
+
+!!! note ""
+    Only relevant if you want to edit the documentation locally.
 
 This documentation is powered by [mkdocs](https://www.mkdocs.org/), the [Material for MkDocs theme](https://squidfunk.github.io/mkdocs-material/), and [several plugins](https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt) for mkdocs.
 

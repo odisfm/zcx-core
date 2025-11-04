@@ -12,7 +12,7 @@ Param controls can be bound to [all the targets that encoders can](../encoder.md
 
 The param control displays [different colors](#on_color-off_color) based on whether its target is considered "on" or "off".
 For binary targets like [arm](#arm), this is straightforward.
-For [adjustable properties](https://www.cxpman.com/manual/general-action-information/#multiple-devices), like a track's volume, the parameter is considered "off" if the parameter is at its **minimum** value, and "on" for any other value.
+For [adjustable properties](https://www.cxpman.com/manual/general-action-information/#adjustable-properties), like a track's volume, the parameter is considered "off" if the parameter is at its **minimum** value, and "on" for any other value.
 You can tweak this behaviour by setting a [midpoint](#midpoint).
 
 Without defining any [gestures](../command.md#gestures), the param control will toggle its mapped parameter from "on" to "off" on a press.

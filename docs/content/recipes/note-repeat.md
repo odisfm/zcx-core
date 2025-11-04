@@ -35,13 +35,13 @@ repeat:
         toggle: note_repeat
 ```
 
-Setting `type: overlay` isn't necessary, it's just for LED feedback.
+Setting `type: overlay` isn't necessary, it's just for [LED feedback](../reference/control/overlay.md).
 
 <br>
 
 By using the [keyboard control](../reference/control/keyboard.md) we can get feedback about the zcx keyboard's note repeat setting.
 We need to set the keyboard control's [function](../reference/control/keyboard.md#function) option to `repeat_rate: 1/4`, or whichever rate.
-This is tiresome to do for eight controls, so we will use [template strings](../reference/template.md#template-strings) and [vars](../reference/template.md#complex-expressions) to automate it somewhat:
+This is tedious to do for eight controls, so we will use [template strings](../reference/template.md#template-strings) and [vars](../reference/template.md#complex-expressions) to automate it somewhat:
 
 ```yaml title="overlays/note_repeat.yaml" hl_lines="6-8 12"
 __repeat_group:

@@ -2,7 +2,7 @@
 
 ## Vendored packages
 
-These packages are bundled with each download of zcx.
+These packages are bundled with each end-user download of zcx.
 [See here](build.md) for installation instructions.
 
 ### PyYAML
@@ -39,7 +39,7 @@ Used by the [build script](build.md) to watch for code changes.
 
 [link](https://pypi.org/project/watchdog/)
 
-### Documentation
+## Documentation dependencies
 
 This documentation is powered by [mkdocs](https://www.mkdocs.org/), the [Material for MkDocs theme](https://squidfunk.github.io/mkdocs-material/), and [several plugins](https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt) for mkdocs.
 

@@ -8,7 +8,7 @@ zcx ships with a suite of user actions for ClyphX Pro that allow you to control 
 
 ## Installing the user action
 
-Releases of zcx from v0.3.0 include a folder named `_user_actions`. Simply drag the contents of this folder (`Zcx.py`) into the ClyphX Pro user actions folder. The location of this folder is `.../Ableton/User Library/Remote Scripts/_user_actions`. If this folder doesn't exist, create it.
+zcx downloads include a folder named `_user_actions`. Simply drag the contents of this folder into the ClyphX Pro user actions folder. The location of this folder is `.../Ableton/User Library/Remote Scripts/_user_actions`. If this folder doesn't exist, create it.
 
 ## Using the action
 
@@ -36,7 +36,7 @@ This is the name of the folder containing the zcx script (similar to as seen in 
 
 `ZCX 2 MODE TGL SHIFT`
 
-This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old name.
+This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old number.
 
 #### Target all scripts
 
@@ -97,7 +97,7 @@ The **entire** mapping target must be wrapped in double-quotes.
     A special syntax is required when using double-quotes **within** your mapping target, e.g. `"my track" / VOL`.
     You must replace all instances of the double-quote character (") with a _backtick_ (`).
 
-    The mapping target `"my track" / DEV("my device") P1` becomes `` `my track` / DEV(`my device`) P1``
+    The mapping target `"my track" / DEV("my device") P1` becomes `` "`my track` / DEV(`my device`) P1"``
 
     _The backtick key is below the escape key._
 

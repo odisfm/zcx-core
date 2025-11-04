@@ -29,6 +29,7 @@ The following config changes will require a [full reload](#full-reload) to take 
 
 * Changes to the width and/or height of the [session ring](session-ring.md#resizing-the-ring).
 * Changes to files in the `hardware/` directory. This is only relevant if you've [made your own port](porting.md).
+* Changes to the keyboard's [MIDI channel](keyboard.md#midi-channel).
 
 ## full reload
 
