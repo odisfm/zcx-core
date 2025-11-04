@@ -375,7 +375,7 @@ class ZManager(ZCXComponent):
                     "controls", [None] * (len(section_obj.owned_coordinates) - i)
                 )
                 if not isinstance(group_pads, list):
-                    raise ValueError(
+                    raise CriticalConfigurationError(
                         f"Config error in {section_obj.name} {group_name}: "
                         f'If "controls" key is present it must be a list.'
                     )
@@ -432,7 +432,7 @@ class ZManager(ZCXComponent):
                     }
                     flat_config.append(member_config)
         except Exception as e:
-            self.log(f"failed to parse section {section_obj.name} config", raw_config)
+            self.critical(f"failed to parse section `{section_obj.name}` config", raw_config)
             raise
 
         num_coords = len(section_obj.owned_coordinates)
