@@ -150,14 +150,9 @@ Consult the documentation of your plugin to see the available options.
 If the plugin came with zcx you will find this information in the [hardware reference](../hardware/index.md) for your controller.
 
 ### session_ring
-```yaml
-session_ring:
-  width: 8
-  height: 8
-```
 
-Sets the dimensions of the [session ring](../../lessons/session-ring.md).
-You may disable the ring by setting one or both of `width` and `height` to `0`.
+Configures the [session ring](../../lessons/session-ring.md).
+See the lesson for more information.
 
 ### startup_command
 ```yaml

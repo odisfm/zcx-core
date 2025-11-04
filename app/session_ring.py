@@ -56,6 +56,16 @@ class SessionRing(SessionRingBase):
         self.__does_send_osc_tracks = False
         self.__does_send_osc_positions = False
 
+        drag_by_highlight = user_prefs.get('session_ring', {}).get('drag_by_highlight', True)
+        if not isinstance(drag_by_highlight, bool):
+            self.warning(f"Invalid value for `session_ring.drag_by_highlight`: {drag_by_highlight}. Using default `true`.")
+            drag_by_highlight = True
+
+        self._drag_by_highlight = drag_by_highlight
+        self._on_highlighted_clip_slot_changed(dry_run=True)
+        self._on_selected_track_changed.subject = self.song.view
+        self._on_selected_scene_changed.subject = self.song.view
+
         self.debug(f'{self.name} created')
 
     def log(self, *msg, level='info'):
@@ -203,6 +213,54 @@ class SessionRing(SessionRingBase):
     @width.setter
     def width(self, width):
         return
+
+    def _on_highlighted_clip_slot_changed(self, dry_run=False):
+        if not self._drag_by_highlight:
+            return
+
+        selected_track = self.song.view.selected_track
+        selected_scene = self.song.view.selected_scene
+        selected_scene_index = list(self.song.scenes).index(selected_scene)
+
+        offset_for_track = 0
+        offset_for_scene = 0
+
+        if selected_track in self.tracks_in_view:
+            ...
+        else:
+            selected_track_index = list(self.song.tracks).index(selected_track)
+            if selected_track_index < self.track_offset:
+                offset_for_track = selected_track_index - self.track_offset
+            else:
+                end_offset = self.track_offset + self.width
+                offset_for_track = selected_track_index - end_offset + 1
+
+        if selected_scene_index < self.scene_offset:
+            offset_for_scene = selected_scene_index - self.scene_offset
+        elif selected_scene_index >= self.scene_offset + self.height:
+            end_offset = self.scene_offset + self.height
+            offset_for_scene = selected_scene_index - end_offset + 1
+
+        is_adjacent_or_inside = (-1 <= offset_for_scene <= 1 and
+                                 -1 <= offset_for_track <= 1)
+
+        if not dry_run:
+            if self._highlight_was_inside_ring and is_adjacent_or_inside:
+                self.move(offset_for_track, offset_for_scene)
+                self._highlight_was_inside_ring = True
+            else:
+                self._highlight_was_inside_ring = is_adjacent_or_inside and offset_for_track == 0 and offset_for_scene == 0
+        else:
+            self._highlight_was_inside_ring = offset_for_track == 0 and offset_for_scene == 0
+
+    @listens('selected_track')
+    def _on_selected_track_changed(self):
+        self._on_highlighted_clip_slot_changed()
+
+    @listens('selected_scene')
+    def _on_selected_scene_changed(self):
+        self._on_highlighted_clip_slot_changed()
+
 
 class TrackLookup:
 

@@ -13,11 +13,17 @@ Like other control surface scripts, zcx provides a 'session ring' — a colored 
 ## Resizing the ring
 
 By default, the session ring will be configured to the same width and height as your controller's matrix.
-You may resize the session ring via [preferences.yaml](../reference/file/preferences.md#session_ring).
+You may resize the session ring via the [preferences.yaml](../reference/file/preferences.md#session_ring) option `session_ring`.
+
+```yaml title="preferences.yaml"
+session_ring:
+  width: 8
+  height: 8
+```
 
 ## Disabling the ring
 
-You may disable the ring in [preferences.yaml](../reference/file/preferences.md#session_ring).
+You may disable the ring by [setting](#resizing-the-ring) one or both of `width` and `height` to `0`.
 
 ## Moving the ring
 
@@ -76,3 +82,21 @@ It is often valid to refer to tracks or scenes outside of the session ring by us
 - Using `"${ring.tracks[-1]}" / MUTE` will mute the track one to the left of the left edge of the ring.
 - Using `"${ring.tracks[8]}" / MUTE` on a 8-track ring will mute the track one to the right of the right edge of the ring.
 - Using `"SCENE ${ring.scenes[-8]}"` while the top edge of the ring is at scene 9 will launch scene 1.
+
+## Additional configuration options
+
+Set these options in [preferences.yaml](#resizing-the-ring).
+
+### drag_by_highlight
+
+```yaml title="preferences.yaml" hl_lines="4"
+session_ring:
+  width: 8
+  height: 8
+  drag_by_highlight: true
+```
+
+Default is `true`.
+
+With this setting enabled, when the selected clip slot **was** inside the ring, and then moves to the outside edge of the ring (one to the left, one below, etc.), the ring will move itself so that the selected slot is back inside the ring.
+
