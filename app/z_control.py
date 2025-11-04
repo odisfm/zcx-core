@@ -96,6 +96,7 @@ class ZControl(EventObject):
 
     def setup(self):
         config = self._raw_config
+        self.set_vars(config.get('vars', {}))
         self._create_context(
             generated_contexts=
             [
@@ -106,7 +107,6 @@ class ZControl(EventObject):
         )
         color = config.get('color', 127)
         self.set_gesture_dict(config.get('gestures', {}))
-        self.set_vars(config.get('vars', {}))
         self.set_color(color)
         on_threshold = int(config.get('threshold', DEFAULT_ON_THRESHOLD))
         self._on_threshold = on_threshold
@@ -245,22 +245,53 @@ class ZControl(EventObject):
                 context['index'] = context['group_index']
             else:
                 context['index'] = 0
+
         context['Index'] = context['index'] + 1
+
         me_context = {'me': context}
+
+        me_context['me']['vel'] = 0
+        me_context['me']['velp'] = 0.0
+        me_context['me']['velps'] = 0.0
+
+        me_context['me']['obj'] = self
+
+        me_context['me']['props'] = {}
+
         self._context = me_context
 
-        self.set_prop('vel', 0)
-        self.set_prop('velp', 0.0)
-        self.set_prop('velps', 0.0)
-
-        self.set_prop('obj', self)
-
-        self._context["me"]["props"] = {}
-        if not user_props:
+        if user_props is None:
             user_props = {}
 
+        def compile_value(val):
+            """Recursively compile template strings in vals."""
+            if isinstance(val, str) and "${" in val:
+                parsed, status = self.root_cs.component_map["ActionResolver"].compile(
+                    val,
+                    self._vars,
+                    self._context,
+                )
+                if status != 0:
+                    msg = (f"Unparseable prop in {self.name}."
+                           f"\n`{val}`"
+                           f"\n`props: {user_props}`")
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise ConfigurationError(msg)
+                    else:
+                        self.error(msg)
+                        return None
+                return parsed
+            elif isinstance(val, dict):
+                return {k: compile_value(v) for k, v in val.items()}
+            elif isinstance(val, list):
+                return [compile_value(item) for item in val]
+            else:
+                return val
+
         for key, value in user_props.items():
-            self._context["me"]["props"][key] = value
+            self._context["me"]["props"][key] = compile_value(value)
+
 
     def bind_to_state(self, state):
         state.register_z_control(self)
@@ -311,11 +342,11 @@ class ZControl(EventObject):
                 self._do_simple_feedback_release()
 
         if gesture in ['pressed', 'double_clicked']:
-            self.set_prop('vel', val)
+            self._context["me"]["vel"] = val
             vel_p = round((val / 127) * 100, 1)
             vel_p_s = round(self.re_range_percent(val, self._on_threshold, 127), 1)
-            self.set_prop('velp', vel_p)
-            self.set_prop('velps', vel_p_s)
+            self._context["me"]["velp"] = vel_p
+            self._context["me"]["velps"] =  vel_p_s
 
         current_active_modes = set()
         if self._current_mode_string:
@@ -524,12 +555,6 @@ class ZControl(EventObject):
     @only_in_view
     def _do_simple_feedback_release(self):
         self.force_color(self._color_dict['base'])
-
-    def set_prop(self, prop_name, value):
-        self._context['me'][prop_name] = value
-
-    def get_prop(self, prop_name):
-        return self._context['me'].get(prop_name)
 
     @staticmethod
     def is_pseq(obj):

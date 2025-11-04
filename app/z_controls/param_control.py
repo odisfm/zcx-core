@@ -54,6 +54,9 @@ class ParamControl(ZControl):
 
             self.set_color(5)
 
+            self._vars["me.next_value"] = "me.obj.preview_next_value()"
+            self._vars["me.next_pct"] = "me.obj.preview_next_value_percentage()"
+
             self._create_context(
                 generated_contexts=
                 [
@@ -62,9 +65,6 @@ class ParamControl(ZControl):
                 ],
                 user_props=self._raw_config.get("props", {})
             )
-
-            self._vars["me.next_value"] = "me.obj.preview_next_value()"
-            self._vars["me.next_pct"] = "me.obj.preview_next_value_percentage()"
 
             self._unbind_on_fail = self._raw_config.get("unbind_on_fail", self._unbind_on_fail)
             self._prefer_left = self._raw_config.get("prefer_left", self._prefer_left)

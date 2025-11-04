@@ -145,6 +145,28 @@ pad 2 (with shift): "beats" / PLAY RND43-44
     - Variables defined in `vars` are calculated anew every time they are required, i.e. they do not persist between presses of a control.
     - If you want to declare a var that is just a string, without evaluating anything, you must do: `my_var: str("this is a string")`.
 
+#### using props
+
+An alternative to using a `vars` dict is to define a `props` dict:
+
+```yaml
+my_control:
+  props:
+    foo: some string
+    bar: ${me.index}
+    misc:
+      pi: 3.14159
+```
+
+Key differences between `vars` and `props`:
+
+- If props contain template strings, they will be evaluated only once when zcx loads and then cached.
+    - Props using template strings may not reference other props (though they may reference vars)
+- Props are referenced like `${me.props.foo}`, rather than just `${foo}` like you would for a var
+    - You may nest other dicts in props, and access it with dot notation, e.g. `${me.props.misc.pi}` 
+- You can declare a prop as a static string like `my_prop: my string` without wrapping the string in `str()`
+- As props are pre-computed, they do not require computation of the entire vars dict every time they are referenced
+
 ### template locals
 
 The following variables and functions can be accessed within template strings.
