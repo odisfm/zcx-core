@@ -1,4 +1,5 @@
 import copy
+from functools import partial
 
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
@@ -46,9 +47,15 @@ class ZEncoder(EventObject):
         self._prefer_left = True
         self.modes_changed.subject = self.mode_manager
 
-    def log(self, *msg):
-        for msg in msg:
-            self._logger.debug(f'({self._name}): {msg}')
+        self.debug = partial(self.log, level="debug")
+        self.warning = partial(self.log, level="warning")
+        self.error = partial(self.log, level="error")
+        self.critical = partial(self.log, level="critical")
+
+    def log(self, *msgs, level="info"):
+        log_func = getattr(self._logger, level)
+        for msg in msgs:
+            log_func(f'({self._name}) {msg}')
 
     def setup(self):
         self._context = self._raw_config["context"]
@@ -166,13 +173,13 @@ class ZEncoder(EventObject):
             except ConfigurationError:
                 map_success = False
 
-            self.log(f'map_success: {map_success}')
+            self.debug(f'map_success: {map_success}')
             if map_success is not True:
                 if self._log_failed_bindings and self._active_map and self._active_map["input_string"] != "NONE":
-                    self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
+                    self.error(f"Failed to bind {self._name} to target: {self._active_map}")
                 if self._unbind_on_fail:
                     if self._log_failed_bindings:
-                        self.log(f'{self._name} failed to find target, unmapping')
+                        self.debug(f'{self._name} failed to find target, unmapping')
                     self.unbind_control()
                     self.mapped_parameter = None
                     self._mapped_track = None
@@ -182,10 +189,10 @@ class ZEncoder(EventObject):
 
         except Exception as e:
             if self._log_failed_bindings and self._active_map and self._active_map["input_string"] != "NONE":
-                self._logger.error(f"Failed to bind {self._name} to target: {self._active_map} ....")
+                self.error(f"Failed to bind {self._name} to target: {self._active_map} ....")
             if self._unbind_on_fail:
                 if self._log_failed_bindings:
-                    self.log(f'{self._name} failed to find target, unmapping')
+                    self.debug(f'{self._name} failed to find target, unmapping')
                 self.unbind_control()
                 self.mapped_parameter = None
                 self._mapped_track = None
@@ -207,7 +214,7 @@ class ZEncoder(EventObject):
             self.track_list_listener.subject = None
 
         if listen_dict.get("device_list"):
-            self.log(f"setting device_list subject to {self._mapped_track}")
+            self.debug(f"setting device_list subject to {self._mapped_track}")
             self.device_list_listener.subject = self._mapped_track
         else:
             self.device_list_listener.subject = None
@@ -254,7 +261,7 @@ class ZEncoder(EventObject):
     def map_self_to_par(self, target_map):
 
         # perhaps some of the worst code ever written?
-        self._logger.debug(target_map)
+        self.debug(target_map)
 
         self._mapped_track = None
         self.mapped_parameter = None
@@ -316,7 +323,7 @@ class ZEncoder(EventObject):
                         self.mapped_parameter = track_obj.mixer_device.sends[send_num]
                         return True
                     except Exception as e:
-                        self.log(e)
+                        self.debug(e)
                         raise ConfigurationError(f"Failed to bind to send: {e}")
 
                 elif par_type == "pan":
@@ -389,7 +396,7 @@ class ZEncoder(EventObject):
 
                         chain_mixer = device_obj.mixer_device
 
-                        self.log(target_map)
+                        self.debug(target_map)
 
                         if par_type.lower() == 'vol':
                             self.mapped_parameter = chain_mixer.volume
@@ -465,7 +472,7 @@ class ZEncoder(EventObject):
                     return True
 
         except Exception as e:
-            self.log(f"Error in map_self_to_par: {e}")
+            self.debug(f"Error in map_self_to_par: {e}")
             raise
 
     @classmethod
@@ -589,7 +596,7 @@ class ZEncoder(EventObject):
             self.rebind_from_dict(self._current_mode_string)
 
         except Exception as e:
-            self.log(e)
+            self.debug(e)
 
     @listens("current_modes")
     def modes_changed(self, _):
@@ -662,7 +669,7 @@ class ZEncoder(EventObject):
                     return None
 
     def traverse_chain_map(self, track, chain_map):
-        self.log(f'trying to traverse chain map {chain_map}')
+        self.debug(f'trying to traverse chain map {chain_map}')
 
         def parse_templated_node(_node):
             if not isinstance(_node, str) or '${' not in _node:
@@ -694,7 +701,7 @@ class ZEncoder(EventObject):
             is_device = i % 2 == 0
             node = parse_templated_node(node)
 
-            self.log(f'traversing part {i}: {node}')
+            self.debug(f'traversing part {i}: {node}')
 
             if i == 0:
                 # First node is always a device
@@ -757,7 +764,7 @@ class ZEncoder(EventObject):
 
     @listens("devices")
     def device_list_listener(self):
-        self.log("device_list_listener")
+        self.debug("device_list_listener")
         self.bind_to_active()
 
     @listens("tracks")

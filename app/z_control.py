@@ -85,6 +85,11 @@ class ZControl(EventObject):
         self.__was_pressed_on_exit = False
         self.__release_on_exit = True
 
+        self.debug = partial(self.log, level="debug")
+        self.warning = partial(self.log, level="warning")
+        self.error = partial(self.log, level="error")
+        self.critical = partial(self.log, level="critical")
+
     def _unload(self):
         self.in_view_listener.subject = None
         self.modes_changed.subject = None
@@ -131,9 +136,10 @@ class ZControl(EventObject):
 
         self.create_osc_label()
 
-    def log(self, *msg):
-        for msg in msg:
-            self._parent_logger.info(f'({self.parent_section.name}) {msg}')
+    def log(self, *msgs, level="info"):
+        log_func = getattr(self._parent_logger, level)
+        for msg in msgs:
+            log_func(f'({self.name}) {msg}')
 
     @property
     def in_view(self):
