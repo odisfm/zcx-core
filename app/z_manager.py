@@ -814,12 +814,14 @@ class ZManager(ZCXComponent):
                 if isinstance(control, OverlayControl):
                     control.finish_setup()
             except Exception as e:
-                if isinstance(e, ConfigurationError):
-                    from . import STRICT_MODE
-                    if STRICT_MODE:
-                        raise e
+                from . import STRICT_MODE
+                msg = f"Error finishing control setup in section `{control.parent_section.name}` control `{control.name}`"
+                if STRICT_MODE:
+                    self.critical(msg)
+                    self.critical(e)
+                    raise e
                 else:
-                    self.error(f"Error finishing control setup in section `{control.parent_section.name}` control `{control.name}`")
+                    self.error(msg)
                     self.error(e)
 
     def load_overlay_definitions(self):

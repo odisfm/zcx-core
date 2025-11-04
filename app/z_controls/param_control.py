@@ -105,15 +105,20 @@ class ParamControl(ZControl):
 
             self._custom_midpoint = get_percentage_def("midpoint")
 
-            bindings = self._raw_config.get("binding", {})
-            if isinstance(bindings, dict):
+            binding = self._raw_config.get("binding")
+            if isinstance(binding, dict):
                 pass
-            elif isinstance(bindings, str):
-                bindings = {"default": bindings}
+            elif isinstance(binding, str):
+                binding = {"default": binding}
+            elif binding is None:
+                raise CriticalConfigurationError(
+                    f"Invalid binding config in {self.parent_section.name} control {self.name}"
+                    f"\n`binding` option missing"
+                )
             else:
                 raise CriticalConfigurationError(
-                    f"Invalid binding config in {self.parent_section.name}"
-                    f"\n`bindings` key must be a dict or a string"
+                    f"Invalid binding config in {self.parent_section.name} control {self.name}"
+                    f"\n`binding` key must be a dict or a string"
                     f"\n{self._raw_config}"
                 )
 
@@ -121,7 +126,7 @@ class ParamControl(ZControl):
             concerned_modes = []
             all_zcx_modes = self._mode_manager.all_modes
 
-            for binding_mode, binding_def in bindings.items():
+            for binding_mode, binding_def in binding.items():
                 if isinstance(binding_def, str):
                     binding_params = {}
                 elif isinstance(binding_def, dict):
