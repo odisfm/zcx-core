@@ -743,7 +743,7 @@ class ZManager(ZCXComponent):
 
     def z_control_factory(self, config, pad_section, button_name=None) -> ZControl:
         try:
-            control_type = config.get("type") or "basic"
+            control_type = config.get("type") or "standard"
             control_cls = get_control_class(control_type)
 
             self.debug(f'creating control:', config)
@@ -771,8 +771,9 @@ class ZManager(ZCXComponent):
                                                  f"\nControl definition: "
                                                  f"\n{config}\n"
                                                  f"\n{str(e)}") from e
-            self.log(e)
-            return get_control_class("basic")(self.canonical_parent, pad_section, {})
+            else:
+                self.log(e)
+                return get_control_class("standard")(self.canonical_parent, pad_section, {})
 
         self.__all_controls.append(control)
 
