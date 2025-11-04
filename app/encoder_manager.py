@@ -83,7 +83,10 @@ class EncoderManager(ZCXComponent):
         hw_interface = self.canonical_parent.component_map['HardwareInterface']
 
         for encoder_name, encoder_obj in self._encoders.items():
-            state = getattr(hw_interface, f'_encoder_{encoder_name}')
+            try:
+                state = getattr(hw_interface, f'_encoder_{encoder_name}')
+            except AttributeError:
+                raise CriticalConfigurationError(f"encoders.yaml refers to `{encoder_name}`, which is not the name of a control.")
             element = state._control_element
             encoder_obj._control_element = element
             encoder_obj._state = state
