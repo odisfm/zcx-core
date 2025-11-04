@@ -69,8 +69,8 @@ plugins:
       warning: true
       reverse: false
       headless_included: false
-  - mike:
-      canonical_version: latest
+  - mike
+  - social
 
 extra:
   social:
