@@ -301,8 +301,11 @@ class ZManager(ZCXComponent):
             if raw_config is None:
                 raw_config = {}
 
+            is_whole_section_group = False
+
             # Handle single dict group section config
             if isinstance(raw_config, dict):
+                is_whole_section_group = True
                 if "pad_group" in raw_config:
                     raw_config = [raw_config]
                 else:
@@ -376,8 +379,18 @@ class ZManager(ZCXComponent):
                     unnamed_groups += 1
 
                 group_pads = config.get(
-                    "controls", [None] * (len(section_obj.owned_coordinates) - i)
-                )
+                    "controls")
+
+                if not group_pads or not isinstance(group_pads, list):
+                    if not is_whole_section_group:
+                        raise CriticalConfigurationError(
+                        f"Error in section `{section_obj.name}` group `{group_name}`:"
+                        f"\nA group within a matrix section must have a `controls` option, a list with an entry for each control."
+                        f"\nProvided: {group_pads}"
+                        )
+                    else:
+                        group_pads = [None] * (len(section_obj.owned_coordinates) - i)
+
                 if not isinstance(group_pads, list):
                     raise CriticalConfigurationError(
                         f"Config error in {section_obj.name} {group_name}: "
