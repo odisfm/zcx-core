@@ -48,50 +48,66 @@ class EncoderManager(ZCXComponent):
 
     def create_encoders(self):
         try:
-            encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
-        except FileNotFoundError:
-            encoder_config = {}
-
-        flat_config = self.flatten_encoder_config(encoder_config)
-
-        from . import PREF_MANAGER
-        user_prefs = PREF_MANAGER.user_prefs
-        ZEncoder._log_failed_bindings = user_prefs.get('log_failed_encoder_bindings', True)
-
-        ZEncoder.mode_manager = self.canonical_parent.component_map['ModeManager']
-        ZEncoder.action_resolver = self.canonical_parent.component_map['ActionResolver']
-        ZEncoder.song = self.song
-        ZEncoder.session_ring = self.canonical_parent._session_ring_custom
-
-        for encoder_name, encoder_def in flat_config.items():
-
-            encoder_obj = ZEncoder(
-                self.canonical_parent,
-                encoder_def,
-                encoder_name,
-            )
-
-            if encoder_name in self._encoders:
-                raise CriticalConfigurationError(f'Multiple definitions for encoder {encoder_name}'
-                                         f'\n{encoder_def}')
-
-            self._encoders[encoder_name] = encoder_obj
-            
-            if 'group_name' in encoder_def['context']:
-                    self.add_encoder_to_group(encoder_name, encoder_def['context']['group_name'])
-
-        hw_interface = self.canonical_parent.component_map['HardwareInterface']
-
-        for encoder_name, encoder_obj in self._encoders.items():
             try:
-                state = getattr(hw_interface, f'_encoder_{encoder_name}')
-            except AttributeError:
-                raise CriticalConfigurationError(f"encoders.yaml refers to `{encoder_name}`, which is not the name of a control.")
-            element = state._control_element
-            encoder_obj._control_element = element
-            encoder_obj._state = state
+                encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
+            except FileNotFoundError:
+                encoder_config = {}
 
-            encoder_obj.setup()
+            flat_config = self.flatten_encoder_config(encoder_config)
+
+            from . import PREF_MANAGER
+            user_prefs = PREF_MANAGER.user_prefs
+            ZEncoder._log_failed_bindings = user_prefs.get('log_failed_encoder_bindings', True)
+
+            ZEncoder.mode_manager = self.canonical_parent.component_map['ModeManager']
+            ZEncoder.action_resolver = self.canonical_parent.component_map['ActionResolver']
+            ZEncoder.song = self.song
+            ZEncoder.session_ring = self.canonical_parent._session_ring_custom
+
+            for encoder_name, encoder_def in flat_config.items():
+
+                encoder_obj = ZEncoder(
+                    self.canonical_parent,
+                    encoder_def,
+                    encoder_name,
+                )
+
+                if encoder_name in self._encoders:
+                    raise CriticalConfigurationError(f'Multiple definitions for encoder {encoder_name}'
+                                             f'\n{encoder_def}')
+
+                self._encoders[encoder_name] = encoder_obj
+
+                if 'group_name' in encoder_def['context']:
+                        self.add_encoder_to_group(encoder_name, encoder_def['context']['group_name'])
+
+            hw_interface = self.canonical_parent.component_map['HardwareInterface']
+
+            for encoder_name, encoder_obj in self._encoders.items():
+                try:
+                    state = getattr(hw_interface, f'_encoder_{encoder_name}')
+                except AttributeError:
+                    raise CriticalConfigurationError(f"encoders.yaml refers to `{encoder_name}`, which is not the name of a control.")
+                element = state._control_element
+                encoder_obj._control_element = element
+                encoder_obj._state = state
+
+                try:
+                    encoder_obj.setup()
+                except CriticalConfigurationError as e:
+                    raise
+                except Exception as e:
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise e
+                    else:
+                        self.error(f"Failed to setup encoder {encoder_name}. Encoder will be non-functional.", e)
+
+        except (ConfigurationError, CriticalConfigurationError) as e:
+            raise
+        except Exception as e:
+            raise CriticalConfigurationError(f'Critical error while creating encoders. Check encoders.yaml.'
+                                             f'\n{e.__class__.__name__}{e}')
 
     def flatten_encoder_config(self, raw_config) -> dict:
         self.debug(f'Flattening encoder config')
