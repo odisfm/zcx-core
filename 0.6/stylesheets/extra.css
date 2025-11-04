@@ -1,9 +1,7 @@
 [data-md-color-scheme="slate"] {
-  --md-hue: 210;
 }
 
 [data-md-color-scheme="default"] {
-  --md-default-bg-color: #ededed;
 }
 
 .md-tabs__item:first-child {
@@ -46,4 +44,69 @@ ul.md-nav__list, .md-nav__link {
   .form-group {
     margin-bottom: .5rem;
   }
+}
+
+.md-typeset, .md-tabs__item {
+    a:not(.md-icon, .md-social__link) {
+        &[target="_blank"][rel="noopener"]::after {
+            content: "↗";
+            font-size: smaller;
+            margin-left: .2em;
+            vertical-align: top;
+        }
+    }
+}
+
+body.dev-mode {
+    [data-md-component="outdated"] {
+        aside {
+            background-color: black;
+            color: white;
+
+            strong {
+                color: var(--md-primary-fg-color--light);
+            }
+        }
+    }
+}
+
+[data-md-component="outdated"] {
+    .outdated-text-wrapper {
+        display: flex;
+        gap: 1ch;
+        align-items: center;
+    }
+
+    button {
+        margin-left: auto;
+        border-radius: 50%;
+        padding: .2rem;
+        cursor: pointer;
+
+        svg {
+            fill: var(--md-primary-fg-color--light);
+            height: 1rem;
+        }
+    }
+}
+
+.md-version__current.version-number, .md-version__list li.version-number a {
+    &::before {
+        content: "v";
+        opacity: .5;
+    }
+}
+
+#about-pitch {
+    width: clamp(350px, 80%, 800px);
+    margin-bottom: 1rem;
+}
+
+#about-heading {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+
+    a.headerlink {
+        display: none;
+    }
 }
