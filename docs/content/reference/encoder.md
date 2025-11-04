@@ -130,6 +130,20 @@ _When targeting an unknown device, e.g. the selected device, this option may pro
 
 **Example:** `XFADER`
 
+---
+
+#### NONE
+
+Sometimes you may want an encoder to be unbound, perhaps for a certain mode.
+Using `NONE` (in uppercase) as the mapping target will stop zcx logging a "failure" when this encoder attempts to bind.
+
+Alternatively:
+
+- Delete the definition for this encoder
+- Set the preference [log_failed_encoder_bindings](file/preferences.md#log_failed_encoder_bindings) to `false`.
+
+---
+
 ### Targeting the session ring
 
 With a special syntax, we can dynamically target a track at a particular position of the [session ring](../lessons/session-ring.md).

@@ -232,7 +232,7 @@ class ParamControl(ZControl):
                 raise
 
             if map_success is not True:
-                if self._log_failed_bindings:
+                if self._log_failed_bindings and self._active_map and self._active_map["input_string"] != "NONE":
                     self.log(f"Failed to bind to target: {self._active_map}")
                 if self._unbind_on_fail:
                     self.mapped_parameter = None
@@ -247,7 +247,7 @@ class ParamControl(ZControl):
         except Exception as e:
             self.__disabled = True
             self.update_feedback()
-            if self._log_failed_bindings and not isinstance(e, NumberedDeviceMissingError):
+            if self._log_failed_bindings and not isinstance(e, NumberedDeviceMissingError) and self._active_map and self._active_map["input_string"] != "NONE":
                 self.log(f"{e.__class__.__name__}: {e}")
                 self._parent_logger.error(f"Failed to bind to target: {self._active_map}")
         finally:

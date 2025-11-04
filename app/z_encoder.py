@@ -165,7 +165,7 @@ class ZEncoder(EventObject):
 
             self.log(f'map_success: {map_success}')
             if map_success is not True:
-                if self._log_failed_bindings:
+                if self._log_failed_bindings and self._active_map and self._active_map["input_string"] != "NONE":
                     self._logger.error(f"Failed to bind {self._name} to target: {self._active_map}")
                 if self._unbind_on_fail:
                     if self._log_failed_bindings:
@@ -178,7 +178,7 @@ class ZEncoder(EventObject):
             self.bind_control()
 
         except Exception as e:
-            if self._log_failed_bindings:
+            if self._log_failed_bindings and self._active_map and self._active_map["input_string"] != "NONE":
                 self._logger.error(f"Failed to bind {self._name} to target: {self._active_map} ....")
             if self._unbind_on_fail:
                 if self._log_failed_bindings:
