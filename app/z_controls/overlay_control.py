@@ -30,11 +30,8 @@ class OverlayControl(ZControl):
             self._color_dict['base'] = self._disabled_color
             self._control_element.set_light(self._color)
             error_message = f'overlay control defined with no `overlay` key\n{self._raw_config}'
-            if SAFE_MODE:
-                raise ConfigurationError(error_message)
-            else:
-                self.log(error_message)
-                return
+            raise ConfigurationError(error_message)
+
         parsed_overlay, status = self.root_cs.component_map["ActionResolver"].compile(str(overlay_config), self._vars, self._context)
         if status != 0:
             raise ConfigurationError(f'Unparseable `overlay` value in {self.parent_section.name}: {overlay_config}')
