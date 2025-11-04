@@ -60,7 +60,6 @@ class PageControl(ZControl):
         self._context['me']['Page'] =  self._page_number + 1
         page_name = self.__page_manager.get_page_name_from_index(self._page_number)
         self._context['me']['page_name'] = page_name
-        self.create_osc_label()
 
 
     def __set_page(self, page_number):
