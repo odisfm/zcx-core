@@ -179,8 +179,8 @@ class ZManager(ZCXComponent):
                 except CriticalConfigurationError:
                     raise
                 except Exception as e:
-                    from . import SAFE_MODE
-                    if SAFE_MODE:
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
                         raise
                     self.error(e)
 
@@ -558,8 +558,8 @@ class ZManager(ZCXComponent):
             except CriticalConfigurationError as e:
                 raise
             except Exception as e:
-                from . import SAFE_MODE
-                if SAFE_MODE:
+                from . import STRICT_MODE
+                if STRICT_MODE:
                     raise
                 self.error(e)
 
@@ -763,9 +763,9 @@ class ZManager(ZCXComponent):
                 self.set_control_alias(alias, control)
 
         except ConfigurationError as e:
-            from . import SAFE_MODE
+            from . import STRICT_MODE
 
-            if SAFE_MODE is True:
+            if STRICT_MODE is True:
                 name = f"`{button_name}`" if button_name is not None else f"in section {pad_section.name}"
                 raise CriticalConfigurationError(f"Bad definition for control {name}: "
                                                  f"\nControl definition: "
@@ -806,8 +806,8 @@ class ZManager(ZCXComponent):
                     control.finish_setup()
             except Exception as e:
                 if isinstance(e, ConfigurationError):
-                    from . import SAFE_MODE
-                    if SAFE_MODE:
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
                         raise e
                 else:
                     self.error(f"Error finishing control setup in section `{control.parent_section.name}` control `{control.name}`")

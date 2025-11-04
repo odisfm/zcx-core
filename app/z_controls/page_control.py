@@ -27,7 +27,7 @@ class PageControl(ZControl):
     def setup(self):
         super().setup()
         from . import page_manager, action_resolver
-        from .. import SAFE_MODE
+        from .. import STRICT_MODE
 
         self.__page_manager = page_manager
         self.__action_resolver = action_resolver
@@ -38,7 +38,7 @@ class PageControl(ZControl):
             self._color_dict['base'] = self._disabled_color
             self._control_element.set_light(self._color)
             error_message = f'page control defined with no `page` key\n{self._raw_config}'
-            if SAFE_MODE:
+            if STRICT_MODE:
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
@@ -48,7 +48,7 @@ class PageControl(ZControl):
         self.__set_page(parsed_page)
         if self._page_number is None:
             error_message = f'invalid page number: {parsed_page}'
-            if SAFE_MODE:
+            if STRICT_MODE:
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
@@ -99,8 +99,8 @@ class PageControl(ZControl):
             self._color = self._active_color
             self.page_changed.subject = self.__page_manager
         except ConfigurationError as e:
-            from .. import SAFE_MODE
-            if SAFE_MODE is True:
+            from .. import STRICT_MODE
+            if STRICT_MODE is True:
                 raise
             else:
                 self.log(e)
