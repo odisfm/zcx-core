@@ -95,17 +95,6 @@ def prepare_hardware_interface(button_names, encoder_names) -> "Type[HardwareInt
         setattr(_hardware_interface, encoder_name_prefixed, encoder_state)
         _hardware_interface.encoder_states[encoder_name] = encoder_state
 
-        def create_handler(encoder_name_prefixed):
-            def handler(self, value, encoder):
-                return self.handle_encoder_event(encoder_name, value)
-
-            return handler
-
-        handler_name = f"{encoder_name_prefixed}_value"
-        handler = create_handler(encoder_name_prefixed)
-        event_decorator = getattr(encoder_state, 'value')
-        decorated_handler = event_decorator(handler)
-        setattr(_hardware_interface, handler_name, decorated_handler)
 
     from ableton.v3.control_surface.controls import (
         control_matrix,

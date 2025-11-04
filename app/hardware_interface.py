@@ -28,17 +28,6 @@ class HardwareInterface(ZCXComponent):
     def handle_control_event(self, event, state: ZState.State):
         state.forward_gesture(event)
 
-    def handle_encoder_event(self, encoder_name: str, value: int):
-        pass # this might be useful in future for plugins
-
-    def all_lights_full(self):
-        for state in self.named_button_states.keys():
-            element = getattr(self, state)
-            element._control_element.set_light(49)
-
-        for control in self.__button_matrix_element.nested_control_elements():
-            control.set_light(9)
-
     def refresh_all_lights(self):
         count = 0
         for state_name in self.named_button_states.keys():
