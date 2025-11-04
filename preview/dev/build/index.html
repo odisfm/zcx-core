@@ -773,8 +773,6 @@
       
         
       
-        
-      
     
     
     
@@ -879,29 +877,6 @@
   
   <span class="md-ellipsis">
     Push 2
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/touch-osc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    TouchOSC
     
   </span>
   
@@ -1656,8 +1631,6 @@
       
         
       
-        
-      
     
     
     
@@ -1808,29 +1781,6 @@
   
   <span class="md-ellipsis">
     Push 2
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/hardware/touch-osc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    TouchOSC
     
   </span>
   
@@ -3010,13 +2960,14 @@ A simple script is provided at <code>zcx-core/tools/install_vendored_dependencie
 <p>These packages <strong>must</strong> be located in the <code>vendor/</code> directory.</p>
 </div>
 <h3 id="install-development-dependencies">Install development dependencies<a class="headerlink" href="#install-development-dependencies" title="Permanent link">&para;</a></h3>
-<p>From the project root, run <code>pip install -r requirements.txt</code> to install all <a href="../dependencies/">development dependencies</a>.</p>
+<p>From the project root, run <code>pip install -r requirements.txt</code> to install all <a href="../dependencies/#development-dependencies">development dependencies</a>.</p>
 <h3 id="run-the-script">Run the script<a class="headerlink" href="#run-the-script" title="Permanent link">&para;</a></h3>
 <p>From the project root, run:</p>
 <p><code>python tools/build.py &lt;hardware name&gt; &lt;destination folder name&gt;</code></p>
 <p>Where <code>&lt;hardware name&gt;</code> is the name of a folder in <code>zcx-core/hardware</code>, e.g. <code>push_1</code> and <code>&lt;desintation folder name&gt;</code> is a name of your choice, e.g. <code>my_zcx_script</code>.
 Omit <code>&lt;destination folder name&gt;</code> to use <code>_zcx_&lt;hardware name&gt;</code>.</p>
 <p>You must manually create the destination folder.</p>
+<p>The script will copy the relevant files to the destination folder, then watch the repo and copy any updates.</p>
 <h4 id="extra-arguments">Extra arguments<a class="headerlink" href="#extra-arguments" title="Permanent link">&para;</a></h4>
 <h5 id="-custom-config">--custom-config<a class="headerlink" href="#-custom-config" title="Permanent link">&para;</a></h5>
 <p>Provide the path to a folder that will be copied into the destination instead of the <code>demo_config</code> folder.</p>
@@ -3027,10 +2978,13 @@ Omit <code>&lt;destination folder name&gt;</code> to use <code>_zcx_&lt;hardware
 If you use a non-default location for your User Library, you will need to provide the path as an argument.</p>
 <h3 id="building-with-your-own-config">Building with your own config<a class="headerlink" href="#building-with-your-own-config" title="Permanent link">&para;</a></h3>
 <p>While working on zcx, you'll likely prefer to use your own config, rather than the demo config.</p>
-<p>One option is to use the <a href="#--custom-config">--custom-config</a> argument and pass the path to your own config.</p>
+<p>One option is to use the <a href="#-custom-config">--custom-config</a> argument and pass the path to your own config.</p>
 <p>Another is to use symbolic links in the destination directory to other files or directories on your computer.
 The build script will ignore symbolic links in the destination directory.</p>
 <h2 id="building-the-documentation">Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p>Only relevant if you want to edit the documentation locally.</p>
+</div>
 <p>This documentation is powered by <a href="https://www.mkdocs.org/">mkdocs</a>, the <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs theme</a>, and <a href="https://github.com/odisfm/zcx-core/blob/main/docs/requirements.txt">several plugins</a> for mkdocs.</p>
 <p>From the project root, run <code>pip install -r docs/requirements.txt</code> to install all documentation dependencies.
 To start the dev server, run:
@@ -3064,7 +3018,7 @@ To start the dev server, run:
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-01T22:23:59+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T21:01:53+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
   </span>
 
     

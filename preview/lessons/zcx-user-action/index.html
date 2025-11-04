@@ -773,8 +773,6 @@
       
         
       
-        
-      
     
     
     
@@ -879,29 +877,6 @@
   
   <span class="md-ellipsis">
     Push 2
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../getting-started/demo-tour/touch-osc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    TouchOSC
     
   </span>
   
@@ -1656,8 +1631,6 @@
       
         
       
-        
-      
     
     
     
@@ -1808,29 +1781,6 @@
   
   <span class="md-ellipsis">
     Push 2
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/hardware/touch-osc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    TouchOSC
     
   </span>
   
@@ -3166,7 +3116,7 @@
 <h1 id="controlling-zcx-from-clyphx-pro">Controlling zcx from ClyphX Pro<a class="headerlink" href="#controlling-zcx-from-clyphx-pro" title="Permanent link">&para;</a></h1>
 <p>zcx ships with a suite of user actions for ClyphX Pro that allow you to control a zcx script from ClyphX. This means an individual script can be interacted with via any X-Trigger, such as an X-Clip, or an X-Control bound to another controller.</p>
 <h2 id="installing-the-user-action">Installing the user action<a class="headerlink" href="#installing-the-user-action" title="Permanent link">&para;</a></h2>
-<p>Releases of zcx from v0.3.0 include a folder named <code>_user_actions</code>. Simply drag the contents of this folder (<code>Zcx.py</code>) into the ClyphX Pro user actions folder. The location of this folder is <code>.../Ableton/User Library/Remote Scripts/_user_actions</code>. If this folder doesn't exist, create it.</p>
+<p>zcx downloads include a folder named <code>_user_actions</code>. Simply drag the contents of this folder into the ClyphX Pro user actions folder. The location of this folder is <code>.../Ableton/User Library/Remote Scripts/_user_actions</code>. If this folder doesn't exist, create it.</p>
 <h2 id="using-the-action">Using the action<a class="headerlink" href="#using-the-action" title="Permanent link">&para;</a></h2>
 <p>Usage of the zcx action is like so:</p>
 <p><code>ZCX &lt;target script&gt; &lt;command type&gt; &lt;command definition&gt;</code></p>
@@ -3180,7 +3130,7 @@
 <p>This is the name of the folder containing the zcx script (similar to as seen in Live’s preferences) with any leading underscores removed. E.g. a script in a folder called <code>_my_zcx_script</code> (shown as <code>my zcx script</code> in Live’s prefs) is targeted like <code>ZCX my_zcx_script</code>. If you change the name of the script (by renaming its folder), you will need to update every ClyphX action list that uses the old name.</p>
 <h4 id="by-number">By number<a class="headerlink" href="#by-number" title="Permanent link">&para;</a></h4>
 <p><code>ZCX 2 MODE TGL SHIFT</code></p>
-<p>This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old name.</p>
+<p>This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old number.</p>
 <h4 id="target-all-scripts">Target all scripts<a class="headerlink" href="#target-all-scripts" title="Permanent link">&para;</a></h4>
 <p><code>ZCX ALL REFRESH</code></p>
 <p>Apply the command to all zcx scripts.</p>
@@ -3214,7 +3164,7 @@ The <strong>entire</strong> mapping target must be wrapped in double-quotes.</p>
 <p class="admonition-title">Quotes within mapping targets</p>
 <p>A special syntax is required when using double-quotes <strong>within</strong> your mapping target, e.g. <code>"my track" / VOL</code>.
 You must replace all instances of the double-quote character (") with a <em>backtick</em> (`).</p>
-<p>The mapping target <code>"my track" / DEV("my device") P1</code> becomes <code>`my track` / DEV(`my device`) P1</code></p>
+<p>The mapping target <code>"my track" / DEV("my device") P1</code> becomes <code>"`my track` / DEV(`my device`) P1"</code></p>
 <p><em>The backtick key is below the escape key.</em></p>
 </div>
 <div class="admonition warning">
@@ -3281,7 +3231,7 @@ Allowable color values are an <a href="../../reference/color/#midi-value">int</a
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-10-28T23:35:07+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-10-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T21:01:53+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
   </span>
 
     
