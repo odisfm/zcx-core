@@ -9,6 +9,10 @@ zcx can be configured to show a rudimentary melodic keyboard, as found on contro
 - Currently, the keyboard view is not designed for Drum Rack instruments. Better support for Drum Racks is planned for a future release.
 - Currently, the lowest note of the keyboard is always the tonic of the current scale. A future release will emulate the "fixed" layout seen on Push.
 
+## Issues
+
+- Aftertouch will be received even from controls that aren't part of the keyboard. 
+
 ## Configuration
 
 The keyboard view is actually a specialized [matrix section](getting-started/zcx-concepts.md#matrix-sections).
