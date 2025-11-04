@@ -27,4 +27,4 @@ def get_subclass(class_name):
         case "overlay":
             return OverlayControl
         case _:
-            return BasicZControl
+            raise ValueError()

@@ -743,13 +743,14 @@ class ZManager(ZCXComponent):
 
     def z_control_factory(self, config, pad_section, button_name=None) -> ZControl:
         try:
+            control = None
             control_type = config.get("type") or "standard"
-            control_cls = get_control_class(control_type)
+            try:
+                control_cls = get_control_class(control_type)
+            except ValueError:
+                raise CriticalConfigurationError(f"Error in pad section `{pad_section.name}`, no control type `{control_type}`")
 
             self.debug(f'creating control:', config)
-
-            if control_cls is None:
-                raise ValueError(f"Control class for type '{control_type}' not found")
 
             control = control_cls(self.canonical_parent, pad_section, config, button_name)
             if "group_context" in config:
@@ -765,15 +766,22 @@ class ZManager(ZCXComponent):
         except ConfigurationError as e:
             from . import STRICT_MODE
 
+            name = f"`{button_name}`" if button_name is not None else f"in section {pad_section.name}"
+
             if STRICT_MODE is True:
-                name = f"`{button_name}`" if button_name is not None else f"in section {pad_section.name}"
                 raise CriticalConfigurationError(f"Bad definition for control {name}: "
                                                  f"\nControl definition: "
                                                  f"\n{config}\n"
                                                  f"\n{str(e)}") from e
             else:
-                self.log(e)
-                return get_control_class("standard")(self.canonical_parent, pad_section, {})
+                self.critical(
+                    f"Bad definition for control {name}: "
+                    f"\nControl definition: "
+                    f"\n{config}\n"
+                    f"\n{str(e)}")
+
+                self.critical(f"As strict mode is disabled, this failed control has been replaced with a blank control")
+                control = get_control_class("standard")(self.canonical_parent, pad_section, {"color": 0}, button_name)
 
         self.__all_controls.append(control)
 
