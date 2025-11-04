@@ -106,6 +106,9 @@ class ActionResolver(ZCXComponent):
             self.__interpreter.symtable = exec_context
             result = self.__interpreter.eval(expr)
             if len(self.__interpreter.error) > 0:
+                self.error(f"Error evaluating expression `{expr}`")
+                for error in self.__interpreter.error:
+                    self.error(error)
                 return None, 2
             return result, 0
         except Exception as e:
