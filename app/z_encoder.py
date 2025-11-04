@@ -115,7 +115,10 @@ class ZEncoder(EventObject):
             )
 
             if status != 0:
-                raise ConfigurationError(f"Unparseable target\n" f"{binding_def}")
+                raise ConfigurationError(
+                    f"Error creating encoder `{self._name}`. Binding `{sorted_mode_string}` contains unparseable template string:"
+                    f"\n{binding_def}"
+                )
 
             target_map = parse_target_path(parsed_target_string)
 
