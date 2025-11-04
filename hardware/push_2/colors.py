@@ -48,12 +48,6 @@ class BasicColorSwatch:
     FULL_BLINK_SLOW = Blink(FULL, OFF, 48)
     FULL_BLINK_FAST = Blink(FULL, OFF, 12)
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 class RgbColorSwatch(object):
     PLAY_GREEN = IndexedColor(126)
@@ -111,12 +105,6 @@ class RgbColorSwatch(object):
 
     ARM_RED = IndexedColor(1)
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 BiledColorSwatch = RgbColorSwatch
 

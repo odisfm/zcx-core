@@ -61,7 +61,13 @@ def get_named_color(name, calling_control=None):
         color = getattr(ColorSwatches.rgb, name, None)
         return color
 
-    return getattr(hardware_colors.Rgb, name, RgbColor(0))
+    try:
+        return getattr(hardware_colors.Rgb, name)
+    except AttributeError:
+        from . import ROOT_LOGGER
+        ROOT_LOGGER.error(f"No color called `{name}`, using `0`.")
+        return RgbColor(0)
+
 
 def parse_color_definition(color, calling_control=None):
     try:

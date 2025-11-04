@@ -57,12 +57,6 @@ class BasicColorSwatch:
     PAGE_DISABLED = OFF
     ERROR = HALF_BLINK_FAST
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 class BiledColorSwatch:
     OFF = Color(0)
@@ -91,12 +85,6 @@ class BiledColorSwatch:
     PAGE_DISABLED = OFF
     ERROR = RED_BLINK_FAST
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 class RgbColorSwatch(object):
     PLAY_GREEN = RgbColor(21)
@@ -149,13 +137,6 @@ class RgbColorSwatch(object):
     ERROR = Blink(RED, OFF, 6)
 
     ARM_RED = RgbColor(7)
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 
 def simplify_color(color):
