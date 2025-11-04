@@ -78,8 +78,8 @@ jobs:
             BRANCH_NAME="${{ github.ref_name }}"
             
             if [ "$BRANCH_NAME" = "dev" ]; then
-              VERSION="dev"
-              echo "Using dev version for dev branch"
+              VERSION="preview"
+              echo "Using preview version for dev branch"
             else
               # Get the most recent tag on main branch
               LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
