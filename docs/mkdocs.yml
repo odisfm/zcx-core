@@ -70,7 +70,6 @@ plugins:
       reverse: false
       headless_included: false
   - mike
-  - social
 
 extra:
   social:
