@@ -368,6 +368,10 @@ class ZManager(ZCXComponent):
                     if isinstance(pad_group, str)
                     else f"{section_obj.name}_group_{unnamed_groups}"
                 )
+                group_name_lower = group_name.lower()
+                if group_name_lower != group_name:
+                    self.warning(f"Group names must be lowercase. Changed `{group_name}` to {group_name_lower}")
+                    group_name = group_name_lower
                 if not isinstance(pad_group, str):
                     unnamed_groups += 1
 
