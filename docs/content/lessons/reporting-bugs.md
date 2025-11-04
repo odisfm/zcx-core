@@ -6,7 +6,7 @@ There are two good ways to do this:
 
 ## create an issue on github
 
-If you're comfortable with Github, head over to the [zcx-core repo](https://github.com/odisfm/zcx-docs/issues) and create a new issue. We don't have any enforced format at the moment.
+If you're comfortable with Github, head over to the [zcx-core repo](https://github.com/odisfm/zcx-core/issues) and create a new issue. We don't have any enforced format at the moment.
 
 ## create a thread on discord
 
