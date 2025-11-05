@@ -20,7 +20,20 @@ nav:
           - "reference/hardware/*.md"
 
   - lessons:
-    - "lessons/*.md"
+      - "lessons/troubleshooting.md"
+      - "lessons/reloading-control-surfaces.md"
+      - "lessons/reporting-bugs.md"
+      - upgrading: "lessons/upgrade.md"
+      - features:
+          - "lessons/zcx-user-action.md"
+          - session ring: "lessons/session-ring.md"
+          - "lessons/session-view.md"
+          - "lessons/keyboard.md"
+          - "lessons/overlays-layers.md"
+          - osc output: "lessons/osc-output.md"
+          - "lessons/using-multiple-configs.md"
+      - misc:
+          - "lessons/*.md"
 
   - resources:
       - "resources/*.md"
