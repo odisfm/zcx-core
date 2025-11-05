@@ -183,6 +183,10 @@ Provides access to the Live set's [song object](https://docs.cycling74.com/apire
 
 Allows references to the enclosed tracks and scenes of the zcx session ring.
 
+- `ring.tracks[idx]` - get the name of the track at that column of the ring
+- `ring.scenes[idx]` - get the zero-indexed scene number of the scene at that row of the ring
+- `ring.height`, `ring.width` - get the height or width of the ring
+
 See [the session ring lesson](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
 
 ##### `print(message: str)`

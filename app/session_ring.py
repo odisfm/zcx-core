@@ -285,3 +285,5 @@ class RingAPI(EventObject):
         self._ring_component = component
         self.tracks = TrackLookup(self)
         self.scenes = SceneLookup(self)
+        self.height = component.height
+        self.width = component.width
