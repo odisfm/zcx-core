@@ -7,7 +7,7 @@ Let's see how we can use a param control to smoothly [ramp](https://www.cxpman.c
 
 ## Goal
 
-Our final template will accept these parameters:
+Our final template will accept these arguments:
 
 - the parameter to control
 - the minimum and maximum values it should have
@@ -38,7 +38,7 @@ play:
 
 <br>
 
-To make our template accept parameters, we'll make use of [template strings](../reference/template.md#template-strings) and [complex expressions](../reference/template.md#complex-expressions):
+To make our template accept arguments, we'll make use of [template strings](../reference/template.md#template-strings) and [complex expressions](../reference/template.md#complex-expressions):
 
 ```yaml title="control_templates.yaml" hl_lines="3-5"
 fx_ramp:
