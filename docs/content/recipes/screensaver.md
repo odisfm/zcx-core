@@ -79,7 +79,7 @@ The `${this_cs}` alias is replaced with the name of this zcx script.
 !!! warning ""
     This step won't work if you don't [have the user action installed](../lessons/getting-started/installation.md#recommended-install-zcx-user-actions)!
 
-If you don't already have some controls set up as a page changer, you'll need to set up a controls to activate the lightshow page:
+If you don't already have some controls set up as a page changer, you'll need to set up a control to activate the lightshow page:
 
 ```yaml title="named_controls.yaml"
 quantize:
