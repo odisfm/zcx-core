@@ -110,3 +110,7 @@ body.dev-mode {
         display: none;
     }
 }
+
+h5 code {
+    font-size: 1rem !important;
+}
