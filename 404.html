@@ -9,50 +9,29 @@
 
 </head>
 <body>
-    <script>
-        const allowedPrefixes = ["latest", "dev"]
-        const regexPattern = /^\d+\.\d+$/  // Matches digits.digits (e.g., "1.2", "10.5")
+<script>
+    const allowedPrefixes = ["latest", "preview"]
+    const regexPattern = /^\d+\.\d+$/  // Matches digits.digits (e.g., "1.2", "10.5")
 
-        const badUrl = window.location.pathname;
-        const hash = window.location.hash; // Preserve the anchor
-        const firstPath = badUrl.split('/').filter(p => p).shift(); // Get first non-empty path segment
+    const badUrl = window.location.pathname;
+    const firstPath = badUrl.split('/').filter(p => p).shift(); // Get first non-empty path segment
 
-        // Check if URL contains any path segment ending in "-reference"
+    // If first path is "latest", do nothing
+    if (firstPath === "latest") {
+        // Do nothing
+    }
+    // If first path matches pattern or is in allowedPrefixes (but not "latest")
+    else if (regexPattern.test(firstPath) || (allowedPrefixes.includes(firstPath) && firstPath !== "latest")) {
+        // Replace first path with "latest" and redirect
         const pathParts = badUrl.split('/').filter(p => p);
-        const referenceIndex = pathParts.findIndex(part => part.endsWith('-reference'));
-
-        if (referenceIndex !== -1) {
-            // Remove the "-reference" suffix
-            const oldPart = pathParts[referenceIndex];
-            const newPart = oldPart.replace(/-reference$/, '');
-            pathParts[referenceIndex] = newPart;
-
-            // Ensure "latest" is the first part
-            if (pathParts[0] !== "latest") {
-                if (regexPattern.test(pathParts[0]) || allowedPrefixes.includes(pathParts[0])) {
-                    pathParts[0] = "latest";
-                } else {
-                    pathParts.unshift("latest");
-                }
-            }
-
-            window.location.href = "/" + pathParts.join('/') + hash;
-        }
-        // If first path is "latest", do nothing
-        else if (firstPath === "latest") {
-            // Do nothing
-        }
-        // If first path matches pattern or is in allowedPrefixes (but not "latest")
-        else if (regexPattern.test(firstPath) || (allowedPrefixes.includes(firstPath) && firstPath !== "latest")) {
-            // Replace first path with "latest" and redirect
-            pathParts[0] = "latest";
-            window.location.href = "/" + pathParts.join('/') + hash;
-        }
-        // If first path matches nothing
-        else {
-            // Add "latest/" prefix and redirect
-            window.location.href = "/latest" + badUrl + hash;
-        }
-    </script>
+        pathParts[0] = "latest";
+        window.location.href = "/" + pathParts.join('/');
+    }
+    // If first path matches nothing
+    else {
+        // Add "latest/" prefix and redirect
+        window.location.href = "/latest" + badUrl;
+    }
+</script>
 </body>
 </html>
