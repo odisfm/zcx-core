@@ -47,6 +47,39 @@ class DotDict:
             return [DotDict(x) if isinstance(x, dict) else x for x in value]
         return value
 
+    def __str__(self):
+        return self._format(self._data, 0)
+
+    def _format(self, obj, indent_level):
+        indent = "  " * indent_level
+        next_indent = "  " * (indent_level + 1)
+
+        if isinstance(obj, dict):
+            if not obj:
+                return "{}"
+            lines = ["{"]
+            for key, value in obj.items():
+                formatted_value = self._format(value, indent_level + 1)
+                lines.append(f"{next_indent}{key}: {formatted_value},")
+            lines.append(f"{indent}}}")
+            return "\n".join(lines)
+
+        elif isinstance(obj, list):
+            if not obj:
+                return "[]"
+            lines = ["["]
+            for item in obj:
+                formatted_item = self._format(item, indent_level + 1)
+                lines.append(f"{next_indent}{formatted_item},")
+            lines.append(f"{indent}]")
+            return "\n".join(lines)
+
+        elif isinstance(obj, str):
+            return f"'{obj}'"
+
+        else:
+            return str(obj)
+
 
 class ActionResolver(ZCXComponent):
 
