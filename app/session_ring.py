@@ -61,8 +61,8 @@ class SessionRing(SessionRingBase):
             self.warning(f"Invalid value for `session_ring.drag_by_highlight`: {drag_by_highlight}. Using default `true`.")
             drag_by_highlight = True
 
+        self._highlight_was_inside_ring = False
         self._drag_by_highlight = drag_by_highlight
-        self._on_highlighted_clip_slot_changed(dry_run=True)
         self._on_selected_track_changed.subject = self.song.view
         self._on_selected_scene_changed.subject = self.song.view
 
