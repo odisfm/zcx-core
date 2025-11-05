@@ -916,7 +916,8 @@ class ParamControl(ZControl):
 
     def set_feedback(self, status: bool):
         color = self._color_dict["on"] if status else self._color_dict["off"]
-        self.replace_color(color)
+        if color != self._color:
+            self.replace_color(color)
 
     @only_in_view
     def handle_gesture(self, gesture, dry_run=False, testing=False):
