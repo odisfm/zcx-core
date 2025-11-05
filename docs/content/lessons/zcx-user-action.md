@@ -1,7 +1,3 @@
----
-weight: -4
----
-
 # Controlling zcx from ClyphX Pro
 
 zcx ships with a suite of user actions for ClyphX Pro that allow you to control a zcx script from ClyphX. This means an individual script can be interacted with via any X-Trigger, such as an X-Clip, or an X-Control bound to another controller.
