@@ -29,3 +29,7 @@ If no pattern matches, the default config (`_config`) will be loaded.
     zcx only checks the set name when the control surface is reloaded.
 
     After renaming the set, you may load the new config by [reloading zcx](reloading-control-surfaces.md)
+
+## Force a config
+
+You may use the preference [force_config](../reference/file/preferences.md#force_config) to explicitly load a particular config. 
