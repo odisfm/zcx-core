@@ -211,6 +211,16 @@ Returns the name of this zcx script.
 Returns the name of the selected track.
 Must be enclosed in double-quotes for use in a ClyphX Pro action list.
 
+##### `ring`
+
+Allows references to the enclosed tracks and scenes of the zcx session ring.
+
+- `ring.tracks[idx]` - get the name of the track at that column of the ring
+- `ring.scenes[idx]` - get the zero-indexed scene number of the scene at that row of the ring
+- `ring.height`, `ring.width` - get the height or width of the ring
+
+See [the session ring lesson](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
+
 ## group templates
 
 zcx allows you to define any arbitrary selection of controls as a **group** of controls. By grouping controls, we can apply a common configuration across all of them.
