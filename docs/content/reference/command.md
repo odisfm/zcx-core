@@ -104,6 +104,22 @@ This will execute command bundles in order of least-specific to most-specific, i
 
 Setting `cascade: up` will reverse this order.
 
+##### conflicting gestures
+
+Take this example:
+
+```yaml
+gestures:
+  pressed__shift:
+    log: shift
+  pressed__select:
+    log: select
+```
+
+With both the `shift` and `select` modes active, only the `pressed__select` gesture will fire.
+This is because `pressed__select` is defined last.
+You can use [cascading](#cascading-gestures) to fire them both.
+
 ## command syntax
 
 The default command fires a ClyphX action list:
