@@ -526,7 +526,7 @@ class ZManager(ZCXComponent):
     def apply_section_context(self, section_obj, flat_config):
 
         try:
-            section_context = {"section_name": section_obj.name}
+            common_context = {"section_name": section_obj.name}
 
             processed_config = []
 
@@ -554,7 +554,14 @@ class ZManager(ZCXComponent):
                 y_flip = global_y_flip - section_obj._PadSection__bounds["min_y"] * -1
                 X_flip = x_flip + 1
                 Y_flip = y_flip + 1
-                item_context = deepcopy(section_context)
+                item_context = deepcopy(common_context)
+                section_context = {
+                    "name": section_obj.name,
+                    "width": section_width,
+                    "height": section_height,
+                    "obj": section_obj,
+                    "count": len(section_obj.owned_coordinates)
+                }
                 item_context.update(
                     {
                         "index": i,
@@ -574,6 +581,7 @@ class ZManager(ZCXComponent):
                         "y_flip": y_flip,
                         "X_flip": X_flip,
                         "Y_flip": Y_flip,
+                        "section": section_context
                     }
                 )
 

@@ -55,12 +55,11 @@ type: param
 binding: >
   RING(${me.x}) / VOL
 vars:
-  my_midpoint: round((100 / 8) * me.y_flip, 1)
+  my_midpoint: round((100 / me.section.height) * me.y_flip, 1)
 midpoint: ${my_midpoint}
 ```
 
 We're declaring a [var](../reference/template.md#complex-expressions), `my_midpoint`, that associates each control with a percentage according to its y-position.
-We're using a cheeky [magic number](https://en.wikipedia.org/wiki/Magic_number_(programming)), `8`, because the matrix is 8 rows tall.
 Instead of `me.y`, we're using `me.y_flip` so that higher rows produce higher values: the bottom row sets the parameter to `0%`, the next to `12.5%`, and so on 'til `100%` at the top.
 
 But this still isn't quite there.

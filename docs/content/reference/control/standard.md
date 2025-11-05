@@ -199,6 +199,25 @@ Returns the **zero-indexed** column of the control (**global_x**) or its mirrore
 #### global_y, global_y_flip
 Returns the **zero-indexed** row of the control (**global_y**) or its mirrored position (**global_y_flip**), **relative to the entire matrix**.
 
+### section properties
+_Only available on matrix controls._
+
+#### section.height, section.width
+
+Returns the height or width of this control's containing [matrix section](../../lessons/getting-started/zcx-concepts.md#matrix-sections).
+
+#### section.name
+
+Returns the name of this control's containing [matrix section](../../lessons/getting-started/zcx-concepts.md#matrix-sections).
+
+#### section.obj
+
+Returns the [Python object](https://github.com/odisfm/zcx-core/blob/main/app/pad_section.py) of the section.
+
+#### section.count
+
+Returns the number of controls in the section.
+
 ### velocity properties
 
 The following properties are based on the last velocity at which a control was struck. This value will **not** reset to 0 when the control is released.
