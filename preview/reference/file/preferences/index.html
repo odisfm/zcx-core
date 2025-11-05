@@ -1546,6 +1546,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#exclusive_modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      exclusive_modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#force_config" class="md-nav__link">
     <span class="md-ellipsis">
       force_config
@@ -2732,6 +2741,8 @@
       
         
       
+        
+      
     
     
     
@@ -2781,6 +2792,29 @@
   
   <span class="md-ellipsis">
     Pad faders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../recipes/encoder-banks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encoder banks
     
   </span>
   
@@ -3128,6 +3162,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#exclusive_modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      exclusive_modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#force_config" class="md-nav__link">
     <span class="md-ellipsis">
       force_config
@@ -3346,17 +3389,30 @@ If you only use one zcx config, you may choose to use either of these files.</p>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mixing</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MIX</span>
 </span></code></pre></div>
+<h3 id="exclusive_modes">exclusive_modes<a class="headerlink" href="#exclusive_modes" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">exclusive_modes</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nv">device</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">mix</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">browse</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">clip</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="p p-Indicator">]</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nv">device</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">shift</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="p p-Indicator">]</span><span class="w"> </span>
+</span></code></pre></div>
+<p>A list of lists.
+Each inner list contains the names of modes that are mutually exclusive; only one mode in the list may be active at a time.
+A mode may appear in multiple exclusive groups.</p>
+<p>To have one mode active when zcx loads, use a <a href="#startup_command">startup command bundle</a> with a <a href="../../command/#mode_on-mode_off-mode">mode_on</a> command.</p>
 <h3 id="force_config">force_config<a class="headerlink" href="#force_config" title="Permanent link">&para;</a></h3>
 <p><strong>This setting must be set in <code>_global_preferences.yaml</code></strong></p>
 <p>Override <a href="#configs">pattern matching for per-set configs</a> and explicitly load the specified config, or the default config.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">force_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dj</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">force_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dj</span>
 </span></code></pre></div>
 <p>Load config from the folder <code>_config_dj/</code></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">force_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">force_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 </span></code></pre></div>
 <p>Load the default config <code>_config/</code></p>
 <h3 id="initial_hw_mode">initial_hw_mode<a class="headerlink" href="#initial_hw_mode" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">initial_hw_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zcx</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">initial_hw_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zcx</span>
 </span></code></pre></div>
 <p>Options:</p>
 <ul>
@@ -3364,28 +3420,28 @@ If you only use one zcx config, you may choose to use either of these files.</p>
 <li><code>live</code> - Do not attempt to take control of the hardware on set load.</li>
 </ul>
 <h3 id="load_hardware_plugins">load_hardware_plugins<a class="headerlink" href="#load_hardware_plugins" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">load_hardware_plugins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">load_hardware_plugins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
 <p>Determines whether any hardware-specific plugins (located in <code>zcx/hardware/plugins</code>) will be loaded.</p>
 <h3 id="load_user_plugins">load_user_plugins<a class="headerlink" href="#load_user_plugins" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">load_user_plugins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">load_user_plugins</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
 <p>Determines whether any user plugins (located in <code>zcx/plugins</code>) will be loaded.</p>
 <h3 id="log_failed_encoder_bindings">log_failed_encoder_bindings<a class="headerlink" href="#log_failed_encoder_bindings" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">log_failed_encoder_bindings</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">log_failed_encoder_bindings</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
 <p>By default, when an <a href="../../encoder/">encoder</a> fails to bind to the specified target an error message is written to the log.
 In some cases, it may be expected that bindings fail, so you may set this option to <code>false</code>.</p>
 <h3 id="log_file_max_size">log_file_max_size<a class="headerlink" href="#log_file_max_size" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">log_file_max_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">log_file_max_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 </span></code></pre></div>
 <p>Max size of <a href="log.md">the log file</a> in megabytes.</p>
 <h3 id="log_file_backups">log_file_backups<a class="headerlink" href="#log_file_backups" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">log_file_backups</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">log_file_backups</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 </span></code></pre></div>
 <p>Number of <a href="log.md#backups">log file backups</a> to keep.</p>
 <h3 id="log_level">log_level<a class="headerlink" href="#log_level" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>
 </span></code></pre></div>
 <p>Configures how detailed the zcx logs are. From most to least detailed, the options are:</p>
 <ul>
@@ -3400,10 +3456,10 @@ In some cases, it may be expected that bindings fail, so you may set this option
 <h3 id="playable_channel">playable_channel<a class="headerlink" href="#playable_channel" title="Permanent link">&para;</a></h3>
 <p>See <a href="../../../lessons/keyboard/">the keyboard view lesson</a>.</p>
 <h3 id="plugins">plugins<a class="headerlink" href="#plugins" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">plugins</span><span class="p">:</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">plugin_name</span><span class="p">:</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">plugin_option_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nt">plugin_option_2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">plugins</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">plugin_name</span><span class="p">:</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">plugin_option_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nt">plugin_option_2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
 <p>Consult the documentation of your plugin to see the available options.
 If the plugin came with zcx you will find this information in the <a href="../../hardware/">hardware reference</a> for your controller.</p>
@@ -3411,17 +3467,17 @@ If the plugin came with zcx you will find this information in the <a href="../..
 <p>Configures the <a href="../../../lessons/session-ring/">session ring</a>.
 See the lesson for more information.</p>
 <h3 id="startup_command">startup_command<a class="headerlink" href="#startup_command" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">startup_command</span><span class="p">:</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">mode_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">cxp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">startup_command</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">mode_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">cxp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO</span>
 </span></code></pre></div>
 <p>Fire a <a href="../../command/#command-bundles">command bundle</a> when the script is finished loading.</p>
 <h3 id="startup_page">startup_page<a class="headerlink" href="#startup_page" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">startup_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">startup_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 </span></code></pre></div>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">startup_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home_page</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">startup_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home_page</span>
 </span></code></pre></div>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">startup_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${2 if &quot;dj&quot; in song.name else 0}</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">startup_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${2 if &quot;dj&quot; in song.name else 0}</span>
 </span></code></pre></div>
 <p>Set the page that is active when the script loads.</p>
 <p><strong>Alternatively:</strong></p>
@@ -3430,7 +3486,7 @@ See the lesson for more information.</p>
 <li>Set a <a href="../pages/#order">page order</a></li>
 </ul>
 <h3 id="strict_mode">strict_mode<a class="headerlink" href="#strict_mode" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">strict_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">strict_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
 <p>When loading your config with <code>strict_mode: false</code>, some errors that would normally be fatal are handled gracefully, and zcx attempts to continue loading.
 Such errors are normally the result of misconfiguring a single control or encoder.
@@ -3447,12 +3503,12 @@ If you disable strict mode while debugging, remember to turn it back on once fin
 <h2 id="developer-preferences">developer preferences<a class="headerlink" href="#developer-preferences" title="Permanent link">&para;</a></h2>
 <p>The following preferences are only useful when developing the 'core' of zcx.</p>
 <h3 id="log_includes_tests">log_includes_tests:<a class="headerlink" href="#log_includes_tests" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">log_includes_tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">log_includes_tests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
 <p>When <code>true</code>, <a href="../file/log.md">log.txt</a> includes the output of any <a href="../../../dev/tests/">tests</a> or <a href="../../../dev/tests/#user-tests">user tests</a>.
 Test output is written to <code>test_log.txt</code> in either case.</p>
 <h3 id="refresh_on_all_sysex">refresh_on_all_sysex<a class="headerlink" href="#refresh_on_all_sysex" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">refresh_on_all_sysex</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nt">refresh_on_all_sysex</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
 <p>When set to <code>true</code>, zcx will refresh all LED feedback upon receipt of <strong>any</strong> MIDI Sysex message.
 This may be useful if you are trying to test controller-specific code for a controller you don't have access to.</p>
@@ -3478,7 +3534,7 @@ This may be useful if you are trying to test controller-specific code for a cont
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T19:47:26+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T03:29:26+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
   </span>
 
     

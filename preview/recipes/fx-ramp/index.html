@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://zcxcore.com/preview/recipes/fx-ramp/">
       
       
-        <link rel="prev" href="../pad-faders/">
+        <link rel="prev" href="../encoder-banks/">
       
       
         <link rel="next" href="../note-repeat/">
@@ -2466,6 +2466,8 @@
       
         
       
+        
+      
     
     
     
@@ -2518,6 +2520,29 @@
   
   <span class="md-ellipsis">
     Pad faders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../encoder-banks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encoder banks
     
   </span>
   
@@ -3043,7 +3068,7 @@
 However, the param control toggles the parameter instantly between its minimum and maximum values, which isn't very musical.</p>
 <p>Let's see how we can use a param control to smoothly <a href="https://www.cxpman.com/manual/general-action-information/#ramping-parameters">ramp</a> the parameter, and save it as a template to use it many times in our config without repeating the same definition.</p>
 <h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">&para;</a></h2>
-<p>Our final template will accept these parameters:</p>
+<p>Our final template will accept these arguments:</p>
 <ul>
 <li>the parameter to control</li>
 <li>the minimum and maximum values it should have</li>
@@ -3067,7 +3092,7 @@ We'll use a <a href="../../lessons/getting-started/zcx-concepts/#named-controls"
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fx_ramp</span>
 </span></code></pre></div>
 <p><br></p>
-<p>To make our template accept parameters, we'll make use of <a href="../../reference/template/#template-strings">template strings</a> and <a href="../../reference/template/#complex-expressions">complex expressions</a>:</p>
+<p>To make our template accept arguments, we'll make use of <a href="../../reference/template/#template-strings">template strings</a> and <a href="../../reference/template/#complex-expressions">complex expressions</a>:</p>
 <p><div class="language-yaml highlight"><span class="filename">control_templates.yaml</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">fx_ramp</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">param</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="hll"><span class="w">  </span><span class="nt">binding</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${me.props.bind_target}</span>
@@ -3287,7 +3312,7 @@ We could also do <code>blink_color: blue</code> to blink purple and blue.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T01:57:51+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T02:52:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
   </span>
 
     
@@ -3334,7 +3359,7 @@ We could also do <code>blink_color: blue</code> to blink purple and blue.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../pad-faders/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Pad faders">
+          <a href="../encoder-banks/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Encoder banks">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3344,7 +3369,7 @@ We could also do <code>blink_color: blue</code> to blink purple and blue.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Pad faders
+                Encoder banks
               </div>
             </div>
           </a>
