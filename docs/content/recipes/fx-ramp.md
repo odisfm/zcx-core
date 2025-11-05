@@ -222,7 +222,7 @@ Without setting anything on `play`, the LED will be red when the parameter is at
 Because we did `color: purple`, it will be purple rather than red.
 We could also do `blink_color: blue` to blink purple and blue.
 
-We should probably set the control's [midpoint](../reference/control/param.md#midpoint) so the LED feedback is more relevant:
+We should set the control's [midpoint](../reference/control/param.md#midpoint) so the LED feedback is more relevant:
 
 ```yaml title="control_templates.yaml" hl_lines="2"
 fx_ramp:
