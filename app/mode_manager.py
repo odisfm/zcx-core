@@ -19,6 +19,7 @@ class ModeManager(ZCXComponent):
         self.__mode_command_dict = {}
         self.__modes_state = {}
         self.__action_resolver = None
+        self.__exclusive_modes: dict[str, list[str]] = {} # mode name: list of mode names this mode disables
 
     def setup(self):
         config = self.yaml_loader.load_yaml(f'{self._config_dir}/modes.yaml')
@@ -29,7 +30,47 @@ class ModeManager(ZCXComponent):
 
         self.__action_resolver = self.component_map['ActionResolver']
 
-        self.debug(f"Configured modes: {self.all_modes}")
+        from . import PREF_MANAGER
+        from . import STRICT_MODE
+        user_prefs = PREF_MANAGER.user_prefs
+
+        exclusive_modes_def = user_prefs.get("exclusive_modes", [])
+
+        invalid_format_msg = (f"Preference `exclusive_modes` must be a list of lists."
+                   f"\nProvided {exclusive_modes_def.__class__.__name__}:"
+                   f"\n{exclusive_modes_def}")
+
+        if not isinstance(exclusive_modes_def, list):
+
+            if STRICT_MODE:
+                raise CriticalConfigurationError(invalid_format_msg)
+            else:
+                self.critical(invalid_format_msg)
+                self.critical("Ignoring exclusive_modes definition.")
+                exclusive_modes_def = []
+
+        if len(exclusive_modes_def) > 0:
+            for e_group in exclusive_modes_def:
+                if not isinstance(e_group, list):
+                    raise CriticalConfigurationError(invalid_format_msg)
+
+        modes_to_disabled_modes = {}
+        for e_mode_list in exclusive_modes_def:
+            for e_mode in e_mode_list:
+                if e_mode not in modes_to_disabled_modes:
+                    modes_to_disabled_modes[e_mode] = []
+                for d_mode in e_mode_list:
+                    if d_mode == e_mode:
+                        continue
+                    modes_to_disabled_modes[e_mode].append(d_mode)
+
+        for key, value in modes_to_disabled_modes.items():
+            modes_to_disabled_modes[key] = set(value)
+
+        self.__exclusive_modes = modes_to_disabled_modes
+
+        self.debug(f"Configured mdes: {self.all_modes}")
+        self.debug(f"Exclusive modes:", modes_to_disabled_modes)
 
     def _unload(self):
         super()._unload()
@@ -85,6 +126,7 @@ class ModeManager(ZCXComponent):
             self.__modes_state[mode_name] = True
             self.notify_current_modes(self.current_modes)
             self.debug(f'Added mode {mode_name}')
+            self._handle_exclusive_mode(mode_name)
             self.__execute_mode_change_command(mode_name, 'on_enter')
 
     def remove_mode(self, mode_name):
@@ -126,3 +168,8 @@ class ModeManager(ZCXComponent):
             vars_dict={},
             context={}
         )
+
+    def _handle_exclusive_mode(self, incoming_mode):
+        modes_to_disable = self.__exclusive_modes.get(incoming_mode, [])
+        for mode in modes_to_disable:
+            self.remove_mode(mode)

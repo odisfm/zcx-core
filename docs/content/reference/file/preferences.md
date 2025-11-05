@@ -45,6 +45,23 @@ configs:
     pattern: MIX
 ```
 
+### exclusive_modes
+```yaml
+exclusive_modes:
+  - [
+    device, mix, browse, clip
+  ]
+  - [
+    device, shift
+  ] 
+```
+
+A list of lists.
+Each inner list contains the names of modes that are mutually exclusive; only one mode in the list may be active at a time.
+A mode may appear in multiple exclusive groups.
+
+To have one mode active when zcx loads, use a [startup command bundle](#startup_command) with a [mode_on](../command.md#mode_on-mode_off-mode) command.
+
 ### force_config
 
 **This setting must be set in `_global_preferences.yaml`**
