@@ -65,9 +65,7 @@ class ZCXCore(ControlSurface):
 
                 self._session_ring_custom = None
                 for c in self._components:
-                    self.debug(type(c))
                     if isinstance(c, SessionRing):
-                        self.debug(f'found the session ring: {c.name}')
                         self._session_ring_custom = c
 
                 self.plugin_map = {}
