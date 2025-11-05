@@ -595,10 +595,6 @@ class ZManager(ZCXComponent):
         raw_config = self.yaml_loader.load_yaml(
             f"{self._config_dir}/{path}"
         )
-        if raw_config is None:
-            self.log(
-                f"warning, {this_file} appears to be empty"
-            )  # todo: change logging level
 
         parsed_config = self.parse_named_button_config(pad_section, raw_config, False, this_file)
 
