@@ -226,8 +226,8 @@ def create_instance(c_instance):
         strict_mode_def = True
 
     if not strict_mode_def:
-        ROOT_LOGGER.info(
-            f"WARNING: strict mode is disabled!"
+        ROOT_LOGGER.warning(
+            f">>> strict mode is disabled! <<<"
             f"\nThe purpose of strict mode is to help you catch configuration errors early, not while on stage."
             f"\nLeave strict mode disabled at your own peril!"
         )
