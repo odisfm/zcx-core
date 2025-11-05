@@ -83,7 +83,7 @@ fx_ramp:
 Now, a press would do the ClyphX Pro action list:
 
 ```ClyphX_Pro
-"my track" / DEV("my device") RAMPS 1B 100%
+"my track" / DEV("my device") P1 RAMPS 1B 100%
 ```
 
 Ramping the first parameter on `my device` to max over one bar.
