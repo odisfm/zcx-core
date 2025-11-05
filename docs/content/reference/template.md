@@ -179,16 +179,6 @@ Provides access to a `ZcxApi` object. See [the source code](https://github.com/o
 
 Provides access to the Live set's [song object](https://docs.cycling74.com/apiref/lom/song/).
 
-##### `ring`
-
-Allows references to the enclosed tracks and scenes of the zcx session ring.
-
-- `ring.tracks[idx]` - get the name of the track at that column of the ring
-- `ring.scenes[idx]` - get the zero-indexed scene number of the scene at that row of the ring
-- `ring.height`, `ring.width` - get the height or width of the ring
-
-See [the session ring lesson](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
-
 ##### `print(message: str)`
 
 Allows you to write to the log. Mostly useful with [Python commands](command.md#python).
@@ -213,13 +203,36 @@ Must be enclosed in double-quotes for use in a ClyphX Pro action list.
 
 ##### `ring`
 
-Allows references to the enclosed tracks and scenes of the zcx session ring.
+Allows references to the enclosed tracks and scenes of the zcx [session ring](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
 
 - `ring.tracks[idx]` - get the name of the track at that column of the ring
 - `ring.scenes[idx]` - get the zero-indexed scene number of the scene at that row of the ring
 - `ring.height`, `ring.width` - get the height or width of the ring
 
-See [the session ring lesson](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
+##### `matrix`
+
+Get information about the [matrix](../lessons/getting-started/zcx-concepts.md#matrix-controls) and its [pages](../lessons/getting-started/zcx-concepts.md#pages)
+
+- `matrix.height`, `matrix.width` - get the height or width of the matrix
+- `matrix.page` - the zero-indexed number of the current page
+- `matrix.page_count` - the number of matrix pages
+- `matrix.all_pages` - a list of page names (in order)
+- `matrix.num_controls` - height * width
+
+##### `modes`
+
+Get information about [modes](../lessons/getting-started/zcx-concepts.md#modes)
+
+- `modes.all` - a list of all mode names (active and inactive)
+- `modes.active` - a list of active mode names
+- `modes.state` - a dict, mapping mode name to boolean for active/inactive
+
+##### `overlays`
+
+Get information about [overlays](../lessons/overlays-layers.md#overlays)
+
+- `overlays.all` - a list of overlay names (active and inactive)
+- `overlays.active` - a list of active overlay names
 
 ## group templates
 

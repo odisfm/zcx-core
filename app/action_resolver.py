@@ -1,7 +1,9 @@
 import re
 from functools import partial
 from itertools import chain
-from typing import Dict, Any, Tuple, Callable, Union
+from typing import Dict, Any, Tuple, Callable, Union, TYPE_CHECKING
+if TYPE_CHECKING:
+    from .view_manager import ViewManager
 from random import randint
 
 from .util import DynamicString
@@ -113,6 +115,31 @@ class ActionResolver(ZCXComponent):
 
     def __build_standard_context(self) -> dict[str: Any]:
 
+        matrix_state = self.__hardware_interface.button_matrix_state
+
+        matrix = {
+            "page": LazyValue(lambda: self.__page_manager.current_page),
+            "page_name": LazyValue(lambda: self.__page_manager.current_page_name),
+            "page_count": LazyValue(lambda: self.__page_manager.page_count),
+            "all_pages": LazyValue(lambda: self.__page_manager.all_page_names),
+            "height": matrix_state.height,
+            "width": matrix_state.width,
+            "num_controls": len(matrix_state.control_elements)
+        }
+
+        view_manager: "ViewManager" = self.component_map['ViewManager']
+
+        overlays = {
+            "all": LazyValue(lambda: view_manager.active_overlay_names),
+            "active": LazyValue(lambda: view_manager.active_overlay_names),
+        }
+
+        modes = {
+            "state": LazyValue(lambda: self.__mode_manager.current_modes),
+            "all": LazyValue(lambda: self.__mode_manager.all_modes),
+            "active": LazyValue(lambda: self.__mode_manager.active_modes),
+        }
+
         context = {
             'song': self.canonical_parent.song,
             'ring': self.__ring_api,
@@ -123,7 +150,10 @@ class ActionResolver(ZCXComponent):
             'open': None,
             'cxp_var': self.__cxp.get_cxp_variable,
             'this_cs': self.canonical_parent.name,
-            'sel_track': SelectedTrackNameGetter(self._song.view)
+            'sel_track': SelectedTrackNameGetter(self._song.view),
+            'matrix': DotDict(matrix),
+            'overlays': DotDict(overlays),
+            'modes': DotDict(modes),
         }
         return context
 
@@ -576,3 +606,17 @@ class SelectedTrackNameGetter(DynamicString):
         obj = str.__new__(cls, "")
         obj._value_func = lambda: view.selected_track.name
         return obj
+
+
+class LazyValue:
+    def __init__(self, callable_func):
+        self._callable = callable_func
+
+    def __call__(self):
+        return self._callable()
+
+    def __str__(self):
+        return str(self._callable())
+
+    def __repr__(self):
+        return repr(self._callable())
