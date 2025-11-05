@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ableton.v3.control_surface.elements import ButtonMatrixElement
+    from ableton.v2.control_surface.control.control_list import MatrixControl
+
 from .z_state import ZState
 from .zcx_component import ZCXComponent
 
@@ -18,11 +23,11 @@ class HardwareInterface(ZCXComponent):
         self.__page_manager = None
 
     @property
-    def button_matrix_element(self):
+    def button_matrix_element(self) -> "ButtonMatrixElement":
         return self.__button_matrix_element
 
     @property
-    def button_matrix_state(self):
+    def button_matrix_state(self) -> "MatrixControl.State":
         return self.button_matrix
 
     def handle_control_event(self, event, state: ZState.State):

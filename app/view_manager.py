@@ -44,11 +44,11 @@ class ViewManager(ZCXComponent):
         return copy(self.__in_view_named_controls)
 
     @listenable_property
-    def active_overlay_names(self):
+    def active_overlay_names(self) -> "list[str]":
         return self.__active_overlay_names
 
     @property
-    def all_overlay_names(self):
+    def all_overlay_names(self) -> "list[str]":
         return list(self.__overlay_sections.keys())
 
     def setup(self):
