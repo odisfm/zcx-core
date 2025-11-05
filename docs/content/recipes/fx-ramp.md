@@ -111,7 +111,7 @@ fx_ramp:
       ${me.props.bind_target} ${me.props.ramp} ${me.props.min}%
 ```
 
-Let's override the template and make the parameter ramp to half over two beats:
+Let's override the template and make the parameter ramp to half over 200 milliseconds:
 ```yaml title="named_controls.yaml" hl_lines="6-7"
 play:
   template: fx_ramp
