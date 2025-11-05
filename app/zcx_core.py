@@ -101,7 +101,7 @@ class ZCXCore(ControlSurface):
                     version_string = f"v{version} "
                     self.__version = version
 
-                self.log(f'{self.name} {version_string}loaded :)', level='critical')
+                self.log(f'{self.name} {version_string}partially initialized, waiting for set to load...')
             except ZcxStartupError:
                 raise
             except Exception as e:
@@ -299,6 +299,10 @@ class ZCXCore(ControlSurface):
         self.component_map['TestRunner'].setup()
         self._session_ring_custom._on_highlighted_clip_slot_changed(dry_run=True)
         self.invoke_all_plugins("song_ready")
+
+        version_string = "" if not self.__version else f"v{self.__version}"
+
+        self.log(f"{self.name} {version_string}loaded! <<<<<<<<<<<<<<<<<<<")
 
     def port_settings_changed(self):
         if not self._enabled:
