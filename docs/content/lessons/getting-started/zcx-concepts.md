@@ -262,7 +262,7 @@ my_page:
   - tiny_section    # not gonna fit :(
 ```
 
-`big_section` and `tiny_row` are both reserving the first row of the matrix on the page `my_page`.
+`big_section` and `tiny_section` are both reserving the first row of the matrix on the page `my_page`.
 In this situation, zcx will throw an error on startup.
 
 You can learn how to intentionally intersect sections in [this lesson](../overlays-layers.md).
