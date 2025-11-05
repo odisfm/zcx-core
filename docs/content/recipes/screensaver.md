@@ -73,6 +73,12 @@ pages:
 
 For `on_leave`, we're using the ClyphX Pro [WAIT](https://www.cxpman.com/action-reference/global-actions/#wait-x) action to wait 100 milliseconds, then the [zcx user action](../lessons/zcx-user-action.md#refresh) to force zcx to refresh all LED feedback.
 
+Then, by using the [zcx user action](../lessons/zcx-user-action.md#refresh), we're telling zcx to redraw all LED feedback.
+The `${this_cs}` alias is replaced with the name of this zcx script.
+
+!!! warning ""
+    This step won't work if you don't [have the user action installed](../lessons/getting-started/installation.md#recommended-install-zcx-user-actions)!
+
 If you don't already have some controls set up as a page changer, you'll need to set up a controls to activate the lightshow page:
 
 ```yaml title="named_controls.yaml"
