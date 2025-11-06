@@ -1,7 +1,3 @@
----
-weight: -100
----
-
 # Pad faders
 
 Let's see how we can recreate a feature from the Launchpad series, where a column of pads acts as a fader for a track's volume or a device parameter.

@@ -40,6 +40,8 @@ nav:
       - "resources/*.md"
 
   - recipes:
+      - basics:
+          - "recipes/page-changer.md"
       - "recipes/*.md"
 
   - developer: dev
