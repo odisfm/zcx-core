@@ -1,3 +1,5 @@
+from .consts import SEND_LETTERS
+
 class DynamicString(str):
     def __new__(cls, *args, **kwargs):
         obj = str.__new__(cls, "")
@@ -36,3 +38,6 @@ def is_chain_map_positional(chain_map: list[str]) -> bool:
 
     return False
 
+sends_count = len(SEND_LETTERS)
+def number_to_send_letter(number: int) -> str:
+    return SEND_LETTERS[number % sends_count]

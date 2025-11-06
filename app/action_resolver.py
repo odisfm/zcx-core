@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from .view_manager import ViewManager
 from random import randint
 
-from .util import DynamicString
+from .util import DynamicString, number_to_send_letter
 from .vendor.asteval import Interpreter, make_symbol_table
 
 from ableton.v3.base import listens, listens_group
@@ -151,6 +151,7 @@ class ActionResolver(ZCXComponent):
             'cxp_var': self.__cxp.get_cxp_variable,
             'this_cs': self.canonical_parent.name,
             'sel_track': SelectedTrackNameGetter(self._song.view),
+            'send_num': number_to_send_letter,
             'matrix': DotDict(matrix),
             'overlays': DotDict(overlays),
             'modes': DotDict(modes),

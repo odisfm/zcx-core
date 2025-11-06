@@ -201,6 +201,10 @@ Returns the name of this zcx script.
 Returns the name of the selected track.
 Must be enclosed in double-quotes for use in a ClyphX Pro action list.
 
+##### `send_num(number: int) -> string`
+
+Pass an integer to get the associated send number, e.g. `#!python send_num(0)` returns `A`, `#!python send_num(1)` returns `B`.
+
 ##### `ring`
 
 Allows references to the enclosed tracks and scenes of the zcx [session ring](../lessons/session-ring.md#referencing-the-ring-from-template-strings).
