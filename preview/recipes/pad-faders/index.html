@@ -3109,11 +3109,10 @@ Because we're targeting the session ring, we use a <a href="../../reference/enco
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">binding</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="no">RING(${me.x}) / VOL</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="hll"><span class="nt">vars</span><span class="p">:</span>
-</span></span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="hll"><span class="w">  </span><span class="nt">my_midpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">round((100 / 8) * me.y_flip, 1)</span>
+</span></span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="hll"><span class="w">  </span><span class="nt">my_midpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">round((100 / me.section.height) * me.y_flip, 1)</span>
 </span></span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="hll"><span class="nt">midpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${my_midpoint}</span>
 </span></span></code></pre></div>
 <p>We're declaring a <a href="../../reference/template/#complex-expressions">var</a>, <code>my_midpoint</code>, that associates each control with a percentage according to its y-position.
-We're using a cheeky <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">magic number</a>, <code>8</code>, because the matrix is 8 rows tall.
 Instead of <code>me.y</code>, we're using <code>me.y_flip</code> so that higher rows produce higher values: the bottom row sets the parameter to <code>0%</code>, the next to <code>12.5%</code>, and so on 'til <code>100%</code> at the top.</p>
 <p>But this still isn't quite there.
 We'll need to disable the param control's default behaviour with <code>toggle_param: false</code>, and set the parameter with a ClyphX Pro action list, using a <a href="../../lessons/session-ring/#dynamic-track-controls">different syntax</a> to target ring tracks:</p>
@@ -3287,7 +3286,7 @@ As our pad faders are already targeting the selected device, we now have control
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T01:57:59+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T20:36:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
   </span>
 
     

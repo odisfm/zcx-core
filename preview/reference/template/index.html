@@ -3399,9 +3399,6 @@ We can then reference that variable within a template string. For instance:</p>
 <p>Provides access to a <code>ZcxApi</code> object. See <a href="https://github.com/odisfm/zcx-core/blob/main/app/api_manager.py">the source code</a> for available properties and methods,</p>
 <h5 id="song"><code>song</code><a class="headerlink" href="#song" title="Permanent link">&para;</a></h5>
 <p>Provides access to the Live set's <a href="https://docs.cycling74.com/apiref/lom/song/">song object</a>.</p>
-<h5 id="ring"><code>ring</code><a class="headerlink" href="#ring" title="Permanent link">&para;</a></h5>
-<p>Allows references to the enclosed tracks and scenes of the zcx session ring.</p>
-<p>See <a href="../../lessons/session-ring/#referencing-the-ring-from-template-strings">the session ring lesson</a>.</p>
 <h5 id="printmessage-str"><code>print(message: str)</code><a class="headerlink" href="#printmessage-str" title="Permanent link">&para;</a></h5>
 <p>Allows you to write to the log. Mostly useful with <a href="../command/#python">Python commands</a>.</p>
 <h5 id="msgmessage-str"><code>msg(message: str)</code><a class="headerlink" href="#msgmessage-str" title="Permanent link">&para;</a></h5>
@@ -3414,6 +3411,35 @@ We can then reference that variable within a template string. For instance:</p>
 <h5 id="sel_track"><code>sel_track</code><a class="headerlink" href="#sel_track" title="Permanent link">&para;</a></h5>
 <p>Returns the name of the selected track.
 Must be enclosed in double-quotes for use in a ClyphX Pro action list.</p>
+<h5 id="ring"><code>ring</code><a class="headerlink" href="#ring" title="Permanent link">&para;</a></h5>
+<p>Allows references to the enclosed tracks and scenes of the zcx <a href="../../lessons/session-ring/#referencing-the-ring-from-template-strings">session ring</a>.</p>
+<ul>
+<li><code>ring.tracks[idx]</code> - get the name of the track at that column of the ring</li>
+<li><code>ring.scenes[idx]</code> - get the zero-indexed scene number of the scene at that row of the ring</li>
+<li><code>ring.height</code>, <code>ring.width</code> - get the height or width of the ring</li>
+</ul>
+<h5 id="matrix"><code>matrix</code><a class="headerlink" href="#matrix" title="Permanent link">&para;</a></h5>
+<p>Get information about the <a href="../../lessons/getting-started/zcx-concepts/#matrix-controls">matrix</a> and its <a href="../../lessons/getting-started/zcx-concepts/#pages">pages</a></p>
+<ul>
+<li><code>matrix.height</code>, <code>matrix.width</code> - get the height or width of the matrix</li>
+<li><code>matrix.page</code> - the zero-indexed number of the current page</li>
+<li><code>matrix.page_count</code> - the number of matrix pages</li>
+<li><code>matrix.all_pages</code> - a list of page names (in order)</li>
+<li><code>matrix.num_controls</code> - height * width</li>
+</ul>
+<h5 id="modes"><code>modes</code><a class="headerlink" href="#modes" title="Permanent link">&para;</a></h5>
+<p>Get information about <a href="../../lessons/getting-started/zcx-concepts/#modes">modes</a></p>
+<ul>
+<li><code>modes.all</code> - a list of all mode names (active and inactive)</li>
+<li><code>modes.active</code> - a list of active mode names</li>
+<li><code>modes.state</code> - a dict, mapping mode name to boolean for active/inactive</li>
+</ul>
+<h5 id="overlays"><code>overlays</code><a class="headerlink" href="#overlays" title="Permanent link">&para;</a></h5>
+<p>Get information about <a href="../../lessons/overlays-layers/#overlays">overlays</a></p>
+<ul>
+<li><code>overlays.all</code> - a list of overlay names (active and inactive)</li>
+<li><code>overlays.active</code> - a list of active overlay names</li>
+</ul>
 <h2 id="group-templates">group templates<a class="headerlink" href="#group-templates" title="Permanent link">&para;</a></h2>
 <p>zcx allows you to define any arbitrary selection of controls as a <strong>group</strong> of controls. By grouping controls, we can apply a common configuration across all of them.</p>
 <p>The syntax for defining a group is different for <a href="../../lessons/getting-started/zcx-concepts/#named-controls">named controls</a> and <a href="../../lessons/getting-started/zcx-concepts/#matrix-controls">controls that are part of the matrix</a>.</p>
@@ -3656,7 +3682,7 @@ In this case, the control is <code>pink</code>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T22:59:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T22:41:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
   </span>
 
     
