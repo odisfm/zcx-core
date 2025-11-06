@@ -186,7 +186,7 @@ class MelodicComponent(ZCXComponent):
     def setup(self):
         section_def = self.component_map["PageManager"].get_special_section_definition('__keyboard')
         if section_def is None:
-            self.log('No __keyboard section defined')
+            self.debug('No __keyboard section defined')
             return
 
         zcx_matrix = self.component_map['HardwareInterface'].button_matrix_state

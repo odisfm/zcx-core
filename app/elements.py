@@ -151,9 +151,9 @@ class Elements(ElementsBase):
                 msg_type=matrix_msg_type,
                 element_factory=matrix_button_factory,
             )
-            self.log(f"created playable matrix on channel {playable_channel} ({playable_channel + 1}).")
+            ROOT_LOGGER.debug(f"created playable matrix on channel {playable_channel} ({playable_channel + 1}).")
         else:
-            self.log(f"no playable section defined")
+            ROOT_LOGGER.debug(f"no playable section defined")
 
         import sys
 
