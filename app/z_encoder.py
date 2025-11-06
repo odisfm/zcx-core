@@ -669,8 +669,6 @@ class ZEncoder(EventObject):
                     return None
 
     def traverse_chain_map(self, track, chain_map):
-        self.debug(f'trying to traverse chain map {chain_map}')
-
         def parse_templated_node(_node):
             if not isinstance(_node, str) or '${' not in _node:
                 try:
@@ -701,8 +699,6 @@ class ZEncoder(EventObject):
             is_device = i % 2 == 0
             node = parse_templated_node(node)
 
-            self.debug(f'traversing part {i}: {node}')
-
             if i == 0:
                 # First node is always a device
                 if isinstance(node, int):
@@ -731,15 +727,16 @@ class ZEncoder(EventObject):
                         raise ConfigurationError(f'No device in {current_search_obj.name} called {node}')
             else:
                 # Looking for a chain in the current device
-                if isinstance(node, int):
+                if isinstance(node, int) and hasattr(current_search_obj, "chains"):
                     current_search_obj = list(current_search_obj.chains)[node - 1]
                 else:
                     found = False
-                    for chain in current_search_obj.chains:
-                        if chain.name == node:
-                            current_search_obj = chain
-                            found = True
-                            break
+                    if hasattr(current_search_obj, "chains"):
+                        for chain in current_search_obj.chains:
+                            if chain.name == node:
+                                current_search_obj = chain
+                                found = True
+                                break
                     if not found:
                         raise ConfigurationError(f'No chain in {current_search_obj.name} called {node}')
 

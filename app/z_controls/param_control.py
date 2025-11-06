@@ -809,15 +809,16 @@ class ParamControl(ZControl):
                         raise ConfigurationError(f'No device in {current_search_obj.name} called {node}')
             else:
                 # Looking for a chain in the current device
-                if isinstance(node, int):
+                if isinstance(node, int) and hasattr(current_search_obj, "chains"):
                     current_search_obj = list(current_search_obj.chains)[node - 1]
                 else:
                     found = False
-                    for chain in current_search_obj.chains:
-                        if chain.name == node:
-                            current_search_obj = chain
-                            found = True
-                            break
+                    if hasattr(current_search_obj, "chains"):
+                        for chain in current_search_obj.chains:
+                            if chain.name == node:
+                                current_search_obj = chain
+                                found = True
+                                break
                     if not found:
                         raise ConfigurationError(f'No chain in {current_search_obj.name} called {node}')
 
