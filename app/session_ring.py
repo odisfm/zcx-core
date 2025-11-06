@@ -193,26 +193,6 @@ class SessionRing(SessionRingBase):
     def tracks_in_view(self):
         return self.tracks_to_use()[self.track_offset:self.track_offset + self.num_tracks]
 
-    @property
-    def width(self):
-        return self.__width
-
-    @property
-    def height(self):
-        return self.__height
-
-    """
-    When using ClyphX Pro script linking, cxp will
-    attempt to set these properties and error if there is no setter
-    """
-
-    @height.setter
-    def height(self, height):
-        return
-
-    @width.setter
-    def width(self, width):
-        return
 
     def _on_highlighted_clip_slot_changed(self, dry_run=False):
         if not self._drag_by_highlight:
@@ -232,13 +212,13 @@ class SessionRing(SessionRingBase):
             if selected_track_index < self.track_offset:
                 offset_for_track = selected_track_index - self.track_offset
             else:
-                end_offset = self.track_offset + self.width
+                end_offset = self.track_offset + self.__width
                 offset_for_track = selected_track_index - end_offset + 1
 
         if selected_scene_index < self.scene_offset:
             offset_for_scene = selected_scene_index - self.scene_offset
-        elif selected_scene_index >= self.scene_offset + self.height:
-            end_offset = self.scene_offset + self.height
+        elif selected_scene_index >= self.scene_offset + self.__height:
+            end_offset = self.scene_offset + self.__height
             offset_for_scene = selected_scene_index - end_offset + 1
 
         is_adjacent_or_inside = (-1 <= offset_for_scene <= 1 and
@@ -285,5 +265,5 @@ class RingAPI(EventObject):
         self._ring_component = component
         self.tracks = TrackLookup(self)
         self.scenes = SceneLookup(self)
-        self.height = component.height
-        self.width = component.width
+        self.height = component._SessionRing__height
+        self.width = component._SessionRing__width
