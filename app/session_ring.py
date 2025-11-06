@@ -21,8 +21,18 @@ class SessionRing(SessionRingBase):
         from . import PREF_MANAGER
         user_prefs = PREF_MANAGER.user_prefs
 
-        width = user_prefs.get('session_ring', {}).get('width', 1)
-        height = user_prefs.get('session_ring', {}).get('height', 1)
+        session_ring_def = user_prefs.get('session_ring')
+        if not session_ring_def:
+            session_ring_def = {}
+        elif not isinstance(session_ring_def, dict):
+            msg = (f"Invalid `session_ring` definition: `{session_ring_def}`"
+               f"\nMust be of type `dict`")
+            self.critical(msg)
+            self.critical('disabling session ring')
+            session_ring_def = {}
+
+        width = session_ring_def.get('width', 0)
+        height = session_ring_def.get('height', 0)
         self.num_layers = 0
 
         if height <= 0 or width <= 0:
@@ -57,7 +67,7 @@ class SessionRing(SessionRingBase):
         self.__does_send_osc_tracks = False
         self.__does_send_osc_positions = False
 
-        drag_by_highlight = user_prefs.get('session_ring', {}).get('drag_by_highlight', True)
+        drag_by_highlight = session_ring_def.get('drag_by_highlight', True)
 
         if drag_by_highlight is False:
             self._drag_by_highlight = 'off'
