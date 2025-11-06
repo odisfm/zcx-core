@@ -692,6 +692,7 @@ class ParamControl(ZControl):
     def refresh_binding(self):
         modes = self._mode_manager.current_modes
         self.modes_changed(modes)
+        self.bind_to_active()
 
     def bind_ad_hoc(self, binding_def):
         parsed_target_string, status = self.action_resolver.compile(
