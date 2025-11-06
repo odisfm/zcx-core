@@ -1,4 +1,5 @@
 from ableton.v2.base.event import listens
+from errors import CriticalConfigurationError
 
 from ..colors import parse_color_definition
 from ..errors import ConfigurationError
@@ -76,12 +77,15 @@ class PageControl(ZControl):
                     self._color_dict['base'] = self._disabled_color
                     self.page_changed.subject = self.__page_manager
                     self._page_number = None
+                    msg = f'Invalid page assignment: {page_number}'
                     try:
                         int(page_number)
                     except ValueError:
-                        raise ConfigurationError(f'Invalid page assignment: {page_number}')
+                        from .. import STRICT_MODE
+                        if STRICT_MODE:
+                            raise CriticalConfigurationError(msg)
                     finally:
-                        self.log(f'Invalid page assignment: {page_number}')
+                        self.warning(msg)
 
             self._page_number = _page_number
             active_color = self._raw_config.get('active_color')
