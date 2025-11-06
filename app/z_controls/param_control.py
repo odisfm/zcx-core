@@ -1,5 +1,5 @@
 from enum import Enum
-from ..util import to_percentage
+from ..util import to_percentage, is_chain_map_positional
 from ..z_control import ZControl, only_in_view
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
@@ -677,6 +677,11 @@ class ParamControl(ZControl):
             listen_dict["play_clip"] = True
         elif target_map.get("stop"):
             listen_dict["stop_clip"] = True
+
+        if (target_map.get("chain_map") and is_chain_map_positional(target_map["chain_map"]))\
+                or (target_map.get("device") and target_map.get("device").isdigit()):
+            listen_dict["device_list"] = True
+            listen_dict["chain_list"] = True
 
         return listen_dict
 

@@ -25,3 +25,14 @@ def to_percentage(min_val: float, max_val: float, actual: float) -> float:
     percentage = max(0.0, min(100.0, percentage))
 
     return round(percentage, 1)
+
+def is_chain_map_positional(chain_map: list[str]) -> bool:
+    for node in chain_map:
+        if node in ["first", "last", "sel"]:
+            return True
+        else:
+            if node.isdigit():
+                return True
+
+    return False
+

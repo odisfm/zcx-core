@@ -13,6 +13,7 @@ from .mode_manager import ModeManager
 from .session_ring import SessionRing
 from .bank_definitions import get_banked_parameter
 from .parse_target_path import parse_target_path
+from .util import is_chain_map_positional
 
 
 class ZEncoder(EventObject):
@@ -546,6 +547,11 @@ class ZEncoder(EventObject):
 
         if target_map.get('ring_track') is not None:
             listen_dict["ring_tracks"] = True
+
+        if (target_map.get("chain_map") and is_chain_map_positional(target_map["chain_map"]))\
+                or (target_map.get("device") and target_map.get("device").isdigit()):
+            listen_dict["device_list"] = True
+            listen_dict["chain_list"] = True
 
         return listen_dict
 
