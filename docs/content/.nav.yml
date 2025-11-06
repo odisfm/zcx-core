@@ -32,6 +32,7 @@ nav:
           - "lessons/overlays-layers.md"
           - osc output: "lessons/osc-output.md"
           - "lessons/using-multiple-configs.md"
+          - "lessons/custom-banks.md"
       - misc:
           - "lessons/*.md"
 
