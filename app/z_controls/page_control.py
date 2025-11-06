@@ -1,8 +1,7 @@
 from ableton.v2.base.event import listens
-from errors import CriticalConfigurationError
 
 from ..colors import parse_color_definition
-from ..errors import ConfigurationError
+from ..errors import ConfigurationError, CriticalConfigurationError
 from ..z_control import ZControl
 
 
