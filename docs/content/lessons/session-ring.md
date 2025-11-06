@@ -96,7 +96,24 @@ session_ring:
   drag_by_highlight: true
 ```
 
-Default is `true`.
+_Default is_ `true`.
+
+`drag_by_highlight: true`
 
 With this setting enabled, when the selected clip slot **was** inside the ring, and then moves to the outside edge of the ring (one to the left, one below, etc.), the ring will move itself so that the selected slot is back inside the ring.
+
+`drag_by_highlight: always`
+
+When the selected clip slot is outside the ring, zcx will **always** move the ring so that the selected slot is back inside the ring.
+
+`drag_by_highlight: pinned`
+
+The selected clip slot will always be in the top-left of the ring.
+
+`drag_by_highlight: false`
+
+None of these behaviours.
+
+!!! warning
+    When using zcx as part of [ClyphX Pro Script Linking](https://www.cxpman.com/manual/core-concepts/#script-linking), avoid setting `drag_by_highlight` to `always` or `pinned`.
 

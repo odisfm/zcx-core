@@ -5,6 +5,7 @@ from ableton.v3.base import listenable_property, EventObject
 from ableton.v2.control_surface.components import SessionRingComponent as SessionRingBase
 from ableton.v3.base import listens
 
+
 class SessionRing(SessionRingBase):
 
     def __init__(self, *a, **k):
@@ -57,12 +58,23 @@ class SessionRing(SessionRingBase):
         self.__does_send_osc_positions = False
 
         drag_by_highlight = user_prefs.get('session_ring', {}).get('drag_by_highlight', True)
-        if not isinstance(drag_by_highlight, bool):
+
+        if drag_by_highlight is False:
+            self._drag_by_highlight = 'off'
+        elif drag_by_highlight is True:
+            self._drag_by_highlight = 'on'
+        elif isinstance(drag_by_highlight, str):
+            mode = drag_by_highlight.lower()
+            if mode in ('always', 'pinned'):
+                self._drag_by_highlight = mode
+            else:
+                self.warning(f"Invalid value for `session_ring.drag_by_highlight`: {drag_by_highlight}. Using default `true`.")
+                self._drag_by_highlight = 'on'
+        else:
             self.warning(f"Invalid value for `session_ring.drag_by_highlight`: {drag_by_highlight}. Using default `true`.")
-            drag_by_highlight = True
+            self._drag_by_highlight = 'on'
 
         self._highlight_was_inside_ring = False
-        self._drag_by_highlight = drag_by_highlight
         self._on_selected_track_changed.subject = self.song.view
         self._on_selected_scene_changed.subject = self.song.view
 
@@ -193,9 +205,8 @@ class SessionRing(SessionRingBase):
     def tracks_in_view(self):
         return self.tracks_to_use()[self.track_offset:self.track_offset + self.num_tracks]
 
-
     def _on_highlighted_clip_slot_changed(self, dry_run=False):
-        if not self._drag_by_highlight:
+        if self._drag_by_highlight == 'off':
             return
 
         selected_track = self.song.view.selected_track
@@ -221,17 +232,41 @@ class SessionRing(SessionRingBase):
             end_offset = self.scene_offset + self.__height
             offset_for_scene = selected_scene_index - end_offset + 1
 
-        is_adjacent_or_inside = (-1 <= offset_for_scene <= 1 and
-                                 -1 <= offset_for_track <= 1)
+        if self._drag_by_highlight == 'pinned':
+            # Pinned mode: move ring so highlight is at top-left corner (track_offset, scene_offset)
+            selected_track_index = list(self.song.tracks).index(selected_track)
+            target_track_offset = selected_track_index
+            target_scene_offset = selected_scene_index
 
-        if not dry_run:
-            if self._highlight_was_inside_ring and is_adjacent_or_inside:
+            if not dry_run:
+                offset_track = target_track_offset - self.track_offset
+                offset_scene = target_scene_offset - self.scene_offset
+                if offset_track != 0 or offset_scene != 0:
+                    self.move(offset_track, offset_scene)
+                self._highlight_was_inside_ring = True
+            else:
+                self._highlight_was_inside_ring = (self.track_offset == target_track_offset and
+                                                   self.scene_offset == target_scene_offset)
+        elif self._drag_by_highlight == 'always':
+            # Always mode: move ring to cover highlight with minimum offset
+            if not dry_run and (offset_for_track != 0 or offset_for_scene != 0):
                 self.move(offset_for_track, offset_for_scene)
                 self._highlight_was_inside_ring = True
             else:
-                self._highlight_was_inside_ring = is_adjacent_or_inside and offset_for_track == 0 and offset_for_scene == 0
+                self._highlight_was_inside_ring = offset_for_track == 0 and offset_for_scene == 0
         else:
-            self._highlight_was_inside_ring = offset_for_track == 0 and offset_for_scene == 0
+            # On mode: only move if adjacent (max 1 step in each direction)
+            is_adjacent_or_inside = (-1 <= offset_for_scene <= 1 and
+                                     -1 <= offset_for_track <= 1)
+
+            if not dry_run:
+                if self._highlight_was_inside_ring and is_adjacent_or_inside:
+                    self.move(offset_for_track, offset_for_scene)
+                    self._highlight_was_inside_ring = True
+                else:
+                    self._highlight_was_inside_ring = is_adjacent_or_inside and offset_for_track == 0 and offset_for_scene == 0
+            else:
+                self._highlight_was_inside_ring = offset_for_track == 0 and offset_for_scene == 0
 
     @listens('selected_track')
     def _on_selected_track_changed(self):
