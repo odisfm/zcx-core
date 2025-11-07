@@ -30,10 +30,10 @@ The param control has a mandatory [binding](../reference/control/param.md#bindin
 ```yaml title="matrix_sections/velocity_params.yaml" hl_lines="2-3"
 pad_group: velocity_params
 type: param
-binding: RING(${me.X}) / DEV(1) B1 P${me.Y}
+binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 ```
 
-Inside the `RING()` part, we're using a [template string](../reference/template.md#template-strings) and referencing each control's [X property](../reference/control/standard.md#x-x_flip) to associate each column with each track of the session ring.
+Inside the `RING()` part, we're using a [template string](../reference/template.md#template-strings) and referencing each control's [x property](../reference/control/standard.md#x-x_flip) to associate each column with each track of the session ring.
 We're using the [Y property](../reference/control/standard.md#y-y_flip) to associate each row with a parameter on the first device of that track.
 
 Because we're targeting the session ring, we use a [special syntax](../reference/encoder.md#targeting-the-session-ring) combined with the [Bb Pp](../reference/encoder.md#devd-bb-pp) parameter.
@@ -45,7 +45,7 @@ This works, but it will only toggle each parameter between its minimum and maxim
 ```yaml title="matrix_sections/velocity_params.yaml" hl_lines="4-8"
 pad_group: velocity_params
 type: param
-binding: RING(${me.X}) / DEV(1) B1 P${me.Y}
+binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 toggle_param: false
 midpoint: 50.0
 gestures:
@@ -70,7 +70,7 @@ Let's change the `pressed` gesture to `released_immediately`, and add a `pressed
 ```yaml title="matrix_sections/velocity_params.yaml" hl_lines="7 9-11"
 pad_group: velocity_params
 type: param
-binding: RING(${me.X}) / DEV(1) B1 P${me.Y}
+binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 toggle_param: false
 midpoint: 50.0
 gestures:
@@ -95,7 +95,7 @@ velocity_params:
 ```yaml title="matrix_sections/velocity_params.yaml"
 pad_group: velocity_params
 type: param
-binding: RING(${me.X}) / DEV(1) B1 P${me.Y}
+binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 toggle_param: false
 midpoint: 50.0
 gestures:
