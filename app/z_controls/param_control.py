@@ -9,7 +9,7 @@ from ..colors import parse_color_definition, RgbColor
 from ..errors import ConfigurationError, CriticalConfigurationError
 from ..bank_definitions import get_banked_parameter
 from ..parse_target_path import parse_target_path
-from ..consts import DEFAULT_ON_THRESHOLD
+from ..consts import DEFAULT_ON_THRESHOLD, SENDS_COUNT
 
 UPDATE_RATE = 1 / 3 # 3 times per second
 
@@ -383,13 +383,19 @@ class ParamControl(ZControl):
                     return True
                 elif par_type == "send":
                     try:
-                        send_letter = target_map.get("send").upper()
-                        send_num = ord(send_letter) - 65  # `A` in ASCII
-                        sends_count = len(list(self.root_cs.song.return_tracks))
-                        if send_num < 0 or send_num >= sends_count:
-                            raise ConfigurationError(
-                                f"Invalid send: {send_letter} | {send_num} | sends_count {sends_count}"
-                            )
+                        send_def = target_map.get("send")
+                        if not send_def.isdigit():
+                            send_letter = send_def.upper()
+                            send_num = ord(send_letter) - 65  # `A` in ASCII
+                            sends_count = len(list(self.song.return_tracks))
+                            if send_num < 0 or send_num >= sends_count:
+                                raise ConfigurationError(
+                                    f"Invalid send: {send_letter} | {send_num} | sends_count {sends_count}"
+                                )
+                        else:
+                            send_num = int(send_def)
+                            if send_num >= SENDS_COUNT:
+                                send_num = send_num % SENDS_COUNT
 
                         self.mapped_parameter = track_obj.mixer_device.sends[send_num]
                         return True

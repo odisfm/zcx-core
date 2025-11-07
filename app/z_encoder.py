@@ -14,6 +14,7 @@ from .session_ring import SessionRing
 from .bank_definitions import get_banked_parameter
 from .parse_target_path import parse_target_path
 from .util import is_chain_map_positional
+from .consts import SENDS_COUNT
 
 
 class ZEncoder(EventObject):
@@ -313,13 +314,19 @@ class ZEncoder(EventObject):
                     return True
                 elif par_type == "send":
                     try:
-                        send_letter = target_map.get("send").upper()
-                        send_num = ord(send_letter) - 65  # `A` in ASCII
-                        sends_count = len(list(self.song.return_tracks))
-                        if send_num < 0 or send_num >= sends_count:
-                            raise ConfigurationError(
-                                f"Invalid send: {send_letter} | {send_num} | sends_count {sends_count}"
-                            )
+                        send_def = target_map.get("send")
+                        if not send_def.isdigit():
+                            send_letter = send_def.upper()
+                            send_num = ord(send_letter) - 65  # `A` in ASCII
+                            sends_count = len(list(self.song.return_tracks))
+                            if send_num < 0 or send_num >= sends_count:
+                                raise ConfigurationError(
+                                    f"Invalid send: {send_letter} | {send_num} | sends_count {sends_count}"
+                                )
+                        else:
+                            send_num = int(send_def)
+                            if send_num >= SENDS_COUNT:
+                                send_num = send_num % SENDS_COUNT
 
                         self.mapped_parameter = track_obj.mixer_device.sends[send_num]
                         return True

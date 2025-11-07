@@ -105,3 +105,5 @@ REPEAT_RATES = [
     "1/64D", "1/64", "1/64T"
 ]
 
+SEND_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+SENDS_COUNT = len(SEND_LETTERS)

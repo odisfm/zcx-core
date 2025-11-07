@@ -53,6 +53,7 @@ As such, nativeKONTROL's examples are reproduced below:
 #### SEND `z`
 
 **Applies to**: Any particular send on any track, where `z` is the send letter.
+You may also use a zero-indexed number in place of the letter.
 
 **Example:** `SEL/SEND F`
 
