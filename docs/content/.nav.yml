@@ -42,6 +42,7 @@ nav:
   - recipes:
       - basics:
           - "recipes/page-changer.md"
+`          - "recipes/dynamic-encoders.md"
       - "recipes/*.md"
 
   - developer: dev
