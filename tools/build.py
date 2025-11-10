@@ -453,7 +453,6 @@ def main():
         builder.hardware_root,
         builder.hardware_root / "demo_config",
         builder.hardware_root / "blank_config",
-        # builder.project_root / "preferences",
         builder.test_root,
         builder.user_test_root
     ]
