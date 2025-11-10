@@ -199,6 +199,8 @@ class PageManager(ZCXComponent):
             overlays_config = {}
 
         for overlay_name, overlay_def in overlays_config.items():
+            if not isinstance(overlay_def, dict):
+                raise CriticalConfigurationError(f"Error in overlay `{overlay_name}`: overlay definition must be a dict. Provided {overlay_def.__class__.__name__}")
             sections_def = overlay_def.get("matrix_sections", [])
             if not isinstance(sections_def, list):
                 raise CriticalConfigurationError(f"Overlay `{overlay_name}` key `matrix_sections` must be a list")
