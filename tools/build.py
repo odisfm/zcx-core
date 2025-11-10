@@ -451,11 +451,15 @@ def main():
     dirs_to_watch = [
         builder.src_root,
         builder.hardware_root,
-        builder.hardware_root / "demo_config",
-        builder.hardware_root / "blank_config",
         builder.test_root,
         builder.user_test_root
     ]
+
+    # Add demo_config or blank_config based on flag
+    if args.blank_config:
+        dirs_to_watch.append(builder.hardware_root / "blank_config")
+    else:
+        dirs_to_watch.append(builder.hardware_root / "demo_config")
 
     # Add test directory to watch list if hardware config is __test
     if builder.hardware_config == "__test" and builder.test_root.exists():
