@@ -3399,14 +3399,6 @@
 
     document$.subscribe(function() {
         initializeForm();
-        document.getElementById('generate-button').onclick = () => {
-          try {
-            const formData = new FormData(document.getElementById('matrix-gen-form'));
-            umami.track("matrix_gen_generated", Object.fromEntries(formData))
-          } catch (e) {
-            console.error(e);
-          }
-        }
     })
 
   </script>
