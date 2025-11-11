@@ -128,15 +128,15 @@
             <div class="md-banner__inner md-grid md-typeset">
               
 <div class="outdated-text-wrapper">
-  <div>
-    <span>You're not viewing the latest version.</span>
-    <a href="../../..">
-      <strong>Click here to go to latest.</strong>
-    </a>
-  </div>
-  <button aria-label="Dismiss this warning for one month">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-  </button>
+    <div>
+        <span>You're not viewing the latest version.</span>
+        <a href="../../..">
+            <strong>Click here to go to latest.</strong>
+        </a>
+    </div>
+    <button aria-label="Dismiss this warning for one month">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
 </div>
 
 
@@ -3303,7 +3303,6 @@
       <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-  
 
 
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
@@ -3319,97 +3318,97 @@
     
 
 <script>
-  const DEV_PATHS = ['dev', 'preview']
-  const outdatedEl = document.querySelector('[data-md-component="outdated"]')
-  const path = window.location.pathname
-  let isDevPath = false
+  document$.subscribe(() => {
 
-  for (const dev_path of DEV_PATHS) {
-    if (path.startsWith("/" + dev_path)) {
-      isDevPath = true
-      break
+    ////// outdated element stuff
+
+    const DEV_PATHS = ['dev', 'preview']
+    const outdatedEl = document.querySelector('[data-md-component="outdated"]')
+    const path = window.location.pathname
+    let isDevPath = false
+
+    for (const dev_path of DEV_PATHS) {
+      if (path.startsWith("/" + dev_path)) {
+        isDevPath = true
+        break
+      }
     }
-  }
 
-  if (isDevPath) {
-    document.body.classList.add('dev-mode')
-    outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
-    outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
-  }
-
-  outdatedEl.querySelector('button').addEventListener('click', () => {
     if (isDevPath) {
-      localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
-      umami.track('dismiss-warning-dev')
+      document.body.classList.add('dev-mode')
+      outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
+      outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
+    }
+
+    outdatedEl.querySelector('button').addEventListener('click', () => {
+      if (isDevPath) {
+        localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
+        umami.track('dismiss-warning-dev')
+      } else {
+        localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
+        umami.track('dismiss-warning-outdated')
+      }
+
+      outdatedEl.remove()
+    })
+
+    let relevantWarningDate;
+    if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
+      relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
     } else {
-      localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
-      umami.track('dismiss-warning-outdated')
+      relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
     }
 
-    outdatedEl.remove()
-  })
+    if (relevantWarningDate) {
+      const dismissedDate = new Date(JSON.parse(relevantWarningDate))
+      const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
 
-  let relevantWarningDate;
-  if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
-    relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
-  } else {
-    relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
-  }
-
-  if (relevantWarningDate) {
-  const dismissedDate = new Date(JSON.parse(relevantWarningDate))
-  const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
-
-  if (daysSinceDismissed < 28) {
-    outdatedEl.remove()
-  }
-}
-
-
-
-const isDigit = (char) => {
-  return /^\d$/.test(char)
-}
-
-const processVersionElements = () => {
-  const versionElements = []
-  const versionChooserButton = document.querySelector('.md-version__current')
-  if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
-    versionElements.push(versionChooserButton)
-  }
-  const versionListItems = document.querySelectorAll('.md-version__list li')
-  for (const versionLi of versionListItems) {
-    if (isDigit(versionLi.textContent[0])) {
-      versionElements.push(versionLi)
+      if (daysSinceDismissed < 28) {
+        outdatedEl.remove()
+      }
     }
-  }
 
-  for (const versionElement of versionElements) {
-    versionElement.classList.add('version-number')
-  }
 
-  return versionElements.length > 0
-}
-
-if (!processVersionElements()) {
-  const observer = new MutationObserver(() => {
-    if (processVersionElements()) {
-      observer.disconnect()
+    const isDigit = (char) => {
+      return /^\d$/.test(char)
     }
-  })
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  })
+    const processVersionElements = () => {
+      const versionElements = []
+      const versionChooserButton = document.querySelector('.md-version__current')
+      if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
+        versionElements.push(versionChooserButton)
+      }
+      const versionListItems = document.querySelectorAll('.md-version__list li')
+      for (const versionLi of versionListItems) {
+        if (isDigit(versionLi.textContent[0])) {
+          versionElements.push(versionLi)
+        }
+      }
 
-  setTimeout(() => observer.disconnect(), 5000)
-}
+      for (const versionElement of versionElements) {
+        versionElement.classList.add('version-number')
+      }
 
-</script>
+      return versionElements.length > 0
+    }
 
+    if (!processVersionElements()) {
+      const observer = new MutationObserver(() => {
+        if (processVersionElements()) {
+          observer.disconnect()
+        }
+      })
 
-  <script>
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      })
+
+      setTimeout(() => observer.disconnect(), 5000)
+    }
+
+    ////// matrix gen
 
     function initializeForm() {
       const generateButton = document.getElementById('generate-button');
@@ -3511,11 +3510,11 @@ if (!processVersionElements()) {
       return Math.floor(Math.random() * max);
     }
 
-    document$.subscribe(function() {
-        initializeForm();
-    })
+    initializeForm();
 
-  </script>
+  })
+
+</script>
 
 
   </body>

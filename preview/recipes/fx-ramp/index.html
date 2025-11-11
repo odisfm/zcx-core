@@ -128,15 +128,15 @@
             <div class="md-banner__inner md-grid md-typeset">
               
 <div class="outdated-text-wrapper">
-  <div>
-    <span>You're not viewing the latest version.</span>
-    <a href="../../..">
-      <strong>Click here to go to latest.</strong>
-    </a>
-  </div>
-  <button aria-label="Dismiss this warning for one month">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-  </button>
+    <div>
+        <span>You're not viewing the latest version.</span>
+        <a href="../../..">
+            <strong>Click here to go to latest.</strong>
+        </a>
+    </div>
+    <button aria-label="Dismiss this warning for one month">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
 </div>
 
 
@@ -3633,92 +3633,201 @@ We could also do <code>blink_color: blue</code> to blink purple and blue.</p>
     
 
 <script>
-  const DEV_PATHS = ['dev', 'preview']
-  const outdatedEl = document.querySelector('[data-md-component="outdated"]')
-  const path = window.location.pathname
-  let isDevPath = false
+  document$.subscribe(() => {
 
-  for (const dev_path of DEV_PATHS) {
-    if (path.startsWith("/" + dev_path)) {
-      isDevPath = true
-      break
+    ////// outdated element stuff
+
+    const DEV_PATHS = ['dev', 'preview']
+    const outdatedEl = document.querySelector('[data-md-component="outdated"]')
+    const path = window.location.pathname
+    let isDevPath = false
+
+    for (const dev_path of DEV_PATHS) {
+      if (path.startsWith("/" + dev_path)) {
+        isDevPath = true
+        break
+      }
     }
-  }
 
-  if (isDevPath) {
-    document.body.classList.add('dev-mode')
-    outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
-    outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
-  }
-
-  outdatedEl.querySelector('button').addEventListener('click', () => {
     if (isDevPath) {
-      localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
-      umami.track('dismiss-warning-dev')
+      document.body.classList.add('dev-mode')
+      outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
+      outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
+    }
+
+    outdatedEl.querySelector('button').addEventListener('click', () => {
+      if (isDevPath) {
+        localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
+        umami.track('dismiss-warning-dev')
+      } else {
+        localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
+        umami.track('dismiss-warning-outdated')
+      }
+
+      outdatedEl.remove()
+    })
+
+    let relevantWarningDate;
+    if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
+      relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
     } else {
-      localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
-      umami.track('dismiss-warning-outdated')
+      relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
     }
 
-    outdatedEl.remove()
-  })
+    if (relevantWarningDate) {
+      const dismissedDate = new Date(JSON.parse(relevantWarningDate))
+      const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
 
-  let relevantWarningDate;
-  if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
-    relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
-  } else {
-    relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
-  }
-
-  if (relevantWarningDate) {
-  const dismissedDate = new Date(JSON.parse(relevantWarningDate))
-  const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
-
-  if (daysSinceDismissed < 28) {
-    outdatedEl.remove()
-  }
-}
-
-
-
-const isDigit = (char) => {
-  return /^\d$/.test(char)
-}
-
-const processVersionElements = () => {
-  const versionElements = []
-  const versionChooserButton = document.querySelector('.md-version__current')
-  if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
-    versionElements.push(versionChooserButton)
-  }
-  const versionListItems = document.querySelectorAll('.md-version__list li')
-  for (const versionLi of versionListItems) {
-    if (isDigit(versionLi.textContent[0])) {
-      versionElements.push(versionLi)
+      if (daysSinceDismissed < 28) {
+        outdatedEl.remove()
+      }
     }
-  }
 
-  for (const versionElement of versionElements) {
-    versionElement.classList.add('version-number')
-  }
 
-  return versionElements.length > 0
-}
-
-if (!processVersionElements()) {
-  const observer = new MutationObserver(() => {
-    if (processVersionElements()) {
-      observer.disconnect()
+    const isDigit = (char) => {
+      return /^\d$/.test(char)
     }
-  })
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  })
+    const processVersionElements = () => {
+      const versionElements = []
+      const versionChooserButton = document.querySelector('.md-version__current')
+      if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
+        versionElements.push(versionChooserButton)
+      }
+      const versionListItems = document.querySelectorAll('.md-version__list li')
+      for (const versionLi of versionListItems) {
+        if (isDigit(versionLi.textContent[0])) {
+          versionElements.push(versionLi)
+        }
+      }
 
-  setTimeout(() => observer.disconnect(), 5000)
-}
+      for (const versionElement of versionElements) {
+        versionElement.classList.add('version-number')
+      }
+
+      return versionElements.length > 0
+    }
+
+    if (!processVersionElements()) {
+      const observer = new MutationObserver(() => {
+        if (processVersionElements()) {
+          observer.disconnect()
+        }
+      })
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      })
+
+      setTimeout(() => observer.disconnect(), 5000)
+    }
+
+    ////// matrix gen
+
+    function initializeForm() {
+      const generateButton = document.getElementById('generate-button');
+      const output_block = document.getElementById('yaml-output')?.querySelector('code');
+
+      if (!generateButton || !output_block) return;
+
+      generateButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        processFormData(output_block);
+      });
+    }
+
+    function processFormData(output_block) {
+      output_block.innerHTML = null;
+
+      let width = parseInt(document.getElementById('columns').value);
+      let height = parseInt(document.getElementById('rows').value);
+      let comment_out = document.getElementById('comment-out').checked;
+      let space_between_items = document.getElementById('space-between-items').checked;
+      let comment_coords = document.getElementById('comment-coords').checked;
+      let includeColor = document.getElementById('color').checked;
+      let includeType = document.getElementById('type').checked;
+      let randomColor = document.getElementById('random-color').checked;
+
+      const gestures = [
+        'pressed',
+        'released',
+        'released_immediately',
+        'pressed_delayed',
+        'released_delayed',
+        'double_clicked'
+      ];
+
+      let content = '';
+      let these_gestures = [];
+
+      for (let i = 0; i < gestures.length; i++) {
+        let gesture = gestures[i];
+        if (document.getElementById(gesture).checked) {
+          these_gestures.push(gesture);
+        }
+      }
+
+      for (let i = 0; i < height; i++) {
+        if (comment_coords) content += make_comment(`!! row ${i + 1}`);
+        for (let j = 0; j < width; j++) {
+          if (comment_coords) content += make_comment(`col ${j + 1}`);
+          content += '- \n';
+
+          if (includeColor) {
+            let color = 127;
+            if (randomColor) color = getRandomInt(126) + 1;
+            content += make_row('color', color, 1, comment_out);
+            content += '\n';
+          }
+
+          if (includeType) {
+            content += make_row('type', 'standard', 1, comment_out);
+            content += '\n';
+          }
+
+          content += make_row('gestures', false, 1, comment_out, true);
+          if (these_gestures.length === 0) {
+            content += make_row('pressed', 'DUMMY', 2, true, false);
+            content += '\n';
+          } else {
+            for (let g of these_gestures) {
+              content += make_row(g, 'DUMMY', 2, comment_out, false);
+              content += '\n';
+            }
+          }
+
+          if (space_between_items) content += '\n';
+        }
+      }
+
+      let span = document.createElement('span');
+      span.textContent = content;
+      output_block.appendChild(span);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function make_row(key, value, indent, commented = false, is_dict = false) {
+      let row = "";
+      if (commented) row += "# ";
+      for (let i = 0; i < indent; i++) row += "  ";
+      row += `${key}:`;
+      if (is_dict) return row + `\n`;
+      row += ` ${value}`;
+      return row;
+    }
+
+    function make_comment(content) {
+      return `# ${content}\n`;
+    }
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    initializeForm();
+
+  })
 
 </script>
 
