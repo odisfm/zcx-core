@@ -115,6 +115,12 @@ class ViewManager(ZCXComponent):
             for page_idx in pages_out:
                 self.__pages_to_overlays_out[page_idx].append(overlay_name)
 
+        # Deduplicate
+        for i in range(len(self.__pages_to_overlays_in)):
+            self.__pages_to_overlays_in[i] = list(set(self.__pages_to_overlays_in[i]))
+        for i in range(len(self.__pages_to_overlays_out)):
+            self.__pages_to_overlays_out[i] = list(set(self.__pages_to_overlays_out[i]))
+
         self._current_page_listener.subject = self._page_manager
 
     def _unload(self):
