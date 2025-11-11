@@ -88,7 +88,9 @@ class ViewManager(ZCXComponent):
                             except IndexError:
                                 raise ValueError()
                         elif isinstance(page, str):
-                            _page_idx = self._page_manager.get_page_number_from_name(page) # throws ValueError
+                            _page_idx = self._page_manager.get_page_number_from_name(page)
+                            if _page_idx is False:
+                                raise ValueError()
                             return_list.append(_page_idx)
                         else:
                             raise ValueError()
