@@ -107,7 +107,7 @@ overlays:
 ### Enabling overlays
 
 When zcx loads, all overlays are disabled.
-It's up to us to define a control that activates and deactivates the overlay:
+It's up to us to define a control that activates and deactivates the overlay by using the [overlay command](../reference/command.md#overlay):
 
 ```yaml hl_lines="6-13" title="named_controls.yaml"
 my_button:
