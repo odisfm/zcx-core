@@ -143,7 +143,7 @@ The default of `false` executes only one matching command bundle per gesture.
 ### release_on_exit
 `bool = true`
 
-Concerns the scenario where a control leaves view while being pressed, e.g. the page changed.
+Concerns the scenario where a control leaves view while being held, e.g. you are holding a matrix control and change to a page that doesn't feature that control.
 
 With the default of `true`, the control will fire its `released` gesture.
 Additionally, it will fire its `released_delayed` gesture if the control had been held a short while, or the `released_immediately` gesture if it had not.
