@@ -136,6 +136,9 @@ class TransportControl(ZControl):
 
         if self._bound_function in ["play", "session_record", "arrangement_record", "metronome"]:
             self._is_playing_listener.subject = self._song
+        else:
+            if self._playing_active_color != self._stopped_active_color or self._playing_inactive_color != self._stopped_inactive_color:
+                self._is_playing_listener.subject = self._song
 
 
         match self._bound_function:
@@ -165,8 +168,13 @@ class TransportControl(ZControl):
         self._suppress_animations = True
         self.request_color_update()
 
-
     def request_color_update(self):
+        is_playing = self._song.is_playing
+        active_color = self._playing_active_color if is_playing else self._stopped_active_color
+        inactive_color = self._playing_inactive_color if is_playing else self._stopped_inactive_color
+
+        self.log(self._stopped_active_color, self._playing_active_color, self._stopped_inactive_color, self._playing_inactive_color)
+
         match self._bound_function:
             case None:
                 self._control_element.set_light(self._color)
@@ -181,7 +189,7 @@ class TransportControl(ZControl):
                 if self._song.session_record:
                     if self._song.is_playing:
                         self._color = self._playing_active_color
-                    elif song.is_counting_in:
+                    elif self._song.is_counting_in:
                         self._color = self._stopped_active_color
                     else:
                         self._color = self._stopped_inactive_color
@@ -189,63 +197,29 @@ class TransportControl(ZControl):
                     self._color = self._stopped_inactive_color
             case 'arrangement_record':
                 if self._song.record_mode == 1:
-                    if self._song.is_playing:
-                        self._color = self._playing_active_color
-                    else:
-                        self._color = self._stopped_active_color
+                    self._color = active_color
                 else:
-                    if self._song.is_playing:
-                        self._color = self._stopped_inactive_color
-                    else:
-                        self._color = self._stopped_inactive_color
+                    self._color = inactive_color
             case 'record':
                 if self._song.session_record or self._song.record_mode == 1:
-                    if self._song.is_playing:
-                        self._color = self._playing_active_color
-                    else:
-                        self._color = self._stopped_active_color
+                    self._color = active_color
                 else:
-                    if self._song.is_playing:
-                        self._color = self._stopped_inactive_color
-                    else:
-                        self._color = self._stopped_inactive_color
+                    self._color = inactive_color
             case 'metronome':
                 if self._song.metronome:
-                    if self._song.is_playing:
-                        self._color = self._playing_active_color
-                    else:
-                        self._color = self._stopped_active_color
+                    self._color = active_color
                 else:
-                    if self._song.is_playing:
-                        self._color = self._playing_inactive_color
-                    else:
-                        self._color = self._stopped_inactive_color
+                    self._color = inactive_color
             case 'loop':
-                if self._song.loop:
-                    self._color = self._playing_active_color
-                else:
-                    self._color = self._playing_inactive_color
+                self._color = active_color if self._song.loop else inactive_color
             case 'punch_in':
-                if self._song.punch_in:
-                    self._color = self._playing_active_color
-                else:
-                    self._color = self._playing_inactive_color
+                self._color = active_color if self._song.punch_in else inactive_color
             case 'punch_out':
-                if self._song.punch_out:
-                    self._color = self._playing_active_color
-                else:
-                    self._color = self._playing_inactive_color
+                self._color = active_color if self._song.punch_out else inactive_color
             case 'automation':
-                if self._song.session_automation_record:
-                    self._color = self._playing_active_color
-                else:
-                    self._color = self._playing_inactive_color
+                self._color = active_color if self._song.session_automation_record else inactive_color
             case 'overdub':
-                if self._song.arrangement_overdub:
-                    self._color = self._playing_active_color
-                else:
-                    self._color = self._playing_inactive_color
-
+                self._color = active_color if self._song.arrangement_overdub else inactive_color
 
         super().request_color_update()
 
