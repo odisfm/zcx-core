@@ -48,3 +48,31 @@ These are values attached to controls that can be referenced from within [templa
 ### track
 
 Returns the name of the bound track.
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+  type: track
+  track: My Track
+  gestures:
+    pressed: >
+      "${me.track}" / SEL
+```
+
+### Multipurpose
+
+```yaml
+my_control:
+  type: track
+  track: My Track
+  gestures:
+    pressed: >
+      "${me.track}" / SEL
+    pressed_delayed: >
+      "${me.track}" / ARM
+    double_clicked: >
+      "${me.track}" / PLAY >
+```

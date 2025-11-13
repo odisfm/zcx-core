@@ -58,3 +58,37 @@ Similar to above, but this color will be used when the song is playing.
 - This is applicable to all transport functions, not just `play`
 - If no `active_color` or `inactive_color` is defined, this option will be ignored.
 
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+  type: transport
+  transport: play
+  gestures:
+    pressed: SETPLAY
+```
+
+```yaml
+my_control:
+  type: transport
+  transport: record
+  gestures:
+    pressed: SREC
+```
+
+### Custom colors
+
+```yaml
+my_control:
+  type: transport
+  transport: overdub
+  active_color: white
+  inactive_color: grey
+  playing_active_color:
+    pulse:
+      a: red
+      b: purple
+```

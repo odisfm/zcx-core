@@ -38,3 +38,61 @@ ___
 `ignored`
 
 Feedback is based on whether the control's bound mode is active.
+
+## Examples
+
+### Momentary
+
+```yaml
+my_control:
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+```
+
+### With latch
+
+```yaml
+my_control:
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+    double_clicked:
+      mode_on: shift
+```
+
+Double-click to keep the mode on then short press to turn it off again.
+
+### Toggle
+
+```yaml
+my_control:
+  type: mode
+  mode: shift
+  gestures:
+    pressed:
+      mode: shift
+```
+
+### Custom colors
+
+```yaml
+my_control:
+  type: mode
+  mode: shift
+  active_color: green
+  inactive_color: white
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+```

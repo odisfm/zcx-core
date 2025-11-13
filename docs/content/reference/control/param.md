@@ -194,3 +194,28 @@ Without holding `shift`, pressing the control selects the device.
 While holding `shift`, the device's bypass is toggled.
 
 **Note:** For this command to be useful, [toggle_param](#toggle_param) must be set to `false`, otherwise every press will always toggle the parameter.
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+  type: param
+  binding: >
+    DEV(SEL) P1
+```
+
+See [binding](#binding) for available options.
+
+### Mode-aware
+
+```yaml
+my_control:
+  type: param
+  binding:
+    default: >
+      "my track" / ARM
+    __shift: >
+      "my track" / MUTE
+```

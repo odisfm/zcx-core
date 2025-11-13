@@ -66,3 +66,49 @@ Returns the name of the bound page.
 #### is_active
 
 Returns a boolean representing if the bound page is in view.
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+  type: page
+  page: my_page
+  gestures:
+    pressed:
+      page: my_page
+```
+
+### Custom colors
+
+```yaml
+my_control:
+  type: page
+  page: my_page
+  active_color: white
+  inactive_color: red
+  gestures:
+    pressed:
+      page: my_page
+```
+
+### With "peek"
+
+```yaml
+my_control:
+  type: page
+  page: my_page
+  gestures:
+    pressed:
+      page: my_page
+    released_delayed:
+      page: last
+```
+
+Hold the control to see its page.
+On release, go back to the previous page.
+
+### Page changer
+
+[See recipe](../../recipes/page-changer.md).

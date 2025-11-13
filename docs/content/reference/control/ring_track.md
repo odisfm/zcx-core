@@ -25,3 +25,20 @@ ring_index: int
 `int`
 
 The zero-indexed column number of the session ring track to bind to.
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+  type: ring_track
+  ring_index: 0
+  gestures:
+    pressed: >
+      "${me.track}" / SEL
+```
+
+### See also
+
+[Track control examples](track.md#examples).

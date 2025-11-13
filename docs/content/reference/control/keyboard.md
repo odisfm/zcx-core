@@ -99,3 +99,21 @@ Define a color that will display when this control's bound page is active.
 `color definition`
 
 Inverse of [active color](#active_color).
+
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+    type: keyboard
+    function:
+      repeat_rate: 1/4
+```
+
+See [function](#function) for available options.
+
+### Note repeat overlay
+
+[See recipe](../../recipes/note-repeat.md).

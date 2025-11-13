@@ -239,3 +239,26 @@ To use this percentage in a ClyphX action list, you will need to manually add th
 Returns the last velocity as a percentage, but **scaled** according to the control's [threshold](#threshold).
 
 E.g., if a control has a threshold of `30`, a press with a velocity of `30` will return `0.0`.
+
+## Examples
+
+### Minimal config
+
+```yaml
+my_control:
+  color: red
+  gestures:
+    pressed: METRO
+```
+
+### Short press and long press
+
+```yaml
+my_control:
+  color: red
+  gestures:
+    released_immediately: SRECFIX 4
+    pressed_delayed: SREC
+```
+
+

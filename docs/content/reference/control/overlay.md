@@ -69,3 +69,32 @@ Returns the name of the bound page.
 #### is_active
 
 Returns a boolean representing if the bound page is in view.
+
+## Examples
+
+### Momentary
+
+```yaml
+my_control:
+  type: overlay
+  overlay: my_overlay
+  gestures:
+    pressed:
+      overlay:
+        enable: my_overlay
+    released:
+      overlay:
+        disable: my_overlay
+```
+
+### Toggle
+
+```yaml
+my_control:
+  type: overlay
+  overlay: my_overlay
+  gestures:
+    pressed:
+      overlay:
+        toggle: my_overlay
+```
