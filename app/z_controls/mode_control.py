@@ -48,6 +48,8 @@ class ModeControl(ZControl):
         self._bound_mode = mode
         self._suppress_animations = True
 
+        self._context["me"]["mode"] = mode
+
         active_color_def = self._raw_config.get('active_color')
         inactive_color_def = self._raw_config.get('inactive_color')
         if self._feedback_type == "basic":

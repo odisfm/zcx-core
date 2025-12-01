@@ -39,6 +39,14 @@ ___
 
 Feedback is based on whether the control's bound mode is active.
 
+## properties
+
+These are values attached to controls that can be referenced from within [template strings](../template.md#template-strings).
+
+### mode
+
+The name of the bound mode.
+
 ## Examples
 
 ### Momentary
