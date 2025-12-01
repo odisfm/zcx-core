@@ -637,15 +637,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#built-for-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      built for modes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#unlimited-pages" class="md-nav__link">
     <span class="md-ellipsis">
       unlimited pages
@@ -655,18 +646,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rapid-configuration" class="md-nav__link">
+  <a href="#built-for-modes" class="md-nav__link">
     <span class="md-ellipsis">
-      rapid configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#deeper-customisation" class="md-nav__link">
-    <span class="md-ellipsis">
-      deeper customisation
+      built for modes
     </span>
   </a>
   
@@ -682,9 +664,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reusable-definitions" class="md-nav__link">
+  <a href="#session-view-and-keyboard-view" class="md-nav__link">
     <span class="md-ellipsis">
-      reusable definitions
+      session view and keyboard view
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templating-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      templating system
     </span>
   </a>
   
@@ -3154,15 +3145,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#built-for-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      built for modes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#unlimited-pages" class="md-nav__link">
     <span class="md-ellipsis">
       unlimited pages
@@ -3172,18 +3154,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rapid-configuration" class="md-nav__link">
+  <a href="#built-for-modes" class="md-nav__link">
     <span class="md-ellipsis">
-      rapid configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#deeper-customisation" class="md-nav__link">
-    <span class="md-ellipsis">
-      deeper customisation
+      built for modes
     </span>
   </a>
   
@@ -3199,9 +3172,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reusable-definitions" class="md-nav__link">
+  <a href="#session-view-and-keyboard-view" class="md-nav__link">
     <span class="md-ellipsis">
-      reusable definitions
+      session view and keyboard view
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templating-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      templating system
     </span>
   </a>
   
@@ -3234,9 +3216,18 @@
 
 
 <h1 id="about-heading">zcx core<a class="headerlink" href="#about-heading" title="Permanent link">&para;</a></h1>
-<p id="about-pitch">Extending <a href="https://isotonikstudios.com/product/clyphx-pro/?srsltid=AfmBOoqqG4off70xaUpCuouiAf_Lg7eCxuyiNrYf7vlIRJFIul3UquE9">ClyphX Pro from NativeKontrol</a>, zcx turns the user mode of your matrix-equipped MIDI controller into a deeply customisable interface for Ableton Live. 
-It offers an alternative configuration system that makes heavy use of <a href="https://www.redhat.com/en/topics/automation/what-is-yaml#:~:text=YAML%20is%20a%20human%2Dreadable,is%20for%20data%2C%20not%20documents.">yaml</a> files and templating to allow rapid prototyping of new ideas. 
-It aims to enable musicians to program more ambitious controller setups with less work than it took before.</p>
+<p>Extending <a href="https://isotonikstudios.com/product/clyphx-pro/?srsltid=AfmBOoqqG4off70xaUpCuouiAf_Lg7eCxuyiNrYf7vlIRJFIul3UquE9">ClyphX Pro from NativeKontrol</a>, zcx turns the user mode of your matrix-equipped MIDI controller into a deeply customisable interface for Ableton Live.</p>
+<p>zcx is similar to ClyphX Pro's X-Controls, but far more powerful.
+Features include:</p>
+<ul>
+<li>Unlimited pages of controls</li>
+<li>A modes system, letting you change the behaviour of controls and encoders when a button is held</li>
+<li>Intelligent controls that provide contextual LED feedback</li>
+<li>Session view and keyboard view</li>
+<li>A powerful templating system</li>
+<li>Animated LED feedback</li>
+<li id="about-pitch">Control of zcx from ClyphX Pro, e.g. via X-Clips</li>
+</ul>
 <iframe width="896" height="504" src="https://www.youtube-nocookie.com/embed/REPAca6ncRs?si=PzQfciWctVQDJiuC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <p><a class="md-button md-button--primary" href="docs/">documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 22a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-6v7L9.5 7.5 7 9V2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2z"/></svg></span></a></p>
@@ -3258,142 +3249,26 @@ It aims to enable musicians to program more ambitious controller setups with les
 <hr />
 <h2 id="features">features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <p>zcx scripts contain many features that are impractical or impossible to replicate natively in ClyphX Pro</p>
-<h3 id="built-for-modes">built for modes<a class="headerlink" href="#built-for-modes" title="Permanent link">&para;</a></h3>
-<p>Easily define any control as a modifier for any other control.</p>
-<p><div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">record</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SEL / ARM ON</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">pressed__shift</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SEL / STOP</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">pressed_delayed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SREC  8</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">pressed_delayed__shift</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SREC 16</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">pressed__shift__select</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SETSTOP</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nt">shift</span><span class="p">:</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">mode_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">released</span><span class="p">:</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="nt">mode_off</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="nt">select</span><span class="p">:</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="nt">mode_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">select</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">released</span><span class="p">:</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">      </span><span class="nt">mode_off</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">select</span>
-</span></code></pre></div>
-<sup><a href="lessons/getting-started/zcx-concepts/#modes">see how</a></sup></p>
-<hr />
 <h3 id="unlimited-pages">unlimited pages<a class="headerlink" href="#unlimited-pages" title="Permanent link">&para;</a></h3>
-<p>Turn an 8x8 matrix into an 8×8×∞ matrix.</p>
-<p><div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># matrix_sections.yaml</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">home_row</span><span class="p">:</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># pages.yaml</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nt">pages</span><span class="p">:</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nt">main</span><span class="p">:</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home_row</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main_left</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main_right</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="nt">track_page</span><span class="p">:</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home_row</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">track_control</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_control</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="nt">drums</span><span class="p">:</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home_row</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">drums_section</span>
-</span></code></pre></div>
-<sup><a href="lessons/getting-started/zcx-concepts/#pages">see how</a></sup></p>
-<hr />
-<h3 id="rapid-configuration">rapid configuration<a class="headerlink" href="#rapid-configuration" title="Permanent link">&para;</a></h3>
-<p>Configure dozens of buttons in seconds.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># matrix_sections.yaml</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">clip_section</span><span class="p">:</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">col_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">col_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">row_start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nt">row_end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># matrix_sections/clip_section.yaml</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nt">color</span><span class="p">:</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="nt">palette</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nebula</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SEL / PLAY ${me.Index}</span>
-</span></code></pre></div>
-<div class="language-output highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">pad 1: SEL / PLAY 1</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">pad 2: SEL / PLAY 2</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">..</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">pad 64: SEL / PLAY 64</span>
-</span></code></pre></div>
-<p><sup><a href="reference/template/">see how</a></sup></p>
-<hr />
-<h3 id="deeper-customisation">deeper customisation<a class="headerlink" href="#deeper-customisation" title="Permanent link">&para;</a></h3>
-<p>Unlock the full capabilities of your hardware.</p>
-<p><div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">play</span><span class="p">:</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">pulse</span><span class="p">:</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">purple</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">double_clicked</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STOPALL NQ</span>
-</span></code></pre></div>
-<sup><a href="reference/control/standard/">see how</a></sup></p>
-<hr />
+<p>With zcx, your controller's matrix can switch between any number of pages.
+Each page may have a unique selection of controls, or you may have some controls that appear on many pages.</p>
+<p><a href="lessons/getting-started/zcx-concepts/#pages">see more</a></p>
+<h3 id="built-for-modes">built for modes<a class="headerlink" href="#built-for-modes" title="Permanent link">&para;</a></h3>
+<p>Any control can be defined as a modifier control.
+When this control is held, other controls can alter their functionality, and encoders can be re-bound.</p>
+<p><a href="lessons/getting-started/zcx-concepts/#modes">see more</a></p>
 <h3 id="intelligent-controls">intelligent controls<a class="headerlink" href="#intelligent-controls" title="Permanent link">&para;</a></h3>
-<p>Specialised control types give smart LED feedback without you writing any code.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">__state_row</span><span class="p">:</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nv">state_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">state_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">state_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">state_4</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="p p-Indicator">]</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">page</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${me.index}</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">      </span><span class="nt">page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${me.index}</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nt">play</span><span class="p">:</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">transport</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span><span class="nt">transport</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">play</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SETPLAY</span>
-</span></code></pre></div>
-<p><sup><a href="reference/control/transport/">see how</a></sup></p>
-<hr />
-<h3 id="reusable-definitions">reusable definitions<a class="headerlink" href="#reusable-definitions" title="Permanent link">&para;</a></h3>
-<p>Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># control_templates.yaml</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">my_green_button</span><span class="p">:</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nt">hold_warning</span><span class="p">:</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">released_immediately</span><span class="p">:</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">      </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">You must hold this control to trigger it!</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1"># named_controls.yaml</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="nt">scene_1</span><span class="p">:</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">hold_warning</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">my_green_button</span><span class="p p-Indicator">]</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">  </span><span class="c1">#color: green</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="nt">pressed_delayed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE 1</span>
-</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="c1">#released_immediately:</span>
-</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">      </span><span class="c1"># msg: You must hold this control to trigger it!</span>
-</span></code></pre></div></p>
-<p><sup><a href="reference/template/#control-templates">see how</a></sup></p>
-<hr />
+<p>zcx features an array of specialised controls that display contextual LED feedback.</p>
+<p>The <a href="reference/control/track/">track control</a> binds to a specific track, and displays feedback about that track's state. 
+The <a href="reference/control/param/">param control</a> binds to almost any parameter in Live.</p>
+<p><a href="reference/control/">see more</a></p>
+<h3 id="session-view-and-keyboard-view">session view and keyboard view<a class="headerlink" href="#session-view-and-keyboard-view" title="Permanent link">&para;</a></h3>
+<p>zcx features <a href="lessons/session-view/">session view</a>, the familiar interface for launching clips.
+Session view in zcx lets you target session view clips with action lists.</p>
+<p>With <a href="lessons/keyboard/">keyboard view</a>, your zcx script can be played like an instrument.</p>
+<h3 id="templating-system">templating system<a class="headerlink" href="#templating-system" title="Permanent link">&para;</a></h3>
+<p>With zcx's templating system, you can apply a common definition across many controls.</p>
+<p><a href="reference/template/">see more</a></p>
 <p><strong><a href="#">Go to top</a></strong></p>
 
 
@@ -3417,7 +3292,7 @@ It aims to enable musicians to program more ambitious controller setups with les
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-04T21:39:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-12-01T03:12:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-12-01</span>
   </span>
 
     
