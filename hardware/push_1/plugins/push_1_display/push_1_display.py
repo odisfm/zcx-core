@@ -570,6 +570,8 @@ class EncoderWatcher(EventObject):
                 par_name = "Volume"
         elif par_name == "Track Panning":
             par_name = "Pan"
+        elif par_name == "Chain Volume":
+            par_name = par.canonical_parent.canonical_parent.name
 
         if self._component._encoder_mapping_line is not False:
             self._component.update_display_segment(
