@@ -8,9 +8,18 @@ hide:
 
 # zcx core {: #about-heading }
 
-Extending [ClyphX Pro from NativeKontrol](https://isotonikstudios.com/product/clyphx-pro/?srsltid=AfmBOoqqG4off70xaUpCuouiAf_Lg7eCxuyiNrYf7vlIRJFIul3UquE9), zcx turns the user mode of your matrix-equipped MIDI controller into a deeply customisable interface for Ableton Live. 
-It offers an alternative configuration system that makes heavy use of [yaml](https://www.redhat.com/en/topics/automation/what-is-yaml#:~:text=YAML%20is%20a%20human%2Dreadable,is%20for%20data%2C%20not%20documents.) files and templating to allow rapid prototyping of new ideas. 
-It aims to enable musicians to program more ambitious controller setups with less work than it took before.
+Extending [ClyphX Pro from NativeKontrol](https://isotonikstudios.com/product/clyphx-pro/?srsltid=AfmBOoqqG4off70xaUpCuouiAf_Lg7eCxuyiNrYf7vlIRJFIul3UquE9), zcx turns the user mode of your matrix-equipped MIDI controller into a deeply customisable interface for Ableton Live.
+
+zcx is similar to ClyphX Pro's X-Controls, but far more powerful.
+Features include:
+
+* Unlimited pages of controls
+* A modes system, letting you change the behaviour of controls and encoders when a button is held
+* Intelligent controls that provide contextual LED feedback
+* Session view and keyboard view
+* A powerful templating system
+* Animated LED feedback
+* Control of zcx from ClyphX Pro, e.g. via X-Clips
 {: #about-pitch }
 
 <iframe width="896" height="504" src="https://www.youtube-nocookie.com/embed/REPAca6ncRs?si=PzQfciWctVQDJiuC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -41,170 +50,40 @@ ___
 
 zcx scripts contain many features that are impractical or impossible to replicate natively in ClyphX Pro
 
-### built for modes
-
-Easily define any control as a modifier for any other control.
-
-```yaml
-record:
-  color: red
-  gestures:
-    pressed: SEL / ARM ON
-    pressed__shift: SEL / STOP
-    pressed_delayed: SREC  8
-    pressed_delayed__shift: SREC 16
-    pressed__shift__select: SETSTOP
-
-shift:
-  gestures:
-    pressed:
-      mode_on: shift
-    released:
-      mode_off: shift
-      
-select:
-  gestures:
-    pressed:
-      mode_on: select
-    released:
-      mode_off: select
-```
-<sup>[see how](lessons/getting-started/zcx-concepts.md/#modes)</sup>
-___
-
 ### unlimited pages
 
-Turn an 8x8 matrix into an 8×8×∞ matrix.
+With zcx, your controller's matrix can switch between any number of pages.
+Each page may have a unique selection of controls, or you may have some controls that appear on many pages.
 
-```yaml
-# matrix_sections.yaml
+[see more](./lessons/getting-started/zcx-concepts.md#pages)
 
-home_row:
-  col_start: 0
-  col_end: 7
-  row_start: 0
-  row_end: 1
+### built for modes
 
-# pages.yaml
+Any control can be defined as a modifier control.
+When this control is held, other controls can alter their functionality, and encoders can be re-bound.
 
-pages:
-  main:
-    - home_row
-    - main_left
-    - main_right
-  track_page:
-    - home_row
-    - track_control
-    - device_control
-  drums:
-    - home_row
-    - drums_section
-```
-<sup>[see how](lessons/getting-started/zcx-concepts.md/#pages)</sup>
-___
-
-### rapid configuration
-
-Configure dozens of buttons in seconds.
-
-```yaml
-# matrix_sections.yaml
-
-clip_section:
-  col_start: 0
-  col_end: 7
-  row_start: 0
-  row_end: 7
-
-# matrix_sections/clip_section.yaml
-
-color:
-  palette: nebula
-gestures:
-  pressed: SEL / PLAY ${me.Index}
-```
-
-```output
-pad 1: SEL / PLAY 1
-pad 2: SEL / PLAY 2
-..
-pad 64: SEL / PLAY 64
-```
-
-<sup>[see how](reference/template.md/)</sup>
-
-___
-### deeper customisation
-
-Unlock the full capabilities of your hardware.
-
-```yaml
-play:
-  color:
-    pulse:
-      a: red
-      b: purple
-      speed: 1
-  gestures:
-    double_clicked: STOPALL NQ
-```
-<sup>[see how](reference/control/standard.md)</sup>
-___
+[see more](./lessons/getting-started/zcx-concepts.md#modes)
 
 ### intelligent controls
 
-Specialised control types give smart LED feedback without you writing any code.
+zcx features an array of specialised controls that display contextual LED feedback.
 
-```yaml
-__state_row:
-  includes: [
-    state_1, state_2, state_3, state_4
-  ]
-  type: page
-  page: ${me.index}
-  gestures:
-    pressed:
-      page: ${me.index}
+The [track control](./reference/control/track.md) binds to a specific track, and displays feedback about that track's state. 
+The [param control](./reference/control/param.md) binds to almost any parameter in Live.
 
-play:
-  type: transport
-  transport: play
-  gestures:
-    pressed: SETPLAY
-```
+[see more](./reference/control/index.md)
 
-<sup>[see how](reference/control/transport.md)</sup>
+### session view and keyboard view
 
-___
+zcx features [session view](./lessons/session-view.md), the familiar interface for launching clips.
+Session view in zcx lets you target session view clips with action lists.
 
-### reusable definitions
+With [keyboard view](./lessons/keyboard.md), your zcx script can be played like an instrument.
 
-Use templates instead of repeating definitions. Make a change in one place to see the differences across the whole control surface.
-```yaml
-# control_templates.yaml
+### templating system
 
-my_green_button:
-  color: green
+With zcx's templating system, you can apply a common definition across many controls.
 
-hold_warning:
-  gestures:
-    released_immediately:
-      msg: You must hold this control to trigger it!
-
-
-# named_controls.yaml
-
-scene_1:
-  template: [hold_warning, my_green_button]
-  #color: green
-  gestures:
-    pressed_delayed: SCENE 1
-    #released_immediately:
-      # msg: You must hold this control to trigger it!
-```
-
-<sup>[see how](reference/template.md/#control-templates)</sup>
-
-___
+[see more](./reference/template.md)
 
 **[Go to top](#)**
