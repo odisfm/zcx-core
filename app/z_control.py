@@ -8,7 +8,7 @@ from ableton.v3.control_surface import ControlSurface
 
 from .colors import parse_color_definition, simplify_color, Pulse, Blink
 from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
-from .errors import ConfigurationError
+from .errors import ConfigurationError, CriticalConfigurationError
 from .z_element import ZElement
 from .z_state import ZState
 from .pseq import Pseq
@@ -63,6 +63,7 @@ class ZControl(EventObject):
         self._feedback_type = None
         self._mode_manager = self.root_cs.component_map['ModeManager']
         self.modes_changed.subject = self._mode_manager
+        self._external_light = False
         self._is_animating = False
         self._suppress_animations = False
         self._suppress_attention_animations = False
@@ -95,6 +96,8 @@ class ZControl(EventObject):
         self.modes_changed.subject = None
 
     def setup(self):
+        from . import STRICT_MODE
+
         config = self._raw_config
         self.set_vars(config.get('vars', {}))
         self._create_context(
@@ -110,6 +113,19 @@ class ZControl(EventObject):
         self.set_color(color)
         on_threshold = int(config.get('threshold', DEFAULT_ON_THRESHOLD))
         self._on_threshold = on_threshold
+
+        external_light_def = config.get('external_light', False)
+        if not isinstance(external_light_def, bool):
+            msg = f"Invalid value for option `external_light`: {external_light_def}\nMust be `true` or `false`"
+            if STRICT_MODE:
+                raise CriticalConfigurationError(msg)
+            else:
+                self.error(msg)
+                self.error(f'Using `false`.')
+                external_light_def = False
+
+        self._external_light = external_light_def
+
         suppress_animations = config.get('suppress_animations', False)
         simple_feedback_color_def = config.get('hold_color', False)
         if simple_feedback_color_def:
@@ -438,8 +454,10 @@ class ZControl(EventObject):
         self._control_element.set_light(self._control_element.color_swatch.base)
 
     @only_in_view
-    def request_color_update(self):
+    def request_color_update(self, force=False):
         if self._color is not None:
+            if self._external_light and not force:
+                return
             self._control_element.set_light(self._color)
         else:
             self.log(f'cant update color, it is None')
@@ -489,13 +507,13 @@ class ZControl(EventObject):
 
     def change_color(self, *a, **k):
         self.set_color(*a, **k)
-        self.request_color_update()
+        self.request_color_update(force=True)
 
     def replace_color(self, color):
         # todo: needs to have the full dict set like in `set_color`
         self._color = color
         self._color_dict['base'] = color
-        self.request_color_update()
+        self.request_color_update(force=True)
 
     def reset_color_to_initial(self):
         if self._initial_color_def is None:

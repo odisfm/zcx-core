@@ -299,12 +299,12 @@ class TrackControl(ZControl):
                 self._color = self._color_dict['stopped']
                 return True
 
-    def request_color_update(self):
+    def request_color_update(self, **kwargs):
         if self._track is None:
-            super().request_color_update()
+            super().request_color_update(**kwargs)
         else:
             self.determine_status()
-            super().request_color_update()
+            super().request_color_update(**kwargs)
 
     @listens('color_index')
     def color_index_listener(self):

@@ -23,6 +23,7 @@ gestures: dict[dict]
 pad_group: string
 vars: dict
 repeat: boolean=false
+external_light: boolean=false
 template: string, list[string], null
 props: dict[any]
 threshold: int=30
@@ -98,6 +99,12 @@ ___
 `boolean=false`
 
 Repeatedly trigger this control's `pressed` gesture (with modifiers) while it is held.
+
+___
+### external_light
+`boolean=false`
+
+This control will not send LED feedback unless set manually, e.g. via the [zcx user action](../../lessons/zcx-user-action.md), or by sending MIDI to the control surface from a track in Live.
 
 ---
 ### suppress_animations

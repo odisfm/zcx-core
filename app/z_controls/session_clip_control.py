@@ -147,9 +147,9 @@ class SessionClipControl(ZControl):
                 self._color = self.empty_color_dict['base']
 
         self.request_color_update()
-        
-    def request_color_update(self):
-        super().request_color_update()
+
+    def request_color_update(self, **kwargs):
+        super().request_color_update(**kwargs)
 
     def _back_in_view(self):
         self.update_status()

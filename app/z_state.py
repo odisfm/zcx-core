@@ -30,7 +30,7 @@ class ZState(PlayableControl):
         def request_color_update(self):
             try:
                 for z_control in self.__registered_z_controls:
-                    if z_control._in_view:
+                    if z_control._in_view and z_control._external_light is False:
                         color = z_control._color
                         self._control_element._force_next_send = True
                         self._control_element._do_draw(color)

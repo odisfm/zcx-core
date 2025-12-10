@@ -168,7 +168,7 @@ class TransportControl(ZControl):
         self._suppress_animations = True
         self.request_color_update()
 
-    def request_color_update(self):
+    def request_color_update(self, **kwargs):
         is_playing = self._song.is_playing
         active_color = self._playing_active_color if is_playing else self._stopped_active_color
         inactive_color = self._playing_inactive_color if is_playing else self._stopped_inactive_color
@@ -221,7 +221,7 @@ class TransportControl(ZControl):
             case 'overdub':
                 self._color = active_color if self._song.arrangement_overdub else inactive_color
 
-        super().request_color_update()
+        super().request_color_update(**kwargs)
 
     @listens('is_playing')
     def _is_playing_listener(self):
