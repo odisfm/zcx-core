@@ -68,6 +68,23 @@ class ZEncoder(EventObject):
         if not isinstance(self._prefer_left, bool):
             self._prefer_left = True
 
+        sens_def = self._raw_config.get("sensitivity")
+        if sens_def:
+            if isinstance(sens_def, int):
+                sens_def = float(sens_def)
+            elif isinstance(sens_def, float):
+                pass
+            else:
+                raise CriticalConfigurationError(f"Encoder `{self._name}`: invalid value for option `sensitivity` (`{sens_def}`). Must be positive number.")
+
+            if sens_def <= 0:
+                raise CriticalConfigurationError(f"Encoder `{self._name}`: invalid value for option `sensitivity` (`{sens_def}`). Must be positive number.")
+
+            self.log(f"setting sens to {sens_def}")
+            self._control_element.mapping_sensitivity = sens_def
+            self._control_element._original_sensitivity = sens_def
+
+
         bindings = self._raw_config.get("binding")
         if isinstance(bindings, dict):
             pass

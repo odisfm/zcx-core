@@ -168,6 +168,17 @@ We can group encoders to apply common definitions to them. See [Template Referen
 
 The following options may be configured on each encoder.
 
+#### sensitivity
+```yaml
+enc_1:
+  binding: >
+    SEL / VOL
+  sensitivity: 2.0
+```
+
+Override the default sensitivity of the encoder.
+Though most encoders have a default of `1.0`, certain encoders may have a different default.
+
 #### unbind_on_fail
 ```yaml
 enc_1:
