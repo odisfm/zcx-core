@@ -64,6 +64,15 @@ class EncoderManager(ZCXComponent):
             ZEncoder.song = self.song
             ZEncoder.session_ring = self.canonical_parent._session_ring_custom
 
+            undo_duration_def = user_prefs.get("encoder_undo_duration")
+            if undo_duration_def:
+                if (isinstance(undo_duration_def, float) or isinstance(undo_duration_def, int)) and undo_duration_def > 0:
+                    if undo_duration_def >= 1:
+                        self.warning(f"Very high value for preference `encoder_undo_duration`: ({undo_duration_def}).\nDefault is {ZEncoder.undo_duration}")
+                    ZEncoder.undo_duration = undo_duration_def
+                else:
+                    self.error(f'Invalid value for preference `encoder_undo_duration`: ({undo_duration_def}).\nUsing `{ZEncoder.undo_duration}`')
+
             for encoder_name, encoder_def in flat_config.items():
 
                 encoder_obj = ZEncoder(
@@ -91,6 +100,7 @@ class EncoderManager(ZCXComponent):
                 element = state._control_element
                 encoder_obj._control_element = element
                 encoder_obj._state = state
+                element._z_encoder = encoder_obj
 
                 try:
                     encoder_obj.setup()

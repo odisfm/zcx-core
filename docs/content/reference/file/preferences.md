@@ -45,6 +45,17 @@ configs:
     pattern: MIX
 ```
 
+### encoder_undo_duration
+
+```yaml
+encoder_undo_duration: 0.35
+```
+
+When moving an [encoder](../encoder.md), Live's undo history is written to.
+zcx attempts to batch these changes so that a long move of the encoder writes to the history only once.
+When an encoder is moved, zcx will wait for this duration (in seconds) to batch any additional encoder moves.
+So, by adjusting this preference you will alter this behaviour.
+
 ### exclusive_modes
 ```yaml
 exclusive_modes:

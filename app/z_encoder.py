@@ -4,6 +4,7 @@ from functools import partial
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
+from ableton.v2.base.task import TimerTask
 
 from .action_resolver import ActionResolver
 from .encoder_element import EncoderElement
@@ -26,6 +27,7 @@ class ZEncoder(EventObject):
     song = None
     selected_device_watcher = None
     _log_failed_bindings = True
+    undo_duration = 0.35
 
     def __init__(self, root_cs, raw_config, name):
         super().__init__()
@@ -48,6 +50,9 @@ class ZEncoder(EventObject):
         self._unbind_on_fail = True
         self._prefer_left = True
         self.modes_changed.subject = self.mode_manager
+        self._undo_step_timer = UndoStepTask(self, duration=self.undo_duration)
+        self._undo_step_timer.kill()
+        self.root_cs._task_group.add(self._undo_step_timer)
 
         self.debug = partial(self.log, level="debug")
         self.warning = partial(self.log, level="warning")
@@ -772,6 +777,15 @@ class ZEncoder(EventObject):
 
         return current_search_obj
 
+    def _on_element_value(self, value):
+        if self._undo_step_timer.is_running:
+            self._undo_step_timer.restart()
+        else:
+            self.song.begin_undo_step()
+            self._undo_step_timer.restart()
+
+    def _undo_timer_finished(self):
+        self.song.end_undo_step()
 
     @listens("selected_track")
     def selected_track_listener(self):
@@ -813,3 +827,13 @@ class ZEncoder(EventObject):
     @listens("offsets")
     def session_ring_track_listener(self):
         self.bind_to_active()
+
+
+class UndoStepTask(TimerTask):
+
+    def __init__(self, encoder, duration, *a, **kw):
+        super().__init__(duration)
+        self._encoder = encoder
+
+    def on_finish(self):
+        self._encoder._undo_timer_finished()
