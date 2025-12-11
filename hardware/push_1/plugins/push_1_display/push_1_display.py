@@ -572,6 +572,8 @@ class EncoderWatcher(EventObject):
             par_name = "Pan"
         elif par_name == "Chain Volume":
             par_name = par.canonical_parent.canonical_parent.name
+        elif par_name == "Crossfade":
+            par_name = "X-Fader"
 
         if self._component._encoder_mapping_line is not False:
             self._component.update_display_segment(
