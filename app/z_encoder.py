@@ -17,6 +17,8 @@ from .parse_target_path import parse_target_path
 from .util import is_chain_map_positional
 from .consts import SENDS_COUNT
 
+ENCODER_UNDO_REFRESH = 2.0
+
 
 class ZEncoder(EventObject):
 
@@ -27,7 +29,7 @@ class ZEncoder(EventObject):
     song = None
     selected_device_watcher = None
     _log_failed_bindings = True
-    undo_duration = 0.35
+    undo_duration = 0.50
 
     def __init__(self, root_cs, raw_config, name):
         super().__init__()
@@ -779,13 +781,18 @@ class ZEncoder(EventObject):
 
     def _on_element_value(self, value):
         if self._undo_step_timer.is_running:
-            self._undo_step_timer.restart()
+            self._undo_step_timer._reset_timer()
         else:
             self.song.begin_undo_step()
             self._undo_step_timer.restart()
 
     def _undo_timer_finished(self):
         self.song.end_undo_step()
+
+    def _undo_timer_time_out(self):
+        self.song.end_undo_step()
+        self.song.begin_undo_step()
+        self._undo_step_timer.restart()
 
     @listens("selected_track")
     def selected_track_listener(self):
@@ -834,6 +841,21 @@ class UndoStepTask(TimerTask):
     def __init__(self, encoder, duration, *a, **kw):
         super().__init__(duration)
         self._encoder = encoder
+        self._accumulated_time = 0.0
 
     def on_finish(self):
         self._encoder._undo_timer_finished()
+
+    def _reset_timer(self):
+        elapsed = self.duration - self.remaining
+        self._accumulated_time += elapsed
+
+        self._encoder.log(f"acc time: {self._accumulated_time}")
+        if self._accumulated_time > ENCODER_UNDO_REFRESH:
+            self._accumulated_time = 0.0
+            self._encoder._undo_timer_time_out()
+        else:
+            self.restart()
+
+    def restart(self):
+        super().restart()

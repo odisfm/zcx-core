@@ -48,7 +48,7 @@ configs:
 ### encoder_undo_duration
 
 ```yaml
-encoder_undo_duration: 0.35
+encoder_undo_duration: 0.5
 ```
 
 When moving an [encoder](../encoder.md), Live's undo history is written to.
