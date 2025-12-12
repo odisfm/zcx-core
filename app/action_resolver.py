@@ -155,6 +155,7 @@ class ActionResolver(ZCXComponent):
             'matrix': DotDict(matrix),
             'overlays': DotDict(overlays),
             'modes': DotDict(modes),
+            'randint': randint,
         }
         return context
 
