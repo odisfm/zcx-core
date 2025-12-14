@@ -12,6 +12,8 @@ class OverlayControl(ZControl):
         self.__view_manager = self.root_cs.component_map["ViewManager"]
         self.__overlay_name = None
         self.__unvalidated_overlay_name = None
+        self._inactive_color = None
+        self._active_color = None
 
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         try:
