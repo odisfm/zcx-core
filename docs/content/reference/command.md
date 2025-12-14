@@ -268,7 +268,7 @@ pressed:
 
 ### color
 
-Change the color of the activated control.
+Change the control's color.
 
 ```yaml
 pressed:
