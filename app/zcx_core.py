@@ -2,6 +2,7 @@ import logging
 from functools import partial
 import traceback
 from typing import TYPE_CHECKING
+import re
 
 from ableton.v2.base.task import TimerTask
 from ableton.v2.control_surface.input_control_element import ScriptForwarding
@@ -105,11 +106,38 @@ class ZCXCore(ControlSurface):
             except ZcxStartupError:
                 raise
             except Exception as e:
+                if 'ParserError' in e.__class__.__name__: # comparing against actual error class won't work
+                    problem_mark = str(e.problem_mark)
+                    filename_portion = re.search(r'/([^/]+\.yaml)"', problem_mark)
+                    if filename_portion:
+                        filename = filename_portion.group(1)
+                    else:
+                        filename = "one of your YAML files" # shouldn't be necessary
+                    line_portion = re.search(r'line \d+, column \d+', problem_mark)
+                    if line_portion:
+                        line_col = line_portion.group(0)
+                    else:
+                        line_col = None
+
+                    line_msg = (
+                        f"The error occurs at {line_col}" or "Could not determine location of the error"
+                    )
+
+                    raise ZcxStartupError(
+                    f"zcx cannot read the file `{filename}` as it is malformed. {line_msg}.",
+                        f"Consider using a YAML validator such as yamllint.com to understand the error.",
+                        f"{e.__class__.__name__}: {e}",
+                    traceback=False,
+                    boilerplate=True
+                    )
+
+
                 raise ZcxStartupError(str(e))
 
         except ZcxStartupError as e:
             try:
                 self.error(e)
+                self.error(e.msg)
 
                 popup_string = f''
 
