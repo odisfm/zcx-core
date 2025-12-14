@@ -296,6 +296,11 @@ class Zcx(UserActionsBase):
                         )
 
             else:
-                raise ValueError(f'Unknown action {sub_action}')
+                raise ValueError(f'Unknown action `{sub_action}`')
         except Exception as e:
-            self.error(e)
+            msg = f"Error with zcx user action: {e.__class__.__name__}: {e}"
+            self.error(msg)
+            try:
+                target_script.root_cs.error(msg)
+            except NameError:
+                ...
