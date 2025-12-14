@@ -125,7 +125,7 @@ class Zcx(UserActionsBase):
                 elif status == 'tgl':
                     target_script.view_manager.toggle_overlay(overlay_name)
 
-            elif sub_action == 'set_color':
+            elif sub_action in ['set_color', 'set_on_color', 'set_off_color']:
                 color_args = _args[2:]
                 target_control_def = color_args[0]
                 target_color = color_args[1]
@@ -133,7 +133,15 @@ class Zcx(UserActionsBase):
                 target_control_def.strip('"')
 
                 control_obj = target_script.get_control(target_control_def)
-                control_obj.set_color(target_color)
+                color_obj = target_script.create_color(target_color, control_obj)
+
+                match sub_action:
+                    case 'set_color':
+                        control_obj.set_color(target_color)
+                    case 'set_on_color':
+                        control_obj.set_on_color(color_obj)
+                    case 'set_off_color':
+                        control_obj.set_off_color(color_obj)
                 control_obj.request_color_update()
 
             elif sub_action in ['set_section_color', 'set_group_color']:

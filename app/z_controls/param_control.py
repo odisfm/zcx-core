@@ -1207,6 +1207,14 @@ class ParamControl(ZControl):
             preview = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, preview)
         return preview
 
+    def set_on_color(self, color):
+        self._color_dict["on"] = color
+        self.update_feedback()
+
+    def set_off_color(self, color):
+        self._color_dict["off"] = color
+        self.update_feedback()
+
 class NumberedDeviceMissingError(Exception):
     pass
 

@@ -282,6 +282,18 @@ See also:
 - [Color reference](color.md)
 - [Change color via user action](../lessons/zcx-user-action.md)
 
+### on_color, off_color
+
+As [above](#color), but sets on/off or active/inactive colors.
+Only available on controls with such feedback, including the [param control](../reference/control/param.md), [page control](../reference/control/page.md) and others.
+
+```yaml
+double_clicked:
+  on_color: red
+pressed_delayed:
+  off_color: 127
+```
+
 ### ring
 
 Move the [session ring](../lessons/session-ring.md) of the script.

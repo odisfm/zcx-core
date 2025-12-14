@@ -157,6 +157,15 @@ Set the color of a named or aliased control.
 
 `ZCX <target script> SET_COLOR record red`
 
+##### set_on_color, set_off_color
+
+As above, but sets on/off or active/inactive colors.
+Only available on controls with such feedback, including the [param control](../reference/control/param.md), [page control](../reference/control/page.md) and others.
+
+`ZCX <target script> SET_ON_COLOR record green`
+
+`ZCX <target script> SET_OFF_COLOR record 0`
+
 ##### set_section_color
 
 Set the color of every control in a [matrix section](getting-started/zcx-concepts.md#matrix-sections).

@@ -505,6 +505,12 @@ class ZControl(EventObject):
             self._initial_color_def = color
         self._color_dict = color_dict
 
+    def set_on_color(self, color):
+        raise NotImplementedError()
+
+    def set_off_color(self, color):
+        raise NotImplementedError()
+
     def change_color(self, *a, **k):
         self.set_color(*a, **k)
         self.request_color_update(force=True)

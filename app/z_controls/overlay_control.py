@@ -88,3 +88,11 @@ class OverlayControl(ZControl):
     @listens('active_overlay_names')
     def _on_active_overlay_names_changed(self, _):
         self.update_feedback()
+
+    def set_on_color(self, color):
+        self._active_color = color
+        self.update_feedback()
+
+    def set_off_color(self, color):
+        self._inactive_color = color
+        self.update_feedback()

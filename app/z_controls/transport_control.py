@@ -223,6 +223,16 @@ class TransportControl(ZControl):
 
         super().request_color_update(**kwargs)
 
+    def set_on_color(self, color):
+        self._playing_active_color = color
+        self._stopped_active_color = color
+        self.request_color_update()
+
+    def set_off_color(self, color):
+        self._playing_inactive_color = color
+        self._stopped_inactive_color = color
+        self.request_color_update()
+
     @listens('is_playing')
     def _is_playing_listener(self):
         self.request_color_update()

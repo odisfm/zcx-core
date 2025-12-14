@@ -126,3 +126,11 @@ class PageControl(ZControl):
 
         except Exception as e:
             self.log(e)
+
+    def set_on_color(self, color):
+        self._active_color = color
+        self.page_changed()
+
+    def set_off_color(self, color):
+        self._inactive_color = color
+        self.page_changed()

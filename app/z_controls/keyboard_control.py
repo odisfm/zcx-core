@@ -261,3 +261,11 @@ class KeyboardControl(ZControl):
                 self.set_feedback(not self.__melodic_component.chromatic)
 
         self.request_color_update()
+
+    def set_on_color(self, color):
+        self._color_dict["active"] = color
+        self.update_feedback()
+
+    def set_off_color(self, color):
+        self._color_dict["inactive"] = color
+        self.update_feedback()

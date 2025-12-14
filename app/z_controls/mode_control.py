@@ -77,3 +77,11 @@ class ModeControl(ZControl):
         else:
             self._color = self._color_dict.get('base')
         self.request_color_update()
+
+    def set_on_color(self, color):
+        self._color_dict["attention"] = color
+        self.modes_changed(None)
+
+    def set_off_color(self, color):
+        self._color_dict["inactive"] = color
+        self.modes_changed(None)

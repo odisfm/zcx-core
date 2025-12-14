@@ -547,6 +547,22 @@ class ActionResolver(ZCXComponent):
                                 calling_control.reset_color_to_initial()
                             else:
                                 calling_control.set_color(command_def)
+                        case 'on_color':
+                            if isinstance(command_def, str):
+                                command_def = self._compile_and_check(command_def, vars_dict, context)
+                            try:
+                                color = parse_color_definition(command_def, calling_control)
+                                calling_control.set_on_color(color)
+                            except NotImplementedError:
+                                self.error(f"Control type {calling_control.__class__.__name__} does not have active color. ({calling_control.name})")
+                        case 'off_color':
+                            if isinstance(command_def, str):
+                                command_def = self._compile_and_check(command_def, vars_dict, context)
+                                color = parse_color_definition(command_def, calling_control)
+                            try:
+                                calling_control.set_on_color(color)
+                            except NotImplementedError:
+                                self.error(f"Control type {calling_control.__class__.__name__} does not have active color. ({calling_control.name})")
 
                         case 'python':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
