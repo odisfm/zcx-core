@@ -1,0 +1,8 @@
+pages:
+  main:
+    - actions_left
+    - actions_right
+  session_view:
+    - __session_view
+  blank_page:
+    - blank_section

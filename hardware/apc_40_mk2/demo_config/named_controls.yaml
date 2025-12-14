@@ -1,0 +1,502 @@
+###
+### top-right side
+###
+
+
+tap_tempo:
+  gestures:
+    pressed: TAPBPM
+
+metronome:
+  type: transport
+  transport: metro
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed: METRO
+
+#nudge_down:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#nudge_up:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+session_record:
+  type: transport
+  transport: record
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    released_immediately: SREC
+
+play:
+  type: transport
+  transport: play
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed: SETPLAY
+
+#record:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+pan:
+  type: mode
+  mode: pan
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed:
+      mode_on: pan
+
+sends:
+  type: mode
+  mode: sends
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed:
+      mode_on: sends
+
+user:
+  type: mode
+  mode: user
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed:
+      mode_on: user
+
+###
+### bottom-right side
+###
+
+#device_left:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#device_right:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+bank_lock:
+  type: mode
+  mode: select
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed:
+      mode_on: select
+    released:
+      mode_off: select
+
+bank_left:
+  type: mode
+  mode: bank_1
+  active_color: 0
+  inactive_color: 127
+  gestures:
+    pressed:
+      mode_on: bank_1
+
+bank_right:
+  type: mode
+  mode: bank_2
+  active_color: 0
+  inactive_color: 127
+  gestures:
+    pressed:
+      mode_on: bank_2
+
+device_on:
+  type: param
+  binding: >
+    SEL / DEV(SEL)
+  gestures:
+    pressed: SEL / DEV(SEL)
+
+#device_lock:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#clip_device:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+detail:
+  gestures:
+    pressed: TGLDETAIL
+
+
+#dpad_up:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#dpad_right:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#dpad_down:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#dpad_left:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+###
+### track controls
+###
+
+__arm:
+  includes: [arm_1, arm_2, arm_3, arm_4, arm_5, arm_6, arm_7, arm_8]
+  type: param
+  binding: >
+    RING(${me.index}) / ARM
+  active_color: on
+  inactive_color: off
+
+#arm_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+__page_changer:
+  includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
+  type: page
+  page: ${me.index}
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    pressed:
+      page: ${me.index}
+    released_delayed:
+      page: last
+
+#select_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_master:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+__solo:
+  includes: [solo_1, solo_2, solo_3, solo_4, solo_5, solo_6, solo_7, solo_8]
+  type: param
+  binding: >
+    RING(${me.index}) / SEL
+  active_color: on
+  inactive_color: off
+
+#solo_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+__crossfade_assign:
+  includes: [cross_1, cross_2, cross_3, cross_4, cross_5, cross_6, cross_7, cross_8]
+  type: param
+  binding: >
+    RING(${me.index}) / XFADE A
+  on_color: yellow
+  off_color: orange
+
+#cross_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+__stop:
+  includes: [stop_1, stop_2, stop_3, stop_4, stop_5, stop_6, stop_7, stop_8]
+  type: param
+  binding: >
+    RING(${me.index}) / STOP
+  active_color: on
+  inactive_color: off
+
+#stop_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+stop_all:
+  gestures:
+    pressed: STOPALL
+    pressed__shift: STOPALL NQ
+
+###
+### scene buttons
+###
+
+__scene:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5]
+  gestures:
+    pressed: >
+      SCENE ${ring.scenes[me.index]}
+    pressed__shift: >
+      SCENE ${ring.scenes[me.index + me.group_count]}
+
+#scene_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+

@@ -1,0 +1,108 @@
+fader_1:
+  mode: absolute
+  cc: 7
+  channel: 0
+
+fader_2:
+  mode: absolute
+  cc: 7
+  channel: 1
+
+fader_3:
+  mode: absolute
+  cc: 7
+  channel: 2
+
+fader_4:
+  mode: absolute
+  cc: 7
+  channel: 3
+
+fader_5:
+  mode: absolute
+  cc: 7
+  channel: 4
+
+fader_6:
+  mode: absolute
+  cc: 7
+  channel: 5
+
+fader_7:
+  mode: absolute
+  cc: 7
+  channel: 6
+
+fader_8:
+  mode: absolute
+  cc: 7
+  channel: 7
+
+fader_9:
+  mode: absolute
+  cc: 14
+
+tempo:
+  cc: 13
+
+crossfader:
+  cc: 15
+
+device_1:
+  channel: 0
+  cc: 16
+
+device_2:
+  channel: 1
+  cc: 17
+
+device_3:
+  channel: 2
+  cc: 18
+
+device_4:
+  channel: 3
+  cc: 19
+
+device_5:
+  channel: 4
+  cc: 20
+
+device_6:
+  channel: 5
+  cc: 21
+
+device_7:
+  channel: 6
+  cc: 22
+
+device_8:
+  channel: 7
+  cc: 23
+
+cue:
+  cc: 47
+
+track_1:
+  cc: 48
+
+track_2:
+  cc: 49
+
+track_3:
+  cc: 50
+
+track_4:
+  cc: 51
+
+track_5:
+  cc: 52
+
+track_6:
+  cc: 53
+
+track_7:
+  cc: 54
+
+track_8:
+  cc: 55
