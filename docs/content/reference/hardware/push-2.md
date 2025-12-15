@@ -17,6 +17,10 @@ Because of this confusing behaviour, `initial_hw_mode` defaults to `live`.
 - The touchstrip continuous input cannot be used by zcx, but will function as normal if `track` is enabled for this script in Live's MIDI preferences. The touchstrip sends an on/off message on press and release, which is available as a named control called `touchstrip`.
 - The touchstrip cannot be toggled between pitchbend and modulation mode from within zcx. You must enter Live mode and press the touchstrip while holding `select`.
 
+## Notes
+
+- When using the Live [Options.txt](https://help.ableton.com/hc/en-us/articles/6003224107292-Options-txt-file) entry `-Push2UseLegacyScript`, and `Push2` is not selected as a control surface, you must set the [zcx preference](../file/preferences.md#initial_hw_mode) `initial_hw_mode: zcx` or zcx will be inaccessible.
+
 ## control names
 
 ### buttons
