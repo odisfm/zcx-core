@@ -96,13 +96,15 @@ You may omit the `speed` option to accept the default of 1.
 
 ```yaml
 my_control:
-  pulse:
-    a: 49
-    b: 5
-    speed: 3
+  color:
+      pulse:
+        a: 49
+        b: 5
+        speed: 3
 
 my_other_control:
-  blink:
-    a: red
-    b: blue
+  color:
+      blink:
+        a: red
+        b: blue
 ```
