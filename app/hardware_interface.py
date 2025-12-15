@@ -1,3 +1,4 @@
+import traceback
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ableton.v3.control_surface.elements import ButtonMatrixElement
@@ -31,7 +32,11 @@ class HardwareInterface(ZCXComponent):
         return self.button_matrix
 
     def handle_control_event(self, event, state: ZState.State):
-        state.forward_gesture(event)
+        try:
+            state.forward_gesture(event)
+        except Exception as e:
+            self.error(f"{e.__class__.__name__}: {e}")
+            self.error(traceback.format_exc())
 
     def refresh_all_lights(self):
         count = 0
