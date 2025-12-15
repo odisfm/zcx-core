@@ -16,6 +16,7 @@ class PageControl(ZControl):
         self._inactive_color = None
         self._disabled_color = None
         self._suppress_attention_animations = True
+        self._disabled = False
 
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         try:
@@ -60,7 +61,7 @@ class PageControl(ZControl):
         self._context['me']['Page'] =  self._page_number + 1
         page_name = self.__page_manager.get_page_name_from_index(self._page_number)
         self._context['me']['page_name'] = page_name
-
+        self._disabled_color = self._control_element.color_swatch.OFF
 
     def __set_page(self, page_number):
         try:
@@ -71,7 +72,7 @@ class PageControl(ZControl):
             except ValueError:
                 _page_number = self.__page_manager.get_page_number_from_name(page_number)
                 if _page_number is False:
-                    self._disabled_color = self._control_element.color_swatch.OFF
+                    self._disabled = True
                     self._color = self._disabled_color
                     self._color_dict['base'] = self._disabled_color
                     self.page_changed.subject = self.__page_manager
@@ -100,12 +101,18 @@ class PageControl(ZControl):
             self._disabled_color = self._control_element.color_swatch.OFF
             self._color = self._active_color
             self.page_changed.subject = self.__page_manager
+
+            if self._disabled:
+                self._color = self._disabled_color
+
         except ConfigurationError as e:
             from .. import STRICT_MODE
+            self._disabled = True
             if STRICT_MODE is True:
                 raise
             else:
                 self.log(e)
+                self._color = self._disabled_color
 
     def animate_success(self, duration=0):
         return
@@ -113,6 +120,8 @@ class PageControl(ZControl):
     @listens('current_page')
     def page_changed(self):
         try:
+            if self._disabled:
+                return
             new_page_no = self.__page_manager.current_page
             if self._page_number is None:
                 self.request_color_update()
