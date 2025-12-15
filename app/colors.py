@@ -121,7 +121,7 @@ def parse_color_definition(color, calling_control=None):
             elif special_color_type == 'pulse':
                 if isinstance(special_color_def, str):
                     a_def = special_color_def
-                    b_def = special_color_def
+                    b_def = 0
                     speed_def = 1
                 else:
                     a_def = special_color_def['a']
