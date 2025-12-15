@@ -22,6 +22,9 @@ Features include:
 * Control of zcx from ClyphX Pro, e.g. via X-Clips
 {: #about-pitch }
 
+!!! warning ""
+    zcx requires Ableton Live 12.1 or above and ClyphX Pro
+
 <iframe width="896" height="504" src="https://www.youtube-nocookie.com/embed/REPAca6ncRs?si=PzQfciWctVQDJiuC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 [documentation :material-book:](docs.md){ .md-button .md-button--primary }
