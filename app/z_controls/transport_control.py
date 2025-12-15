@@ -173,8 +173,6 @@ class TransportControl(ZControl):
         active_color = self._playing_active_color if is_playing else self._stopped_active_color
         inactive_color = self._playing_inactive_color if is_playing else self._stopped_inactive_color
 
-        self.log(self._stopped_active_color, self._playing_active_color, self._stopped_inactive_color, self._playing_inactive_color)
-
         match self._bound_function:
             case None:
                 self._control_element.set_light(self._color)
