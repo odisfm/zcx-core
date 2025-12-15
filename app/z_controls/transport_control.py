@@ -114,7 +114,7 @@ class TransportControl(ZControl):
                 else:
                     self._playing_active_color = self._stopped_active_color
             except Exception as e:
-                self.log(e)
+                self.error(e)
 
         stopped_inactive_def = self._raw_config.get('inactive_color')
         if stopped_inactive_def is not None:
@@ -128,7 +128,7 @@ class TransportControl(ZControl):
                 else:
                     self._playing_inactive_color = self._stopped_inactive_color
             except Exception as e:
-                self.log(e)
+                self.error(e)
 
         self._bound_function = bound_function
 

@@ -77,7 +77,7 @@ class ParamControl(ZControl):
             elif behaviour_def == "momentary":
                 behaviour = PressBehaviour.MOMENTARY
             else:
-                self.log("Invalid option for param control `toggle_param`. Valid values are `true`, `false`, or `momentary`")
+                self.error("Invalid option for param control `toggle_param`. Valid values are `true`, `false`, or `momentary`")
                 behaviour = PressBehaviour.NONE
 
             self.__behaviour = behaviour
@@ -99,8 +99,8 @@ class ParamControl(ZControl):
                             raise ValueError()
                         return pct_def
                     except ValueError as e:
-                        self.log("Option `midpoint` must be a number between 0 and 100.")
-                        self.log(e)
+                        self.error("Option `midpoint` must be a number between 0 and 100.")
+                        self.error(e)
                         return None
 
             self._custom_midpoint = get_percentage_def("midpoint")
@@ -240,7 +240,7 @@ class ParamControl(ZControl):
 
             if map_success is not True:
                 if self._log_failed_bindings and self._active_map and self._active_map["input_string"] != "NONE":
-                    self.log(f"Failed to bind to target: {self._active_map}")
+                    self.error(f"Failed to bind to target: {self._active_map}")
                 if self._unbind_on_fail:
                     self.mapped_parameter = None
                     self._mapped_track = None
@@ -255,7 +255,7 @@ class ParamControl(ZControl):
             self.__disabled = True
             self.update_feedback()
             if self._log_failed_bindings and not isinstance(e, NumberedDeviceMissingError) and self._active_map and self._active_map["input_string"] != "NONE":
-                self.log(f"{e.__class__.__name__}: {e}")
+                self.error(f"{e.__class__.__name__}: {e}")
                 self._parent_logger.error(f"Failed to bind to target: {self._active_map}")
         finally:
             dynamism = self.assess_dynamism(self._active_map)
@@ -328,7 +328,7 @@ class ParamControl(ZControl):
                 self.fired_slot_index_listener.subject = None
                 self.selected_scene_listener.subject = None
         except Exception as e:
-            self.log(e)
+            self.error(e)
 
     def map_self_to_par(self, target_map):
         try:
@@ -400,7 +400,7 @@ class ParamControl(ZControl):
                         self.mapped_parameter = track_obj.mixer_device.sends[send_num]
                         return True
                     except Exception as e:
-                        self.log(e)
+                        self.error(e)
                         raise ConfigurationError(f"Failed to bind to send: {e}")
 
                 elif par_type == "pan":
@@ -595,7 +595,7 @@ class ParamControl(ZControl):
         except NumberedDeviceMissingError:
             raise
         except Exception as e:
-            self.log(f"Error in map_self_to_par: {e}")
+            self.error(f"Error in map_self_to_par: {e}")
             self._mapped_track = None
             self._mapped_device = None
             self.mapped_parameter = None
@@ -925,7 +925,7 @@ class ParamControl(ZControl):
                     self.replace_color(self._color_dict["disabled"])
 
         except Exception as e:
-            self.log(e)
+            self.error(e)
 
     def set_feedback(self, status: bool):
         color = self._color_dict["on"] if status else self._color_dict["off"]
@@ -1042,7 +1042,7 @@ class ParamControl(ZControl):
                 slot = self._mapped_track.clip_slots[idx]
                 slot.fire()
         except Exception as e:
-            self.log("failed to toggle mapped param", e)
+            self.error("failed to toggle mapped param", e)
 
     def apply_track_param_listener(self, track, param: str):
         self.solo_listener.subject = None

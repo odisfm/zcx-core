@@ -26,7 +26,7 @@ class RingTrackControl(TrackControl, SessionRingControl):
             self.tracks_changed.subject = self.root_cs.song
 
         except Exception as e:
-            self.log(e)
+            self.error(e)
 
     @listens('offsets')
     @only_in_view
