@@ -108,3 +108,17 @@ my_other_control:
         a: red
         b: blue
 ```
+
+### Shorthand
+
+You may use a shorter syntax to set only the `a` color, leaving the `b` color as `0` and speed as `1`.
+
+```yaml
+my_control:
+  color:
+    pulse: purple
+
+my_other_control:
+  color:
+    blink: purple
+```
