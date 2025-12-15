@@ -142,7 +142,6 @@ class RgbColorSwatch(object):
 
 
 def simplify_color(color):
-    from .. import ROOT_LOGGER
     color1 = getattr(color, 'color1', color)
     return color1
 
