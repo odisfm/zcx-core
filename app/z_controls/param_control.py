@@ -1217,6 +1217,10 @@ class ParamControl(ZControl):
         self._color_dict["off"] = color
         self.update_feedback()
 
+    def set_color(self, color):
+        color_obj = parse_color_definition(color, self)
+        self.set_on_color(color_obj)
+
 class NumberedDeviceMissingError(Exception):
     pass
 
