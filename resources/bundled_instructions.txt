@@ -1,9 +1,9 @@
-Thanks for trying the pre-release version of zcx!
+Thanks for trying zcx!
 
 Installation instructions can be found here:
-https://zcxcore.com/tutorials/getting-started
+https://zcxcore.com/latest/lesssons/getting-started
 
-Optionally, you can install the zcx user action by dragging the contents
+Recommended: install the zcx user action by dragging the contents
 of the `_user_actions` folder to your existing folder (`.../Ableton/User Library/Remote Scripts/_user_actions`
 
 
