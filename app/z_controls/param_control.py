@@ -1014,19 +1014,21 @@ class ParamControl(ZControl):
                 current_cross_idx = self._mapped_track.mixer_device.crossfade_assign
                 assign_states = ["a", "off", "b"]
                 bound_idx = assign_states.index(self._active_map.get("x_fade_assign").lower())
+
                 if bound_idx in [0, 2]:
                     if current_cross_idx == bound_idx:
-                        if preview:
-                            return assign_states[1]
-                        self._mapped_track.mixer_device.crossfade_assign = 1
+                        new_idx = 2 if bound_idx == 0 else 0
                     else:
-                        if preview:
-                            return assign_states[bound_idx]
-                        self._mapped_track.mixer_device.crossfade_assign = bound_idx
+                        new_idx = bound_idx
                 else:
-                    if preview:
-                        return assign_states[1]
-                    self._mapped_track.mixer_device.crossfade_assign = 1
+                    if current_cross_idx == 1:
+                        new_idx = 0
+                    else:
+                        new_idx = 1
+
+                if preview:
+                    return assign_states[new_idx]
+                self._mapped_track.mixer_device.crossfade_assign = new_idx
             elif self._active_map.get("device") is not None:
                 param_type = self._active_map["parameter_type"] or ""
                 if param_type.lower() == "sel":
