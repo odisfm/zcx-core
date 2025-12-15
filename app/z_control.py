@@ -147,7 +147,7 @@ class ZControl(EventObject):
 
         self._cascade_direction = config.get('cascade', False)
         if self._cascade_direction not in [False, "up", "down"]:
-            self.log(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
+            self.error(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
             self._cascade_direction = False
 
     def log(self, *msgs, level="info"):
@@ -248,7 +248,7 @@ class ZControl(EventObject):
             self._concerned_modes = all_modes
             self._gesture_dict = processed_dict
         except Exception as e:
-            self.log(e)
+            self.error(e)
             raise e
 
     def set_vars(self, vars):
@@ -460,13 +460,13 @@ class ZControl(EventObject):
                 return
             self._control_element.set_light(self._color)
         else:
-            self.log(f'cant update color, it is None')
+            self.error(f'cant update color, it is None')
 
     def set_color(self, color):
         try:
             base_color = parse_color_definition(color, self)
         except Exception as e:
-            self.log(e)
+            self.error(e)
             base_color = parse_color_definition(127, self)
 
         simplified_color = simplify_color(base_color)

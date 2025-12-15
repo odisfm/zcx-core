@@ -111,7 +111,7 @@ class PageControl(ZControl):
             if STRICT_MODE is True:
                 raise
             else:
-                self.log(e)
+                self.error(e)
                 self._color = self._disabled_color
 
     def animate_success(self, duration=0):
@@ -134,7 +134,7 @@ class PageControl(ZControl):
             self.request_color_update()
 
         except Exception as e:
-            self.log(e)
+            self.error(e)
 
     def set_on_color(self, color):
         self._active_color = color

@@ -43,7 +43,7 @@ class SessionClipControl(ZControl):
             self._on_color_index_changed()
 
         except Exception as e:
-            self.log(e)
+            self.error(e)
         self._update_color_dict()
         self.update_status()
 
@@ -196,12 +196,12 @@ class SessionClipControl(ZControl):
             return f'"{self.track_name}" / USER_CLIP({self.scene_number})'
 
     def _debug(self):
-        self.log(f"clip_slot: {self.clip_slot}")
-        self.log(f"clip: {self.clip}")
-        self.log(f"scene_index: {self.scene_index}")
-        self.log(f"track_name: {self.track_name}")
-        self.log(f"clip_target: {self.clip_target}")
-        self.log("base midi color:", self._color_dict["base"].midi_value)
+        self.debug(f"clip_slot: {self.clip_slot}")
+        self.debug(f"clip: {self.clip}")
+        self.debug(f"scene_index: {self.scene_index}")
+        self.debug(f"track_name: {self.track_name}")
+        self.debug(f"clip_target: {self.clip_target}")
+        self.debug("base midi color:", self._color_dict["base"].midi_value)
 
     def _update_color_dict(self):
         if self.__is_group_track:
