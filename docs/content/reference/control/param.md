@@ -171,6 +171,10 @@ pressed: >
   "my cool track" / VOL RAMP 10 ${me.next_pct}% 
 ```
 
+### pct
+
+If appropriate, returns the current parameter value as a percentage, else `None`.
+
 ## special command types
 
 ### do_toggle

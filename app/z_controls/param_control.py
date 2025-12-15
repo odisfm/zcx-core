@@ -56,6 +56,7 @@ class ParamControl(ZControl):
 
             self._vars["me.next_value"] = "me.obj.preview_next_value()"
             self._vars["me.next_pct"] = "me.obj.preview_next_value_percentage()"
+            self._vars["me.pct"] = "me.obj.get_current_percentage()"
 
             self._create_context(
                 generated_contexts=
@@ -1208,6 +1209,11 @@ class ParamControl(ZControl):
         if self.mapped_parameter:
             preview = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, preview)
         return preview
+
+    def get_current_percentage(self):
+        if not self.mapped_parameter:
+            return None
+        return to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
 
     def set_on_color(self, color):
         self._color_dict["on"] = color
