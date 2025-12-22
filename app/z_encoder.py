@@ -850,7 +850,6 @@ class UndoStepTask(TimerTask):
         elapsed = self.duration - self.remaining
         self._accumulated_time += elapsed
 
-        self._encoder.log(f"acc time: {self._accumulated_time}")
         if self._accumulated_time > ENCODER_UNDO_REFRESH:
             self._accumulated_time = 0.0
             self._encoder._undo_timer_time_out()
