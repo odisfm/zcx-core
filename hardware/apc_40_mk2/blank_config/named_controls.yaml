@@ -1,0 +1,415 @@
+###
+### top-right side
+###
+
+
+#tap_tempo:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#metronome:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#nudge_down:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#nudge_up:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#session_record:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#play:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#record:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#pan:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#sends:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#user:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+###
+### bottom-right side
+###
+
+#device_left:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#device_right:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#bank_lock:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#bank_left:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#bank_right:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#device_on:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#device_lock:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#clip_device:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#detail:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+
+#dpad_up:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#dpad_right:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#dpad_down:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#dpad_left:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+shift:
+  gestures:
+    pressed:
+      mode_on: shift
+    released:
+      mode_off: shift
+
+###
+### track controls
+###
+
+#arm_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#arm_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#select_master:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#mute_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#solo_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#cross_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_6:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_7:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_8:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#stop_all:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+###
+### scene buttons
+###
+
+#scene_1:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_2:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_3:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_4:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+
+#scene_5:
+#  gestures:
+#    released_immediately: DUMMY
+#    pressed_delayed: DUMMY
+

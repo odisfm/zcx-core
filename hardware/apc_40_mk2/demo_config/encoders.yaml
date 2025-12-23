@@ -1,0 +1,165 @@
+__track:
+  includes: [track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8]
+
+  binding:
+    default: NONE
+    __sends: >
+      RING(${me.index}) / SEND A
+    __sends__shift: >
+      RING(${me.index}) / SEND B
+    __pan: >
+      RING(${me.index}) / PAN
+    __user: NONE
+
+  encoders:
+    track_1:
+      binding:
+        __user: NONE
+    track_2:
+      binding:
+        __user: NONE
+    track_3:
+      binding:
+        __user: NONE
+    track_4:
+      binding:
+        __user: NONE
+    track_5:
+      binding:
+        __user: NONE
+    track_6:
+      binding:
+        __user: NONE
+    track_7:
+      binding:
+        __user: NONE
+    track_8:
+      binding:
+        __user: NONE
+
+#track_1:
+#  binding:
+#    default: NONE
+#
+#track_2:
+#  binding:
+#    default: NONE
+#
+#track_3:
+#  binding:
+#    default: NONE
+#
+#track_4:
+#  binding:
+#    default: NONE
+#
+#track_5:
+#  binding:
+#    default: NONE
+#
+#track_6:
+#  binding:
+#    default: NONE
+#
+#track_7:
+#  binding:
+#    default: NONE
+#
+#track_8:
+#  binding:
+#    default: NONE
+
+
+__faders:
+  includes: [fader_1, fader_2, fader_3, fader_4, fader_5, fader_6, fader_7, fader_8]
+  binding: >
+    RING(${me.index}) / VOL
+
+#fader_1:
+#  binding:
+#    default: NONE
+#
+#fader_2:
+#  binding:
+#    default: NONE
+#
+#fader_3:
+#  binding:
+#    default: NONE
+#
+#fader_4:
+#  binding:
+#    default: NONE
+#
+#fader_5:
+#  binding:
+#    default: NONE
+#
+#fader_6:
+#  binding:
+#    default: NONE
+#
+#fader_7:
+#  binding:
+#    default: NONE
+#
+#fader_8:
+#  binding:
+#    default: NONE
+
+__device:
+  includes: [device_1, device_2, device_3, device_4, device_5, device_6, device_7, device_8]
+  binding:
+    default: NONE
+    __bank_1: >
+      SEL / DEV(SEL) B1 P${me.index}
+    __bank_2: >
+      SEL / DEV(SEL) B2 P${me.index}
+
+#device_1:
+#  binding:
+#    default: NONE
+#
+#device_2:
+#  binding:
+#    default: NONE
+#
+#device_3:
+#  binding:
+#    default: NONE
+#
+#device_4:
+#  binding:
+#    default: NONE
+#
+#device_5:
+#  binding:
+#    default: NONE
+#
+#device_6:
+#  binding:
+#    default: NONE
+#
+#device_7:
+#  binding:
+#    default: NONE
+#
+#device_8:
+#  binding:
+#    default: NONE
+
+cue:
+  binding:
+    default: MST / CUE
+
+tempo:
+  binding:
+    default: NONE
+
+fader_9:
+  binding:
+    default: MST / VOL
+
+crossfader:
+  binding:
+    default: XFADER

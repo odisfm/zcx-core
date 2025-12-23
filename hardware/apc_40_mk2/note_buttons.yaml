@@ -1,0 +1,294 @@
+arm_1:
+  channel: 0
+  note: 48
+
+arm_2:
+  channel: 1
+  note: 48
+
+arm_3:
+  channel: 2
+  note: 48
+
+arm_4:
+  channel: 3
+  note: 48
+
+arm_5:
+  channel: 4
+  note: 48
+
+arm_6:
+  channel: 5
+  note: 48
+
+arm_7:
+  channel: 6
+  note: 48
+
+arm_8:
+  channel: 7
+  note: 48
+
+select_1:
+  channel: 0
+  note: 51
+
+select_2:
+  channel: 1
+  note: 51
+
+select_3:
+  channel: 2
+  note: 51
+
+select_4:
+  channel: 3
+  note: 51
+
+select_5:
+  channel: 4
+  note: 51
+
+select_6:
+  channel: 5
+  note: 51
+
+select_7:
+  channel: 6
+  note: 51
+
+select_8:
+  channel: 7
+  note: 51
+
+select_master:
+  note: 80
+
+mute_1:
+  channel: 0
+  note: 50
+
+mute_2:
+  channel: 1
+  note: 50
+
+mute_3:
+  channel: 2
+  note: 50
+
+mute_4:
+  channel: 3
+  note: 50
+
+mute_5:
+  channel: 4
+  note: 50
+
+mute_6:
+  channel: 5
+  note: 50
+
+mute_7:
+  channel: 6
+  note: 50
+
+mute_8:
+  channel: 7
+  note: 50
+
+solo_1:
+  channel: 0
+  note: 49
+
+solo_2:
+  channel: 1
+  note: 49
+
+solo_3:
+  channel: 2
+  note: 49
+
+solo_4:
+  channel: 3
+  note: 49
+
+solo_5:
+  channel: 4
+  note: 49
+
+solo_6:
+  channel: 5
+  note: 49
+
+solo_7:
+  channel: 6
+  note: 49
+
+solo_8:
+  channel: 7
+  note: 49
+
+stop_1:
+  channel: 0
+  note: 52
+
+stop_2:
+  channel: 1
+  note: 52
+
+stop_3:
+  channel: 2
+  note: 52
+
+stop_4:
+  channel: 3
+  note: 52
+
+stop_5:
+  channel: 4
+  note: 52
+
+stop_6:
+  channel: 5
+  note: 52
+
+stop_7:
+  channel: 6
+  note: 52
+
+stop_8:
+  channel: 7
+  note: 52
+
+stop_all:
+  channel: 0
+  note: 81
+
+cross_1:
+  feedback: biled
+  channel: 0
+  note: 66
+
+cross_2:
+  feedback: biled
+  channel: 1
+  note: 66
+
+cross_3:
+  feedback: biled
+  channel: 2
+  note: 66
+
+cross_4:
+  feedback: biled
+  channel: 3
+  note: 66
+
+cross_5:
+  feedback: biled
+  channel: 4
+  note: 66
+
+cross_6:
+  feedback: biled
+  channel: 5
+  note: 66
+
+cross_7:
+  feedback: biled
+  channel: 6
+  note: 66
+
+cross_8:
+  feedback: biled
+  channel: 7
+  note: 66
+
+device_left:
+  note: 58
+
+device_right:
+  note: 59
+
+bank_lock:
+  note: 103
+
+bank_left:
+  note: 60
+
+bank_right:
+  note: 61
+
+device_on:
+  note: 62
+
+device_lock:
+  note: 63
+
+clip_device:
+  note: 64
+
+detail:
+  note: 65
+
+scene_1:
+  note: 82
+
+scene_2:
+  note: 83
+
+scene_3:
+  note: 84
+
+scene_4:
+  note: 85
+
+scene_5:
+  note: 86
+
+pan:
+  note: 87
+
+sends:
+  note: 88
+
+user:
+  note: 89
+
+metronome:
+  note: 90
+
+play:
+  note: 91
+
+record:
+  note: 93
+
+dpad_up:
+  note: 94
+
+dpad_down:
+  note: 95
+
+dpad_right:
+  note: 96
+
+dpad_left:
+  note: 97
+
+shift:
+  note: 98
+
+tap_tempo:
+  note: 99
+
+nudge_down:
+  note: 100
+
+nudge_up:
+  note: 101
+
+session_record:
+  note: 102
+
