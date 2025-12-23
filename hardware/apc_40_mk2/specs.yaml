@@ -1,4 +1,4 @@
-hardware_name: Akai APC 40 mk2
+hardware_name: apc_40_mk2
 global_midi_channel: 0
 
 button_matrix:
