@@ -471,9 +471,9 @@ __scene:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5]
   gestures:
     pressed: >
-      SCENE ${ring.scenes[me.index]}
+      SCENE ${ring.scenes[me.index] + 1}
     pressed__shift: >
-      SCENE ${ring.scenes[me.index + me.group_count]}
+      SCENE ${ring.scenes[me.index + me.group_count] + 1}
 
 #scene_1:
 #  gestures:
@@ -500,3 +500,27 @@ __scene:
 #    released_immediately: DUMMY
 #    pressed_delayed: DUMMY
 
+
+dpad_left:
+  gestures:
+    pressed:
+      ring:
+        x: -1
+
+dpad_right:
+  gestures:
+    pressed:
+      ring:
+        x: 1
+
+dpad_up:
+  gestures:
+    pressed:
+      ring:
+        y: -1
+
+dpad_down:
+  gestures:
+    pressed:
+      ring:
+        y: 1
