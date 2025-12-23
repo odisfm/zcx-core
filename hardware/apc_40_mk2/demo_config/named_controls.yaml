@@ -101,8 +101,8 @@ bank_lock:
 bank_left:
   type: mode
   mode: bank_1
-  active_color: 0
-  inactive_color: 127
+  active_color: 127
+  inactive_color: 0
   gestures:
     pressed:
       mode_on: bank_1
@@ -110,8 +110,8 @@ bank_left:
 bank_right:
   type: mode
   mode: bank_2
-  active_color: 0
-  inactive_color: 127
+  active_color: 127
+  inactive_color: 0
   gestures:
     pressed:
       mode_on: bank_2

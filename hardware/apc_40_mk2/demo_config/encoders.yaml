@@ -112,9 +112,9 @@ __device:
   binding:
     default: NONE
     __bank_1: >
-      SEL / DEV(SEL) B1 P${me.index}
+      SEL / DEV(SEL) B1 P${me.Index}
     __bank_2: >
-      SEL / DEV(SEL) B2 P${me.index}
+      SEL / DEV(SEL) B2 P${me.Index}
 
 #device_1:
 #  binding:
