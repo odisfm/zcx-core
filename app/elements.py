@@ -227,6 +227,7 @@ class Elements(ElementsBase):
 
         global_channel = encoders_globals.get("channel", 0)
         global_feedback = encoders_globals.get("feedback", False)
+        feedback_delay = encoders_globals.get("feedback_delay", 1)
         global_map_mode = encoders_globals.get("mode")
         global_sensitivity = encoders_globals.get("sensitivity", 1.0)
 
@@ -243,6 +244,7 @@ class Elements(ElementsBase):
                 is_feedback_enabled=feedback,
                 map_mode=map_mode,
                 sensitivity=sensitivity,
+                feedback_delay=feedback_delay
             )
             element.name = self.format_attribute_name(encoder_name)
             self.register_encoder(element, encoder_name)
@@ -258,6 +260,7 @@ class Elements(ElementsBase):
         is_feedback_enabled=False,
         channel=0,
         sensitivity=1.0,
+        feedback_delay=None,
     ):
         try:
             map_mode = getattr(_map_modes, map_mode.lower())
@@ -272,6 +275,7 @@ class Elements(ElementsBase):
             map_mode=map_mode,
             is_feedback_enabled=is_feedback_enabled,
             mapping_sensitivity=sensitivity,
+            feedback_delay=feedback_delay,
         )
         return element
 

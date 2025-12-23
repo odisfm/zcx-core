@@ -10,6 +10,7 @@ class EncoderElement(ElementBase):
             map_mode,
             is_feedback_enabled,
             channel,
+            feedback_delay,
             *a,
             **k
     ):
@@ -19,6 +20,7 @@ class EncoderElement(ElementBase):
             is_feedback_enabled=is_feedback_enabled,
             channel=channel,
             msg_type=MIDI_CC_TYPE,
+            feedback_delay=feedback_delay,
             *a,
             **k
         )
