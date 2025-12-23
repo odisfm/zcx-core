@@ -40,6 +40,7 @@ zcx is currently maintained for these devices, with more planned:
 
 * Ableton Push 1
 * Ableton Push 2
+* Akai APC40 mk2
 * Akai APC mini mk2
 * Novation Launchpad X
 * Novation Launchpad Pro mk3
