@@ -26,11 +26,6 @@ class EncoderElement(ElementBase):
         self._original_sensitivity = k['mapping_sensitivity']
         self._z_encoder = None
 
-
-    def log(self, *msg):
-        for msg in msg:
-            self._logger.info(msg)
-
     def receive_value(self, value):
         if self._z_encoder:
             self._z_encoder._on_element_value(value)
