@@ -53,6 +53,7 @@ class ZCXCore(ControlSurface):
                                           traceback=False, boilerplate=False)
 
                 from . import PREF_MANAGER
+                self.preference_manager = PREF_MANAGER
                 user_prefs = PREF_MANAGER.user_prefs
 
                 self.__refresh_on_all_sysex = user_prefs.get('refresh_on_all_sysex', False)

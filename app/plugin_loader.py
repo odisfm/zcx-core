@@ -13,8 +13,9 @@ ALLOW_MISSING_PLUGIN_DIR = True # todo: user preference
 
 class PluginLoader:
 
-    def __init__(self, logger, *a, **k):
+    def __init__(self, logger, root_cs_name: str, *a, **k):
         self.logger = logger
+        self.root_cs_name = root_cs_name
         self.__base_dir = Path(os.path.dirname(os.path.abspath(__file__)))
 
         zcx_plugin_dir = str(self.__base_dir.resolve())
@@ -89,9 +90,26 @@ class PluginLoader:
 
                     try:
                         module_globals = {'ZCXPlugin': ZCXPlugin}
-                        spec = importlib.util.spec_from_file_location(module_name, file_path)
+
+                        package_name = f"{self.root_cs_name}_plugin_{folder.name}"
+                        full_module_name = f"{package_name}.{module_name}"
+
+                        spec = importlib.util.spec_from_file_location(full_module_name, file_path)
                         module = importlib.util.module_from_spec(spec)
+
+                        module.__package__ = package_name
                         module.__dict__.update(module_globals)
+
+                        sys.modules[full_module_name] = module
+
+                        if package_name not in sys.modules:
+                            parent_module = importlib.util.module_from_spec(
+                                importlib.machinery.ModuleSpec(package_name, None, is_package=True)
+                            )
+                            parent_module.__path__ = [str(folder)]
+                            parent_module.__package__ = package_name
+                            sys.modules[package_name] = parent_module
+
                         spec.loader.exec_module(module)
                         self.log(f"Successfully imported module: {module_name}")
 
@@ -105,6 +123,8 @@ class PluginLoader:
 
                     except Exception as e:
                         self.log(f"Failed to import {module_name} from {folder}: {e}")
+                        import traceback
+                        self.log(traceback.format_exc())
 
             finally:
                 sys.path.remove(str(folder))

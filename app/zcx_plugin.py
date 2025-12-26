@@ -12,17 +12,22 @@ class ZCXPlugin(ZCXComponent):
         super().__init__(name, *a, **k)
         try:
             self.__zcx_api = None
-            from . import PREF_MANAGER
-            self._user_config = PREF_MANAGER.get_plugin_config(self.__class__.__module__)
-            if self._user_config is not None:
-                self.debug(f'{self.__class__.__name__} config:', self._user_config)
+            self._user_config = None
+
         except Exception as e:
             self.error(e)
-            self._user_config = None
 
     def setup(self):
         self.debug(f'Loading plugin {self.name}')
         self.__zcx_api = self.canonical_parent.zcx_api
+
+        module_name = self.__class__.__module__
+        if '.' in module_name:
+            module_name = module_name.split('.')[-1]
+
+        self._user_config = self.canonical_parent.preference_manager.get_plugin_config(module_name)
+        if self._user_config is not None:
+            self.debug(f'{self.__class__.__name__} config:', self._user_config)
 
     def song_ready(self):
         pass

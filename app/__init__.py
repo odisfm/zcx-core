@@ -250,7 +250,7 @@ def create_instance(c_instance):
     from .view_manager import ViewManager
     from .playable.melodic_component import MelodicComponent
 
-    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
+    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'), root_cs_name=canon_name)
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
