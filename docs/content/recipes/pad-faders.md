@@ -71,7 +71,7 @@ vars:
 midpoint: ${my_midpoint}
 toggle_param: false
 gestures:
-  pressed: >
+  press: >
     "${ring.tracks[me.x]}" / VOL ${my_midpoint}%
 ```
 
@@ -90,7 +90,7 @@ And that's it!
 #### Ramping
 
 As a bonus, we can use ClyphX Pro's [ramp feature](https://www.cxpman.com/manual/general-action-information/#ramping-parameters) to gradually move the parameter over time.
-Let's change the `pressed` gesture to `released_immediately`, and add a `pressed_delayed` gesture, giving us different actions for a short and long press:
+Let's change the `press` gesture to `short_press`, and add a `long_press` gesture:
 
 ```yaml title="matrix_sections/pad_faders.yaml" hl_lines="12 14-15"
 pad_group: pad_faders
@@ -104,9 +104,9 @@ on_color: purple
 off_color: off
 toggle_param: false
 gestures:
-  released_immediately: >
+  short_press: >
     "${ring.tracks[me.x]}" / VOL ${my_midpoint}%
-  pressed_delayed: >
+  long_press: >
     "${ring.tracks[me.x]}" / VOL RAMPS 1B ${my_midpoint}%
 ```
 
@@ -134,9 +134,9 @@ on_color: purple
 off_color: off
 toggle_param: false
 gestures:
-  released_immediately: >
+  short_press: >
     "${ring.tracks[me.x]}" / VOL ${my_midpoint}%
-  pressed_delayed: >
+  long_press: >
     "${ring.tracks[me.x]}" / VOL RAMPS 1B ${my_midpoint}%
 ```
 
@@ -157,9 +157,9 @@ on_color: purple
 off_color: off
 toggle_param: false
 gestures:
-  released_immediately: >
+  short_press: >
     SEL / DEV(SEL) B1 P${me.X} ${my_midpoint}%
-  pressed_delayed: >
+  long_press: >
     SEL / DEV(SEL) B1 P${me.X} RAMPS 1B ${my_midpoint}%
 ```
 
@@ -201,7 +201,7 @@ __device_chooser:
   binding: >
     SEL / DEV(${me.Index}) SEL
   gestures:
-    double_clicked: >
+    double_click: >
       SEL / DEV(${me.Index})
 ```
 
@@ -227,9 +227,9 @@ on_color: purple
 off_color: off
 toggle_param: false
 gestures:
-  released_immediately: >
+  short_press: >
     SEL / DEV(SEL) B1 P${me.X} ${my_midpoint}%
-  pressed_delayed: >
+  long_press: >
     SEL / DEV(SEL) B1 P${me.X} RAMPS 1B ${my_midpoint}%
 ```
 
@@ -241,6 +241,6 @@ __device_chooser:
   binding: >
     SEL / DEV(${me.Index}) SEL
   gestures:
-    double_clicked: >
+    double_click: >
       SEL / DEV(${me.Index})
 ```

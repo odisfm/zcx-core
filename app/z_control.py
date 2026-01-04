@@ -7,7 +7,7 @@ from ableton.v3.base import listens
 from ableton.v3.control_surface import ControlSurface
 
 from .colors import parse_color_definition, simplify_color, Pulse, Blink
-from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
+from .consts import SUPPORTED_GESTURES, SHORTHAND_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
 from .errors import ConfigurationError, CriticalConfigurationError
 from .z_element import ZElement
 from .z_state import ZState
@@ -206,13 +206,18 @@ class ZControl(EventObject):
 
             has_off_gestures = False
             has_on_gestures = False
+            shorthand_gesture = None
 
             for trigger, definition in gesture_config.items():
                 split = trigger.split('__')
                 gesture = split[0]
                 if gesture not in SUPPORTED_GESTURES:
-                    # todo: replace with ConfigError
-                    raise ConfigurationError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
+                    if gesture in SHORTHAND_GESTURES:
+                        shorthand_gesture = gesture
+                        shorthand_idx = SHORTHAND_GESTURES.index(gesture)
+                        gesture = SUPPORTED_GESTURES[shorthand_idx]
+                    else:
+                        raise ConfigurationError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
                 if gesture in OFF_GESTURES:
                     has_off_gestures = True
                 elif gesture in ON_GESTURES:
@@ -238,6 +243,16 @@ class ZControl(EventObject):
                         pseq_obj = Pseq(first_val, True)
 
                     definition = pseq_obj or definition
+
+                if new_key in processed_dict:
+                    msg = f"Control `{self.name}` has multiple entries for gesture `{new_key}`."
+                    if shorthand_gesture:
+                        msg += f" You may have defined both `{gesture}` and `{shorthand_gesture}`, which are the same thing."
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise CriticalConfigurationError(msg)
+                    else:
+                        self.error(f"{msg} Only the last entry will be used.")
 
                 processed_dict[new_key] = definition
 

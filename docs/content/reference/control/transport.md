@@ -68,7 +68,7 @@ my_control:
   type: transport
   transport: play
   gestures:
-    pressed: SETPLAY
+    press: SETPLAY
 ```
 
 ```yaml
@@ -76,7 +76,7 @@ my_control:
   type: transport
   transport: record
   gestures:
-    pressed: SREC
+    press: SREC
 ```
 
 ### Custom colors

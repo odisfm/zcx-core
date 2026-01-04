@@ -10,16 +10,20 @@ In zcx, a **command** is something that happens when a control is interacted wit
 
 Gestures are physical actions you can perform on a control to trigger a command. There are six gestures supported by zcx:
 
-- **pressed** always fired immediately after a control is pressed
-- **pressed_delayed** fires after the control is held for a short time
-- **released** always fired immediately after a control is released
-- **released_delayed** fired after a held control is released — will only fire after a `pressed_delayed` event
-- **released_immediately** fired after a control that was **not** being held is released
-- **double_clicked** fired after a control is pressed twice in quick succession
+- **press** always fired immediately after the control is pressed
+- **short_press** fires after the control is pressed then released in quick succession
+- **long_press** fires after the control is held for a brief period
+- **release** always fires immediately after the control is released
+- **long_release** fires after the held control is released — will only fire after a `long_press` event
+- **double_click** fires after the control is pressed twice in quick succession
+
+!!! note
+    Previous versions of zcx used different names for these gestures: `pressed`, `released_immediately`, `pressed_delayed`, `released`, `released_delayed`, and `double_clicked`.
+    You may continue to use these names if you prefer.
 
 !!! note
 
-    The `double_clicked` gesture may be unituitive.
+    The `double_click` gesture may be unituitive.
     See [the lesson](../lessons/double_clicked.md) to undestand how it works.
 
 ### gesture syntax
@@ -30,8 +34,8 @@ To define gestures on a control, add a `gestures` key, with key/value pairs of g
 my_control:
   color: green
   gestures:
-    pressed: SEL / PLAY
-    released: SEL / STOP
+    press: SEL / PLAY
+    release: SEL / STOP
 ```
 
 #### quotes in strings
@@ -40,7 +44,7 @@ Very often, ClyphX action lists include quotation marks, e.g. `"my track" / SEL`
 
 ```yaml
   gestures:
-    pressed: "my track" / SEL
+    press: "my track" / SEL
 ```
 
 Because of the quotes around `my track`, yaml interprets `my track` as the value for `pressed`, and then freaks out when it sees the rest of the action list (` / SEL`). There are two ways to deal with this.
@@ -48,7 +52,7 @@ Because of the quotes around `my track`, yaml interprets `my track` as the value
 ##### block scalar syntax
 ```yaml
 gestures:
-  pressed: >    # this `>` character indicates a block scalar
+  press: >    # this `>` character indicates a block scalar
     "my track" / SEL
 ```
 
@@ -57,7 +61,7 @@ This is the recommended method. Yaml will interpret the whole line `"my track" /
 This syntax also makes it easy to spread out long action lists over multiple lines for clarity:
 
 ```yaml
-pressed: >
+press: >
   "my track" / ARM ON ;
   "my track" / MON AUTO ;
   "my track" / RECFIX 8
@@ -69,7 +73,7 @@ By wrapping the entire action list in single quotes, we can freely use double qu
 
 ```yaml
 gestures:
-  pressed: '"my track" / SEL'
+  press: '"my track" / SEL'
 ```
 
 ### modes syntax
@@ -77,16 +81,16 @@ gestures:
 When using [modes](../lessons/getting-started/zcx-concepts.md#modes) in zcx, the syntax is extended:
 ```yaml
 gestures:
-  pressed: SREC FIX 4
-  pressed__shift: SREC FIX 8
-  pressed__shift__select: SREC FIX 16
+  press: SREC FIX 4
+  press__shift: SREC FIX 8
+  press__shift__select: SREC FIX 16
 ```
 
 Gesture definitions always start with one of the [six supported gestures](#gestures). Modes can be added by appending the name of each mode prefixed with a double underscore (`__`). 
 
 #### multiple matching gestures
 
-If you have a configuration like above, where there are multiple variations on the `pressed` gesture, only the **most specific** definition will be executed.
+If you have a configuration like above, where there are multiple variations on the `press` gesture, only the **most specific** definition will be executed.
 
 E.g. if `shift` is active, the action list `SREC FIX 8` will fire but `SREC FIX 4` will not. If both `shift` and `select` are active, only `SREC FIX 16` will fire.
 
@@ -110,9 +114,9 @@ Take this example:
 
 ```yaml
 gestures:
-  pressed__shift:
+  press__shift:
     log: shift
-  pressed__select:
+  press__select:
     log: select
 ```
 
@@ -126,14 +130,14 @@ The default command fires a ClyphX action list:
 ```yaml hl_lines="3"
 my_control:
   gestures:
-    pressed: SEL / MUTE
+    press: SEL / MUTE
 ```
 
 This is equivalent to:
 ```yaml hl_lines="4"
 my_control:
   gestures:
-    pressed: 
+    press: 
       cxp: SEL / MUTE
 ```
 
@@ -146,7 +150,7 @@ You may 'bundle' a combination of [command types](#command-types) and execute th
 ```yaml
 my_control:
   gestures:
-    pressed:
+    press:
       cxp: METRO
       msg: activated the metronome
       log: activated the metronome
@@ -160,13 +164,13 @@ Accepts an action list as a string and triggers it in ClyphX.
 
 ```yaml hl_lines="3"
 gestures:
-  pressed: 
+  press: 
     cxp: SETPLAY
 ```
 
 ```yaml
 gestures:
-  pressed: >
+  press: >
     "my track" / SEL; 
     "my track" / ARM ON;
     SREC 8
@@ -178,11 +182,11 @@ Accepts a page name, page number, or keyword, and switches to that [page](../les
 
 ```yaml hl_lines="3 5 7"
 gestures:
-  pressed:
+  press:
     page: 0
-  pressed__shift:
+  press__shift:
     page: my_cool_page
-  pressed__select:
+  press__select:
     page: next
 ```
 
@@ -215,9 +219,9 @@ Enables, disables, or toggles the given [mode](../lessons/getting-started/zcx-co
 
 ```yaml hl_lines="3 5"
 gestures:
-  pressed:
+  press:
     mode_on: shift
-  released:
+  release:
     mode_off: shift
 ```
 
@@ -227,17 +231,17 @@ Enable, disable, or toggle the given [overlay](../lessons/overlays-layers.md).
 
 ```yaml hl_lines="3 4 6 7"
 gestures:
-  pressed:
+  press:
     overlay:
       enable: my_overlay
-  released:
+  release:
     overlay:
       disable: my_overlay
 ```
 
 ```yaml hl_lines="3 4"
 gestures:
-  pressed:
+  press:
     overlay:
       toggle: my_overlay
 ```
@@ -247,13 +251,13 @@ gestures:
 Shows a message briefly at the bottom of Live's UI:
 ```yaml hl_lines="3"
 gestures:
-  pressed:
+  press:
     msg: Look at my super cool message!
 ```
 
 This is, in most cases, functionally equivalent to doing:
 ```yaml hl_lines="2"
-pressed: >
+press: >
   MSG "Look at my super cool message!"
 ```
 
@@ -262,7 +266,7 @@ pressed: >
 Prints a message directly to Live's Log.txt:
 
 ```yaml hl_lines="2"
-pressed:
+press:
   log: failed successfully
 ```
 
@@ -271,9 +275,9 @@ pressed:
 Change the control's color.
 
 ```yaml
-pressed:
+press:
   color: green
-released:
+release:
   color: initial
 ```
 
@@ -288,9 +292,9 @@ As [above](#color), but sets on/off or active/inactive colors.
 Only available on controls with such feedback, including the [param control](../reference/control/param.md), [page control](../reference/control/page.md) and others.
 
 ```yaml
-double_clicked:
+double_click:
   on_color: red
-pressed_delayed:
+long_press:
   off_color: 127
 ```
 
@@ -305,25 +309,25 @@ Move the ring along its x (track) or y (scene) axis.
 ```yaml hl_lines="4 5 10 11 16 17 22 23"
 up:
   gestures:
-    pressed:
+    press:
       ring:
         y: -1
 
 right:
   gestures:
-    pressed:
+    press:
       ring:
         x: 1
         
 down:
   gestures:
-    pressed:
+    press:
       ring:
         y: 1
 
 left:
   gestures:
-    pressed:
+    press:
       ring:
         x: -1
 ```
@@ -335,9 +339,9 @@ You can simply specify a direction rather than using x and y values.
 ```yaml
 left:
   gestures:
-    pressed:
+    press:
       ring: left
-    pressed__shift:
+    press__shift:
       ring: left 2
 ```
 
@@ -351,14 +355,18 @@ Specify a track name (recommended) or number. When specifying a number, the numb
 
 ```yaml
 my_button:
-  ring:
-    track: my cool track
+  gestures:
+    press:
+      ring:
+        track: my cool track
 ```
 
 ```yaml
 my_button:
-  ring:
-    track: 0
+  gestures:
+    press:
+      ring:
+        track: 0
 ```
 
 ##### by scene
@@ -369,14 +377,18 @@ When targeting an [X-Scene](https://www.cxpman.com/manual/core-concepts/#x-scene
 
 ```yaml
 my_button:
-  ring:
-    scene: 7
+  gestures:
+    press:
+      ring:
+        scene: 7
 ```
 
 ```yaml
 my_button:
-  ring:
-    scene: my cool scene
+  gestures:
+    press:
+      ring:
+        scene: my cool scene
 ```
 
 ### keyboard
@@ -390,7 +402,7 @@ Emulates [sequential action lists](https://www.cxpman.com/manual/core-concepts/#
 ```yaml
 my_control:
   gestures:
-    pressed:
+    press:
       pseq:
         - >
           "my first track" / SEL
@@ -408,7 +420,7 @@ Execute Python code in a [limited execution context](../lessons/python-context.m
 ```yaml
 my_control:
   gestures:
-    pressed:
+    press:
       python: |
         for i, track in enumerate(song.tracks):
           if i != 0 and i % 15 == 0:
@@ -428,7 +440,7 @@ For a multimode controller (e.g. Push), force the controller back into 'Live' mo
 ```yaml
 my_control:
   gestures:
-    pressed:
+    press:
       hardware_mode: live
 ```
 
@@ -439,7 +451,7 @@ Force zcx to refresh all LED feedback.
 ```yaml
 my_control:
   gestures:
-    pressed:
+    press:
       refresh: true
 ```
 
@@ -455,7 +467,7 @@ Perform a [hot reload](../lessons/reloading-control-surfaces.md#hot-reload).
 ```yaml
 my_control:
   gestures:
-    pressed:
+    press:
       hot_reload: true
 ```
 

@@ -25,34 +25,34 @@ __scene_controls:
   color:
     palette: coral
   gestures:
-    pressed: >
+    press: >
       SCENE ${ring.scenes[me.Index]}
-    pressed__shift: >
+    press__shift: >
       SCENE ${ring.scenes[me.Index + me.group_count]}
-    pressed__select: >
+    press__select: >
       SCENE SEL ${ring.scenes[me.Index]}
-    pressed__shift__select: >
+    press__shift__select: >
       SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
 #scene_1:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_2:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_3:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_4:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 ```
 
 The key `__scene_controls` is a group definition that includes `scene_1` through `scene_4`.
@@ -65,13 +65,13 @@ To remove this group definition and define each control separately, first commen
 #  color:
 #    palette: coral
 #  gestures:
-#    pressed: >
+#    press: >
 #      SCENE ${ring.scenes[me.Index]}
-#    pressed__shift: >
+#    press__shift: >
 #      SCENE ${ring.scenes[me.Index + me.group_count]}
-#    pressed__select: >
+#    press__select: >
 #      SCENE SEL ${ring.scenes[me.Index]}
-#    pressed__shift__select: >
+#    press__shift__select: >
 #      SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 ```
 
@@ -82,22 +82,22 @@ Simply un-comment these definitions and start defining your controls.
 scene_1:
   color: 127
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 scene_2:
   color: 127
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 scene_3:
   color: 127
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 scene_4:
   color: 127
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 ```
 
 ## defining matrix sections and pages
@@ -190,24 +190,24 @@ After generating the config use the :material-content-copy: in the output field 
   color: 95
   type: standard
   gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
 
 # col 2
 - 
   color: 51
   type: standard
   gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
 
 # col 3
 - 
   color: 71
   type: standard
   gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
 # and so on...
 ```
 
@@ -259,7 +259,7 @@ Each demo config will have at least a couple of commented out definitions, so we
 ```yaml title="named_controls.yaml"
 #scales:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 ```
 
 Un-comment this definition.
@@ -268,7 +268,7 @@ Change the `pressed` gesture so that it fires the `mode_on` command:
 ```yaml title="named_controls.yaml" hl_lines="3-4"
 scales:
   gestures:
-    pressed:
+    press:
       mode_on: my_mode
 ```
 
@@ -277,9 +277,9 @@ Now add a `released` gestures with the `mode_off` command:
 ```yaml title="named_controls.yaml" hl_lines="5-6"
 scales:
   gestures:
-    pressed:
+    press:
       mode_on: my_mode
-    released:
+    release:
       mode_off: my_mode
 ```
 
@@ -293,8 +293,8 @@ Let's modify an existing control:
 ```yaml title="named_controls.yaml" hl_lines="4"
 undo:
   gestures:
-    pressed: UNDO
-    pressed__my_mode: REDO
+    press: UNDO
+    press__my_mode: REDO
 ```
 
 Now when the control `undo` is pressed it will fire the action list `UNDO`, or `REDO` if `my_mode` is enabled.

@@ -1,4 +1,4 @@
-# !! row 2
+# !! row 1
 # col 1
 -
   color: 0
@@ -18,8 +18,8 @@
   color: dark_grey
   repeat: true
   gestures:
-    pressed: UP
-    pressed__shift:
+    press: UP
+    press__shift:
       ring: up
 
 # col 4
@@ -32,9 +32,9 @@
       b: purple shade 2
   transport: metronome
   gestures:
-    pressed: METRO
+    press: METRO
 
-# !! row 3
+# !! row 2
 # col 1
 -
   color: 0
@@ -70,7 +70,7 @@
     pressed__shift:
       ring: right
 
-# !! row 4
+# !! row 3
 # col 1
 -
   type: transport
@@ -99,8 +99,8 @@
   color: dark_grey
   repeat: true
   gestures:
-    pressed: DOWN
-    pressed__shift:
+    press: DOWN
+    press__shift:
       ring: down
 
 # col 4
@@ -110,4 +110,4 @@
   active_color: sky
   inactive_color: sky shade 2
   gestures:
-    pressed: LOOP
+    press: LOOP

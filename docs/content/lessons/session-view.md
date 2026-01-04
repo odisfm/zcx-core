@@ -37,9 +37,9 @@ This is achieved with ClyphX Pro action lists:
 
 ```yaml
 gestures:
-  pressed: >
+  press: >
     ${track_name}" / SVIEW ${scene_number} PRESS
-  pressed__select: >
+  press__select: >
     "${track_name}" / SEL ${scene_number}
 ```
 
@@ -82,7 +82,7 @@ __session_view:
   col_end: 7
   template:
     gestures:
-      released_delayed: >
+      long_release: >
         "{track_name}" / STOPNQ
 ```
 
@@ -153,9 +153,9 @@ __session_view:
   col_end: 7
   template:
     gestures:
-      pressed: >
+      press: >
         ${clip_target} COLOR 1
-      pressed__select: >
+      press__select: >
         "${track_target}" / SOLO
 ```
 
@@ -164,7 +164,7 @@ Or to disable a default:
 ```yaml title="matrix_sections.yaml" hl_lines="3"
   template:
     gestures:
-      pressed__select: DUMMY # do nothing
+      press__select: DUMMY # do nothing
 ```
 
 

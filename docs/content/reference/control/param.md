@@ -167,7 +167,7 @@ Returns the value that the parameter would be set to the next time it is toggled
 ```yaml
 binding: >
   "my cool track" / VOL
-pressed: >
+press: >
   "my cool track" / VOL RAMP 10 ${me.next_pct}% 
 ```
 
@@ -187,9 +187,9 @@ my_control:
   binding: SEL / DEV(1)
   toggle_param: false
   gestures:
-    pressed:
+    press:
       SEL / DEV(1) SEL
-    pressed__shift:
+    press__shift:
       do_toggle: true
 ```
 

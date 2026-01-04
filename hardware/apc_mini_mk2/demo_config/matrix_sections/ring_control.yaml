@@ -61,37 +61,37 @@
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 2
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 3
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 4
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 5
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 6
 - 
   color: sky
   gestures:
-    pressed:
+    press:
       ring:
         x: -8
 
@@ -100,7 +100,7 @@
   color: white
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         y: -1
 
@@ -108,7 +108,7 @@
 - 
   color: cyan
   gestures:
-    pressed:
+    press:
       ring:
         x: 8
 
@@ -117,38 +117,38 @@
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 2
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 3
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 4
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 5
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 6
 - 
   color: white
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: -1
 
@@ -156,14 +156,14 @@
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 8
 - 
   color: white
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: 1
 
@@ -172,37 +172,37 @@
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 2
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 3
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 4
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 5
 - 
   color: dark_grey
   gestures:
-    pressed: DUMMY
+    press: DUMMY
 
 # col 6
 - 
   color: purple
   gestures:
-    pressed:
+    press:
       ring:
         y: -8
 
@@ -211,7 +211,7 @@
   color: white
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         y: 1
 
@@ -219,6 +219,6 @@
 - 
   color: indigo
   gestures:
-    pressed:
+    press:
       ring:
         y: 8

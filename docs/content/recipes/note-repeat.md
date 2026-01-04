@@ -30,7 +30,7 @@ repeat:
   type: overlay
   overlay: note_repeat
   gestures:
-    pressed:
+    press:
       overlay:
         toggle: note_repeat
 ```
@@ -53,7 +53,7 @@ __repeat_group:
   function:
     repeat_rate: ${repeat_rates[me.index]}
   gestures:
-    pressed:
+    press:
       keyboard:
         repeat_rate: ${repeat_rates[me.index]}
 ```
@@ -102,7 +102,7 @@ repeat:
   type: overlay
   overlay: note_repeat
   gestures:
-    pressed:
+    press:
       overlay:
         toggle: note_repeat
 ```
@@ -118,7 +118,7 @@ __repeat_group:
   function:
     repeat_rate: ${repeat_rates[me.index]}
   gestures:
-    pressed:
+    press:
       keyboard:
         repeat_rate: ${repeat_rates[me.index]}
 ```

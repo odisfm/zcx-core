@@ -80,7 +80,7 @@ Create the file `overlays/<overlay name>.yaml`
 ```yaml title="zcx/_config/overlays/my_overlay.yaml"
 my_button:
   gestures:
-    pressed:
+    press:
       msg: This is the overlay button!
 ```
 
@@ -112,15 +112,15 @@ It's up to us to define a control that activates and deactivates the overlay by 
 ```yaml hl_lines="6-13" title="named_controls.yaml"
 my_button:
   gestures:
-    pressed:
+    press:
       msg: This is the base button.
 
 scales:
   gestures:
-    pressed:
+    press:
       overlay:
         enable: my_overlay
-    released:
+    release:
       overlay:
         disable: my_overlay
 ```
@@ -244,17 +244,18 @@ It is entirely possible to create an overlay that cannot be escaped like so:
 ```yaml title="named_controls.yaml"
 my_control:
   gestures:
-    pressed:
+    press:
       overlay:
         enable: my_overlay
-    released:
+    release:
       overlay:
         disable: my_overlay
 ```
 
 ```yaml title="overlays/my_overlay.yaml"
 my_control:
-  gestures: METRO ON
+  gestures: 
+    press: METRO ON
 ```
 
 When `my_control` is pressed `my_overlay` will be enabled.

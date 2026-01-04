@@ -1,6 +1,6 @@
-# understanding the double_clicked gesture
+# understanding the double_click gesture
 
-The `double_clicked` [gesture](../reference/command.md#gestures) is cool, but it behaves somewhat peculiarly.
+The `double_click` [gesture](../reference/command.md#gestures) is cool, but it behaves somewhat peculiarly.
 
 ## the problem
 
@@ -16,22 +16,22 @@ If we take this control definition:
 ```yaml
 my_control:
   gestures:
-    pressed:
-      log: pressed
-    released:
-      log: released
-    double_clicked:
-      log: double_clicked
+    press:
+      log: press
+    release:
+      log: release
+    double_click:
+      log: double_click
 ```
 
 After a double tap, the log would read:
 
 ```
-pressed
-released
-pressed
-released
-double_clicked
+press
+release
+press
+release
+double_click
 ```
 
 This behaviour means the use case you imagined for the double tap might not be possible.
@@ -40,13 +40,13 @@ This behaviour means the use case you imagined for the double tap might not be p
 
 ### compatible gestures
 
-`pressed_delayed` and `double_clicked` are mutually exclusive, so you can make use of either of them without triggering the other.
+`long_press` and `double_click` are mutually exclusive, so you can make use of either of them without triggering the other.
 
 ```yaml
 my_control:
   gestures:
-    pressed_delayed: SETPLAY
-    double_clicked: SETSTOP
+    long_press: SETPLAY
+    double_click: SETSTOP
 ```
 
 ### compatible actions
@@ -56,11 +56,11 @@ With clever design, you can find a combination of actions that complement each o
 ```yaml
 my_control:
   gestures:
-    pressed: >
+    press: >
       "my track" / SEL
-    pressed_delayed: >
+    long_press: >
       "my track" / MUTE
-    double_clicked: >
+    double_click: >
       "my track" / PLAY
 ```
 

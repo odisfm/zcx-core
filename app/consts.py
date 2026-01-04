@@ -23,6 +23,15 @@ SUPPORTED_GESTURES = [
     "released_delayed",
     "double_clicked",
 ]
+# must keep order synced
+SHORTHAND_GESTURES = [
+    "press",
+    "long_press",
+    "release",
+    "short_press",
+    "long_release",
+    "double_click"
+]
 
 REQUIRED_LIVE_VERSION = (12, 1)
 

@@ -53,7 +53,7 @@ __bank_select:
   active_color: yellow
   inactive_color: red
   gestures:
-    pressed:
+    press:
       mode_on: bank_${me.Index}
 ```
 
@@ -194,7 +194,7 @@ __bank_select:
   active_color: yellow
   inactive_color: red
   gestures:
-    pressed:
+    press:
       mode_on: bank_${me.Index}
 ```
 ```yaml title="encoders.yaml"

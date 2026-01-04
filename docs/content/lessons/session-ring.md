@@ -49,7 +49,7 @@ __scene_controls:
     scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8
   ]
   gestures:
-    pressed: >
+    press: >
       SCENE ${ring.scenes[me.group_index] + 1}
 ```
 
@@ -64,7 +64,7 @@ __state_controls:
     state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8
   ]
   gestures:
-    pressed: >
+    press: >
        "${ring.tracks[me.group_index]}" / MUTE
 ```
 

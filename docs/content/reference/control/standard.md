@@ -255,7 +255,7 @@ E.g., if a control has a threshold of `30`, a press with a velocity of `30` will
 my_control:
   color: red
   gestures:
-    pressed: METRO
+    press: METRO
 ```
 
 ### Short press and long press
@@ -264,8 +264,8 @@ my_control:
 my_control:
   color: red
   gestures:
-    released_immediately: SRECFIX 4
-    pressed_delayed: SREC
+    short_press: SRECFIX 4
+    long_press: SREC
 ```
 
 

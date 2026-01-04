@@ -49,7 +49,7 @@ binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 toggle_param: false
 midpoint: 50.0
 gestures:
-  pressed: >
+  press: >
     "${ring.tracks[me.x]}" / DEV(1) B1 P${me.Y} ${me.velps}%
 ```
 
@@ -65,7 +65,7 @@ Striking the row third from the top with average force will produce an output li
 ### Ramping
 
 We can easily add another gesture to [ramp](https://www.cxpman.com/manual/general-action-information/#ramping-parameters) the parameter over a number of beats.
-Let's change the `pressed` gesture to `released_immediately`, and add a `pressed_delayed` gesture, giving us different actions for a short and long press:
+Let's change the `press` gesture to `short_press`, and add a `long_press` gesture, giving us different actions for a short and long press:
 
 ```yaml title="matrix_sections/velocity_params.yaml" hl_lines="7 9-11"
 pad_group: velocity_params
@@ -74,9 +74,9 @@ binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 toggle_param: false
 midpoint: 50.0
 gestures:
-  released_immediately: >
+  short_press: >
     "${ring.tracks[me.x]}" / DEV(1) B1 P${me.Y} ${me.velps}%
-  pressed_delayed: >
+  long_press: >
     "${ring.tracks[me.x]}" / DEV(1) B1 P${me.Y} RAMPS 1B ${me.velps}%
 ```
 
@@ -99,8 +99,8 @@ binding: RING(${me.x}) / DEV(1) B1 P${me.Y}
 toggle_param: false
 midpoint: 50.0
 gestures:
-  released_immediately: >
+  short_press: >
     "${ring.tracks[me.x]}" / DEV(1) B1 P${me.Y} ${me.velps}%
-  pressed_delayed: >
+  long_press: >
     "${ring.tracks[me.x]}" / DEV(1) B1 P${me.Y} RAMPS 1B ${me.velps}%
 ```

@@ -1,8 +1,8 @@
 shift:
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
 __page_group:
@@ -14,89 +14,89 @@ __page_group:
   active_color: 127
   inactive_color: 0
   gestures:
-    pressed:
+    press:
       page: ${me.index}
 
 #volume:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #pan:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #send:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #device:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 up:
   gestures:
-    pressed: up
-    pressed__shift:
+    press: up
+    press__shift:
       ring: up
 
 down:
   gestures:
-    pressed: down
-    pressed__shift:
+    press: down
+    press__shift:
       ring: down
 
 left:
   gestures:
-    pressed: left
-    pressed__shift:
+    press: left
+    press__shift:
       ring: left
 
 right:
   gestures:
-    pressed: right
-    pressed__shift:
+    press: right
+    press__shift:
       ring: right
 
 scene_1: # clip stop
   gestures:
-    pressed: SEL / STOP
-    pressed__shift: SCENE ${ring.scenes[0]}
+    press: SEL / STOP
+    press__shift: SCENE ${ring.scenes[0]}
 
 scene_2: # solo
   gestures:
-    pressed: SEL / SOLO
-    pressed__shift: SCENE ${ring.scenes[1]}
+    press: SEL / SOLO
+    press__shift: SCENE ${ring.scenes[1]}
 
 scene_3: # mute
   gestures:
-    pressed: SEL / MUTE
-    pressed__shift: SCENE ${ring.scenes[2]}
+    press: SEL / MUTE
+    press__shift: SCENE ${ring.scenes[2]}
 
 scene_4: # rec arm
   gestures:
-    pressed: SEL / ARM
-    pressed__shift: SCENE ${ring.scenes[3]}
+    press: SEL / ARM
+    press__shift: SCENE ${ring.scenes[3]}
 
 scene_5: # select
   gestures:
-    pressed:
+    press:
       mode_on: select
-    released:
+    release:
       mode_off: select
-    pressed__shift: SCENE ${ring.scenes[4]}
+    press__shift: SCENE ${ring.scenes[4]}
 
 scene_6: # drum
   gestures:
-    pressed: SHOWCLIP
-    pressed__shift: SCENE ${ring.scenes[5]}
+    press: SHOWCLIP
+    press__shift: SCENE ${ring.scenes[5]}
 
 scene_7: # note
   gestures:
-    pressed: SHOWDETAIL
-    pressed__shift: SCENE ${ring.scenes[6]}
+    press: SHOWDETAIL
+    press__shift: SCENE ${ring.scenes[6]}
 
 scene_8: # stop all clips
   gestures:
-    pressed: STOPALL
-    pressed_delayed: STOPALL NQ
-    pressed__shift: SCENE ${ring.scenes[7]}
+    press: STOPALL
+    long_press: STOPALL NQ
+    press__shift: SCENE ${ring.scenes[7]}

@@ -4,9 +4,9 @@ select:
   active_color: 127
   inactive_color: 40
   gestures:
-    pressed:
+    press:
       mode_on: select
-    released:
+    release:
       mode_off: select
 
 shift:
@@ -15,23 +15,23 @@ shift:
   active_color: 127
   inactive_color: 40
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
 play:
   type: transport
   transport: play
   gestures:
-    pressed: SETPLAY
+    press: SETPLAY
 
 record:
   type: transport
   transport: session_record
   gestures:
-    pressed: SRECFIX
-    pressed_delayed: SRECFIX 8
+    press: SRECFIX
+    long_press: SRECFIX 8
 
 
 __state_row:
@@ -43,44 +43,44 @@ __state_row:
   inactive_color:
     palette: rainbow
   gestures:
-    pressed:
+    press:
       page: ${me.index}
       msg: >
         Page ${me.page}: ${me.page_name}
-    released_delayed:
+    long_press:
       page: last
 
 #state_1:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_2:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_3:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_4:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_5:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_6:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_7:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_8:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __select_row:
   # the bottom row
@@ -88,87 +88,55 @@ __select_row:
   type: ring_track
   ring_index: ${me.index}
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
-    pressed_delayed: >
+    long_press: >
       "${me.track}" / ARM
-    double_clicked: >
+    double_click: >
       "${me.track}" / PLAY >
-    pressed__delete: >
+    press__delete: >
       "${me.track}" / DEL
       
 #select_1:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_2:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_3:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_4:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_5:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_6:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_7:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_8:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   color: cyan shade ${me.index % 4}
   gestures:
-    pressed: SCENE ${ring.scenes[me.Index]}
-    pressed__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
-    pressed__select: SCENE SEL ${ring.scenes[me.Index]}
-    pressed__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
-
-#scene_1:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_2:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_3:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_4:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_5:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_6:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_7:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_8:
-#  gestures:
-#    pressed: DUMMY
+    press: SCENE ${ring.scenes[me.Index]}
+    press__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
+    press__select: SCENE SEL ${ring.scenes[me.Index]}
+    press__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
@@ -177,26 +145,26 @@ __dpad:
   controls:
     dpad_left:
       gestures:
-        pressed: LEFT
-        pressed__shift:
+        press: LEFT
+        press__shift:
           ring:
             x: -1
     dpad_right:
       gestures:
-        pressed: RIGHT
-        pressed__shift:
+        press: RIGHT
+        press__shift:
           ring:
             x: 1
     dpad_up:
       gestures:
-        pressed: UP
-        pressed__shift:
+        press: UP
+        press__shift:
           ring:
             y: -1
     dpad_down:
       gestures:
-        pressed: DOWN
-        pressed__shift:
+        press: DOWN
+        press__shift:
           ring:
             y: 1
 
@@ -222,9 +190,9 @@ device:
   active_color: 127
   inactive_color: 20
   gestures:
-    pressed:
+    press:
       mode_on: device
-    released_delayed:
+    long_release:
       mode_off: device
 
 mix:
@@ -233,72 +201,64 @@ mix:
   active_color: 20
   inactive_color: 127
   gestures:
-    pressed:
+    press:
       mode_off: device
-
-#session:
-#  gestures:
-#    pressed: DUMMY
-#
-#touchstrip:
-#  gestures:
-#    pressed: DUMMY
 
 page_prev:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: -8
-    pressed__shift:
+    press__shift:
       ring: left
 
 page_next:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: 8
-    pressed__shift:
+    press__shift:
       ring: right
 
 octave_up:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         y: -8
-    pressed__shift:
+    press__shift:
       ring: up
 
 octave_down:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         y: 8
-    pressed__shift:
+    press__shift:
       ring: down
 
 metronome:
   type: transport
   transport: metronome
   gestures:
-    pressed: metro
+    press: metro
 
 delete:
   type: mode
   mode: delete
   gestures:
-    pressed:
+    press:
       mode_on: delete
-    released:
+    release:
       mode_off: delete
 
 undo:
   gestures:
-    pressed: undo
-    pressed__shift: redo
+    press: undo
+    press__shift: redo
 
 mute:
   type: param
@@ -324,7 +284,7 @@ new:
 
 duplicate:
   gestures:
-    pressed: SCENE DUPE
+    press: SCENE DUPE
 
 master:
   type: param
@@ -334,47 +294,20 @@ master:
 
 user:
   gestures:
-    pressed:
+    press:
       hardware_mode: live
 
 tap_tempo:
   gestures:
-    pressed: TAPBPM
+    press: TAPBPM
 
 note:
   gestures:
-    pressed: SHOWCLIP
+    press: SHOWCLIP
 
 session:
   gestures:
-    pressed: SHOWDEV
-
-
-#convert:
-#  gestures:
-#    pressed: DUMMY
-
-
-#add_device:
-#  gestures:
-#    pressed: DUMMY
-
-#add_track:
-#  gestures:
-#    pressed: DUMMY
-
-#repeat:
-#  gestures:
-#    pressed: DUMMY
-
-#accent:
-#  gestures:
-#    pressed: DUMMY
-#
-#scales:
-#  gestures:
-#    pressed: DUMMY
-#
+    press: SHOWDEV
 
 __page_control_test_1:
   includes: [
@@ -383,9 +316,9 @@ __page_control_test_1:
   type: page
   page: ${me.index}
   gestures:
-    pressed:
+    press:
       page: ${me.page_name}
-    double_clicked:
+    double_click:
       page: ${me.index}
 
 __ring_track_control_test_1:
@@ -395,7 +328,7 @@ __ring_track_control_test_1:
   type: ring_track
   ring_index: ${me.index}
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
 
 __track_control_test_1:
@@ -405,12 +338,12 @@ __track_control_test_1:
   type: track
   track: ${me.index}
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
 
 setup:
   gestures:
-    pressed:
+    press:
       hot_reload: true
 
 __test_ua_colors_group:
@@ -420,47 +353,47 @@ __test_ua_colors_group:
 test_2_18:
 #  cascade: down
   gestures:
-    pressed:
+    press:
       log: no mode
-    pressed__test_1__test_2:
+    press__test_1__test_2:
       log: test_1__test_2
-    pressed__test_1:
+    press__test_1:
       log: test_1
-    pressed__test_2:
+    press__test_2:
       log: test_2
-    pressed__test_3:
+    press__test_3:
       log: test_3
-    pressed__test_4:
+    press__test_4:
       log: test_4
-    pressed__test_5:
+    press__test_5:
       log: test_5
-    pressed__test_6:
+    press__test_6:
       log: test_6
-    pressed__test_7:
+    press__test_7:
       log: test_7
-    pressed__test_8:
+    press__test_8:
       log: test_8
-    pressed__test_9:
+    press__test_9:
       log: test_9
-    pressed__test_10:
+    press__test_10:
       log: test_10
-    pressed__test_11:
+    press__test_11:
       log: test_11
-    pressed__test_12:
+    press__test_12:
       log: test_12
-    pressed__test_13:
+    press__test_13:
       log: test_13
-    pressed__test_14:
+    press__test_14:
       log: test_14
-    pressed__test_15:
+    press__test_15:
       log: test_15
-    pressed__test_16:
+    press__test_16:
       log: test_16
-    pressed__test_17:
+    press__test_17:
       log: test_17
-    pressed__test_18:
+    press__test_18:
       log: test_18
-    pressed__test_19:
+    press__test_19:
       log: test_19
-    pressed__test_20:
+    press__test_20:
       log: test_20

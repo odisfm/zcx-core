@@ -1,117 +1,101 @@
-#row 1
-#col 1
+# !! row 1
+# col 1
 - color: red
   gestures:
-    pressed:
+    press:
       msg: You can edit this section in `_config/matrix_sections/actions_bottom_left.yaml`
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 2
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 3
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 4
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#row 2
-#col 1
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# !! row 2
+# col 1
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 2
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 3
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 4
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#row 3
-#col 1
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# !! row 3
+# col 1
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 2
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 3
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 4
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#row 4
-#col 1
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# !! row 4
+# col 1
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 2
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 3
-- color: grey
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
-#col 4
-- color: yellow
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+-
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    short_press: DUMMY
+    long_press: DUMMY

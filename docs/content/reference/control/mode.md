@@ -56,9 +56,9 @@ my_control:
   type: mode
   mode: shift
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 ```
 
@@ -69,11 +69,11 @@ my_control:
   type: mode
   mode: shift
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
-    double_clicked:
+    double_click:
       mode_on: shift
 ```
 
@@ -86,7 +86,7 @@ my_control:
   type: mode
   mode: shift
   gestures:
-    pressed:
+    press:
       mode: shift
 ```
 
@@ -99,8 +99,8 @@ my_control:
   active_color: green
   inactive_color: white
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 ```

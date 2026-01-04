@@ -79,10 +79,10 @@ my_control:
   type: overlay
   overlay: my_overlay
   gestures:
-    pressed:
+    press:
       overlay:
         enable: my_overlay
-    released:
+    release:
       overlay:
         disable: my_overlay
 ```
@@ -94,7 +94,7 @@ my_control:
   type: overlay
   overlay: my_overlay
   gestures:
-    pressed:
+    press:
       overlay:
         toggle: my_overlay
 ```

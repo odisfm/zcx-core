@@ -34,8 +34,8 @@ record:
   hold_color: off
   repeat: false
   gestures:
-    pressed: SEL / ARM
-    pressed_delayed: SRECFIX 8
+    press: SEL / ARM
+    long_press: SRECFIX 8
 ```
 
 At the same time, the above definition may look more complex, yet easier to read. Notice that your web browser is color coding certain words. This is because zcx makes heavy use of an existing format called [YAML](https://en.wikipedia.org/wiki/YAML)
@@ -94,7 +94,7 @@ my_control:
   color: green
   alias: my_cool_control
   gestures:
-    pressed: METRO ON ; SEL / ARM ;
+    press: METRO ON ; SEL / ARM ;
 ```
 
 It might be a word, sentence, or a ClyphX Pro action list.
@@ -104,7 +104,7 @@ It might be a word, sentence, or a ClyphX Pro action list.
 In many zcx configs, you will see a peculiar format:
 
 ```yaml
-pressed: >
+press: >
   "my cool track" / SEL ; "my cool track" / ARM
 ```
 
@@ -116,7 +116,7 @@ Here we have put a `>` character after the key: `pressed: >`, and put the value 
 You may also use this format:
 
 ```yaml
-pressed: '"my cool track" / SEL ; "my cool track" / ARM'
+press: '"my cool track" / SEL ; "my cool track" / ARM'
 ```
 
 Here, we have wrapped the entire action list in 'single quotes', which achieves the same result.
@@ -157,7 +157,7 @@ These three examples are functionally identical.
 octave_up:
   # repeat: True
   gestures:
-    pressed: METRO # I can write whatever I want here
+    press: METRO # I can write whatever I want here
 ```
 
 When you see a  `#` on a line of yaml, anything to the right of that `#` will be totally ignored. If you put a `#` before the key, like with `# repeat` above, this line essentially 'disappears' from your config when zcx loads it. So, not actually a data type, but important to know.

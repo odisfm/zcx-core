@@ -35,7 +35,7 @@ my_control:
   type: ring_track
   ring_index: 0
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
 ```
 

@@ -1,520 +1,455 @@
 # !! row 1
 # col 1
 - 
-  color: white
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 2
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 3
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 4
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 5
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 6
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 7
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # !! row 8
 # col 1
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 2
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 3
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 4
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 5
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 6
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 7
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+
 # col 8
-- 
-  color: white
+-
+  color: grey
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY

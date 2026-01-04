@@ -76,7 +76,7 @@ my_control:
   type: page
   page: my_page
   gestures:
-    pressed:
+    press:
       page: my_page
 ```
 
@@ -89,7 +89,7 @@ my_control:
   active_color: white
   inactive_color: red
   gestures:
-    pressed:
+    press:
       page: my_page
 ```
 
@@ -100,9 +100,9 @@ my_control:
   type: page
   page: my_page
   gestures:
-    pressed:
+    press:
       page: my_page
-    released_delayed:
+    long_press:
       page: last
 ```
 

@@ -1,88 +1,88 @@
-volume:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#volume:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-pan:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#pan:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-send:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#send:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-device:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#device:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-up:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#up:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-down:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#down:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-left:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#left:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-right:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#right:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
 shift:
   type: mode
   mode: shift
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
-scene_1:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_1:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_2:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_2:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_3:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_3:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_4:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_4:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_5:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_5:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_6:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_6:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_7:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_7:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
 
-scene_8:
-  gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+#scene_8:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY

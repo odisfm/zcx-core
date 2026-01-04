@@ -74,9 +74,9 @@ fx_ramp:
   props:
     bind_target: NONE
   gestures:
-    pressed: >
+    press: >
       ${me.props.bind_target} RAMPS 1B 100%
-    released: >
+    release: >
       ${me.props.bind_target} RAMPS 1B 0%
 ```
 
@@ -87,7 +87,7 @@ Now, a press would do the ClyphX Pro action list:
 ```
 
 Ramping the first parameter on `my device` to max over one bar.
-The `released` gesture does the opposite.
+The `release` gesture does the opposite.
 
 <br>
 
@@ -105,9 +105,9 @@ fx_ramp:
     min: 0
     max: 100
   gestures:
-    pressed: >
+    press: >
       ${me.props.bind_target} ${me.props.ramp} ${me.props.max}%
-    released: >
+    release: >
       ${me.props.bind_target} ${me.props.ramp} ${me.props.min}%
 ```
 
@@ -125,9 +125,9 @@ play:
 Now we have:
 ```yaml
 gestures:
-  pressed: >
+  press: >
     "my track" / DEV("my device") P1 RAMP 2 50%
-  released: >
+  release: >
     "my track" / DEV("my device") P1 RAMP 2 0%
 ```
 
@@ -150,9 +150,9 @@ fx_ramp:
     min: 0
     max: 100
   gestures:
-    pressed: >
+    press: >
       ${me.props.bind_target} ${me.props.ramp_up or me.props.ramp} ${me.props.max}%
-    released: >
+    release: >
       ${me.props.bind_target} ${me.props.ramp_down or me.props.ramp} ${me.props.min}%
 ```
 ```yaml title="named_controls.yaml" hl_lines="8"
@@ -171,9 +171,9 @@ This gives us the gestures:
 
 ```yaml
 gestures:
-  pressed: >
+  press: >
     "my track" / DEV("my device") P1 RAMP 2 50%
-  released: >
+  release: >
     "my track" / DEV("my device") P1 RAMPS 2B 0%
 ```
 
@@ -201,9 +201,9 @@ fx_ramp:
       a: ${me.props.color}
       b: ${me.props.blink_color}
   gestures:
-    pressed: >
+    press: >
       ${me.props.bind_target} ${me.props.ramp_up or me.props.ramp} ${me.props.max}%
-    released: >
+    release: >
       ${me.props.bind_target} ${me.props.ramp_down or me.props.ramp} ${me.props.min}%
 ```
 ```yaml title="named_controls.yaml" hl_lines="9"
@@ -237,7 +237,7 @@ This template can be easily modified to a toggle control by using the [pseq comm
 fx_ramp:  
   # ... existing settings
   gestures:
-    pressed:
+    press:
       pseq:
         - ${me.props.bind_target} ${me.props.ramp_up or me.props.ramp} ${me.props.max}%
         - ${me.props.bind_target} ${me.props.ramp_down or me.props.ramp} ${me.props.min}%
@@ -266,9 +266,9 @@ fx_ramp:
       a: ${me.props.color}
       b: ${me.props.blink_color}
   gestures:
-    pressed: >
+    press: >
       ${me.props.bind_target} ${me.props.ramp_up or me.props.ramp} ${me.props.max}%
-    released: >
+    release: >
       ${me.props.bind_target} ${me.props.ramp_down or me.props.ramp} ${me.props.min}%
 ```
 ```yaml title="named_controls.yaml"

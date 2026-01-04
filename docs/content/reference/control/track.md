@@ -58,7 +58,7 @@ my_control:
   type: track
   track: My Track
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
 ```
 
@@ -69,10 +69,10 @@ my_control:
   type: track
   track: My Track
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
-    pressed_delayed: >
+    long_press: >
       "${me.track}" / ARM
-    double_clicked: >
+    double_click: >
       "${me.track}" / PLAY >
 ```

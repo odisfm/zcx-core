@@ -84,7 +84,7 @@ If you don't already have some controls set up as a page changer, you'll need to
 ```yaml title="named_controls.yaml"
 quantize:
   gestures:
-    pressed_delayed:
+    long_press:
       page: lightshow
 ```
 

@@ -50,7 +50,7 @@ __page_changer:
   type: page
   page: ${me.index}
   gestures:
-    pressed:
+    press:
       page: ${me.index}
 ```
 
@@ -66,9 +66,9 @@ __page_changer:
   type: page
   page: ${me.index}
   gestures:
-    pressed:
+    press:
       page: ${me.index}
-    released_delayed:
+    long_press:
       page: last
 ```
 
@@ -82,9 +82,9 @@ __page_changer:
   type: page
   page: ${me.index}
   gestures:
-    pressed:
+    press:
       page: ${me.index}
-    released_delayed:
+    long_press:
       page: last
   active_color: white
   inactive_color: dark_grey
@@ -118,9 +118,9 @@ __page_changer:
   type: page
   page: ${me.index}
   gestures:
-    pressed:
+    press:
       page: ${me.index}
-    released_delayed:
+    long_press:
       page: last
   active_color: white
   inactive_color: dark_grey
@@ -138,9 +138,9 @@ page_changer_section:
       type: page
       page: ${me.index}
       gestures:
-        pressed:
+        press:
           page: ${me.index}
-        released_delayed:
+        long_press:
           page: last
       active_color: white
       inactive_color: dark_grey

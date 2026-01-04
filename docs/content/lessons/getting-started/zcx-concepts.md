@@ -22,7 +22,7 @@ You define ZControls in your configuration files and when you press their associ
 record:
   color: red
   gestures:
-    pressed: SRECFIX 8
+    press: SRECFIX 8
 ```
 
 A control definition is a [yaml object](reading-zcx-configurations.md#keys-and-values) provided by you that describes how a control should behave.
@@ -33,12 +33,12 @@ Most control definitions will have the [keys](reading-zcx-configurations.md#obje
 Gestures are physical actions you can perform on a button, which will in turn trigger a **command** on a ZControl. 
 There are six gestures supported by zcx:
 
-- **pressed** always fired immediately after a control is pressed
-- **pressed_delayed** fires after the control is held for a short time
-- **released** always fired immediately after a control is released
-- **released_delayed** fired after a held control is released — will only fire after a `pressed_delayed` event
-- **released_immediately** fired after a control that was **not** being held is released
-- **double_clicked** fired after a control is pressed twice in quick succession
+- **press** always fired immediately after the control is pressed
+- **short_press** fires after the control is pressed then released in quick succession
+- **long_press** fires after the control is held for a brief period
+- **release** always fires immediately after the control is released
+- **long_release** fires after the held control is released — will only fire after a `long_press` event
+- **double_click** fires after the control is pressed twice in quick succession
 
 #### commands
 
@@ -46,8 +46,8 @@ Commands fire in response to gestures, and are usually a ClyphX Pro action list:
 
 ```yaml
 gestures:
-  pressed: DEV(SEL) ON
-  released: DEV(SEL) OFF
+  press: DEV(SEL) ON
+  release: DEV(SEL) OFF
 ```
 
 Here, the gesture is the key, and the command is the value.
@@ -61,14 +61,14 @@ You can configure your other controls to behave differently depending on whether
 ```yaml
 shift:
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 ```
 
 Above we see a control called `shift`.
-It responds to the gestures `pressed` and `released`.
+It responds to the gestures `press` and `release`.
 These gestures fire the `mode_on` and `mode_off` commands respectively.
 The value for these commands is also `shift`.
 
@@ -77,11 +77,11 @@ So, whenever the control `shift` is held down, the mode `shift` is on.
 ```yaml
 record:
   gestures:
-    pressed: SRECFIX 8
-    pressed__shift: SRECFIX 16
+    press: SRECFIX 8
+    press__shift: SRECFIX 16
 ```
 
-This `record` control has the `pressed` and `pressed__shift` gesture.
+This `record` control has the `press` and `press__shift` gesture.
 As you may have guessed, this control will fire the action list `SRECFIX 8` when pressed, unless the `shift` mode is active, in which case it does `SRECFIX 16`.
 
 You can even require multiple modes for particular functionality:
@@ -89,7 +89,7 @@ You can even require multiple modes for particular functionality:
 ```yaml
 record:
   gestures:
-    pressed__shift__select: SRECFIX 32
+    press__shift__select: SRECFIX 32
 ```
 
 The names of these modes are completely arbitrary, but they must be defined in your `modes.yaml` file.
@@ -115,7 +115,7 @@ Often, the control's name will be printed on the control.
 record:
   color: red
   gestures:
-    pressed: SRECFIX 8
+    press: SRECFIX 8
 ```
 
 All named controls are defined in one place, `named_controls.yaml`:
@@ -197,11 +197,11 @@ And in each of those files you define a list, containing a definition for every 
 # col 1
 - color: red
   gestures:
-    pressed: METRO
+    press: METRO
 # col 2
 - color: blue
   gestures:
-    pressed: SETPLAY
+    press: SETPLAY
 ...
 ```
 
@@ -316,12 +316,12 @@ Here is an example of the templating system:
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4]
   gestures:
-    pressed: SCENE ${me.Index}
+    press: SCENE ${me.Index}
 ```
 
 This is a group definition.
 We have grouped the buttons `scene_1` through `scene_4` under the `includes` key to apply a common definition to them.
-There is one gesture defined, `pressed`, with the command (action list) `SCENE ${me.Index}`.
+There is one gesture defined, `press`, with the command (action list) `SCENE ${me.Index}`.
 
 The `${me.Index}` is new syntax called a template string.
 Behind the scenes, zcx will evaluate these strings so that the controls fire `SCENE 1` through `SCENE 4`.
@@ -332,8 +332,8 @@ The benefits of this system become apparent when we want to extend the control:
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4]
   gestures:
-    pressed: SCENE ${me.Index}
-    pressed__select: SCENE SEL ${me.Index}
+    press: SCENE ${me.Index}
+    press__select: SCENE SEL ${me.Index}
 ```
 
 With just one line of yaml we have extended the definition for all four controls in the group.

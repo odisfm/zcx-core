@@ -95,7 +95,7 @@ You may set this via the `keyboard` [command](../reference/command.md#keyboard):
 
 ```yaml hl_lines="4"
 gestures:
-  pressed:
+  press:
     keyboard:
       octave: 5
 ```
@@ -110,11 +110,11 @@ ZCX <target script> KB OCT 4
 
 ```yaml hl_lines="4-5 8-9"
 gestures:
-  pressed:
+  press:
     keyboard:
       octave:
         up: 1
-  released:
+  release:
     keyboard:
       octave:
         down: 1
@@ -134,7 +134,7 @@ You may set this via the `keyboard` [command](../reference/command.md#keyboard):
 
 ```yaml hl_lines="4"
 gestures:
-  pressed:
+  press:
     keyboard:
       in_key: true
 ```
@@ -155,7 +155,7 @@ You may set this via the `keyboard` [command](../reference/command.md#keyboard):
 
 ```yaml hl_lines="4"
 gestures:
-  pressed:
+  press:
     keyboard:
       full_velo: true
 ```
@@ -176,7 +176,7 @@ You may set this via the `keyboard` [command](../reference/command.md#keyboard):
 
 ```yaml hl_lines="4"
 gestures:
-  pressed:
+  press:
     keyboard:
       repeat_rate: off
 ```

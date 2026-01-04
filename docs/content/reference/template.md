@@ -14,15 +14,15 @@ In many parts of a control's config, you can use a special syntax to dynamically
 -
   color: red
   gestures:
-    pressed: PLAY ${me.Index}
+    press: PLAY ${me.Index}
 -
   color: green
   gestures:
-    pressed: PLAY ${me.Index}
+    press: PLAY ${me.Index}
 -
   color: blue
   gestures:
-    pressed: PLAY ${me.Index}
+    press: PLAY ${me.Index}
 ```
 
 The key part is `${me.Index}`. In zcx, when you see part of a string enclosed with a leading `${` and a trailing `}`, you are looking at a **template string**. zcx will dynamically evaluate this string **each time** the control is pressed.
@@ -56,7 +56,7 @@ We can even execute simple Python expressions within the braces:
 
 ```yaml
 gestures:
-  presssed: PLAY ${me.Index + 8}  # PLAY 9
+  press: PLAY ${me.Index + 8}  # PLAY 9
 ```
 
 !!! note
@@ -76,7 +76,7 @@ my_control:
   vars:
     foo: 1 + 1
   gestures:
-    pressed:
+    press:
       msg: The value of foo is ${foo} # "The value of foo is 2"
 ```
 
@@ -102,7 +102,7 @@ drum_pad_section:
     clip_1a: (me.index * clips_per) + 1 + offset
     clip_1b: (clip_1a + clips_per) - 1
   gestures:
-    released_immediately: >
+    short_press: >
       "beats" / PLAY RND${clip_1a}-${clip_1b}
 ```
 
@@ -128,9 +128,9 @@ drum_pad_section:
     clip_2a: clip_1a + shift_offset
     clip_2b: clip_2b + shift_offset
   gestures:
-    released_immediately: >
+    short_press: >
       "beats" / PLAY RND${clip_1a}-${clip_1b}
-    released_immediately__shift: >
+    short_press__shift: >
       "beats" / PLAY RND${clip_2a}-${clip_2b}
 ```
 
@@ -253,7 +253,7 @@ __scene_group:
     scene_2:
       color: blue
   gestures:
-    pressed: SCENE ${me.group_Index}
+    press: SCENE ${me.group_Index}
 ```
 
 For named controls, we create a new entry that starts with a double underscore (`__`). What follows the `__` is the group name, in this case `scene_group`. This group name is up to you.
@@ -293,16 +293,16 @@ Look at the config for hypothetical matrix section `actions_right.yaml`:
 -
   color: yellow
   gestures:
-    pressed: SEL / MUTE
+    press: SEL / MUTE
 -
   color: blue
   gestures:
-    pressed: SEL / SOLO
+    press: SEL / SOLO
 -
   pad_group: my_pad_group
   color: purple
   gestures:
-    pressed: ${me.group_Index} / SEL
+    press: ${me.group_Index} / SEL
   controls:
     -
     -
@@ -311,7 +311,7 @@ Look at the config for hypothetical matrix section `actions_right.yaml`:
 -   
   color: pink
   gestures:
-    pressed_delayed: METRO
+    long_press: METRO
 
 ```
 
@@ -359,33 +359,33 @@ This is a representation of how zcx processes this section under the hood:
 -
   color: yellow
   gestures:
-    pressed: SEL / MUTE
+    press: SEL / MUTE
 -
   color: blue
   gestures:
-    pressed: SEL / SOLO
+    press: SEL / SOLO
 # group definition is expanded
 -
   color: purple
   gestures:
-    pressed: 1 / SEL
+    press: 1 / SEL
 -
   color: purple
   gestures:
-    pressed: 2 / SEL
+    press: 2 / SEL
 -
   color: green  # this option was overwritten
   gestures:
-    pressed: 3 / SEL
+    press: 3 / SEL
 -
   color: purple
   gestures:
-    pressed: 4 / SEL
+    press: 4 / SEL
 # group definition ends
 -   
   color: pink
   gestures:
-    pressed_delayed: METRO
+    long_press: METRO
 ```
 
 #### whole-section groups
@@ -396,7 +396,7 @@ It is possible to define an entire matrix section with one group definition. To 
 pad_group:
 color: pink
 gestures:
-  pressed: CLIP PLAY ${me.Index}
+  press: CLIP PLAY ${me.Index}
 ```
 
 This template will be applied for every control in the section. You can imagine the expanded output like this:
@@ -405,15 +405,15 @@ This template will be applied for every control in the section. You can imagine 
 -
   color: pink
   gestures:
-    pressed: CLIP PLAY 1
+    press: CLIP PLAY 1
 -
   color: pink
   gestures:
-    pressed: CLIP PLAY 2
+    press: CLIP PLAY 2
 -
   color: pink
   gestures:
-    pressed: CLIP PLAY 3
+    press: CLIP PLAY 3
 ...
 ```
 
@@ -460,7 +460,7 @@ __global__:
 
 hold_warning:
   gestures:
-    released_immediately: >
+    short_press: >
       MSG "You must hold this control to trigger it!"
 ```
 ```yaml hl_lines="3 7 8"
@@ -469,8 +469,8 @@ play:
   # color: 127    __global__ option, overwritten
   color: green
   gestures:
-    pressed_delayed: SETPLAY
-    released_immediately: > # added from `hold_warning` template
+    long_press: SETPLAY
+    short_press: > # added from `hold_warning` template
       MSG "You must hold this control to trigger it!"
 ```
 
@@ -497,12 +497,12 @@ __global__:
 foo:
   color: red
   gestures:
-    pressed: msg "I was pressed!"
+    press: msg "I was pressed!"
 
 bar:
   color: blue
   gestures:
-    released: msg "I was released!"
+    release: msg "I was released!"
   
 baz:
   color: pink
@@ -514,8 +514,8 @@ This config will result in this control:
 my_control:
   color: pink
   gestures:
-    pressed: msg "I was pressed!"
-    released: msg "I was released!"
+    press: msg "I was pressed!"
+    release: msg "I was released!"
 ```
 
 Notice that all four templates defined a `color` option.
@@ -524,4 +524,4 @@ When using multiple templates, zcx merges the template definitions from left to 
 When the same option is defined on multiple templates, and the difference is irreconcilable, the **rightmost** template wins.
 In this case, the control is `pink`.
 
-`foo` and `bar` both have a `gestures` key, but the gestures defined within are compatible, and so `my_control` gets both the `pressed` and `released` gesture.
+`foo` and `bar` both have a `gestures` key, but the gestures defined within are compatible, and so `my_control` gets both the `press` and `release` gesture.
