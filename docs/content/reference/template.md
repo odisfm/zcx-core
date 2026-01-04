@@ -161,7 +161,6 @@ my_control:
 Key differences between `vars` and `props`:
 
 - If props contain template strings, they will be evaluated only once when zcx loads and then cached.
-    - Props using template strings may not reference other props (though they may reference vars)
 - Props are referenced like `${me.props.foo}`, rather than just `${foo}` like you would for a var
     - You may nest other dicts in props, and access it with dot notation, e.g. `${me.props.misc.pi}` 
 - You can declare a prop as a static string like `my_prop: my string` without wrapping the string in `str()`
