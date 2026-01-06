@@ -2582,7 +2582,7 @@
   
   
   <span class="md-ellipsis">
-    understanding the double_clicked gesture
+    understanding the double_click gesture
     
   </span>
   
@@ -3469,7 +3469,7 @@ As one button is usually associated with several ZControls, this distinction wil
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">record</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
 </span></code></pre></div>
 <p>A control definition is a <a href="../reading-zcx-configurations/#keys-and-values">yaml object</a> provided by you that describes how a control should behave.
 Most control definitions will have the <a href="../reading-zcx-configurations/#objects">keys</a> <code>color</code> and <code>gestures</code>.</p>
@@ -3477,18 +3477,18 @@ Most control definitions will have the <a href="../reading-zcx-configurations/#o
 <p>Gestures are physical actions you can perform on a button, which will in turn trigger a <strong>command</strong> on a ZControl. 
 There are six gestures supported by zcx:</p>
 <ul>
-<li><strong>pressed</strong> always fired immediately after a control is pressed</li>
-<li><strong>pressed_delayed</strong> fires after the control is held for a short time</li>
-<li><strong>released</strong> always fired immediately after a control is released</li>
-<li><strong>released_delayed</strong> fired after a held control is released — will only fire after a <code>pressed_delayed</code> event</li>
-<li><strong>released_immediately</strong> fired after a control that was <strong>not</strong> being held is released</li>
-<li><strong>double_clicked</strong> fired after a control is pressed twice in quick succession</li>
+<li><strong>press</strong> always fired immediately after the control is pressed</li>
+<li><strong>short_press</strong> fires after the control is pressed then released in quick succession</li>
+<li><strong>long_press</strong> fires after the control is held for a brief period</li>
+<li><strong>release</strong> always fires immediately after the control is released</li>
+<li><strong>long_release</strong> fires after the held control is released — will only fire after a <code>long_press</code> event</li>
+<li><strong>double_click</strong> fires after the control is pressed twice in quick succession</li>
 </ul>
 <h4 id="commands">commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h4>
 <p>Commands fire in response to gestures, and are usually a ClyphX Pro action list:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEV(SEL) ON</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">released</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEV(SEL) OFF</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEV(SEL) ON</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">release</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEV(SEL) OFF</span>
 </span></code></pre></div>
 <p>Here, the gesture is the key, and the command is the value.</p>
 <h4 id="modes">modes<a class="headerlink" href="#modes" title="Permanent link">&para;</a></h4>
@@ -3497,27 +3497,27 @@ A mode is just a keyword that can be on or off.
 You can configure your other controls to behave differently depending on whether the mode is active or not.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">shift</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">mode_on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">released</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">release</span><span class="p">:</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">mode_off</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
 </span></code></pre></div>
 <p>Above we see a control called <code>shift</code>.
-It responds to the gestures <code>pressed</code> and <code>released</code>.
+It responds to the gestures <code>press</code> and <code>release</code>.
 These gestures fire the <code>mode_on</code> and <code>mode_off</code> commands respectively.
 The value for these commands is also <code>shift</code>.</p>
 <p>So, whenever the control <code>shift</code> is held down, the mode <code>shift</code> is on.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">record</span><span class="p">:</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">pressed__shift</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 16</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">press__shift</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 16</span>
 </span></code></pre></div>
-<p>This <code>record</code> control has the <code>pressed</code> and <code>pressed__shift</code> gesture.
+<p>This <code>record</code> control has the <code>press</code> and <code>press__shift</code> gesture.
 As you may have guessed, this control will fire the action list <code>SRECFIX 8</code> when pressed, unless the <code>shift</code> mode is active, in which case it does <code>SRECFIX 16</code>.</p>
 <p>You can even require multiple modes for particular functionality:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">record</span><span class="p">:</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">pressed__shift__select</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 32</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">press__shift__select</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 32</span>
 </span></code></pre></div>
 <p>The names of these modes are completely arbitrary, but they must be defined in your <code>modes.yaml</code> file.</p>
 <div class="language-yaml highlight"><span class="filename">modes.yaml</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shift</span>
@@ -3534,7 +3534,7 @@ Often, the control's name will be printed on the control.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">record</span><span class="p">:</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
 </span></code></pre></div>
 <p>All named controls are defined in one place, <code>named_controls.yaml</code>:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>zcx/
@@ -3597,11 +3597,11 @@ However, each section then needs its own config file in <code>_config/matrix_sec
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># col 1</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">red</span>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO</span>
 </span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># col 2</span>
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blue</span>
 </span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SETPLAY</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SETPLAY</span>
 </span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="nn">...</span>
 </span></code></pre></div>
 <div class="admonition info">
@@ -3681,19 +3681,19 @@ By using this system, you can make a change in one place and have it affect any 
 <div class="language-yaml highlight"><span class="filename">named_controls.yaml</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">__scene_buttons</span><span class="p">:</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">scene_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_4</span><span class="p p-Indicator">]</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE ${me.Index}</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE ${me.Index}</span>
 </span></code></pre></div>
 <p>This is a group definition.
 We have grouped the buttons <code>scene_1</code> through <code>scene_4</code> under the <code>includes</code> key to apply a common definition to them.
-There is one gesture defined, <code>pressed</code>, with the command (action list) <code>SCENE ${me.Index}</code>.</p>
+There is one gesture defined, <code>press</code>, with the command (action list) <code>SCENE ${me.Index}</code>.</p>
 <p>The <code>${me.Index}</code> is new syntax called a template string.
 Behind the scenes, zcx will evaluate these strings so that the controls fire <code>SCENE 1</code> through <code>SCENE 4</code>.</p>
 <p>The benefits of this system become apparent when we want to extend the control:</p>
 <div class="language-yaml highlight"><span class="filename">named_controls.yaml</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">__scene_buttons</span><span class="p">:</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">scene_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_4</span><span class="p p-Indicator">]</span>
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE ${me.Index}</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="hll"><span class="w">    </span><span class="nt">pressed__select</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE SEL ${me.Index}</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE ${me.Index}</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="hll"><span class="w">    </span><span class="nt">press__select</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCENE SEL ${me.Index}</span>
 </span></span></code></pre></div>
 <p>With just one line of yaml we have extended the definition for all four controls in the group.</p>
 <h3 id="going-further-with-templating">going further with templating<a class="headerlink" href="#going-further-with-templating" title="Permanent link">&para;</a></h3>
@@ -3722,7 +3722,7 @@ If you have explored the zcx demo config in your code editor, you would have see
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-05T00:07:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-05</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-01-04T08:41:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-01-04</span>
   </span>
 
     
@@ -3990,12 +3990,12 @@ If you have explored the zcx demo config in your code editor, you would have see
       let randomColor = document.getElementById('random-color').checked;
 
       const gestures = [
-        'pressed',
-        'released',
-        'released_immediately',
-        'pressed_delayed',
-        'released_delayed',
-        'double_clicked'
+        'press',
+        'release',
+        'short_press',
+        'long_press',
+        'long_release',
+        'double_click'
       ];
 
       let content = '';

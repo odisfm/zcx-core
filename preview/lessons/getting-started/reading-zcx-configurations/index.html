@@ -2552,7 +2552,7 @@
   
   
   <span class="md-ellipsis">
-    understanding the double_clicked gesture
+    understanding the double_click gesture
     
   </span>
   
@@ -3413,8 +3413,8 @@ It's important to understand this format, otherwise your zcx script may fail to 
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">hold_color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">off</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">repeat</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SEL / ARM</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">pressed_delayed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SEL / ARM</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">long_press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SRECFIX 8</span>
 </span></code></pre></div>
 <p>At the same time, the above definition may look more complex, yet easier to read. Notice that your web browser is color coding certain words. This is because zcx makes heavy use of an existing format called <a href="https://en.wikipedia.org/wiki/YAML">YAML</a></p>
 <h2 id="yaml">YAML<a class="headerlink" href="#yaml" title="Permanent link">&para;</a></h2>
@@ -3454,19 +3454,19 @@ In these docs you might see the term "integer" or "int" — this just means a wh
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="hll"><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span>
 </span></span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="hll"><span class="w">  </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_cool_control</span>
 </span></span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="hll"><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO ON ; SEL / ARM ;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="hll"><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO ON ; SEL / ARM ;</span>
 </span></span></code></pre></div>
 <p>It might be a word, sentence, or a ClyphX Pro action list.</p>
 <h4 id="complex-strings">complex strings<a class="headerlink" href="#complex-strings" title="Permanent link">&para;</a></h4>
 <p>In many zcx configs, you will see a peculiar format:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="no">&quot;my cool track&quot; / SEL ; &quot;my cool track&quot; / ARM</span>
 </span></code></pre></div>
 <p>This is still a string.
 When we have strings with special characters (like "double-quotes"), we need to format them differently or yaml will fail to process them.
 Here we have put a <code>&gt;</code> character after the key: <code>pressed: &gt;</code>, and put the value below, on its own line.</p>
 <p>You may also use this format:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&quot;my</span><span class="nv"> </span><span class="s">cool</span><span class="nv"> </span><span class="s">track&quot;</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">SEL</span><span class="nv"> </span><span class="s">;</span><span class="nv"> </span><span class="s">&quot;my</span><span class="nv"> </span><span class="s">cool</span><span class="nv"> </span><span class="s">track&quot;</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">ARM&#39;</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&quot;my</span><span class="nv"> </span><span class="s">cool</span><span class="nv"> </span><span class="s">track&quot;</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">SEL</span><span class="nv"> </span><span class="s">;</span><span class="nv"> </span><span class="s">&quot;my</span><span class="nv"> </span><span class="s">cool</span><span class="nv"> </span><span class="s">track&quot;</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">ARM&#39;</span>
 </span></code></pre></div>
 <p>Here, we have wrapped the entire action list in 'single quotes', which achieves the same result.</p>
 <h3 id="booleans">booleans<a class="headerlink" href="#booleans" title="Permanent link">&para;</a></h3>
@@ -3494,7 +3494,7 @@ Those values could be numbers, strings, objects, or even a mix of different data
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">octave_up</span><span class="p">:</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="c1"># repeat: True</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">pressed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO</span><span class="w"> </span><span class="c1"># I can write whatever I want here</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">METRO</span><span class="w"> </span><span class="c1"># I can write whatever I want here</span>
 </span></code></pre></div>
 <p>When you see a  <code>#</code> on a line of yaml, anything to the right of that <code>#</code> will be totally ignored. If you put a <code>#</code> before the key, like with <code># repeat</code> above, this line essentially 'disappears' from your config when zcx loads it. So, not actually a data type, but important to know.</p>
 <h3 id="objects">objects<a class="headerlink" href="#objects" title="Permanent link">&para;</a></h3>
@@ -3593,7 +3593,7 @@ Soon, you'll see a lot of examples of zcx definitions and configuration files, w
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-01T06:53:09+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-01-04T08:41:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-01-04</span>
   </span>
 
     
@@ -3861,12 +3861,12 @@ Soon, you'll see a lot of examples of zcx definitions and configuration files, w
       let randomColor = document.getElementById('random-color').checked;
 
       const gestures = [
-        'pressed',
-        'released',
-        'released_immediately',
-        'pressed_delayed',
-        'released_delayed',
-        'double_clicked'
+        'press',
+        'release',
+        'short_press',
+        'long_press',
+        'long_release',
+        'double_click'
       ];
 
       let content = '';

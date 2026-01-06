@@ -2360,7 +2360,7 @@
   
   
   <span class="md-ellipsis">
-    understanding the double_clicked gesture
+    understanding the double_click gesture
     
   </span>
   
@@ -3146,33 +3146,33 @@
         <legend>Gestures</legend>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="pressed" name="pressed" value="pressed">
-          <label for="pressed">Pressed</label>
+          <input type="checkbox" id="press" name="press">
+          <label for="press">Press</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="released" name="released" value="released">
-          <label for="released">Released</label>
+          <input type="checkbox" id="release" name="release">
+          <label for="release">Release</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="released_immediately" name="released_immediately" value="released_immediately" checked>
-          <label for="released_immediately">Released Immediately</label>
+          <input type="checkbox" id="short_press" name="short_press" checked>
+          <label for="short_press">Short Press</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="pressed_delayed" name="pressed_delayed" value="pressed_delayed" checked>
-          <label for="pressed_delayed">Pressed Delayed</label>
+          <input type="checkbox" id="long_press" name="long_press" checked>
+          <label for="long_press">Long Press</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="released_delayed" name="released_delayed" value="released_delayed">
-          <label for="released_delayed">Released Delayed</label>
+          <input type="checkbox" id="long_release" name="long_release">
+          <label for="long_release">Long Release</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="double_clicked" name="double_clicked" value="double_clicked">
-          <label for="double_clicked">Double Clicked</label>
+          <input type="checkbox" id="double_click" name="double_click">
+          <label for="double_click">Double Click</label>
         </div>
       </fieldset>
 
@@ -3460,12 +3460,12 @@
       let randomColor = document.getElementById('random-color').checked;
 
       const gestures = [
-        'pressed',
-        'released',
-        'released_immediately',
-        'pressed_delayed',
-        'released_delayed',
-        'double_clicked'
+        'press',
+        'release',
+        'short_press',
+        'long_press',
+        'long_release',
+        'double_click'
       ];
 
       let content = '';
