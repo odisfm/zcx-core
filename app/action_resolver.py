@@ -484,7 +484,6 @@ class ActionResolver(ZCXComponent):
                                             melodic_inst.full_velo = not melodic_inst.full_velo
                                         else:
                                             raise ValueError(f'Invalid keyboard command: `full_velo` must be a boolean or `toggle`.\n{command_def}')
-                                        melodic_inst.full_velo = key_def
                                     case 'repeat_rate':
                                         rate_def = key_def
                                         if isinstance(key_def, bool):
