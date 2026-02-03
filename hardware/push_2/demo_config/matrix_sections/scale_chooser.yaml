@@ -1,0 +1,32 @@
+pad_group: scale_chooser
+type: keyboard
+props:
+  scale_names: [
+    major, minor, dorian, phrygian, lydian, mixolydian, locrian, whole tone,
+    half-whole dim., whole-half dim., minor blues, minor pentatonic, major pentatonic, harmonic minor, harmonic major, hirajoshi
+  ]
+active_color: white
+inactive_color:
+  palette: rainbow
+function:
+  scale:
+    name: ${me.props.scale_names[me.index]}
+gestures:
+  press: SCL NAME ${me.props.scale_names[me.index]}
+controls:
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -

@@ -28,7 +28,7 @@ play:
 
 record:
   type: transport
-  transport: session_record
+  transport: record
   gestures:
     pressed: SRECFIX
     pressed_delayed: SRECFIX 8
@@ -229,12 +229,36 @@ device:
 
 mix:
   type: mode
-  mode: device
-  active_color: 20
-  inactive_color: 127
+  mode: mix
+  active_color: 127
+  inactive_color: 20
   gestures:
     pressed:
-      mode_off: device
+      mode_on: mix
+    released_delayed:
+      mode_off: mix
+
+browse:
+  type: mode
+  mode: browse
+  active_color: 127
+  inactive_color: 20
+  gestures:
+    pressed:
+      mode_on: browse
+    released_delayed:
+      mode_off: browse
+
+clip:
+  type: mode
+  mode: clip
+  active_color: 127
+  inactive_color: 20
+  gestures:
+    pressed:
+      mode_on: clip
+    released_delayed:
+      mode_off: clip
 
 #session:
 #  gestures:
@@ -322,6 +346,28 @@ new:
   gestures:
     pressed: ADDSCENE
 
+fixed_length:
+  color: 20
+  gestures:
+    press:
+      pseq:
+        -
+          cxp: >
+            %zcx_fixed_record% = 8
+          color: 127
+        -
+          cxp: >
+            %zcx_fixed_record% = 0
+          color: 20
+
+automate:
+  type: transport
+  transport: automation
+  inactive_color: white
+  active_color: red
+  gestures:
+    press: SATM
+
 duplicate:
   gestures:
     pressed: SCENE DUPE
@@ -342,13 +388,22 @@ tap_tempo:
     pressed: TAPBPM
 
 note:
+  type: page
+  page: keyboard_page
   gestures:
-    pressed: SHOWCLIP
+    press:
+      page: keyboard_page
+    long_release:
+      page: last
 
 session:
+  type: page
+  page: session_view_page
   gestures:
-    pressed: SHOWDEV
-
+    press:
+      page: session_view_page
+    long_release:
+      page: last
 
 #convert:
 #  gestures:
@@ -371,10 +426,15 @@ session:
 #  gestures:
 #    pressed: DUMMY
 #
-#scales:
-#  gestures:
-#    pressed: DUMMY
-#
+
+scales:
+  type: overlay
+  overlay: scales
+  gestures:
+    pressed:
+      overlay:
+        toggle: scales
+
 
 setup:
   gestures:

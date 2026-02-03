@@ -11,6 +11,8 @@ pages:
   session_view_page:
     - session_controls
     - __session_view
+  keyboard_page:
+    - __keyboard
   ring_devices_page:
     - ring_devices
   blank_page:
