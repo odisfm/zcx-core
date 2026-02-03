@@ -48,6 +48,10 @@ class BasicColorSwatch:
     FULL_BLINK_SLOW = Blink(FULL, OFF, 48)
     FULL_BLINK_FAST = Blink(FULL, OFF, 12)
 
+    ERROR = OFF
+    PAGE_ACTIVE = ON
+    PAGE_INACTIVE = LOW
+
 
 class RgbColorSwatch(object):
     PLAY_GREEN = IndexedColor(126)
