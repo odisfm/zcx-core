@@ -25,7 +25,7 @@ def validate_scale_name(scale_name):
     try:
         scale_num = int(scale_name)
         return SCALE_NAMES[scale_num % len(SCALE_NAMES)]
-    except [ValueError, IndexError]:
+    except (ValueError, IndexError):
         ...
     if scale_name in scale_names_lower:
         return SCALE_NAMES[scale_names_lower.index(scale_name)]
