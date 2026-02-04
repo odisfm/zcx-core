@@ -795,7 +795,7 @@ class ZEncoder(EventObject):
         self._undo_step_timer.restart()
 
     def refresh_feedback(self):
-        self._control_element.send_value(self._control_element._last_received_value)
+        return
 
     @listens("selected_track")
     def selected_track_listener(self):
