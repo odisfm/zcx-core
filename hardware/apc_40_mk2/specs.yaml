@@ -30,3 +30,6 @@ preferences:
   session_ring:
     width: 8
     height: 5
+  plugins:
+    apc_40_mk2:
+      prefer_full_led = false
