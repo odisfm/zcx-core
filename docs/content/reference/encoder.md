@@ -99,6 +99,8 @@ _When targeting an unknown device, e.g. the selected device, this option may pro
 
 **Example:** `1/DEV(SEL) B1 P4`
 
+**See also:** [Custom parameter banks](../lessons/custom-banks.md).
+
 ---
 
 #### DEV(`x`.`y`) PAN
