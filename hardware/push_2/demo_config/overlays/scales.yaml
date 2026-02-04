@@ -13,8 +13,6 @@ __tonic_select:
       root: ${me.props.tonics[me.index]}
   gestures:
     press: SCL ROOT ${me.props.tonics[me.index]}
-    release:
-      log: ${me.index}
   active_color:
     pulse: white
   inactive_color: purple
