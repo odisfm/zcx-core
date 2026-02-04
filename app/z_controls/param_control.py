@@ -470,7 +470,7 @@ class ParamControl(ZControl):
                     if status != 0:
                         raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
 
-                    track_num = int(ring_track_parsed) - 1
+                    track_num = int(ring_track_parsed)
 
                     track_obj = self.get_track_by_number(track_num)
                     if track_obj is None:
