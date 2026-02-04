@@ -2,229 +2,229 @@
 # col 1
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 2
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 3
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 4
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 5
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 6
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 7
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 8
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # !! row 2
 # col 1
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 2
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 3
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 4
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 5
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 6
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 7
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 8
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # !! row 3
 # col 1
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 2
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 3
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 4
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 5
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 6
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 7
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 8
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # !! row 4
 # col 1
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 2
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 3
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 4
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 5
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 6
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 7
 -
   gestures:
-    pressed: DUMMY
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    press: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY
 # col 8
 -
   color: white
   gestures:
-    pressed:
+    press:
       msg: You can edit this section in `_config/matrix_sections/actions_bottom_double.yaml`
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
-    double_clicked: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
+    double_click: DUMMY

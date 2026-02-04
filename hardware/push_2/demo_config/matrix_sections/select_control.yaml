@@ -66,10 +66,10 @@
     __shift: >
       SEL / DEV(SEL) P${me.group_Index + me.group_count}
   gestures:
-    pressed:
+    press:
       do_toggle: true
-    released_delayed:
+    long_release:
       do_toggle: true
-    released__shift: DUMMY
+    release__shift: DUMMY
   on_color: lime
   off_color: green shade

@@ -2,116 +2,116 @@
 #col 1
 - color: green
   gestures:
-    pressed:
+    press:
       msg: You can edit this section in `_config/matrix_sections/actions_top_left.yaml`
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 2
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 3
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 4
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #row 2
 #col 1
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 2
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 3
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 4
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #row 3
 #col 1
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 2
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 3
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 4
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #row 4
 #col 1
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 2
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 3
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
 #col 4
 - color: grey
   gestures:
-    pressed:
-    # pressed_delayed:
-    # released_immediately:
-    # double_clicked:
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
