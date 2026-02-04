@@ -3,7 +3,7 @@ from typing import Optional
 
 from ableton.v2.base import EventObject
 from ableton.v2.base.task import TimerTask
-from ableton.v3.base import listens
+from ableton.v3.base import listens, listenable_property
 from ableton.v3.control_surface import ControlSurface
 
 from .colors import parse_color_definition, simplify_color, Pulse, Blink
@@ -73,6 +73,7 @@ class ZControl(EventObject):
         self._cascade_direction = False
         self._fake_momentary = False
         self._last_received_value = 0
+        self._last_gesture = None
         self._repeat = False
         self._alias = None
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
@@ -347,6 +348,8 @@ class ZControl(EventObject):
     @only_in_view
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         val = self._control_element._last_received_value
+        self._last_gesture = gesture
+        self.notify_gesture_received(gesture)
         if dry_run or testing:
             pass
         elif self._fake_momentary:
@@ -607,6 +610,9 @@ class ZControl(EventObject):
     def alias(self):
         return self._alias
 
+    @listenable_property
+    def gesture_received(self):
+        return self._last_gesture
 
 class AnimationTimer(TimerTask):
 
