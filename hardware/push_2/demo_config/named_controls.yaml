@@ -4,9 +4,9 @@ select:
   active_color: 127
   inactive_color: 40
   gestures:
-    pressed:
+    press:
       mode_on: select
-    released:
+    release:
       mode_off: select
 
 shift:
@@ -15,24 +15,23 @@ shift:
   active_color: 127
   inactive_color: 40
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
 play:
   type: transport
   transport: play
   gestures:
-    pressed: SETPLAY
+    press: SETPLAY
 
 record:
   type: transport
   transport: record
   gestures:
-    pressed: SRECFIX
-    pressed_delayed: SRECFIX 8
-
+    short_press: SREC
+    long_press: SRECFIX %zcx_fixed_record%
 
 __state_row:
   # the top row
@@ -43,44 +42,44 @@ __state_row:
   inactive_color:
     palette: rainbow
   gestures:
-    pressed:
+    press:
       page: ${me.index}
       msg: >
         Page ${me.page}: ${me.page_name}
-    released_delayed:
+    long_release:
       page: last
 
 #state_1:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_2:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_3:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_4:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_5:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_6:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_7:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #state_8:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __select_row:
   # the bottom row
@@ -88,87 +87,90 @@ __select_row:
   type: ring_track
   ring_index: ${me.index}
   gestures:
-    pressed: >
+    press: >
       "${me.track}" / SEL
-    pressed_delayed: >
+    long_press: >
+      ALL / ARM OFF ;
       "${me.track}" / ARM
-    double_clicked: >
+    long_press__shift: >
+      "${me.track}" / ARM
+    double_click: >
       "${me.track}" / PLAY >
-    pressed__delete: >
+    press__delete: >
       "${me.track}" / DEL
       
 #select_1:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_2:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_3:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_4:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_5:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_6:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_7:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #select_8:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   color: cyan shade ${me.index % 4}
   gestures:
-    pressed: SCENE ${ring.scenes[me.Index]}
-    pressed__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
-    pressed__select: SCENE SEL ${ring.scenes[me.Index]}
-    pressed__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
+    press: SCENE ${ring.scenes[me.Index]}
+    press__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
+    press__select: SCENE SEL ${ring.scenes[me.Index]}
+    press__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
 #scene_1:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_2:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_3:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_4:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_5:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_6:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_7:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_8:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
@@ -177,44 +179,44 @@ __dpad:
   controls:
     dpad_left:
       gestures:
-        pressed: LEFT
-        pressed__shift:
+        press: LEFT
+        press__shift:
           ring:
             x: -1
     dpad_right:
       gestures:
-        pressed: RIGHT
-        pressed__shift:
+        press: RIGHT
+        press__shift:
           ring:
             x: 1
     dpad_up:
       gestures:
-        pressed: UP
-        pressed__shift:
+        press: UP
+        press__shift:
           ring:
             y: -1
     dpad_down:
       gestures:
-        pressed: DOWN
-        pressed__shift:
+        press: DOWN
+        press__shift:
           ring:
             y: 1
 
 #dpad_left:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #dpad_right:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #dpad_up:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #dpad_down:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 device:
   type: mode
@@ -222,9 +224,9 @@ device:
   active_color: 127
   inactive_color: 20
   gestures:
-    pressed:
+    press:
       mode_on: device
-    released_delayed:
+    long_release:
       mode_off: device
 
 mix:
@@ -233,9 +235,9 @@ mix:
   active_color: 127
   inactive_color: 20
   gestures:
-    pressed:
+    press:
       mode_on: mix
-    released_delayed:
+    long_release:
       mode_off: mix
 
 browse:
@@ -244,9 +246,9 @@ browse:
   active_color: 127
   inactive_color: 20
   gestures:
-    pressed:
+    press:
       mode_on: browse
-    released_delayed:
+    long_release:
       mode_off: browse
 
 clip:
@@ -255,74 +257,74 @@ clip:
   active_color: 127
   inactive_color: 20
   gestures:
-    pressed:
+    press:
       mode_on: clip
-    released_delayed:
+    long_release:
       mode_off: clip
 
 #session:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 #
 #touchstrip:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 page_prev:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: -8
-    pressed__shift:
+    press__shift:
       ring: left
 
 page_next:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: 8
-    pressed__shift:
+    press__shift:
       ring: right
 
 octave_up:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         y: -8
-    pressed__shift:
+    press__shift:
       ring: up
 
 octave_down:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         y: 8
-    pressed__shift:
+    press__shift:
       ring: down
 
 metronome:
   type: transport
   transport: metronome
   gestures:
-    pressed: metro
+    press: metro
 
 delete:
   type: mode
   mode: delete
   gestures:
-    pressed:
+    press:
       mode_on: delete
     released:
       mode_off: delete
 
 undo:
   gestures:
-    pressed: undo
-    pressed__shift: redo
+    press: undo
+    press__shift: redo
 
 mute:
   type: param
@@ -344,7 +346,7 @@ stop_clip:
 
 new:
   gestures:
-    pressed: ADDSCENE
+    press: ADDSCENE
 
 fixed_length:
   color: 20
@@ -370,7 +372,7 @@ automate:
 
 duplicate:
   gestures:
-    pressed: SCENE DUPE
+    press: SCENE DUPE
 
 master:
   type: param
@@ -380,12 +382,12 @@ master:
 
 user:
   gestures:
-    pressed:
+    press:
       hardware_mode: live
 
 tap_tempo:
   gestures:
-    pressed: TAPBPM
+    press: TAPBPM
 
 note:
   type: page
@@ -407,36 +409,36 @@ session:
 
 #convert:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 
 #add_device:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #add_track:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #repeat:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #accent:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 #
 
 scales:
   type: overlay
   overlay: scales
   gestures:
-    pressed:
+    press:
       overlay:
         toggle: scales
 
 
 setup:
   gestures:
-    pressed_delayed:
+    long_press:
       hot_reload: true
