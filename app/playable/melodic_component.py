@@ -291,6 +291,7 @@ class MelodicComponent(ZCXComponent):
         PlayableState.State.melodic_component = self
         self.__does_exist = True
         self._on_scale_name_change.subject = self.song
+        self._on_root_note_change.subject = self.song
         if "track" in list(self.__color_dict.values()):
             self._on_selected_track_changed.subject = self.song.view
             self._on_color_index_changed.subject = self.song.view.selected_track
