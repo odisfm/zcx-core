@@ -11,6 +11,34 @@ __encoder_row:
       SEL / DEV(SEL) B1 P${me.Index}
     __shift__device: >
       SEL / DEV(SEL) B2 P${me.Index}
+    __browse: >
+      SEL / SEND ${send_num(me.index)}
+  encoders:
+    enc_1:
+      binding:
+        __clip: SEL / VOL
+    enc_2:
+      binding:
+        __clip: SEL / PAN
+    enc_3:
+      binding:
+        __clip: SEL / SEND A
+    enc_4:
+      binding:
+        __clip: SEL / SEND B
+    enc_5:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P1
+    enc_6:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P2
+    enc_7:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P3
+    enc_8:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P4
+
 enc_master:
   binding:
     default: MST / VOL
