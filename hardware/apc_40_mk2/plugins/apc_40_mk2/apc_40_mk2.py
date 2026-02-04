@@ -68,7 +68,8 @@ class Apc40Mk2Plugin(ZCXPlugin):
     def song_ready(self):
         self.update_all_encoders()
 
-    def update_encoder(self, encoder: ZEncoder):
+    def update_encoder(self, encoder: "ZEncoder"):
+        self.debug(f"updating encoder {encoder._name}. mapped_param is {encoder.mapped_parameter.name if encoder.mapped_parameter else None}, mapped_dev is {encoder.mapped_parameter.canonical_parent if encoder.mapped_parameter else None}")
         mapped_param = encoder.mapped_parameter
         if mapped_param is None:
             led_type = "off"
@@ -79,9 +80,11 @@ class Apc40Mk2Plugin(ZCXPlugin):
         else:
             led_type = "single"
 
-        midi_message: tuple = self.create_led_type_message(encoder.name, led_type)
+        midi_message: tuple = self.create_led_type_message(encoder._name, led_type)
 
-        self.canonical_parent._do_send_midi(midi_message)
+        self.debug(f"midi_message: {midi_message}")
+
+        self.canonical_parent._do_send_midi(tuple(midi_message))
         encoder.refresh_feedback()
 
     def update_all_encoders(self):
@@ -91,7 +94,9 @@ class Apc40Mk2Plugin(ZCXPlugin):
     @listens_group("gesture_received")
     def on_mode_buttons_gesture_received(self, gesture, control):
         if gesture == "pressed":
-            self.update_all_encoders()
+            timer_task = RefreshAllTask(owner=self)
+            self.canonical_parent._task_group.add(timer_task)
+            timer_task.restart()
 
     @listens_group("mapped_parameter")
     def on_encoder_param_changed(self, mapped_parameter, encoder):
@@ -106,6 +111,8 @@ class Apc40Mk2Plugin(ZCXPlugin):
                 data_byte = 1
             case "volume":
                 data_byte = 2
+            case "pan":
+                data_byte = 3
             case _:
                 raise ValueError(f"Invalid LED type: {led_type}")
 
@@ -113,3 +120,14 @@ class Apc40Mk2Plugin(ZCXPlugin):
 
     def is_bipolar(self, parameter):
         return parameter.min < 0
+
+
+class RefreshAllTask(TimerTask):
+    def __init__(self, owner: Apc40Mk2Plugin, duration=0.2,  *a, **k):
+        super().__init__(*a, **k)
+        self.duration = duration
+        self._owner = owner
+
+    def on_finish(self):
+        self._owner.debug("timer task finished, updating encoders")
+        self._owner.update_all_encoders()

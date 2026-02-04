@@ -32,4 +32,4 @@ preferences:
     height: 5
   plugins:
     apc_40_mk2:
-      prefer_full_led = false
+      prefer_full_led: false
