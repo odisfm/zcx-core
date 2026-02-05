@@ -13,7 +13,7 @@ Of course, you can always [add more modes](../zcx-concepts.md#modes) later.
 ### Pages
 
 This config comes with six [pages](../zcx-concepts.md#pages) pre-configured.
-By looking at `pages.yaml`, we can see these pages are named `home_page`, `alt_page`, `session_view_page`, `ring_devices_page`, `keyboard_page`, and `blank_page`.
+By looking at `pages.yaml`, we can see these pages are named `home_page`, `alt_page`, `session_view_page`, `keyboard_page`, `ring_devices_page`, and `blank_page`.
 
 Six of the buttons above the matrix have been configured as a group.
 These are `session`, `note`, `chord`, `custom`, `sequencer`, and `projects`.

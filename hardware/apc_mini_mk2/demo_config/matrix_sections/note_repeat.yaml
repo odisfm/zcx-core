@@ -1,0 +1,33 @@
+- pad_group: note_repeat
+  props:
+    repeat_rates: [
+      "off", 1/4, 1/4t, 1/8, 1/8t, 1/16, 1/32
+    ]
+  type: keyboard
+  function:
+    repeat_rate: ${me.props.repeat_rates[me.index]}
+  active_color: red
+  inactive_color: red shade 2
+  gestures:
+    press:
+      keyboard:
+        repeat_rate: ${me.props.repeat_rates[me.index]}
+  controls:
+    - active_color: grey
+      inactive_color: green shade 1
+    -
+    -
+    -
+    -
+    -
+    -
+
+- type: keyboard
+  function: full_velo
+  active_color: orange
+  inactive_color: grey
+  gestures:
+    press:
+      keyboard:
+        full_velo: toggle
+

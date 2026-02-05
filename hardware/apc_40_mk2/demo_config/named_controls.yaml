@@ -27,7 +27,7 @@ metronome:
 
 session_record:
   type: transport
-  transport: record
+  transport: session_record
   active_color: 127
   inactive_color: 0
   gestures:
@@ -41,10 +41,13 @@ play:
   gestures:
     press: SETPLAY
 
-#record:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+record:
+  type: transport
+  transport: arrangement_record
+  active_color: 127
+  inactive_color: 0
+  gestures:
+    short_press: SREC
 
 pan:
   type: mode

@@ -1,0 +1,6 @@
+overlays:
+  keyboard_notes:
+    pages_out: true
+    matrix_sections:
+      - scale_chooser
+      - note_repeat

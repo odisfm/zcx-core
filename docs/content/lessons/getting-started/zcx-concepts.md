@@ -217,7 +217,7 @@ So matrix controls are contained within matrix sections, but there's one more la
 
 ```yaml title="pages.yaml"
 pages:
-  main_page:
+  home_page:
     - actions_top_left
     - actions_top_right
     - actions_bottom_double

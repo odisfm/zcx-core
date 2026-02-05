@@ -1,0 +1,5 @@
+exclusive_modes:
+  - [volume, pan, send, device]
+
+startup_command:
+  mode_on: volume

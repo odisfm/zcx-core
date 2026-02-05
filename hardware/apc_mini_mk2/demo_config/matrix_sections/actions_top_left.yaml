@@ -1,101 +1,117 @@
-# !! row 1
-# col 1
+#row 1
+#col 1
 - color: green
   gestures:
     press:
       msg: You can edit this section in `_config/matrix_sections/actions_top_left.yaml`
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 2
--
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 2
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 3
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 3
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 4
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 4
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# !! row 2
-# col 1
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#row 2
+#col 1
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 2
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 2
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 3
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 3
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 4
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 4
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# !! row 3
-# col 1
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#row 3
+#col 1
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 2
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 2
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 3
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 3
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 4
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 4
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# !! row 4
-# col 1
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#row 4
+#col 1
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 2
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 2
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 3
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 3
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 4
--
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY
+#col 4
+- color: grey
   gestures:
-    short_press: DUMMY
-    long_press: DUMMY
+    press: DUMMY
+    # long_press: DUMMY
+    # short_press: DUMMY
+    # double_click: DUMMY

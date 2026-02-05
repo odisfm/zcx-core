@@ -10,7 +10,8 @@ pages:
     - page_changer
     - __session_view
   ring_devices:
-
+    - page_changer
+    - ring_devices
   blank_page:
     - page_changer
     - blank_section

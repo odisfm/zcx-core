@@ -1,5 +1,5 @@
 pages:
-  main_page:
+  home_page:
     - actions_top_left
     - actions_top_right
     - actions_bottom_double
