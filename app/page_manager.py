@@ -242,9 +242,6 @@ class PageManager(ZCXComponent):
 
     def _unload(self):
         super()._unload()
-        for watcher in self.__osc_section_watchers:
-            watcher.disconnect()
-            del watcher
         self.__raw_sections: Dict[str, Dict] = {}
         self.__current_page = -1
         self.__last_page = -1
