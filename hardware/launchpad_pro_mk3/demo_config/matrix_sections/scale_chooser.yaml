@@ -1,0 +1,36 @@
+- pad_group: scale_chooser
+  type: keyboard
+  props:
+    scale_names: [
+      major, minor, dorian, mixolydian, minor blues
+    ]
+  active_color: white
+  inactive_color:
+    palette: rainbow_reverse
+  function:
+    scale:
+      name: ${me.props.scale_names[me.index]}
+  gestures:
+    press: SCL NAME ${me.props.scale_names[me.index]}
+  controls:
+    -
+    -
+    -
+    -
+    -
+
+- color: dark_grey
+  gestures:
+    press: SCL ROOT <
+- color: dark_grey
+  gestures:
+    press: SCL ROOT >
+
+- type: keyboard
+  function: in_key
+  active_color: green
+  inactive_color: grey
+  gestures:
+    press:
+      keyboard:
+        in_key: toggle

@@ -1,46 +1,46 @@
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   gestures:
-    pressed: >
+    press: >
       SCENE ${ring.scenes[me.index]}
-    pressed__shift: >
+    press__shift: >
       SCENE ${ring.scenes[me.index + 8]}
     
 #scene_1:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_2:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_3:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_4:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_5:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_6:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_7:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
     
 #scene_8:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __page_switcher:
   includes: [
-    track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8
+    session, note, chord, custom, sequencer, projects
   ]
   type: page
   page: ${me.index}
@@ -48,96 +48,123 @@ __page_switcher:
     palette: rainbow
   inactive_color: white
   gestures:
-    pressed:
+    press:
       page: ${me.index}
       msg: >
         Page ${me.page}: ${me.page_name}
-    released_delayed:
+    long_release:
       page: last
+  controls:
+    note:
+      gestures:
+        long_press:
+          overlay:
+            enable: keyboard_notes
+        short_press:
+          overlay:
+            disable: keyboard_notes
 
-#track_1:
+#session:
 #  gestures:
-#    pressed: DUMMY
-    
-#track_2:
+#    press: DUMMY
+
+#note:
 #  gestures:
-#    pressed: DUMMY
-    
-#track_3:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_4:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_5:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_6:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_7:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_8:
-#  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #chord:
 #  gestures:
-#    pressed: DUMMY
-#
+#    press: DUMMY
+
 #custom:
 #  gestures:
-#    pressed: DUMMY
-#
+#    press: DUMMY
+
 #sequencer:
 #  gestures:
-#    pressed: DUMMY
-#
+#    press: DUMMY
+
 #projects:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
+
+
+__track_row:
+  # the bottom row
+  includes: [track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8]
+  type: ring_track
+  ring_index: ${me.index}
+  gestures:
+    press: >
+      "${me.track}" / SEL
+    long_press: >
+      ALL / ARM OFF ;
+      "${me.track}" / ARM
+    long_press__shift: >
+      "${me.track}" / ARM
+    double_click: >
+      "${me.track}" / PLAY >
+
+#track_1:
+#  gestures:
+#    press: DUMMY
+    
+#track_2:
+#  gestures:
+#    press: DUMMY
+    
+#track_3:
+#  gestures:
+#    press: DUMMY
+    
+#track_4:
+#  gestures:
+#    press: DUMMY
+    
+#track_5:
+#  gestures:
+#    press: DUMMY
+    
+#track_6:
+#  gestures:
+#    press: DUMMY
+    
+#track_7:
+#  gestures:
+#    press: DUMMY
+    
+#track_8:
+#  gestures:
+#    press: DUMMY
+
 
 nav_up:
   gestures:
-    pressed: UP
-    pressed__shift:
+    press: UP
+    press__shift:
       ring:
         y: -8
 
 nav_down:
   gestures:
-    pressed: DOWN
-    pressed__shift:
+    press: DOWN
+    press__shift:
       ring:
         y: 8
 
 nav_left:
   gestures:
-    pressed: LEFT
-    pressed__shift:
+    press: LEFT
+    press__shift:
       ring:
         x: -8
 
 nav_right:
   gestures:
-    pressed: RIGHT
-    pressed__shift:
+    press: RIGHT
+    press__shift:
       ring:
         x: 8
-
-session:
-  gestures:
-    pressed: TGLMAIN
-
-note:
-  gestures:
-    pressed: SHOWCLIP
 
 novation:
   type: transport
@@ -145,77 +172,113 @@ novation:
 
 shift:
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
 play:
   type: transport
   transport: play
   gestures:
-    pressed: SETPLAY
+    press: SETPLAY
 
 record:
   type: transport
   transport: session_record
   gestures:
-    pressed: SRECFIX 8
-    pressed__shift: SRECFIX 16
+    press: SRECFIX 8
+    press__shift: SRECFIX 16
 
 duplicate:
   gestures:
-    pressed: CLIP DUPE
-    pressed__shift: SCENE DUPE
+    press: CLIP DUPE
+    press__shift: SCENE DUPE
 
 clear:
   gestures:
-    pressed:
+    press:
       msg: Press with shift to delete clip
-    pressed__shift: CLIP DEL
+    press__shift: CLIP DEL
 
 quantize:
   gestures:
-    pressed: CLIP QNTZ 1/16 80
-    pressed__shift: CLIP QNTZ 1/16 100
+    press: CLIP QNTZ 1/16 100
 
-#fixed_length:
-#  gestures:
-#    pressed: DUMMY
+fixed_length:
+  color: grey
+  gestures:
+    press:
+      pseq:
+        -
+          cxp: >
+            %zcx_fixed_record% = 8
+          color: white
+        -
+          cxp: >
+            %zcx_fixed_record% = 0
+          color: grey
 
 arm:
+  type: param
+  binding: >
+    SEL / ARM
+  toggle_param: false
+  on_color: red
+  off_color: white
   gestures:
-    pressed: SEL / ARM
-    pressed__shift: UNDO
+    press:
+      do_toggle: true
+    press__shift: UNDO
 
 mute:
+  type: param
+  binding: >
+    SEL / MUTE
+  toggle_param: false
+  on_color: orange
+  off_color: white
   gestures:
-    pressed: SEL / MUTE
-    pressed__shift: REDO
+    press:
+      do_toggle: true
+    press__shift: REDO
 
 solo:
+  type: param
+  binding: >
+    SEL / SOLO
+  toggle_param: false
+  on_color: blue
+  off_color: white
   gestures:
-    pressed: SEL / SOLO
-    pressed__shift: METRO
+    press:
+      do_toggle: true
+    press__shift: METRO
 
 #volume:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #pan:
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 sends:
   gestures:
-#    pressed: DUMMY
+    press: DUMMY
     pressed__shift: TAPBPM
 
 #device:
 #  gestures:
-#    pressed:
+#    press:
 
 stop:
+  type: param
+  binding: >
+    SEL / STOP
+  toggle_param: false
+  active_color: white
+  inactive_color: grey
   gestures:
-    pressed: STOP
+    press: STOP
     pressed__shift: STOP NQ
