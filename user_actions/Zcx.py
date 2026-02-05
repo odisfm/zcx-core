@@ -75,7 +75,7 @@ class Zcx(UserActionsBase):
             target_slot = None
 
             if target_def == "all":
-                for i in range(1, 6):
+                for i in range(1, 7):
                     try:
                         self.action_entry_point({}, f'{i} {" ".join(_args[1:])}', True)
                     except Exception as e:
