@@ -36,4 +36,4 @@ encoders:
 preferences:
   session_ring:
     width: 8
-    height: 8
+    height: 4

@@ -1,13 +1,17 @@
 session:
   color: 1
-  suppress_animations: true
+  hold_color: red
   gestures:
-    pressed:
+    press:
       refresh: true
-    released_immediately:
+    short_press:
       msg: hold to return to Live mode
-    pressed_delayed:
+    long_press:
       hardware_mode: live
+    double_click:
+      msg: double click with shift to do a hot reload
+    double_click__shift:
+      hot_reload: true
 
 __page_controls:
   includes:
@@ -15,129 +19,145 @@ __page_controls:
   type: page
   page: ${me.index}
   gestures:
-    pressed:
+    press:
       page: ${me.index}
       msg: >
         Page: ${me.page_name}
-    released_delayed:
+    long_release:
       page: last
   active_color:
-    pulse:
-      a: white
-      b: white
+    pulse: white
   inactive_color:
-    palette: rainbow
+    palette: coral_reverse
 
-#note:
+#drums:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
-#custom:
+#keys:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #user:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 __scene_controls:
   includes:
-    [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+    [scene_1, scene_2, scene_3, scene_4]
   color:
-    palette: ocean
+    palette: coral
   gestures:
-    pressed: >
+    press: >
       SCENE ${ring.scenes[me.Index]}
-    pressed__shift: >
-      SCENE ${ring.scenes[me.Index + 8]}
-    pressed__select: >
+    press__shift: >
+      SCENE ${ring.scenes[me.Index + me.group_count]}
+    press__select: >
       SCENE SEL ${ring.scenes[me.Index]}
-    pressed__shift__select: >
-      SCENE SEL ${ring.scenes[me.Index + 8]}
+    press__shift__select: >
+      SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
 #scene_1:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_2:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_3:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_4:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_5:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
 #scene_6:
 #  color: 127
 #  gestures:
-#    pressed: DUMMY
+#    press: DUMMY
 
-#scene_7:
-#  color: 127
-#  gestures:
-#    pressed: DUMMY
+scene_7:
+  type: mode
+  mode: select
+  inactive_color: white
+  active_color: lime
+  gestures:
+    press:
+      mode_on: select
+    released:
+      mode_off: select
 
-#scene_8:
-#  color: 127
-#  gestures:
-#    pressed: DUMMY
+scene_8:
+  type: mode
+  mode: shift
+  inactive_color: white
+  active_color: purple
+  gestures:
+    press:
+      mode_on: shift
+    released:
+      mode_off: shift
 
 novation:
   type: transport
   transport: play
+  active_color: grey
+  inactive_color: dark_grey
 
 nav_up:
-  color: sky
+  repeat: true
+  color: purple
   gestures:
-    pressed:
+    press:
       ring:
-        y: -8
-    pressed__shift:
+        y: -4
+    press__shift:
       ring:
         y: -1
 
 nav_down:
-  color: sky
+  repeat: true
+  color: purple
   gestures:
-    pressed:
+    press:
       ring:
-        y: 8
-    pressed__shift:
+        y: 4
+    press__shift:
       ring:
         y: 1
 
 nav_left:
-  color: green
+  repeat: true
+  color: sky shade 2
   gestures:
-    pressed:
+    press:
       ring:
         x: -8
-    pressed__shift:
+    press__shift:
       ring:
         x: -1
 
 nav_right:
-  color: green
+  repeat: true
+  color: sky shade 2
   gestures:
-    pressed:
+    press:
       ring:
         x: 8
-    pressed__shift:
+    press__shift:
       ring:
         x: 1
