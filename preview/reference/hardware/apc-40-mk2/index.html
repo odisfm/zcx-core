@@ -1788,6 +1788,39 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#apc40-mk2-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      APC40 mk2 plugin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APC40 mk2 plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force_style" class="md-nav__link">
+    <span class="md-ellipsis">
+      force_style
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prefer_full_led" class="md-nav__link">
+    <span class="md-ellipsis">
+      prefer_full_led
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#control-names" class="md-nav__link">
     <span class="md-ellipsis">
       control names
@@ -3133,6 +3166,39 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#apc40-mk2-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      APC40 mk2 plugin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APC40 mk2 plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force_style" class="md-nav__link">
+    <span class="md-ellipsis">
+      force_style
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prefer_full_led" class="md-nav__link">
+    <span class="md-ellipsis">
+      prefer_full_led
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#control-names" class="md-nav__link">
     <span class="md-ellipsis">
       control names
@@ -3187,6 +3253,33 @@
 
 
 <h1 id="apc40-mk2">APC40 mk2<a class="headerlink" href="#apc40-mk2" title="Permanent link">&para;</a></h1>
+<h2 id="apc40-mk2-plugin">APC40 mk2 plugin<a class="headerlink" href="#apc40-mk2-plugin" title="Permanent link">&para;</a></h2>
+<p>zcx for APC40 mk2 ships with a plugin to enhance the experience of the LED rings around the track and device knobs.
+The plugin has several options, which can be configured via <a href="../../file/preferences/#plugins">preferences.yaml</a>.</p>
+<h3 id="force_style">force_style<a class="headerlink" href="#force_style" title="Permanent link">&para;</a></h3>
+<p>The LED rings can display in a few different modes:</p>
+<ul>
+<li><code>single</code> style, where the LEDs light up in a narrow band</li>
+<li><code>volume</code> style, were the LEDs light up all the way from the leftmost LED</li>
+<li><code>pan</code> style, where the LEDs start from the centre of the knob</li>
+<li><code>off</code>, where no LEDs light up</li>
+</ul>
+<p>zcx will attempt to automatically set the relevant style based on the parameter each knob is controlling.
+Alternatively, you may force each knob to use a particular style:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">plugins</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">apc_40_mk2</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">force_style</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">track_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pan</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">track_3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">volume</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">device_4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">device_8</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">off</span>
+</span></code></pre></div>
+<h3 id="prefer_full_led">prefer_full_led<a class="headerlink" href="#prefer_full_led" title="Permanent link">&para;</a></h3>
+<p>With this option, zcx will use the <a href="#force_style">volume style</a> LED feedback instead of the <code>single</code> style.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">plugins</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">apc_40_mk2</span><span class="p">:</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">prefer_full_led</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
 <h2 id="control-names">control names<a class="headerlink" href="#control-names" title="Permanent link">&para;</a></h2>
 <h3 id="buttons">buttons<a class="headerlink" href="#buttons" title="Permanent link">&para;</a></h3>
 <p>These are the names you must use in <a href="../../../lessons/getting-started/zcx-concepts/#named-controls-and-matrix-controls">named_controls.yaml</a></p>
@@ -3221,7 +3314,7 @@
 <li><code>clip_device</code> - the button labelled <code>clip/dev. view</code></li>
 <li><code>detail</code> - the button labelled <code>detail view</code></li>
 <li><code>shift</code> - the button labelled <code>shift</code></li>
-<li><code>bank</code> - the button labelled <code>bank</code></li>
+<li><code>bank_lock</code> - the button labelled <code>bank</code></li>
 <li><code>dpad_up</code>, <code>dpad_right</code>, <code>dpad_down</code>, <code>dpad_left</code> - the directional buttons labelled <code>bank select</code></li>
 </ul>
 <h3 id="encoders">encoders<a class="headerlink" href="#encoders" title="Permanent link">&para;</a></h3>
@@ -3256,7 +3349,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-12-23T22:45:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-12-23</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-02-05T02:30:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-02-05</span>
   </span>
 
     
