@@ -1,16 +1,33 @@
-__scale_changer:
+__tonic_select:
   includes: [
-    state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8,
-    select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8
+    select_2, select_3, select_4, select_5, select_6, select_7,
+    state_7, state_6, state_5, state_4, state_3, state_2
   ]
-  color: 50
-  hold_color: 0
+  props:
+    tonics: [
+      C, G, D, A, E, B, F#, C#, G#, D#, A#, F  # SCL action only works with sharps
+    ]
+  type: keyboard
+  function:
+    scale:
+      root: ${me.props.tonics[me.index]}
   gestures:
-    pressed:
-      log: ${me.index}
+    press: SCL ROOT ${me.props.tonics[me.index]}
+  active_color: yellow
+  inactive_color: ${"red_half" if me.index < 6 else "red shade 2"}
 
-scene_1:
-  color: 1
+select_8:
+  type: keyboard
+  function: in_key
+  gestures:
+    press: >
+      ZCX ${this_cs} KB INKEY
 
-play:
-  color: 1
+select_1:
+  color: 0
+
+state_1:
+  color: 0
+
+state_8:
+  color: 0

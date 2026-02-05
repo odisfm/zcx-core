@@ -17,53 +17,47 @@ shift:
       mode_off: shift
 
 volume:
-  color: 1
+  type: mode
+  mode: volume
   gestures:
-    pressed:
-      - mode_off: device
-      - mode_off: sends
-      - mode_off: track
+    press:
+      mode_on: volume
 
 track:
   type: mode
   mode: track
   gestures:
-    pressed:
-      - mode_on: track
-      - mode_off: sends
-      - mode_off: device
-    released_delayed:
-      mode_off: track
+    press:
+      mode_on: track
 
 device:
   type: mode
   mode: device
   gestures:
-    pressed:
-      - mode_on: device
-      - mode_off: sends
-      - mode_off: track
-    released_delayed:
-      mode_off: device
+    press:
+      mode_on: device
 
 pan_send:
   type: mode
   mode: sends
   gestures:
-    pressed:
-      - mode_on: sends
-      - mode_off: track
-      - mode_off: device
-    released_delayed:
-      mode_off: sends
+    press:
+      mode_on: sends
 
-#clip:
-#  gestures:
-#    pressed: DUMMY
+browse:
+  type: mode
+  mode: browse
+  gestures:
+    press:
+      mode_on: browse
 
-#browse:
-#  gestures:
-#    pressed: DUMMY
+clip:
+  type: mode
+  mode: clip
+  gestures:
+    press:
+      mode_on: clip
+
 
 ### grouped controls
 
@@ -250,17 +244,29 @@ delete:
 #  gestures:
 #    pressed: DUMMY
 
-#fixed_length:
-#  gestures:
-#    pressed: DUMMY
+fixed_length:
+  color: full
+  gestures:
+    press:
+      pseq:
+        -
+          cxp: >
+            %zcx_fixed_record% = 8
+          color: full
+        -
+          cxp: >
+            %zcx_fixed_record% = 0
+          color: half
 
-#automation:
-#  gestures:
-#    pressed: DUMMY
+automation:
+  type: transport
+  transport: automation
+  gestures:
+    pressed: SATM
 
 duplicate:
   gestures:
-    pressed: SCENEDUPE
+    pressed: SCENE DUPE
 
 new:
   gestures:
@@ -275,16 +281,18 @@ play:
 
 record:
   type: transport
-  transport: session_record
+  transport: record
   gestures:
-    released_immediately: SRECFIX
-    pressed_delayed: SRECFIX 8
+    short_press: SREC
+    long_press: SRECFIX %zcx_fixed_record%
 
 ### right side
 
 master:
   type: param
   binding: MST / SEL
+  on_color: full
+  off_color: half
 
 stop:
   type: param
@@ -320,10 +328,7 @@ scales:
   gestures:
     pressed:
       overlay:
-        enable: scales
-    released:
-      overlay:
-        disable: scales
+        toggle: scales
 
 #repeat:
 #  gestures:
@@ -351,12 +356,22 @@ scales:
 #    pressed: DUMMY
 
 note:
+  type: page
+  page: keyboard_page
   gestures:
-    pressed: SHOWCLIP
+    press:
+      page: keyboard_page
+    long_release:
+      page: last
 
 session:
+  type: page
+  page: session_view_page
   gestures:
-    pressed: SHOWDEV
+    press:
+      page: session_view_page
+    long_release:
+      page: last
 
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]

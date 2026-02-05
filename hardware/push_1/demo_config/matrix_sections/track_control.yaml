@@ -1,7 +1,14 @@
 type: ring_track
-ring_index: ${me.index + 8}
+ring_index: ${me.index + ring.width}
 gestures:
-  pressed: >
+  press: >
     "${me.track}" / SEL
-  pressed_delayed: >
+  long_press: >
+    ALL / ARM OFF ;
     "${me.track}" / ARM
+  long_press__shift: >
+    "${me.track}" / ARM
+  double_click: >
+    "${me.track}" / PLAY >
+  press__delete: >
+    "${me.track}" / DEL

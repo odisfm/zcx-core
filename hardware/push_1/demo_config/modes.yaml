@@ -1,6 +1,9 @@
 - shift
 - select
-- sends
-- device
-- track
 - delete
+- volume
+- track
+- device
+- sends
+- browse
+- clip

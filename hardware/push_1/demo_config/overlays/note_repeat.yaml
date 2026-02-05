@@ -1,0 +1,13 @@
+__note_repeat:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  props:
+    repeat_rates: [1/32t, 1/32, 1/16t, 1/16, 1/8t, 1/8, 1/4t, 1/4]
+  type: keyboard
+  function:
+    repeat_rate: ${me.props.repeat_rates[me.index]}
+  active_color: green
+  inactive_color: red
+  gestures:
+    press:
+      keyboard:
+        repeat_rate: ${me.props.repeat_rates[me.index]}

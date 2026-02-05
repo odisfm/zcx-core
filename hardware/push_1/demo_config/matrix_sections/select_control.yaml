@@ -17,8 +17,8 @@
 -
   type: param
   binding: SEL / ARM
-  on_color: red shade 1
-  off_color: red shade 2
+  on_color: red
+  off_color: red shade 1
 
 # col 4
 -
@@ -37,8 +37,12 @@
   binding:
     default: >
       SEL / DEV(${me.group_Index}) SEL
+    __select: >
+      SEL / DEV(${me.group_Index + me.group_count}) SEL
     __shift: >
       SEL / DEV(${me.group_Index})
+    __select__shift: >
+      SEL / DEV(${me.group_Index + me.group_count})
   on_color: yellow
   off_color: yellow shade 2
 # !! row 3-4
@@ -62,10 +66,10 @@
     __shift: >
       SEL / DEV(SEL) P${me.group_Index + me.group_count}
   gestures:
-    pressed:
+    press:
       do_toggle: true
-    released_delayed:
+    long_release:
       do_toggle: true
-    released__shift: DUMMY
+    release__shift: DUMMY
   on_color: lime
-  off_color: lime shade 2
+  off_color: green shade

@@ -3,7 +3,8 @@ __encoder_row:
     enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
   ]
   binding:
-    default: >
+    default: NONE
+    __volume: >
       RING(${me.index}) / VOL
     __shift: >
       RING(${me.index}) / PAN
@@ -11,68 +12,58 @@ __encoder_row:
       SEL / DEV(SEL) B1 P${me.Index}
     __device__shift: >
       SEL / DEV(SEL) B2 P${me.Index}
+    __sends: >
+      SEL / SEND ${send_num(me.index)}
 
   encoders:
     enc_1:
       binding:
-        __sends: >-
-          SEL / SEND A
         __track: >
-          SEL / VOL
+            SEL / VOL
+        __browse: NONE
+        __clip: NONE
     enc_2:
       binding:
-        __sends: >-
-          SEL / SEND B
         __track: >
           SEL / PAN
+        __browse: NONE
+        __clip: NONE
     enc_3:
       binding:
-        __sends: >-
-          SEL / SEND C
         __track: >
           SEL / SEND A
-        __track__shift: >
-          SEL / SEND C
+        __browse: NONE
+        __clip: NONE
     enc_4:
       binding:
-        __sends: >-
-          SEL / SEND D
         __track: >
           SEL / SEND B
-        __track__shift: >
-          SEL / SEND D
+        __browse: NONE
+        __clip: NONE
     enc_5:
       binding:
-        __sends: >-
-          SEL / SEND E
         __track: >
           SEL / DEV(SEL) B1 P1
-        __track__shift: >
-          SEL / DEV(SEL) B1 P5
+        __browse: NONE
+        __clip: NONE
     enc_6:
       binding:
-        __sends: >-
-          SEL / SEND F
         __track: >
           SEL / DEV(SEL) B1 P2
-        __track__shift: >
-          SEL / DEV(SEL) B1 P6
+        __browse: NONE
+        __clip: NONE
     enc_7:
       binding:
-        __sends: >-
-          SEL / SEND G
         __track: >
           SEL / DEV(SEL) B1 P3
-        __track__shift: >
-          SEL / DEV(SEL) B1 P7
+        __browse: NONE
+        __clip: NONE
     enc_8:
       binding:
-        __sends: >-
-          SEL / SEND H
         __track: >
           SEL / DEV(SEL) B1 P4
-        __track__shift: >
-          SEL / DEV(SEL) B1 P8
+        __browse: NONE
+        __clip: NONE
 
 enc_master:
   binding:

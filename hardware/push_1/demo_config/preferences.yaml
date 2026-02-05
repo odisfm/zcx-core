@@ -1,0 +1,5 @@
+exclusive_modes:
+  - [volume, track, sends, device, browse, clip]
+
+startup_command:
+  mode_on: volume

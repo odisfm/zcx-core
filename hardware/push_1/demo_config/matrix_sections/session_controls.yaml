@@ -15,11 +15,13 @@
     -
 
 -
-  pad_group: session_solo
-  type: param
-  binding: RING(${me.group_index}) / SOLO
-  on_color: blue
-  off_color: blue shade 2
+  pad_group: session_custom
+  color: purple
+  gestures:
+    press: >
+      "${ring.tracks[me.x]}" / COLOR %RND1-70%
+    release: >
+      you can edit this section in `_config/matrix_sections/session_controls.yaml`
   controls:
     -
     -

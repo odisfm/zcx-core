@@ -9,16 +9,10 @@ pages:
     - select_control
     - track_control
   session_view_page:
-    sections:
-      - session_controls
-      - __session_view
-    on_enter:
-      overlay:
-        enable: session_view
-    on_leave:
-      overlay:
-        disable: session_view
-
+    - session_controls
+    - __session_view
+  keyboard_page:
+    - __keyboard
   ring_devices_page:
     - ring_devices
   blank_page:
