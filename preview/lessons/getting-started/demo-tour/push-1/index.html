@@ -770,6 +770,8 @@
       
         
       
+        
+      
     
     
     
@@ -816,6 +818,29 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../launchpad-pro-mk3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Launchpad Pro mk3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -962,6 +987,15 @@
   <a href="#session_view_page" class="md-nav__link">
     <span class="md-ellipsis">
       session_view_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      keyboard_page
     </span>
   </a>
   
@@ -3249,6 +3283,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#keyboard_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      keyboard_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ring_devices_page" class="md-nav__link">
     <span class="md-ellipsis">
       ring_devices_page
@@ -3301,33 +3344,31 @@
 <p>
     This is a guided tour of the Push 1 demo configuration.
     <br>
-    Make sure to also see the <a href="../../../../reference/hardware/push-1">hardware reference</a>, to find out important information regarding your controller.
+    Make sure to also see the <a href="../../../../reference/hardware/push-1">hardware reference</a> to find out important information regarding your controller.
 </p>
 
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <h3 id="modes">Modes<a class="headerlink" href="#modes" title="Permanent link">&para;</a></h3>
-<p>This config comes with six <a href="../../zcx-concepts/#modes">modes</a> pre-configured.
-These modes are <code>shift</code>, <code>select</code>, <code>delete</code>, <code>track</code>, <code>device</code>, and <code>sends</code>
+<p>This config comes with nine <a href="../../zcx-concepts/#modes">modes</a> pre-configured.
+These modes are <code>shift</code>, <code>select</code>, <code>delete</code>, <code>volume</code>, <code>track</code>, <code>device</code>, <code>sends</code>, <code>browse</code>, and <code>clip</code>.
 They are all mapped to controls of the same name (<code>sends</code> is mapped to the control <code>pan_send</code>).</p>
-<p>Three of these modes, <code>track</code>, <code>device</code>, and <code>sends</code> are set up exclusively, so that enabling one will disable the other two.
-The <code>volume</code> control will disable all three on a press.
-A short press will enable the mode indefinitely, while a hold will enable the mode only until the control is released.</p>
+<p>Six of these modes, <code>volume</code>, <code>track</code>, <code>device</code>, <code>sends</code>, <code>browse</code>, and <code>clip</code> are set up <a href="../../../../reference/file/preferences/#exclusive_modes">exclusively</a>, so that enabling one will disable the other two.</p>
 <p><code>shift</code> and <code>select</code> will only be active while they are held.</p>
 <h3 id="pages">Pages<a class="headerlink" href="#pages" title="Permanent link">&para;</a></h3>
-<p>This config comes with five <a href="../../zcx-concepts/#pages">pages</a> pre-configured.
-By looking at <code>pages.yaml</code>, we can see these pages are named <code>home_page</code>, <code>alt_page</code>, <code>session_view_page</code>, <code>ring_devices_page</code>, and <code>blank_page</code>.
+<p>This config comes with six <a href="../../zcx-concepts/#pages">pages</a> pre-configured.
+By looking at <code>pages.yaml</code>, we can see these pages are named <code>home_page</code>, <code>alt_page</code>, <code>session_view_page</code>, <code>ring_devices_page</code>, <code>keyboard_page</code>, and <code>blank_page</code>.
 Push's eight <code>state</code> buttons have been configured as a group.
-They are the five multicolor buttons below the display, and they will take you to a different page on a press.</p>
-<p>As three buttons are unassigned, if you add a new page it will automatically be assigned to one of the free buttons.</p>
+They are the multicolor buttons below the display, and they will each take you to a different page on a press.</p>
+<p>As some buttons are unassigned, if you add a new page it will automatically be assigned to one of the free buttons.</p>
 <h3 id="named-controls">Named controls<a class="headerlink" href="#named-controls" title="Permanent link">&para;</a></h3>
 <p>Push's eight <code>select</code> buttons have been configured as a group.
 They are <a href="../../../../reference/control/param/">param controls</a>, bound to the selection state of the eight tracks in view of the <a href="../../../session-ring/">session ring</a>.
 Pressing one will select the relevant track, and the button will become brighter to indicate that.
-Holding one of these buttons will arm the track.
+Holding one of these buttons will arm the track exclusively, while pressing with <code>shift</code> will arm non-exclusively.
 Holding a button while holding <code>delete</code> will delete the track.</p>
-<p>Three <a href="../../../../reference/control/transport/">transport controls</a> are configured, for the controls <code>play</code>, <code>record</code>, and <code>metronome</code>.
+<p>Four <a href="../../../../reference/control/transport/">transport controls</a> are configured, for the controls <code>play</code>, <code>record</code>, <code>metronome</code>, and <code>automation</code>.
 These controls will indicate the status of the relevant transport function.
-On a short press, <code>record</code> will fire the action list <code>SRECFIX</code>, starting Live's session record.
+On a short press, <code>record</code> will fire the action list <code>SREC</code>, starting Live's session record.
 On a long press, it will fire <code>SRECFIX 8</code>, starting session record for a fixed length of 8 bars.</p>
 <p>Push's eight <code>scene</code> buttons have been configured as a group.
 Pressing a scene button will launch the scene at that position of the session ring.
@@ -3341,10 +3382,9 @@ Pushing a scene button with both <code>shift</code> and <code>select</code> will
 <code>stop</code>, also a param control, is bound to the target <code>SEL / STOP</code>, and will be brighter when the selected track is playing (and can thus be stopped).</p>
 <p>The controls <code>in</code> and <code>out</code> are found to the right of <code>master</code> and are marked with the ↪ and ↩ symbols.
 Pressing these controls will move the session ring across by eight tracks.
-When the mode <code>device</code> is active, these controls will move left and right through the devices on the selected track.
-When <code>device</code> and <code>shift</code> are active, these controls select the leftmost or rightmost device.</p>
+When the mode <code>device</code> is active, a short press on these controls will move left and right through the devices on the selected track, while a long press will move to the first or last device.</p>
 <p><code>mute</code> and <code>solo</code> are both param controls, mapped to the functions you'd expect.</p>
-<p>The controls <code>note</code> and <code>session</code> will enable Live's clip view and device view respectively.</p>
+<p>The controls <code>note</code> and <code>session</code> will enable the pages <code>keyboard_page</code> and <code>session_view_page</code> respectively.</p>
 <p>The D-pad will move throughout the Live set.
 If <code>shift</code> is held, the D-pad will move the session ring one step at a time.</p>
 <h3 id="matrix-pages">Matrix pages<a class="headerlink" href="#matrix-pages" title="Permanent link">&para;</a></h3>
@@ -3354,8 +3394,7 @@ If <code>shift</code> is held, the D-pad will move the session ring one step at 
 The top-left quadrant is the <a href="../../zcx-concepts/#matrix-sections">section</a> <code>actions_top_left</code>.
 Opposite <code>actions_top_left</code> is <code>actions_top_right</code>.
 Taking up the bottom half of the matrix is <code>actions_bottom_double</code>.</p>
-<p>These three sections have been left mostly unconfigured.
-<code>actions_bottom_double</code> uses a <a href="../../../../reference/template/#section-templates">section template</a> to apply the rainbow colors without defining a color for each pad.</p>
+<p>These three sections have been left mostly unconfigured.</p>
 <h4 id="alt_page">alt_page<a class="headerlink" href="#alt_page" title="Permanent link">&para;</a></h4>
 <p>The top half of the matrix still features <code>actions_top_left</code> and <code>actions_top_right</code>. 
 This demonstrates how we can have sections appear on multiple pages.</p>
@@ -3389,7 +3428,22 @@ See the <a href="../../../session-view/">session view lesson</a> for more detail
 <h5 id="session_controls">session_controls<a class="headerlink" href="#session_controls" title="Permanent link">&para;</a></h5>
 <p>The bottom two rows feature the section <code>session_controls</code>.
 They are param controls bound to the eight tracks contained in the session ring.
-The top row is bound to those track's mute status, the bottom row to their solo status.</p>
+The top row is bound to those track's mute status.
+The bottom row will set its respective track to a random color, which isn't particularly useful, but it's there to demonstrate how we can <a href="../../../session-ring/#referencing-the-ring-from-template-strings">target ring tracks with action lists</a>.</p>
+<h4 id="keyboard_page">keyboard_page<a class="headerlink" href="#keyboard_page" title="Permanent link">&para;</a></h4>
+<p>This page features a full-size keyboard view for playing notes.
+See the <a href="../../../keyboard/">keyboard view lesson</a> to learn more about how it works.</p>
+<p>From this page, you can also access two <a href="../../../overlays-layers/">overlays</a>:</p>
+<h5 id="scales">scales<a class="headerlink" href="#scales" title="Permanent link">&para;</a></h5>
+<p>By pressing the <code>scales</code> button, you can toggle the <code>scales</code> overlay.
+This is similar to the scales interface from the Push factory script: 14 of the controls set the tonic of Live's <a href="https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ">Scale Mode</a>, which is reflected on the keyboard.
+These buttons are arranged in a Circle of Fifths pattern.
+An additional button toggles the keyboard's <a href="../../../keyboard/#in-key--chromatic">in key status</a>.</p>
+<p>When <code>scales</code> is active, the top two rows of the matrix will let you select one of sixteen scales.</p>
+<h5 id="note_repeat">note_repeat<a class="headerlink" href="#note_repeat" title="Permanent link">&para;</a></h5>
+<p>Pressing the <code>repeat</code> button toggles the <code>note_repeat</code> overlay.
+With this overlay, the scene buttons will set the keyboard's <a href="../../../keyboard/#note-repeat">note repeat state</a>.</p>
+<p>Leaving the <code>keyboard_page</code> will <a href="../../../overlays-layers/#pages_in-pages_out">automatically disable</a> the <code>note_repeat</code> overlay.</p>
 <h4 id="ring_devices_page">ring_devices_page<a class="headerlink" href="#ring_devices_page" title="Permanent link">&para;</a></h4>
 <p>This page features only one section <code>ring_devices</code>, which fills the whole page.
 Again, this section deals with the eight ring tracks.
@@ -3401,7 +3455,8 @@ Release a pad after a hold to toggle the parameter again.</p>
 It's a great place to start experimenting with zcx's capabilities.</p>
 <h2 id="encoders">Encoders<a class="headerlink" href="#encoders" title="Permanent link">&para;</a></h2>
 <p>Push's eight main encoders — the ones above the display — are configured as a group.
-By default, they control the volume of the eight ring tracks.
+The six buttons in the top right of the controller — corresponding to six modes — determine what parameters they control.
+By default, with the <code>volume</code> mode active, they control the volume of the eight ring tracks.
 With <code>shift</code> active, they control the pan of those tracks.</p>
 <p>With the mode <code>sends</code> active, they control the first eight sends of the selected track.
 With the mode <code>device</code> active, they control the first eight parameters of the selected device.
@@ -3411,6 +3466,8 @@ With both <code>device</code> and <code>shift</code> active, they control the ne
 <code>enc_3</code> and <code>enc_4</code> control the first two sends.
 <code>enc_5</code> through <code>enc_8</code> control the first four parameters of the selected device.
 By holding <code>shift</code> we can control the next two sends and the next four device parameters.</p>
+<p>The <code>browse</code> and <code>clip</code> bindings have been left unassigned, ready for you to assign them to any arbitrary parameter.
+(Remember, you can always re-assign <strong>any</strong> of these preconfigured bindings).</p>
 <p><code>enc_master</code> (to the right of <code>enc_8</code>) controls the Main track's volume.
 With <code>shift</code> held it controls the cue volume.</p>
 <p><code>enc_tempo</code>, the leftmost encoder, always controls the selected track's pan.
