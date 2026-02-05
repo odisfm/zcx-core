@@ -1,5 +1,5 @@
 ---
-title: Launchpad Pro mk3
+title: APC mini mkII
 template: demo-tour.html
 ---
 
@@ -7,42 +7,29 @@ template: demo-tour.html
 
 ### Modes
 
-By default, this config only has one mode; `shift`, mapped to the `shift` button in the top right of the controller.
-Of course, you can always [add more modes](../zcx-concepts.md#modes) later.
+This config comes with five main [modes](../zcx-concepts.md#modes) pre-configured.
+These are `shift`, `volume`, `pan`, `send`, and `device`.
+
+`volume`, `pan`, `send`, and `device` are set up [exclusively](../../../reference/file/preferences.md#exclusive_modes), so that enabling one will disable the others.
+These modes determine the functionality of eight of the [faders](#encoders).
 
 ### Pages
 
 This config comes with six [pages](../zcx-concepts.md#pages) pre-configured.
-By looking at `pages.yaml`, we can see these pages are named `home_page`, `alt_page`, `session_view_page`, `ring_devices_page`, `keyboard_page`, and `blank_page`.
-
-Six of the buttons above the matrix have been configured as a group.
-These are `session`, `note`, `chord`, `custom`, `sequencer`, and `projects`.
-They will each take you to a different page on a press.
-
+By looking at `pages.yaml`, we can see these pages are named `home_page`, `alt_page`, `session_view_page`, `keyboard_page`, `ring_devices_page`, and `blank_page`.
 
 ### Named controls
 
-The four arrow buttons in the top-left will move around the Live set.
-Holding `shift` while pressing these buttons will move the [session ring](../../session-ring.md).
+The eight buttons below the matrix are configured as a page changer; pressing each button will take you to a different matrix page.
+The eight buttons to the right of the matrix are scene launch buttons.
 
-The scene launch buttons will launch scenes relative to the session ring.
-Pressing them while holding `shift` will launch scenes below the ring.
+#### shift_overlay
 
-Launchpad's eight `track` buttons have been configured as a group.
-These are the top row of buttons below the matrix.
-They are [ring_track controls](../../../reference/control/ring_track.md), bound to the eight tracks in view of the [session ring](../../session-ring.md).
-Pressing one will select the relevant track.
-Holding one of these buttons will arm the track exclusively, while holding with `shift` will arm the track non-exclusively.
-Double clicking a button will fire the next clip for that track.
-
-Two [transport controls](../../../reference/control/transport.md) are configured, for the controls `play` and `record`.
-These controls will indicate the status of the relevant transport function.
-On a short press, `record` will fire the action list `SREC`, starting Live's session record.
-On a long press, it will fire `SRECFIX 8`, starting session record for a fixed length of 8 bars.
-
-Many of the buttons in the bottom row below the matrix mimic the functionality of the factory Launchpad script.
-
-### Matrix pages
+When holding `shift`, the [overlay](../../overlays-layers.md) `shift_overlay` is enabled, changing the function of these sixteen buttons.
+The buttons `volume`, `pan`, `send`, and `device` will activate their associated [mode](#modes), which affects the [faders](#encoders).
+The directional buttons will move the [session ring](../../session-ring.md).
+The scene launch buttons will control their alternate function; the top four buttons are now [param controls](../../../reference/control/param.md), bound to the functions indicated by their label. The buttons `drum` and `select` have been left unassigned.
+The button labelled "stop all clips" will do just that on a short press, and with a long press will stop all clips without quantization.
 
 ### Matrix pages
 
@@ -50,7 +37,7 @@ Many of the buttons in the bottom row below the matrix mimic the functionality o
 
 ##### actions
 
-Enter the first page by pressing the `session` button.
+Enter the first page by pressing the `volume` button.
 The top-left quadrant is the [section](../zcx-concepts.md#matrix-sections) `actions_top_left`.
 Opposite `actions_top_left` is `actions_top_right`.
 Taking up the bottom half of the matrix is `actions_bottom_double`.
@@ -87,21 +74,17 @@ These dynamic controls give feedback about the playing, arm, and selection state
 A short press will select the track, and a long press will arm it.
 If your Live set has less than 24 tracks, one or more of these controls might appear off.
 
-#### session_view_page
-
 ##### __session_view
 
 The top six rows are occupied by zcx's session view.
-This works much the same as the Launchpad's native session view.
+This works much the same as APC's native session view.
 Pressing a pad will launch the respective clip slot.
-
 See the [session view lesson](../../../lessons/session-view.md) for more detail on configuring this section.
 
 ##### session_controls
 
 The bottom two rows feature the section `session_controls`.
-They are param controls bound to the eight tracks contained in the session ring.
-The top row is bound to those track's mute status.
+The top row are param controls, bound to those track's selection status.
 The bottom row will set its respective track to a random color, which isn't particularly useful, but it's there to demonstrate how we can [target ring tracks with action lists](../../session-ring.md#referencing-the-ring-from-template-strings).
 
 #### keyboard_page
@@ -111,9 +94,10 @@ See the [keyboard view lesson](../../keyboard.md) to learn more about how it wor
 
 ##### keyboard_notes overlay
 
-By long-pressing the `note` button, you can enable the `keyboard_notes` [overlay](../../overlays-layers.md), which occupies the top two rows of the matrix.
+By long-pressing the `device` button, you can enable the `keyboard_notes` [overlay](../../overlays-layers.md), which occupies the top two rows of the matrix.
 
-The first five buttons of the top row set the scale of Live's [Scale Mode](https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ), which is reflected on the keyboard.
+The first three buttons of the top row set the scale of Live's [Scale Mode](https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ), which is reflected on the keyboard.
+The next two buttons decrease or increase the [keyboard's octave](../../keyboard.md#octave).
 The next two buttons decrease or increase the tonic of Scale mode by one semitone.
 The last button toggles the keyboard's [in key status](../../keyboard.md#in-key--chromatic).
 
@@ -132,3 +116,13 @@ Release a pad after a hold to toggle the parameter again.
 This page contains one section — `blank_section` — an 8x8 unconfigured grid.
 It's a great place to start experimenting with zcx's capabilities.
 
+## Encoders
+
+`fader_9` controls the Main track's volume.
+
+`fader_1` through `fader_8` have four bindings preconfigured, which can be set via the [shift overlay](#shift_overlay).
+
+In `volume` mode, they control the volume of the eight tracks in the session ring.
+In `pan` mode, they control the pan of those tracks.
+In `send` mode, they control the first eight sends of the selected track.
+In `device` mode, they control the first eight parameters of the selected device.

@@ -11,7 +11,7 @@ This config comes with nine [modes](../zcx-concepts.md#modes) pre-configured.
 These modes are `shift`, `select`, `delete`, `device`, `mix`, `browse`, `clip`, `add_device`, and `add_track`.
 They are all mapped to controls of the same name.
 
-Six of these modes, `device`, `mix`, `browse`, `clip`, `add_device`, and `add_track` are set up [exclusively](../../../reference/file/preferences.md#exclusive_modes), so that enabling one will disable the other two.
+Six of these modes, `device`, `mix`, `browse`, `clip`, `add_device`, and `add_track` are set up [exclusively](../../../reference/file/preferences.md#exclusive_modes), so that enabling one will disable the others.
 
 `shift` and `select` will only be active while they are held.
 
@@ -187,3 +187,7 @@ With `shift` held it controls the cue volume.
 
 `enc_tempo`, the leftmost encoder, always controls the selected track's pan.
 `enc_swing`, to its right, controls the selected track's volume.
+
+!!! note "Controlling tempo with zcx"
+    Unfortunately, the current version of zcx cannot natively bind to Live's tempo.
+    If you have Max for Live, you can add [this free device](https://www.maxforlive.com/library/device/10403/tempo-control) to your set, and bind a zcx encoder to it.
