@@ -7,18 +7,22 @@ template: demo-tour.html
 
 ### Modes
 
-This config comes with four [modes](../zcx-concepts.md#modes) pre-configured.
-These modes are `shift`, `select`, `device`, and `delete`
+This config comes with nine [modes](../zcx-concepts.md#modes) pre-configured.
+These modes are `shift`, `select`, `delete`, `device`, `mix`, `browse`, `clip`, `add_device`, and `add_track`.
 They are all mapped to controls of the same name.
+
+Six of these modes, `device`, `mix`, `browse`, `clip`, `add_device`, and `add_track` are set up [exclusively](../../../reference/file/preferences.md#exclusive_modes), so that enabling one will disable the other two.
+
+`shift` and `select` will only be active while they are held.
 
 ### Pages
 
-This config comes with five [pages](../zcx-concepts.md#pages) pre-configured.
-By looking at `pages.yaml`, we can see these pages are named `home_page`, `alt_page`, `session_view_page`, `ring_devices_page`, and `blank_page`.
+This config comes with six [pages](../zcx-concepts.md#pages) pre-configured.
+By looking at `pages.yaml`, we can see these pages are named `home_page`, `alt_page`, `session_view_page`, `keyboard_page` `ring_devices_page`, and `blank_page`.
 Push's eight `state` buttons have been configured as a group.
 They are the multicolor buttons above the display, and they will take you to a different page on a press.
 
-As three buttons are unassigned, if you add a new page it will automatically be assigned to one of the free buttons.
+As some buttons are unassigned, if you add a new page it will automatically be assigned to one of the free buttons.
 
 ### Named controls
 
@@ -26,13 +30,13 @@ Push's eight `select` buttons have been configured as a group.
 They are the buttons below the display.
 They are [ring_track controls](../../../reference/control/ring_track.md), bound to the eight tracks in view of the [session ring](../../session-ring.md).
 Pressing one will select the relevant track.
-Holding one of these buttons will arm the track.
+Holding one of these buttons will arm the track exclusively, while holding with `shift` will arm the track non-exclusively.
 Double clicking a button will fire the next clip for that track.
 Holding a button while holding `delete` will delete the track.
 
-Three [transport controls](../../../reference/control/transport.md) are configured, for the controls `play`, `record`, and `metronome`.
+Four [transport controls](../../../reference/control/transport.md) are configured, for the controls `play`, `record`, `metronome`, and `automate`.
 These controls will indicate the status of the relevant transport function.
-On a short press, `record` will fire the action list `SRECFIX`, starting Live's session record.
+On a short press, `record` will fire the action list `SREC`, starting Live's session record.
 On a long press, it will fire `SRECFIX 8`, starting session record for a fixed length of 8 bars.
 
 Push's eight `scene` buttons have been configured as a group.
@@ -52,7 +56,7 @@ The `new` control inserts a new scene.
 
 `master` is another param control, bound to the selection status of the Main track.
 
-The controls `note` and `session` will enable Live's clip view and device view respectively.
+The controls `note` and `session` will activate the pages `keyboard_page` and `session_view` page respectively.
 
 The upper D-pad will move throughout the Live set.
 If `shift` is held, the D-pad will move the session ring one step at a time.
@@ -72,7 +76,6 @@ Opposite `actions_top_left` is `actions_top_right`.
 Taking up the bottom half of the matrix is `actions_bottom_double`.
 
 These three sections have been left mostly unconfigured.
-`actions_bottom_double` uses a [section template](../../../reference/template.md#section-templates) to apply the rainbow colors without defining a color for each pad.
 
 #### alt_page
 
@@ -119,7 +122,31 @@ See the [session view lesson](../../../lessons/session-view.md) for more detail 
 
 The bottom two rows feature the section `session_controls`.
 They are param controls bound to the eight tracks contained in the session ring.
-The top row is bound to those track's mute status, the bottom row to their solo status.
+The top row is bound to those track's mute status.
+The bottom row will set its respective track to a random color, which isn't particularly useful, but it's there to demonstrate how we can [target ring tracks with action lists](../../session-ring.md#referencing-the-ring-from-template-strings).
+
+#### keyboard_page
+
+This page features a full-size keyboard view for playing notes.
+See the [keyboard view lesson](../../keyboard.md) to learn more about how it works.
+
+From this page, you can also access two [overlays](../../overlays-layers.md):
+
+##### scales
+
+By pressing the `scales` button, you can toggle the `scales` overlay.
+This is similar to the scales interface from the Push factory script: 14 of the controls set the tonic of Live's [Scale Mode](https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ), which is reflected on the keyboard.
+These buttons are arranged in a Circle of Fifths pattern.
+An additional button toggles the keyboard's [in key status](../../keyboard.md#in-key--chromatic).
+
+When `scales` is active, the top two rows of the matrix will let you select one of sixteen scales.
+
+##### note_repeat
+
+Pressing the `repeat` button toggles the `note_repeat` overlay.
+With this overlay, the scene buttons will set the keyboard's [note repeat state](../../keyboard.md#note-repeat).
+
+Leaving the `keyboard_page` will [automatically disable](../../overlays-layers.md#pages_in-pages_out) the `note_repeat` overlay.
 
 #### ring_devices_page
 
@@ -137,11 +164,23 @@ It's a great place to start experimenting with zcx's capabilities.
 ## Encoders
 
 Push's eight main encoders — the ones above the display — are configured as a group.
-By default, they control the volume of the eight ring tracks.
+
+By default, with the `volume` mode active, they control the volume of the eight ring tracks.
 With `shift` active, they control the pan of those tracks.
 
 With the mode `device` active, they control the first eight parameters of the selected device.
 With both `device` and `shift` active, they control the next eight parameters.
+
+With `browse` active, they control the first eight sends of the selected track.
+
+The mode `clip` offers a compromise between these modes.
+`enc_1` and `enc_2` control volume and pan of the selected track.
+`enc_3` and `enc_4` control the first two sends.
+`enc_5` through `enc_8` control the first four parameters of the selected device.
+By holding `shift` we can control the next two sends and the next four device parameters.
+
+The `add_device` and `add_track` bindings have been left unassigned, ready for you to assign them to any arbitrary parameter.
+(Remember, you can always re-assign **any** of these preconfigured bindings).
 
 `enc_master` (to the right of `enc_8`) controls the Main track's volume.
 With `shift` held it controls the cue volume.
