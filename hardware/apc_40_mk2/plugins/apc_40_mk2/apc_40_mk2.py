@@ -52,6 +52,7 @@ class Apc40Mk2Plugin(ZCXPlugin):
                     break
 
         self.on_mode_buttons_gesture_received.replace_subjects(self._mode_controls)
+        self.on_encoder_param_changed.replace_subjects(self._encoders)
 
         encoder_manager = self.canonical_parent.component_map["EncoderManager"]
         for enc_name in KNOB_IDS.keys():
@@ -103,7 +104,6 @@ class Apc40Mk2Plugin(ZCXPlugin):
         self.update_encoder(encoder)
 
     def create_led_type_message(self, encoder_name, led_type):
-        status_byte = MIDI_CC_STATUS + KNOB_IDS[encoder_name]
         match led_type:
             case "off":
                 data_byte = 0
@@ -116,7 +116,7 @@ class Apc40Mk2Plugin(ZCXPlugin):
             case _:
                 raise ValueError(f"Invalid LED type: {led_type}")
 
-        return status_byte, data_byte
+        return MIDI_CC_STATUS, KNOB_IDS[encoder_name], data_byte
 
     def is_bipolar(self, parameter):
         return parameter.min < 0
