@@ -43,7 +43,7 @@ class SessionView(ZCXComponent):
 
         mode_manager = self.component_map['ModeManager']
         if not "select" in mode_manager.all_modes:
-            del DEFAULT_GESTURES["pressed__select"]
+            del DEFAULT_GESTURES["press__select"]
 
         control_config = {}
         gesture_def= section_def.get('template', {}).get('gestures', {})
