@@ -63,6 +63,12 @@ sends:
   gestures:
     press:
       mode_on: sends
+    long_press:
+      overlay:
+        enable: sends
+    release:
+      overlay:
+        disable: sends
 
 user:
   type: mode
@@ -77,15 +83,15 @@ user:
 ### bottom-right side
 ###
 
-#device_left:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+device_left:
+  gestures:
+    short_press: DEVLEFT
+    long_press: DEVFIRST
 
-#device_right:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+device_right:
+  gestures:
+    short_press: DEVRIGHT
+    long_press: DEVLAST
 
 bank_lock:
   type: mode
@@ -120,8 +126,6 @@ device_on:
   type: param
   binding: >
     SEL / DEV(SEL)
-  gestures:
-    press: SEL / DEV(SEL)
 
 #device_lock:
 #  gestures:
@@ -137,33 +141,55 @@ detail:
   gestures:
     press: TGLDETAIL
 
-
-#dpad_up:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#dpad_right:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#dpad_down:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#dpad_left:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-shift:
+__redundant_shift:
+  includes: [
+    shift, scene_1
+  ]
   gestures:
     press:
       mode_on: shift
     release:
       mode_off: shift
+
+dpad_left:
+  gestures:
+    press:
+      ring:
+        x: -1
+    press__shift:
+      ring:
+        x: -8
+    press__select: LEFT
+
+dpad_right:
+  gestures:
+    press:
+      ring:
+        x: 1
+    press__shift:
+      ring:
+        x: 8
+    press__select: RIGHT
+
+dpad_up:
+  gestures:
+    press:
+      ring:
+        y: -1
+    press__shift:
+      ring:
+        y: -4
+    press__select: UP
+
+dpad_down:
+  gestures:
+    press:
+      ring:
+        y: 1
+    press__shift:
+      ring:
+        y: 4
+    press__select: DOWN
 
 ###
 ### track controls
@@ -217,17 +243,13 @@ __arm:
 #    short_press: DUMMY
 #    long_press: DUMMY
 
-__page_changer:
+__track_selector:
   includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
-  type: page
-  page: ${me.index}
+  type: param
+  binding: >
+    RING(${me.index}) / SEL
   active_color: 127
   inactive_color: 0
-  gestures:
-    press:
-      page: ${me.index}
-    long_press:
-      page: last
 
 #select_1:
 #  gestures:
@@ -273,6 +295,14 @@ __page_changer:
 #  gestures:
 #    short_press: DUMMY
 #    long_press: DUMMY
+
+__mute:
+  includes: [mute_1, mute_2, mute_3, mute_4, mute_5, mute_6, mute_7, mute_8]
+  type: param
+  binding: >
+    RING(${me.index}) / MUTE
+  active_color: 0
+  inactive_color: 127
 
 #mute_1:
 #  gestures:
@@ -467,18 +497,18 @@ stop_all:
 ### scene buttons
 ###
 
+#scene_1:
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
+
 __scene:
-  includes: [scene_1, scene_2, scene_3, scene_4, scene_5]
+  includes: [scene_2, scene_3, scene_4, scene_5]
   gestures:
     press: >
       SCENE ${ring.scenes[me.index] + 1}
     press__shift: >
       SCENE ${ring.scenes[me.index + me.group_count] + 1}
-
-#scene_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
 
 #scene_2:
 #  gestures:
@@ -499,28 +529,3 @@ __scene:
 #  gestures:
 #    short_press: DUMMY
 #    long_press: DUMMY
-
-
-dpad_left:
-  gestures:
-    press:
-      ring:
-        x: -1
-
-dpad_right:
-  gestures:
-    press:
-      ring:
-        x: 1
-
-dpad_up:
-  gestures:
-    press:
-      ring:
-        y: -1
-
-dpad_down:
-  gestures:
-    press:
-      ring:
-        y: 1

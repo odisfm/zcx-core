@@ -301,11 +301,11 @@ stop:
 in:
   repeat: true
   gestures:
-    pressed:
+    press:
       ring:
         x: -8
-    pressed__device: DEVLEFT
-    pressed_delayed__device: DEVFIRST
+    press__device: DEVLEFT
+    long_press__device: DEVFIRST
 
 out:
   repeat: true

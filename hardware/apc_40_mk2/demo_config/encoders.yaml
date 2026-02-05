@@ -3,10 +3,23 @@ __track:
 
   binding:
     default: NONE
-    __sends: >
+    __sends__send_1: >
       RING(${me.index}) / SEND A
-    __sends__shift: >
+    __sends__send_2: >
       RING(${me.index}) / SEND B
+    __sends__send_3: >
+      RING(${me.index}) / SEND C
+    __sends__send_4: >
+      RING(${me.index}) / SEND D
+    __sends__send_5: >
+      RING(${me.index}) / SEND E
+    __sends__send_6: >
+      RING(${me.index}) / SEND F
+    __sends__send_7: >
+      RING(${me.index}) / SEND G
+    __sends__send_8: >
+      RING(${me.index}) / SEND H
+
     __pan: >
       RING(${me.index}) / PAN
     __user: NONE
@@ -14,28 +27,52 @@ __track:
   encoders:
     track_1:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_2:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_3:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_4:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_5:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_6:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_7:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
     track_8:
       binding:
-        __user: NONE
+        __user: >
+          NONE
+        __user__shift: >
+          NONE
 
 #track_1:
 #  binding:

@@ -262,10 +262,28 @@ clip:
     long_release:
       mode_off: clip
 
-#session:
-#  gestures:
-#    press: DUMMY
-#
+add_device:
+  type: mode
+  mode: add_device
+  active_color: 127
+  inactive_color: 20
+  gestures:
+    press:
+      mode_on: add_device
+    long_release:
+      mode_off: add_device
+
+add_track:
+  type: mode
+  mode: add_track
+  active_color: 127
+  inactive_color: 20
+  gestures:
+    press:
+      mode_on: add_track
+    long_release:
+      mode_off: add_track
+
 #touchstrip:
 #  gestures:
 #    press: DUMMY
@@ -293,7 +311,7 @@ octave_up:
   gestures:
     press:
       ring:
-        y: -8
+        y: -6
     press__shift:
       ring: up
 
@@ -302,7 +320,7 @@ octave_down:
   gestures:
     press:
       ring:
-        y: 8
+        y: 6
     press__shift:
       ring: down
 
@@ -408,15 +426,6 @@ session:
       page: last
 
 #convert:
-#  gestures:
-#    press: DUMMY
-
-
-#add_device:
-#  gestures:
-#    press: DUMMY
-
-#add_track:
 #  gestures:
 #    press: DUMMY
 

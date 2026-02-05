@@ -113,32 +113,3 @@
   gestures:
     short_press: DUMMY
     long_press: DUMMY
-
-# !! row 5
-# col 1
--
-  color: grey
-  gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 2
--
-  color: grey
-  gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 3
--
-  color: grey
-  gestures:
-    short_press: DUMMY
-    long_press: DUMMY
-
-# col 4
--
-  color: grey
-  gestures:
-    short_press: DUMMY
-    long_press: DUMMY

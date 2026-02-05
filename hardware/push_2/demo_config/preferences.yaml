@@ -1,5 +1,5 @@
 exclusive_modes:
-  - [mix, device, browse, clip]
+  - [mix, device, browse, clip, add_device, add_track]
 
 startup_command:
   mode_on: mix

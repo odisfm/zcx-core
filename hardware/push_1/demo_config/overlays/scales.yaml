@@ -19,6 +19,8 @@ __tonic_select:
 select_8:
   type: keyboard
   function: in_key
+  active_color: green
+  inactive_color: amber
   gestures:
     press: >
       ZCX ${this_cs} KB INKEY

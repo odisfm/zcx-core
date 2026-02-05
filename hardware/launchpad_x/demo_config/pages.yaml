@@ -13,7 +13,3 @@ pages:
   blank_page:
     - blank_section
 
-order:
-  - home_page
-  - session_view_page
-  - blank_page

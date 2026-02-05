@@ -1,8 +1,16 @@
 pages:
   main:
+    - page_changer
     - actions_left
     - actions_right
+  alt:
+    - page_changer
+    - actions_double
   session_view:
+    - page_changer
     - __session_view
+  ring_devices:
+
   blank_page:
+    - page_changer
     - blank_section

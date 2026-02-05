@@ -17,27 +17,59 @@ __encoder_row:
     enc_1:
       binding:
         __clip: SEL / VOL
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_2:
       binding:
         __clip: SEL / PAN
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_3:
       binding:
         __clip: SEL / SEND A
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_4:
       binding:
         __clip: SEL / SEND B
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_5:
       binding:
         __clip: SEL / DEV(SEL) B1 P1
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_6:
       binding:
         __clip: SEL / DEV(SEL) B1 P2
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_7:
       binding:
         __clip: SEL / DEV(SEL) B1 P3
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
     enc_8:
       binding:
         __clip: SEL / DEV(SEL) B1 P4
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
 
 enc_master:
   binding:

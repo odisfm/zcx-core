@@ -1,5 +1,6 @@
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color: cyan
   gestures:
     press: >
       SCENE ${ring.scenes[me.index]}
@@ -40,7 +41,7 @@ __scene_buttons:
 
 __page_switcher:
   includes: [
-    session, note, chord, custom, sequencer, projects
+    chord, custom, session, note, sequencer, projects
   ]
   type: page
   page: ${me.index}
@@ -143,14 +144,14 @@ nav_up:
     press: UP
     press__shift:
       ring:
-        y: -8
+        y: -6
 
 nav_down:
   gestures:
     press: DOWN
     press__shift:
       ring:
-        y: 8
+        y: 6
 
 nav_left:
   gestures:
@@ -187,8 +188,8 @@ record:
   type: transport
   transport: session_record
   gestures:
-    press: SRECFIX 8
-    press__shift: SRECFIX 16
+    press: RECFIX
+    press__shift: SRECFIX 8
 
 duplicate:
   gestures:
