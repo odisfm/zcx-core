@@ -37,7 +37,7 @@ These are the names you must use in [named_controls.yaml](../../lessons/getting-
 - `clip_device` - the button labelled `clip/dev. view`
 - `detail` - the button labelled `detail view`
 - `shift` - the button labelled `shift`
-- `bank` - the button labelled `bank`
+- `bank_lock` - the button labelled `bank`
 - `dpad_up`, `dpad_right`, `dpad_down`, `dpad_left` - the directional buttons labelled `bank select`
 
 ### encoders
