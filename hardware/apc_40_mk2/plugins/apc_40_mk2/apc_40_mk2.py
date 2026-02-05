@@ -40,6 +40,7 @@ class Apc40Mk2Plugin(ZCXPlugin):
         self._mode_controls: "list[ZControl]" = []
         self._encoders: "list[ZEncoder]" = []
         self._prefer_full_led = False
+        self._knob_style_overrides = {}
 
     def setup(self):
         super().setup()
@@ -66,13 +67,27 @@ class Apc40Mk2Plugin(ZCXPlugin):
             else:
                 self._prefer_full_led = prefer_full_led
 
+        if "force_style" in config:
+            force_style_def = config["force_style"]
+            if not isinstance(force_style_def, dict):
+                self.error(f"Invalid value for `force_style`. Must be of type dict: `{force_style_def}`")
+            else:
+                for key, value in force_style_def.items():
+                    if value not in ["off", "single", "volume", "pan"]:
+                        self.error(f"Invalid value for `force_style` (`{key}`): `{value}`")
+                        del force_style_def[key]
+                self._knob_style_overrides = force_style_def
+                self.debug("knob style overrides", self._knob_style_overrides)
+
     def song_ready(self):
         self.update_all_encoders()
 
     def update_encoder(self, encoder: "ZEncoder"):
         self.debug(f"updating encoder {encoder._name}. mapped_param is {encoder.mapped_parameter.name if encoder.mapped_parameter else None}, mapped_dev is {encoder.mapped_parameter.canonical_parent if encoder.mapped_parameter else None}")
         mapped_param = encoder.mapped_parameter
-        if mapped_param is None:
+        if encoder._name in self._knob_style_overrides:
+            led_type = self._knob_style_overrides[encoder._name]
+        elif mapped_param is None:
             led_type = "off"
         elif self.is_bipolar(mapped_param):
             led_type = "pan"
