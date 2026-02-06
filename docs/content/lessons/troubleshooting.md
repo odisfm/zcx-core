@@ -54,6 +54,7 @@ Get-Content -Path "/path/to/logfile" -Wait
 
 ##### GUI 
 - [Log-Viewer (macOS)](https://apps.apple.com/au/app/log-viewer/id1543753042?mt=12)
+- [LogViewFX (Windows)](https://apps.microsoft.com/detail/9plvgwn96ffh?hl=en-US&gl=AU)
 
 ##### TUI
 - [lnav (macOS/Linux)](https://lnav.org/)
