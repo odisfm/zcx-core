@@ -377,6 +377,7 @@ class ParamControl(ZControl):
                     return False
 
                 self._mapped_track = track_obj
+                is_master_track = self._mapped_track == self.song.master_track
 
                 par_type = target_map.get("parameter_type")
                 if par_type is None:
@@ -387,6 +388,19 @@ class ParamControl(ZControl):
                 if par_type == "vol":
                     self.mapped_parameter = track_obj.mixer_device.volume
                     return True
+                elif par_type == "cue":
+                    if not is_master_track:
+                        self.error(f"target CUE is only available for main track")
+                        return False
+                    self.mapped_parameter = track_obj.mixer_device.cue_volume
+                    return True
+                elif target_map.get('track_select'):
+                    self.mapped_parameter = None
+                    self.apply_track_param_listener(track_obj, "track_select")
+                    return True
+                elif is_master_track:
+                    return False
+                ### only targets not available on main track below
                 elif par_type == "send":
                     try:
                         send_def = target_map.get("send")
@@ -418,9 +432,6 @@ class ParamControl(ZControl):
                 elif par_type == "panr":
                     self.mapped_parameter = track_obj.mixer_device.right_split_stereo
                     return True
-                elif par_type == "cue":
-                    self.mapped_parameter = track_obj.mixer_device.cue_volume
-                    return True
                 elif target_map.get('arm'):
                     if track_obj.can_be_armed:
                         self.apply_track_param_listener(track_obj, "arm")
@@ -440,10 +451,6 @@ class ParamControl(ZControl):
                 elif target_map.get('solo'):
                     self.mapped_parameter = None
                     self.apply_track_param_listener(track_obj, "solo")
-                    return True
-                elif target_map.get('track_select'):
-                    self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "track_select")
                     return True
                 elif target_map.get('play'):
                     self.mapped_parameter = None

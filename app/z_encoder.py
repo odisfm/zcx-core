@@ -326,6 +326,7 @@ class ZEncoder(EventObject):
                     return False
 
                 self._mapped_track = track_obj
+                is_master_track = self._mapped_track == self.song.master_track
 
                 par_type = target_map.get("parameter_type")
                 if par_type is None:
@@ -336,6 +337,12 @@ class ZEncoder(EventObject):
                 if par_type == "vol":
                     self.mapped_parameter = track_obj.mixer_device.volume
                     return True
+                elif par_type == "cue":
+                    self.mapped_parameter = track_obj.mixer_device.cue_volume
+                    return True
+                elif is_master_track:
+                    return False
+                ### only targets not available on main track below
                 elif par_type == "send":
                     try:
                         send_def = target_map.get("send")
@@ -366,9 +373,6 @@ class ZEncoder(EventObject):
                     return True
                 elif par_type == "panr":
                     self.mapped_parameter = track_obj.mixer_device.right_split_stereo
-                    return True
-                elif par_type == "cue":
-                    self.mapped_parameter = track_obj.mixer_device.cue_volume
                     return True
                 else:
                     raise ConfigurationError(f"Unsupported parameter type: {par_type}")
