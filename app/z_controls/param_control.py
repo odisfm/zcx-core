@@ -212,6 +212,10 @@ class ParamControl(ZControl):
             raise
 
     @property
+    def song(self):
+        return self.root_cs.song
+
+    @property
     def mapped_parameter(self):
         return self._mapped_parameter
 
