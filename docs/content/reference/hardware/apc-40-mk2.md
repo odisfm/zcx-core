@@ -1,4 +1,6 @@
-# APC40 mk2
+---
+title: APC40 mkII
+---
 
 ## APC40 mk2 plugin
 

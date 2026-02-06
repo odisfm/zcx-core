@@ -1,5 +1,3 @@
-# Push 2
-
 ## Limitations
 
 ### Display

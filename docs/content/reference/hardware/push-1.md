@@ -1,5 +1,3 @@
-# Push 1 
-
 ## Limitations
 
 - The touchstrip continuous input cannot be used by zcx, but will function as normal if `track` is enabled for this script in Live's MIDI preferences. The touchstrip sends an on/off message on press and release, which is available as a named control called `touchstrip`.

@@ -1,8 +1,7 @@
 ---
 weight: 2000
+title: Hardware reference
 ---
-
-# Hardware reference
 
 zcx is available for a variety of MIDI controllers.
 Apart from using the correct name for [named controls](../../lessons/getting-started/zcx-concepts.md#named-controls), the process of configuring zcx is basically identical, no matter which hardware you have.

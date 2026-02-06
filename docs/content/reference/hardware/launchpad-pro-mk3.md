@@ -1,5 +1,3 @@
-# Launchpad Pro mk3
-
 ## Color support
 
 When defining [pulse colors](../color.md#animated-colors), only the `a` value is used.

@@ -1,4 +1,6 @@
-# Launchpad mini mk3 / Launchpad X
+---
+title: Launchpad X / Launchpad Mini mk3
+---
 
 ## Color support
 

@@ -1,4 +1,6 @@
-# APC Mini mk2
+---
+title: APC mini mkII
+---
 
 ## Limitations
 
