@@ -6,32 +6,32 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Build custom control surfaces for Ableton Live with ClyphX Pro and zcx.">
+        <meta name="description" content="Learn how to install zcx, read yaml, and understand the core concepts of zcx.">
       
       
       
-        <link rel="canonical" href="https://zcxcore.com/preview/faq/">
+        <link rel="canonical" href="https://zcxcore.com/preview/lessons/getting-started/demo-tour/apc-mini-mk2/">
       
       
-        <link rel="prev" href="../docs/">
+        <link rel="prev" href="../apc-40-mk2/">
       
       
-        <link rel="next" href="../lessons/getting-started/">
+        <link rel="next" href="../launchpad-pro-mk3/">
       
       
-      <link rel="icon" href="../favicon.png">
+      <link rel="icon" href="../../../../favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
     
     
       
-        <title>faq - zcx core</title>
+        <title>APC mini mkII - zcx core</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e53b48f4.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -45,22 +45,22 @@
         
         
         
-        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.3917e8cf.css">
+        <link rel="stylesheet" href="../../../../assets/external/fonts.googleapis.com/css.3917e8cf.css">
         <style>:root{--md-text-font:"DM Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="../css/timeago.css">
+      <link rel="stylesheet" href="../../../../css/timeago.css">
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
 
 
-  <script defer src="../assets/external/cloud.umami.is/script.js" data-website-id="d0ff3ffb-3bfa-4428-8927-b0e4a0b0071e" data-domains="zcxcore.com"></script>
+  <script defer src="../../../../assets/external/cloud.umami.is/script.js" data-website-id="d0ff3ffb-3bfa-4428-8927-b0e4a0b0071e" data-domains="zcxcore.com"></script>
   
     <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
   
@@ -70,11 +70,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="faq - zcx core" >
+        <meta  property="og:title"  content="APC mini mkII - zcx core" >
       
-        <meta  property="og:description"  content="Build custom control surfaces for Ableton Live with ClyphX Pro and zcx." >
+        <meta  property="og:description"  content="Learn how to install zcx, read yaml, and understand the core concepts of zcx." >
       
-        <meta  property="og:image"  content="https://zcxcore.com/preview/assets/images/social/faq.png" >
+        <meta  property="og:image"  content="https://zcxcore.com/preview/assets/images/social/lessons/getting-started/demo-tour/apc-mini-mk2.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -82,15 +82,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://zcxcore.com/preview/faq/" >
+        <meta  property="og:url"  content="https://zcxcore.com/preview/lessons/getting-started/demo-tour/apc-mini-mk2/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="faq - zcx core" >
+        <meta  name="twitter:title"  content="APC mini mkII - zcx core" >
       
-        <meta  name="twitter:description"  content="Build custom control surfaces for Ableton Live with ClyphX Pro and zcx." >
+        <meta  name="twitter:description"  content="Learn how to install zcx, read yaml, and understand the core concepts of zcx." >
       
-        <meta  name="twitter:image"  content="https://zcxcore.com/preview/assets/images/social/faq.png" >
+        <meta  name="twitter:image"  content="https://zcxcore.com/preview/assets/images/social/lessons/getting-started/demo-tour/apc-mini-mk2.png" >
       
     
     
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#frequently-asked-questions" class="md-skip">
+        <a href="#overview" class="md-skip">
           Skip to content
         </a>
       
@@ -124,26 +124,6 @@
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
         
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-<div class="outdated-text-wrapper">
-    <div>
-        <span>You're not viewing the latest version.</span>
-        <a href="../..">
-            <strong>Click here to go to latest.</strong>
-        </a>
-    </div>
-    <button aria-label="Dismiss this warning for one month">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-</div>
-
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL(".."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
-        
       </div>
     
     
@@ -151,7 +131,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="zcx core" class="md-header__button md-logo" aria-label="zcx core" data-md-component="logo">
+    <a href="../../../.." title="zcx core" class="md-header__button md-logo" aria-label="zcx core" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8"?>
@@ -181,7 +161,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              faq
+              APC mini mkII
             
           </span>
         </div>
@@ -292,7 +272,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -311,7 +291,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../docs/" class="md-tabs__link">
+      <a href="../../../../docs/" class="md-tabs__link">
         
   
   
@@ -328,11 +308,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../../../faq/" class="md-tabs__link">
         
   
   
@@ -349,11 +327,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../lessons/getting-started/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -375,7 +355,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../reference/command/" class="md-tabs__link">
+        <a href="../../../../reference/command/" class="md-tabs__link">
           
   
   
@@ -397,7 +377,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../lessons/troubleshooting/" class="md-tabs__link">
+        <a href="../../../troubleshooting/" class="md-tabs__link">
           
   
   
@@ -419,7 +399,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../resources/matrix-gen/" class="md-tabs__link">
+        <a href="../../../../resources/matrix-gen/" class="md-tabs__link">
           
   
   
@@ -448,7 +428,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../recipes/page-changer/" class="md-tabs__link">
+        <a href="../../../../recipes/page-changer/" class="md-tabs__link">
           
   
   
@@ -473,7 +453,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../dev/build/" class="md-tabs__link">
+        <a href="../../../../dev/build/" class="md-tabs__link">
           
   
   
@@ -517,9 +497,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -530,7 +508,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="zcx core" class="md-nav__button md-logo" aria-label="zcx core" data-md-component="logo">
+    <a href="../../../.." title="zcx core" class="md-nav__button md-logo" aria-label="zcx core" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8"?>
@@ -570,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -592,7 +570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
+      <a href="../../../../docs/" class="md-nav__link">
         
   
   
@@ -611,32 +589,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    faq
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../../faq/" class="md-nav__link">
         
   
   
@@ -647,134 +603,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#whats-all-this-then" class="md-nav__link">
-    <span class="md-ellipsis">
-      What's all this then?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-do-i-need-to-use-zcx" class="md-nav__link">
-    <span class="md-ellipsis">
-      What do I need to use zcx?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#does-zcx-change-the-default-functionality-of-my-control-surface" class="md-nav__link">
-    <span class="md-ellipsis">
-      Does zcx change the default functionality of my control surface
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#do-i-need-to-be-a-coder-to-use-zcx" class="md-nav__link">
-    <span class="md-ellipsis">
-      Do I need to be a coder to use zcx?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-hardware-is-zcx-available-for" class="md-nav__link">
-    <span class="md-ellipsis">
-      What hardware is zcx available for?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#does-zcx-replace-clyphx-pro" class="md-nav__link">
-    <span class="md-ellipsis">
-      Does zcx replace ClyphX Pro?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#does-zcx-replace-x-controls-and-g-controls" class="md-nav__link">
-    <span class="md-ellipsis">
-      Does zcx replace X-controls and G-controls
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#can-i-use-zcx-with-a-non-matrix-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      Can I use zcx with a non-matrix controller?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-does-zcx-require-live-121" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why does zcx require Live 12.1?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#is-there-a-discord" class="md-nav__link">
-    <span class="md-ellipsis">
-      Is there a Discord?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-can-i-contribute" class="md-nav__link">
-    <span class="md-ellipsis">
-      How can I contribute?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-zcx-stand-for" class="md-nav__link">
-    <span class="md-ellipsis">
-      What does 'zcx' stand for?
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -783,6 +611,8 @@
       
   
   
+    
+  
   
   
     
@@ -806,20 +636,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../lessons/getting-started/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -832,13 +665,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             getting started
@@ -854,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -877,7 +710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/reading-zcx-configurations/" class="md-nav__link">
+      <a href="../../reading-zcx-configurations/" class="md-nav__link">
         
   
   
@@ -900,7 +733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/zcx-concepts/" class="md-nav__link">
+      <a href="../../zcx-concepts/" class="md-nav__link">
         
   
   
@@ -920,6 +753,8 @@
                 
   
   
+    
+  
   
   
     
@@ -947,18 +782,21 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../lessons/getting-started/demo-tour/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -971,13 +809,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_5">
             <span class="md-nav__icon md-icon"></span>
             demo tour
@@ -993,7 +831,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/demo-tour/apc-40-mk2/" class="md-nav__link">
+      <a href="../apc-40-mk2/" class="md-nav__link">
         
   
   
@@ -1013,10 +851,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../lessons/getting-started/demo-tour/apc-mini-mk2/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    APC mini mkII
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1027,6 +885,150 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Named controls
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Named controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shift_overlay" class="md-nav__link">
+    <span class="md-ellipsis">
+      shift_overlay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix pages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matrix pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#home_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      home_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alt_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      alt_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      keyboard_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ring_devices_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      ring_devices_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blank_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      blank_page
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoders
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1039,7 +1041,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/demo-tour/launchpad-pro-mk3/" class="md-nav__link">
+      <a href="../launchpad-pro-mk3/" class="md-nav__link">
         
   
   
@@ -1062,7 +1064,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/demo-tour/launchpad-x-mini-mk3/" class="md-nav__link">
+      <a href="../launchpad-x-mini-mk3/" class="md-nav__link">
         
   
   
@@ -1085,7 +1087,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/demo-tour/push-1/" class="md-nav__link">
+      <a href="../push-1/" class="md-nav__link">
         
   
   
@@ -1108,7 +1110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/demo-tour/push-2/" class="md-nav__link">
+      <a href="../push-2/" class="md-nav__link">
         
   
   
@@ -1139,7 +1141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/getting-started/editing-a-config/" class="md-nav__link">
+      <a href="../../editing-a-config/" class="md-nav__link">
         
   
   
@@ -1228,7 +1230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/command/" class="md-nav__link">
+      <a href="../../../../reference/command/" class="md-nav__link">
         
   
   
@@ -1251,7 +1253,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/template/" class="md-nav__link">
+      <a href="../../../../reference/template/" class="md-nav__link">
         
   
   
@@ -1274,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/color/" class="md-nav__link">
+      <a href="../../../../reference/color/" class="md-nav__link">
         
   
   
@@ -1297,7 +1299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/encoder/" class="md-nav__link">
+      <a href="../../../../reference/encoder/" class="md-nav__link">
         
   
   
@@ -1361,7 +1363,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/control/" class="md-nav__link ">
+            <a href="../../../../reference/control/" class="md-nav__link ">
               
   
   
@@ -1396,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/standard/" class="md-nav__link">
+      <a href="../../../../reference/control/standard/" class="md-nav__link">
         
   
   
@@ -1419,7 +1421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/param/" class="md-nav__link">
+      <a href="../../../../reference/control/param/" class="md-nav__link">
         
   
   
@@ -1442,7 +1444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/page/" class="md-nav__link">
+      <a href="../../../../reference/control/page/" class="md-nav__link">
         
   
   
@@ -1465,7 +1467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/mode/" class="md-nav__link">
+      <a href="../../../../reference/control/mode/" class="md-nav__link">
         
   
   
@@ -1488,7 +1490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/overlay/" class="md-nav__link">
+      <a href="../../../../reference/control/overlay/" class="md-nav__link">
         
   
   
@@ -1511,7 +1513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/transport/" class="md-nav__link">
+      <a href="../../../../reference/control/transport/" class="md-nav__link">
         
   
   
@@ -1534,7 +1536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/track/" class="md-nav__link">
+      <a href="../../../../reference/control/track/" class="md-nav__link">
         
   
   
@@ -1557,7 +1559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/ring_track/" class="md-nav__link">
+      <a href="../../../../reference/control/ring_track/" class="md-nav__link">
         
   
   
@@ -1580,7 +1582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/control/keyboard/" class="md-nav__link">
+      <a href="../../../../reference/control/keyboard/" class="md-nav__link">
         
   
   
@@ -1650,7 +1652,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/file/" class="md-nav__link ">
+            <a href="../../../../reference/file/" class="md-nav__link ">
               
   
   
@@ -1685,7 +1687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/preferences/" class="md-nav__link">
+      <a href="../../../../reference/file/preferences/" class="md-nav__link">
         
   
   
@@ -1708,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/custom_banks/" class="md-nav__link">
+      <a href="../../../../reference/file/custom_banks/" class="md-nav__link">
         
   
   
@@ -1731,7 +1733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/encoders/" class="md-nav__link">
+      <a href="../../../../reference/file/encoders/" class="md-nav__link">
         
   
   
@@ -1754,7 +1756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/matrix-sections/" class="md-nav__link">
+      <a href="../../../../reference/file/matrix-sections/" class="md-nav__link">
         
   
   
@@ -1777,7 +1779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/modes/" class="md-nav__link">
+      <a href="../../../../reference/file/modes/" class="md-nav__link">
         
   
   
@@ -1800,7 +1802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/named_controls/" class="md-nav__link">
+      <a href="../../../../reference/file/named_controls/" class="md-nav__link">
         
   
   
@@ -1823,7 +1825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/overlays/" class="md-nav__link">
+      <a href="../../../../reference/file/overlays/" class="md-nav__link">
         
   
   
@@ -1846,7 +1848,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/file/pages/" class="md-nav__link">
+      <a href="../../../../reference/file/pages/" class="md-nav__link">
         
   
   
@@ -1912,7 +1914,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/hardware/" class="md-nav__link ">
+            <a href="../../../../reference/hardware/" class="md-nav__link ">
               
   
   
@@ -1947,7 +1949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/hardware/apc-40-mk2/" class="md-nav__link">
+      <a href="../../../../reference/hardware/apc-40-mk2/" class="md-nav__link">
         
   
   
@@ -1970,7 +1972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/hardware/apc-mini-mk2/" class="md-nav__link">
+      <a href="../../../../reference/hardware/apc-mini-mk2/" class="md-nav__link">
         
   
   
@@ -1993,7 +1995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/hardware/launchpad-pro-mk3/" class="md-nav__link">
+      <a href="../../../../reference/hardware/launchpad-pro-mk3/" class="md-nav__link">
         
   
   
@@ -2016,7 +2018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/hardware/launchpad-x-mini-mk3/" class="md-nav__link">
+      <a href="../../../../reference/hardware/launchpad-x-mini-mk3/" class="md-nav__link">
         
   
   
@@ -2039,7 +2041,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/hardware/push-1/" class="md-nav__link">
+      <a href="../../../../reference/hardware/push-1/" class="md-nav__link">
         
   
   
@@ -2062,7 +2064,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/hardware/push-2/" class="md-nav__link">
+      <a href="../../../../reference/hardware/push-2/" class="md-nav__link">
         
   
   
@@ -2157,7 +2159,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/troubleshooting/" class="md-nav__link">
+      <a href="../../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -2180,7 +2182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/reloading-control-surfaces/" class="md-nav__link">
+      <a href="../../../reloading-control-surfaces/" class="md-nav__link">
         
   
   
@@ -2203,7 +2205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/reporting-bugs/" class="md-nav__link">
+      <a href="../../../reporting-bugs/" class="md-nav__link">
         
   
   
@@ -2226,7 +2228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/upgrade/" class="md-nav__link">
+      <a href="../../../upgrade/" class="md-nav__link">
         
   
   
@@ -2310,7 +2312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/zcx-user-action/" class="md-nav__link">
+      <a href="../../../zcx-user-action/" class="md-nav__link">
         
   
   
@@ -2333,7 +2335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/session-ring/" class="md-nav__link">
+      <a href="../../../session-ring/" class="md-nav__link">
         
   
   
@@ -2356,7 +2358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/session-view/" class="md-nav__link">
+      <a href="../../../session-view/" class="md-nav__link">
         
   
   
@@ -2379,7 +2381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/keyboard/" class="md-nav__link">
+      <a href="../../../keyboard/" class="md-nav__link">
         
   
   
@@ -2402,7 +2404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/overlays-layers/" class="md-nav__link">
+      <a href="../../../overlays-layers/" class="md-nav__link">
         
   
   
@@ -2425,7 +2427,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/osc-output/" class="md-nav__link">
+      <a href="../../../osc-output/" class="md-nav__link">
         
   
   
@@ -2448,7 +2450,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/using-multiple-configs/" class="md-nav__link">
+      <a href="../../../using-multiple-configs/" class="md-nav__link">
         
   
   
@@ -2471,7 +2473,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/custom-banks/" class="md-nav__link">
+      <a href="../../../custom-banks/" class="md-nav__link">
         
   
   
@@ -2557,7 +2559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/blank-config/" class="md-nav__link">
+      <a href="../../../blank-config/" class="md-nav__link">
         
   
   
@@ -2580,7 +2582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/double_clicked/" class="md-nav__link">
+      <a href="../../../double_clicked/" class="md-nav__link">
         
   
   
@@ -2603,7 +2605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/porting/" class="md-nav__link">
+      <a href="../../../porting/" class="md-nav__link">
         
   
   
@@ -2626,7 +2628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/python-context/" class="md-nav__link">
+      <a href="../../../python-context/" class="md-nav__link">
         
   
   
@@ -2649,7 +2651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lessons/touch-osc/" class="md-nav__link">
+      <a href="../../../touch-osc/" class="md-nav__link">
         
   
   
@@ -2734,7 +2736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../resources/matrix-gen/" class="md-nav__link">
+      <a href="../../../../resources/matrix-gen/" class="md-nav__link">
         
   
   
@@ -2872,7 +2874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/page-changer/" class="md-nav__link">
+      <a href="../../../../recipes/page-changer/" class="md-nav__link">
         
   
   
@@ -2895,7 +2897,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/dynamic-encoders/" class="md-nav__link">
+      <a href="../../../../recipes/dynamic-encoders/" class="md-nav__link">
         
   
   
@@ -2926,7 +2928,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/encoder-banks/" class="md-nav__link">
+      <a href="../../../../recipes/encoder-banks/" class="md-nav__link">
         
   
   
@@ -2949,7 +2951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/fx-ramp/" class="md-nav__link">
+      <a href="../../../../recipes/fx-ramp/" class="md-nav__link">
         
   
   
@@ -2972,7 +2974,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/note-repeat/" class="md-nav__link">
+      <a href="../../../../recipes/note-repeat/" class="md-nav__link">
         
   
   
@@ -2995,7 +2997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/pad-faders/" class="md-nav__link">
+      <a href="../../../../recipes/pad-faders/" class="md-nav__link">
         
   
   
@@ -3018,7 +3020,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/percussive-parameter-control/" class="md-nav__link">
+      <a href="../../../../recipes/percussive-parameter-control/" class="md-nav__link">
         
   
   
@@ -3041,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recipes/screensaver/" class="md-nav__link">
+      <a href="../../../../recipes/screensaver/" class="md-nav__link">
         
   
   
@@ -3124,7 +3126,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dev/build/" class="md-nav__link">
+      <a href="../../../../dev/build/" class="md-nav__link">
         
   
   
@@ -3147,7 +3149,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dev/contributing/" class="md-nav__link">
+      <a href="../../../../dev/contributing/" class="md-nav__link">
         
   
   
@@ -3170,7 +3172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dev/dependencies/" class="md-nav__link">
+      <a href="../../../../dev/dependencies/" class="md-nav__link">
         
   
   
@@ -3193,7 +3195,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dev/tests/" class="md-nav__link">
+      <a href="../../../../dev/tests/" class="md-nav__link">
         
   
   
@@ -3246,8 +3248,6 @@
             
             
               
-                
-              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -3257,8 +3257,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -3267,108 +3265,126 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#whats-all-this-then" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      What's all this then?
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-do-i-need-to-use-zcx" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#pages" class="md-nav__link">
     <span class="md-ellipsis">
-      What do I need to use zcx?
+      Pages
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#does-zcx-change-the-default-functionality-of-my-control-surface" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#named-controls" class="md-nav__link">
     <span class="md-ellipsis">
-      Does zcx change the default functionality of my control surface
+      Named controls
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Named controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shift_overlay" class="md-nav__link">
+    <span class="md-ellipsis">
+      shift_overlay
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#do-i-need-to-be-a-coder-to-use-zcx" class="md-nav__link">
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-pages" class="md-nav__link">
     <span class="md-ellipsis">
-      Do I need to be a coder to use zcx?
+      Matrix pages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matrix pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#home_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      home_page
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-hardware-is-zcx-available-for" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#alt_page" class="md-nav__link">
     <span class="md-ellipsis">
-      What hardware is zcx available for?
+      alt_page
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#does-zcx-replace-clyphx-pro" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#keyboard_page" class="md-nav__link">
     <span class="md-ellipsis">
-      Does zcx replace ClyphX Pro?
+      keyboard_page
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#does-zcx-replace-x-controls-and-g-controls" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#ring_devices_page" class="md-nav__link">
     <span class="md-ellipsis">
-      Does zcx replace X-controls and G-controls
+      ring_devices_page
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#can-i-use-zcx-with-a-non-matrix-controller" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#blank_page" class="md-nav__link">
     <span class="md-ellipsis">
-      Can I use zcx with a non-matrix controller?
+      blank_page
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#why-does-zcx-require-live-121" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why does zcx require Live 12.1?
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#is-there-a-discord" class="md-nav__link">
+  <a href="#encoders" class="md-nav__link">
     <span class="md-ellipsis">
-      Is there a Discord?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-can-i-contribute" class="md-nav__link">
-    <span class="md-ellipsis">
-      How can I contribute?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-zcx-stand-for" class="md-nav__link">
-    <span class="md-ellipsis">
-      What does 'zcx' stand for?
+      Encoders
     </span>
   </a>
   
@@ -3386,106 +3402,102 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-                  
-  
+<h1>APC mini mkII</h1>
+<p>
+    This is a guided tour of the APC mini mkII demo configuration.
+    <br>
+    Make sure to also see the <a href="../../../../reference/hardware/apc-mini-mk2">hardware reference</a> to find out important information regarding your controller.
+</p>
+
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<h3 id="modes">Modes<a class="headerlink" href="#modes" title="Permanent link">&para;</a></h3>
+<p>This config comes with five main <a href="../../zcx-concepts/#modes">modes</a> pre-configured.
+These are <code>shift</code>, <code>volume</code>, <code>pan</code>, <code>send</code>, and <code>device</code>.</p>
+<p><code>volume</code>, <code>pan</code>, <code>send</code>, and <code>device</code> are set up <a href="../../../../reference/file/preferences/#exclusive_modes">exclusively</a>, so that enabling one will disable the others.
+These modes determine the functionality of eight of the <a href="#encoders">faders</a>.</p>
+<h3 id="pages">Pages<a class="headerlink" href="#pages" title="Permanent link">&para;</a></h3>
+<p>This config comes with six <a href="../../zcx-concepts/#pages">pages</a> pre-configured.
+By looking at <code>pages.yaml</code>, we can see these pages are named <code>home_page</code>, <code>alt_page</code>, <code>session_view_page</code>, <code>keyboard_page</code>, <code>ring_devices_page</code>, and <code>blank_page</code>.</p>
+<h3 id="named-controls">Named controls<a class="headerlink" href="#named-controls" title="Permanent link">&para;</a></h3>
+<p>The eight buttons below the matrix are configured as a page changer; pressing each button will take you to a different matrix page.
+The eight buttons to the right of the matrix are scene launch buttons.</p>
+<h4 id="shift_overlay">shift_overlay<a class="headerlink" href="#shift_overlay" title="Permanent link">&para;</a></h4>
+<p>When holding <code>shift</code>, the <a href="../../../overlays-layers/">overlay</a> <code>shift_overlay</code> is enabled, changing the function of these sixteen buttons.
+The buttons <code>volume</code>, <code>pan</code>, <code>send</code>, and <code>device</code> will activate their associated <a href="#modes">mode</a>, which affects the <a href="#encoders">faders</a>.
+The directional buttons will move the <a href="../../../session-ring/">session ring</a>.
+The scene launch buttons will control their alternate function; the top four buttons are now <a href="../../../../reference/control/param/">param controls</a>, bound to the functions indicated by their label. The buttons <code>drum</code> and <code>select</code> have been left unassigned.
+The button labelled "stop all clips" will do just that on a short press, and with a long press will stop all clips without quantization.</p>
+<h3 id="matrix-pages">Matrix pages<a class="headerlink" href="#matrix-pages" title="Permanent link">&para;</a></h3>
+<h4 id="home_page">home_page<a class="headerlink" href="#home_page" title="Permanent link">&para;</a></h4>
+<h5 id="actions">actions<a class="headerlink" href="#actions" title="Permanent link">&para;</a></h5>
+<p>Enter the first page by pressing the <code>volume</code> button.
+The top-left quadrant is the <a href="../../zcx-concepts/#matrix-sections">section</a> <code>actions_top_left</code>.
+Opposite <code>actions_top_left</code> is <code>actions_top_right</code>.
+Taking up the bottom half of the matrix is <code>actions_bottom_double</code>.</p>
+<p>These three sections have been left mostly unconfigured.</p>
+<h4 id="alt_page">alt_page<a class="headerlink" href="#alt_page" title="Permanent link">&para;</a></h4>
+<p>The top half of the matrix still features <code>actions_top_left</code> and <code>actions_top_right</code>. 
+This demonstrates how we can have sections appear on multiple pages.</p>
+<h5 id="select_control">select_control<a class="headerlink" href="#select_control" title="Permanent link">&para;</a></h5>
+<p>In the bottom-left is the section <code>select_control</code>.
+It's full of <a href="../../../../reference/control/param/">param controls</a> that show dynamic feedback.
+In this case, every control is mapped to the currently selected track.
+The top row controls the track's mute, solo, arm, and input monitoring state.</p>
+<p>The second row is mapped to the first four devices on the selected track.
+If the track has less than four devices, you will see that one or more controls are off.
+Note that these controls are configured for top-level devices, i.e. not devices nested in racks.
+By pressing a control, we can select the corresponding device.
+By holding <code>shift</code>, these controls map to the bypass state of the devices.</p>
+<p>The third and fourth rows are mapped to the first eight parameters of the currently selected device.
+Pressing a control will toggle its parameter between its minimum and maximum.
+While <code>shift</code> is held, the <strong>next</strong> eight parameters will be controlled.</p>
+<h5 id="track_control">track_control<a class="headerlink" href="#track_control" title="Permanent link">&para;</a></h5>
+<p>In the bottom-right is the section <code>track_control</code>.
+It features 16 <a href="../../../../reference/control/ring_track/">ring_track controls</a> that are bound to tracks rightward of the session ring.
+These dynamic controls give feedback about the playing, arm, and selection state of their bound track.
+A short press will select the track, and a long press will arm it.
+If your Live set has less than 24 tracks, one or more of these controls might appear off.</p>
+<h5 id="__session_view">__session_view<a class="headerlink" href="#__session_view" title="Permanent link">&para;</a></h5>
+<p>The top six rows are occupied by zcx's session view.
+This works much the same as APC's native session view.
+Pressing a pad will launch the respective clip slot.
+See the <a href="../../../session-view/">session view lesson</a> for more detail on configuring this section.</p>
+<h5 id="session_controls">session_controls<a class="headerlink" href="#session_controls" title="Permanent link">&para;</a></h5>
+<p>The bottom two rows feature the section <code>session_controls</code>.
+The top row are param controls, bound to those track's selection status.
+The bottom row will set its respective track to a random color, which isn't particularly useful, but it's there to demonstrate how we can <a href="../../../session-ring/#referencing-the-ring-from-template-strings">target ring tracks with action lists</a>.</p>
+<h4 id="keyboard_page">keyboard_page<a class="headerlink" href="#keyboard_page" title="Permanent link">&para;</a></h4>
+<p>This page features a full-size keyboard view for playing notes.
+See the <a href="../../../keyboard/">keyboard view lesson</a> to learn more about how it works.</p>
+<h5 id="keyboard_notes-overlay">keyboard_notes overlay<a class="headerlink" href="#keyboard_notes-overlay" title="Permanent link">&para;</a></h5>
+<p>By long-pressing the <code>device</code> button, you can enable the <code>keyboard_notes</code> <a href="../../../overlays-layers/">overlay</a>, which occupies the top two rows of the matrix.</p>
+<p>The first three buttons of the top row set the scale of Live's <a href="https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ">Scale Mode</a>, which is reflected on the keyboard.
+The next two buttons decrease or increase the <a href="../../../keyboard/#octave">keyboard's octave</a>.
+The next two buttons decrease or increase the tonic of Scale mode by one semitone.
+The last button toggles the keyboard's <a href="../../../keyboard/#in-key--chromatic">in key status</a>.</p>
+<p>In the second row, the first seven buttons set the keyboard's <a href="../../../keyboard/#in-key--chromatic">note repeat status</a>, while the final button toggle's <a href="../../../keyboard/#full-velocity">full velocity mode</a>.</p>
+<h4 id="ring_devices_page">ring_devices_page<a class="headerlink" href="#ring_devices_page" title="Permanent link">&para;</a></h4>
+<p>This page features only one section <code>ring_devices</code>, which fills the whole page.
+Again, this section deals with the eight ring tracks.
+Each column has eight param controls to affect the first eight parameters of the first device of the relevant track.
+Press a pad to toggle the parameter between its minimum and maximum.
+Release a pad after a hold to toggle the parameter again.</p>
+<h4 id="blank_page">blank_page<a class="headerlink" href="#blank_page" title="Permanent link">&para;</a></h4>
+<p>This page contains one section — <code>blank_section</code> — an 8x8 unconfigured grid.
+It's a great place to start experimenting with zcx's capabilities.</p>
+<h2 id="encoders">Encoders<a class="headerlink" href="#encoders" title="Permanent link">&para;</a></h2>
+<p><code>fader_9</code> controls the Main track's volume.</p>
+<p><code>fader_1</code> through <code>fader_8</code> have four bindings preconfigured, which can be set via the <a href="#shift_overlay">shift overlay</a>.</p>
+<p>In <code>volume</code> mode, they control the volume of the eight tracks in the session ring.
+In <code>pan</code> mode, they control the pan of those tracks.
+In <code>send</code> mode, they control the first eight sends of the selected track.
+In <code>device</code> mode, they control the first eight parameters of the selected device.</p>
+
+<h2>next up</h2>
+
+<a href="../../editing-a-config">Click here</a> to head to the next lesson in the getting started guide.
 
 
-
-  
-  
-
-
-<h1 id="frequently-asked-questions">frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h1>
-<h3 id="whats-all-this-then">What's all this then?<a class="headerlink" href="#whats-all-this-then" title="Permanent link">&para;</a></h3>
-<p>Have a look at the <a href="../">about page</a>, or check out <a href="https://www.github.com/odisfm/zcx-core">the source on GitHub</a>.</p>
-<h3 id="what-do-i-need-to-use-zcx">What do I need to use zcx?<a class="headerlink" href="#what-do-i-need-to-use-zcx" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Ableton Live 12.1 or above <sup><a href="#why-does-zcx-require-live-121">why?</a></sup></li>
-<li>ClyphX Pro 1.3.1 or above</li>
-<li><a href="../#hardware">Supported hardware</a></li>
-<li>A heart full of dreams</li>
-</ul>
-<h3 id="does-zcx-change-the-default-functionality-of-my-control-surface">Does zcx change the default functionality of my control surface<a class="headerlink" href="#does-zcx-change-the-default-functionality-of-my-control-surface" title="Permanent link">&para;</a></h3>
-<p>For most zcx-enabled controllers, there are two modes: Live mode, which is the default control surface script, and user mode, designed for custom mapping, or scripts like zcx.</p>
-<p>zcx only works on the user mode of your controller.
-This means that the default functionality of your controller is unaffected.
-You may use the default script and zcx simultaneously on one controller, switching between modes with the controller's <code>User</code> button.
-Doing so requires two control surface slots; one for each script.
-If you don't want to use the default functionality, you can unassign the default script.</p>
-<h3 id="do-i-need-to-be-a-coder-to-use-zcx">Do I need to be a coder to use zcx?<a class="headerlink" href="#do-i-need-to-be-a-coder-to-use-zcx" title="Permanent link">&para;</a></h3>
-<p>No programming knowledge is necessary to configure zcx. zcx configurations <strong>do</strong> make extensive use of a format called <a href="../lessons/getting-started/reading-zcx-configurations/#yaml">yaml</a>, but it's pretty easy to pick up.</p>
-<p>See also: <a href="../lessons/getting-started/reading-zcx-configurations/">reading zcx configurations</a>.</p>
-<h3 id="what-hardware-is-zcx-available-for">What hardware is zcx available for?<a class="headerlink" href="#what-hardware-is-zcx-available-for" title="Permanent link">&para;</a></h3>
-<p><a href="../lessons/getting-started/installation/#get-a-distribution">See here.</a></p>
-<h3 id="does-zcx-replace-clyphx-pro">Does zcx replace ClyphX Pro?<a class="headerlink" href="#does-zcx-replace-clyphx-pro" title="Permanent link">&para;</a></h3>
-<p>Nope. zcx provides a way to interact with ClyphX Pro that greatly expands your possibilities for performing with hardware controllers.</p>
-<h3 id="does-zcx-replace-x-controls-and-g-controls">Does zcx replace X-controls and G-controls<a class="headerlink" href="#does-zcx-replace-x-controls-and-g-controls" title="Permanent link">&para;</a></h3>
-<p>That's up to you. zcx can be used to create a far more complex interface than is practical with native ClyphX Pro. However, that power comes with a learning curve. Only you can decide whether this tradeoff is worth it.</p>
-<p><strong>Note:</strong> You can absolutely use X/G Controls alongside a zcx script. It is recommended that you use zcx for any matrix controllers, and native ClyphX Pro controls for non-matrix controllers.</p>
-<h3 id="can-i-use-zcx-with-a-non-matrix-controller">Can I use zcx with a non-matrix controller?<a class="headerlink" href="#can-i-use-zcx-with-a-non-matrix-controller" title="Permanent link">&para;</a></h3>
-<p>zcx is designed for matrix-equipped controllers. You could <a href="../lessons/porting/">make a port</a> for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.</p>
-<h3 id="why-does-zcx-require-live-121">Why does zcx require Live 12.1?<a class="headerlink" href="#why-does-zcx-require-live-121" title="Permanent link">&para;</a></h3>
-<p>zcx is written in the Python programming language. With newer versions of Python, developers have access to more features when writing code. </p>
-<p>The Python environment that zcx runs in is provided by Live. With Live 12.1 came an upgrade to Python 3.11.6. 
-This newer version of Python includes several features that are very useful for zcx, and so early in development, a decision was made to target Live 12.1 as the minimum version compatible with zcx.</p>
-<h3 id="is-there-a-discord">Is there a Discord?<a class="headerlink" href="#is-there-a-discord" title="Permanent link">&para;</a></h3>
-<p><a href="https://discord.zcxcore.com">But of course.
-</a></p>
-<h3 id="how-can-i-contribute">How can I contribute?<a class="headerlink" href="#how-can-i-contribute" title="Permanent link">&para;</a></h3>
-<p><a href="../dev/contributing/">See here</a>.</p>
-<h3 id="what-does-zcx-stand-for">What does 'zcx' stand for?<a class="headerlink" href="#what-does-zcx-stand-for" title="Permanent link">&para;</a></h3>
-<p><strong>Z</strong>really<br>
-<strong>C</strong>ool<br>
-<strong>X</strong>thingo</p>
-
-
-
-
-
-
-
-  
-    
-  
-  
-    
-  
-
-
-  <aside class="md-source-file">
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="Last update">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-03T21:40:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-03</span>
-  </span>
-
-    
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="Created">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-25T23:04:14+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-25</span>
-  </span>
-
-    
-    
-    
-  </aside>
-
-
-  
-
-
-  
-
-
-
-                
               </article>
             </div>
           
@@ -3505,12 +3517,10 @@ This newer version of Python includes several features that are very useful for 
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../docs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: docs">
+          <a href="../apc-40-mk2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: APC40 mkII">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3520,20 +3530,20 @@ This newer version of Python includes several features that are very useful for 
                 Previous
               </span>
               <div class="md-ellipsis">
-                docs
+                APC40 mkII
               </div>
             </div>
           </a>
         
         
           
-          <a href="../lessons/getting-started/" class="md-footer__link md-footer__link--next" aria-label="Next: getting started">
+          <a href="../launchpad-pro-mk3/" class="md-footer__link md-footer__link--next" aria-label="Next: Launchpad Pro mk3">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                getting started
+                Launchpad Pro mk3
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3596,222 +3606,19 @@ This newer version of Python includes several features that are very useful for 
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-
-
-      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../js/timeago.min.js"></script>
+        <script src="../../../../js/timeago.min.js"></script>
       
-        <script src="../js/timeago_mkdocs_material.js"></script>
+        <script src="../../../../js/timeago_mkdocs_material.js"></script>
       
-        <script src="../js/extra.js"></script>
+        <script src="../../../../js/extra.js"></script>
       
-        <script src="../js/open_in_new_tab.js"></script>
+        <script src="../../../../js/open_in_new_tab.js"></script>
       
     
-
-<script>
-  document$.subscribe(() => {
-
-    ////// outdated element stuff
-
-    const DEV_PATHS = ['dev', 'preview']
-    const outdatedEl = document.querySelector('[data-md-component="outdated"]')
-    const path = window.location.pathname
-    let isDevPath = false
-
-    for (const dev_path of DEV_PATHS) {
-      if (path.startsWith("/" + dev_path)) {
-        isDevPath = true
-        break
-      }
-    }
-
-    if (isDevPath) {
-      document.body.classList.add('dev-mode')
-      outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
-      outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
-    }
-
-    outdatedEl.querySelector('button').addEventListener('click', () => {
-      if (isDevPath) {
-        localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
-        umami.track('dismiss-warning-dev')
-      } else {
-        localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
-        umami.track('dismiss-warning-outdated')
-      }
-
-      outdatedEl.remove()
-    })
-
-    let relevantWarningDate;
-    if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
-      relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
-    } else {
-      relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
-    }
-
-    if (relevantWarningDate) {
-      const dismissedDate = new Date(JSON.parse(relevantWarningDate))
-      const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
-
-      if (daysSinceDismissed < 28) {
-        outdatedEl.remove()
-      }
-    }
-
-
-    const isDigit = (char) => {
-      return /^\d$/.test(char)
-    }
-
-    const processVersionElements = () => {
-      const versionElements = []
-      const versionChooserButton = document.querySelector('.md-version__current')
-      if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
-        versionElements.push(versionChooserButton)
-      }
-      const versionListItems = document.querySelectorAll('.md-version__list li')
-      for (const versionLi of versionListItems) {
-        if (isDigit(versionLi.textContent[0])) {
-          versionElements.push(versionLi)
-        }
-      }
-
-      for (const versionElement of versionElements) {
-        versionElement.classList.add('version-number')
-      }
-
-      return versionElements.length > 0
-    }
-
-    if (!processVersionElements()) {
-      const observer = new MutationObserver(() => {
-        if (processVersionElements()) {
-          observer.disconnect()
-        }
-      })
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      })
-
-      setTimeout(() => observer.disconnect(), 5000)
-    }
-
-    ////// matrix gen
-
-    function initializeForm() {
-      const generateButton = document.getElementById('generate-button');
-      const output_block = document.getElementById('yaml-output')?.querySelector('code');
-
-      if (!generateButton || !output_block) return;
-
-      generateButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        processFormData(output_block);
-      });
-    }
-
-    function processFormData(output_block) {
-      output_block.innerHTML = null;
-
-      let width = parseInt(document.getElementById('columns').value);
-      let height = parseInt(document.getElementById('rows').value);
-      let comment_out = document.getElementById('comment-out').checked;
-      let space_between_items = document.getElementById('space-between-items').checked;
-      let comment_coords = document.getElementById('comment-coords').checked;
-      let includeColor = document.getElementById('color').checked;
-      let includeType = document.getElementById('type').checked;
-      let randomColor = document.getElementById('random-color').checked;
-
-      const gestures = [
-        'press',
-        'release',
-        'short_press',
-        'long_press',
-        'long_release',
-        'double_click'
-      ];
-
-      let content = '';
-      let these_gestures = [];
-
-      for (let i = 0; i < gestures.length; i++) {
-        let gesture = gestures[i];
-        if (document.getElementById(gesture).checked) {
-          these_gestures.push(gesture);
-        }
-      }
-
-      for (let i = 0; i < height; i++) {
-        if (comment_coords) content += make_comment(`!! row ${i + 1}`);
-        for (let j = 0; j < width; j++) {
-          if (comment_coords) content += make_comment(`col ${j + 1}`);
-          content += '- \n';
-
-          if (includeColor) {
-            let color = 127;
-            if (randomColor) color = getRandomInt(126) + 1;
-            content += make_row('color', color, 1, comment_out);
-            content += '\n';
-          }
-
-          if (includeType) {
-            content += make_row('type', 'standard', 1, comment_out);
-            content += '\n';
-          }
-
-          content += make_row('gestures', false, 1, comment_out, true);
-          if (these_gestures.length === 0) {
-            content += make_row('pressed', 'DUMMY', 2, true, false);
-            content += '\n';
-          } else {
-            for (let g of these_gestures) {
-              content += make_row(g, 'DUMMY', 2, comment_out, false);
-              content += '\n';
-            }
-          }
-
-          if (space_between_items) content += '\n';
-        }
-      }
-
-      let span = document.createElement('span');
-      span.textContent = content;
-      output_block.appendChild(span);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function make_row(key, value, indent, commented = false, is_dict = false) {
-      let row = "";
-      if (commented) row += "# ";
-      for (let i = 0; i < indent; i++) row += "  ";
-      row += `${key}:`;
-      if (is_dict) return row + `\n`;
-      row += ` ${value}`;
-      return row;
-    }
-
-    function make_comment(content) {
-      return `# ${content}\n`;
-    }
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    initializeForm();
-
-  })
-
-</script>
-
-
   </body>
 </html>

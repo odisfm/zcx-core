@@ -772,6 +772,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -818,6 +822,52 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apc-40-mk2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    APC40 mkII
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apc-mini-mk2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    APC mini mkII
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -3352,7 +3402,7 @@
 <p>This config comes with nine <a href="../../zcx-concepts/#modes">modes</a> pre-configured.
 These modes are <code>shift</code>, <code>select</code>, <code>delete</code>, <code>device</code>, <code>mix</code>, <code>browse</code>, <code>clip</code>, <code>add_device</code>, and <code>add_track</code>.
 They are all mapped to controls of the same name.</p>
-<p>Six of these modes, <code>device</code>, <code>mix</code>, <code>browse</code>, <code>clip</code>, <code>add_device</code>, and <code>add_track</code> are set up <a href="../../../../reference/file/preferences/#exclusive_modes">exclusively</a>, so that enabling one will disable the other two.</p>
+<p>Six of these modes, <code>device</code>, <code>mix</code>, <code>browse</code>, <code>clip</code>, <code>add_device</code>, and <code>add_track</code> are set up <a href="../../../../reference/file/preferences/#exclusive_modes">exclusively</a>, so that enabling one will disable the others.</p>
 <p><code>shift</code> and <code>select</code> will only be active while they are held.</p>
 <h3 id="pages">Pages<a class="headerlink" href="#pages" title="Permanent link">&para;</a></h3>
 <p>This config comes with six <a href="../../zcx-concepts/#pages">pages</a> pre-configured.
@@ -3472,6 +3522,11 @@ By holding <code>shift</code> we can control the next two sends and the next fou
 With <code>shift</code> held it controls the cue volume.</p>
 <p><code>enc_tempo</code>, the leftmost encoder, always controls the selected track's pan.
 <code>enc_swing</code>, to its right, controls the selected track's volume.</p>
+<div class="admonition note">
+<p class="admonition-title">Controlling tempo with zcx</p>
+<p>Unfortunately, the current version of zcx cannot natively bind to Live's tempo.
+If you have Max for Live, you can add <a href="https://www.maxforlive.com/library/device/10403/tempo-control">this free device</a> to your set, and bind a zcx encoder to it.</p>
+</div>
 
 <h2>next up</h2>
 
