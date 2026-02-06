@@ -205,6 +205,7 @@ class ParamControl(ZControl):
                 color_disabled = RgbColor(0)
 
             self._color_dict = {"on": color_on, "off": color_off, "disabled": color_disabled}
+            self._color = self._color_dict["disabled"]
 
         except Exception as e:
             self.critical(e, e.__class__.__name__)
