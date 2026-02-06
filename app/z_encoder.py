@@ -690,24 +690,28 @@ class ZEncoder(EventObject):
         else:
             self._current_mode_string = ""
 
-    @classmethod
-    def get_track(cls, track_def):
-        tracklist = list(cls.song.tracks)
+    def get_track(self, track_def):
+        if track_def.lower() == "sel":
+            return self.root_cs.song.view.selected_track
+        elif track_def.lower() == "mst":
+            return self.root_cs.song.master_track
+
+        try:
+            track = self.root_cs.component_map["CxpBridge"].get_track_by_name(track_def)
+            return track
+        except RuntimeError:
+            self.debug(f"Failed to get track called `{track_def}` from CXP")
+
+        for track in self.root_cs.song.tracks:
+            if track.name == track_def:
+                return track
+
         try:
             track_num = int(track_def) - 1
+            tracklist = list(self.root_cs.song.tracks)
             return tracklist[track_num]
         except (ValueError, IndexError):
-            track_obj = None
-            if track_def.lower() == "sel":
-                return cls.song.view.selected_track
-            elif track_def.lower() == "mst":
-                return cls.song.master_track
-            else:
-                for track in tracklist:
-                    if track.name == track_def:
-                        return track
-                if track_obj is None:
-                    return None
+            return None
 
     def traverse_chain_map(self, track, chain_map):
         def parse_templated_node(_node):

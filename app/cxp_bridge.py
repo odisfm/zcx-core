@@ -80,3 +80,9 @@ class CxpBridge(ZCXComponent):
     @listens("control_surfaces")
     def _on_control_surfaces_changed(self):
         self.get_clyph_x()
+
+    def get_track_by_name(self, name):
+        """Takes a track name and returns the matching track object, or None if not found"""
+        if not self.__clyph_x:
+            raise RuntimeError(f"Not connected to {CXP_NAME}.")
+        return self.__clyph_x._track_manager.get_track_by_name(f'"{name}"')
