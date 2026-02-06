@@ -51,6 +51,7 @@ class BasicColorSwatch:
     ERROR = OFF
     PAGE_ACTIVE = ON
     PAGE_INACTIVE = LOW
+    PLAY_GREEN = FULL
 
 
 class RgbColorSwatch(object):
