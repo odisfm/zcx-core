@@ -120,9 +120,9 @@ class ZCXCore(ControlSurface):
                     else:
                         line_col = None
 
-                    line_msg = (
-                        f"The error occurs at {line_col}" or "Could not determine location of the error"
-                    )
+                        line_msg = (
+                            f"The error occurs at {line_col}" if line_col else "Could not determine location of the error"
+                        )
 
                     raise ZcxStartupError(
                     f"zcx cannot read the file `{filename}` as it is malformed. {line_msg}.",
