@@ -168,7 +168,7 @@ class ZCXCore(ControlSurface):
                 except AttributeError:
                     pass
 
-                self.show_popup(popup_string)
+                self.show_message(popup_string)
 
                 self.disconnect()
                 self._enabled = False
