@@ -133,7 +133,7 @@ __select_row:
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
-  color: cyan shade ${me.index % 4}
+  color: cyan
   gestures:
     press: SCENE ${ring.scenes[me.Index]}
     press__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
