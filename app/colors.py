@@ -14,6 +14,10 @@ try:
     from .hardware.colors import SINGLE_COLOR_PULSE
 except ImportError:
     SINGLE_COLOR_PULSE = False
+try:
+    from .hardware.colors import REVERSE_BLINK_COLORS
+except ImportError:
+    REVERSE_BLINK_COLORS = False
 
 
 class ColorSwatches:
@@ -115,6 +119,10 @@ def parse_color_definition(color, calling_control=None):
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
+                if REVERSE_BLINK_COLORS:
+                    temp = b
+                    b = a
+                    a = temp
 
                 return Blink(a, b, speed)
 
