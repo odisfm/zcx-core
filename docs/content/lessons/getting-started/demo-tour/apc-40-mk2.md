@@ -85,7 +85,7 @@ Hold `shift` to access the _next_ four parameters on each track.
 
 #### blank_page
 
-This page contains 1blank_section`, a 4x8 unconfigured grid.
+This page contains `blank_section`, a 4x8 unconfigured grid.
 It's a great place to start experimenting with zcx's capabilities.
 
 ## Encoders
