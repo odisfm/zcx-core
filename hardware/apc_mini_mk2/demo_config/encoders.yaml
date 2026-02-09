@@ -11,13 +11,13 @@ __fader_row:
   binding:
     default: >
       NONE
-    volume: >
+    __volume: >
       RING(${me.index}) / VOL
-    pan: >
-      RING(${me.index}) PAN
-    send: >
-      SEL / SEND ${send_num({$me.index})
-    device: >
+    __pan: >
+      RING(${me.index}) / PAN
+    __send: >
+      SEL / SEND ${send_num(me.index)}
+    __device: >
       SEL / DEV(SEL) B1 P${me.Index}
 
 fader_9:

@@ -4,3 +4,4 @@ overlays:
     matrix_sections:
       - scale_chooser
       - note_repeat
+  shift_overlay: {}

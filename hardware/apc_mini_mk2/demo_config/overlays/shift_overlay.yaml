@@ -21,34 +21,34 @@ send:
 
 device:
   type: mode
-  mode: send
+  mode: device
   gestures:
     press:
-      mode_on: send
+      mode_on: device
 
 up:
   gestures:
     press:
       ring:
-        y: -${ring.height}
+        y: -6
 
 down:
   gestures:
     press:
       ring:
-        y: ${ring.height}
+        y: 6
 
 left:
   gestures:
     press:
       ring:
-        x: -${ring.width}
+        x: -8
 
 right:
   gestures:
     press:
       ring:
-        x: ${ring.width}
+        x: 8
 
 scene_1:
   type: param
