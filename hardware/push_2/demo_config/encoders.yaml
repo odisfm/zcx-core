@@ -3,7 +3,8 @@ __encoder_row:
     enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
   ]
   binding:
-    default: >
+    default: NONE
+    __mix: >
       RING(${me.index}) / VOL
     __shift: >
       RING(${me.index}) / PAN
