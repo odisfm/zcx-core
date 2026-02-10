@@ -226,8 +226,6 @@ device:
   gestures:
     press:
       mode_on: device
-    long_release:
-      mode_off: device
 
 mix:
   type: mode
@@ -237,8 +235,6 @@ mix:
   gestures:
     press:
       mode_on: mix
-    long_release:
-      mode_off: mix
 
 browse:
   type: mode
@@ -248,8 +244,6 @@ browse:
   gestures:
     press:
       mode_on: browse
-    long_release:
-      mode_off: browse
 
 clip:
   type: mode
@@ -259,8 +253,6 @@ clip:
   gestures:
     press:
       mode_on: clip
-    long_release:
-      mode_off: clip
 
 add_device:
   type: mode
@@ -270,8 +262,6 @@ add_device:
   gestures:
     press:
       mode_on: add_device
-    long_release:
-      mode_off: add_device
 
 add_track:
   type: mode
@@ -281,8 +271,6 @@ add_track:
   gestures:
     press:
       mode_on: add_track
-    long_release:
-      mode_off: add_track
 
 #touchstrip:
 #  gestures:
