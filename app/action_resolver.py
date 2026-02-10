@@ -451,12 +451,12 @@ class ActionResolver(ZCXComponent):
                                 self.debug(track_def_parsed, scene_def_parsed, x_parsed, y_parsed)
 
                             if x_parsed is not None:
-                                ring_component.move(x=x_parsed)
+                                ring_component.move(x=int(x_parsed))
                             elif track_def_parsed is not None:
                                 ring_component.go_to_track(track_def_parsed)
 
                             if y_parsed is not None:
-                                ring_component.move(y=y_parsed)
+                                ring_component.move(y=int(y_parsed))
                             elif scene_def_parsed is not None:
                                 ring_component.go_to_scene(scene_def_parsed)
 
