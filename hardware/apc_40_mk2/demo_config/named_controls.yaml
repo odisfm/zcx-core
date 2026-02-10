@@ -203,8 +203,8 @@ __arm:
   type: param
   binding: >
     RING(${me.index}) / ARM
-  active_color: on
-  inactive_color: off
+  on_color: 127
+  off_color: 0
 
 #arm_1:
 #  gestures:
@@ -251,8 +251,8 @@ __track_selector:
   type: param
   binding: >
     RING(${me.index}) / SEL
-  active_color: 127
-  inactive_color: 0
+  on_color: 127
+  off_color: 0
 
 #select_1:
 #  gestures:
@@ -304,8 +304,8 @@ __mute:
   type: param
   binding: >
     RING(${me.index}) / MUTE
-  active_color: 0
-  inactive_color: 127
+  on_color: 0
+  off_color: 127
 
 #mute_1:
 #  gestures:
@@ -351,9 +351,9 @@ __solo:
   includes: [solo_1, solo_2, solo_3, solo_4, solo_5, solo_6, solo_7, solo_8]
   type: param
   binding: >
-    RING(${me.index}) / SEL
-  active_color: on
-  inactive_color: off
+    RING(${me.index}) / SOLO
+  on_color: 127
+  off_color: 0
 
 #solo_1:
 #  gestures:
@@ -448,8 +448,8 @@ __stop:
   type: param
   binding: >
     RING(${me.index}) / STOP
-  active_color: on
-  inactive_color: off
+  on_color: 127
+  off_color: 0
 
 #stop_1:
 #  gestures:
