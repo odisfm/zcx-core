@@ -3,3 +3,7 @@ exclusive_modes:
 
 startup_command:
   mode_on: volume
+
+session_ring:
+  width: 8
+  height: 6

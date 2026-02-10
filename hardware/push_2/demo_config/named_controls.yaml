@@ -292,8 +292,9 @@ page_prev:
   repeat: true
   gestures:
     press:
+      log: ${ring.width} - ${type(ring.width)}
       ring:
-        x: -8
+        x: -${ring.width}
     press__shift:
       ring: left
 
@@ -302,7 +303,7 @@ page_next:
   gestures:
     press:
       ring:
-        x: 8
+        x: ${ring.width}
     press__shift:
       ring: right
 
@@ -311,7 +312,7 @@ octave_up:
   gestures:
     press:
       ring:
-        y: -6
+        y: -${ring.height}
     press__shift:
       ring: up
 
@@ -320,7 +321,7 @@ octave_down:
   gestures:
     press:
       ring:
-        y: 6
+        y: ${ring.height}
     press__shift:
       ring: down
 
