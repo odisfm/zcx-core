@@ -161,7 +161,7 @@ dpad_left:
         x: -1
     press__shift:
       ring:
-        x: -8
+        x: -${ring.width}
     press__select: LEFT
 
 dpad_right:
@@ -171,7 +171,7 @@ dpad_right:
         x: 1
     press__shift:
       ring:
-        x: 8
+        x: ${ring.width}
     press__select: RIGHT
 
 dpad_up:
@@ -181,7 +181,7 @@ dpad_up:
         y: -1
     press__shift:
       ring:
-        y: -4
+        y: -${ring.height}
     press__select: UP
 
 dpad_down:
@@ -191,7 +191,7 @@ dpad_down:
         y: 1
     press__shift:
       ring:
-        y: 4
+        y: ${ring.height}
     press__select: DOWN
 
 ###

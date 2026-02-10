@@ -209,7 +209,7 @@ page_prev:
   gestures:
     press:
       ring:
-        x: -8
+        x: -${ring.width}
     press__shift:
       ring: left
 
@@ -218,7 +218,7 @@ page_next:
   gestures:
     press:
       ring:
-        x: 8
+        x: ${ring.width}
     press__shift:
       ring: right
 
@@ -227,7 +227,7 @@ octave_up:
   gestures:
     press:
       ring:
-        y: -8
+        y: -${ring.height}
     press__shift:
       ring: up
 
@@ -236,7 +236,7 @@ octave_down:
   gestures:
     press:
       ring:
-        y: 8
+        y: ${ring.height}
     press__shift:
       ring: down
 

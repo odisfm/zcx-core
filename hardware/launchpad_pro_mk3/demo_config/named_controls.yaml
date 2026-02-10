@@ -144,28 +144,28 @@ nav_up:
     press: UP
     press__shift:
       ring:
-        y: -6
+        y: -${ring.height}
 
 nav_down:
   gestures:
     press: DOWN
     press__shift:
       ring:
-        y: 6
+        y: ${ring.height}
 
 nav_left:
   gestures:
     press: LEFT
     press__shift:
       ring:
-        x: -8
+        x: -${ring.width}
 
 nav_right:
   gestures:
     press: RIGHT
     press__shift:
       ring:
-        x: 8
+        x: ${ring.width}
 
 novation:
   type: transport

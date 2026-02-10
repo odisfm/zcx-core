@@ -30,25 +30,25 @@ up:
   gestures:
     press:
       ring:
-        y: -6
+        y: -${ring.height}
 
 down:
   gestures:
     press:
       ring:
-        y: 6
+        y: ${ring.height}
 
 left:
   gestures:
     press:
       ring:
-        x: -8
+        x: -${ring.width}
 
 right:
   gestures:
     press:
       ring:
-        x: 8
+        x: ${ring.width}
 
 scene_1:
   type: param

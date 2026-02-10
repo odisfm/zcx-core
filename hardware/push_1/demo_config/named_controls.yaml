@@ -303,7 +303,7 @@ in:
   gestures:
     press:
       ring:
-        x: -8
+        x: -${ring.width}
     press__device: DEVLEFT
     long_press__device: DEVFIRST
 
@@ -312,7 +312,7 @@ out:
   gestures:
     pressed:
       ring:
-        x: 8
+        x: ${ring.width}
     pressed__device: DEVRIGHT
     pressed_delayed__device: DEVLAST
 
