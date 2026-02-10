@@ -255,7 +255,7 @@
   color: white
   gestures:
     press:
-      msg: You can edit this section in `_config/matrix_sections/actions_bottom_double.yaml`
+      msg: You can edit this section in `_config/matrix_sections/actions_double.yaml`
     short_press: DUMMY
     long_press: DUMMY
     double_click: DUMMY

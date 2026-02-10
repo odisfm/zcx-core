@@ -3,6 +3,8 @@
 -
   color: orange
   gestures:
+    press:
+      msg: You can edit this section in `_config/matrix_sections/actions_right.yaml`
     short_press: DUMMY
     long_press: DUMMY
 
