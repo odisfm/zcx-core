@@ -215,10 +215,18 @@ class ViewManager(ZCXComponent):
         matrix_to_disable = [control for control in self.__in_view_matrix_controls if control not in matrix_to_enable]
 
         for control in matrix_to_disable + named_to_disable:
-            control.in_view = False
+            try:
+                control.in_view = False
+            except Exception as e:
+                self.error(f"Error when bringing control `{control.name}` out of view:")
+                self.error(f"{e.__class__.__name__}: {e}")
         for control in matrix_to_enable + named_to_enable:
-            control.in_view = True
-            control.request_color_update()
+            try:
+                control.in_view = True
+                control.request_color_update()
+            except Exception as e:
+                self.error(f"Error when bringing control `{control.name}` in view:")
+                self.error(f"{e.__class__.__name__}: {e}")
 
         self.__in_view_named_controls = named_to_enable
         self.__in_view_matrix_controls = matrix_to_enable
