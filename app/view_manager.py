@@ -61,8 +61,9 @@ class ViewManager(ZCXComponent):
         self.__overlay_sections = dict(sorted(self._z_manager.all_overlay_sections.items(), key=lambda item: item[
             1].layer, reverse=False))
 
-        self.__pages_to_overlays_in: list[list[int]] = [[] for _ in range(self._page_manager.page_count)]
-        self.__pages_to_overlays_out: list[list[int]] = [[] for _ in range(self._page_manager.page_count)]
+        page_count = self._page_manager.page_count
+        self.__pages_to_overlays_in: list[list[int]] = [[] for _ in range(page_count)]
+        self.__pages_to_overlays_out: list[list[int]] = [[] for _ in range(page_count)]
 
         for overlay_name, overlay_section_obj in self.__overlay_sections.items():
             overlay_def = overlay_section_obj.overlay_def
@@ -115,11 +116,22 @@ class ViewManager(ZCXComponent):
             for page_idx in pages_out:
                 self.__pages_to_overlays_out[page_idx].append(overlay_name)
 
+            if len(pages_out) == page_count:
+                for page_idx in pages_out:
+                    if page_idx in pages_in:
+                        pages_out.remove(page_idx)
+
+            self.debug(f"Created overlay `{overlay_name}`:\n{overlay_def}\npages_in: {pages_in}\npages_out: {pages_out}")
+
         # Deduplicate
         for i in range(len(self.__pages_to_overlays_in)):
             self.__pages_to_overlays_in[i] = list(set(self.__pages_to_overlays_in[i]))
         for i in range(len(self.__pages_to_overlays_out)):
             self.__pages_to_overlays_out[i] = list(set(self.__pages_to_overlays_out[i]))
+
+        self.debug(f"pages_to_overlays_in:\n{self.__pages_to_overlays_in}")
+        self.debug(f"pages_to_overlays_out:\n{self.__pages_to_overlays_out}")
+
 
         self._current_page_listener.subject = self._page_manager
 
@@ -288,6 +300,9 @@ class ViewManager(ZCXComponent):
 
         names_to_add, names_to_remove = self.remove_common_items(names_to_add, names_to_remove)
         names_to_add = self.remove_common_items(names_to_add, self.__active_overlay_names)[0]
+
+        self.debug(f"overlays to remove: {names_to_remove}")
+        self.debug(f"overlays to add: {names_to_add}")
 
         for overlay_name in names_to_remove:
             self.disable_overlay(overlay_name)
