@@ -75,37 +75,37 @@ __state_row:
     released_delayed:
       page: last
 
-#state_1:
-#  gestures:
-#    pressed: DUMMY
-
-#state_2:
-#  gestures:
-#    pressed: DUMMY
-
-#state_3:
-#  gestures:
-#    pressed: DUMMY
-
-#state_4:
-#  gestures:
-#    pressed: DUMMY
-
-#state_5:
-#  gestures:
-#    pressed: DUMMY
-
-#state_6:
-#  gestures:
-#    pressed: DUMMY
-
-#state_7:
-#  gestures:
-#    pressed: DUMMY
-
-#state_8:
-#  gestures:
-#    pressed: DUMMY
+# state_1:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_2:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_3:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_4:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_5:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_6:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_7:
+#   gestures:
+#     pressed: DUMMY
+  
+# state_8:
+#   gestures:
+#     pressed: DUMMY
 
 __select_row:
   # the top row
@@ -122,37 +122,37 @@ __select_row:
     pressed_delayed__delete: >
       "${ring.tracks[me.index]}" / DEL
 
-#select_1:
-#  gestures:
-#    pressed: DUMMY
-
-#select_2:
-#  gestures:
-#    pressed: DUMMY
-
-#select_3:
-#  gestures:
-#    pressed: DUMMY
-
-#select_4:
-#  gestures:
-#    pressed: DUMMY
-
-#select_5:
-#  gestures:
-#    pressed: DUMMY
-
-#select_6:
-#  gestures:
-#    pressed: DUMMY
-
-#select_7:
-#  gestures:
-#    pressed: DUMMY
-
-#select_8:
-#  gestures:
-#    pressed: DUMMY
+# select_1:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_2:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_3:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_4:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_5:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_6:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_7:
+#   gestures:
+#     pressed: DUMMY
+  
+# select_8:
+#   gestures:
+#     pressed: DUMMY
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
@@ -179,41 +179,41 @@ __scene_buttons:
     scene_8:
       color: green
 
-#scene_1:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_2:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_3:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_4:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_5:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_6:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_7:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_8:
-#  gestures:
-#    pressed: DUMMY
-
-#tap_tempo:
-#  gestures:
-#    pressed: DUMMY
+# scene_1:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_2:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_3:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_4:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_5:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_6:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_7:
+#   gestures:
+#     pressed: DUMMY
+     
+# scene_8:
+#   gestures:
+#     pressed: DUMMY
+  
+# tap_tempo:
+#   gestures:
+#     pressed: DUMMY
 
 ### left side
 
@@ -236,13 +236,13 @@ delete:
     released:
       mode_off: delete
 
-#double:
-#  gestures:
-#    pressed: DUMMY
-
-#quantize:
-#  gestures:
-#    pressed: DUMMY
+# double:
+#   gestures:
+#     pressed: DUMMY
+  
+# quantize:
+#   gestures:
+#     pressed: DUMMY
 
 fixed_length:
   color: full
@@ -330,30 +330,30 @@ scales:
       overlay:
         toggle: scales
 
-#repeat:
-#  gestures:
-#    pressed: DUMMY
-
-#accent:
-#  gestures:
-#    pressed: DUMMY
-
-#octave_down:
-#  gestures:
-#    pressed: DUMMY
-
-#octave_up:
-#  gestures:
-#    pressed: DUMMY
-#
-
-#add_effect:
-#  gestures:
-#    pressed: DUMMY
-
-#add_track:
-#  gestures:
-#    pressed: DUMMY
+# repeat:
+#   gestures:
+#     pressed: DUMMY
+  
+# accent:
+#   gestures:
+#     pressed: DUMMY
+  
+# octave_down:
+#   gestures:
+#     pressed: DUMMY
+  
+# octave_up:
+#   gestures:
+#     pressed: DUMMY
+# 
+  
+# add_effect:
+#   gestures:
+#     pressed: DUMMY
+  
+# add_track:
+#   gestures:
+#     pressed: DUMMY
 
 note:
   type: page
@@ -402,70 +402,58 @@ __dpad:
           ring:
             y: 1
 
-#dpad_left:
-#  gestures:
-#    pressed: DUMMY
+# dpad_left:
+#   gestures:
+#     pressed: DUMMY
 
 
 
 ### touch sensitive encoders
 
-#dpad_right:
-#  gestures:
-#    pressed: DUMMY
-
-#dpad_up:
-#  gestures:
-#    pressed: DUMMY
-
-#dpad_down:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_1_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_2_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_3_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_4_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_5_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_6_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_7_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_8_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_master_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_tempo_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#enc_swing_touch:
-#  gestures:
-#    pressed: DUMMY
-
-#touchstrip:
-#  gestures:
-#    pressed: DUMMY
+# enc_1_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_2_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_3_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_4_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_5_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_6_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_7_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_8_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_master_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_tempo_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# enc_swing_touch:
+#   gestures:
+#     pressed: DUMMY
+  
+# touchstrip:
+#   gestures:
+#     pressed: DUMMY

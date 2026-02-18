@@ -7,37 +7,37 @@ __scene_buttons:
     press__shift: >
       SCENE ${ring.scenes[me.index + 8]}
     
-#scene_1:
-#  gestures:
-#    press: DUMMY
-    
-#scene_2:
-#  gestures:
-#    press: DUMMY
-    
-#scene_3:
-#  gestures:
-#    press: DUMMY
-    
-#scene_4:
-#  gestures:
-#    press: DUMMY
-    
-#scene_5:
-#  gestures:
-#    press: DUMMY
-    
-#scene_6:
-#  gestures:
-#    press: DUMMY
-    
-#scene_7:
-#  gestures:
-#    press: DUMMY
-    
-#scene_8:
-#  gestures:
-#    press: DUMMY
+# scene_1:
+#   gestures:
+#     press: DUMMY
+     
+# scene_2:
+#   gestures:
+#     press: DUMMY
+     
+# scene_3:
+#   gestures:
+#     press: DUMMY
+     
+# scene_4:
+#   gestures:
+#     press: DUMMY
+     
+# scene_5:
+#   gestures:
+#     press: DUMMY
+     
+# scene_6:
+#   gestures:
+#     press: DUMMY
+     
+# scene_7:
+#   gestures:
+#     press: DUMMY
+     
+# scene_8:
+#   gestures:
+#     press: DUMMY
 
 __page_switcher:
   includes: [
@@ -65,29 +65,29 @@ __page_switcher:
           overlay:
             disable: keyboard_notes
 
-#session:
-#  gestures:
-#    press: DUMMY
-
-#note:
-#  gestures:
-#    press: DUMMY
-
-#chord:
-#  gestures:
-#    press: DUMMY
-
-#custom:
-#  gestures:
-#    press: DUMMY
-
-#sequencer:
-#  gestures:
-#    press: DUMMY
-
-#projects:
-#  gestures:
-#    press: DUMMY
+# session:
+#   gestures:
+#     press: DUMMY
+  
+# note:
+#   gestures:
+#     press: DUMMY
+  
+# chord:
+#   gestures:
+#     press: DUMMY
+  
+# custom:
+#   gestures:
+#     press: DUMMY
+  
+# sequencer:
+#   gestures:
+#     press: DUMMY
+  
+# projects:
+#   gestures:
+#     press: DUMMY
 
 
 __track_row:
@@ -106,37 +106,37 @@ __track_row:
     double_click: >
       "${me.track}" / PLAY >
 
-#track_1:
-#  gestures:
-#    press: DUMMY
-    
-#track_2:
-#  gestures:
-#    press: DUMMY
-    
-#track_3:
-#  gestures:
-#    press: DUMMY
-    
-#track_4:
-#  gestures:
-#    press: DUMMY
-    
-#track_5:
-#  gestures:
-#    press: DUMMY
-    
-#track_6:
-#  gestures:
-#    press: DUMMY
-    
-#track_7:
-#  gestures:
-#    press: DUMMY
-    
-#track_8:
-#  gestures:
-#    press: DUMMY
+# track_1:
+#   gestures:
+#     press: DUMMY
+     
+# track_2:
+#   gestures:
+#     press: DUMMY
+     
+# track_3:
+#   gestures:
+#     press: DUMMY
+     
+# track_4:
+#   gestures:
+#     press: DUMMY
+     
+# track_5:
+#   gestures:
+#     press: DUMMY
+     
+# track_6:
+#   gestures:
+#     press: DUMMY
+     
+# track_7:
+#   gestures:
+#     press: DUMMY
+     
+# track_8:
+#   gestures:
+#     press: DUMMY
 
 
 nav_up:
@@ -256,22 +256,22 @@ solo:
       do_toggle: true
     press__shift: METRO
 
-#volume:
-#  gestures:
-#    press: DUMMY
+# volume:
+#   gestures:
+#     press: DUMMY
 
-#pan:
-#  gestures:
-#    press: DUMMY
+# pan:
+#   gestures:
+#     press: DUMMY
 
 sends:
   gestures:
     press: DUMMY
     pressed__shift: TAPBPM
 
-#device:
-#  gestures:
-#    press:
+# device:
+#   gestures:
+#     press:
 
 stop:
   type: param

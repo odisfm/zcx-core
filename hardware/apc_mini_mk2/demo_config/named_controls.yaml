@@ -30,37 +30,37 @@ __page_group:
           overlay:
             disable: keyboard_notes
 
-#volume:
-#  gestures:
-#    press: DUMMY
-
-#pan:
-#  gestures:
-#    press: DUMMY
-
-#send:
-#  gestures:
-#    press: DUMMY
-
-#device:
-#  gestures:
-#    press: DUMMY
-
-#up:
-#  gestures:
-#    press: DUMMY
-
-#down:
-#  gestures:
-#    press: DUMMY
-
-#left:
-#  gestures:
-#    press: DUMMY
-
-#right:
-#  gestures:
-#    press: DUMMY
+# volume:
+#   gestures:
+#     press: DUMMY
+  
+# pan:
+#   gestures:
+#     press: DUMMY
+  
+# send:
+#   gestures:
+#     press: DUMMY
+  
+# device:
+#   gestures:
+#     press: DUMMY
+  
+# up:
+#   gestures:
+#     press: DUMMY
+  
+# down:
+#   gestures:
+#     press: DUMMY
+  
+# left:
+#   gestures:
+#     press: DUMMY
+  
+# right:
+#   gestures:
+#     press: DUMMY
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
@@ -68,34 +68,34 @@ __scene_buttons:
     press: >
       SCENE ${ring.scenes[me.index]}
 
-#scene_1:
-#  gestures:
-#    press: DUMMY
-
-#scene_2:
-#  gestures:
-#    press: DUMMY
-
-#scene_3:
-#  gestures:
-#    press: DUMMY
-
-#scene_4:
-#  gestures:
-#    press: DUMMY
-
-#scene_5:
-#  gestures:
-#    press: DUMMY
-
-#scene_6:
-#  gestures:
-#    press: DUMMY
-
-#scene_7:
-#  gestures:
-#    press: DUMMY
-
-#scene_8:
-#  gestures:
-#    press: DUMMY
+# scene_1:
+#   gestures:
+#     press: DUMMY
+  
+# scene_2:
+#   gestures:
+#     press: DUMMY
+  
+# scene_3:
+#   gestures:
+#     press: DUMMY
+  
+# scene_4:
+#   gestures:
+#     press: DUMMY
+  
+# scene_5:
+#   gestures:
+#     press: DUMMY
+  
+# scene_6:
+#   gestures:
+#     press: DUMMY
+  
+# scene_7:
+#   gestures:
+#     press: DUMMY
+  
+# scene_8:
+#   gestures:
+#     press: DUMMY

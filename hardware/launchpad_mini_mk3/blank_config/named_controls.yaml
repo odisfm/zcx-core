@@ -2,40 +2,40 @@
 ### top row
 ###
 
-#nav_up:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#nav_down:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#nav_left:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#nav_right:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#session:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#drums:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#keys:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# nav_up:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# nav_down:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# nav_left:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# nav_right:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# session:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# drums:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# keys:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 user:
   gestures:
@@ -50,40 +50,40 @@ novation:
 ### right side
 ###
 
-#scene_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 scene_8:
   type: mode

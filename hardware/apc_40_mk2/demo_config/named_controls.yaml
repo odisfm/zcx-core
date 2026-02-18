@@ -15,15 +15,15 @@ metronome:
   gestures:
     press: METRO
 
-#nudge_down:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#nudge_up:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# nudge_down:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# nudge_up:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 session_record:
   type: transport
@@ -130,15 +130,15 @@ device_on:
   binding: >
     SEL / DEV(SEL)
 
-#device_lock:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#clip_device:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# device_lock:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# clip_device:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 detail:
   gestures:
@@ -206,45 +206,45 @@ __arm:
   on_color: 127
   off_color: 0
 
-#arm_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#arm_8:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# arm_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 __track_selector:
   includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
@@ -254,50 +254,50 @@ __track_selector:
   on_color: 127
   off_color: 0
 
-#select_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_8:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#select_master:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# select_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_master:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 __mute:
   includes: [mute_1, mute_2, mute_3, mute_4, mute_5, mute_6, mute_7, mute_8]
@@ -307,45 +307,45 @@ __mute:
   on_color: 0
   off_color: 127
 
-#mute_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#mute_8:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# mute_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 __solo:
   includes: [solo_1, solo_2, solo_3, solo_4, solo_5, solo_6, solo_7, solo_8]
@@ -355,45 +355,45 @@ __solo:
   on_color: 127
   off_color: 0
 
-#solo_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#solo_8:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# solo_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 __crossfade_assign:
   includes: [cross_1, cross_2, cross_3, cross_4, cross_5, cross_6, cross_7, cross_8]
@@ -403,45 +403,45 @@ __crossfade_assign:
   on_color: yellow
   off_color: orange
 
-#cross_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#cross_8:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# cross_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# cross_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 __stop:
   includes: [stop_1, stop_2, stop_3, stop_4, stop_5, stop_6, stop_7, stop_8]
@@ -451,45 +451,45 @@ __stop:
   on_color: 127
   off_color: 0
 
-#stop_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_6:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_7:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#stop_8:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# stop_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 stop_all:
   gestures:
@@ -500,10 +500,10 @@ stop_all:
 ### scene buttons
 ###
 
-#scene_1:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 __scene:
   includes: [scene_2, scene_3, scene_4, scene_5]
@@ -513,22 +513,22 @@ __scene:
     press__shift: >
       SCENE ${ring.scenes[me.index + me.group_count] + 1}
 
-#scene_2:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_3:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#scene_4:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
-
-#scene_5:
-#  gestures:
-#    short_press: DUMMY
-#    long_press: DUMMY
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY

@@ -30,20 +30,20 @@ __page_controls:
   inactive_color:
     palette: coral_reverse
 
-#drums:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#keys:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#user:
-#  color: 127
-#  gestures:
-#    press: DUMMY
+# drums:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# keys:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# user:
+#   color: 127
+#   gestures:
+#     press: DUMMY
 
 __scene_controls:
   includes:
@@ -60,35 +60,35 @@ __scene_controls:
     press__shift__select: >
       SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
-#scene_1:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#scene_2:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#scene_3:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#scene_4:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#scene_5:
-#  color: 127
-#  gestures:
-#    press: DUMMY
-
-#scene_6:
-#  color: 127
-#  gestures:
-#    press: DUMMY
+# scene_1:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# scene_2:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# scene_3:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# scene_4:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# scene_5:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+  
+# scene_6:
+#   color: 127
+#   gestures:
+#     press: DUMMY
 
 scene_7:
   type: mode

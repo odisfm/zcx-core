@@ -49,37 +49,37 @@ __state_row:
     long_release:
       page: last
 
-#state_1:
-#  gestures:
-#    press: DUMMY
-    
-#state_2:
-#  gestures:
-#    press: DUMMY
-    
-#state_3:
-#  gestures:
-#    press: DUMMY
-    
-#state_4:
-#  gestures:
-#    press: DUMMY
-    
-#state_5:
-#  gestures:
-#    press: DUMMY
-    
-#state_6:
-#  gestures:
-#    press: DUMMY
-    
-#state_7:
-#  gestures:
-#    press: DUMMY
-    
-#state_8:
-#  gestures:
-#    press: DUMMY
+# state_1:
+#   gestures:
+#     press: DUMMY
+     
+# state_2:
+#   gestures:
+#     press: DUMMY
+     
+# state_3:
+#   gestures:
+#     press: DUMMY
+     
+# state_4:
+#   gestures:
+#     press: DUMMY
+     
+# state_5:
+#   gestures:
+#     press: DUMMY
+     
+# state_6:
+#   gestures:
+#     press: DUMMY
+     
+# state_7:
+#   gestures:
+#     press: DUMMY
+     
+# state_8:
+#   gestures:
+#     press: DUMMY
 
 __select_row:
   # the bottom row
@@ -99,37 +99,37 @@ __select_row:
     press__delete: >
       "${me.track}" / DEL
       
-#select_1:
-#  gestures:
-#    press: DUMMY
-    
-#select_2:
-#  gestures:
-#    press: DUMMY
-    
-#select_3:
-#  gestures:
-#    press: DUMMY
-    
-#select_4:
-#  gestures:
-#    press: DUMMY
-    
-#select_5:
-#  gestures:
-#    press: DUMMY
-    
-#select_6:
-#  gestures:
-#    press: DUMMY
-    
-#select_7:
-#  gestures:
-#    press: DUMMY
-    
-#select_8:
-#  gestures:
-#    press: DUMMY
+# select_1:
+#   gestures:
+#     press: DUMMY
+     
+# select_2:
+#   gestures:
+#     press: DUMMY
+     
+# select_3:
+#   gestures:
+#     press: DUMMY
+     
+# select_4:
+#   gestures:
+#     press: DUMMY
+     
+# select_5:
+#   gestures:
+#     press: DUMMY
+     
+# select_6:
+#   gestures:
+#     press: DUMMY
+     
+# select_7:
+#   gestures:
+#     press: DUMMY
+     
+# select_8:
+#   gestures:
+#     press: DUMMY
 
 __scene_buttons:
   includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
@@ -140,37 +140,37 @@ __scene_buttons:
     press__select: SCENE SEL ${ring.scenes[me.Index]}
     press__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
 
-#scene_1:
-#  gestures:
-#    press: DUMMY
-    
-#scene_2:
-#  gestures:
-#    press: DUMMY
-    
-#scene_3:
-#  gestures:
-#    press: DUMMY
-    
-#scene_4:
-#  gestures:
-#    press: DUMMY
-    
-#scene_5:
-#  gestures:
-#    press: DUMMY
-    
-#scene_6:
-#  gestures:
-#    press: DUMMY
-    
-#scene_7:
-#  gestures:
-#    press: DUMMY
-    
-#scene_8:
-#  gestures:
-#    press: DUMMY
+# scene_1:
+#   gestures:
+#     press: DUMMY
+     
+# scene_2:
+#   gestures:
+#     press: DUMMY
+     
+# scene_3:
+#   gestures:
+#     press: DUMMY
+     
+# scene_4:
+#   gestures:
+#     press: DUMMY
+     
+# scene_5:
+#   gestures:
+#     press: DUMMY
+     
+# scene_6:
+#   gestures:
+#     press: DUMMY
+     
+# scene_7:
+#   gestures:
+#     press: DUMMY
+     
+# scene_8:
+#   gestures:
+#     press: DUMMY
 
 __dpad:
   includes: [dpad_left, dpad_right, dpad_up, dpad_down]
@@ -202,21 +202,21 @@ __dpad:
           ring:
             y: 1
 
-#dpad_left:
-#  gestures:
-#    press: DUMMY
-
-#dpad_right:
-#  gestures:
-#    press: DUMMY
-
-#dpad_up:
-#  gestures:
-#    press: DUMMY
-
-#dpad_down:
-#  gestures:
-#    press: DUMMY
+# dpad_left:
+#   gestures:
+#     press: DUMMY
+  
+# dpad_right:
+#   gestures:
+#     press: DUMMY
+  
+# dpad_up:
+#   gestures:
+#     press: DUMMY
+  
+# dpad_down:
+#   gestures:
+#     press: DUMMY
 
 device:
   type: mode
@@ -272,9 +272,9 @@ add_track:
     press:
       mode_on: add_track
 
-#touchstrip:
-#  gestures:
-#    press: DUMMY
+# touchstrip:
+#   gestures:
+#     press: DUMMY
 
 page_prev:
   repeat: true
@@ -414,18 +414,18 @@ session:
     long_release:
       page: last
 
-#convert:
-#  gestures:
-#    press: DUMMY
-
-#repeat:
-#  gestures:
-#    press: DUMMY
-
-#accent:
-#  gestures:
-#    press: DUMMY
-#
+# convert:
+#   gestures:
+#     press: DUMMY
+  
+# repeat:
+#   gestures:
+#     press: DUMMY
+  
+# accent:
+#   gestures:
+#     press: DUMMY
+# 
 
 scales:
   type: overlay
