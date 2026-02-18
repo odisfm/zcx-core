@@ -22,11 +22,6 @@
 #     short_press: DUMMY
 #     long_press: DUMMY
   
-# double:
-#   gestures:
-#     short_press: DUMMY
-#     long_press: DUMMY
-  
 # mute:
 #   gestures:
 #     short_press: DUMMY
@@ -324,12 +319,12 @@
 #     short_press: DUMMY
 #     long_press: DUMMY
   
-# page_left:
+# page_prev:
 #   gestures:
 #     short_press: DUMMY
 #     long_press: DUMMY
   
-# page_right:
+# page_next:
 #   gestures:
 #     short_press: DUMMY
 #     long_press: DUMMY

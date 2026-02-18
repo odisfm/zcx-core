@@ -417,6 +417,10 @@ session:
 # convert:
 #   gestures:
 #     press: DUMMY
+
+# double_loop:
+#   gestures:
+#     press: DUMMY
   
 # repeat:
 #   gestures:
