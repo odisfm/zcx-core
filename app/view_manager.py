@@ -297,8 +297,7 @@ class ViewManager(ZCXComponent):
         names_to_remove = self.__pages_to_overlays_out[self.__last_page_num] if self.__last_page_num >= 0 else []
         names_to_add = self.__pages_to_overlays_in[new_page_idx]
 
-
-        names_to_add, names_to_remove = self.remove_common_items(names_to_add, names_to_remove)
+        names_to_remove = self.remove_common_items(names_to_add, names_to_remove)[1]
         names_to_add = self.remove_common_items(names_to_add, self.__active_overlay_names)[0]
 
         self.debug(f"overlays to remove: {names_to_remove}")
@@ -316,7 +315,7 @@ class ViewManager(ZCXComponent):
         set2 = set(list2)
         set1 = set(list1)
         return ([item for item in list1 if item not in set2],
-                [item for item in list2 if item not in set1]) or ([], [])
+                [item for item in list2 if item not in set1])
 
 class OverlayDetail:
 
