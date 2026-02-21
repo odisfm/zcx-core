@@ -2152,6 +2152,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#manual-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      manual upgrade
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3213,6 +3222,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#manual-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      manual upgrade
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3235,19 +3253,11 @@
 <h1 id="upgrading-your-zcx-installation">upgrading your zcx installation<a class="headerlink" href="#upgrading-your-zcx-installation" title="Permanent link">&para;</a></h1>
 <p>To get access to the latest features and bugfixes, you should keep your zcx installation(s) up to date.
 If you use multiple zcx installations (for different controllers), you need to upgrade each install separately.</p>
-<div class="admonition danger">
-<p class="admonition-title">Danger</p>
-<p><img alt="Snake from 'The Simpsons' saying 'Oh, no! Beta.'" src="../img/oh-no-beta.jpg" /></p>
-<p>zcx is pre v1. This means it's very likely a new version will have <strong>breaking changes</strong>.
-'Breaking changes' basically means that if you upgrade, your old config might rely on features that work differently now.
-You may even have to move, rename, or delete certain files to make your old config compatible.</p>
-<p>To see if you are affected by any breaking changes, read the <a href="https://github.com/odisfm/zcx-core/releases">releases page</a> on GitHub.</p>
-</div>
 <h2 id="automatic-upgrade">automatic upgrade<a class="headerlink" href="#automatic-upgrade" title="Permanent link">&para;</a></h2>
 <p>Starting from v0.5, you can use the Python script <code>upgrade.py</code> to get the latest release from GitHub.</p>
 <p>This script will:</p>
 <ul>
-<li>backup your existing installation to <code>Remote Scripts/__zcx_backups__</code></li>
+<li>Backup your existing installation to <code>Remote Scripts/__zcx_backups__</code></li>
 <li>Download the newest release</li>
 <li>Replace all application code with the newest version</li>
 <li>Restore your configuration files</li>
@@ -3268,6 +3278,13 @@ Once you've done that, open a terminal or PowerShell window and navigate to your
 <p class="admonition-title">Note</p>
 <p>The paths above are the defaults. You will need to modify them if your User Library is in a different location.</p>
 </div>
+<h2 id="manual-upgrade">manual upgrade<a class="headerlink" href="#manual-upgrade" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Copy your entire install (i.e. <code>User Library/Remote Scripts/_zcx_&lt;hardware name&gt;</code>) to a safe place, such as your desktop</li>
+<li>Follow the <a href="../getting-started/installation/">installation procedure</a> for the latest zcx version</li>
+<li>Inside the newly installed zcx folder, delete the folder <code>_config</code> and the file <code>_global_preferences.yaml</code></li>
+<li>From your old install, copy and paste <code>_config</code> and <code>_global_preferences.yaml</code> into the new install</li>
+</ul>
 
 
 
@@ -3290,7 +3307,7 @@ Once you've done that, open a terminal or PowerShell window and navigate to your
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-08-30T23:16:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-08-30</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-02-21T09:14:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-02-21</span>
   </span>
 
     
