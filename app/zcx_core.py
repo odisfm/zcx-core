@@ -329,7 +329,7 @@ class ZCXCore(ControlSurface):
         self._session_ring_custom._on_highlighted_clip_slot_changed(dry_run=True)
         self.invoke_all_plugins("song_ready")
 
-        version_string = "" if not self.__version else f"v{self.__version}"
+        version_string = "" if not self.__version else f"v{self.__version} "
 
         self.log(f"{self.name} {version_string}loaded! <<<<<<<<<<<<<<<<<<<")
 
