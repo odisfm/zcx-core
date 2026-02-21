@@ -1240,9 +1240,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#overwriting-options" class="md-nav__link">
+  <a href="#overriding-options" class="md-nav__link">
     <span class="md-ellipsis">
-      overwriting options
+      overriding options
     </span>
   </a>
   
@@ -3426,9 +3426,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#overwriting-options" class="md-nav__link">
+  <a href="#overriding-options" class="md-nav__link">
     <span class="md-ellipsis">
-      overwriting options
+      overriding options
     </span>
   </a>
   
@@ -3719,13 +3719,13 @@ Must be enclosed in double-quotes for use in a ClyphX Pro action list.</p>
 </span></code></pre></div>
 <p>For named controls, we create a new entry that starts with a double underscore (<code>__</code>). What follows the <code>__</code> is the group name, in this case <code>scene_group</code>. This group name is up to you.</p>
 <p>The <code>includes</code> key is a list of controls that belong to this group. Each member of the group will inherit all options defined on the group. In this case each control in the group will launch a scene, <a href="#template-strings">relative to its position in that group</a>.</p>
-<h4 id="overwriting-options">overwriting options<a class="headerlink" href="#overwriting-options" title="Permanent link">&para;</a></h4>
-<p>We can overwrite some or all of the group's options for each member. This is done via the <code>controls</code> key:</p>
+<h4 id="overriding-options">overriding options<a class="headerlink" href="#overriding-options" title="Permanent link">&para;</a></h4>
+<p>We can override some or all of the group's options for each member. This is done via the <code>controls</code> key:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">controls</span><span class="p">:</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">scene_2</span><span class="p">:</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blue</span>
 </span></code></pre></div>
-<p><code>controls</code> is a dict of control definitions. Each key of <code>controls</code> is the name of a control in this group. In this <code>scene_2</code> key we can overwrite part or all of the group definition. We can also add options that weren't defined on the group:
+<p><code>controls</code> is a dict of control definitions. Each key of <code>controls</code> is the name of a control in this group. In this <code>scene_2</code> key we can override part or all of the group definition. We can also add options that weren't defined on the group:
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">controls</span><span class="p">:</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">scene_2</span><span class="p">:</span>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blue</span>
@@ -3781,7 +3781,7 @@ Must be enclosed in double-quotes for use in a ClyphX Pro action list.</p>
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="p p-Indicator">-</span>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="p p-Indicator">-</span>
 </span></code></pre></div></p>
-<p>Each of these dashes is a blank or 'null' entry in this list. By looking at <code>controls</code>, we can see that four controls belong to this group. Like <a href="#overwriting-options">above</a>, we are able to overwrite or extend individual group members:</p>
+<p>Each of these dashes is a blank or 'null' entry in this list. By looking at <code>controls</code>, we can see that four controls belong to this group. Like <a href="#overriding-options">above</a>, we are able to override or extend individual group members:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">controls</span><span class="p">:</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="p p-Indicator">-</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="p p-Indicator">-</span>
@@ -3808,7 +3808,7 @@ Must be enclosed in double-quotes for use in a ClyphX Pro action list.</p>
 </span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
 </span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2 / SEL</span>
 </span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="p p-Indicator">-</span>
-</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="hll"><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span><span class="w">  </span><span class="c1"># this option was overwritten</span>
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="hll"><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span><span class="w">  </span><span class="c1"># this option was overridden</span>
 </span></span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
 </span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3 / SEL</span>
 </span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="p p-Indicator">-</span>
@@ -3869,7 +3869,7 @@ The main difference is that we use the key <code>encoders</code> for our overrid
 </span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">          </span><span class="no">&quot;my cool track&quot; / PAN</span>
 </span></code></pre></div>
 <h2 id="control-templates">control templates<a class="headerlink" href="#control-templates" title="Permanent link">&para;</a></h2>
-<p>In <code>control_templates.yaml</code>, you may create a control definition that is available for any control to inherit from. Any options defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same option), the child will overwrite the template.</p>
+<p>In <code>control_templates.yaml</code>, you may create a control definition that is available for any control to inherit from. Any options defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same option), the child will override the template.</p>
 <p><div class="language-yaml highlight"><span class="filename">control_templates.yaml</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">__global__</span><span class="p">:</span>
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">127</span>
 </span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
@@ -3880,7 +3880,7 @@ The main difference is that we use the key <code>encoders</code> for our overrid
 </span></code></pre></div>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nt">play</span><span class="p">:</span>
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hold_warning</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="hll"><span class="w">  </span><span class="c1"># color: 127    __global__ option, overwritten</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="hll"><span class="w">  </span><span class="c1"># color: 127    __global__ option, overridden</span>
 </span></span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span>
 </span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
 </span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="nt">long_press</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SETPLAY</span>
@@ -3946,7 +3946,7 @@ In this case, the control is <code>pink</code>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-01-04T08:41:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-02-21T07:29:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-02-21</span>
   </span>
 
     
