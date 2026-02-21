@@ -121,8 +121,7 @@ See the [session view lesson](../../../lessons/session-view.md) for more detail 
 ##### session_controls
 
 The bottom two rows feature the section `session_controls`.
-They are param controls bound to the eight tracks contained in the session ring.
-The top row is bound to those track's mute status.
+The top row are param controls, bound to those track's selection status.
 The bottom row will set its respective track to a random color, which isn't particularly useful, but it's there to demonstrate how we can [target ring tracks with action lists](../../session-ring.md#referencing-the-ring-from-template-strings).
 
 #### keyboard_page
