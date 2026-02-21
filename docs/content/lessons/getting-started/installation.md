@@ -6,6 +6,8 @@ weight: 0
 
 Installing zcx is super easy.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rzDDizONH1A?si=Gz4m8C_ABLhZILlY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## get a distribution
 
 A 'distribution' is what we call a finished release of a zcx script. It contains the 'core' of zcx, along with hardware-specific code that makes it work with your controller. 

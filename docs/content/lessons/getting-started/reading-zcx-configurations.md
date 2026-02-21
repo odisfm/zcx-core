@@ -10,6 +10,8 @@ If you're coming from the [X and G controls in ClyphX Pro](https://www.cxpman.co
 Having said that, zcx expects to receive its configuration files in a particular format, just as ClyphX does.
 It's important to understand this format, otherwise your zcx script may fail to load, or behave in undesirable ways.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/E9aq_WqPuPg?si=qmORgqQgNrVBYpJP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## X-Controls vs ZControls
 
 You'll already be familiar with X-Controls from ClyphX:
@@ -43,9 +45,7 @@ At the same time, the above definition may look more complex, yet easier to read
 ## YAML
 > "yam-il"
 
-So what is yaml? Put simply, yaml is a format for organising data in a structured way, making it easy for humans to write, and easy for machines to understand. We'll explain the most important stuff you need to get started with zcx in a moment, but if you'd prefer to watch a video, [this one](https://www.youtube.com/watch?v=cdLNKUoMc6c) does a great job of explaining the basics (watch until about 5:30).
-
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/cdLNKUoMc6c?si=kwPVI7QHkK9zygx3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+So what is yaml? Put simply, yaml is a format for organising data in a structured way, making it easy for humans to write, and easy for machines to understand. 
  
 
 ## keys and values

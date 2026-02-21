@@ -6,6 +6,8 @@ weight: 2
 
 zcx uses a lot of jargon. Here is a quick guide to the most important concepts.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7PJQFykVung?si=MWCGYp7QdQEcgdN7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## ZControls
 
 Roughly equivalent to an [X or G control from ClyphX Pro](https://www.cxpman.com/manual/using-midi-controllers/). 

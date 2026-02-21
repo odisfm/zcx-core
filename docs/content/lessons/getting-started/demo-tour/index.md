@@ -1,5 +1,5 @@
 ---
-weight: 3
+weight: 300
 ---
 # Demo tour
 

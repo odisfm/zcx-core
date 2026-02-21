@@ -1,5 +1,7 @@
 # getting started
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=LO_9tMB1km_GuzlX&amp;list=PLwhKJvpLktV999uaQvgjpENpe3SqJhSiK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 Here's the stuff you should know before you get stuck in designing your zcx config:
 
 0. [installing zcx](installation.md)
@@ -18,7 +20,7 @@ Here's the stuff you should know before you get stuck in designing your zcx conf
 
     > 	An introduction to the most important concepts and terminology used in zcx.
 
-4. [editing a config](editing-a-config.md)
+4. [building a config](building-a-config.md)
 
     >	Your first steps with configuring zcx.
 
