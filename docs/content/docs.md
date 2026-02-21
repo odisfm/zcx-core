@@ -11,12 +11,6 @@ Welcome to the documentation for [zcx](index.md).
 
 If you're brand new to zcx, check out the [getting started](lessons/getting-started/index.md) tutorial, or see [frequently asked questions](faq.md).
 
-!!! bug "Watch out"
-    
-    zcx is in beta, and so are these docs. Information here may be incorrect or missing.
-
-    If you think you've found an error in these docs or a problem with zcx, please [report a bug](lessons/reporting-bugs.md). Alternatively, [reach out on Discord](https://discord.zcxcore.com).
-
 !!! tip "Offline copy"
     You may download an offline copy of this documentation from [GitHub](https://get.zcxcore.com).
     Scroll down to "assets" and download the zipped documentation, then unzip and open `index.html`.
