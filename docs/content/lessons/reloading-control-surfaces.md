@@ -16,9 +16,6 @@ A hot reload can be triggered via:
 * The [hot_reload command](../reference/command.md#hot_reload)
 * The [zcx user action](zcx-user-action.md#hot_reload)
 
-!!! tip ""
-    Each [demo configuration](getting-started/demo-tour/index.md) has a pre-configured hot reload button combination.
-
 !!! note
     The hot reload feature is designed to speed up your workflow when creating your config.
     It should not be relied upon in a performance situation.
