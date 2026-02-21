@@ -6,50 +6,50 @@ shift:
   type: mode
   mode: shift
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
 # nav_left:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # nav_right:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # session:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # note:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # chord:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 custom:
   gestures:
-    pressed_delayed:
+    long_press:
       hw_mode: live
 
 # sequencer:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # projects:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 novation:
   color: purple
@@ -61,43 +61,43 @@ novation:
 
 # scene_1:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_2:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_3:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_4:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_5:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_6:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_7:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # scene_8:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 
 
@@ -107,83 +107,83 @@ novation:
 
 # track_1:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_2:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_3:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_4:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_5:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_6:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_7:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # track_8:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # arm:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # mute:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # solo:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # volume:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # pan:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # sends:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # device:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # stop:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 
 ###
@@ -192,40 +192,40 @@ novation:
 
 # nav_up:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # nav_down:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # clear:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # duplicate:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # quantize:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # fixed_length:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # play:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
   
 # record:
 #   gestures:
-#     released_immediately: DUMMY
-#     pressed_delayed: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY

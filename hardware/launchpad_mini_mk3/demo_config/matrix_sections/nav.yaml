@@ -3,15 +3,15 @@
 -
   color: 0
 #  gestures:
-#    released_immediately: DUMMY
-#    pressed_delayed: DUMMY
+#    short_press: DUMMY
+#    long_press: DUMMY
 
 # col 2
 -
   color: 0
 #  gestures:
-#    released_immediately: DUMMY
-#    pressed_delayed: DUMMY
+#    short_press: DUMMY
+#    long_press: DUMMY
 
 # col 3
 -
@@ -39,24 +39,24 @@
 -
   color: 0
   gestures:
-    released_immediately: DUMMY
-    pressed_delayed: DUMMY
+    short_press: DUMMY
+    long_press: DUMMY
 
 # col 2
 -
   color: dark_grey
   repeat: true
   gestures:
-    pressed: LEFT
-    pressed__shift:
+    press: LEFT
+    press__shift:
       ring: left
 
 # col 3
 -
   color: white
   gestures:
-    released_immediately: SEL / PLAY SEL
-    pressed__shift:
+    short_press: SEL / PLAY SEL
+    press__shift:
       ring:
         track: 0
         scene: 0
@@ -66,8 +66,8 @@
   color: dark_grey
   repeat: true
   gestures:
-    pressed: RIGHT
-    pressed__shift:
+    press: RIGHT
+    press__shift:
       ring: right
 
 # !! row 3
@@ -79,7 +79,7 @@
   active_color:
     pulse: play_green
   gestures:
-    released_immediately: SETPLAY
+    short_press: SETPLAY
 
 # col 2
 -
@@ -91,8 +91,8 @@
       a: red
       b: red
   gestures:
-    released_immediately: SREC
-    pressed_delayed: SREC FIX 8
+    short_press: SREC
+    long_press: SREC FIX 8
 
 # col 3
 -

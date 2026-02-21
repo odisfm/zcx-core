@@ -1,122 +1,6 @@
-session:
-  color: 1
-  hold_color: red
-  gestures:
-    press:
-      refresh: true
-    short_press:
-      msg: hold to return to Live mode
-    long_press:
-      hardware_mode: live
-    double_click:
-      msg: double click with shift to do a hot reload
-    double_click__shift:
-      hot_reload: true
-
-__page_controls:
-  includes:
-    [note, custom, capture]
-  type: page
-  page: ${me.index}
-  gestures:
-    press:
-      page: ${me.index}
-      msg: >
-        Page: ${me.page_name}
-    long_release:
-      page: last
-  active_color:
-    pulse: white
-  inactive_color:
-    palette: coral_reverse
-
-# drums:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# keys:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# user:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-
-__scene_controls:
-  includes:
-    [scene_1, scene_2, scene_3, scene_4]
-  color:
-    palette: coral
-  gestures:
-    press: >
-      SCENE ${ring.scenes[me.Index]}
-    press__shift: >
-      SCENE ${ring.scenes[me.Index + me.group_count]}
-    press__select: >
-      SCENE SEL ${ring.scenes[me.Index]}
-    press__shift__select: >
-      SCENE SEL ${ring.scenes[me.Index + me.group_count]}
-
-# scene_1:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# scene_2:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# scene_3:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# scene_4:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# scene_5:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-  
-# scene_6:
-#   color: 127
-#   gestures:
-#     press: DUMMY
-
-scene_7:
-  type: mode
-  mode: select
-  inactive_color: white
-  active_color: lime
-  gestures:
-    press:
-      mode_on: select
-    released:
-      mode_off: select
-
-scene_8:
-  type: mode
-  mode: shift
-  inactive_color: white
-  active_color: purple
-  gestures:
-    press:
-      mode_on: shift
-    released:
-      mode_off: shift
-
-novation:
-  type: transport
-  transport: play
-  active_color: grey
-  inactive_color: dark_grey
+###
+### top row
+###
 
 nav_up:
   repeat: true
@@ -161,3 +45,134 @@ nav_right:
     press__shift:
       ring:
         x: 1
+
+session:
+  color: 1
+  hold_color: red
+  gestures:
+    press:
+      refresh: true
+    short_press:
+      msg: hold to return to Live mode
+    long_press:
+      hardware_mode: live
+    double_click:
+      msg: double click with shift to do a hot reload
+    double_click__shift:
+      hot_reload: true
+
+__page_controls:
+  includes:
+    [note, custom, capture]
+  type: page
+  page: ${me.index}
+  gestures:
+    press:
+      page: ${me.index}
+      msg: >
+        Page: ${me.page_name}
+    long_release:
+      page: last
+  active_color:
+    pulse: white
+  inactive_color:
+    palette: coral_reverse
+
+# session:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+
+# note:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# custom:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# capture:
+#   color: 127
+#   gestures:
+#     press: DUMMY
+
+novation:
+  type: transport
+  transport: play
+  active_color: grey
+  inactive_color: dark_grey
+
+
+###
+### right side
+###
+
+__scene_controls:
+  includes:
+    [scene_1, scene_2, scene_3, scene_4]
+  color:
+    palette: coral
+  gestures:
+    press: >
+      SCENE ${ring.scenes[me.Index]}
+    press__shift: >
+      SCENE ${ring.scenes[me.Index + me.group_count]}
+    press__select: >
+      SCENE SEL ${ring.scenes[me.Index]}
+    press__shift__select: >
+      SCENE SEL ${ring.scenes[me.Index + me.group_count]}
+
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+scene_7:
+  type: mode
+  mode: select
+  inactive_color: white
+  active_color: lime
+  gestures:
+    press:
+      mode_on: select
+    release:
+      mode_off: select
+
+scene_8:
+  type: mode
+  mode: shift
+  inactive_color: white
+  active_color: purple
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift

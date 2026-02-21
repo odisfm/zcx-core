@@ -1,142 +1,6 @@
-__scene_buttons:
-  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
-  color: cyan
-  gestures:
-    press: >
-      SCENE ${ring.scenes[me.index]}
-    press__shift: >
-      SCENE ${ring.scenes[me.index + 8]}
-    
-# scene_1:
-#   gestures:
-#     press: DUMMY
-     
-# scene_2:
-#   gestures:
-#     press: DUMMY
-     
-# scene_3:
-#   gestures:
-#     press: DUMMY
-     
-# scene_4:
-#   gestures:
-#     press: DUMMY
-     
-# scene_5:
-#   gestures:
-#     press: DUMMY
-     
-# scene_6:
-#   gestures:
-#     press: DUMMY
-     
-# scene_7:
-#   gestures:
-#     press: DUMMY
-     
-# scene_8:
-#   gestures:
-#     press: DUMMY
-
-__page_switcher:
-  includes: [
-    chord, custom, session, note, sequencer, projects
-  ]
-  type: page
-  page: ${me.index}
-  active_color:
-    palette: rainbow
-  inactive_color: white
-  gestures:
-    press:
-      page: ${me.index}
-      msg: >
-        Page ${me.page}: ${me.page_name}
-    long_release:
-      page: last
-  controls:
-    note:
-      gestures:
-        long_press:
-          overlay:
-            enable: keyboard_notes
-        short_press:
-          overlay:
-            disable: keyboard_notes
-
-# session:
-#   gestures:
-#     press: DUMMY
-  
-# note:
-#   gestures:
-#     press: DUMMY
-  
-# chord:
-#   gestures:
-#     press: DUMMY
-  
-# custom:
-#   gestures:
-#     press: DUMMY
-  
-# sequencer:
-#   gestures:
-#     press: DUMMY
-  
-# projects:
-#   gestures:
-#     press: DUMMY
-
-
-__track_row:
-  # the bottom row
-  includes: [track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8]
-  type: ring_track
-  ring_index: ${me.index}
-  gestures:
-    press: >
-      "${me.track}" / SEL
-    long_press: >
-      ALL / ARM OFF ;
-      "${me.track}" / ARM
-    long_press__shift: >
-      "${me.track}" / ARM
-    double_click: >
-      "${me.track}" / PLAY >
-
-# track_1:
-#   gestures:
-#     press: DUMMY
-     
-# track_2:
-#   gestures:
-#     press: DUMMY
-     
-# track_3:
-#   gestures:
-#     press: DUMMY
-     
-# track_4:
-#   gestures:
-#     press: DUMMY
-     
-# track_5:
-#   gestures:
-#     press: DUMMY
-     
-# track_6:
-#   gestures:
-#     press: DUMMY
-     
-# track_7:
-#   gestures:
-#     press: DUMMY
-     
-# track_8:
-#   gestures:
-#     press: DUMMY
+###
+### nav
+###
 
 
 nav_up:
@@ -167,10 +31,6 @@ nav_right:
       ring:
         x: ${ring.width}
 
-novation:
-  type: transport
-  transport: play
-
 shift:
   gestures:
     press:
@@ -178,47 +38,185 @@ shift:
     release:
       mode_off: shift
 
-play:
+
+###
+### top row
+###
+
+__page_switcher:
+  includes: [
+    chord, custom, session, note, sequencer, projects
+  ]
+  type: page
+  page: ${me.index}
+  active_color:
+    palette: rainbow
+  inactive_color: white
+  gestures:
+    press:
+      page: ${me.index}
+      msg: >
+        Page ${me.page}: ${me.page_name}
+    long_release:
+      page: last
+  controls:
+    note:
+      gestures:
+        long_press:
+          overlay:
+            enable: keyboard_notes
+        short_press:
+          overlay:
+            disable: keyboard_notes
+
+# session:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# note:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# chord:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# custom:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# sequencer:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# projects:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+novation:
   type: transport
   transport: play
-  gestures:
-    press: SETPLAY
+  active_color: purple
+  inactive_color: white
 
-record:
-  type: transport
-  transport: session_record
-  gestures:
-    press: RECFIX
-    press__shift: SRECFIX 8
+###
+### right side
+###
 
-duplicate:
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color: cyan
   gestures:
-    press: CLIP DUPE
-    press__shift: SCENE DUPE
+    press: >
+      SCENE ${ring.scenes[me.index]}
+    press__shift: >
+      SCENE ${ring.scenes[me.index + 8]}
 
-clear:
-  gestures:
-    press:
-      msg: Press with shift to delete clip
-    press__shift: CLIP DEL
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-quantize:
-  gestures:
-    press: CLIP QNTZ 1/16 100
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-fixed_length:
-  color: grey
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+###
+### bottom row
+###
+
+__track_row:
+  includes: [track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8]
+  type: ring_track
+  ring_index: ${me.index}
   gestures:
-    press:
-      pseq:
-        -
-          cxp: >
-            %zcx_fixed_record% = 8
-          color: white
-        -
-          cxp: >
-            %zcx_fixed_record% = 0
-          color: grey
+    press: >
+      "${me.track}" / SEL
+    long_press: >
+      ALL / ARM OFF ;
+      "${me.track}" / ARM
+    long_press__shift: >
+      "${me.track}" / ARM
+    double_click: >
+      "${me.track}" / PLAY >
+
+# track_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 arm:
   type: param
@@ -258,20 +256,23 @@ solo:
 
 # volume:
 #   gestures:
-#     press: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 # pan:
 #   gestures:
-#     press: DUMMY
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 sends:
   gestures:
     press: DUMMY
-    pressed__shift: TAPBPM
+    press__shift: TAPBPM
 
 # device:
 #   gestures:
-#     press:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 stop:
   type: param
@@ -282,4 +283,52 @@ stop:
   inactive_color: grey
   gestures:
     press: STOP
-    pressed__shift: STOP NQ
+    press__shift: STOP NQ
+
+
+###
+### left side
+###
+
+
+clear:
+  gestures:
+    press:
+      msg: Press with shift to delete clip
+    press__shift: CLIP DEL
+
+duplicate:
+  gestures:
+    press: CLIP DUPE
+    press__shift: SCENE DUPE
+
+quantize:
+  gestures:
+    press: CLIP QNTZ 1/16 100
+
+fixed_length:
+  color: grey
+  gestures:
+    press:
+      pseq:
+        -
+          cxp: >
+            %zcx_fixed_record% = 8
+          color: white
+        -
+          cxp: >
+            %zcx_fixed_record% = 0
+          color: grey
+
+play:
+  type: transport
+  transport: play
+  gestures:
+    press: SETPLAY
+
+record:
+  type: transport
+  transport: session_record
+  gestures:
+    press: RECFIX
+    press__shift: SRECFIX 8

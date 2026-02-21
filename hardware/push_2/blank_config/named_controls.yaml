@@ -179,22 +179,7 @@
 ### right side
 ###
 
-# add_effect:
-#   gestures:
-#     short_press: DUMMY
-#     long_press: DUMMY
-  
-# add_track:
-#   gestures:
-#     short_press: DUMMY
-#     long_press: DUMMY
-  
 # master:
-#   gestures:
-#     short_press: DUMMY
-#     long_press: DUMMY
-  
-# stop:
 #   gestures:
 #     short_press: DUMMY
 #     long_press: DUMMY
@@ -258,7 +243,17 @@
 #   gestures:
 #     short_press: DUMMY
 #     long_press: DUMMY
-  
+
+# add_device:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# add_track:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
 # dpad_up:
 #   gestures:
 #     short_press: DUMMY
@@ -338,7 +333,7 @@ shift:
   gestures:
     press:
       mode_on: shift
-    released:
+    release:
       mode_off: shift
 
 
