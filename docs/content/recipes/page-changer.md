@@ -92,7 +92,7 @@ __page_changer:
 
 #### Individual colors
 
-By [overriding the group definition](../reference/template.md#overwriting-options), we can set a particular color for some or all of the controls:
+By [overriding the group definition](../reference/template.md#overriding-options), we can set a particular color for some or all of the controls:
 
 ```yaml title="named_controls.yaml" hl_lines="5-9"
 __page_changer:

@@ -141,7 +141,7 @@ ${user_clip_target} MY_USER_ACTION
 "my cool track" / USER_CLIP(6) MY_USER_ACTION
 ```
 
-### Overwriting defaults
+### Overriding defaults
 
 In the [section template](#extending-defaults), simply define new commands for the gesture `pressed` and/or `pressed__select`:
 

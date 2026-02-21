@@ -122,7 +122,7 @@ The template(s) to apply to this control. See [template reference](../template.m
 Apply a single template.
 
 `list[string]`
-Apply each template consecutively. Options that conflict will be overwritten from left to right.
+Apply each template consecutively. Options that conflict will be overridden from left to right.
 
 `null`
 Apply no template, including the `__global__` template.

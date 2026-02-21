@@ -260,9 +260,9 @@ For named controls, we create a new entry that starts with a double underscore (
 
 The `includes` key is a list of controls that belong to this group. Each member of the group will inherit all options defined on the group. In this case each control in the group will launch a scene, [relative to its position in that group](#template-strings).
 
-#### overwriting options
+#### overriding options
 
-We can overwrite some or all of the group's options for each member. This is done via the `controls` key:
+We can override some or all of the group's options for each member. This is done via the `controls` key:
 
 ```yaml
 controls:
@@ -270,7 +270,7 @@ controls:
     color: blue
 ```
 
-`controls` is a dict of control definitions. Each key of `controls` is the name of a control in this group. In this `scene_2` key we can overwrite part or all of the group definition. We can also add options that weren't defined on the group:
+`controls` is a dict of control definitions. Each key of `controls` is the name of a control in this group. In this `scene_2` key we can override part or all of the group definition. We can also add options that weren't defined on the group:
 ```yaml hl_lines="4"
 controls:
   scene_2:
@@ -340,7 +340,7 @@ controls:
 
 ```
 
-Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](#overwriting-options), we are able to overwrite or extend individual group members:
+Each of these dashes is a blank or 'null' entry in this list. By looking at `controls`, we can see that four controls belong to this group. Like [above](#overriding-options), we are able to override or extend individual group members:
 
 ```yaml
 controls:
@@ -374,7 +374,7 @@ This is a representation of how zcx processes this section under the hood:
   gestures:
     press: 2 / SEL
 -
-  color: green  # this option was overwritten
+  color: green  # this option was overridden
   gestures:
     press: 3 / SEL
 -
@@ -452,7 +452,7 @@ __enc_row:
 ```
 
 ## control templates
-In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any options defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same option), the child will overwrite the template.
+In `control_templates.yaml`, you may create a control definition that is available for any control to inherit from. Any options defined on the template will be inherited on the child control. In the case of a conflict (the template and child define the same option), the child will override the template.
 
 ```yaml title="control_templates.yaml"
 __global__:
@@ -466,7 +466,7 @@ hold_warning:
 ```yaml hl_lines="3 7 8"
 play:
   template: hold_warning
-  # color: 127    __global__ option, overwritten
+  # color: 127    __global__ option, overridden
   color: green
   gestures:
     long_press: SETPLAY
