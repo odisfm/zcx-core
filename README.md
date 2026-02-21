@@ -15,7 +15,7 @@ Features include:
 
 Learn more at [zcxcore.com](https://wwww.zcxcore.com).
 
-[![Thumbnail of a zcx overview video on YouTube](https://imgur.com/17WMWEc.png)](https://www.youtube.com/watch?v=_xLHWf9I4Ak)
+[![Thumbnail of a zcx overview video on YouTube](https://imgur.com/17WMWEc.png)](https://www.youtube.com/watch?v=_xLHWf9I4Ak&list=PLwhKJvpLktV999uaQvgjpENpe3SqJhSiK&index=1)
 
 [documentation](https://zcxcore.com)
 
