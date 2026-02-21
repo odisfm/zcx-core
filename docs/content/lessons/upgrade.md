@@ -35,3 +35,9 @@ python upgrade.py
 !!! note
     The paths above are the defaults. You will need to modify them if your User Library is in a different location.
 
+## manual upgrade
+
+- Copy your entire install (i.e. `User Library/Remote Scripts/_zcx_<hardware name>`) to a safe place, such as your desktop
+- Follow the [installation procedure](getting-started/installation.md) for the latest zcx version
+- Inside the newly installed zcx folder, delete the folder `_config` and the file `_global_preferences.yaml`
+- From your old install, copy and paste `_config` and `_global_preferences.yaml` into the new install
