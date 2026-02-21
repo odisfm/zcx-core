@@ -3,15 +3,6 @@
 To get access to the latest features and bugfixes, you should keep your zcx installation(s) up to date.
 If you use multiple zcx installations (for different controllers), you need to upgrade each install separately.
 
-!!! danger
-    ![Snake from 'The Simpsons' saying 'Oh, no! Beta.'](img/oh-no-beta.jpg)
-    
-    zcx is pre v1. This means it's very likely a new version will have **breaking changes**.
-    'Breaking changes' basically means that if you upgrade, your old config might rely on features that work differently now.
-    You may even have to move, rename, or delete certain files to make your old config compatible.
-    
-    To see if you are affected by any breaking changes, read the [releases page](https://github.com/odisfm/zcx-core/releases) on GitHub.
-
 ## automatic upgrade
 
 Starting from v0.5, you can use the Python script `upgrade.py` to get the latest release from GitHub.
