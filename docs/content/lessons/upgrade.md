@@ -18,7 +18,7 @@ Starting from v0.5, you can use the Python script `upgrade.py` to get the latest
 
 This script will:
 
-- backup your existing installation to `Remote Scripts/__zcx_backups__`
+- Backup your existing installation to `Remote Scripts/__zcx_backups__`
 - Download the newest release
 - Replace all application code with the newest version
 - Restore your configuration files
