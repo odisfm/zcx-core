@@ -46,7 +46,6 @@
   on_color: yellow
   off_color: yellow shade 2
 # !! row 3-4
-# col 1
 -
   pad_group: device_params
   controls:
@@ -59,17 +58,13 @@
     -
     -
   type: param
-  toggle_param: false
   binding:
     default: >
-      SEL / DEV(SEL) P${me.group_Index}
+      SEL / DEV(SEL) B1 P${me.group_Index}
     __shift: >
-      SEL / DEV(SEL) P${me.group_Index + me.group_count}
+      SEL / DEV(SEL) B2 P${me.group_Index}
   gestures:
-    press:
-      do_toggle: true
     long_release:
       do_toggle: true
-    release__shift: DUMMY
   on_color: lime
   off_color: green shade

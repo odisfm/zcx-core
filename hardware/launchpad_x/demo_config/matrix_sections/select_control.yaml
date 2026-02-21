@@ -42,7 +42,6 @@
   on_color: orange
   off_color: orange shade 2
 # !! row 3
-# col 1
 -
   pad_group: device_params
   controls:
@@ -51,13 +50,16 @@
     -
     -
   type: param
-  midpoint: 0
   binding:
     default: >
       SEL / DEV(SEL) B1 P${me.group_Index}
     __shift: >
       SEL / DEV(SEL) B1 P${me.group_Index + me.group_count}
+  gestures:
+    long_release:
+      do_toggle: true
   on_color: purple
   off_color: purple shade 2
+
 
 
