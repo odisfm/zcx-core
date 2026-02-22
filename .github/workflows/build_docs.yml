@@ -194,9 +194,9 @@ jobs:
         if: inputs.build_offline == true
         run: |
           cd docs/site-offline
-          zip -r ../../zcx_docs_v${{ steps.get_version.outputs.version }}.zip .
+          zip -r ../../zcx_docs_${{ steps.get_version.outputs.version }}.zip .
           cd ../..
-          echo "✓ Created zcx_docs_v${{ steps.get_version.outputs.version }}.zip"
+          echo "✓ Created zcx_docs_${{ steps.get_version.outputs.version }}.zip"
 
       - name: Upload offline documentation artifact
         if: inputs.build_offline == true
