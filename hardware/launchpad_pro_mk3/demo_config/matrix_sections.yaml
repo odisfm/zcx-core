@@ -44,6 +44,10 @@ __session_view:
   col_start: 0
   col_end: 7
   play_color_is_track_color: false
+  template:
+    gestures:
+        press__shift: >
+          ${clip_target} SEL
 
 session_controls:
   row_start: 6
