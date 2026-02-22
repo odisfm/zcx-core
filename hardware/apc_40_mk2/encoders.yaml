@@ -1,0 +1,93 @@
+fader_1:
+  cc: 7
+  channel: 0
+
+fader_2:
+  cc: 7
+  channel: 1
+
+fader_3:
+  cc: 7
+  channel: 2
+
+fader_4:
+  cc: 7
+  channel: 3
+
+fader_5:
+  cc: 7
+  channel: 4
+
+fader_6:
+  cc: 7
+  channel: 5
+
+fader_7:
+  cc: 7
+  channel: 6
+
+fader_8:
+  cc: 7
+  channel: 7
+
+fader_9:
+  cc: 14
+
+tempo:
+  cc: 13
+  mode: RELATIVE_SMOOTH_TWO_COMPLIMENT
+
+crossfader:
+  cc: 15
+
+device_1:
+  cc: 16
+
+device_2:
+  cc: 17
+
+device_3:
+  cc: 18
+
+device_4:
+  cc: 19
+
+device_5:
+  cc: 20
+
+device_6:
+  cc: 21
+
+device_7:
+  cc: 22
+
+device_8:
+  cc: 23
+
+cue:
+  cc: 47
+  mode: RELATIVE_SMOOTH_TWO_COMPLIMENT
+
+track_1:
+  cc: 48
+
+track_2:
+  cc: 49
+
+track_3:
+  cc: 50
+
+track_4:
+  cc: 51
+
+track_5:
+  cc: 52
+
+track_6:
+  cc: 53
+
+track_7:
+  cc: 54
+
+track_8:
+  cc: 55

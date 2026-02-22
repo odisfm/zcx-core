@@ -1,0 +1,35 @@
+__encoder_row:
+  includes: [
+    enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
+  ]
+  binding:
+    default: >-
+      RING(${me.index}) / VOL
+    __shift: >-
+      RING(${me.index}) / PAN
+    __device: >-
+      SEL / DEV(SEL) B1 P${me.Index}
+    __shift__device: >
+      SEL / DEV(SEL) B2 P${me.Index}
+enc_master:
+  binding:
+    default: MST / VOL
+    __shift: MST / CUE
+
+tempo:
+  binding: SEL / PAN
+
+swing:
+  binding: SEL / VOL
+
+__best_of_bank_test:
+  prefer_left: false
+  includes: [
+    enc_test_2_0, enc_test_2_1, enc_test_2_2, enc_test_2_3, enc_test_2_4, enc_test_2_5, enc_test_2_6, enc_test_2_7, enc_test_2_8, enc_test_2_9, enc_test_2_10, enc_test_2_11, enc_test_2_12, enc_test_2_13, enc_test_2_14, enc_test_2_15
+  ]
+  binding:
+    SEL / DEV(SEL) B${1 if me.Index <= 8 else 2} P${me.Index if me.Index <= 8 else me.Index - 8}
+
+enc_test_2_16:
+  binding:
+    __shift: SEL / VOL

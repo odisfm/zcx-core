@@ -9,11 +9,16 @@ __fader_row:
     - fader_7
     - fader_8
   binding:
-    default: RING(${me.index}) / VOL
-    __shift: RING(${me.index}) / SEND A
-    __select: SEL / DEV(1) P${me.Index}
+    default: >
+      NONE
+    __volume: >
+      RING(${me.index}) / VOL
+    __pan: >
+      RING(${me.index}) / PAN
+    __send: >
+      SEL / SEND ${send_num(me.index)}
+    __device: >
+      SEL / DEV(SEL) B1 P${me.Index}
 
 fader_9:
-  binding:
-    default: MST / VOL
-    __shift: MST / CUE
+  binding: MST / VOL

@@ -1,0 +1,399 @@
+select:
+  type: mode
+  mode: select
+  active_color: 127
+  inactive_color: 40
+  gestures:
+    press:
+      mode_on: select
+    release:
+      mode_off: select
+
+shift:
+  type: mode
+  mode: shift
+  active_color: 127
+  inactive_color: 40
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift
+
+play:
+  type: transport
+  transport: play
+  gestures:
+    press: SETPLAY
+
+record:
+  type: transport
+  transport: session_record
+  gestures:
+    press: SRECFIX
+    long_press: SRECFIX 8
+
+
+__state_row:
+  # the top row
+  includes: [state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8]
+  type: page
+  page: ${me.index}
+  active_color: white
+  inactive_color:
+    palette: rainbow
+  gestures:
+    press:
+      page: ${me.index}
+      msg: >
+        Page ${me.page}: ${me.page_name}
+    long_press:
+      page: last
+
+#state_1:
+#  gestures:
+#    press: DUMMY
+    
+#state_2:
+#  gestures:
+#    press: DUMMY
+    
+#state_3:
+#  gestures:
+#    press: DUMMY
+    
+#state_4:
+#  gestures:
+#    press: DUMMY
+    
+#state_5:
+#  gestures:
+#    press: DUMMY
+    
+#state_6:
+#  gestures:
+#    press: DUMMY
+    
+#state_7:
+#  gestures:
+#    press: DUMMY
+    
+#state_8:
+#  gestures:
+#    press: DUMMY
+
+__select_row:
+  # the bottom row
+  includes: [select_1, select_2, select_3, select_4, select_5, select_6, select_7, select_8]
+  type: ring_track
+  ring_index: ${me.index}
+  gestures:
+    press: >
+      "${me.track}" / SEL
+    long_press: >
+      "${me.track}" / ARM
+    double_click: >
+      "${me.track}" / PLAY >
+    press__delete: >
+      "${me.track}" / DEL
+      
+#select_1:
+#  gestures:
+#    press: DUMMY
+    
+#select_2:
+#  gestures:
+#    press: DUMMY
+    
+#select_3:
+#  gestures:
+#    press: DUMMY
+    
+#select_4:
+#  gestures:
+#    press: DUMMY
+    
+#select_5:
+#  gestures:
+#    press: DUMMY
+    
+#select_6:
+#  gestures:
+#    press: DUMMY
+    
+#select_7:
+#  gestures:
+#    press: DUMMY
+    
+#select_8:
+#  gestures:
+#    press: DUMMY
+
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color: cyan shade ${me.index % 4}
+  gestures:
+    press: SCENE ${ring.scenes[me.Index]}
+    press__shift: SCENE ${ring.scenes[me.Index + me.group_count]}
+    press__select: SCENE SEL ${ring.scenes[me.Index]}
+    press__shift__select: SCENE SEL ${ring.scenes[me.Index + me.group_count]}
+
+__dpad:
+  includes: [dpad_left, dpad_right, dpad_up, dpad_down]
+  color: 127
+  repeat: true
+  controls:
+    dpad_left:
+      gestures:
+        press: LEFT
+        press__shift:
+          ring:
+            x: -1
+    dpad_right:
+      gestures:
+        press: RIGHT
+        press__shift:
+          ring:
+            x: 1
+    dpad_up:
+      gestures:
+        press: UP
+        press__shift:
+          ring:
+            y: -1
+    dpad_down:
+      gestures:
+        press: DOWN
+        press__shift:
+          ring:
+            y: 1
+
+#dpad_left:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_right:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_up:
+#  gestures:
+#    pressed: DUMMY
+
+#dpad_down:
+#  gestures:
+#    pressed: DUMMY
+
+device:
+  type: mode
+  mode: device
+  active_color: 127
+  inactive_color: 20
+  gestures:
+    press:
+      mode_on: device
+    long_release:
+      mode_off: device
+
+mix:
+  type: mode
+  mode: device
+  active_color: 20
+  inactive_color: 127
+  gestures:
+    press:
+      mode_off: device
+
+page_prev:
+  repeat: true
+  gestures:
+    press:
+      ring:
+        x: -${ring.width}
+    press__shift:
+      ring: left
+
+page_next:
+  repeat: true
+  gestures:
+    press:
+      ring:
+        x: ${ring.width}
+    press__shift:
+      ring: right
+
+octave_up:
+  repeat: true
+  gestures:
+    press:
+      ring:
+        y: -${ring.height}
+    press__shift:
+      ring: up
+
+octave_down:
+  repeat: true
+  gestures:
+    press:
+      ring:
+        y: ${ring.height}
+    press__shift:
+      ring: down
+
+metronome:
+  type: transport
+  transport: metronome
+  gestures:
+    press: metro
+
+delete:
+  type: mode
+  mode: delete
+  gestures:
+    press:
+      mode_on: delete
+    release:
+      mode_off: delete
+
+undo:
+  gestures:
+    press: undo
+    press__shift: redo
+
+mute:
+  type: param
+  binding: SEL / MUTE
+  on_color: amber
+  off_color: white
+
+solo:
+  type: param
+  binding: SEL / SOLO
+  on_color: blue
+  off_color: white
+
+stop_clip:
+  type: param
+  binding: SEL / STOP
+  on_color: white
+  off_color: grey
+
+new:
+  gestures:
+    pressed: ADDSCENE
+
+duplicate:
+  gestures:
+    press: SCENE DUPE
+
+master:
+  type: param
+  binding: MST / SEL
+  on_color: 127
+  off_color: 20
+
+user:
+  gestures:
+    press:
+      hardware_mode: live
+
+tap_tempo:
+  gestures:
+    press: TAPBPM
+
+note:
+  gestures:
+    press: SHOWCLIP
+
+session:
+  gestures:
+    press: SHOWDEV
+
+__page_control_test_1:
+  includes: [
+    test_2_0, test_2_1, test_2_2, test_2_3, test_2_4, test_2_5, test_2_6, test_2_7
+  ]
+  type: page
+  page: ${me.index}
+  gestures:
+    press:
+      page: ${me.page_name}
+    double_click:
+      page: ${me.index}
+
+__ring_track_control_test_1:
+  includes: [
+    test_2_8, test_2_9, test_2_10, test_2_11
+  ]
+  type: ring_track
+  ring_index: ${me.index}
+  gestures:
+    press: >
+      "${me.track}" / SEL
+
+__track_control_test_1:
+  includes: [
+  test_2_12, test_2_13, test_2_14, test_2_15
+  ]
+  type: track
+  track: ${me.index}
+  gestures:
+    press: >
+      "${me.track}" / SEL
+
+setup:
+  gestures:
+    press:
+      hot_reload: true
+
+__test_ua_colors_group:
+  includes: [test_2_16, test_2_17]
+  color: 1
+
+test_2_18:
+#  cascade: down
+  gestures:
+    press:
+      log: no mode
+    press__test_1__test_2:
+      log: test_1__test_2
+    press__test_1:
+      log: test_1
+    press__test_2:
+      log: test_2
+    press__test_3:
+      log: test_3
+    press__test_4:
+      log: test_4
+    press__test_5:
+      log: test_5
+    press__test_6:
+      log: test_6
+    press__test_7:
+      log: test_7
+    press__test_8:
+      log: test_8
+    press__test_9:
+      log: test_9
+    press__test_10:
+      log: test_10
+    press__test_11:
+      log: test_11
+    press__test_12:
+      log: test_12
+    press__test_13:
+      log: test_13
+    press__test_14:
+      log: test_14
+    press__test_15:
+      log: test_15
+    press__test_16:
+      log: test_16
+    press__test_17:
+      log: test_17
+    press__test_18:
+      log: test_18
+    press__test_19:
+      log: test_19
+    press__test_20:
+      log: test_20

@@ -1,17 +1,22 @@
 import logging
 from functools import partial
 import traceback
+from typing import TYPE_CHECKING
+import re
 
 from ableton.v2.base.task import TimerTask
+from ableton.v2.control_surface.input_control_element import ScriptForwarding
 from ableton.v3.control_surface import (
     ControlSurface
 )
+if TYPE_CHECKING:
+    from .api_manager import ZcxApi
 
 from .hardware.sysex import LIVE_MODE, USER_MODE, INIT_DELAY, ON_DISCONNECT
 from .template_manager import TemplateManager
 from .session_ring import SessionRing
 from .consts import REQUIRED_LIVE_VERSION
-from .errors import ZcxStartupError
+from .errors import ZcxStartupError, ConfigurationError
 
 root_cs = None
 
@@ -19,6 +24,7 @@ root_cs = None
 class ZCXCore(ControlSurface):
 
     def __init__(self, *a, **k):
+        self._midi_map_locked = False
         super().__init__(*a, **k)
         try:
             try:
@@ -47,6 +53,7 @@ class ZCXCore(ControlSurface):
                                           traceback=False, boilerplate=False)
 
                 from . import PREF_MANAGER
+                self.preference_manager = PREF_MANAGER
                 user_prefs = PREF_MANAGER.user_prefs
 
                 self.__refresh_on_all_sysex = user_prefs.get('refresh_on_all_sysex', False)
@@ -54,16 +61,13 @@ class ZCXCore(ControlSurface):
                 self.__initial_hw_mode = initial_hw_mode
 
                 self.template_manager = TemplateManager(self)
-                self.component_map["ZManager"].load_control_templates()
 
                 from . import plugin_loader
                 plugin_names = plugin_loader.plugin_names
 
                 self._session_ring_custom = None
                 for c in self._components:
-                    self.debug(type(c))
                     if isinstance(c, SessionRing):
-                        self.debug(f'found the session ring: {c.name}')
                         self._session_ring_custom = c
 
                 self.plugin_map = {}
@@ -72,8 +76,9 @@ class ZCXCore(ControlSurface):
                     self.plugin_map[plugin_name] = self.component_map[plugin_name]
 
                 from .osc_watcher import OscWatcher
-                OscWatcher.address_prefix = f'zcx/{self.name}/'
+                OscWatcher.address_prefix = f'/zcx/{self.name}/'
 
+                self._doing_note_translations = False
                 self.post_init()
 
                 if initial_hw_mode == 'zcx' and USER_MODE is not None:
@@ -98,15 +103,42 @@ class ZCXCore(ControlSurface):
                     version_string = f"v{version} "
                     self.__version = version
 
-                self.log(f'{self.name} {version_string}loaded :)', level='critical')
+                self.log(f'{self.name} {version_string}partially initialized, waiting for set to load...')
             except ZcxStartupError:
                 raise
             except Exception as e:
+                if 'ParserError' in e.__class__.__name__: # comparing against actual error class won't work
+                    problem_mark = str(e.problem_mark)
+                    filename_portion = re.search(r'/([^/]+\.yaml)"', problem_mark)
+                    if filename_portion:
+                        filename = filename_portion.group(1)
+                    else:
+                        filename = "one of your YAML files" # shouldn't be necessary
+                    line_portion = re.search(r'line \d+, column \d+', problem_mark)
+                    if line_portion:
+                        line_col = line_portion.group(0)
+                    else:
+                        line_col = None
+
+                        line_msg = (
+                            f"The error occurs at {line_col}" if line_col else "Could not determine location of the error"
+                        )
+
+                    raise ZcxStartupError(
+                    f"zcx cannot read the file `{filename}` as it is malformed. {line_msg}.",
+                        f"Consider using a YAML validator such as yamllint.com to understand the error.",
+                        f"{e.__class__.__name__}: {e}",
+                    traceback=False,
+                    boilerplate=True
+                    )
+
+
                 raise ZcxStartupError(str(e))
 
         except ZcxStartupError as e:
             try:
                 self.error(e)
+                self.error(e.msg)
 
                 popup_string = f''
 
@@ -136,7 +168,7 @@ class ZCXCore(ControlSurface):
                 except AttributeError:
                     pass
 
-                self.show_popup(popup_string)
+                self.show_message(popup_string)
 
                 self.disconnect()
                 self._enabled = False
@@ -150,7 +182,7 @@ class ZCXCore(ControlSurface):
         return self.__name
 
     @property
-    def zcx_api(self):
+    def zcx_api(self) -> "ZcxApi":
         if not self._enabled:
             raise RuntimeError(f'{self.name} is not enabled.')
         return self.component_map["ApiManager"].get_api_object()
@@ -171,7 +203,6 @@ class ZCXCore(ControlSurface):
     def setup(self):
         super().setup()
 
-
     def post_init(self):
         try:
             global root_cs
@@ -179,6 +210,12 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting HardwareInterface setup')
             self.component_map['HardwareInterface'].setup()
             self.debug(f'finished HardwareInterface setup')
+            self.debug(f'starting CxpBridge setup')
+            self.component_map['CxpBridge'].setup()
+            self.debug(f'finished CxpBridge setup')
+            self.debug(f'starting ActionResolver setup')
+            self.component_map['ActionResolver'].setup()
+            self.debug(f'finished ActionResolver setup')
             self.debug(f'starting ModeManager setup')
             self.component_map['ModeManager'].setup()
             self.debug(f'finished ModeManager setup')
@@ -194,15 +231,19 @@ class ZCXCore(ControlSurface):
             self.debug(f'starting ApiManager setup')
             self.component_map['ApiManager'].setup()
             self.debug(f'finished ApiManager setup')
-            self.debug(f'starting CxpBridge setup')
-            self.component_map['CxpBridge'].setup()
-            self.debug(f'finished CxpBridge setup')
-            self.debug(f'starting ActionResolver setup')
-            self.component_map['ActionResolver'].setup()
-            self.debug(f'finished ActionResolver setup')
             self.debug(f'starting SessionRing setup')
             self._session_ring_custom.setup()
             self.debug(f'finished SessionRing setup')
+            self.debug(f'starting SessionView setup')
+            self.component_map['SessionView'].setup()
+            self.debug(f'finished SessionView setup')
+            self.debug(f'starting MelodicComponent setup')
+            self.component_map['MelodicComponent'].setup()
+            self.debug(f'finished MelodicComponent setup')
+            self.debug(f'starting ViewManager setup')
+            self.component_map['ViewManager'].setup()
+            self.debug(f'finished ViewManager setup')
+
             self.debug(f'doing setup on plugins')
             for plugin_name, plugin_instance in self.plugin_map.items():
                 try:
@@ -212,14 +253,85 @@ class ZCXCore(ControlSurface):
                 except Exception as e:
                     self.critical(f'{plugin_name} plugin setup failed:', e)
 
+            from . import PREF_MANAGER
+            user_prefs = PREF_MANAGER.user_prefs
+            startup_command = user_prefs.get('startup_command')
+            try:
+                if startup_command is not None:
+                    self.log("doing startup command", startup_command)
+                    self.component_map["ActionResolver"].execute_command_bundle(None, startup_command, {}, {})
+            except Exception as e:
+                self.critical(e)
+
+            startup_page = user_prefs.get('startup_page')
+            if startup_page is not None:
+                try:
+                    if isinstance(startup_page, str) and "${" in startup_page:
+                        startup_page, status = self.component_map["ActionResolver"].compile(startup_page, {}, {})
+                        if not status == 0:
+                            raise ValueError(f"Couldn't parse template string")
+                    success = self.component_map["PageManager"].request_page_change(startup_page)
+                    if not success:
+                        raise ConfigurationError(f"Invalid startup_page: {startup_page}")
+                except Exception as e:
+                    self.critical(e)
+                    self.component_map['PageManager'].set_page(0)
+                    self.component_map['ViewManager']._update_in_view_controls()
+            else:
+                self.component_map['PageManager'].set_page(0)
+                self.component_map['ViewManager']._update_in_view_controls()
+
         except Exception as e:
             self.critical(e)
             raise
+
         self.component_map['HardwareInterface'].refresh_all_lights()
 
+    def build_midi_map(self, midi_map_handle):
+        super().build_midi_map(midi_map_handle)
+        if not self._doing_note_translations:
+            self.component_map["MelodicComponent"].update_translation()
+
+    def hot_reload(self):
+        try:
+            self.log("doing hot reload")
+            self.log("unloading components")
+            from . import PREF_MANAGER
+            PREF_MANAGER.setup()
+            self.template_manager = TemplateManager(self)
+            self.component_map["HardwareInterface"]._unload()
+            self.component_map["ModeManager"]._unload()
+            self.component_map["PageManager"]._unload()
+            self.component_map["ZManager"]._unload()
+            self.component_map["EncoderManager"]._unload()
+            self._session_ring_custom._unload()
+            self.component_map["SessionView"]._unload()
+            self.component_map["MelodicComponent"]._unload()
+            self.component_map["ViewManager"]._unload()
+            self.log("doing setup on components")
+            self.post_init()
+            self.log("finishing setup")
+            self.song_ready()
+            self.refresh_required()
+            self.log("hot reload complete")
+        except Exception as e:
+            self.critical(traceback.format_exception(e))
+            self.critical(e)
+            self.critical("Hot reload failed. You should perform a full reload.")
+            self.show_message("Hot reload failed. You should perform a full reload.")
+
     def song_ready(self):
-        self.application.remove_control_surfaces_listener(self.song_ready)
+        if self.application.control_surfaces_has_listener(self.song_ready):
+            self.application.remove_control_surfaces_listener(self.song_ready)
         self.component_map['EncoderManager'].bind_all_encoders()
+        self.component_map['ZManager'].song_ready()
+        self.component_map['TestRunner'].setup()
+        self._session_ring_custom._on_highlighted_clip_slot_changed(dry_run=True)
+        self.invoke_all_plugins("song_ready")
+
+        version_string = "" if not self.__version else f"v{self.__version} "
+
+        self.log(f"{self.name} {version_string}loaded! <<<<<<<<<<<<<<<<<<<")
 
     def port_settings_changed(self):
         if not self._enabled:
@@ -236,6 +348,11 @@ class ZCXCore(ControlSurface):
         refresh_task = RefreshLightsTask(self, duration)
         self._task_group.add(refresh_task)
 
+    def manual_refresh(self):
+        self.refresh_required(duration=0)
+        self.component_map["EncoderManager"].refresh_all_bindings()
+        self.component_map["ZManager"].refresh_all_bindings()
+
     def receive_midi_chunk(self, midi_chunk):
         super().receive_midi_chunk(midi_chunk)
         if self._enabled and midi_chunk[0][0] == 240:
@@ -249,6 +366,8 @@ class ZCXCore(ControlSurface):
     def refresh_all_lights(self):
         self.component_map['HardwareInterface'].refresh_all_lights()
         self.invoke_all_plugins('refresh_feedback')
+        self.component_map["MelodicComponent"].update_translation()
+        self.component_map["MelodicComponent"].refresh_all_feedback()
 
     def show_popup(self, message):
         self.application.show_on_the_fly_message(message)
@@ -259,6 +378,7 @@ class ZCXCore(ControlSurface):
             method = getattr(plugin_instance, method_name, None)
             if method is None:
                 self.debug(f'plugin {plugin_name} has no method {method_name}')
+                continue
             method(**k)
 
     def set_hardware_mode(self, mode: str, wait=0.2):
@@ -272,6 +392,11 @@ class ZCXCore(ControlSurface):
         task = DelayedSysexTask(self, wait, sysex)
         self._task_group.add(task)
         task.restart()
+
+    def disconnect(self):
+        self.log("disconnecting")
+        self.invoke_all_plugins("_on_disconnect")
+        super().disconnect()
 
 class RefreshLightsTask(TimerTask):
 
@@ -293,4 +418,3 @@ class DelayedSysexTask(TimerTask):
 
     def on_finish(self):
         self._owner._do_send_midi(self.sysex_tuple)
-

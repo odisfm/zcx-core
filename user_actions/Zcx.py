@@ -1,8 +1,12 @@
 # https://github.com/odisfm/zcx-core
 from functools import partial
+from typing import TYPE_CHECKING
 
 from ClyphX_Pro.clyphx_pro.UserActionsBase import UserActionsBase
 from ClyphX_Pro.clyphx_pro.ClyphX_ProComponent import logger
+
+if TYPE_CHECKING:
+    from ..app.api_manager import ZcxApi, ZCXCore
 
 
 class Zcx(UserActionsBase):
@@ -21,7 +25,7 @@ class Zcx(UserActionsBase):
             5: None,
         }
 
-        self.__names_to_scripts = {}
+        self.__names_to_scripts: dict[str, "ZcxApi"] = {}
 
         self.error = partial(self.log, level='error')
         self.debug = partial(self.log, level='debug')
@@ -62,22 +66,32 @@ class Zcx(UserActionsBase):
     def is_zcx_script(self, script):
         return script is not None and hasattr(script, 'zcx_api')
 
-    def action_entry_point(self, action_def: dict[str], args: str):
+    def action_entry_point(self, action_def: dict[str], args: str, target_is_all = False):
         try:
-            self.log('zcx action running!!!!!!!!')
             _args = args.split()
-            self.log(_args)
             sub_action = _args[1]
 
             target_def = _args[0]
             target_slot = None
 
+            if target_def == "all":
+                for i in range(1, 7):
+                    try:
+                        self.action_entry_point({}, f'{i} {" ".join(_args[1:])}', True)
+                    except Exception as e:
+                        self.log(e)
+                return
+
             if target_def.isdigit():
                 try:
                     target_slot = int(target_def)
                     target_script = self.__slots_to_scripts[target_slot - 1]
+                    if target_script is None:
+                        if target_is_all:
+                            return
+                        raise RuntimeError(f'Control surface slot {target_slot} does not seem to contain a zcx script.', self.__slots_to_scripts)
                 except KeyError:
-                    raise RuntimeError(f'Control surface slot {target_slot} does not seem to contain a zcx script.', self.__slots_to_scripts)
+                    raise ValueError(f'Invalid zcx script target: {target_def}')
                 except ValueError:
                     raise RuntimeError(f'Something went seriously wrong parsing `ZCX {args}`')
             else:
@@ -99,8 +113,19 @@ class Zcx(UserActionsBase):
                     target_script.remove_mode(mode_name)
                 elif status == 'tgl':
                     target_script.toggle_mode(mode_name)
+            elif sub_action == "overlay":
+                overlay_args = _args[2:]
+                status = overlay_args[0]
+                overlay_name = overlay_args[1]
 
-            elif sub_action == 'set_color':
+                if status == 'on':
+                    target_script.view_manager.enable_overlay(overlay_name)
+                elif status == 'off':
+                    target_script.view_manager.disable_overlay(overlay_name)
+                elif status == 'tgl':
+                    target_script.view_manager.toggle_overlay(overlay_name)
+
+            elif sub_action in ['set_color', 'set_on_color', 'set_off_color']:
                 color_args = _args[2:]
                 target_control_def = color_args[0]
                 target_color = color_args[1]
@@ -108,7 +133,15 @@ class Zcx(UserActionsBase):
                 target_control_def.strip('"')
 
                 control_obj = target_script.get_control(target_control_def)
-                control_obj.set_color(target_color)
+                color_obj = target_script.create_color(target_color, control_obj)
+
+                match sub_action:
+                    case 'set_color':
+                        control_obj.set_color(target_color)
+                    case 'set_on_color':
+                        control_obj.set_on_color(color_obj)
+                    case 'set_off_color':
+                        control_obj.set_off_color(color_obj)
                 control_obj.request_color_update()
 
             elif sub_action in ['set_section_color', 'set_group_color']:
@@ -136,14 +169,23 @@ class Zcx(UserActionsBase):
                 message_portion = args.split('"')[1] # will fix
                 target_script.write_display_message(message_portion)
 
-            elif sub_action == 'bind':
-                encoder_name = _args[2]
+            elif sub_action.startswith("bind"):
+                target_name = _args[2]
                 bind_def = args.split('"')[1]
                 bind_def = bind_def.replace('`', '"')
-                encoder_obj = target_script.get_encoder(encoder_name)
-                if encoder_obj is None:
-                    raise RuntimeError(f'Encoder {encoder_name} does not exist on {target_script.name}.')
-                encoder_obj.bind_ad_hoc(bind_def)
+                target_obj = target_script.get_control_or_encoder(target_name)
+                if target_obj is None:
+                    raise RuntimeError(f'Encoder {target_name} does not exist on {target_script.name}.')
+                try:
+                    if sub_action == 'bind':
+                        target_obj.bind_ad_hoc(bind_def)
+                    else:
+                        modes_portion = sub_action[5:]
+                        target_obj.override_binding_definition(bind_def, unparsed_mode_string= modes_portion)
+                except AttributeError as e:
+                    self.log(f'`{target_name}` is not a bindable control', e, level="error")
+                except Exception as e:
+                    self.log(f"error binding `{target_name}`", e, level="error")
 
             elif sub_action == 'refresh':
                 target_script.refresh()
@@ -152,7 +194,121 @@ class Zcx(UserActionsBase):
                 mode_def = _args[2]
                 target_script.set_hardware_mode(mode_def)
 
+            elif sub_action == 'hot_reload':
+                target_script.root_cs.hot_reload()
+
+            elif sub_action == 'kb': # keyboard
+                kb_args = _args[2:]
+                kb_action = kb_args[0]
+                match kb_action:
+                    case 'oct':
+                        octave_def = kb_args[1]
+                        if octave_def[0] in ["<", ">"]:
+                            try:
+                                if len(octave_def) == 1:
+                                    increment = 1
+                                else:
+                                    increment = int(octave_def[1:])
+                                direction = "down" if octave_def[0] == "<" else "up"
+                                command = {
+                                    "keyboard": {
+                                        "octave": {
+                                            direction: increment
+                                        }
+                                    }
+                                }
+                                target_script.execute_command_bundle(
+                                    calling_control=None,
+                                    bundle=command,
+                                    vars_dict={},
+                                    context={}
+                                )
+                            except ValueError:
+                                raise ValueError(f'Invalid octave increment {octave_def}.')
+                        else:
+                            try:
+                                octave = int(octave_def)
+                                command = {
+                                    "keyboard": {
+                                        "octave": octave
+                                    }
+                                }
+                                target_script.execute_command_bundle(
+                                    calling_control=None,
+                                    bundle=command,
+                                    vars_dict={},
+                                    context={}
+                                )
+                            except ValueError:
+                                raise ValueError(f'Invalid octave definition {octave_def}.')
+                    case 'fullvelo':
+                        if len(kb_args) == 2:
+                            match kb_args[1]:
+                                case "on":
+                                    command = {
+                                        "keyboard": {"full_velo": True}
+                                    }
+                                case "off":
+                                    command = {
+                                        "keyboard": {"full_velo": False}
+                                    }
+                                case _:
+                                    raise ValueError(f'Invalid fullvelo option {kb_args}')
+                        else:
+                            command = {
+                                "keyboard": {"full_velo": "toggle"}
+                            }
+
+                        target_script.execute_command_bundle(
+                            calling_control=None,
+                            bundle=command,
+                            vars_dict={},
+                            context={}
+                        )
+                    case 'rpt':
+                        if len(kb_args) == 1:
+                            command = {
+                                "keyboard": {"repeat_rate": "toggle"}
+                            }
+                        else:
+                            command = {
+                                "keyboard": {"repeat_rate": kb_args[1]}
+                            }
+                        target_script.execute_command_bundle(
+                            calling_control=None,
+                            bundle=command,
+                            vars_dict={},
+                            context={}
+                        )
+                    case 'inkey':
+                        if len(kb_args) == 1:
+                            command = {
+                                "keyboard": {"in_key": "toggle"}
+                            }
+                        elif kb_args[1] == "on":
+                            command = {
+                                "keyboard": {"in_key": True}
+                            }
+                        elif kb_args[1] == "off":
+                            command = {
+                                "keyboard": {"in_key": False}
+                            }
+                        else:
+                            raise ValueError(f'Invalid in_key {kb_args[1]}.')
+
+                        target_script.execute_command_bundle(
+                            calling_control=None,
+                            bundle=command,
+                            vars_dict={},
+                            context={}
+                        )
+
             else:
-                raise ValueError(f'Unknown action {sub_action}')
+                raise ValueError(f'Unknown action `{sub_action}`')
         except Exception as e:
-            self.error(e)
+            msg = f"Error with zcx user action: {e.__class__.__name__}: {e}"
+            self.error(msg)
+            try:
+                target_script.root_cs.error(msg)
+            except NameError:
+                ...

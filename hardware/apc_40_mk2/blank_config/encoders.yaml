@@ -1,0 +1,111 @@
+fader_1:
+  binding:
+    default: NONE
+
+fader_2:
+  binding:
+    default: NONE
+
+fader_3:
+  binding:
+    default: NONE
+
+fader_4:
+  binding:
+    default: NONE
+
+fader_5:
+  binding:
+    default: NONE
+
+fader_6:
+  binding:
+    default: NONE
+
+fader_7:
+  binding:
+    default: NONE
+
+fader_8:
+  binding:
+    default: NONE
+
+fader_9:
+  binding:
+    default: NONE
+
+device_1:
+  binding:
+    default: NONE
+
+device_2:
+  binding:
+    default: NONE
+
+device_3:
+  binding:
+    default: NONE
+
+device_4:
+  binding:
+    default: NONE
+
+device_5:
+  binding:
+    default: NONE
+
+device_6:
+  binding:
+    default: NONE
+
+device_7:
+  binding:
+    default: NONE
+
+device_8:
+  binding:
+    default: NONE
+
+track_1:
+  binding:
+    default: NONE
+
+track_2:
+  binding:
+    default: NONE
+
+track_3:
+  binding:
+    default: NONE
+
+track_4:
+  binding:
+    default: NONE
+
+track_5:
+  binding:
+    default: NONE
+
+track_6:
+  binding:
+    default: NONE
+
+track_7:
+  binding:
+    default: NONE
+
+track_8:
+  binding:
+    default: NONE
+
+cue:
+  binding:
+    default: NONE
+
+tempo:
+  binding:
+    default: NONE
+
+crossfader:
+  binding:
+    default: NONE

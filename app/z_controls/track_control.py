@@ -12,23 +12,36 @@ class TrackControl(ZControl):
         ZControl.__init__(self, *a, **kwargs)
         self._track = None
         self._track_color_dict = {}
+        self.__is_numbered_track = False
+        self.__track_number = None
+        self._animate_while_stopped = False
 
     def setup(self):
         super().setup()
         try:
             raw_config = self._raw_config
 
+            self._animate_while_stopped = self._raw_config.get('animate_while_stopped', False)
+
             if 'track' not in raw_config:
                 return
 
             track = raw_config['track']
             if '${' in track:
-                parse, status = self.action_resolver.compile(track, self._vars, self._context)
+                parse, status = self.root_cs.component_map['ActionResolver'].compile(track, self._vars, self._context)
                 if status != 0:
                     raise ConfigurationError(f'Unparseable track definition: {track}\n'
                                              f'{self._raw_config}')
                 track = parse
+                try:
+                    track = int(parse)
+                    self.__is_numbered_track = True
+                    self.__track_number = track
+                    self.track_list_listener.subject = self.root_cs.song
+                except ValueError:
+                    pass
 
+            self._simple_feedback = False
             self.set_track_by_name(track)
         except Exception as e:
             self._parent_logger.error(e)
@@ -63,6 +76,7 @@ class TrackControl(ZControl):
                 self.is_recording_listener.subject = clip
             else:
                 self.is_recording_listener.subject = None
+            self.track_name_listener.subject = self._track
         else:
             self.selected_track_listener.subject = None
             self.playing_slot_listener.subject = None
@@ -70,6 +84,7 @@ class TrackControl(ZControl):
             self.arm_listener.subject = None
             self.is_recording_listener.subject = None
             self.color_index_listener.subject = None
+            self.track_name_listener.subject = None
 
         self.is_playing_listener.subject = self.root_cs.song
 
@@ -109,13 +124,13 @@ class TrackControl(ZControl):
 
         color_dict['stopped'] = base_color
         color_dict['playing'] = parse_color_definition({'pulse': {
-            'a': 'play_green',
-            'b': {'live': base_index},
+            'a': {'live': base_index},
+            'b': 0,
             'speed': 1
         }}, calling_control=self)
         color_dict['fired'] = parse_color_definition({'blink': {
-            'a': 'play_green',
-            'b': {'live': base_index},
+            'a': {'live': base_index},
+            'b': "play_green",
             'speed': 1
         }}, calling_control=self)
         color_dict['recording'] = parse_color_definition({'pulse': {
@@ -124,29 +139,30 @@ class TrackControl(ZControl):
             'speed': 1
         }}, calling_control=self)
         color_dict['stopping'] = parse_color_definition({'blink': {
-            'a': 0,
-            'b': {'live': base_index},
+            'a': {'live': base_index},
+            'b': 0,
             'speed': 1
         }}, calling_control=self)
-        color_dict['armed'] = parse_color_definition('red')
-        color_dict['selected_armed'] = parse_color_definition({'pulse': {
+        color_dict['armed'] = parse_color_definition("arm_red", calling_control=self)
+        color_dict['armed_playing'] = parse_color_definition({'pulse': {
+            'a': {'live': base_index},
+            'b': 'arm_red',
+            'speed': 1
+        }}, calling_control=self)
+        color_dict['selected_armed'] = parse_color_definition({'blink': {
             'a': 'white',
-            'b': 'pink',
-            'speed': 1
+            'b': 'arm_red',
+            'speed': 0
         }}, calling_control=self)
+        color_dict['selected_armed_song_stopped'] = parse_color_definition("red shade 1", calling_control=self)
         color_dict['counting_in'] = parse_color_definition({'blink': {
-            'a': 'red',
-            'b': {'live': base_index},
-            'speed': 1
-        }}, calling_control=self)
-        color_dict['counting_in'] = parse_color_definition({'blink': {
-            'a': 'red',
-            'b': 'white',
+            'a': {'live': base_index},
+            'b': "white",
             'speed': 1
         }}, calling_control=self)
         color_dict['selected_playing_armed'] = parse_color_definition({'pulse': {
             'a': 'white',
-            'b': 'red shade 1',
+            'b': 'arm_red',
             'speed': 1
         }}, calling_control=self)
         color_dict['selected_recording'] = parse_color_definition({'pulse': {
@@ -181,11 +197,17 @@ class TrackControl(ZControl):
         if self._track is None:
             return False
 
-        if not self.root_cs.song.is_playing:
+        if not self._animate_while_stopped and not self.root_cs.song.is_playing:
             if self._track == self.root_cs.song.view.selected_track:
-                self._color = self._color_dict['selected']
+                if self._track.can_be_armed and self._track.arm:
+                    self._color = self._color_dict['selected_armed_song_stopped']
+                else:
+                    self._color = self._color_dict['selected']
             else:
-                self._color = self._color_dict['base']
+                if self._track.can_be_armed and self._track.arm:
+                    self._color = self._color_dict['armed']
+                else:
+                    self._color = self._color_dict['base']
             return True
 
         playing_index = self._track.playing_slot_index
@@ -234,10 +256,10 @@ class TrackControl(ZControl):
                 self._color = self._color_dict['selected_stopping']
                 return True
             elif is_playing:
+                if is_armed:
+                    self._color = self._color_dict['selected_playing_armed']
+                    return True
                 self._color = self._color_dict['selected_playing']
-                return True
-            elif is_armed:
-                self._color = self._color_dict['selected_armed']
                 return True
             elif is_armed:
                 self._color = self._color_dict['selected_armed']
@@ -259,21 +281,30 @@ class TrackControl(ZControl):
                 self._color = self._color_dict['stopping']
                 return True
             elif is_playing:
+                if is_armed:
+                    self._color = self._color_dict['armed_playing']
+                    return True
                 self._color = self._color_dict['playing']
                 return True
             elif is_fired:
                 self._color = self._color_dict['fired']
                 return True
+            elif is_playing:
+                if is_armed:
+                    self._color = self._color_dict['armed_playing']
+                    return True
+                self._color = self._color_dict['playing']
+                return True
             else:
                 self._color = self._color_dict['stopped']
                 return True
 
-    def request_color_update(self):
+    def request_color_update(self, **kwargs):
         if self._track is None:
-            super().request_color_update()
+            super().request_color_update(**kwargs)
         else:
             self.determine_status()
-            super().request_color_update()
+            super().request_color_update(**kwargs)
 
     @listens('color_index')
     def color_index_listener(self):
@@ -309,3 +340,11 @@ class TrackControl(ZControl):
     @listens('is_playing')
     def is_playing_listener(self):
         self.request_color_update()
+
+    @listens("tracks")
+    def track_list_listener(self):
+        self.set_track_by_name(self.__track_number)
+
+    @listens("name")
+    def track_name_listener(self):
+        self._context['me']['track'] = self.track.name

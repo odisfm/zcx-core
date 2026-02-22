@@ -1,32 +1,3 @@
 __global__:
-  color: 3
-
-ring_row_select:
-  color: white
-  gestures:
-    pressed: >
-      "${ring.tracks[me.group_index]}" / SEL
-    pressed_delayed: >
-      "${ring.tracks[me.group_index]}" / PLAY SEL
-    double_clicked: >
-      "${ring.tracks[me.group_index]}" / PLAY RNDC
-
-ring_row_mute:
-  color: yellow shade 1
-  gestures:
-    pressed: >
-      "${ring.tracks[me.group_index]}" / MUTE
-
-ring_row_arm:
-  color: orange shade 1
-  gestures:
-    pressed: >
-      "${ring.tracks[me.group_index]}" / ARM
-
-ring_row_rec:
-  color: red shade 1
-  gestures:
-    released_immediately: >
-      "${ring.tracks[me.group_index]}" / RECFIX 4
-    pressed_delayed: >
-      "${ring.tracks[me.group_index]}" / RECFIX 8
+  color: 127
+  hold_color: 3

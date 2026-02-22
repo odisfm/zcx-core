@@ -1,0 +1,113 @@
+# !! row 1
+# col 1
+-
+  color: 0
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
+
+# col 2
+-
+  color: 0
+#  gestures:
+#    short_press: DUMMY
+#    long_press: DUMMY
+
+# col 3
+-
+  color: dark_grey
+  repeat: true
+  gestures:
+    press: UP
+    press__shift:
+      ring: up
+
+# col 4
+-
+  type: transport
+  inactive_color: purple shade 2
+  active_color:
+    blink:
+      a: purple
+      b: purple shade 2
+  transport: metronome
+  gestures:
+    press: METRO
+
+# !! row 2
+# col 1
+-
+  color: 0
+  gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+-
+  color: dark_grey
+  repeat: true
+  gestures:
+    press: LEFT
+    press__shift:
+      ring: left
+
+# col 3
+-
+  color: white
+  gestures:
+    short_press: SEL / PLAY SEL
+    press__shift:
+      ring:
+        track: 0
+        scene: 0
+
+# col 4
+-
+  color: dark_grey
+  repeat: true
+  gestures:
+    press: RIGHT
+    press__shift:
+      ring: right
+
+# !! row 3
+# col 1
+-
+  type: transport
+  transport: play
+  inactive_color: green shade 1
+  active_color:
+    pulse: play_green
+  gestures:
+    press: SETPLAY
+
+# col 2
+-
+  type: transport
+  transport: session_record
+  inactive_color: red shade 2
+  active_color:
+    pulse:
+      a: red
+      b: red
+  gestures:
+    short_press: SREC
+    long_press: SREC FIX 8
+
+# col 3
+-
+  color: dark_grey
+  repeat: true
+  gestures:
+    press: DOWN
+    press__shift:
+      ring: down
+
+# col 4
+-
+  type: transport
+  transport: loop
+  active_color: sky
+  inactive_color: sky shade 2
+  gestures:
+    press: LOOP

@@ -2,6 +2,7 @@ from ableton.v2.base.event import listens
 
 from ..errors import ConfigurationError
 from ..z_control import ZControl
+from ..colors import parse_color_definition
 
 
 class ModeControl(ZControl):
@@ -47,13 +48,40 @@ class ModeControl(ZControl):
         self._bound_mode = mode
         self._suppress_animations = True
 
+        self._context["me"]["mode"] = mode
+
+        active_color_def = self._raw_config.get('active_color')
+        inactive_color_def = self._raw_config.get('inactive_color')
+        if self._feedback_type == "basic":
+            if active_color_def is None:
+                active_color_def = "full"
+            if inactive_color_def is None:
+                inactive_color_def = "half"
+
+        if active_color_def is not None:
+            active_color = parse_color_definition(active_color_def, self)
+            self._color_dict["attention"] = active_color
+        if inactive_color_def is not None:
+            inactive_color = parse_color_definition(inactive_color_def, self)
+            self._color_dict["base"] = inactive_color
+
+        self._simple_feedback = False
+        self.modes_changed(self.mode_manager.current_modes)
+
     @listens('current_modes')
     def modes_changed(self, _):
         current_modes = self.mode_manager.current_modes
         my_mode_active = current_modes.get(self._bound_mode) is True
         if my_mode_active:
-            self._parent_logger.debug('my mode active!')
             self._color = self._color_dict.get('attention')
         else:
             self._color = self._color_dict.get('base')
         self.request_color_update()
+
+    def set_on_color(self, color):
+        self._color_dict["attention"] = color
+        self.modes_changed(None)
+
+    def set_off_color(self, color):
+        self._color_dict["inactive"] = color
+        self.modes_changed(None)

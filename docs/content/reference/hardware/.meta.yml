@@ -1,0 +1,5 @@
+description: Learn about any quirks, plugins, or limitations for your MIDI controller with zcx.
+weight: 2000
+hide:
+  - footer
+template: hardware-reference.html

@@ -3,6 +3,7 @@ import os
 
 from .consts import DEFAULT_CONFIG_DIR, DEFAULT_PREFS_DIR
 from .vendor.yaml import safe_load
+from .errors import ConfigurationError, CriticalConfigurationError
 
 
 class PreferenceManager:
@@ -18,9 +19,17 @@ class PreferenceManager:
         except Exception as e:
             self._logger.error(f'Failed to load preferences.yaml:', {e}) # todo: handle separately
             raise e
+        self.__first_cs = None
+        self.__config_dir = None
+        self.__flattened_prefs = {}
+        self.setup()
 
+    def setup(self):
         specs = self.load_yaml('hardware/specs.yaml')
         hardware_prefs = specs.get('preferences', {})
+
+        self.__default_prefs = self.load_yaml('default_preferences.yaml')
+        self.__user_prefs = self.load_yaml(f'_global_preferences.yaml')
 
         hw_default = self.deep_merge(self.__default_prefs, hardware_prefs)
 
@@ -32,11 +41,14 @@ class PreferenceManager:
 
         self.__config_dir = self.evaluate_config_dir()
 
+        config_override_prefs = None
+
         try:
             config_override_prefs = self.load_yaml(f'{self.__config_dir}/preferences.yaml')
-            self.__flattened_prefs = self.deep_merge(self.__flattened_prefs, config_override_prefs)
         except FileNotFoundError:
             pass
+        finally:
+            self.__flattened_prefs = self.deep_merge(self.__flattened_prefs, config_override_prefs)
 
         self.log(f'Configuration dir: {self.__config_dir}', level='debug')
 
@@ -128,9 +140,36 @@ class PreferenceManager:
         return None
 
     def evaluate_config_dir(self):
+        config_override = self.user_prefs.get('force_config', False)
+
+        if isinstance(config_override, str):
+            config_dir = f'{DEFAULT_CONFIG_DIR}_{config_override}'
+            full_path = os.path.join(self.this_dir, config_dir)
+
+            if os.path.isdir(full_path):
+                self.log(f'Using forced config directory: {config_dir}')
+                return config_dir
+            else:
+                error_msg = f'Forced config directory {full_path} does not exist'
+                self.log(error_msg, level='error')
+                raise CriticalConfigurationError(error_msg)
+
+        # Skip pattern matching if config_override is None
+        if config_override is None:
+            # Jump directly to default config directory fallback
+            default_full_path = os.path.join(self.this_dir, DEFAULT_CONFIG_DIR)
+
+            if os.path.isdir(default_full_path):
+                self.log(f'Using default config directory: {DEFAULT_CONFIG_DIR}')
+                return DEFAULT_CONFIG_DIR
+            else:
+                error_msg = f'Default config directory {default_full_path} does not exist'
+                self.log(error_msg, level='error')
+                raise RuntimeError(error_msg)
+
         song = self.find_song()
 
-        self.log(f'the song is called `{song.name}`')
+        self.log(f'the song is called `{song.name}`', level='debug')
 
         config_pattern_list = self.user_prefs.get('configs', [])
 
@@ -143,13 +182,13 @@ class PreferenceManager:
 
             # Skip if pattern or config is missing
             if not pattern_str or not config_name:
-                self.log(f'Skipping invalid config pattern: {config_pattern}')
+                self.log(f'Skipping invalid config pattern: {config_pattern}', level='error')
                 continue
 
             # Check if the pattern matches the song name using regex
             import re
             if re.search(pattern_str, song.name):
-                self.log(f'Found matching config "{config_name}" for song "{song.name}"')
+                self.log(f'Found matching config "{config_name}" for song "{song.name}"', level='debug')
                 config_dir = f'{DEFAULT_CONFIG_DIR}_{config_name}'
 
                 # Check if the directory exists

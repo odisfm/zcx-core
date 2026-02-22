@@ -1,14 +1,10 @@
----
-weight: -4
----
-
 # Controlling zcx from ClyphX Pro
 
 zcx ships with a suite of user actions for ClyphX Pro that allow you to control a zcx script from ClyphX. This means an individual script can be interacted with via any X-Trigger, such as an X-Clip, or an X-Control bound to another controller.
 
 ## Installing the user action
 
-Releases of zcx from v0.3.0 include a folder named `_user_actions`. Simply drag the contents of this folder (`Zcx.py`) into the ClyphX Pro user actions folder. The location of this folder is `.../Ableton/User Library/Remote Scripts/_user_actions`. If this folder doesn't exist, create it.
+zcx downloads include a folder named `_user_actions`. Simply drag the contents of this folder into the ClyphX Pro user actions folder. The location of this folder is `.../Ableton/User Library/Remote Scripts/_user_actions`. If this folder doesn't exist, create it.
 
 ## Using the action
 
@@ -36,13 +32,19 @@ This is the name of the folder containing the zcx script (similar to as seen in 
 
 `ZCX 2 MODE TGL SHIFT`
 
-This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old name.
+This is the number of the control surface script slot the zcx script resides in. If you move this script to another slot, you will need to update every ClyphX action list that uses the old number.
+
+#### Target all scripts
+
+`ZCX ALL REFRESH`
+
+Apply the command to all zcx scripts.
 
 ### Available commands
 
 #### PAGE
 
-Activate a particular page by name or number.
+Activate a particular [page](getting-started/zcx-concepts.md#pages) by name or number.
 
 `ZCX <target script> PAGE 0`
 
@@ -56,7 +58,7 @@ Or cycle through pages.
 
 #### MODE
 
-Enable, disable, or toggle a zcx mode.
+Enable, disable, or toggle a zcx [mode](getting-started/zcx-concepts.md#modes).
 
 `ZCX <target script> MODE ON SHIFT`
 
@@ -64,14 +66,26 @@ Enable, disable, or toggle a zcx mode.
 
 `ZCX <target script> MODE TGL SHIFT`
 
+#### OVERLAY
+
+Enable, disable, or toggle an [overlay](overlays-layers.md#overlays).
+
+`ZCX <target script> OVERLAY ON my_overlay`
+
+`ZCX <target script> OVERLAY OFF my_overlay`
+
+`ZCX <target script> OVERLAY TGL my_overlay`
+
 #### BIND
 
-Manually re-bind a zcx encoder to a new target.
+Manually re-bind a zcx [encoder](../reference/encoder.md) or [param control](../reference/control/param.md) to a new target.
 This works much the same as the [ClyphX Pro BIND action](https://www.cxpman.com/action-reference/global-actions/#bind-i-x).
 
-The `encoder name` is the same one you'd use in [encoders.yaml](/reference/configuration-files/encoders).
+If binding an encoder, `control name` is the same one you'd use in [encoders.yaml](../reference/file/encoders.md).
+If binding a named control, `control name` must be the name from [named controls.yaml](../reference/file/named_controls.md) or the control's [alias](../reference/control/standard.md#alias) if one exists.
+If binding a matrix control, it must have an [alias](../reference/control/standard.md#alias), which you will use for `control name`.
 
-The `mapping target` is any of the targets specified in the [Encoder Reference](/reference/encoder-reference#mapping-targets).
+For valid `mapping targets`, see [Encoder Reference](../reference/encoder.md#mapping-targets) or [Control Reference](../reference/control/param.md#additional-mapping-targets) for param controls.
 The **entire** mapping target must be wrapped in double-quotes.
 
 !!!warning "Quotes within mapping targets"
@@ -79,20 +93,38 @@ The **entire** mapping target must be wrapped in double-quotes.
     A special syntax is required when using double-quotes **within** your mapping target, e.g. `"my track" / VOL`.
     You must replace all instances of the double-quote character (") with a _backtick_ (`).
 
-    The mapping target `"my track" / DEV("my device") P1` becomes `` `my track` / DEV(`my device`) P1``
+    The mapping target `"my track" / DEV("my device") P1` becomes `` "`my track` / DEV(`my device`) P1"``
 
     _The backtick key is below the escape key._
 
 
-`ZCX <target script> BIND <encoder name> "<mapping target>"`
+!!! warning
+    This binding is temporary: if the control rebinds itself due to a mode change it will never rebind to a target set by this action.
+    For a more permanent solution, [see below](#bind_mode).
+
+`ZCX <target script> BIND <control name> "<mapping target>"`
 
 `ZCX zcx_push_1 BIND enc_3 "SEL / PAN"`
 
 ```ZCX zcx_launchpad_x BIND enc_1 "`my track` / DEV(`my device`) P1"```
 
+#### BIND_`mode`
+
+Same as [above](#bind), but overrides an existing mapping target permanently, and allows targeting certain modes.
+
+`ZCX <target script> BIND_<mode> <control name> "<mapping target>"`
+
+`ZCX zcx_push_1 BIND_default my_button "SEL / PAN"`
+
+`ZCX zcx_launchpad_x BIND_shift__select enc_1 "SEL / DEV(1) P1"`
+
+#### KB
+
+Control settings related to the [keyboard view](keyboard.md#melodic-settings).
+
 #### MSG
 
-**Only on [Push 1](/reference/hardware-reference/push-1)**
+**Only on [Push 1](../reference/hardware/push-1.md)**
 
 Write a message to the controller's display. The message must be enclosed in double-quotes.
 
@@ -114,8 +146,8 @@ Force a refresh of all controller feedback.
 
 #### Color commands
 
-These commands allow you to set the color on an individual control by [alias](/reference/control-reference/z-control#alias), as well as across an entire section or group of controls.
-Allowable color values are an [int](/reference/color-reference#midi-value) or a [named color](/reference/color-reference#name).
+These commands allow you to set the color on an individual control by [alias](../reference/control/standard.md#alias), as well as across an entire section or group of controls.
+Allowable color values are an [int](../reference/color.md#midi-value) or a [named color](../reference/color.md#name).
 
 ##### set_color
 
@@ -125,15 +157,29 @@ Set the color of a named or aliased control.
 
 `ZCX <target script> SET_COLOR record red`
 
+##### set_on_color, set_off_color
+
+As above, but sets on/off or active/inactive colors.
+Only available on controls with such feedback, including the [param control](../reference/control/param.md), [page control](../reference/control/page.md) and others.
+
+`ZCX <target script> SET_ON_COLOR record green`
+
+`ZCX <target script> SET_OFF_COLOR record 0`
+
 ##### set_section_color
 
-Set the color of every control in a [matrix section](/tutorials/getting-started/zcx-concepts/#matrix-sections).
+Set the color of every control in a [matrix section](getting-started/zcx-concepts.md#matrix-sections).
 
 `ZCX <target script> SET_SECTION_COLOR actions_bottom_right cyan`
 
 ##### set_group_color
 
-Set the color of every control in a [group of controls](/reference/template-reference/#group-templates).
+Set the color of every control in a [group of controls](../reference/template.md#group-templates).
 
 `ZCX <target script> SET_GROUP_COLOR scene_buttons 127`
 
+#### HOT_RELOAD
+
+Perform a [hot reload](reloading-control-surfaces.md#hot-reload).
+
+`ZCX <target script> HOT_RELOAD`

@@ -1,9 +1,12 @@
 import re
 from functools import partial
 from itertools import chain
-from typing import Dict, Any, Tuple, Callable, Union
+from typing import Dict, Any, Tuple, Callable, Union, TYPE_CHECKING
+if TYPE_CHECKING:
+    from .view_manager import ViewManager
 from random import randint
 
+from .util import DynamicString, number_to_send_letter
 from .vendor.asteval import Interpreter, make_symbol_table
 
 from ableton.v3.base import listens, listens_group
@@ -17,6 +20,7 @@ from .page_manager import PageManager
 from .z_control import ZControl
 from .zcx_component import ZCXComponent
 from .colors import parse_color_definition
+from .errors import ConfigurationError
 
 ABORT_ON_FAILURE = True # todo: add to preferences.yaml
 
@@ -44,6 +48,39 @@ class DotDict:
         if isinstance(value, list):
             return [DotDict(x) if isinstance(x, dict) else x for x in value]
         return value
+
+    def __str__(self):
+        return self._format(self._data, 0)
+
+    def _format(self, obj, indent_level):
+        indent = "  " * indent_level
+        next_indent = "  " * (indent_level + 1)
+
+        if isinstance(obj, dict):
+            if not obj:
+                return "{}"
+            lines = ["{"]
+            for key, value in obj.items():
+                formatted_value = self._format(value, indent_level + 1)
+                lines.append(f"{next_indent}{key}: {formatted_value},")
+            lines.append(f"{indent}}}")
+            return "\n".join(lines)
+
+        elif isinstance(obj, list):
+            if not obj:
+                return "[]"
+            lines = ["["]
+            for item in obj:
+                formatted_item = self._format(item, indent_level + 1)
+                lines.append(f"{next_indent}{formatted_item},")
+            lines.append(f"{indent}]")
+            return "\n".join(lines)
+
+        elif isinstance(obj, str):
+            return f"'{obj}'"
+
+        else:
+            return str(obj)
 
 
 class ActionResolver(ZCXComponent):
@@ -75,7 +112,33 @@ class ActionResolver(ZCXComponent):
         self.__cxp_partial = partial(self.__cxp.trigger_action_list)
         self.__standard_context = self.__build_standard_context()
 
+
     def __build_standard_context(self) -> dict[str: Any]:
+
+        matrix_state = self.__hardware_interface.button_matrix_state
+
+        matrix = {
+            "page": LazyValue(lambda: self.__page_manager.current_page),
+            "page_name": LazyValue(lambda: self.__page_manager.current_page_name),
+            "page_count": LazyValue(lambda: self.__page_manager.page_count),
+            "all_pages": LazyValue(lambda: self.__page_manager.all_page_names),
+            "height": matrix_state.height,
+            "width": matrix_state.width,
+            "num_controls": len(matrix_state.control_elements)
+        }
+
+        view_manager: "ViewManager" = self.component_map['ViewManager']
+
+        overlays = {
+            "all": LazyValue(lambda: view_manager.active_overlay_names),
+            "active": LazyValue(lambda: view_manager.active_overlay_names),
+        }
+
+        modes = {
+            "state": LazyValue(lambda: self.__mode_manager.current_modes),
+            "all": LazyValue(lambda: self.__mode_manager.all_modes),
+            "active": LazyValue(lambda: self.__mode_manager.active_modes),
+        }
 
         context = {
             'song': self.canonical_parent.song,
@@ -84,7 +147,15 @@ class ActionResolver(ZCXComponent):
             'print': self.__log_func,
             'msg': self.__msg_func,
             'cxp': self.__cxp_partial,
-            'open': None
+            'open': None,
+            'cxp_var': self.__cxp.get_cxp_variable,
+            'this_cs': self.canonical_parent.name,
+            'sel_track': SelectedTrackNameGetter(self._song.view),
+            'send_num': number_to_send_letter,
+            'matrix': DotDict(matrix),
+            'overlays': DotDict(overlays),
+            'modes': DotDict(modes),
+            'randint': randint,
         }
         return context
 
@@ -99,6 +170,11 @@ class ActionResolver(ZCXComponent):
             exec_context = self.__build_symtable(context, prior_resolved)
             self.__interpreter.symtable = exec_context
             result = self.__interpreter.eval(expr)
+            if len(self.__interpreter.error) > 0:
+                self.error(f"Error evaluating expression `{expr}`")
+                for error in self.__interpreter.error:
+                    self.error(error)
+                return None, 2
             return result, 0
         except Exception as e:
             print(f"Error evaluating {expr}: {e}")
@@ -184,7 +260,7 @@ class ActionResolver(ZCXComponent):
     ) -> Tuple[str, int]:
         """Compile an action string, resolving variables and template patterns."""
         # self.log(action_string, vars, context, mode)
-        if not isinstance(action_string, str) or ("@{" not in action_string and "${" not in action_string):
+        if not isinstance(action_string, str) or "${" not in action_string:
             return action_string, 0
 
         resolved_vars, status = self._resolve_vars(vars, context, mode)
@@ -285,8 +361,22 @@ class ActionResolver(ZCXComponent):
                         case 'mode_off':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
                                 self.__mode_manager.remove_mode(parsed)
+                        case "overlay":
+                            overlay_def = list(command_def.items())[0]
+                            def_type = overlay_def[0]
+                            overlay_name_def = overlay_def[1]
+                            parsed_overlay = self._compile_and_check(overlay_name_def, vars_dict, context)
+                            if not parsed_overlay:
+                                raise RuntimeError(f'unparseable overlay definition: {overlay_name_def}')
+                            if def_type == "enable":
+                                self.component_map["ViewManager"].enable_overlay(parsed_overlay)
+                            elif def_type == "disable":
+                                self.component_map["ViewManager"].disable_overlay(parsed_overlay)
+                            elif def_type == "toggle":
+                                self.component_map["ViewManager"].toggle_overlay(parsed_overlay)
+
                         case 'refresh':
-                            self.__hardware_interface.refresh_all_lights()
+                            self.canonical_parent.manual_refresh()
                         case 'hardware_mode':
                             if command_def == 'user':
                                 bytes = USER_MODE
@@ -306,17 +396,39 @@ class ActionResolver(ZCXComponent):
                             scene_def_parsed = None
 
                             if isinstance(command_def, str):
-                                match (command_def.lower()):
-                                    case 'left':
-                                        x_parsed = -1
-                                    case 'right':
-                                        x_parsed = 1
-                                    case 'up':
-                                        y_parsed = -1
-                                    case 'down':
-                                        y_parsed = 1
-                                    case _:
-                                        raise ValueError(f'Invalid ring command: {command_def}')
+                                command_def, status = self.compile(command_def, vars_dict, context)
+                                if status != 0:
+                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+
+                            if isinstance(command_def, str):
+                                try:
+                                    match (command_def.lower()):
+                                        case 'left':
+                                            x_parsed = -1
+                                        case 'right':
+                                            x_parsed = 1
+                                        case 'up':
+                                            y_parsed = -1
+                                        case 'down':
+                                            y_parsed = 1
+                                        case _:
+                                            _command_def = command_def.split(" ")
+                                            if len(_command_def) == 1:
+                                                raise ValueError()
+                                            interval = int(_command_def[1])
+                                            match (_command_def[0].lower()):
+                                                case 'left':
+                                                    x_parsed = interval * -1
+                                                case 'right':
+                                                    x_parsed = interval
+                                                case 'up':
+                                                    y_parsed = interval * -1
+                                                case 'down':
+                                                    y_parsed = interval
+                                except:
+                                    self.error(f"Invalid command definition: {command_type}: {command_def}")
+                                    raise
+
 
                             elif isinstance(command_def, dict):
 
@@ -339,22 +451,117 @@ class ActionResolver(ZCXComponent):
                                 self.debug(track_def_parsed, scene_def_parsed, x_parsed, y_parsed)
 
                             if x_parsed is not None:
-                                ring_component.move(x=x_parsed)
+                                ring_component.move(x=int(x_parsed))
                             elif track_def_parsed is not None:
                                 ring_component.go_to_track(track_def_parsed)
 
                             if y_parsed is not None:
-                                ring_component.move(y=y_parsed)
+                                ring_component.move(y=int(y_parsed))
                             elif scene_def_parsed is not None:
                                 ring_component.go_to_scene(scene_def_parsed)
+
+                        case 'keyboard':
+                            self.log("got keybaord cmd")
+                            self.log(command_def)
+                            melodic_inst = self.component_map["MelodicComponent"]
+
+                            for key_type, key_def in command_def.items():
+                                match key_type.lower():
+                                    case 'in_key':
+                                        if isinstance(key_def, bool):
+                                            melodic_inst.chromatic = not key_def  # internal name is `chromatic`, user is `in_key`
+                                        elif key_def == "toggle":
+                                            melodic_inst.chromatic = not melodic_inst.chromatic
+                                        else:
+                                            raise ValueError(f'Invalid keyboard command: `in_key` must be a boolean or `toggle`.\n{command_def}')
+
+                                    case 'layout':
+                                        melodic_inst.layout = key_def
+                                    case 'full_velo':
+                                        if isinstance(key_def, bool):
+                                            melodic_inst.full_velo = key_def
+                                        elif key_def == "toggle":
+                                            melodic_inst.full_velo = not melodic_inst.full_velo
+                                        else:
+                                            raise ValueError(f'Invalid keyboard command: `full_velo` must be a boolean or `toggle`.\n{command_def}')
+                                    case 'repeat_rate':
+                                        rate_def = key_def
+                                        if isinstance(key_def, bool):
+                                            rate_def = "on" if key_def else "off"
+                                        else:
+                                            if not isinstance(key_def, str):
+                                                raise RuntimeError(f'invalid key definition: {key_def}')
+                                            if "${" in key_def:
+                                                parsed, status = self.compile(key_def, vars_dict, context)
+                                                if status != 0:
+                                                    raise RuntimeError(f"Couldn't parse key: {key_def}")
+                                                rate_def = parsed
+                                        melodic_inst.repeat_rate = rate_def
+                                    case 'octave':
+                                        if isinstance(key_def, int):
+                                            melodic_inst.octave = key_def
+                                        if isinstance(key_def, str):
+                                            if "${" in key_def:
+                                                parsed, status = self.compile(key_def, vars_dict, context)
+                                                if status != 0:
+                                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                                key_def = parsed
+                                            else:
+                                                try:
+                                                    key_def = int(key_def)
+                                                except ValueError:
+                                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                            melodic_inst.octave = key_def
+                                        elif isinstance(key_def, dict):
+                                            direction = None
+                                            dir_def = key_def.get('down')
+                                            if dir_def is not None:
+                                                direction = "down"
+                                            else:
+                                                dir_def = key_def.get('up')
+                                                if dir_def is not None:
+                                                    direction = "up"
+                                                else:
+                                                    raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                            if isinstance(dir_def, str):
+                                                if "${" in dir_def:
+                                                    parsed, status = self.compile(dir_def, vars_dict, context)
+                                                    if status != 0:
+                                                        raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+                                                    dir_def = parsed
+                                            try:
+                                                dir_def = int(dir_def)
+                                            except ValueError:
+                                                raise RuntimeError(f"Couldn't parse command: {command_type}: {command_def}")
+
+                                            if direction == "down":
+                                                dir_def *= -1
+
+                                            melodic_inst.increment_octave(dir_def)
 
                         case 'color':
                             if isinstance(command_def, str):
                                 command_def = self._compile_and_check(command_def, vars_dict, context)
                             if command_def == 'initial':
                                 calling_control.reset_color_to_initial()
-                            elif True:
+                            else:
                                 calling_control.set_color(command_def)
+                        case 'on_color':
+                            if isinstance(command_def, str):
+                                command_def = self._compile_and_check(command_def, vars_dict, context)
+                            try:
+                                color = parse_color_definition(command_def, calling_control)
+                                calling_control.set_on_color(color)
+                            except NotImplementedError:
+                                self.error(f"Control type {calling_control.__class__.__name__} does not have active color. ({calling_control.name})")
+                        case 'off_color':
+                            if isinstance(command_def, str):
+                                command_def = self._compile_and_check(command_def, vars_dict, context)
+                                color = parse_color_definition(command_def, calling_control)
+                            try:
+                                calling_control.set_on_color(color)
+                            except NotImplementedError:
+                                self.error(f"Control type {calling_control.__class__.__name__} does not have active color. ({calling_control.name})")
 
                         case 'python':
                             if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
@@ -378,6 +585,19 @@ class ActionResolver(ZCXComponent):
                                     self.error(error_msg)
                                     if ABORT_ON_FAILURE:
                                         raise RuntimeError(error_msg)
+                        case 'hot_reload':
+                            if not command_def:
+                                self.debug("`hot_reload` called with falsy value")
+                                return
+
+                            self.canonical_parent.hot_reload()
+                        case 'do_toggle':
+                            if not command_def:
+                                return
+                            try:
+                                calling_control.toggle_mapped_parameter()
+                            except AttributeError:
+                                raise ConfigurationError("`toggle_param` is only available on `param` type controls.")
                         case _:
                             error_msg = f'Unknown command type: {command_type}'
                             self.log(error_msg)
@@ -390,152 +610,30 @@ class ActionResolver(ZCXComponent):
             self.log(e)
             raise
 
-    def parse_target_path(self, target_string) -> dict:
-        """Attempts to parse a target track or device in ClyphX notation,
-        returns a dict you can use to find the target object manually."""
-        result = {
-            'track': None,
-            'ring_track': None,
-            'device': None,
-            'parameter_type': None,
-            'parameter_name': None,
-            'bank': None,
-            'parameter_number': None,
-            'chain': None,
-            'send': None,
-            'chain_map': None,
-            'error': None,
-            'send_track': None
-        }
-
-        # Handle NONE and SELP special cases (case-insensitive)
-        target_upper = target_string.upper()
-        if target_upper == 'NONE':
-            return result
-        if target_upper == 'SELP':
-            result['parameter_type'] = 'SELP'
-            return result
-
-        # Split track and rest
-        if '/' not in target_string:
-            # Check for ring(n) format
-            ring_pattern = re.compile(r'^ring\((\d+)\)$', re.IGNORECASE)
-            ring_match = ring_pattern.match(target_string)
-
-            if ring_match:
-                result['ring_track'] = ring_match.group(1)
-                return result
-            elif target_string.startswith('"') and target_string.endswith('"'):
-                result['track'] = target_string[1:-1]
-                return result
-            else:
-                result['track'] = target_string
-                return result
-
-        # Split the target_string into track_part and rest
-        track_part, rest = target_string.split('/', 1)
-        track_part = track_part.strip()
-        rest = rest.strip()
-
-        # Check for ring(n) format in track_part
-        ring_pattern = re.compile(r'^ring\((.*?)\)$', re.IGNORECASE)
-        ring_match = ring_pattern.match(track_part)
-
-        if ring_match:
-            result['ring_track'] = ring_match.group(1)
-        else:
-            if track_part.startswith('"') and track_part.endswith('"'):
-                result['track'] = track_part[1:-1]
-            else:
-                result['track'] = track_part
-
-        if not result['ring_track'] and re.match(r'^[a-zA-Z]$', result['track']):
-            result['send_track'] = result['track']
-            result['track'] = None
-
-        rest_upper = rest.upper()
-        if rest_upper in ['VOL', 'PAN', 'CUE', 'XFADER', 'PANL', 'PANR']:
-            result['parameter_type'] = rest_upper
-            return result
-
-        # Handle send parameters without device
-        if rest_upper.startswith('SEND'):
-            result['parameter_type'] = 'SEND'
-            parts = rest.split()
-            if len(parts) >= 2:
-                result['send'] = parts[1]
-            return result
-
-        # Handle device parameters
-        dev_pattern = re.compile(r'DEV\(', re.IGNORECASE)
-        if dev_pattern.search(rest):
-            dev_match = dev_pattern.search(rest)
-            dev_start = dev_match.end()
-            dev_end = rest.find(')', dev_start)
-            if dev_start > 0 and dev_end > dev_start:
-                dev_spec = rest[dev_start:dev_end]
-
-                if '.' in dev_spec and not (dev_spec.startswith('"') and dev_spec.endswith('"')):
-                    chain_parts = dev_spec.split('.')
-                    for i, part in enumerate(chain_parts, start=1):
-                        if part.upper() == 'SEL' and i > 2:
-                            result['error'] = f'zcx only supports the SEL keyword in position 1 or 2: {dev_spec}'
-                            return result
-                    result['chain_map'] = chain_parts
-                else:
-                    if dev_spec.startswith('"') and dev_spec.endswith('"'):
-                        result['device'] = dev_spec[1:-1]
-                    else:
-                        result['device'] = dev_spec
-
-                param_part = rest[dev_end + 1:].strip()
-
-                # Handle chain parameters
-                chain_pattern = re.compile(r'CH\(', re.IGNORECASE)
-                if chain_pattern.search(param_part):
-                    chain_match = chain_pattern.search(param_part)
-                    chain_start = chain_match.end()
-                    chain_end = param_part.find(')', chain_start)
-                    if chain_start > 0 and chain_end > chain_start:
-                        result['chain'] = param_part[chain_start:chain_end]
-                        param_part = param_part[chain_end + 1:].strip()
-                        param_part_upper = param_part.upper()
-
-                        if param_part_upper.startswith('SEND'):
-                            parts = param_part.split()
-                            result['parameter_type'] = 'chain_send'
-                            if len(parts) >= 2:
-                                result['send'] = parts[1]
-                        elif param_part_upper in ['PAN', 'VOL']:
-                            result['parameter_type'] = param_part_upper
-
-                # Check for standard parameter types (PAN, VOL, etc.) first
-                param_part_upper = param_part.upper()
-                if param_part_upper in ['PAN', 'VOL', 'CUE', 'XFADER', 'PANL', 'PANR']:
-                    result['parameter_type'] = param_part_upper
-                # Handle SEND directly after DEV(...)
-                elif param_part_upper.startswith('SEND'):
-                    parts = param_part.split()
-                    result['parameter_type'] = 'SEND'
-                    if len(parts) >= 2:
-                        result['send'] = parts[1]
-                elif param_part.startswith('"') and param_part.endswith('"'):
-                    result['parameter_name'] = param_part[1:-1]
-                elif param_part_upper == 'CS':
-                    result['parameter_type'] = 'CS'
-                elif ' ' in param_part:
-                    parts = param_part.split()
-                    if parts[0].upper().startswith('B') and parts[1].upper().startswith('P'):
-                        result['bank'] = parts[0][1:]
-                        result['parameter_number'] = parts[1][1:]
-                elif param_part_upper.startswith('P'):
-                    result['parameter_number'] = param_part[1:]
-
-        return result
-
     @listens('tracks')
     def ring_tracks_changed(self):
         new_tracks = self.__session_ring.tracks
         self.debug(f'{self.name} ring tracks changed: {self.__session_ring.tracks}')
         for track in new_tracks:
             self.debug(track.name)
+
+
+class SelectedTrackNameGetter(DynamicString):
+    def __new__(cls, view):
+        obj = str.__new__(cls, "")
+        obj._value_func = lambda: view.selected_track.name
+        return obj
+
+
+class LazyValue:
+    def __init__(self, callable_func):
+        self._callable = callable_func
+
+    def __call__(self):
+        return self._callable()
+
+    def __str__(self):
+        return str(self._callable())
+
+    def __repr__(self):
+        return repr(self._callable())

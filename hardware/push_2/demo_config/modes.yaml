@@ -1,4 +1,9 @@
 - shift
 - select
-- mix
 - device
+- mix
+- browse
+- clip
+- delete
+- add_device
+- add_track

@@ -1,0 +1,100 @@
+volume:
+  type: mode
+  mode: volume
+  gestures:
+    press:
+      mode_on: volume
+
+pan:
+  type: mode
+  mode: pan
+  gestures:
+    press:
+      mode_on: pan
+
+send:
+  type: mode
+  mode: send
+  gestures:
+    press:
+      mode_on: send
+
+device:
+  type: mode
+  mode: device
+  gestures:
+    press:
+      mode_on: device
+
+up:
+  gestures:
+    press:
+      ring:
+        y: -${ring.height}
+
+down:
+  gestures:
+    press:
+      ring:
+        y: ${ring.height}
+
+left:
+  gestures:
+    press:
+      ring:
+        x: -${ring.width}
+
+right:
+  gestures:
+    press:
+      ring:
+        x: ${ring.width}
+
+scene_1:
+  type: param
+  on_color: 127
+  off_color: 0
+  binding: >
+    SEL / STOP
+
+scene_2:
+  type: param
+  on_color: 127
+  off_color: 0
+  binding: >
+    SEL / SOLO
+
+scene_3:
+  type: param
+  on_color: 127
+  off_color: 0
+  binding: >
+    SEL / MUTE
+
+scene_4:
+  type: param
+  on_color: 0
+  off_color: 0
+  binding: >
+    SEL / ARM
+    
+scene_5:
+  color: 0
+  gestures:
+    press: DUMMY
+
+scene_6:
+  color: 0
+  gestures:
+    press: DUMMY
+
+scene_7:
+  color: 0
+  gestures:
+    press: DUMMY
+
+scene_8:
+  color: 0
+  gestures:
+    short_press: STOPALL
+    long_press: STOPALL NQ

@@ -10,6 +10,7 @@ class EncoderElement(ElementBase):
             map_mode,
             is_feedback_enabled,
             channel,
+            feedback_delay,
             *a,
             **k
     ):
@@ -19,12 +20,15 @@ class EncoderElement(ElementBase):
             is_feedback_enabled=is_feedback_enabled,
             channel=channel,
             msg_type=MIDI_CC_TYPE,
+            feedback_delay=feedback_delay,
             *a,
             **k
         )
         self.name = 'unnamed_encoder_element'
+        self._original_sensitivity = k['mapping_sensitivity']
+        self._z_encoder = None
 
-
-    def log(self, *msg):
-        for msg in msg:
-            self._logger.info(msg)
+    def receive_value(self, value):
+        if self._z_encoder:
+            self._z_encoder._on_element_value(value)
+        super(EncoderElement, self).receive_value(value)

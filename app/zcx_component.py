@@ -20,14 +20,14 @@ class ZCXComponent(Component, EventObject):
     ):
         super().__init__(name=name, *a, **k)
         from . import ROOT_LOGGER
-        from . import CONFIG_DIR
+        from . import PREF_MANAGER
 
         if TYPE_CHECKING:
             from .page_manager import PageManager
             self.canonical_parent: ZCXCore
             self.page_manager: 'PageManager'
 
-        self._config_dir = CONFIG_DIR
+        self._config_dir = PREF_MANAGER.config_dir
         from .yaml_loader import yaml_loader
 
         self.yaml_loader = yaml_loader
@@ -54,3 +54,8 @@ class ZCXComponent(Component, EventObject):
 
     def setup(self):
         raise NotImplementedError("Setup() must be overridden")
+
+    def _unload(self):
+        from . import PREF_MANAGER
+        self._config_dir = PREF_MANAGER.config_dir
+        self.log(f"using config dir {self._config_dir}")

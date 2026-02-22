@@ -6,6 +6,19 @@ RgbColor = hardware_colors.RgbColor
 Pulse = hardware_colors.Pulse
 Blink = hardware_colors.Blink
 
+try:
+    from .hardware.colors import SIMPLE_SHADE
+except ImportError:
+    SIMPLE_SHADE = False
+try:
+    from .hardware.colors import SINGLE_COLOR_PULSE
+except ImportError:
+    SINGLE_COLOR_PULSE = False
+try:
+    from .hardware.colors import REVERSE_BLINK_COLORS
+except ImportError:
+    REVERSE_BLINK_COLORS = False
+
 
 class ColorSwatches:
 
@@ -37,7 +50,10 @@ def get_named_color(name, calling_control=None):
             factor = int(split[2])
         else:
             raise ConfigurationError(f'Invalid color def: {name}')
-        return getattr(calling_control._color_swatch, split[0].upper()).shade(factor)
+        if SIMPLE_SHADE:
+            return getattr(calling_control._color_swatch, split[0].upper()).shade(-1)
+        else:
+            return getattr(calling_control._color_swatch, split[0].upper()).shade(factor)
 
     name = name.upper()
     if calling_control is not None:
@@ -45,8 +61,17 @@ def get_named_color(name, calling_control=None):
         color = getattr(swatch, name, None)
         if color is not None:
             return color
+    else:
+        color = getattr(ColorSwatches.rgb, name, None)
+        return color
 
-    return getattr(hardware_colors.Rgb, name, RgbColor(0))
+    try:
+        return getattr(hardware_colors.Rgb, name)
+    except AttributeError:
+        from . import ROOT_LOGGER
+        ROOT_LOGGER.error(f"No color called `{name}`, using `0`.")
+        return RgbColor(0)
+
 
 def parse_color_definition(color, calling_control=None):
     try:
@@ -81,19 +106,37 @@ def parse_color_definition(color, calling_control=None):
                 special_color_def = parse[0]
 
             if special_color_type == 'blink':
-                a_def = special_color_def['a']
-                b_def = special_color_def['b']
-                speed_def = special_color_def.get('speed', 1)
+                if isinstance(special_color_def, str):
+                    a_def = special_color_def
+                    b_def = None
+                    speed_def = 1
+                else:
+                    a_def = special_color_def['a']
+                    b_def = special_color_def.get('b')
+                    speed_def = special_color_def.get('speed', 1)
+                if b_def is None:
+                    b_def = 0
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
+                if REVERSE_BLINK_COLORS:
+                    temp = b
+                    b = a
+                    a = temp
 
                 return Blink(a, b, speed)
 
             elif special_color_type == 'pulse':
-                a_def = special_color_def['a']
-                b_def = special_color_def['b']
-                speed_def = special_color_def.get('speed', 1)
+                if isinstance(special_color_def, str):
+                    a_def = special_color_def
+                    b_def = 0
+                    speed_def = 1
+                else:
+                    a_def = special_color_def['a']
+                    b_def = special_color_def.get('b')
+                    speed_def = special_color_def.get('speed', 1)
+                if b_def is None or SINGLE_COLOR_PULSE:
+                    b_def = a_def
                 a = parse_color_definition(a_def, calling_control)
                 b = parse_color_definition(b_def, calling_control)
                 speed = hardware_colors.translate_speed(speed_def)
@@ -156,3 +199,5 @@ def parse_color_definition(color, calling_control=None):
 
 def simplify_color(color):
     return hardware_colors.simplify_color(color)
+
+ALL_LIVE_COLORS = [parse_color_definition({"live": i}) for i in range(70)] # 70 colors in the picker

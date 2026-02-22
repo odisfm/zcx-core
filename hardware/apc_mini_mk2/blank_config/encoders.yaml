@@ -1,0 +1,35 @@
+fader_1:
+  binding:
+    default: NONE
+
+fader_2:
+  binding:
+    default: NONE
+
+fader_3:
+  binding:
+    default: NONE
+
+fader_4:
+  binding:
+    default: NONE
+
+fader_5:
+  binding:
+    default: NONE
+
+fader_6:
+  binding:
+    default: NONE
+
+fader_7:
+  binding:
+    default: NONE
+
+fader_8:
+  binding:
+    default: NONE
+
+fader_9:
+  binding:
+    default: NONE

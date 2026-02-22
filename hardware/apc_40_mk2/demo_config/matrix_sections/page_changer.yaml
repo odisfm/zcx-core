@@ -1,0 +1,11 @@
+pad_group: page_changer
+type: page
+page: ${me.index}
+active_color: white
+inactive_color:
+  palette: rainbow
+gestures:
+  press:
+    page: ${me.index}
+  long_release:
+    page: last

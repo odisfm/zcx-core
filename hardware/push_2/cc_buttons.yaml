@@ -201,9 +201,6 @@ clip:
 volume:
   cc: 114
 
-pan_send:
-  cc: 115
-
 device:
   cc: 110
 
@@ -224,3 +221,9 @@ undo:
 
 user:
   cc: 59
+
+layout:
+  cc: 31
+
+setup:
+  cc: 30

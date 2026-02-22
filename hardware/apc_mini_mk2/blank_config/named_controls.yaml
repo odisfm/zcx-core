@@ -1,0 +1,88 @@
+# volume:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# pan:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# send:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# device:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# up:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# down:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# left:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# right:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+shift:
+  type: mode
+  mode: shift
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift
+
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY

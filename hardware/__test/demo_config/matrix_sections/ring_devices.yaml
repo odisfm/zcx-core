@@ -1,0 +1,9 @@
+pad_group: ring_devices
+type: param
+on_color: purple
+off_color: purple shade 1
+binding: >
+  RING(${me.X}) / DEV(1) B1 P${me.global_Y}
+gestures:
+  released_delayed:
+    do_toggle: true

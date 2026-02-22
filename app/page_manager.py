@@ -31,16 +31,21 @@ class PageManager(ZCXComponent):
         self.__last_page = -1
         self.__page_count = 1
         self.__pages_sections = {}
-        self.__page_names = []
+        self.__page_names: list[str] = []
         self.__pad_sections: Dict[PadSection] = {}
         self.__named_button_section: Optional[PadSection] = None
-        self.__page_definitions = {}
+        self.__page_definitions: dict[str, dict] = {}
         self.__action_resolver: ActionResolver = None
         self.__osc_server = None
         self.__osc_address_prefix = None
         self.__osc_address_page_name = None
         self.__osc_address_page_number = None
         self.__does_send_osc = False
+        self.__special_sections_config = {
+            "__session_view": None,
+            "__keyboard": None,
+        }
+        self.__does_send_page_change_osc = False
 
     @listenable_property
     def current_page(self):
@@ -49,6 +54,14 @@ class PageManager(ZCXComponent):
     @property
     def current_page_name(self):
         return self.__page_names[self.current_page]
+
+    @property
+    def all_page_names(self):
+        return copy.copy(self.__page_names)
+
+    @property
+    def page_count(self):
+        return self.__page_count
 
     def increment_page(self, increment=1):
         new_page = (self.__current_page + increment) % self.__page_count
@@ -63,14 +76,14 @@ class PageManager(ZCXComponent):
         if incoming_page_num == self.__current_page:
             return True
         self.__last_page = self.__current_page
-        self.__current_page = page_number
+        self.__current_page = incoming_page_num
         self.notify_current_page()
 
         if not initial_page_set:
             self.handle_page_commands(self.__current_page, self.__last_page)
 
         try:
-            if self.__does_send_osc:
+            if self.__does_send_page_change_osc:
                 self.__osc_server.sendOSC(self.__osc_address_page_name, self.current_page_name)
                 self.__osc_server.sendOSC(self.__osc_address_page_number, self.__current_page)
         except:
@@ -109,11 +122,7 @@ class PageManager(ZCXComponent):
                 self.increment_page(1)
                 return True
             else:
-                page_num = self.get_page_number_from_name(page)
-                if page_num:
-                    self.set_page(page_number=page_num)
-                    return True
-                return False
+                return self.set_page(page_name=page)
         else:
             raise ValueError(f"invalid value {page} for request_page_change()")
 
@@ -173,40 +182,87 @@ class PageManager(ZCXComponent):
         PadSection.root_cs = self.canonical_parent
         PadSection.page_manager = self
 
-        used_sections = set()
+        used_section_names = set()
         for page_sections in self.__pages_sections.values():
-            used_sections.update(page_sections)
+            used_section_names.update(page_sections)
+
+        try:
+            overlays_config = self.yaml_loader.load_yaml(
+                f"{self._config_dir}/overlays.yaml"
+            )
+            if overlays_config is None:
+                self.warning("`overlays.yaml` appears to be blank")
+            if not isinstance(overlays_config, dict) or "overlays" not in overlays_config:
+                raise CriticalConfigurationError(f"`overlays.yaml` must be an object with key `overlays`")
+            overlays_config = overlays_config["overlays"]
+        except FileNotFoundError:
+            overlays_config = {}
+
+        for overlay_name, overlay_def in overlays_config.items():
+            if not isinstance(overlay_def, dict):
+                raise CriticalConfigurationError(f"Error in overlay `{overlay_name}`: overlay definition must be a dict. Provided {overlay_def.__class__.__name__}")
+            sections_def = overlay_def.get("matrix_sections", [])
+            if not isinstance(sections_def, list):
+                raise CriticalConfigurationError(f"Overlay `{overlay_name}` key `matrix_sections` must be a list")
+            for section_name in sections_def:
+                if section_name not in sections_config:
+                    raise CriticalConfigurationError(f"Overlay `{overlay_name}` references matrix section `{section_name}` that does not exist in `matrix_sections.yaml`")
+                used_section_names.add(section_name)
+
+        special_section_names = self.__special_sections_config.keys()
 
         for section_name, section_config in sections_config.items():
-            if section_name in used_sections:  # Only build sections that are used
+            if section_name in used_section_names:  # Only build sections that are used
+                if section_name in special_section_names:
+                    self.__special_sections_config[section_name] = section_config
+                    continue
                 self.__raw_sections[section_name] = section_config
-                section_obj = self.build_section(section_name, section_config)
+                try:
+                    section_obj = self.build_section(section_name, section_config)
+                except Exception as e:
+                    raise CriticalConfigurationError(f"Failed to build section `{section_name}`: {e}")
                 self.__pad_sections[section_name] = section_obj
 
         for section in self.__pad_sections.values():
             self.__z_manager.process_pad_section(section)
 
-        named_pad_section = PadSection(
-            "__named_buttons_section", None, {i for i in range(self.__page_count)}, 0
-        )
-
-        self.__z_manager.process_named_buttons(named_pad_section)
+        self.__z_manager.create_named_controls()
 
         self.__osc_server = self.component_map['CxpBridge']._osc_server
-        self.__osc_address_prefix = f'zcx/{self.canonical_parent.name}/page'
+        self.__osc_address_prefix = f'/zcx/{self.canonical_parent.name}/page'
         self.__osc_address_page_name = self.__osc_address_prefix + '/name'
         self.__osc_address_page_number = self.__osc_address_prefix + '/number'
 
         from . import PREF_MANAGER
         osc_prefs = PREF_MANAGER.user_prefs.get('osc_output', {})
         try:
-            self.__does_send_osc = osc_prefs.get('page', False)
+            self.__does_send_page_change_osc = osc_prefs.get('page', False)
         except:
             pass
 
-        self.set_page(0)
+    def _unload(self):
+        super()._unload()
+        self.__raw_sections: Dict[str, Dict] = {}
+        self.__current_page = -1
+        self.__last_page = -1
+        self.__page_count = 1
+        self.__pages_sections = {}
+        self.__page_names = []
+        self.__pad_sections: Dict[PadSection] = {}
+        self.__named_button_section: Optional[PadSection] = None
+        self.__page_definitions = {}
+        self.__osc_server = None
+        self.__osc_address_prefix = None
+        self.__osc_address_page_name = None
+        self.__osc_address_page_number = None
+        self.__does_send_osc = False
+        self.__special_sections_config = {
+            "__session_view": None,
+            "__keyboard": None,
+        }
+        self.__does_send_page_change_osc = False
 
-    def build_section(self, section_name, section_config):
+    def build_section(self, section_name, section_config, layer=None):
         matrix_element = self.canonical_parent.component_map[
             "HardwareInterface"
         ].button_matrix_state
@@ -239,12 +295,21 @@ class PageManager(ZCXComponent):
             if section_name in sections_list:
                 pages_in.add(page_num)
 
+        layer_def = layer or section_config.get("layer")
+        if not layer_def:
+            layer_def = 0
+        elif not isinstance(layer_def, int):
+            self.warning(f"Invalid layer definition for section `{section_name}`: {layer_def}\n"
+                         f"Must be an integer.")
+            layer_def = 0
+
         section_object = PadSection(
             section_name=section_name,
             owned_coordinates=owned_coordinates,
             pages_in=pages_in,
-            width=(row_end - row_start + 1),
+            width=(col_end - col_start + 1),
             raw_template=section_template,
+            layer=layer_def,
         )
 
         self._registered_disconnectables.append(section_object)
@@ -297,6 +362,15 @@ class PageManager(ZCXComponent):
         incoming_command_bundle = get_page_command(incoming_page_name)
         outgoing_command_bundle = get_page_command(outgoing_page_name, True)
 
+        if outgoing_command_bundle:
+            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
+            context = make_context_dict(incoming_page_name, incoming_page_num)
+
+            self.__action_resolver.execute_command_bundle(
+                bundle=outgoing_command_bundle,
+                vars_dict=outgoing_vars,
+                context=context
+            )
 
         if incoming_command_bundle:
             incoming_vars = self.__page_definitions[incoming_page_name].get('vars', {})
@@ -308,15 +382,6 @@ class PageManager(ZCXComponent):
                 context=context
             )
 
-        if outgoing_command_bundle:
-            outgoing_vars = self.__page_definitions[outgoing_page_name].get('vars', {})
-            context = make_context_dict(incoming_page_name, incoming_page_num)
-
-            self.__action_resolver.execute_command_bundle(
-                bundle=outgoing_command_bundle,
-                vars_dict=outgoing_vars,
-                context=context
-            )
 
     @staticmethod
     def validate_section_config(section_name, section_config):
@@ -330,6 +395,9 @@ class PageManager(ZCXComponent):
         - Valid note range is MATRIX_MIN_NOTE to MATRIX_MAX_NOTE
         """
         required_fields = ["col_start", "col_end", "row_start", "row_end"]
+
+        if not isinstance(section_config, dict):
+            raise CriticalConfigurationError(f"section config for `{section_name}` must be a dict")
 
         # Check all required fields exist
         for field in required_fields:
@@ -374,18 +442,19 @@ class PageManager(ZCXComponent):
 
         Args:
             page_name: name of the page (for logging)
-            page_sections: list of section anmes
-            all_sections_config: Raw YAML config containing section definitions with coordinates
+            page_sections: list of section names
+            all_sections_config: Raw YAML config containing section definitions with coordinates and optional layer
 
         Returns:
             bool: True if all sections are valid, raises ValueError if invalid
 
         Raises:
-            ValueError: If sections overlap or exceed matrix bounds
+            ValueError: If sections overlap on the same layer or exceed matrix bounds
+            CriticalConfigurationError: If layer is specified but not an integer
         """
-        # Create a matrix to track which cells are claimed
-        # Using None for unclaimed, section name for claimed
-        matrix = [[None for x in range(MATRIX_WIDTH)] for y in range(MATRIX_HEIGHT)]
+        # Create a matrix to track which cells are claimed at each layer
+        # Using dict of layer -> section_name for claimed cells
+        matrix = [[{} for x in range(MATRIX_WIDTH)] for y in range(MATRIX_HEIGHT)]
 
         # Check each section's coordinates
         for section_name in page_sections:
@@ -400,25 +469,39 @@ class PageManager(ZCXComponent):
             row_start = section["row_start"]
             row_end = section["row_end"]
 
+            # Get layer, defaulting to 0 if not specified
+            layer = section.get("layer", 0)
+            if not isinstance(layer, int):
+                raise CriticalConfigurationError(
+                    f"Section '{section_name}' has invalid layer '{layer}' - must be an integer"
+                )
+
             # Check bounds
             if not (
-                0 <= col_start <= col_end < MATRIX_WIDTH
-                and 0 <= row_start <= row_end < MATRIX_HEIGHT
+                    0 <= col_start <= col_end < MATRIX_WIDTH
+                    and 0 <= row_start <= row_end < MATRIX_HEIGHT
             ):
                 raise ValueError(
                     f"Section '{section_name}' in page '{page_name}' has coordinates "
                     f"outside matrix bounds: ({col_start}-{col_end}, {row_start}-{row_end})"
                 )
 
-            # Check for overlaps by trying to claim cells
+            # Check for overlaps by trying to claim cells at this layer
             for row in range(row_start, row_end + 1):
                 for col in range(col_start, col_end + 1):
-                    existing = matrix[row][col]
-                    if existing is not None:
+                    cell_layers = matrix[row][col]
+                    if layer in cell_layers:
+                        existing_section = cell_layers[layer]
                         raise ValueError(
-                            f"Section '{section_name}' overlaps with section '{existing}' "
-                            f"at coordinates ({row}, {col}) in page '{page_name}'"
+                            f"Section '{section_name}' overlaps with section '{existing_section}' "
+                            f"at coordinates ({row}, {col}) on layer {layer} in page '{page_name}'"
                         )
-                    matrix[row][col] = section_name
+                    cell_layers[layer] = section_name
 
         return True
+
+    def get_special_section_definition(self, section_type):
+        return self.__special_sections_config.get(section_type)
+
+    def register_special_section_object(self, pad_section: PadSection, name: str):
+        self.__pad_sections[name] = pad_section

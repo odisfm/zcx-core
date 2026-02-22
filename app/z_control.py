@@ -3,12 +3,12 @@ from typing import Optional
 
 from ableton.v2.base import EventObject
 from ableton.v2.base.task import TimerTask
-from ableton.v3.base import listens
+from ableton.v3.base import listens, listenable_property
 from ableton.v3.control_surface import ControlSurface
 
 from .colors import parse_color_definition, simplify_color, Pulse, Blink
-from .consts import SUPPORTED_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
-from .errors import ConfigurationError
+from .consts import SUPPORTED_GESTURES, SHORTHAND_GESTURES, DEFAULT_ON_THRESHOLD, ON_GESTURES, OFF_GESTURES
+from .errors import ConfigurationError, CriticalConfigurationError
 from .z_element import ZElement
 from .z_state import ZState
 from .pseq import Pseq
@@ -43,14 +43,16 @@ class ZControl(EventObject):
             x = raw_config.get('section_context', {}).get('x', -1)
             y = raw_config.get('section_context', {}).get('y', -1)
             self.__name = f"{self.parent_section.name}_{x}_{y}"
-        self.__state: Optional[ZState] = None
+        self._state: Optional[ZState.State] = None
         self._parent_logger = self.parent_section._logger
         self._in_view = False
-        self.in_view_listener.subject = self.parent_section
+        # self.in_view_listener.subject = self.parent_section
         self._raw_config = raw_config
         self._control_element: ZElement = None
         self.__z_manager = self.root_cs.component_map['ZManager']
         self._color = None
+        self._simple_feedback = False
+        self._hold_color = None
         self._initial_color_def = None
         self._color_swatch = None
         self._color_dict = {}
@@ -61,16 +63,19 @@ class ZControl(EventObject):
         self._feedback_type = None
         self._mode_manager = self.root_cs.component_map['ModeManager']
         self.modes_changed.subject = self._mode_manager
+        self._external_light = False
         self._is_animating = False
         self._suppress_animations = False
         self._suppress_attention_animations = False
         self._animate_on_release = False
         self._current_animation_task = None
         self._current_mode_string = ''
-        self._allow_multiple_triggers = False
+        self._cascade_direction = False
         self._fake_momentary = False
         self._last_received_value = 0
+        self._last_gesture = None
         self._repeat = False
+        self._alias = None
         self._trigger_action_list = partial(self.root_cs.component_map['CxpBridge'].trigger_action_list)
         self._on_threshold = DEFAULT_ON_THRESHOLD
         self._resolve_command_bundle = partial(
@@ -78,32 +83,103 @@ class ZControl(EventObject):
             calling_control=self,
         )
         self.parent_section.register_owned_control(self)
+        self.__is_pressed = False
+        self.__was_pressed_on_exit = False
+        self.__release_on_exit = True
+
+        self.debug = partial(self.log, level="debug")
+        self.warning = partial(self.log, level="warning")
+        self.error = partial(self.log, level="error")
+        self.critical = partial(self.log, level="critical")
+
+    def _unload(self):
+        self.in_view_listener.subject = None
+        self.modes_changed.subject = None
 
     def setup(self):
+        from . import STRICT_MODE
+
         config = self._raw_config
-        self.__create_context([
+        self.set_vars(config.get('vars', {}))
+        self._create_context(
+            generated_contexts=
+            [
             config.get('section_context', {}),
             config.get('group_context', {}),
-            config.get('props', {})
-        ])
+            ],
+            user_props=config.get("props", {})
+        )
         color = config.get('color', 127)
         self.set_gesture_dict(config.get('gestures', {}))
-        self.set_vars(config.get('vars', {}))
         self.set_color(color)
         on_threshold = int(config.get('threshold', DEFAULT_ON_THRESHOLD))
         self._on_threshold = on_threshold
+
+        external_light_def = config.get('external_light', False)
+        if not isinstance(external_light_def, bool):
+            msg = f"Invalid value for option `external_light`: {external_light_def}\nMust be `true` or `false`"
+            if STRICT_MODE:
+                raise CriticalConfigurationError(msg)
+            else:
+                self.error(msg)
+                self.error(f'Using `false`.')
+                external_light_def = False
+
+        self._external_light = external_light_def
+
         suppress_animations = config.get('suppress_animations', False)
+        simple_feedback_color_def = config.get('hold_color', False)
+        if simple_feedback_color_def:
+            self._simple_feedback = True
+            self._animate_on_release = False
+            simple_feedback_color = parse_color_definition(simple_feedback_color_def, self)
+            self._hold_color = simple_feedback_color
+        elif self._control_element.color_swatch.__class__.__name__ == 'BasicColorSwatch':
+            self._simple_feedback = True
+            self._animate_on_release = False
+            simple_feedback_color = parse_color_definition(0, self)
+            self._hold_color = simple_feedback_color
+
         self._suppress_animations = suppress_animations
         self._fake_momentary = config.get('tog_to_mom', False)
         self._repeat = config.get('repeat', False)
 
-    def log(self, *msg):
-        for msg in msg:
-            self._parent_logger.info(f'({self.parent_section.name}) {msg}')
+        self.__release_on_exit = (config.get('release_on_exit', True))
+
+        self._cascade_direction = config.get('cascade', False)
+        if self._cascade_direction not in [False, "up", "down"]:
+            self.error(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
+            self._cascade_direction = False
+
+    def log(self, *msgs, level="info"):
+        log_func = getattr(self._parent_logger, level)
+        for msg in msgs:
+            log_func(f'({self.name}) {msg}')
 
     @property
     def in_view(self):
         return self._in_view
+
+    @in_view.setter
+    def in_view(self, value):
+        if not isinstance(value, bool):
+            raise ValueError('in_view must be a boolean')
+        back_in_view = not self._in_view and value
+        leaving_view = self._in_view and not value
+        if not value:
+            if self._state._is_pressed and self.__release_on_exit:
+                was_held = not self._state._delay_task.is_running
+                self.handle_gesture("released")
+                if was_held:
+                    self.handle_gesture("released_delayed")
+                else:
+                    self.handle_gesture("released_immediately")
+
+        self._in_view = value
+        if back_in_view:
+            self._back_in_view()
+        elif leaving_view:
+            self._control_element.send_value(0, force=True)
 
     @property
     def context(self):
@@ -117,87 +193,148 @@ class ZControl(EventObject):
     def name(self):
         return self.__name
 
+    @property
+    def coordinates(self) -> str:
+        return f"x{self._context['me']['global_x']}y{self._context['me']['global_y']}"
+
     def set_gesture_dict(self, gesture_config):
-        if type(gesture_config) is not dict:
-            raise ValueError(f'gesture_config must be a dict: {gesture_config}')
+        try:
+            if type(gesture_config) is not dict:
+                raise ValueError(f'gesture_config must be a dict: {gesture_config}')
 
-        processed_dict = {}
-        all_modes = []
+            processed_dict = {}
+            all_modes = []
 
-        has_off_gestures = False
-        has_on_gestures = False
+            has_off_gestures = False
+            has_on_gestures = False
+            shorthand_gesture = None
 
-        for trigger, definition in gesture_config.items():
-            split = trigger.split('__')
-            gesture = split[0]
-            if gesture not in SUPPORTED_GESTURES:
-                # todo: replace with ConfigError
-                raise ValueError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
-            if gesture in OFF_GESTURES:
-                has_off_gestures = True
-            elif gesture in OFF_GESTURES:
-                has_on_gestures = True
-            modes = split[1:] if len(split) > 1 else []
-            modes.sort()
-            for mode in modes:
-                if not self._mode_manager.is_valid_mode(mode):
-                    raise ValueError(f"'{mode}' is not configured in config/modes.yaml")
-                if mode not in all_modes:
-                    all_modes.append(mode)
+            for trigger, definition in gesture_config.items():
+                split = trigger.split('__')
+                gesture = split[0]
+                if gesture not in SUPPORTED_GESTURES:
+                    if gesture in SHORTHAND_GESTURES:
+                        shorthand_gesture = gesture
+                        shorthand_idx = SHORTHAND_GESTURES.index(gesture)
+                        gesture = SUPPORTED_GESTURES[shorthand_idx]
+                    else:
+                        raise ConfigurationError(f"'{gesture}' is not a valid gesture ({SUPPORTED_GESTURES})")
+                if gesture in OFF_GESTURES:
+                    has_off_gestures = True
+                elif gesture in ON_GESTURES:
+                    has_on_gestures = True
+                modes = split[1:] if len(split) > 1 else []
+                modes.sort()
+                for mode in modes:
+                    if not self._mode_manager.is_valid_mode(mode):
+                        raise ValueError(f"'{mode}' is not configured in config/modes.yaml")
+                    if mode not in all_modes:
+                        all_modes.append(mode)
 
-            new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
+                new_key = gesture if not modes else f"{gesture}__{('__'.join(modes))}"
 
-            if isinstance(definition, dict):
-                first_key = next(iter(definition.keys()))
-                first_val = definition[first_key]
-                pseq_obj = None
+                if isinstance(definition, dict):
+                    first_key = next(iter(definition.keys()))
+                    first_val = definition[first_key]
+                    pseq_obj = None
 
-                if first_key == 'pseq':
-                    pseq_obj = Pseq(first_val, False)
-                elif first_key == 'rpseq':
-                    pseq_obj = Pseq(first_val, True)
+                    if first_key == 'pseq':
+                        pseq_obj = Pseq(first_val, False)
+                    elif first_key == 'rpseq':
+                        pseq_obj = Pseq(first_val, True)
 
-                definition = pseq_obj or definition
+                    definition = pseq_obj or definition
 
-            processed_dict[new_key] = definition
+                if new_key in processed_dict:
+                    msg = f"Control `{self.name}` has multiple entries for gesture `{new_key}`."
+                    if shorthand_gesture:
+                        msg += f" You may have defined both `{gesture}` and `{shorthand_gesture}`, which are the same thing."
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise CriticalConfigurationError(msg)
+                    else:
+                        self.error(f"{msg} Only the last entry will be used.")
 
-        if has_off_gestures and not has_on_gestures:
-            self._animate_on_release = True
+                processed_dict[new_key] = definition
 
-        all_modes.sort()
-        self._concerned_modes = all_modes
-        self._gesture_dict = processed_dict
+            if has_off_gestures and not has_on_gestures:
+                self._animate_on_release = True
+
+            all_modes.sort()
+            self._concerned_modes = all_modes
+            self._gesture_dict = processed_dict
+        except Exception as e:
+            self.error(e)
+            raise e
 
     def set_vars(self, vars):
         self._vars = vars
 
-    def __create_context(self, config: list[dict]) -> None:
-        context = {k: v for d in config for k, v in d.items()}
+    def _create_context(self, generated_contexts: list[dict], user_props: dict = None) -> None:
+        context = {k: v for d in generated_contexts for k, v in d.items()}
         if 'index' not in context:
             if 'group_index' in context:
                 context['index'] = context['group_index']
             else:
                 context['index'] = 0
+
         context['Index'] = context['index'] + 1
+
         me_context = {'me': context}
+
+        me_context['me']['vel'] = 0
+        me_context['me']['velp'] = 0.0
+        me_context['me']['velps'] = 0.0
+
+        me_context['me']['obj'] = self
+
+        me_context['me']['props'] = {}
+
         self._context = me_context
 
-        self.set_prop('vel', 0)
-        self.set_prop('velp', 0.0)
-        self.set_prop('velps', 0.0)
+        if user_props is None:
+            user_props = {}
 
-        self.set_prop('obj', self)
+        def compile_value(val):
+            """Recursively compile template strings in vals."""
+            if isinstance(val, str) and "${" in val:
+                parsed, status = self.root_cs.component_map["ActionResolver"].compile(
+                    val,
+                    self._vars,
+                    self._context,
+                )
+                if status != 0:
+                    msg = (f"Unparseable prop in {self.name}."
+                           f"\n`{val}`"
+                           f"\n`props: {user_props}`")
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise ConfigurationError(msg)
+                    else:
+                        self.error(msg)
+                        return None
+                return parsed
+            elif isinstance(val, dict):
+                return {k: compile_value(v) for k, v in val.items()}
+            elif isinstance(val, list):
+                return [compile_value(item) for item in val]
+            else:
+                return val
+
+        for key, value in user_props.items():
+            self._context["me"]["props"][key] = compile_value(value)
+
 
     def bind_to_state(self, state):
         state.register_z_control(self)
-        self.__state = state
+        self._state = state
         self._control_element = state._control_element
         self._feedback_type = self._control_element._feedback_type
         self._color_swatch = self._control_element.color_swatch
 
     def unbind_from_state(self):
-        if self.__state is not None:
-            self.__state.unregister_z_control(self)
+        if self._state is not None:
+            self._state.unregister_z_control(self)
             self._control_element = None
 
     @classmethod
@@ -209,51 +346,95 @@ class ZControl(EventObject):
         return (val - _min) / (_max - _min) * 100
 
     @only_in_view
-    def handle_gesture(self, gesture):
+    def handle_gesture(self, gesture, dry_run=False, testing=False):
         val = self._control_element._last_received_value
-        self._last_received_value = val
-        if self._fake_momentary:
+        self._last_gesture = gesture
+        self.notify_gesture_received(gesture)
+        if dry_run or testing:
+            pass
+        elif self._fake_momentary:
             if gesture in ['pressed', 'released']:
                 gesture = 'pressed'
             else:
                 return
-        elif 'pressed' in gesture and val < self._on_threshold:
+        elif 'pressed' in gesture:
+            if val < self._on_threshold:
+                return
+            if gesture == "pressed":
+                self.__is_pressed = True
+
+        if not self.__is_pressed and gesture in OFF_GESTURES:
             return
 
-        elif gesture in ['pressed', 'double_clicked']:
-            self.set_prop('vel', val)
+        if gesture in ["released_immediately", "released_delayed"]:
+            self.__is_pressed = False
+
+        if self._simple_feedback:
+            if gesture == 'pressed':
+                self._do_simple_feedback_held()
+            elif gesture == 'released':
+                self._do_simple_feedback_release()
+
+        if gesture in ['pressed', 'double_clicked']:
+            self._context["me"]["vel"] = val
             vel_p = round((val / 127) * 100, 1)
             vel_p_s = round(self.re_range_percent(val, self._on_threshold, 127), 1)
-            self.set_prop('velp', vel_p)
-            self.set_prop('velps', vel_p_s)
+            self._context["me"]["velp"] = vel_p
+            self._context["me"]["velps"] =  vel_p_s
 
-        lookup_key = gesture + self._current_mode_string
-        matching_actions = []
+        current_active_modes = set()
+        if self._current_mode_string:
+            current_active_modes = set(self._current_mode_string.lstrip("__").split("__"))
 
-        if not self._allow_multiple_triggers:
-            if action := self._gesture_dict.get(lookup_key):
-                matching_actions.append(action)
+        matching_candidates = []
+
+        gesture_keys = []
+        for key in self._gesture_dict.keys():
+            parts = key.split("__")
+            if parts[0] == gesture:
+                gesture_keys.append(key)
+
+        for order_idx, key in enumerate(gesture_keys):
+            action = self._gesture_dict[key]
+            parts = key.split("__")
+
+            if len(parts) == 1:
+                mode_count = 0
+                matching_candidates.append({
+                    'action': action,
+                    'mode_count': mode_count,
+                    'key': key,
+                    'config_order': order_idx
+                })
+                continue
+
+            required_modes = set(parts[1:])
+
+            if required_modes.issubset(current_active_modes):
+                mode_count = len(required_modes)
+                matching_candidates.append({
+                    'action': action,
+                    'mode_count': mode_count,
+                    'key': key,
+                    'config_order': order_idx
+                })
+
+        if not matching_candidates:
+            return False
+
+        if not self._cascade_direction:
+            matching_candidates.sort(key=lambda x: (x['mode_count'], x['config_order']), reverse=True)
+            matching_actions = [matching_candidates[0]['action']]
         else:
-            for key, action in self._gesture_dict.items():
-                parts = key.split("__")
-                if parts[0] != gesture:
-                    continue
+            if self._cascade_direction == "down":
+                matching_candidates.sort(key=lambda x: (x['mode_count'], x['config_order']))
+            else:  # "up"
+                matching_candidates.sort(key=lambda x: (x['mode_count'], x['config_order']), reverse=True)
 
-                if len(parts) == 1:
-                    matching_actions.append(action)
-                    if not self._allow_multiple_triggers:
-                        break
-                    continue
+            matching_actions = [candidate['action'] for candidate in matching_candidates]
 
-                mode_part = "__" + "__".join(parts[1:])
-
-                if mode_part in self._current_mode_string:
-                    matching_actions.append(action)
-                    if not self._allow_multiple_triggers:
-                        break
-
-        if len(matching_actions) == 0:
-            return
+        if dry_run:
+            return matching_actions
 
         for command in matching_actions:
 
@@ -266,7 +447,7 @@ class ZControl(EventObject):
                 context=self._context
             )
 
-        if (gesture in ON_GESTURES or (gesture in OFF_GESTURES and self._animate_on_release)) and self._suppress_animations is False:
+        if not self._simple_feedback and self._suppress_animations is False and len(matching_actions) > 0:
             self.animate_success()
 
     @listens('in_view')
@@ -277,24 +458,33 @@ class ZControl(EventObject):
             self._back_in_view()
 
     def _back_in_view(self):
+        self.__is_pressed = False
+        self._state._delay_task.kill()
+        self._state._double_click_task.kill()
         self.request_color_update()
-        self.__state._repeat = self._repeat
+        if self._simple_feedback:
+            if not self._control_element.is_pressed:
+                self._do_simple_feedback_release()
+        self._state._repeat = self._repeat
+        self.update_mode_string(self._mode_manager.current_modes)
 
     def set_color_to_base(self):
         self._control_element.set_light(self._control_element.color_swatch.base)
 
     @only_in_view
-    def request_color_update(self):
+    def request_color_update(self, force=False):
         if self._color is not None:
+            if self._external_light and not force:
+                return
             self._control_element.set_light(self._color)
         else:
-            self.log(f'cant update color, it is None')
+            self.error(f'cant update color, it is None')
 
     def set_color(self, color):
         try:
             base_color = parse_color_definition(color, self)
         except Exception as e:
-            self.log(e)
+            self.error(e)
             base_color = parse_color_definition(127, self)
 
         simplified_color = simplify_color(base_color)
@@ -309,11 +499,11 @@ class ZControl(EventObject):
             animate_success = Blink(simplified_color, play_green, 12)
             animate_failure = Blink(simplified_color, red, 4)
         elif self._feedback_type == 'basic':
-            attention_color = base_color
+            attention_color = parse_color_definition("full_blink_slow", self)
             animate_success = Blink(simplified_color, off, 48)
             animate_failure = Blink(simplified_color, off, 12)
         elif self._feedback_type == 'biled':
-            attention_color = base_color
+            attention_color = parse_color_definition("amber_blink_slow", self)
             animate_success = Pulse(simplified_color, green, 48)
             animate_failure = Blink(simplified_color, red, 12)
         else:
@@ -333,15 +523,21 @@ class ZControl(EventObject):
             self._initial_color_def = color
         self._color_dict = color_dict
 
+    def set_on_color(self, color):
+        raise NotImplementedError()
+
+    def set_off_color(self, color):
+        raise NotImplementedError()
+
     def change_color(self, *a, **k):
         self.set_color(*a, **k)
-        self.request_color_update()
+        self.request_color_update(force=True)
 
     def replace_color(self, color):
         # todo: needs to have the full dict set like in `set_color`
         self._color = color
         self._color_dict['base'] = color
-        self.request_color_update()
+        self.request_color_update(force=True)
 
     def reset_color_to_initial(self):
         if self._initial_color_def is None:
@@ -352,7 +548,6 @@ class ZControl(EventObject):
     def force_color(self, color):
         self._color = color
         self._control_element.set_light(color)
-        self._control_element.send_value(127)
 
     @listens('current_modes')
     def modes_changed(self, _):
@@ -395,15 +590,29 @@ class ZControl(EventObject):
         self.request_color_update()
         self.task_group.add(timer)
 
-    def set_prop(self, prop_name, value):
-        self._context['me'][prop_name] = value
+    @only_in_view
+    def _do_simple_feedback_held(self):
+        self.force_color(self._hold_color)
 
-    def get_prop(self, prop_name):
-        return self._context['me'].get(prop_name)
+    @only_in_view
+    def _do_simple_feedback_release(self):
+        self.force_color(self._color_dict['base'])
 
     @staticmethod
     def is_pseq(obj):
         return isinstance(obj, Pseq)
+
+    def disconnect(self):
+        super().disconnect()
+        self._unload()
+
+    @property
+    def alias(self):
+        return self._alias
+
+    @listenable_property
+    def gesture_received(self):
+        return self._last_gesture
 
 class AnimationTimer(TimerTask):
 

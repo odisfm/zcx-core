@@ -1,7 +1,7 @@
 from ableton.v2.base.event import listens
 
 from ..colors import parse_color_definition
-from ..errors import ConfigurationError
+from ..errors import ConfigurationError, CriticalConfigurationError
 from ..z_control import ZControl
 
 
@@ -16,10 +16,11 @@ class PageControl(ZControl):
         self._inactive_color = None
         self._disabled_color = None
         self._suppress_attention_animations = True
+        self._disabled = False
 
-    def handle_gesture(self, gesture):
+    def handle_gesture(self, gesture, dry_run=False, testing=False):
         try:
-            super().handle_gesture(gesture)
+            super().handle_gesture(gesture, dry_run, testing)
         except ValueError as e:
             self.animate_failure()
             raise
@@ -27,7 +28,7 @@ class PageControl(ZControl):
     def setup(self):
         super().setup()
         from . import page_manager, action_resolver
-        from .. import SAFE_MODE
+        from .. import STRICT_MODE
 
         self.__page_manager = page_manager
         self.__action_resolver = action_resolver
@@ -35,10 +36,10 @@ class PageControl(ZControl):
         if page_config is None:
             self._disabled_color = self._control_element.color_swatch.OFF
             self._color = self._disabled_color
-            self.__color_dict['base'] = self._disabled_color
+            self._color_dict['base'] = self._disabled_color
             self._control_element.set_light(self._color)
             error_message = f'page control defined with no `page` key\n{self._raw_config}'
-            if SAFE_MODE:
+            if STRICT_MODE:
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
@@ -48,18 +49,19 @@ class PageControl(ZControl):
         self.__set_page(parsed_page)
         if self._page_number is None:
             error_message = f'invalid page number: {parsed_page}'
-            if SAFE_MODE:
+            if STRICT_MODE:
                 raise ConfigurationError(error_message)
             else:
                 self.log(error_message)
                 return
-        self.set_prop('page_active', False)
+        self._simple_feedback = False
+        self._context['page_active'] = False
         self.page_changed()
-        self.set_prop('page', self._page_number)
-        self.set_prop('Page', self._page_number + 1)
+        self._context['me']['page'] = self._page_number
+        self._context['me']['Page'] =  self._page_number + 1
         page_name = self.__page_manager.get_page_name_from_index(self._page_number)
-        self.set_prop('page_name', page_name)
-
+        self._context['me']['page_name'] = page_name
+        self._disabled_color = self._control_element.color_swatch.OFF
 
     def __set_page(self, page_number):
         try:
@@ -70,12 +72,21 @@ class PageControl(ZControl):
             except ValueError:
                 _page_number = self.__page_manager.get_page_number_from_name(page_number)
                 if _page_number is False:
-                    self._disabled_color = self._control_element.color_swatch.OFF
+                    self._disabled = True
                     self._color = self._disabled_color
                     self._color_dict['base'] = self._disabled_color
                     self.page_changed.subject = self.__page_manager
                     self._page_number = None
-                    raise ConfigurationError(f'Invalid page assignment: {page_number}')
+                    msg = f'Invalid page assignment: {page_number}'
+                    try:
+                        int(page_number)
+                    except ValueError:
+                        from .. import STRICT_MODE
+                        if STRICT_MODE:
+                            raise CriticalConfigurationError(msg)
+                    finally:
+                        self.warning(msg)
+
             self._page_number = _page_number
             active_color = self._raw_config.get('active_color')
             inactive_color = self._raw_config.get('inactive_color')
@@ -90,12 +101,18 @@ class PageControl(ZControl):
             self._disabled_color = self._control_element.color_swatch.OFF
             self._color = self._active_color
             self.page_changed.subject = self.__page_manager
+
+            if self._disabled:
+                self._color = self._disabled_color
+
         except ConfigurationError as e:
-            from .. import SAFE_MODE
-            if SAFE_MODE is True:
+            from .. import STRICT_MODE
+            self._disabled = True
+            if STRICT_MODE is True:
                 raise
             else:
-                self.log(e)
+                self.error(e)
+                self._color = self._disabled_color
 
     def animate_success(self, duration=0):
         return
@@ -103,16 +120,26 @@ class PageControl(ZControl):
     @listens('current_page')
     def page_changed(self):
         try:
+            if self._disabled:
+                return
             new_page_no = self.__page_manager.current_page
             if self._page_number is None:
                 self.request_color_update()
             elif new_page_no == self._page_number:
                 self._color = self._active_color
-                self.set_prop('page_active', True)
+                self._context['me']['page_active'] = True
             else:
                 self._color = self._inactive_color
-                self.set_prop('page_active', False)
+                self._context['me']['page_active'] = False
             self.request_color_update()
 
         except Exception as e:
-            self.log(e)
+            self.error(e)
+
+    def set_on_color(self, color):
+        self._active_color = color
+        self.page_changed()
+
+    def set_off_color(self, color):
+        self._inactive_color = color
+        self.page_changed()

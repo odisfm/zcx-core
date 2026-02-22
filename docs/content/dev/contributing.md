@@ -12,7 +12,7 @@ This helps us to co-ordinate our efforts.
 By making a port, you can help bring zcx to more controllers (and more people).
 For the most part, this involves creating the yaml specification files for your hardware, and performing tests.
 
-See the [porting guide](/lessons/porting) for details.
+See the [porting guide](../lessons/porting.md) for details.
 
 ### contributing to the 'core'
 
@@ -24,7 +24,7 @@ There are two ways to do this:
 Take a look at the [issues page on GitHub](https://github.com/odisfm/zcx-core/issues) to see current issues.
 You can filter by the label [good first issue](https://github.com/odisfm/zcx-core/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22).
 
-And of course, if you've found a new issue, don't hesitate to [report it](/lessons/reporting-bugs).
+And of course, if you've found a new issue, don't hesitate to [report it](../lessons/reporting-bugs.md).
 
 #### adding features
 

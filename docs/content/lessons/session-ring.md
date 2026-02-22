@@ -2,22 +2,34 @@
 
 Like other control surface scripts, zcx provides a 'session ring' — a colored box that can be moved around the session to target different tracks or scenes.
 
-![A screenshot of the zcx session ring in Ableton Live 12](/lessons/img/session-ring-1.png)
+![A screenshot of the zcx session ring in Ableton Live 12](img/session-ring-1.png)
 
 
-While zcx cannot display a representation of Live's session view (i.e., the session view on Push, Launchpad, and others), it is useful to be able to move the ring around the set, and use [template strings](/reference/template-reference/#template-strings) to target tracks or refer to scenes enclosed within the ring.
+!!! note "Session view"
+
+    This lesson deals only with the session ring itself.
+    To configure the session view (as seen on Launchpad and similar), see the [session view](session-view.md) lesson.
 
 ## Resizing the ring
 
-You may resize the session ring via [preferences.yaml](/reference/configuration-files/preferences#session_ring).
+By default, the session ring will be configured to the same width and height as your controller's matrix.
+You may resize the session ring via the [preferences.yaml](../reference/file/preferences.md#session_ring) option `session_ring`.
+
+```yaml title="preferences.yaml"
+session_ring:
+  width: 8
+  height: 8
+```
 
 ## Disabling the ring
 
-You may disable the ring in [preferences.yaml](/reference/configuration-files/preferences#session_ring).
+You may disable the ring by [setting](#resizing-the-ring) one or both of `width` and `height` to `0`.
 
 ## Moving the ring
 
-A script's ring may be positioned with the [ring command](/reference/command-reference#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
+A script's ring may be positioned with the [ring command](../reference/command.md#ring) or the ClyphX Pro [ring actions](https://www.cxpman.com/action-reference/control-surface-actions/#cs-n-ring-tx-sy).
+
+zcx scripts are compatible with ClyphX Pro's [script linking feature](https://www.cxpman.com/manual/core-concepts/#script-linking).
 
 ## ClyphX Pro control surface actions
 
@@ -37,7 +49,7 @@ __scene_controls:
     scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8
   ]
   gestures:
-    pressed: >
+    press: >
       SCENE ${ring.scenes[me.group_index] + 1}
 ```
 
@@ -52,7 +64,7 @@ __state_controls:
     state_1, state_2, state_3, state_4, state_5, state_6, state_7, state_8
   ]
   gestures:
-    pressed: >
+    press: >
        "${ring.tracks[me.group_index]}" / MUTE
 ```
 
@@ -61,7 +73,7 @@ Looking at [the above screenshot](#using-the-zcx-session-ring), if `state_1` was
 ### Dynamic encoder mappings
 
 It is possible to map encoders to the parameter of a track at a certain position of the ring.
-See [Encoder Reference](/reference/encoder-reference#targeting-the-session-ring) for details.
+See [Encoder Reference](../reference/encoder.md#targeting-the-session-ring) for details.
 
 ### Out of bounds references
 
@@ -70,3 +82,38 @@ It is often valid to refer to tracks or scenes outside of the session ring by us
 - Using `"${ring.tracks[-1]}" / MUTE` will mute the track one to the left of the left edge of the ring.
 - Using `"${ring.tracks[8]}" / MUTE` on a 8-track ring will mute the track one to the right of the right edge of the ring.
 - Using `"SCENE ${ring.scenes[-8]}"` while the top edge of the ring is at scene 9 will launch scene 1.
+
+## Additional configuration options
+
+Set these options in [preferences.yaml](#resizing-the-ring).
+
+### drag_by_highlight
+
+```yaml title="preferences.yaml" hl_lines="4"
+session_ring:
+  width: 8
+  height: 8
+  drag_by_highlight: true
+```
+
+_Default is_ `true`.
+
+`drag_by_highlight: true`
+
+With this setting enabled, when the selected clip slot **was** inside the ring, and then moves to the outside edge of the ring (one to the left, one below, etc.), the ring will move itself so that the selected slot is back inside the ring.
+
+`drag_by_highlight: always`
+
+When the selected clip slot is outside the ring, zcx will **always** move the ring so that the selected slot is back inside the ring.
+
+`drag_by_highlight: pinned`
+
+The selected clip slot will always be in the top-left of the ring.
+
+`drag_by_highlight: false`
+
+None of these behaviours.
+
+!!! warning
+    When using zcx as part of [ClyphX Pro Script Linking](https://www.cxpman.com/manual/core-concepts/#script-linking), avoid setting `drag_by_highlight` to `always` or `pinned`.
+

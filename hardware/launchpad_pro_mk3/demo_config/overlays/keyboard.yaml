@@ -1,0 +1,15 @@
+nav_up:
+  type: keyboard
+  function: octave_up
+  gestures:
+    press:
+      keyboard:
+        octave: up
+
+nav_down:
+  type: keyboard
+  function: octave_down
+  gestures:
+    press:
+      keyboard:
+        octave: down

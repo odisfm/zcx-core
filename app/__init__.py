@@ -1,45 +1,20 @@
-import logging
-import os
-from pathlib import Path
-from typing import Type
-
 from ableton.v3.control_surface import (
     ControlSurfaceSpecification,
     create_skin
 )
-from ableton.v3.control_surface.controls import (
-    control_matrix,
-)
-
-from .action_resolver import ActionResolver
-from .api_manager import ApiManager
-from .consts import SUPPORTED_GESTURES
-from .cxp_bridge import CxpBridge
-from .elements import Elements
-from .encoder_manager import EncoderManager
-from .encoder_state import EncoderState
-from .hardware_interface import HardwareInterface
-from .mode_manager import ModeManager
-from .page_manager import PageManager
-from .plugin_loader import PluginLoader
-from .skin import Skin
-from .z_manager import ZManager
-from .z_state import ZState
-from .zcx_core import ZCXCore
-from .preference_manager import PreferenceManager
-from .session_ring import SessionRing
-
 
 ROOT_LOGGER = None
 NAMED_BUTTONS = None
 ENCODERS = None
+PLAYABLE = False
 CONFIG_DIR = '_config'
-SAFE_MODE = False
+STRICT_MODE = True
 PREF_MANAGER = None
 
 plugin_loader: 'Optional[PluginLoader]' = None
 
 def create_mappings(arg) -> dict:
+    from .elements import Elements
     ROOT_LOGGER.debug('Creating mappings')
 
     named_button_names = NAMED_BUTTONS.keys()
@@ -50,12 +25,16 @@ def create_mappings(arg) -> dict:
     naming_function = Elements.format_attribute_name
 
     for button_name in named_button_names:
-        hw_mapping_dict[button_name] = naming_function(button_name)
+        button_name_formatted = naming_function(button_name)
+        hw_mapping_dict[button_name_formatted] = button_name_formatted
 
     for encoder_name in encoder_names:
-        hw_mapping_dict[encoder_name] = naming_function(encoder_name)
+        encoder_name_formatted = f'_encoder_{encoder_name}'
+        hw_mapping_dict[encoder_name_formatted] = encoder_name_formatted
 
     hw_mapping_dict['button_matrix'] = 'button_matrix'
+    if PLAYABLE:
+        hw_mapping_dict['playable_matrix'] = 'playable_matrix'
 
     mappings = {
         "HardwareInterface": hw_mapping_dict,
@@ -67,6 +46,10 @@ def create_mappings(arg) -> dict:
         "ZManager": {},
         "EncoderManager": {},
         "ApiManager": {},
+        "SessionView": {},
+        "TestRunner": {},
+        "ViewManager": {},
+        "MelodicComponent": {},
     }
 
     def add_plugin_mappings(plugin_dict):
@@ -78,47 +61,51 @@ def create_mappings(arg) -> dict:
 
     return mappings
 
-def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInterface]:
+def prepare_hardware_interface(button_names, encoder_names) -> "Type[HardwareInterface]":
+    from .hardware_interface import HardwareInterface
+    from .encoder_state import EncoderState
+    from .z_state import ZState
+    from .consts import SUPPORTED_GESTURES
+
     _hardware_interface: Type[HardwareInterface] = HardwareInterface
     events = SUPPORTED_GESTURES
 
     for button_name in button_names:
         button_state = ZState()
-        setattr(_hardware_interface, button_name, button_state)
+        button_name_prefixed = f'_button_{button_name}'
+        setattr(_hardware_interface, button_name_prefixed, button_state)
         _hardware_interface.named_button_states[button_name] = button_state
 
         for event in events:
-            def create_handler(event, button_name):
+            def create_handler(event, button_name_prefixed):
                 def handler(self, button):
                     return self.handle_control_event(event, button)
 
                 return handler
 
-            handler_name = f"{button_name}_{event}"
-            handler = create_handler(event, button_name)
+            handler_name = f"{button_name_prefixed}_{event}"
+            handler = create_handler(event, button_name_prefixed)
             event_decorator = getattr(button_state, event)
             decorated_handler = event_decorator(handler)
             setattr(_hardware_interface, handler_name, decorated_handler)
 
     for encoder_name in encoder_names:
         encoder_state = EncoderState()
-        setattr(_hardware_interface, encoder_name, encoder_state)
+        encoder_name_prefixed = f'_encoder_{encoder_name}'
+        setattr(_hardware_interface, encoder_name_prefixed, encoder_state)
         _hardware_interface.encoder_states[encoder_name] = encoder_state
 
-        def create_handler(encoder_name):
-            def handler(self, value, encoder):
-                return self.handle_encoder_event(encoder_name, value)
 
-            return handler
-
-        handler_name = f"{encoder_name}_value"
-        handler = create_handler(encoder_name)
-        event_decorator = getattr(encoder_state, 'value')
-        decorated_handler = event_decorator(handler)
-        setattr(_hardware_interface, handler_name, decorated_handler)
+    from ableton.v3.control_surface.controls import (
+        control_matrix,
+    )
 
     matrix_control = control_matrix(ZState)
     setattr(_hardware_interface, 'button_matrix', matrix_control)
+    if PLAYABLE:
+        from .playable.playable_state import PlayableState
+        playable_matrix = control_matrix(PlayableState)
+        setattr(_hardware_interface, 'playable_matrix', playable_matrix)
 
     for event in events:
         def create_handler(event_type=event, name='button_matrix'):
@@ -136,15 +123,24 @@ def prepare_hardware_interface(button_names, encoder_names) -> Type[HardwareInte
     return _hardware_interface
 
 class Specification(ControlSurfaceSpecification):
+    from .elements import Elements
+    from .skin import Skin
     elements_type = Elements
     control_surface_skin = create_skin(skin=Skin)
     create_mappings_function = create_mappings
 
 def create_instance(c_instance):
+    import logging
+    from logging.handlers import RotatingFileHandler
+    import os
+    from pathlib import Path
+    from typing import Type
+    from .preference_manager import PreferenceManager
     global ROOT_LOGGER
     global plugin_loader
     global CONFIG_DIR
     global PREF_MANAGER
+    global STRICT_MODE
     this_dir = __name__.split('.')[0].lstrip('_')
     ROOT_LOGGER = logging.getLogger(this_dir)
     ROOT_LOGGER.setLevel(logging.INFO)
@@ -173,21 +169,88 @@ def create_instance(c_instance):
 
     ROOT_LOGGER.setLevel(log_level)
 
-    if not any(isinstance(h, logging.FileHandler) and h.baseFilename == log_filename for h in ROOT_LOGGER.handlers):
-        file_handler = logging.FileHandler(log_filename, mode="a")
+    default_max_log_size = 5 # megabytes
+    log_file_max_size_def = prefs.get('log_file_max_size', default_max_log_size)
+    if not isinstance(log_file_max_size_def, int):
+        ROOT_LOGGER.error(f"Invalid value `{log_file_max_size_def}` for preference `log_file_max_size`. Using default of `{default_max_log_size}`MB.")
+        log_file_max_size_def = default_max_log_size
+
+    default_log_backup_count = 2
+    log_backup_count_def = prefs.get('log_file_backups', 2)
+    if not isinstance(log_backup_count_def, int) or log_backup_count_def < 0:
+        ROOT_LOGGER.error(f"Invalid value `{log_backup_count_def}` for preference `log_file_backups`. Using default of `{default_log_backup_count}`.")
+        log_backup_count_def = default_log_backup_count
+
+    has_rotating_handler = any(
+        isinstance(h, RotatingFileHandler) and h.baseFilename == log_filename
+        for h in ROOT_LOGGER.handlers
+    )
+
+    if not has_rotating_handler:
+        for handler in ROOT_LOGGER.handlers[:]:
+            if isinstance(handler, logging.FileHandler) and handler.baseFilename == log_filename:
+                ROOT_LOGGER.removeHandler(handler)
+                handler.close()
+
+        file_handler = RotatingFileHandler(
+            log_filename,
+            mode="a",
+            maxBytes= log_file_max_size_def * 1024 * 1024,
+            backupCount= log_backup_count_def,
+            encoding='utf-8'
+        )
         file_handler.setLevel(log_level)
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s') # todo
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(formatter)
 
         ROOT_LOGGER.addHandler(file_handler)
+
+        if os.path.exists(log_filename):
+            file_size = os.path.getsize(log_filename)
+            if file_size >= 5 * 1024 * 1024:
+                ROOT_LOGGER.info("Log file over size limit, rotating...")
+                file_handler.doRollover()
 
     ROOT_LOGGER.debug(pref_manager.user_prefs)
     PREF_MANAGER = pref_manager
 
     CONFIG_DIR = pref_manager.config_dir
 
-    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'))
+    strict_mode_def = prefs.get("strict_mode")
+
+    if strict_mode_def is None:
+        strict_mode_def = True
+    elif not isinstance(strict_mode_def, bool):
+        ROOT_LOGGER.error(f"Invalid value {strict_mode_def} for preference `strict_mode`, using `true`")
+        strict_mode_def = True
+
+    if not strict_mode_def:
+        ROOT_LOGGER.warning(
+            f">>> strict mode is disabled! <<<"
+            f"\nThe purpose of strict mode is to help you catch configuration errors early, not while on stage."
+            f"\nLeave strict mode disabled at your own peril!"
+        )
+
+    STRICT_MODE = strict_mode_def
+
+    from .action_resolver import ActionResolver
+    from .api_manager import ApiManager
+    from .cxp_bridge import CxpBridge
+    from .encoder_manager import EncoderManager
+    from .hardware_interface import HardwareInterface
+    from .mode_manager import ModeManager
+    from .page_manager import PageManager
+    from .plugin_loader import PluginLoader
+    from .z_manager import ZManager
+    from .zcx_core import ZCXCore
+    from .session_ring import SessionRing
+    from .session_view import SessionView
+    from .test_runner import TestRunner
+    from .view_manager import ViewManager
+    from .playable.melodic_component import MelodicComponent
+
+    plugin_loader = PluginLoader(logger=ROOT_LOGGER.getChild('PluginLoader'), root_cs_name=canon_name)
 
     Specification.component_map = {
         'HardwareInterface': HardwareInterface,
@@ -199,6 +262,10 @@ def create_instance(c_instance):
         "ZManager": ZManager,
         "EncoderManager": EncoderManager,
         "ApiManager": ApiManager,
+        "SessionView": SessionView,
+        "TestRunner": TestRunner,
+        "ViewManager": ViewManager,
+        "MelodicComponent": MelodicComponent,
     }
 
     def add_plugins_to_component_map(plugin_dict):

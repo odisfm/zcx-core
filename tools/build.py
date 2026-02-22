@@ -25,6 +25,7 @@ class BuildManager:
             control_surface_name: Optional[str] = None,
             custom_config_path: Optional[Path] = None,
             user_library_path: Optional[Path] = None,
+            use_blank_config: bool = False,
     ):
         # Import config here so CLI args can override
         from sync_config import (
@@ -49,11 +50,18 @@ class BuildManager:
             else:
                 raise RuntimeError(f"Unsupported OS: {system}")
 
-
-
         self.hardware_config = hardware_config or HARDWARE_CONFIG
-        self.control_surface_name = control_surface_name or CONTROL_SURFACE_NAME
+
+        # Auto-generate control surface name if not provided
+        if control_surface_name:
+            self.control_surface_name = control_surface_name
+        elif self.hardware_config:
+            self.control_surface_name = f"_zcx_{self.hardware_config}"
+        else:
+            self.control_surface_name = CONTROL_SURFACE_NAME
+
         self.custom_config_path = custom_config_path
+        self.use_blank_config = use_blank_config
 
         self.remote_scripts_path = remote_scripts_path
         self._validate_remote_scripts_path(self.remote_scripts_path)
@@ -71,6 +79,9 @@ class BuildManager:
 
         self.hardware_root = self.project_root / "hardware" / self.hardware_config
 
+        self.test_root = self.project_root / "tests"
+        self.user_test_root = self.project_root / "user_tests"
+
         self.ignore_patterns = {  # i dont know man
             ".git",
             "__pycache__",
@@ -84,6 +95,7 @@ class BuildManager:
 
         # Store detected symlinks to avoid checking on every run
         self.detected_symlinks: Set[Path] = set()
+        self.detected_symlinked_files: Set[Path] = set()
         self.symlinks_checked = False
 
     def _validate_remote_scripts_path(self, path: Path) -> None:
@@ -130,8 +142,12 @@ class BuildManager:
         if dest.is_symlink():
             yellow_warning = "\033[93m"
             reset_color = "\033[0m"
-            logging.warning(f"{yellow_warning}SKIPPING: Destination is a symlink: {dest}{reset_color}")
-            self.detected_symlinks.add(dest)
+            if dest.is_dir():
+                logging.warning(f"{yellow_warning}SKIPPING: Destination directory is a symlink: {dest}{reset_color}")
+                self.detected_symlinks.add(dest)
+            else:
+                logging.warning(f"{yellow_warning}SKIPPING: Destination file is a symlink: {dest}{reset_color}")
+                self.detected_symlinked_files.add(dest)
             return True
         return False
 
@@ -141,6 +157,10 @@ class BuildManager:
         for symlink in self.detected_symlinks:
             if symlink in dest.parents or symlink == dest.parent:
                 return
+
+        # Skip if destination file is a symlink
+        if dest in self.detected_symlinked_files or dest.is_symlink():
+            return
 
         for attempt in range(self.retry_attempts):
             try:
@@ -166,21 +186,25 @@ class BuildManager:
         """Get a set of all files in the destination directory."""
         if not dest_dir.exists():
             return set()
-        return {f.relative_to(dest_dir) for f in dest_dir.rglob('*') if f.is_file() and not self.should_ignore(f)}
+        files = set()
+        for f in dest_dir.rglob('*'):
+            if f.is_file() and not self.should_ignore(f) and not f.is_symlink():
+                files.add(f.relative_to(dest_dir))
+        return files
 
     def get_source_files(self, src_dir: Path) -> dict:
         """Get a dict of all files in the source directory with modification times."""
         if not src_dir.exists():
             return {}
-        return {
-            f.relative_to(src_dir): f.stat().st_mtime
-            for f in src_dir.rglob('*')
-            if f.is_file() and not self.should_ignore(f)
-        }
+        files = {}
+        for f in src_dir.rglob('*'):
+            if f.is_file() and not self.should_ignore(f) and not f.is_symlink():
+                files[f.relative_to(src_dir)] = f.stat().st_mtime
+        return files
 
     def scan_for_symlinks(self, base_dir: Path) -> None:
         """
-        Recursively scan a directory for symlinks.
+        Recursively scan a directory for symlinks (both directories and files).
         Only performed on first run.
         """
         if not base_dir.exists() or base_dir in self.detected_symlinks:
@@ -191,9 +215,16 @@ class BuildManager:
             self.detected_symlinks.add(base_dir)
             return
 
-        # Scan subdirectories
+        # Scan all items in directory
         for path in base_dir.iterdir():
-            if path.is_dir():
+            if path.is_symlink():
+                if path.is_dir():
+                    logging.warning(f"\033[93mDetected symlink directory: {path}\033[0m")
+                    self.detected_symlinks.add(path)
+                else:
+                    logging.warning(f"\033[93mDetected symlink file: {path}\033[0m")
+                    self.detected_symlinked_files.add(path)
+            elif path.is_dir():
                 self.scan_for_symlinks(path)
 
     def sync_directory(self, src: Path, dest: Path) -> None:
@@ -231,6 +262,10 @@ class BuildManager:
             if skip:
                 continue
 
+            # Skip if destination file is a symlink
+            if dest_file in self.detected_symlinked_files or dest_file.is_symlink():
+                continue
+
             if not dest_file.exists() or dest_file.stat().st_mtime < mtime:
                 self.safe_copy(src_file, dest_file)
 
@@ -246,6 +281,10 @@ class BuildManager:
                     break
 
             if skip:
+                continue
+
+            # Skip if destination file is a symlink
+            if dest_file in self.detected_symlinked_files or dest_file.is_symlink():
                 continue
 
             if rel_path not in src_files:
@@ -283,8 +322,9 @@ class BuildManager:
                 logging.info("Scanning for symlinks in destination directories...")
                 self.scan_for_symlinks(self.dest_root)
                 self.symlinks_checked = True
-                if self.detected_symlinks:
-                    symlink_list = "\n  - ".join([str(s) for s in self.detected_symlinks])
+                if self.detected_symlinks or self.detected_symlinked_files:
+                    all_symlinks = list(self.detected_symlinks) + list(self.detected_symlinked_files)
+                    symlink_list = "\n  - ".join([str(s) for s in all_symlinks])
                     logging.warning(
                         f"\033[93mThe following symlinks were detected and will be skipped:\n  - {symlink_list}\033[0m")
 
@@ -295,17 +335,28 @@ class BuildManager:
             hardware_dest = self.dest_root / "hardware"
             self.sync_directory(self.hardware_root, hardware_dest)
 
-            # Sync config from either custom_config_path or hardware-specific demo_config
+            if self.hardware_config == "__test":
+                if self.test_root.exists():
+                    test_dest = self.dest_root / "tests"
+                    logging.info(f"Syncing test directory: {self.test_root} -> {test_dest}")
+                    self.sync_directory(self.test_root, test_dest)
+                else:
+                    logging.warning(f"Test directory not found: {self.test_root}")
+
+            # Sync config from either custom_config_path or hardware-specific demo_config/blank_config
             config_path = (
                 self.custom_config_path
                 if self.custom_config_path
-                else self.hardware_root / "demo_config"
+                else self.hardware_root / ("blank_config" if self.use_blank_config else "demo_config")
             )
             if config_path.exists():
                 config_dest = self.dest_root / "_config"
                 self.sync_directory(config_path, config_dest)
 
             logging.info("Build completed successfully")
+
+            # Sync user test dir
+            self.sync_directory(self.user_test_root, self.dest_root / "user_tests")
 
         except Exception as e:
             logging.error(f"Build failed: {e}")
@@ -355,11 +406,16 @@ def main():
     parser.add_argument(
         "hardware_config", nargs="?", help="Hardware configuration name"
     )
-    parser.add_argument("control_surface_name", nargs="?", help="Control surface name")
+    parser.add_argument("control_surface_name", nargs="?", help="Control surface name (defaults to _zcx_<hardware_config>)")
     parser.add_argument(
         "--custom-config",
         type=Path,
         help="Path to a custom config folder to override demo_config/",
+    )
+    parser.add_argument(
+        "--blank-config",
+        action="store_true",
+        help="Use blank_config instead of demo_config",
     )
     parser.add_argument(
         "--user-library",
@@ -375,6 +431,7 @@ def main():
             args.control_surface_name,
             args.custom_config,
             args.user_library,
+            args.blank_config,
         )
 
 
@@ -394,9 +451,20 @@ def main():
     dirs_to_watch = [
         builder.src_root,
         builder.hardware_root,
-        builder.hardware_root / "demo_config",
-        # builder.project_root / "preferences",
+        builder.test_root,
+        builder.user_test_root
     ]
+
+    # Add demo_config or blank_config based on flag
+    if args.blank_config:
+        dirs_to_watch.append(builder.hardware_root / "blank_config")
+    else:
+        dirs_to_watch.append(builder.hardware_root / "demo_config")
+
+    # Add test directory to watch list if hardware config is __test
+    if builder.hardware_config == "__test" and builder.test_root.exists():
+        dirs_to_watch.append(builder.test_root)
+        logging.info(f"Added test directory to watch list: {builder.test_root}")
 
     # Dynamically add custom config path to watched directories if provided
     if args.custom_config:

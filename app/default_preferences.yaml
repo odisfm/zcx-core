@@ -28,12 +28,12 @@ initial_hw_mode: zcx
 
 osc_output:
   encoders:
-    name: true
-    value: true
-    int: true
-    float: true
-  page: true
-  ring_tracks: true
-  ring_pos: true
+    name: false
+    value: false
+    int: false
+    float: false
+  page: false
+  ring_tracks: false
+  ring_pos: false
 
 log_failed_encoder_bindings: true

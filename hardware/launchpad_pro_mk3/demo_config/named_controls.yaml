@@ -1,46 +1,51 @@
-__scene_buttons:
-  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+###
+### nav
+###
+
+
+nav_up:
   gestures:
-    pressed: >
-      SCENE ${ring.scenes[me.index]}
-    pressed__shift: >
-      SCENE ${ring.scenes[me.index + 8]}
-    
-#scene_1:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_2:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_3:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_4:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_5:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_6:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_7:
-#  gestures:
-#    pressed: DUMMY
-    
-#scene_8:
-#  gestures:
-#    pressed: DUMMY
+    press: UP
+    press__shift:
+      ring:
+        y: -${ring.height}
+
+nav_down:
+  gestures:
+    press: DOWN
+    press__shift:
+      ring:
+        y: ${ring.height}
+
+nav_left:
+  gestures:
+    press: LEFT
+    press__shift:
+      ring:
+        x: -${ring.width}
+
+nav_right:
+  gestures:
+    press: RIGHT
+    press__shift:
+      ring:
+        x: ${ring.width}
+
+shift:
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift
+
+
+###
+### top row
+###
 
 __page_switcher:
   includes: [
-    track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8
+    chord, custom, session, note, sequencer, projects
   ]
   type: page
   page: ${me.index}
@@ -48,174 +53,282 @@ __page_switcher:
     palette: rainbow
   inactive_color: white
   gestures:
-    pressed:
+    press:
       page: ${me.index}
       msg: >
         Page ${me.page}: ${me.page_name}
-    released_delayed:
+    long_release:
       page: last
+  controls:
+    note:
+      gestures:
+        long_press:
+          overlay:
+            enable: keyboard_notes
+        short_press:
+          overlay:
+            disable: keyboard_notes
 
-#track_1:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_2:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_3:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_4:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_5:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_6:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_7:
-#  gestures:
-#    pressed: DUMMY
-    
-#track_8:
-#  gestures:
-#    pressed: DUMMY
+# session:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-#chord:
-#  gestures:
-#    pressed: DUMMY
-#
-#custom:
-#  gestures:
-#    pressed: DUMMY
-#
-#sequencer:
-#  gestures:
-#    pressed: DUMMY
-#
-#projects:
-#  gestures:
-#    pressed: DUMMY
+# note:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-nav_up:
-  gestures:
-    pressed: UP
-    pressed__shift:
-      ring:
-        y: -8
+# chord:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-nav_down:
-  gestures:
-    pressed: DOWN
-    pressed__shift:
-      ring:
-        y: 8
+# custom:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-nav_left:
-  gestures:
-    pressed: LEFT
-    pressed__shift:
-      ring:
-        x: -8
+# sequencer:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
-nav_right:
-  gestures:
-    pressed: RIGHT
-    pressed__shift:
-      ring:
-        x: 8
-
-session:
-  gestures:
-    pressed: TGLMAIN
-
-note:
-  gestures:
-    pressed: SHOWCLIP
+# projects:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
 
 novation:
   type: transport
   transport: play
+  active_color: purple
+  inactive_color: white
 
-shift:
+###
+### right side
+###
+
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
+  color: cyan
   gestures:
-    pressed:
-      mode_on: shift
-    released:
-      mode_off: shift
+    press: >
+      SCENE ${ring.scenes[me.index]}
+    press__shift: >
+      SCENE ${ring.scenes[me.index + 8]}
+
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# scene_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+###
+### bottom row
+###
+
+__track_row:
+  includes: [track_1, track_2, track_3, track_4, track_5, track_6, track_7, track_8]
+  type: ring_track
+  ring_index: ${me.index}
+  gestures:
+    press: >
+      "${me.track}" / SEL
+    long_press: >
+      ALL / ARM OFF ;
+      "${me.track}" / ARM
+    long_press__shift: >
+      "${me.track}" / ARM
+    double_click: >
+      "${me.track}" / PLAY >
+
+# track_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# track_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+arm:
+  type: param
+  binding: >
+    SEL / ARM
+  toggle_param: false
+  on_color: red
+  off_color: white
+  gestures:
+    press:
+      do_toggle: true
+    press__shift: UNDO
+
+mute:
+  type: param
+  binding: >
+    SEL / MUTE
+  toggle_param: false
+  on_color: orange
+  off_color: white
+  gestures:
+    press:
+      do_toggle: true
+    press__shift: REDO
+
+solo:
+  type: param
+  binding: >
+    SEL / SOLO
+  toggle_param: false
+  on_color: blue
+  off_color: white
+  gestures:
+    press:
+      do_toggle: true
+    press__shift: METRO
+
+# volume:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# pan:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+sends:
+  gestures:
+    press: DUMMY
+    press__shift: TAPBPM
+
+# device:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+stop:
+  type: param
+  binding: >
+    SEL / STOP
+  toggle_param: false
+  active_color: white
+  inactive_color: grey
+  gestures:
+    press: STOP
+    press__shift: STOP NQ
+
+
+###
+### left side
+###
+
+
+clear:
+  gestures:
+    press:
+      msg: Press with shift to delete clip
+    press__shift: CLIP DEL
+
+duplicate:
+  gestures:
+    press: CLIP DUPE
+    press__shift: SCENE DUPE
+
+quantize:
+  gestures:
+    press: CLIP QNTZ 1/16 100
+
+fixed_length:
+  color: grey
+  gestures:
+    press:
+      pseq:
+        -
+          cxp: >
+            %zcx_fixed_record% = 8
+          color: white
+        -
+          cxp: >
+            %zcx_fixed_record% = 0
+          color: grey
 
 play:
   type: transport
   transport: play
   gestures:
-    pressed: SETPLAY
+    press: SETPLAY
 
 record:
   type: transport
   transport: session_record
   gestures:
-    pressed: SRECFIX 8
-    pressed__shift: SRECFIX 16
-
-duplicate:
-  gestures:
-    pressed: CLIP DUPE
-    pressed__shift: SCENE DUPE
-
-clear:
-  gestures:
-    pressed:
-      msg: Press with shift to delete clip
-    pressed__shift: CLIP DEL
-
-quantize:
-  gestures:
-    pressed: CLIP QNTZ 1/16 80
-    pressed__shift: CLIP QNTZ 1/16 100
-
-#fixed_length:
-#  gestures:
-#    pressed: DUMMY
-
-arm:
-  gestures:
-    pressed: SEL / ARM
-    pressed__shift: UNDO
-
-mute:
-  gestures:
-    pressed: SEL / MUTE
-    pressed__shift: REDO
-
-solo:
-  gestures:
-    pressed: SEL / SOLO
-    pressed__shift: METRO
-
-#volume:
-#  gestures:
-#    pressed: DUMMY
-
-#pan:
-#  gestures:
-#    pressed: DUMMY
-
-sends:
-  gestures:
-#    pressed: DUMMY
-    pressed__shift: TAPBPM
-
-#device:
-#  gestures:
-#    pressed:
-
-stop:
-  gestures:
-    pressed: STOP
-    pressed__shift: STOP NQ
+    press: RECFIX
+    press__shift: SRECFIX 8

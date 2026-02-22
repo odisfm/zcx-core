@@ -57,12 +57,6 @@ class BasicColorSwatch:
     PAGE_DISABLED = OFF
     ERROR = HALF_BLINK_FAST
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 class BiledColorSwatch:
     OFF = Color(0)
@@ -91,12 +85,6 @@ class BiledColorSwatch:
     PAGE_DISABLED = OFF
     ERROR = RED_BLINK_FAST
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 class RgbColorSwatch(object):
     PLAY_GREEN = RgbColor(21)
@@ -148,12 +136,7 @@ class RgbColorSwatch(object):
     PAGE_DISABLED = DARK_GREY
     ERROR = Blink(RED, OFF, 6)
 
-    def __init__(self):
-        pass
-
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
+    ARM_RED = RgbColor(7)
 
 
 def simplify_color(color):
@@ -242,24 +225,84 @@ palettes = {
     'nebula_reverse': palette_nebula_reverse,
 }
 
+LIVE_TO_MIDI = [
+	# row 1
+	52,
+	126,
+	124,
+	110,
+	75,
+	21,
+	29,
+	77,
+	36,
+	41,
+	92,
+	94,
+	82,
+	3,
+	# row 2
+	5,
+	60,
+	62,
+	85,
+	88,
+	76,
+	34,
+	37,
+	41,
+	42,
+	44,
+	52,
+	53,
+	3,
+	# row 3
+	4,
+	108,
+	12,
+	16,
+	20,
+	89,
+	24,
+	114,
+	32,
+	26,
+	93,
+	44,
+	3,
+	2,
+	# row 4
+	107,
+	99,
+	125,
+	111,
+	75,
+	28,
+	90,
+	114,
+	36,
+	40,
+	94,
+	93,
+	94,
+	2,
+	# row 5
+	6,
+	61,
+	100,
+	13,
+	63,
+	76,
+	78,
+	41,
+	67,
+	42,
+	69,
+	82,
+	57,
+	0
+]
+
 def live_index_for_midi_index(live_index):
-    live_index = max(live_index, 0)
+    return LIVE_TO_MIDI[live_index % 70]
 
-    LOWER_BOUND = 0
-    UPPER_BOUND = 28 # AFAAIK only the first 28 live colors (first 2 rows) map well to midi colors
-    END_ROW_1 = 13
-    END_ROW_2 = 27
-    OFFSET_1 = 4
-    OFFSET_2 = 51
-
-    if LOWER_BOUND <= live_index < UPPER_BOUND:
-        if live_index == END_ROW_1:
-            return 3
-        elif live_index == END_ROW_2:
-            return 2
-        elif live_index < 14:
-            return (live_index * OFFSET_1) + OFFSET_1
-        else:
-            return (live_index * OFFSET_1) - OFFSET_2 + 1
-    else:
-        return live_index_for_midi_index(live_index % END_ROW_2)

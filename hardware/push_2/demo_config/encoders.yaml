@@ -3,39 +3,74 @@ __encoder_row:
     enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8
   ]
   binding:
-    default: >-
+    default: NONE
+    __mix: >
       RING(${me.index}) / VOL
-    __shift: >-
+    __shift: >
       RING(${me.index}) / PAN
-    __device: >-
-      SEL / DEV(1) P${me.Index}
-    __select: >-
-      RING(${me.index}) / SEND A
+    __device: >
+      SEL / DEV(SEL) B1 P${me.Index}
+    __shift__device: >
+      SEL / DEV(SEL) B2 P${me.Index}
+    __browse: >
+      SEL / SEND ${send_num(me.index)}
   encoders:
-    - binding:
-        __mix: >-
-          SEL / SEND A
-    - binding:
-        __mix: >-
-          SEL / SEND B
-    - binding:
-        __mix: >-
-          SEL / SEND C
-    - binding:
-        __mix: >-
-          SEL / SEND D
-    - binding:
-        __mix: >-
-          SEL / SEND E
-    - binding:
-        __mix: >-
-          SEL / SEND F
-    - binding:
-        __mix: >-
-          SEL / SEND G
-    - binding:
-        __mix: >-
-          SEL / SEND H
+    enc_1:
+      binding:
+        __clip: SEL / VOL
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_2:
+      binding:
+        __clip: SEL / PAN
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_3:
+      binding:
+        __clip: SEL / SEND A
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_4:
+      binding:
+        __clip: SEL / SEND B
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_5:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P1
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_6:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P2
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_7:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P3
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
+    enc_8:
+      binding:
+        __clip: SEL / DEV(SEL) B1 P4
+        __add_device: >
+          NONE
+        __add_track: >
+          NONE
 
 enc_master:
   binding:

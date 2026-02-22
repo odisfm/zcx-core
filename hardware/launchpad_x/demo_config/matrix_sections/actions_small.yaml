@@ -1,0 +1,64 @@
+# !! row 1
+# col 1
+- color: white
+  gestures:
+    press:
+      msg: You can edit this section in `_config/matrix_sections/actions_main.yaml`
+    long_press: DUMMY
+
+# col 2
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# !! row 2
+# col 1
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# !! row 3
+# col 1
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 2
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 3
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY
+
+# col 4
+- gestures:
+    short_press: DUMMY
+    long_press: DUMMY

@@ -1,0 +1,9 @@
+exclusive_modes:
+  - [mix, device, browse, clip, add_device, add_track]
+
+startup_command:
+  mode_on: mix
+
+session_ring:
+  width: 8
+  height: 6

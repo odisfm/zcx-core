@@ -1,0 +1,34 @@
+hardware_name: push_2
+
+global_midi_channel: 0
+
+button_matrix:
+  msg_type: note
+  id_start: 36
+  id_end: 99
+  feedback: rgb
+  momentary: true
+  width: 8
+  playable: true
+
+cc_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+note_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+encoders:
+  key: value
+  sensitivity: 0.6
+  mode: RELATIVE_SMOOTH_TWO_COMPLIMENT
+
+preferences:
+  session_ring:
+    width: 8
+    height: 8
+
+  initial_hw_mode: live

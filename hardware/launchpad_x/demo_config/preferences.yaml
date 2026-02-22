@@ -1,1 +1,5 @@
 initial_hw_mode: zcx
+
+session_ring:
+  width: 8
+  height: 4

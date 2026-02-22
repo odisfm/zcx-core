@@ -1,0 +1,397 @@
+###
+### left side
+###
+
+# tap_tempo:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# metronome:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# undo:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# delete:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# double:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# quantize:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# fixed_length:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# automation:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# duplicate:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# new:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# record:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# play:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# touchstrip:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+
+###
+### surrounding display
+###
+
+# select_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# state_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+
+###
+### right side
+###
+
+# master:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# volume:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# device:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# pan_send:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# clip:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# browse:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# in:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# out:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scales:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# repeat:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# accent:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# octave_down:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# octave_up:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# add_effect:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# add_track:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# note:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# session:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# dpad_up:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# dpad_right:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# dpad_down:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# dpad_left:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# select:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+shift:
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift
+
+
+###
+### encoder touch
+###
+
+# enc_1_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_2_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_3_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_4_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_5_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_6_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_7_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_8_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_tempo_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_swing_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# enc_master_touch:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY

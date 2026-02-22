@@ -5,7 +5,7 @@ from ..errors import ConfigurationError
 from ..z_control import ZControl
 
 AVAILABLE_FUNCTIONS = [
-    'play', 'session_record', 'loop', 'metronome'
+    'play', 'session_record', 'loop', 'metronome', 'punch_in', 'punch_out', 'overdub', 'automation', 'arrangement_record', 'record',
 ]
 
 
@@ -13,7 +13,6 @@ class TransportControl(ZControl):
 
     def __init__(self, *a, **kwargs):
         ZControl.__init__(self, *a, **kwargs)
-        self._suppress_animations = True
         self._song = None
         self._bound_function = None
         self._playing_active_color = None
@@ -43,7 +42,7 @@ class TransportControl(ZControl):
                         'speed': 1
                     }
                 }, self)
-            elif bound_function == 'session_record':
+            elif bound_function in ['session_record', 'arrangement_record', 'record']:
                 self._playing_active_color = parse_color_definition('red', self)
                 self._playing_inactive_color = parse_color_definition('white', self)
                 self._stopped_active_color = parse_color_definition({
@@ -65,13 +64,18 @@ class TransportControl(ZControl):
                 self._playing_inactive_color = parse_color_definition('white', self)
                 self._stopped_active_color = parse_color_definition('white', self)
                 self._stopped_inactive_color = parse_color_definition('white', self)
+            else:
+                self._playing_active_color = parse_color_definition("white", self)
+                self._playing_inactive_color = parse_color_definition('dark_grey', self)
+                self._stopped_active_color = self._playing_active_color
+                self._stopped_inactive_color = self._playing_inactive_color
         elif feedback == 'biled':
             if bound_function == 'play':
                 self._playing_active_color = parse_color_definition('green', self)
                 self._playing_inactive_color = parse_color_definition('green', self)
                 self._stopped_active_color = parse_color_definition('green_blink_slow', self)
                 self._stopped_inactive_color = parse_color_definition('white', self)
-            elif bound_function == 'session_record':
+            elif bound_function in ['session_record', 'arrangement_record', 'record']:
                 self._playing_active_color = parse_color_definition('red', self)
                 self._playing_inactive_color = parse_color_definition('yellow_half', self)
                 self._stopped_active_color = parse_color_definition('yellow_half', self)
@@ -81,69 +85,151 @@ class TransportControl(ZControl):
                 self._playing_inactive_color = parse_color_definition('yellow', self)
                 self._stopped_active_color = parse_color_definition('yellow', self)
                 self._stopped_inactive_color = parse_color_definition('yellow_half', self)
+            else:
+                self._playing_active_color = parse_color_definition('yellow_blink_slow', self)
+                self._playing_inactive_color = parse_color_definition('yellow', self)
+                self._stopped_active_color = parse_color_definition('yellow', self)
+                self._stopped_inactive_color = parse_color_definition('yellow_half', self)
         elif feedback == 'basic':
-            if bound_function in ['play', 'session_record', 'loop']:
-                self._playing_active_color = parse_color_definition('full', self)
-                self._playing_inactive_color = parse_color_definition('half', self)
-                self._stopped_active_color = parse_color_definition('full', self)
-                self._stopped_inactive_color = parse_color_definition('half', self)
-            elif bound_function == 'metronome':
+            if bound_function == 'metronome':
                 self._playing_active_color = parse_color_definition('full_blink_slow', self)
                 self._playing_inactive_color = parse_color_definition('half', self)
                 self._stopped_active_color = parse_color_definition('full', self)
                 self._stopped_inactive_color = parse_color_definition('half', self)
+            else:
+                self._playing_active_color = parse_color_definition('full', self)
+                self._playing_inactive_color = parse_color_definition('half', self)
+                self._stopped_active_color = parse_color_definition('full', self)
+                self._stopped_inactive_color = parse_color_definition('half', self)
+
+        stopped_active_def = self._raw_config.get('active_color')
+        if stopped_active_def is not None:
+            try:
+                active_color_obj = parse_color_definition(stopped_active_def, self)
+                playing_active_def = self._raw_config.get('playing_active_color')
+                self._stopped_active_color = active_color_obj
+                if playing_active_def is not None:
+                    playing_color_obj = parse_color_definition(playing_active_def, self)
+                    self._playing_active_color = playing_color_obj
+                else:
+                    self._playing_active_color = self._stopped_active_color
+            except Exception as e:
+                self.error(e)
+
+        stopped_inactive_def = self._raw_config.get('inactive_color')
+        if stopped_inactive_def is not None:
+            try:
+                inactive_color_obj = parse_color_definition(stopped_inactive_def, self)
+                playing_inactive_def = self._raw_config.get('playing_inactive_color')
+                self._stopped_inactive_color = inactive_color_obj
+                if playing_inactive_def is not None:
+                    playing_color_obj = parse_color_definition(playing_inactive_def, self)
+                    self._playing_inactive_color = playing_color_obj
+                else:
+                    self._playing_inactive_color = self._stopped_inactive_color
+            except Exception as e:
+                self.error(e)
 
         self._bound_function = bound_function
 
         self._song = self.root_cs.song
 
-        self._is_playing_listener.subject = self._song
-        self._session_record_listener.subject = self._song
-        self._metronome_listener.subject = self._song
-        self._is_counting_in_listener.subject = self._song
-        self._loop_listener.subject = self._song
+        if self._bound_function in ["play", "session_record", "arrangement_record", "metronome"]:
+            self._is_playing_listener.subject = self._song
+        else:
+            if self._playing_active_color != self._stopped_active_color or self._playing_inactive_color != self._stopped_inactive_color:
+                self._is_playing_listener.subject = self._song
 
+
+        match self._bound_function:
+            case "metronome":
+                self._metronome_listener.subject = self._song
+            case "session_record":
+                self._session_record_listener.subject = self._song
+                self._is_counting_in_listener.subject = self._song
+            case "loop":
+                self._loop_listener.subject = self._song
+            case "punch_in":
+                self._punch_in_listener.subject = self._song
+            case "punch_out":
+                self._punch_out_listener.subject = self._song
+            case "arrangement_record":
+                self._record_mode_listener.subject = self._song
+            case "record":
+                self._session_record_listener.subject = self._song
+                self._is_counting_in_listener.subject = self._song
+                self._record_mode_listener.subject = self._song
+            case "automation":
+                self._session_automation_record_listener.subject = self._song
+            case "overdub":
+                self._arrangement_overdub_listener.subject = self._song
+
+        self._simple_feedback =  False
+        self._suppress_animations = True
         self.request_color_update()
 
+    def request_color_update(self, **kwargs):
+        is_playing = self._song.is_playing
+        active_color = self._playing_active_color if is_playing else self._stopped_active_color
+        inactive_color = self._playing_inactive_color if is_playing else self._stopped_inactive_color
 
-    def request_color_update(self):
-        if self._bound_function is None:
-            self._control_element.set_light(self._color)
-        elif self._bound_function == 'play':
-            if self._song.is_playing:
-                self._color = self._playing_active_color
-            elif self._song.is_counting_in:
-                self._color = self._stopped_active_color
-            else:
-                self._color = self._stopped_inactive_color
-        elif self._bound_function == 'session_record':
-            if self._song.session_record:
+        match self._bound_function:
+            case None:
+                self._control_element.set_light(self._color)
+            case 'play':
                 if self._song.is_playing:
                     self._color = self._playing_active_color
-                elif song.is_counting_in:
+                elif self._song.is_counting_in:
                     self._color = self._stopped_active_color
                 else:
                     self._color = self._stopped_inactive_color
-            else:
-                self._color = self._stopped_inactive_color
-        elif self._bound_function == 'metronome':
-            if self._song.metronome:
-                if self._song.is_playing:
-                    self._color = self._playing_active_color
-                else:
-                    self._color = self._stopped_active_color
-            else:
-                if self._song.is_playing:
-                    self._color = self._playing_inactive_color
+            case 'session_record':
+                if self._song.session_record:
+                    if self._song.is_playing:
+                        self._color = self._playing_active_color
+                    elif self._song.is_counting_in:
+                        self._color = self._stopped_active_color
+                    else:
+                        self._color = self._stopped_inactive_color
                 else:
                     self._color = self._stopped_inactive_color
-        elif self._bound_function == 'loop':
-            if self._song.loop:
-                pass
-            else:
-                pass
+            case 'arrangement_record':
+                if self._song.record_mode == 1:
+                    self._color = active_color
+                else:
+                    self._color = inactive_color
+            case 'record':
+                if self._song.session_record or self._song.record_mode == 1:
+                    self._color = active_color
+                else:
+                    self._color = inactive_color
+            case 'metronome':
+                if self._song.metronome:
+                    self._color = active_color
+                else:
+                    self._color = inactive_color
+            case 'loop':
+                self._color = active_color if self._song.loop else inactive_color
+            case 'punch_in':
+                self._color = active_color if self._song.punch_in else inactive_color
+            case 'punch_out':
+                self._color = active_color if self._song.punch_out else inactive_color
+            case 'automation':
+                self._color = active_color if self._song.session_automation_record else inactive_color
+            case 'overdub':
+                self._color = active_color if self._song.arrangement_overdub else inactive_color
 
-        super().request_color_update()
+        super().request_color_update(**kwargs)
+
+    def set_on_color(self, color):
+        self._playing_active_color = color
+        self._stopped_active_color = color
+        self.request_color_update()
+
+    def set_off_color(self, color):
+        self._playing_inactive_color = color
+        self._stopped_inactive_color = color
+        self.request_color_update()
 
     @listens('is_playing')
     def _is_playing_listener(self):
@@ -163,4 +249,24 @@ class TransportControl(ZControl):
 
     @listens('metronome')
     def _metronome_listener(self):
+        self.request_color_update()
+
+    @listens('punch_in')
+    def _punch_in_listener(self):
+        self.request_color_update()
+
+    @listens('punch_out')
+    def _punch_out_listener(self):
+        self.request_color_update()
+
+    @listens('record_mode')
+    def _record_mode_listener(self):
+        self.request_color_update()
+
+    @listens('session_automation_record')
+    def _session_automation_record_listener(self):
+        self.request_color_update()
+
+    @listens('arrangement_overdub')
+    def _arrangement_overdub_listener(self):
         self.request_color_update()

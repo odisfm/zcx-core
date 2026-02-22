@@ -2,6 +2,8 @@ from copy import copy
 
 from ableton.v2.base import EventObject, listenable_property
 from ableton.v2.base.event import listens
+from .z_control import ZControl
+from .errors import CriticalConfigurationError
 
 
 class PadSection(EventObject):
@@ -15,7 +17,9 @@ class PadSection(EventObject):
             owned_coordinates,
             pages_in,
             width,
-            raw_template=None
+            raw_template=None,
+            layer=0,
+            overlay_def=None
     ):
         super().__init__()
         self.__name = section_name
@@ -23,6 +27,10 @@ class PadSection(EventObject):
         self.__owned_coordinates = owned_coordinates
         self.__width = width
         self.__in_view = False
+        if not isinstance(layer, int):
+            raise CriticalConfigurationError(f"Invalid layer for section '{section_name}': {layer}\nLayer must be an integer.")
+        self.__layer  = layer
+        self.__overlay_def = overlay_def
         self._logger = self.page_manager._logger.getChild(
             f"matrix_section__{section_name}"
         )
@@ -40,7 +48,7 @@ class PadSection(EventObject):
                 "width": max_x - min_x + 1,
                 "height": max_y - min_y + 1,
             }
-        self.__owned_controls = []
+        self.__owned_controls: list[ZControl] = []
         self._raw_template = raw_template if raw_template is not None else {}
 
     def log(self, *msg):
@@ -67,6 +75,22 @@ class PadSection(EventObject):
     def width(self):
         return self.__width
 
+    @property
+    def height(self):
+        return len(self.__owned_coordinates) // self.__width
+
+    @property
+    def layer(self):
+        return self.__layer
+
+    @property
+    def in_pages(self):
+        return copy(self.__pages_in)
+    
+    @property
+    def overlay_def(self):
+        return self.__overlay_def
+
     @listenable_property
     def in_view(self):
         return self.__in_view
@@ -86,4 +110,25 @@ class PadSection(EventObject):
             self.notify_in_view()
 
     def register_owned_control(self, control):
-        self.__owned_controls.append(control)
+        if not control in self.__owned_controls:
+            self.__owned_controls.append(control)
+
+    def get_row(self, row_num):
+        start = row_num * self.__width
+        end = start + self.__width
+        return self.owned_controls[start:end]
+
+    def get_column(self, column_num):
+        controls = []
+
+        if self.__bounds:
+            height = self.__bounds["height"]
+        else:
+            height = len(self.__owned_coordinates) // self.__width
+
+        for row in range(height):
+            index = row * self.__width + column_num
+            if index < len(self.__owned_coordinates):
+                controls.append(self.__owned_controls[index])
+
+        return controls

@@ -8,13 +8,13 @@ hide:
 
 ### What's all this then?
 
-Have a look at the [about page](/), or check out [the source on GitHub](https://www.github.com/odisfm/zcx-core).
+Have a look at the [about page](index.md), or check out [the source on GitHub](https://www.github.com/odisfm/zcx-core).
 
 ### What do I need to use zcx?
 
-* Ableton Live 12.1 or above <sup>[why?](/lessons/why-live-12)</sup>
-* ClyphX Pro
-* [Supported hardware](/tutorials/getting-started/installation#get-a-distribution)
+* Ableton Live 12.1 or above <sup>[why?](#why-does-zcx-require-live-121)</sup>
+* ClyphX Pro 1.3.1 or above
+* [Supported hardware](index.md#hardware)
 * A heart full of dreams
 
 ### Does zcx change the default functionality of my control surface
@@ -29,13 +29,13 @@ If you don't want to use the default functionality, you can unassign the default
 
 ### Do I need to be a coder to use zcx?
 
-No programming knowledge is necessary to configure zcx. zcx configurations **do** make extensive use of a format called [yaml](/tutorials/getting-started/reading-zcx-configurations/#yaml), but it's pretty easy to pick up.
+No programming knowledge is necessary to configure zcx. zcx configurations **do** make extensive use of a format called [yaml](lessons/getting-started/reading-zcx-configurations.md/#yaml), but it's pretty easy to pick up.
 
-See also: [reading zcx configurations](/tutorials/getting-started/reading-zcx-configurations/).
+See also: [reading zcx configurations](lessons/getting-started/reading-zcx-configurations.md).
 
 ### What hardware is zcx available for?
 
-[See here.](/tutorials/getting-started/installation#get-a-distribution)
+[See here.](lessons/getting-started/installation.md#get-a-distribution)
 
 ### Does zcx replace ClyphX Pro?
 
@@ -49,7 +49,15 @@ That's up to you. zcx can be used to create a far more complex interface than is
 
 ### Can I use zcx with a non-matrix controller?
 
-zcx is designed for matrix-equipped controllers. You could make a port for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.
+zcx is designed for matrix-equipped controllers. You could [make a port](lessons/porting.md) for your hardware, and just not use the matrix features. That's up to you. Remember: each zcx script requires its own control surface slot.
+
+### Why does zcx require Live 12.1?
+
+zcx is written in the Python programming language. With newer versions of Python, developers have access to more features when writing code. 
+
+The Python environment that zcx runs in is provided by Live. With Live 12.1 came an upgrade to Python 3.11.6. 
+This newer version of Python includes several features that are very useful for zcx, and so early in development, a decision was made to target Live 12.1 as the minimum version compatible with zcx.
+
 
 ### Is there a Discord?
 
@@ -58,7 +66,7 @@ zcx is designed for matrix-equipped controllers. You could make a port for your 
 
 ### How can I contribute?
 
-See `#contributing` in the Discord.
+[See here](dev/contributing.md).
 
 ### What does 'zcx' stand for?
 

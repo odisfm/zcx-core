@@ -1,102 +1,101 @@
 shift:
   gestures:
-    pressed:
+    press:
       mode_on: shift
-    released:
+      overlay:
+        enable: shift_overlay
+    release:
       mode_off: shift
+      overlay:
+        disable: shift_overlay
 
 __page_group:
   includes: [
-    volume, pan, send, device
+    volume, pan, send, device, up, down, left, right
   ]
   type: page
   page: ${me.index}
   active_color: 127
   inactive_color: 0
   gestures:
-    pressed:
+    press:
       page: ${me.index}
+  controls:
+    device:
+      gestures:
+        long_press:
+          overlay:
+            enable: keyboard_notes
+        short_press:
+          overlay:
+            disable: keyboard_notes
 
-#volume:
-#  gestures:
-#    pressed: DUMMY
+# volume:
+#   gestures:
+#     press: DUMMY
+  
+# pan:
+#   gestures:
+#     press: DUMMY
+  
+# send:
+#   gestures:
+#     press: DUMMY
+  
+# device:
+#   gestures:
+#     press: DUMMY
+  
+# up:
+#   gestures:
+#     press: DUMMY
+  
+# down:
+#   gestures:
+#     press: DUMMY
+  
+# left:
+#   gestures:
+#     press: DUMMY
+  
+# right:
+#   gestures:
+#     press: DUMMY
 
-#pan:
-#  gestures:
-#    pressed: DUMMY
-
-#send:
-#  gestures:
-#    pressed: DUMMY
-
-#device:
-#  gestures:
-#    pressed: DUMMY
-
-up:
+__scene_buttons:
+  includes: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6, scene_7, scene_8]
   gestures:
-    pressed: up
-    pressed__shift:
-      ring: up
+    press: >
+      SCENE ${ring.scenes[me.index]}
 
-down:
-  gestures:
-    pressed: down
-    pressed__shift:
-      ring: down
-
-left:
-  gestures:
-    pressed: left
-    pressed__shift:
-      ring: left
-
-right:
-  gestures:
-    pressed: right
-    pressed__shift:
-      ring: right
-
-scene_1: # clip stop
-  gestures:
-    pressed: SEL / STOP
-    pressed__shift: SCENE ${ring.scenes[0]}
-
-scene_2: # solo
-  gestures:
-    pressed: SEL / SOLO
-    pressed__shift: SCENE ${ring.scenes[1]}
-
-scene_3: # mute
-  gestures:
-    pressed: SEL / MUTE
-    pressed__shift: SCENE ${ring.scenes[2]}
-
-scene_4: # rec arm
-  gestures:
-    pressed: SEL / ARM
-    pressed__shift: SCENE ${ring.scenes[3]}
-
-scene_5: # select
-  gestures:
-    pressed:
-      mode_on: select
-    released:
-      mode_off: select
-    pressed__shift: SCENE ${ring.scenes[4]}
-
-scene_6: # drum
-  gestures:
-    pressed: SHOWCLIP
-    pressed__shift: SCENE ${ring.scenes[5]}
-
-scene_7: # note
-  gestures:
-    pressed: SHOWDETAIL
-    pressed__shift: SCENE ${ring.scenes[6]}
-
-scene_8: # stop all clips
-  gestures:
-    pressed: STOPALL
-    pressed_delayed: STOPALL NQ
-    pressed__shift: SCENE ${ring.scenes[7]}
+# scene_1:
+#   gestures:
+#     press: DUMMY
+  
+# scene_2:
+#   gestures:
+#     press: DUMMY
+  
+# scene_3:
+#   gestures:
+#     press: DUMMY
+  
+# scene_4:
+#   gestures:
+#     press: DUMMY
+  
+# scene_5:
+#   gestures:
+#     press: DUMMY
+  
+# scene_6:
+#   gestures:
+#     press: DUMMY
+  
+# scene_7:
+#   gestures:
+#     press: DUMMY
+  
+# scene_8:
+#   gestures:
+#     press: DUMMY

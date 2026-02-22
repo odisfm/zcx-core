@@ -1,0 +1,7 @@
+type: ring_track
+ring_index: ${me.index + 8}
+gestures:
+  pressed: >
+    "${me.track}" / SEL
+  pressed_delayed: >
+    "${me.track}" / ARM

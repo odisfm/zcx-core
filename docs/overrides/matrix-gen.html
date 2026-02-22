@@ -1,131 +1,19 @@
-{% extends "base.html" %}
-
-{% block scripts %}
-  {{ super() }}
-  <script>
-
-    function initializeForm() {
-      const generateButton = document.getElementById('generate-button');
-      const output_block = document.getElementById('yaml-output')?.querySelector('code');
-
-      if (!generateButton || !output_block) return;
-
-      generateButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        processFormData(output_block);
-      });
-    }
-
-    function processFormData(output_block) {
-      output_block.innerHTML = null;
-
-      let width = parseInt(document.getElementById('columns').value);
-      let height = parseInt(document.getElementById('rows').value);
-      let comment_out = document.getElementById('comment-out').checked;
-      let space_between_items = document.getElementById('space-between-items').checked;
-      let comment_coords = document.getElementById('comment-coords').checked;
-      let includeColor = document.getElementById('color').checked;
-      let includeType = document.getElementById('type').checked;
-      let randomColor = document.getElementById('random-color').checked;
-
-      const gestures = [
-        'pressed',
-        'released',
-        'released_immediately',
-        'pressed_delayed',
-        'released_delayed',
-        'double_clicked'
-      ];
-
-      let content = '';
-      let these_gestures = [];
-
-      for (let i = 0; i < gestures.length; i++) {
-        let gesture = gestures[i];
-        if (document.getElementById(gesture).checked) {
-          these_gestures.push(gesture);
-        }
-      }
-
-      for (let i = 0; i < height; i++) {
-        if (comment_coords) content += make_comment(`!! row ${i + 1}`);
-        for (let j = 0; j < width; j++) {
-          if (comment_coords) content += make_comment(`col ${j + 1}`);
-          content += '- \n';
-
-          if (includeColor) {
-            let color = 127;
-            if (randomColor) color = getRandomInt(126) + 1;
-            content += make_row('color', color, 1, comment_out);
-            content += '\n';
-          }
-
-          if (includeType) {
-            content += make_row('type', 'standard', 1, comment_out);
-            content += '\n';
-          }
-
-          content += make_row('gestures', false, 1, comment_out, true);
-          if (these_gestures.length === 0) {
-            content += make_row('pressed', 'DUMMY', 2, true, false);
-            content += '\n';
-          } else {
-            for (let g of these_gestures) {
-              content += make_row(g, 'DUMMY', 2, comment_out, false);
-              content += '\n';
-            }
-          }
-
-          if (space_between_items) content += '\n';
-        }
-      }
-
-      let span = document.createElement('span');
-      span.textContent = content;
-      output_block.appendChild(span);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function make_row(key, value, indent, commented = false, is_dict = false) {
-      let row = "";
-      if (commented) row += "# ";
-      for (let i = 0; i < indent; i++) row += "  ";
-      row += `${key}:`;
-      if (is_dict) return row + `\n`;
-      row += ` ${value}`;
-      return row;
-    }
-
-    function make_comment(content) {
-      return `# ${content}\n`;
-    }
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    document$.subscribe(function() {
-        initializeForm();
-    })
-
-  </script>
-
-{% endblock %}
+{% extends "main.html" %}
 
 {% block content %}
   {{ super() }}
 
-  <div aria-labelledby="form-title" id="matrix-gen-form">
+  <form aria-labelledby="form-title" id="matrix-gen-form">
     <h2 id="form-title">Configure Settings</h2>
 
     <div class="form-group">
       <label for="columns">Columns:</label>
-      <input type="number" id="columns" name="columns" min="1" max="8" required aria-describedby="columns-hint" value="4">
+      <input type="number" id="columns" name="columns" min="1" required aria-describedby="columns-hint" value="4">
     </div>
 
     <div class="form-group">
       <label for="rows">Rows:</label>
-      <input type="number" id="rows" name="rows" min="1" max="8" required aria-describedby="rows-hint" value="4">
+      <input type="number" id="rows" name="rows" min="1" required aria-describedby="rows-hint" value="4">
     </div>
 
     <fieldset class="key-options">
@@ -134,33 +22,33 @@
         <legend>Gestures</legend>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="pressed" name="pressed" value="pressed">
-          <label for="pressed">Pressed</label>
+          <input type="checkbox" id="press" name="press">
+          <label for="press">Press</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="released" name="released" value="released">
-          <label for="released">Released</label>
+          <input type="checkbox" id="release" name="release">
+          <label for="release">Release</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="released_immediately" name="released_immediately" value="released_immediately" checked>
-          <label for="released_immediately">Released Immediately</label>
+          <input type="checkbox" id="short_press" name="short_press" checked>
+          <label for="short_press">Short Press</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="pressed_delayed" name="pressed_delayed" value="pressed_delayed" checked>
-          <label for="pressed_delayed">Pressed Delayed</label>
+          <input type="checkbox" id="long_press" name="long_press" checked>
+          <label for="long_press">Long Press</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="released_delayed" name="released_delayed" value="released_delayed">
-          <label for="released_delayed">Released Delayed</label>
+          <input type="checkbox" id="long_release" name="long_release">
+          <label for="long_release">Long Release</label>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="double_clicked" name="double_clicked" value="double_clicked">
-          <label for="double_clicked">Double Clicked</label>
+          <input type="checkbox" id="double_click" name="double_click">
+          <label for="double_click">Double Click</label>
         </div>
       </fieldset>
 
@@ -200,6 +88,6 @@
     <div class="form-actions">
       <button type="button" id="generate-button" class="md-button md-button--primary">Generate</button>
     </div>
-  </div>
+  </form>
 
 {% endblock %}

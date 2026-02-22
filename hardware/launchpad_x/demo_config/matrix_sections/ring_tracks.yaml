@@ -1,0 +1,20 @@
+controls:
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+type: ring_track
+ring_index: ${me.index}
+animate_while_stopped: true
+gestures:
+  press: >
+    "${me.track}" / SEL
+  long_press: >
+    ALL / ARM OFF ;
+    "${me.track}" / ARM
+  long_press__shift: >
+    "${me.track}" / ARM

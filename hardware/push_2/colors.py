@@ -15,8 +15,9 @@ from Push2.colors import (
 from Push2.colors import IndexedColor as PushIndexedColor
 from pushbase.colors import Color
 
+SIMPLE_SHADE = True
 
-animation_speed_translation = [48, 24, 12, 8, 4]
+animation_speed_translation = [48, 24, 12, 6, 4]
 
 
 class IndexedColor(PushIndexedColor):
@@ -47,12 +48,11 @@ class BasicColorSwatch:
     FULL_BLINK_SLOW = Blink(FULL, OFF, 48)
     FULL_BLINK_FAST = Blink(FULL, OFF, 12)
 
-    def __init__(self):
-        pass
+    ERROR = OFF
+    PAGE_ACTIVE = ON
+    PAGE_INACTIVE = LOW
+    PLAY_GREEN = FULL
 
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 class RgbColorSwatch(object):
     PLAY_GREEN = IndexedColor(126)
@@ -108,12 +108,8 @@ class RgbColorSwatch(object):
     PAGE_DISABLED = DARK_GREY
     ERROR = Blink(RED, OFF, 12)
 
-    def __init__(self):
-        pass
+    ARM_RED = IndexedColor(1)
 
-    @classmethod
-    def __getattr__(cls, attr):
-        return cls.FULL
 
 BiledColorSwatch = RgbColorSwatch
 
@@ -178,6 +174,18 @@ palette_nebula = [
 palette_nebula_reverse = palette_nebula.copy()
 palette_nebula_reverse.reverse()
 
+palette_coral = [
+    RgbColorSwatch.CYAN.shade(1),
+    RgbColorSwatch.PURPLE.shade(1),
+    RgbColorSwatch.SKY.shade(1),
+    RgbColorSwatch.PURPLE.shade(0),
+    RgbColorSwatch.CYAN.shade(3),
+    RgbColorSwatch.MAGENTA.shade(2)
+]
+
+palette_coral_reverse = palette_coral.copy()
+palette_coral_reverse.reverse()
+
 palette_rainbow_reverse = palette_rainbow.copy()
 palette_rainbow_reverse.reverse()
 
@@ -190,17 +198,10 @@ palettes = {
     'rainbow_reverse': palette_rainbow_reverse,
     'nebula': palette_nebula,
     'nebula_reverse': palette_nebula_reverse,
+    'coral': palette_coral,
+    'coral_reverse': palette_coral_reverse,
 }
 
 
 def live_index_for_midi_index(live_index):
-    if live_index >= 0 and live_index < 14:
-        if live_index == 13:
-            return 122
-        return (live_index * 2) + 1
-    elif live_index >= 14 and live_index < 28:
-        if live_index == 27:
-            return 56
-        return (live_index * 2) - 26
-    else:
-        return live_index_for_midi_index(live_index % 27)
+    return translate_color_index(live_index)

@@ -1,0 +1,231 @@
+###
+### top row
+###
+
+shift:
+  type: mode
+  mode: shift
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift
+
+# nav_left:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# nav_right:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# session:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# note:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# chord:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+custom:
+  gestures:
+    long_press:
+      hw_mode: live
+
+# sequencer:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# projects:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+novation:
+  color: purple
+
+
+###
+### right side
+###
+
+# scene_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# scene_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+
+###
+### bottom row
+###
+
+# track_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# track_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# arm:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# mute:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# solo:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# volume:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# pan:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# sends:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# device:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# stop:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+
+###
+### left side
+###
+
+# nav_up:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# nav_down:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# clear:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# duplicate:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# quantize:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# fixed_length:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# play:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+  
+# record:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY

@@ -1,0 +1,17 @@
+overlays:
+  keyboard:
+    pages_in:
+      - keyboard_page
+
+  note_repeat:
+    pages_out: true
+    on_enter:
+      keyboard:
+        repeat_rate: on
+    on_leave:
+      keyboard:
+        repeat_rate: off
+
+  scales:
+    matrix_sections:
+      - scale_chooser

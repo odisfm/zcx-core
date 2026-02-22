@@ -2,8 +2,8 @@ from ableton.v3.base import listens
 from ableton.v2.base.event import EventObject
 
 from .cxp_bridge import CxpBridge
-from .z_encoder import ZEncoder
 from .encoder_element import EncoderElement
+from .pad_section import PadSection
 
 def re_range_float_parameter(min_val, max_val, current):
    return (current - min_val) / (max_val - min_val)
@@ -31,7 +31,7 @@ def re_range_int_parameter(min_val, max_val, current):
 
 class OscWatcher(EventObject):
 
-    address_prefix: str = 'zcx/'
+    address_prefix: str = '/zcx/'
     _osc_server = None
 
     def __init__(self, *a, **kw):
@@ -47,7 +47,7 @@ class OscEncoderWatcher(OscWatcher):
 
     def __init__(self, z_encoder, *a, **kw):
         super().__init__(*a, **kw)
-        self._z_encoder: ZEncoder = z_encoder
+        self._z_encoder = z_encoder
         self._base_element: EncoderElement = self._z_encoder._control_element
 
         self._base_osc_address = self.address_prefix + f'enc/{self._z_encoder._name}/'
@@ -84,3 +84,8 @@ class OscEncoderWatcher(OscWatcher):
                 self._osc_server.sendOSC(self._name_osc_address, '-')
         else:
             self._osc_server.sendOSC(self._name_osc_address, self._base_element.parameter_name)
+
+    def disconnect(self):
+        super().disconnect()
+        self.parameter_name_changed.subject = None
+        self.parameter_value_changed.subject = None

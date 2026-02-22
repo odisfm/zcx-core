@@ -26,7 +26,6 @@ encoders:
   sensitivity: 1.0
   mode: absolute
 
-preferences:
-  session_ring:
-    width: 8
-    height: 8
+session_ring:
+  width: 8
+  height: 8

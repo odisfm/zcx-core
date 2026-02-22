@@ -1,6 +1,9 @@
-from copy import deepcopy
+from copy import deepcopy, copy
+from copy import deepcopy, copy
+from typing import Optional
 
 from ableton.v3.control_surface.controls import control_matrix
+from .z_controls import ParamControl, KeyboardControl, OverlayControl
 
 from .control_classes import get_subclass as get_control_class
 from .errors import ConfigurationError, CriticalConfigurationError
@@ -9,6 +12,7 @@ from .pad_section import PadSection
 from .z_control import ZControl
 from .z_state import ZState
 from .zcx_component import ZCXComponent
+from .encoder_manager import SelectedDeviceWatcher
 
 
 class ZManager(ZCXComponent):
@@ -21,6 +25,7 @@ class ZManager(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
 
+        self.__named_controls_section = None
         self.__hardware_interface: HardwareInterface = (
             self.canonical_parent.component_map["HardwareInterface"]
         )
@@ -29,11 +34,31 @@ class ZManager(ZCXComponent):
         self.__control_groups = {}
         self.__named_controls = {}
         self.__named_control_section: PadSection = None
-        self.__matrix_sections: dict[PadSection] = {}
+        self.__overlay_sections: dict[str, PadSection] = {}
+        self.__matrix_sections: dict[str, PadSection] = {}
         self.__control_aliases = {}
+        self.__all_controls: "list[ZControl]" = []
+        self._param_controls: "list[ParamControl]" = []
+
+    @property
+    def all_controls(self) -> "list[ZControl]":
+        return copy(self.__all_controls)
+
+    @property
+    def all_matrix_sections(self) -> "dict[str, PadSection]":
+        return copy(self.__matrix_sections)
+
+    @property
+    def named_controls_section(self) -> "PadSection":
+        return self.__named_controls_section
+
+    @property
+    def all_overlay_sections(self) -> "dict[str, OverlaySection]":
+        return copy(self.__overlay_sections)
 
     def setup(self):
         from . import z_controls
+        self.load_control_templates()
 
         ZControl.task_group = self.canonical_parent._task_group
         z_controls.page_manager = self.canonical_parent.component_map["PageManager"]
@@ -42,8 +67,44 @@ class ZManager(ZCXComponent):
         ]
         z_controls.mode_manager = self.canonical_parent.component_map["ModeManager"]
 
+    def _unload(self):
+        super()._unload()
+        self.log("unloading")
+        for section in self.__matrix_sections.values():
+            section.disconnect()
+        self.__global_control_template = {}
+        self.__control_templates = {}
+        self.__control_groups = {}
+        self.__named_controls = {}
+        self.__named_control_section: PadSection = None
+        self.__matrix_sections: dict[PadSection] = {}
+        self.__control_aliases = {}
+        self.__all_controls = []
+
     def reinit(self):
         pass
+
+    def create_named_controls(self):
+        page_count = len(self.component_map["PageManager"].all_page_names)
+        named_pad_section = PadSection(
+            "__named_buttons_section", None, {i for i in range(page_count)}, 0
+        )
+        self.process_named_buttons(named_pad_section)
+
+        general_overlay_def, overlay_defs = self.load_overlay_definitions()
+        for overlay_name, overlay_def in overlay_defs.items():
+            general_def_content = general_overlay_def["overlays"][overlay_name]
+            layer_def = general_def_content.get("layer", 1)
+            if not(isinstance(layer_def, int)):
+                raise CriticalConfigurationError(f"Invalid layer for overlay `{overlay_name}`: {layer_def}\nMust be a positive integer.")
+            elif layer_def < 1:
+                raise CriticalConfigurationError(f"Invalid datatype for layer in overlay `{overlay_name}`: {layer_def}\nMust be a positive integer.")
+            section_obj = PadSection(
+                f"__named_buttons_section__{overlay_name}", None, {i for i in range(page_count)}, 0, overlay_def, layer_def, overlay_def=general_def_content
+            )
+            self.process_named_buttons(section_obj, overlay_name)
+            section_obj._PadSection__in_view = True
+
 
     def add_control_to_group(self, control, group_name):
         if group_name in self.__control_groups:
@@ -51,7 +112,7 @@ class ZManager(ZCXComponent):
         else:
             self.__control_groups[group_name] = [control]
 
-    def get_control_group(self, group_name):
+    def get_control_group(self, group_name) -> "list[ZControl] | None":
         if group_name in self.__control_groups:
             return self.__control_groups[group_name]
         else:
@@ -61,7 +122,7 @@ class ZManager(ZCXComponent):
             )
             return None
 
-    def get_named_control(self, control_name):
+    def get_named_control(self, control_name) -> "ZControl | None":
         if control_name in self.__named_controls:
             return self.__named_controls[control_name]
         else:
@@ -71,7 +132,7 @@ class ZManager(ZCXComponent):
             )
             return None
 
-    def get_matrix_section(self, section_name):
+    def get_matrix_section(self, section_name) -> "PadSection | None":
         if section_name in self.__matrix_sections:
             return self.__matrix_sections[section_name]
         else:
@@ -90,26 +151,90 @@ class ZManager(ZCXComponent):
 
         matrix_state: control_matrix = self.__hardware_interface.button_matrix_state
 
-        raw_section_config = self.yaml_loader.load_yaml(
+        try:
+            raw_section_config = self.yaml_loader.load_yaml(
             f"{self._config_dir}/matrix_sections/{pad_section.name}.yaml"
-        )
+            )
+        except FileNotFoundError:
+            if pad_section._raw_template:
+                raw_section_config = {}
+            else:
+                raise CriticalConfigurationError(f"section `{pad_section.name}` referenced in `matrix_sections.yaml` without corresponding file `matrix_sections/{pad_section.name}.yaml`")
 
         flat_config = self.flatten_section_config(pad_section, raw_section_config)
         context_config = self.apply_section_context(pad_section, flat_config)
 
         try:
             for i in range(len(pad_section.owned_coordinates)):
-                coord = pad_section.owned_coordinates[i]
-                item_config = context_config[i]
-                state: ZState.State = matrix_state.get_control(coord[0], coord[1])
-                control = self.z_control_factory(item_config, pad_section)
-                self.debug(f'instantiated {pad_section.name} control #{i}')
-                control.bind_to_state(state)
-                control.raw_config = context_config[i]
-                control.setup()
-                self.debug(f'{pad_section.name} control #{i} successfully setup')
+                try:
+                    coord = pad_section.owned_coordinates[i]
+                    item_config = context_config[i]
+                    state: ZState.State = matrix_state.get_control(coord[0], coord[1])
+                    control = self.z_control_factory(item_config, pad_section)
+                    self.debug(f'instantiated {pad_section.name} control #{i}')
+                    control.bind_to_state(state)
+                    control.raw_config = context_config[i]
+                    control.setup()
+
+                    if "alias" in control.raw_config:
+                        if not isinstance(control.raw_config["alias"], str):
+                            msg = f'Bad alias for control `{control.name}`, alias must be a string.'
+                            from . import STRICT_MODE
+                            if STRICT_MODE:
+                                raise CriticalConfigurationError(msg)
+                            else:
+                                self.warning(msg + " Ignoring alias.")
+
+                            alias = None
+
+                        elif "$" in control.raw_config["alias"]:
+                            parsed, status = self.component_map["ActionResolver"].compile(
+                                control.raw_config["alias"],
+                                control._vars,
+                                control._context
+                            )
+
+                            if status != 0:
+                                msg = f'Unparseable template string in alias for control `{control.name}`: {control.raw_config["alias"]}'
+                                from . import STRICT_MODE
+                                if STRICT_MODE:
+                                    raise CriticalConfigurationError(msg)
+                                else:
+                                    self.warning(msg)
+                                    alias = None
+                            else:
+                                alias = parsed
+                        else:
+                            alias = control.raw_config["alias"]
+
+                        if alias:
+                            alias_lower = alias.lower()
+                            if alias_lower != alias:
+                                self.warning(
+                                    f'Invalid alias `{alias}`: alias must be lowercase. Using `{alias_lower}`'
+                                )
+                                alias = alias_lower
+                            try:
+                                self.set_control_alias(alias, control)
+                                control._alias = alias
+                            except ConfigurationError as e:
+                                from . import STRICT_MODE
+                                if STRICT_MODE:
+                                    raise CriticalConfigurationError(e)
+                                else:
+                                    self.warning(str(e) + f" Ignoring alias for control `{control.name}`.")
+
+                    self.debug(f'{pad_section.name} control #{i} successfully setup')
+                except CriticalConfigurationError:
+                    raise
+                except Exception as e:
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise
+                    self.error(e)
+
         except Exception as e:
-            self.error(e)
+            raise
 
         self.__matrix_sections[pad_section.name] = pad_section
 
@@ -128,7 +253,21 @@ class ZManager(ZCXComponent):
                 merged = deepcopy(base)
                 for key, value in override.items():
                     if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
-                        merged[key] = merge_configs(merged[key], value)
+                        if key == "color":
+
+                            base_color_def = merged["color"]
+                            override_color_def = value
+
+                            try:
+                                if list(base_color_def.keys())[0] == list(override_color_def.keys())[0]:
+                                    merged["color"] = base_color_def | override_color_def
+                                else:
+                                    merged["color"] = override_color_def
+                            except IndexError:
+                                merged["color"] = override_color_def
+
+                        else:
+                            merged[key] = merge_configs(merged[key], value)
                     else:
                         merged[key] = deepcopy(value)
                 return merged
@@ -207,8 +346,15 @@ class ZManager(ZCXComponent):
             flat_config = []
             unnamed_groups = 0
 
+            # Handle empty yaml file as empty anonymous group def
+            if raw_config is None:
+                raw_config = {}
+
+            is_whole_section_group = False
+
             # Handle single dict group section config
             if isinstance(raw_config, dict):
+                is_whole_section_group = True
                 if "pad_group" in raw_config:
                     raw_config = [raw_config]
                 else:
@@ -230,14 +376,15 @@ class ZManager(ZCXComponent):
                             merged = merge_configs(deepcopy(group_template), override)
                             raw_config.append(merged)
 
-            elif not isinstance(raw_config, list):
-                raise ValueError()  # todo: raise config error with proper message
-
             for i, item in enumerate(raw_config):
                 config = deepcopy(item)
 
                 if config is None:
                     config = {}
+                elif not isinstance(config, dict):
+                    raise CriticalConfigurationError(
+                        f"Config error in {section_obj.name}. Control definition must be dict or null, provided: {config}  ({type(config)})"
+                    )
 
                 # Handle single pad configuration
                 if "pad_group" not in config:
@@ -260,6 +407,8 @@ class ZManager(ZCXComponent):
                     final_config["group_context"] = {
                         "group_name": None,
                         "group_index": None,
+                        "group_Index": None,
+                        "group_count": 0,
                     }
                     flat_config.append(final_config)
                     continue
@@ -271,14 +420,28 @@ class ZManager(ZCXComponent):
                     if isinstance(pad_group, str)
                     else f"{section_obj.name}_group_{unnamed_groups}"
                 )
+                group_name_lower = group_name.lower()
+                if group_name_lower != group_name:
+                    self.warning(f"Group names must be lowercase. Changed `{group_name}` to {group_name_lower}")
+                    group_name = group_name_lower
                 if not isinstance(pad_group, str):
                     unnamed_groups += 1
 
                 group_pads = config.get(
-                    "controls", [None] * (len(section_obj.owned_coordinates) - i)
-                )
+                    "controls")
+
+                if not group_pads or not isinstance(group_pads, list):
+                    if not is_whole_section_group:
+                        raise CriticalConfigurationError(
+                        f"Error in section `{section_obj.name}` group `{group_name}`:"
+                        f"\nA group within a matrix section must have a `controls` option, a list with an entry for each control."
+                        f"\nProvided: {group_pads}"
+                        )
+                    else:
+                        group_pads = [None] * (len(section_obj.owned_coordinates) - i)
+
                 if not isinstance(group_pads, list):
-                    raise ValueError(
+                    raise CriticalConfigurationError(
                         f"Config error in {section_obj.name} {group_name}: "
                         f'If "controls" key is present it must be a list.'
                     )
@@ -298,6 +461,8 @@ class ZManager(ZCXComponent):
                 if not skip_global:
                     base_config = apply_global_template({})
                     group_config = merge_configs(base_config, group_config)
+
+                group_count = len(group_pads)
 
                 # Process each pad in group
                 for j, pad_config in enumerate(group_pads):
@@ -328,10 +493,12 @@ class ZManager(ZCXComponent):
                     member_config["group_context"] = {
                         "group_name": group_name,
                         "group_index": j,
+                        "group_Index": j + 1,
+                        "group_count": group_count,
                     }
                     flat_config.append(member_config)
         except Exception as e:
-            self.log(f"failed to parse section {section_obj.name} config", raw_config)
+            self.critical(f"failed to parse section `{section_obj.name}` config", raw_config)
             raise
 
         num_coords = len(section_obj.owned_coordinates)
@@ -359,7 +526,7 @@ class ZManager(ZCXComponent):
     def apply_section_context(self, section_obj, flat_config):
 
         try:
-            section_context = {"section_name": section_obj.name}
+            common_context = {"section_name": section_obj.name}
 
             processed_config = []
 
@@ -373,27 +540,48 @@ class ZManager(ZCXComponent):
             for i in range(len(flat_config)):
                 item = flat_config[i]
                 global_y, global_x = section_obj.owned_coordinates[i]
-                global_y_flip = global_y - section_height
-                global_x_flip = global_x - section_width
-
-                item_context = deepcopy(section_context)
+                global_Y = global_y + 1
+                global_X = global_x + 1
+                global_y_flip = (global_y - section_height) * -1 -1
+                global_x_flip = (global_x - section_width) * -1 -1
+                global_Y_flip = global_y_flip + 1
+                global_X_flip = global_x_flip + 1
+                x = global_x - section_obj._PadSection__bounds["min_x"]
+                y = global_y - section_obj._PadSection__bounds["min_y"]
+                X = x + 1
+                Y = y + 1
+                x_flip =  global_x_flip - section_obj._PadSection__bounds["min_x"] * -1
+                y_flip = global_y_flip - section_obj._PadSection__bounds["min_y"] * -1
+                X_flip = x_flip + 1
+                Y_flip = y_flip + 1
+                item_context = deepcopy(common_context)
+                section_context = {
+                    "name": section_obj.name,
+                    "width": section_width,
+                    "height": section_height,
+                    "obj": section_obj,
+                    "count": len(section_obj.owned_coordinates)
+                }
                 item_context.update(
                     {
                         "index": i,
                         "global_x": global_x,
                         "global_y": global_y,
+                        "global_X": global_X,
+                        "global_Y": global_Y,
                         "global_y_flip": global_y_flip,
                         "global_x_flip": global_x_flip,
-                        "x": global_x - section_obj._PadSection__bounds["min_x"],
-                        "y": global_y - section_obj._PadSection__bounds["min_y"],
-                        "x_flip": (
-                            global_x_flip - section_obj._PadSection__bounds["min_x"]
-                        )
-                        * -1,
-                        "y_flip": (
-                            global_y_flip - section_obj._PadSection__bounds["min_y"]
-                        )
-                        * -1,
+                        "global_Y_flip": global_Y_flip,
+                        "global_X_flip": global_X_flip,
+                        "x": x,
+                        "y": y,
+                        "X": X,
+                        "Y": Y,
+                        "x_flip": x_flip,
+                        "y_flip": y_flip,
+                        "X_flip": X_flip,
+                        "Y_flip": Y_flip,
+                        "section": section_context
                     }
                 )
 
@@ -405,49 +593,70 @@ class ZManager(ZCXComponent):
         except Exception as e:
             self.log(e)
 
-    def process_named_buttons(self, pad_section: PadSection):
+    def process_named_buttons(self, pad_section: PadSection, overlay: Optional[str] = None):
+        if overlay:
+            this_file = f"{overlay}.yaml"
+            path = f"overlays/{this_file}"
+        else:
+            this_file = f"named_controls.yaml"
+            path = this_file
         raw_config = self.yaml_loader.load_yaml(
-            f"{self._config_dir}/named_controls.yaml"
+            f"{self._config_dir}/{path}"
         )
-        if raw_config is None:
-            self.log(
-                "warning, named_controls.yaml appears to be empty"
-            )  # todo: change logging level
 
-        parsed_config = self.parse_named_button_config(pad_section, raw_config)
+        parsed_config = self.parse_named_button_config(pad_section, raw_config, False, this_file)
 
         hardware = self.__hardware_interface
 
         for button_name, button_def in parsed_config.items():
             try:
-                state: ZState.State = getattr(hardware, button_name)
-            except AttributeError:
-                raise CriticalConfigurationError(
-                    f'`named_controls.yaml` specifies control called `{button_name}` which does not exist.'
-                )
-            control = self.z_control_factory(button_def, pad_section, button_name)
-            control.bind_to_state(state)
-            control.setup()
-            self.__named_controls[button_name] = control
+                try:
+                    state: ZState.State = getattr(hardware, f'_button_{button_name}')
+                except AttributeError:
+                    raise CriticalConfigurationError(
+                        f'`{this_file}` specifies control called `{button_name}` which does not exist.'
+                    )
+                formatted_name = f'{button_name}{"" if not overlay else f"_{overlay}"}'
+                control = self.z_control_factory(button_def, pad_section, formatted_name)
+                control.bind_to_state(state)
+                control.setup()
+                self.__named_controls[formatted_name] = control
+            except CriticalConfigurationError as e:
+                raise
+            except Exception as e:
+                from . import STRICT_MODE
+                if STRICT_MODE:
+                    raise
+                self.error(e)
 
-        self.__named_controls_section = pad_section
+        if not overlay:
+            self.__named_controls_section = pad_section
+        else:
+            self.__overlay_sections[overlay] = pad_section
 
     def parse_named_button_config(
-            self, pad_section: PadSection, raw_config: dict, ignore_global_template=False
+            self, pad_section: PadSection, raw_config: dict, ignore_global_template=False, this_file=None
     ) -> dict:
+        working_control_name = None
+        working_control_def = None
         try:
+            if not isinstance(raw_config, dict):
+                raw_config = {}
+
             ungrouped_buttons = {}
             groups = {}
 
             # Separate grouped and ungrouped buttons
             for item_name, item_def in raw_config.items():
+                working_control_name = item_name
+                working_control_def = item_def
                 if item_name.startswith("__"):
                     if item_name in groups:
-                        raise ConfigurationError(f"Multiple definitions for {item_name}")
+                        raise ConfigurationError(f"Multiple definitions for {item_name} in {this_file}")
                     groups[item_name] = item_def
                 else:
                     if item_name in ungrouped_buttons:
-                        raise ConfigurationError(f"Multiple definitions for {item_name}")
+                        raise ConfigurationError(f"Multiple definitions for {item_name} in {this_file}")
                     ungrouped_buttons[item_name] = item_def
 
             global_template = self.__global_control_template
@@ -494,7 +703,7 @@ class ZManager(ZCXComponent):
                     template = control_templates.get(template_value)
                     if template is None:
                         raise ValueError(
-                            f'Specified non-existent template "{template_value}"'
+                            f'Specified non-existent template "{template_value}" in "{this_file}"'
                         )
                     result_config = deepcopy(template)
                 elif isinstance(template_value, list):
@@ -512,12 +721,12 @@ class ZManager(ZCXComponent):
                             template = control_templates.get(template_name)
                             if template is None:
                                 raise ValueError(
-                                    f'Specified non-existent template "{template_name}"'
+                                    f'Specified non-existent template "{template_name}" in "{this_file}"'
                                 )
                             result_config = merge_configs(result_config, deepcopy(template))
                 else:
                     raise ValueError(
-                        f'Invalid template value "{template_value}"'
+                        f'Invalid template value "{template_value}" in "{this_file}"'
                     )
 
                 # Merge with original config
@@ -527,7 +736,11 @@ class ZManager(ZCXComponent):
             # Process ungrouped buttons
             processed_ungrouped = {}
             for button_name, button_def in ungrouped_buttons.items():
+                working_control_name = button_name
+                working_control_def = button_def
                 config = deepcopy(button_def)
+                if config is None:
+                    config = {}
 
                 # Apply templates
                 skip_global = False
@@ -579,26 +792,31 @@ class ZManager(ZCXComponent):
                     processed_sub_buttons[sub_button] = merged_def
 
                 cleaned_group_name = group_name[2:]
+                group_count = len(processed_sub_buttons.values())
 
                 for i, (name, _def) in enumerate(processed_sub_buttons.items()):
-                    group_context = {"group_name": cleaned_group_name, "group_index": i}
+                    group_context = {"group_name": cleaned_group_name, "group_index": i, "group_Index": i+1, "group_count": group_count}
                     _def["group_context"] = group_context
                     processed_ungrouped[name] = _def
 
             return processed_ungrouped
 
         except Exception as e:
-            raise
+            raise CriticalConfigurationError(f"Bad definition for control `{working_control_name}` in `{this_file}`: "
+                                             f"\nControl definition: "
+                                             f"\n{working_control_def}\n"
+                                             f"\n{str(e)}") from e
 
     def z_control_factory(self, config, pad_section, button_name=None) -> ZControl:
         try:
-            control_type = config.get("type") or "basic"
-            control_cls = get_control_class(control_type)
+            control = None
+            control_type = config.get("type") or "standard"
+            try:
+                control_cls = get_control_class(control_type)
+            except ValueError:
+                raise CriticalConfigurationError(f"Error in pad section `{pad_section.name}`, no control type `{control_type}`")
 
             self.debug(f'creating control:', config)
-
-            if control_cls is None:
-                raise ValueError(f"Control class for type '{control_type}' not found")
 
             control = control_cls(self.canonical_parent, pad_section, config, button_name)
             if "group_context" in config:
@@ -607,26 +825,114 @@ class ZManager(ZCXComponent):
                         control, config["group_context"]["group_name"]
                     )
 
-            alias = config.get("alias", None)
-            if alias is not None:
-                self.set_control_alias(alias, control)
-
         except ConfigurationError as e:
-            from . import SAFE_MODE
+            from . import STRICT_MODE
 
-            if SAFE_MODE is True:
-                raise
-            self.log(e)
-            return get_control_class("basic")(self.canonical_parent, pad_section, {})
+            name = f"`{button_name}`" if button_name is not None else f"in section {pad_section.name}"
+
+            if STRICT_MODE is True:
+                raise CriticalConfigurationError(f"Bad definition for control {name}: "
+                                                 f"\nControl definition: "
+                                                 f"\n{config}\n"
+                                                 f"\n{str(e)}") from e
+            else:
+                self.critical(
+                    f"Bad definition for control {name}: "
+                    f"\nControl definition: "
+                    f"\n{config}\n"
+                    f"\n{str(e)}")
+
+                self.critical(f"As strict mode is disabled, this failed control has been replaced with a blank control")
+                control = get_control_class("standard")(self.canonical_parent, pad_section, {"color": 0}, button_name)
+
+        self.__all_controls.append(control)
 
         return control
 
     def set_control_alias(self, alias, control):
         if alias in self.__control_aliases:
-            raise ConfigurationError(f'multiple controls with alias "{alias}"')
+            raise ConfigurationError(f'multiple controls with alias `{alias}`.')
         if alias in self.__named_controls:
-            raise ConfigurationError(f'Canonical control already exists called "{alias}". You cannot use this name.')
+            raise ConfigurationError(f'Canonical control already exists called `{alias}`. You cannot use this name.')
         self.__control_aliases[alias] = control
 
-    def get_aliased_control(self, alias):
+    def get_aliased_control(self, alias) -> "ZControl | None":
         return self.__control_aliases.get(alias)
+
+    def song_ready(self):
+        """
+        Some controls rely on objects that are not ready when the control is created,
+        so we iterate over every control and call necessary methods based on the control's class
+        """
+        selected_device_watcher = SelectedDeviceWatcher(self, self._song)
+        ParamControl.selected_device_watcher = selected_device_watcher
+        for control in self.__all_controls:
+            try:
+                if isinstance(control, ParamControl):
+                    control.bind_to_active()
+                    self._param_controls.append(control)
+                if isinstance(control, KeyboardControl):
+                    control.finish_setup()
+                if isinstance(control, OverlayControl):
+                    control.finish_setup()
+            except Exception as e:
+                from . import STRICT_MODE
+                msg = f"Error finishing control setup in section `{control.parent_section.name}` control `{control.name}`"
+                if STRICT_MODE:
+                    self.critical(msg)
+                    self.critical(e)
+                    raise e
+                else:
+                    self.error(msg)
+                    self.error(e)
+
+    def load_overlay_definitions(self):
+
+        try:
+            general_def = self.yaml_loader.load_yaml(f"{self._config_dir}/overlays.yaml")
+        except FileNotFoundError as e:
+            self.warning(f"No file called `{self._config_dir}/overlays.yaml`")
+            return {}, {}
+        if general_def is None:
+            self.warning(f"`overlays.yaml` is empty")
+            return {}, {}
+
+        overlay_defs: dict[str, dict] = {}
+
+        overlays_obj = general_def.get("overlays")
+        overlay_names = list(overlays_obj.keys())
+        for i, name in enumerate(overlay_names):
+            lower_name = name.lower()
+            if lower_name != name:
+                self.warning(f"Overlay `{name}` was renamed to `{lower_name}")
+                overlay_names[i] = lower_name
+
+        if overlays_obj is None:
+            self.warning(f"Key `overlays` in `overlays.yaml` is missing")
+            return {}, {}
+        elif not isinstance(overlays_obj, dict):
+            raise CriticalConfigurationError(f"Key `overlays` in `overlays.yaml` must be a dict:\n{overlays_obj}")
+        elif len(overlay_names) == 0:
+            self.warning(f"Dict `overlays` in `overlays.yaml` is empty")
+            return {}, {}
+
+        for overlay_name in overlay_names:
+            try:
+                obj = self.yaml_loader.load_yaml(f"{self._config_dir}/overlays/{overlay_name.lower()}.yaml")
+                if obj is None:
+                    self.warning(f"File `{self._config_dir}/overlays/{overlay_name}.yaml is empty")
+                    overlay_defs[overlay_name] = {}
+                elif not isinstance(obj, dict):
+                    raise CriticalConfigurationError(f"File `{self._config_dir}/overlays/{overlay_name}.yaml must be a dict (is `{obj.__class__.__name__}`):\n{obj}")
+            except FileNotFoundError as e:
+                raise CriticalConfigurationError(f"`overlays.yaml` specifies overlay name `{overlay_name}` but missing file `{self._config_dir}/overlays/{overlay_name}.yaml`")
+            overlay_defs[overlay_name] = obj
+
+        return general_def, overlay_defs
+
+    def register_special_section_object(self, pad_section: PadSection, name: str):
+        self.__matrix_sections[name] = pad_section
+
+    def refresh_all_bindings(self):
+        for control in self._param_controls:
+            control.refresh_binding()

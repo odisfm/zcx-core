@@ -1,0 +1,34 @@
+-
+  pad_group: session_mute
+  type: param
+  binding: RING(${me.group_index}) / SEL
+  on_color: white
+  off_color: dark_grey
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+
+-
+  pad_group: session_custom
+  color: purple
+  gestures:
+    press: >
+      "${ring.tracks[me.x]}" / COLOR %RND1-70%
+    release: >
+      you can edit this section in `_config/matrix_sections/session_controls.yaml`
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+

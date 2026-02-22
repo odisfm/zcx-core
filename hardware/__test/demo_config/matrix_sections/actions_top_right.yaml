@@ -1,0 +1,117 @@
+#row 1
+#col 1
+- color: orange
+  gestures:
+    pressed:
+      msg: You can edit this section in `_config/matrix_sections/actions_top_right.yaml`
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 2
+#col 1
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 3
+#col 1
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#row 4
+#col 1
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 2
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 3
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:
+#col 4
+- color: dark_grey
+  gestures:
+    pressed:
+    # pressed_delayed:
+    # released_immediately:
+    # double_clicked:

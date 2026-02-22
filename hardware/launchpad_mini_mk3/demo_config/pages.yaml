@@ -2,16 +2,13 @@ pages:
   home_page:
     - actions_left
     - actions_right
-    - nav_quadrant
-    - actions_main
-  track_page:
-    - track_control
-    - nav_quadrant
-    - actions_main
+    - nav
+    - actions_small
+    - ring_tracks
+  session_view_page:
+    - select_control
+    - nav
+    - __session_view
+    - ring_tracks
   blank_page:
     - blank_section
-
-order:
-  - home_page
-  - track_page
-  - blank_page

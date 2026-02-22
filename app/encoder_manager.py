@@ -1,4 +1,5 @@
 import copy
+from typing import Optional
 
 from ableton.v3.base import EventObject, listens, listens_group, listenable_property
 
@@ -19,7 +20,7 @@ class EncoderManager(ZCXComponent):
     ):
         super().__init__(name=name, *a, **k)
 
-        self._encoders = {}
+        self._encoders: dict[str, ZEncoder] = {}
         self.__encoder_groups = {}
         self._selected_device_watcher = None
 
@@ -30,6 +31,14 @@ class EncoderManager(ZCXComponent):
         self.create_encoders()
         self.create_osc_watchers()
 
+    def _unload(self):
+        super()._unload()
+        for encoder in self._encoders.values():
+            encoder.unbind_control()
+            encoder.disconnect()
+        self._encoders: dict[str, ZEncoder] = {}
+        self.__encoder_groups = {}
+
     def bind_all_encoders(self):
         for enc_name, enc_obj in self._encoders.items():
             try:
@@ -39,47 +48,76 @@ class EncoderManager(ZCXComponent):
 
     def create_encoders(self):
         try:
-            encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
-        except FileNotFoundError:
-            encoder_config = {}
+            try:
+                encoder_config = self.yaml_loader.load_yaml(f'{self._config_dir}/encoders.yaml')
+            except FileNotFoundError:
+                encoder_config = {}
 
-        flat_config = self.flatten_encoder_config(encoder_config)
+            flat_config = self.flatten_encoder_config(encoder_config)
 
-        from . import PREF_MANAGER
-        user_prefs = PREF_MANAGER.user_prefs
-        ZEncoder._log_failed_bindings = user_prefs.get('log_failed_encoder_bindings', True)
+            from . import PREF_MANAGER
+            user_prefs = PREF_MANAGER.user_prefs
+            ZEncoder._log_failed_bindings = user_prefs.get('log_failed_encoder_bindings', True)
 
-        ZEncoder.mode_manager = self.canonical_parent.component_map['ModeManager']
-        ZEncoder.action_resolver = self.canonical_parent.component_map['ActionResolver']
-        ZEncoder.song = self.song
-        ZEncoder.session_ring = self.canonical_parent._session_ring_custom
+            ZEncoder.mode_manager = self.canonical_parent.component_map['ModeManager']
+            ZEncoder.action_resolver = self.canonical_parent.component_map['ActionResolver']
+            ZEncoder.song = self.song
+            ZEncoder.session_ring = self.canonical_parent._session_ring_custom
 
-        for encoder_name, encoder_def in flat_config.items():
+            undo_duration_def = user_prefs.get("encoder_undo_duration")
+            if undo_duration_def:
+                if (isinstance(undo_duration_def, float) or isinstance(undo_duration_def, int)) and undo_duration_def > 0:
+                    if undo_duration_def >= 1:
+                        self.warning(f"Very high value for preference `encoder_undo_duration`: ({undo_duration_def}).\nDefault is {ZEncoder.undo_duration}")
+                    ZEncoder.undo_duration = undo_duration_def
+                else:
+                    self.error(f'Invalid value for preference `encoder_undo_duration`: ({undo_duration_def}).\nUsing `{ZEncoder.undo_duration}`')
 
-            encoder_obj = ZEncoder(
-                self.canonical_parent,
-                encoder_def,
-                encoder_name,
-            )
+            for encoder_name, encoder_def in flat_config.items():
 
-            if encoder_name in self._encoders:
-                raise CriticalConfigurationError(f'Multiple definitions for encoder {encoder_name}'
-                                         f'\n{encoder_def}')
+                encoder_obj = ZEncoder(
+                    self.canonical_parent,
+                    encoder_def,
+                    encoder_name,
+                )
 
-            self._encoders[encoder_name] = encoder_obj
-            
-            if 'group_name' in encoder_def['context']:
-                    self.add_encoder_to_group(encoder_name, encoder_def['context']['group_name'])
+                if encoder_name in self._encoders:
+                    raise CriticalConfigurationError(f'Multiple definitions for encoder {encoder_name}'
+                                             f'\n{encoder_def}')
 
-        hw_interface = self.canonical_parent.component_map['HardwareInterface']
+                self._encoders[encoder_name] = encoder_obj
 
-        for encoder_name, encoder_obj in self._encoders.items():
-            state = getattr(hw_interface, encoder_name)
-            element = state._control_element
-            encoder_obj._control_element = element
-            encoder_obj._state = state
+                if 'group_name' in encoder_def['context']:
+                        self.add_encoder_to_group(encoder_name, encoder_def['context']['group_name'])
 
-            encoder_obj.setup()
+            hw_interface = self.canonical_parent.component_map['HardwareInterface']
+
+            for encoder_name, encoder_obj in self._encoders.items():
+                try:
+                    state = getattr(hw_interface, f'_encoder_{encoder_name}')
+                except AttributeError:
+                    raise CriticalConfigurationError(f"encoders.yaml refers to `{encoder_name}`, which is not the name of a control.")
+                element = state._control_element
+                encoder_obj._control_element = element
+                encoder_obj._state = state
+                element._z_encoder = encoder_obj
+
+                try:
+                    encoder_obj.setup()
+                except CriticalConfigurationError as e:
+                    raise
+                except Exception as e:
+                    from . import STRICT_MODE
+                    if STRICT_MODE:
+                        raise e
+                    else:
+                        self.error(f"Failed to setup encoder {encoder_name}. Encoder will be non-functional.", e)
+
+        except (ConfigurationError, CriticalConfigurationError) as e:
+            raise
+        except Exception as e:
+            raise CriticalConfigurationError(f'Critical error while creating encoders. Check encoders.yaml.'
+                                             f'\n{e.__class__.__name__}{e}')
 
     def flatten_encoder_config(self, raw_config) -> dict:
         self.debug(f'Flattening encoder config')
@@ -207,8 +245,15 @@ class EncoderManager(ZCXComponent):
             self.__encoder_groups[group_name].append(encoder)
         else:
             self.__encoder_groups[group_name] = [encoder]
-    
-    def get_encoder_group(self, group_name):
+
+    def get_encoder_group(self, group_name) -> Optional[ZEncoder]:
+        names = self.get_encoder_group_member_names(group_name)
+        _list = []
+        for name in names:
+            _list.append(self.get_encoder(name))
+        return _list or None
+
+    def get_encoder_group_member_names(self, group_name):
         if group_name in self.__encoder_groups:
             return self.__encoder_groups[group_name]
         else:
@@ -223,6 +268,10 @@ class EncoderManager(ZCXComponent):
             self.log(f'No encoder called {encoder_name}. Registered encoders are:\n'
                      f'{self._encoders.keys()}')
             return None
+
+    def refresh_all_bindings(self):
+        for encoder in self._encoders.values():
+            encoder.refresh_binding()
 
 
 class SelectedDeviceWatcher(EventObject):

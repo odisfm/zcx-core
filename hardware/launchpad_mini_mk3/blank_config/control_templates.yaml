@@ -1,0 +1,3 @@
+__global__:
+  color: 3
+  hold_color: play_green

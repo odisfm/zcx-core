@@ -15,8 +15,8 @@ class TemplateManager:
         self.__logger = self.root_cs._logger.getChild(self.__name)
         from .yaml_loader import yaml_loader
         self.__yaml_loader = yaml_loader
-        from . import CONFIG_DIR
-        self.__config_dir = CONFIG_DIR
+        from . import PREF_MANAGER
+        self.__config_dir = PREF_MANAGER.config_dir
         self.__color_templates = {}
         self.load_control_templates()
         self.__logger.debug(f'{self.__name} initialised')

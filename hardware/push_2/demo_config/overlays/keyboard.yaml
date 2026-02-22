@@ -1,0 +1,43 @@
+page_prev:
+  color: 0
+
+page_next:
+  color: 0
+
+octave_up:
+  type: keyboard
+  function: octave_up
+  gestures:
+    press:
+      keyboard:
+        octave:
+          up: 1
+
+octave_down:
+  type: keyboard
+  function: octave_down
+  gestures:
+    press:
+      keyboard:
+        octave:
+          down: 1
+
+repeat:
+  type: overlay
+  overlay: note_repeat
+  active_color:
+    blink: white
+  gestures:
+    press:
+      overlay:
+        toggle: note_repeat
+
+accent:
+  type: keyboard
+  function: full_velo
+  active_color: full
+  inactive_color: half
+  gestures:
+    press:
+      keyboard:
+        full_velo: toggle
