@@ -2,182 +2,306 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://zcxcore.com/0.6/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/docs/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/faq/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/help/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/dev/build/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/dev/contributing/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/dev/dependencies/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/dev/tests/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/lessons/blank-config/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/lessons/custom-banks/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/double_clicked/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/lessons/keyboard/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/osc-output/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/lessons/overlays-layers/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/porting/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/python-context/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/reloading-control-surfaces/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/reporting-bugs/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/session-ring/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/lessons/session-view/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/touch-osc/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/lessons/troubleshooting/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/upgrade/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/using-multiple-configs/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/lessons/why-live-12/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/lessons/zcx-user-action/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/color-reference/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/command-reference/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/building-a-config/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/encoder-reference/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/installation/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/template-reference/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/reading-zcx-configurations/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/zcx-concepts/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/encoders/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/matrix-sections/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/apc-40-mk2/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/modes/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/apc-mini-mk2/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/named_controls/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/launchpad-pro-mk3/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/pages/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/launchpad-x-mini-mk3/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/configuration-files/preferences/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/push-1/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/control-reference/mode/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/lessons/getting-started/demo-tour/push-2/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/control-reference/page/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/dynamic-encoders/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/control-reference/track/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/encoder-banks/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/control-reference/transport/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/fx-ramp/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/control-reference/z-control/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/note-repeat/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/hardware-reference/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/pad-faders/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/hardware-reference/apc-mini-mk2/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/page-changer/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
-         <loc>https://zcxcore.com/0.6/reference/hardware-reference/push-1/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <loc>https://zcxcore.com/0.6/recipes/percussive-parameter-control/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/recipes/screensaver/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/color/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/command/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/encoder/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/template/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/keyboard/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/mode/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/overlay/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/page/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/param/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/ring_track/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/standard/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/track/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/control/transport/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/custom_banks/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/encoders/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/matrix-sections/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/modes/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/named_controls/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/overlays/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/pages/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/file/preferences/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/apc-40-mk2/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/apc-mini-mk2/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/launchpad-pro-mk3/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/launchpad-x-mini-mk3/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/push-1/</loc>
+         <lastmod>2026-02-22</lastmod>
+    </url>
+    <url>
+         <loc>https://zcxcore.com/0.6/reference/hardware/push-2/</loc>
+         <lastmod>2026-02-22</lastmod>
     </url>
     <url>
          <loc>https://zcxcore.com/0.6/resources/matrix-gen/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/tutorials/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/tutorials/getting-started/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/tutorials/getting-started/editing-a-config/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/tutorials/getting-started/installation/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/tutorials/getting-started/reading-zcx-configurations/</loc>
-         <lastmod>2025-11-04</lastmod>
-    </url>
-    <url>
-         <loc>https://zcxcore.com/0.6/tutorials/getting-started/zcx-concepts/</loc>
-         <lastmod>2025-11-04</lastmod>
+         <lastmod>2026-02-22</lastmod>
     </url>
 </urlset>
