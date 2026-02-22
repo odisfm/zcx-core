@@ -18,6 +18,8 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     needs: build-docs
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -124,4 +126,4 @@ jobs:
           draft: false
           prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
