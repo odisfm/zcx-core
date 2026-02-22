@@ -223,6 +223,8 @@ class SessionRing(SessionRingBase):
             return
 
         selected_track = self.song.view.selected_track
+        if selected_track == self.song.master_track:
+            return
         selected_scene = self.song.view.selected_scene
         selected_scene_index = list(self.song.scenes).index(selected_scene)
 
