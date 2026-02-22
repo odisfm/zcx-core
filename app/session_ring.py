@@ -136,10 +136,13 @@ class SessionRing(SessionRingBase):
         if y < 0:
             y = max(y, -current_y)
 
-        if x + current_x >= self.track_count - self.__width:
-            x = self.track_count - self.__width - current_x
-        if y + current_y >= self.scene_count - self.__height:
-            y = self.scene_count - self.__height - current_y
+        max_x = max(0, self.track_count - self.__width)
+        max_y = max(0, self.scene_count - self.__height)
+
+        if current_x + x > max_x:
+            x = max_x - current_x
+        if current_y + y > max_y:
+            y = max_y - current_y
 
         super().move(x, y)
         new_x = self.track_offset
