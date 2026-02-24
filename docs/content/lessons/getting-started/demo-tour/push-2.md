@@ -136,7 +136,7 @@ From this page, you can also access two [overlays](../../overlays-layers.md):
 By pressing the `scales` button, you can toggle the `scales` overlay.
 This is similar to the scales interface from the Push factory script: 14 of the controls set the tonic of Live's [Scale Mode](https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ), which is reflected on the keyboard.
 These buttons are arranged in a Circle of Fifths pattern.
-An additional button toggles the keyboard's [in key status](../../keyboard.md#in-key--chromatic).
+An additional button toggles the keyboard's [in key status](../../keyboard.md#in-key-chromatic).
 
 When `scales` is active, the top two rows of the matrix will let you select one of sixteen scales.
 

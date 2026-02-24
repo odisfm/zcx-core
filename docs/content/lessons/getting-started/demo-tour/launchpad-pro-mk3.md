@@ -114,9 +114,9 @@ By long-pressing the `note` button, you can enable the `keyboard_notes` [overlay
 
 The first five buttons of the top row set the scale of Live's [Scale Mode](https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ), which is reflected on the keyboard.
 The next two buttons decrease or increase the tonic of Scale mode by one semitone.
-The last button toggles the keyboard's [in key status](../../keyboard.md#in-key--chromatic).
+The last button toggles the keyboard's [in key status](../../keyboard.md#in-key-chromatic).
 
-In the second row, the first seven buttons set the keyboard's [note repeat status](../../keyboard.md#in-key--chromatic), while the final button toggle's [full velocity mode](../../keyboard.md#full-velocity).
+In the second row, the first seven buttons set the keyboard's [note repeat status](../../keyboard.md#in-key-chromatic), while the final button toggle's [full velocity mode](../../keyboard.md#full-velocity).
 
 #### ring_devices_page
 

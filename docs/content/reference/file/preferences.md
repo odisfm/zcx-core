@@ -132,7 +132,7 @@ In some cases, it may be expected that bindings fail, so you may set this option
 log_file_max_size: 5
 ```
 
-Max size of [the log file](log.md) in megabytes.
+Max size of [the log file](../../lessons/troubleshooting.md#reading-logs) in megabytes.
 
 ### log_file_backups
 
@@ -140,7 +140,7 @@ Max size of [the log file](log.md) in megabytes.
 log_file_backups: 2
 ```
 
-Number of [log file backups](log.md#backups) to keep.
+Number of [log file](../../lessons/troubleshooting.md#reading-logs) backups to keep.
 
 ### log_level
 
@@ -219,7 +219,7 @@ strict_mode: true
 
 When loading your config with `strict_mode: false`, some errors that would normally be fatal are handled gracefully, and zcx attempts to continue loading.
 Such errors are normally the result of misconfiguring a single control or encoder.
-These errors will be written to [the log file](log.md).
+These errors will be written to [the log file](../../lessons/troubleshooting.md#reading-logs).
 
 With the default, `strict_mode: true`, an error with a single control will crash the script.
 This will be immediately obvious from the popup error message in Live, and the fact that your controller is not functional.
@@ -240,7 +240,7 @@ The following preferences are only useful when developing the 'core' of zcx.
 log_includes_tests: false
 ```
 
-When `true`, [log.txt](../file/log.md) includes the output of any [tests](../../dev/tests.md) or [user tests](../../dev/tests.md#user-tests).
+When `true`, [log.txt](../../lessons/troubleshooting.md#reading-logs) includes the output of any [tests](../../dev/tests.md) or [user tests](../../dev/tests.md#user-tests).
 Test output is written to `test_log.txt` in either case.
 
 ### refresh_on_all_sysex

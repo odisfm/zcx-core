@@ -4,7 +4,7 @@ Encoders in zcx can be mapped to a [variety of targets](../reference/encoder.md#
 By using [templating](../reference/template.md) we can define many targets at once.
 
 These examples will use the encoders `enc_1` through `enc_8` in a [group](../reference/template.md#encoder-groups).
-If you're not sure what names to use, check the [hardware reference](../reference/hardware).
+If you're not sure what names to use, check the [hardware reference](../reference/hardware/index.md).
 You may use a different number of encoders, but you may have to tweak some of the values.
 
 ## Controlling the selected device
