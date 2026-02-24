@@ -44,8 +44,6 @@ Many of the buttons in the bottom row below the matrix mimic the functionality o
 
 ### Matrix pages
 
-### Matrix pages
-
 #### home_page
 
 ##### actions
