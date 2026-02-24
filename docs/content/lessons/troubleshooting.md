@@ -11,7 +11,7 @@ This lesson explains some common issues you may face with zcx, and steps you can
 
 ## Reading logs
 
-zcx writes logs to two locations: [log.txt](../reference/file/log.md), located in your zcx folder, and Live's own log file.
+zcx writes logs to two locations: `log.txt`, located in your zcx folder, and Live's own log file.
 The zcx log file only contains messages pertaining to that particular zcx script, while Live's log features messages from Live, ClyphX Pro, and any zcx scripts.
 The zcx log file is helpful if you have multiple zcx scripts and/or a busy Live log, though some serious errors that prevent zcx from loading will only be written to Live's log, so check there if in doubt.
 
