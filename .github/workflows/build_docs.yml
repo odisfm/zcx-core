@@ -203,5 +203,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: offline-docs
-          path: zcx_docs_v${{ steps.get_version.outputs.version }}.zip
+          path: zcx_docs_${{ steps.get_version.outputs.version }}.zip
           retention-days: 1
