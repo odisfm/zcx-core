@@ -4,28 +4,43 @@ from pushbase.colors import (
 Basic,
 Rgb,
 BiLed,
-Pulse,
-Blink,
 RgbColor,
 Color,
 FallbackColor,
-TransparentColor
+TransparentColor,
+AnimatedColor
 )
 
 white = RgbColor(3)
 green = RgbColor(22)
-pulse_test = Pulse(white, green, 48)
 
-animation_speed_translation = [4, 48, 24, 8, 8]
+animation_speed_translation = [0, 1, 2, 3, 4]
 
 SINGLE_COLOR_PULSE = True
 REVERSE_BLINK_COLORS = True
 
+BLINK_CHANNELS = 15, 14, 13, 12, 11
+PULSE_CHANNELS = 10, 9, 8, 7
+
+class Blink(AnimatedColor):
+    def __init__(self, color1, color2, speed, *a, **k):
+        if speed > len(BLINK_CHANNELS):
+            speed = 0
+        channel2 = BLINK_CHANNELS[speed]
+        super(Blink, self).__init__(color1, color2, channel2, *a, **k)
+
+class Pulse(AnimatedColor):
+    def __init__(self, color1, color2, speed, *a, **k):
+        if speed > len(PULSE_CHANNELS):
+            speed = 0
+        channel2 = PULSE_CHANNELS[speed]
+        super(Pulse, self).__init__(color1, color2, channel2, *a, **k)
+
 def translate_speed(speed):
     if speed < 1 or speed >= len(animation_speed_translation):
         # raise ConfigurationError(f'Invalid speed: {speed}')
-        return 48
-    return animation_speed_translation[speed]
+        return 0
+    return speed
 
 class BasicColorSwatch:
 
@@ -116,17 +131,17 @@ class RgbColorSwatch(object):
     BLACK = OFF
 
     GREEN_HALF = GREEN.shade(1)
-    GREEN_BLINK_SLOW = Blink(GREEN, OFF, 48)
-    GREEN_BLINK_FAST = Blink(GREEN, OFF, 12)
+    GREEN_BLINK_SLOW = Blink(GREEN, OFF, 1)
+    GREEN_BLINK_FAST = Blink(GREEN, OFF, 2)
     RED_HALF = RED.shade(1)
-    RED_BLINK_SLOW = Blink(RED, OFF, 48)
-    RED_BLINK_FAST = Blink(RED.shade(1), OFF, 12)
-    YELLOW_HALF = Blink(YELLOW.shade(1))
-    YELLOW_BLINK_SLOW = Blink(YELLOW, OFF, 48)
-    YELLOW_BLINK_FAST = Blink(YELLOW, OFF, 12)
+    RED_BLINK_SLOW = Blink(RED, OFF, 1)
+    RED_BLINK_FAST = Blink(RED.shade(1), OFF, 2)
+    YELLOW_HALF = YELLOW.shade(1)
+    YELLOW_BLINK_SLOW = Blink(YELLOW, OFF, 1)
+    YELLOW_BLINK_FAST = Blink(YELLOW, OFF, 2)
     AMBER_HALF = AMBER.shade(1)
-    AMBER_BLINK_SLOW = Blink(AMBER, OFF, 48)
-    AMBER_BLINK_FAST = Blink(AMBER, OFF, 12)
+    AMBER_BLINK_SLOW = Blink(AMBER, OFF, 1)
+    AMBER_BLINK_FAST = Blink(AMBER, OFF, 2)
     HALF = ON.shade(1)
     HALF_BLINK_SLOW = RED_BLINK_SLOW
     HALF_BLINK_FAST = RED_BLINK_FAST
@@ -137,7 +152,7 @@ class RgbColorSwatch(object):
     PAGE_ACTIVE = AMBER
     PAGE_INACTIVE = GREY
     PAGE_DISABLED = DARK_GREY
-    ERROR = Blink(RED, OFF, 6)
+    ERROR = Blink(RED, OFF, 1)
 
     ARM_RED = RgbColor(7)
 
