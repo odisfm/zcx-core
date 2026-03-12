@@ -91,7 +91,7 @@ To sync these animations with Live's tempo, you must enable `Sync` on the MIDI o
 The available animations are `pulse` and `blink`.
 `pulse` blends between the two colors, while `blink` quickly alternates between them.
 
-For each animation type, you must define an `a` and `b` color, and optionally a `speed` between 1-5 (slowest to fastest).
+For each animation type, you must define an `a` and `b` color, and optionally a `speed` between 0-4 (slowest to fastest).
 You may omit the `speed` option to accept the default of 1.
 
 ```yaml
