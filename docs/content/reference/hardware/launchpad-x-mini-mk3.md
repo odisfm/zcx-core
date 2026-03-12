@@ -6,6 +6,8 @@ title: Launchpad X / Launchpad Mini mk3
 
 When defining [pulse colors](../color.md#animated-colors), only the `a` value is used.
 
+Only one speed is supported for animated colors, so any `speed` option will be ignored.
+
 ## control names
 
 ### buttons
