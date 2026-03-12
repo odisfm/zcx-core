@@ -94,6 +94,11 @@ The available animations are `pulse` and `blink`.
 For each animation type, you must define an `a` and `b` color, and optionally a `speed` between 0-4 (slowest to fastest).
 You may omit the `speed` option to accept the default of 1.
 
+!!! warning ""
+
+    Not every speed is avaialble on every controller, and some controllers have only one speed.
+    See the [hardware reference](hardware/index.md) for details.
+
 ```yaml
 my_control:
   color:
