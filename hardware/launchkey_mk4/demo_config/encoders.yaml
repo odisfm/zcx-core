@@ -1,0 +1,61 @@
+__faders:
+  includes: [fader_1, fader_2, fader_3, fader_4, fader_5, fader_6, fader_7, fader_8]
+  binding:
+    default: NONE
+    __fb_1: >
+      RING(${me.index}) / VOL
+    __fb_2: NONE
+    __fb_5: NONE
+    __fb_6: NONE
+    __fb_7: NONE
+    __fb_8: NONE
+  encoders:
+    fader_1:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_2:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_3:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_4:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_5:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_6:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_7:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+    fader_8:
+      binding:
+        __fb_3: NONE
+        __fb_4: NONE
+
+fader_9:
+  binding: MST / VOL
+
+__encoders:
+  includes: [enc_1, enc_2, enc_3, enc_4, enc_5, enc_6, enc_7, enc_8]
+  sensitivity: 4.0
+  binding:
+    default: NONE
+    __eb_1: >
+      SEL / DEV(SEL) B1 P${me.Index}
+    __eb_2: >
+      SEL / DEV(SEL) B2 P${me.Index}
+    __shift__eb_1: >
+      RING(${me.index}) / PAN
+    __shift__eb_2: >
+      RING(${me.index}) / PAN

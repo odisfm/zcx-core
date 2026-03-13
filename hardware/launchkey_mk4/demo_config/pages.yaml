@@ -1,0 +1,7 @@
+pages:
+  home_page:
+    - actions_main
+  device_control:
+    - device
+  session_view:
+    - __session_view

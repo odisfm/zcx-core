@@ -1,0 +1,7 @@
+__global__:
+  color: 119
+  hold_color: white
+  on_color: 119
+  off_color: 1
+  active_color: 119
+  inactive_color: 1

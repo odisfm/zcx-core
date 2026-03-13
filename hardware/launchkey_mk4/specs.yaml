@@ -1,0 +1,35 @@
+hardware_name: launchkey_4961_mk4
+
+global_midi_channel: 0
+
+button_matrix:
+  msg_type: note
+  raw_identifiers:
+    [
+      [96, 97, 98, 99, 100, 101, 102, 103],
+      [112, 113, 114, 115, 116, 117, 118, 119]
+    ]
+  feedback: rgb
+  momentary: true
+  width: 8
+  playable: true
+
+cc_buttons:
+  channel: 0
+  momentary: true
+  feedback: basic
+
+note_buttons:
+  channel: 0
+  momentary: true
+  feedback: rgb
+
+encoders:
+  channel: 15
+  sensitivity: 2.0
+  mode: RELATIVE_SMOOTH_BINARY_OFFSET
+
+preferences:
+  session_ring:
+    width: 8
+    height: 2

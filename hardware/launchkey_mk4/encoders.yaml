@@ -1,0 +1,59 @@
+fader_1:
+  cc: 5
+  mode: ABSOLUTE
+
+fader_2:
+  cc: 6
+  mode: ABSOLUTE
+
+fader_3:
+  cc: 7
+  mode: ABSOLUTE
+
+fader_4:
+  cc: 8
+  mode: ABSOLUTE
+
+fader_5:
+  cc: 9
+  mode: ABSOLUTE
+
+fader_6:
+  cc: 10
+  mode: ABSOLUTE
+
+fader_7:
+  cc: 11
+  mode: ABSOLUTE
+
+fader_8:
+  cc: 12
+  mode: ABSOLUTE
+
+fader_9:
+  cc: 13
+  mode: ABSOLUTE
+
+enc_1:
+  cc: 85
+
+enc_2:
+  cc: 86
+
+enc_3:
+  cc: 87
+
+enc_4:
+  cc: 88
+
+enc_5:
+  cc: 89
+
+enc_6:
+  cc: 90
+
+enc_7:
+  cc: 91
+
+enc_8:
+  cc: 92
