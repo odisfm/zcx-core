@@ -16,6 +16,7 @@ from .bank_definitions import get_banked_parameter
 from .parse_target_path import parse_target_path
 from .util import is_chain_map_positional
 from .consts import SENDS_COUNT
+from .command_encoder import CommandEncoder
 
 ENCODER_UNDO_REFRESH = 2.0
 
@@ -45,6 +46,7 @@ class ZEncoder(EventObject):
         self._default_map = None
         self._mapped_parameter = None
         self._mapped_track = None
+        self._mapped_command = None
         self._concerned_modes = []
         self._current_mode_string = ""
         self._binding_dict = {}
@@ -112,11 +114,14 @@ class ZEncoder(EventObject):
         all_zcx_modes = self.mode_manager.all_modes
 
         for binding_mode, binding_def in bindings.items():
+            command_encoder_def = None
             if isinstance(binding_def, str):
                 binding_params = {}
             elif isinstance(binding_def, dict):
                 binding_params = copy.deepcopy(binding_def)
-                if "target" in binding_params:
+                if "command" in binding_def:
+                    command_encoder_def = binding_def["command"]
+                elif "target" in binding_params:
                     binding_def = binding_params["target"]
                     del binding_params["target"]
                 else:
@@ -139,26 +144,36 @@ class ZEncoder(EventObject):
             these_modes.sort()
             sorted_mode_string = "__".join(these_modes)
 
-            binding_def = binding_def.rstrip('\n')
+            if not command_encoder_def:
+                binding_def = binding_def.rstrip('\n')
 
-            parsed_target_string, status = self.action_resolver.compile(
-                binding_def,
-                self._vars,
-                self._context,
-            )
-
-            if status != 0:
-                raise ConfigurationError(
-                    f"Error creating encoder `{self._name}`. Binding `{sorted_mode_string}` contains unparseable template string:"
-                    f"\n{binding_def}"
+                parsed_target_string, status = self.action_resolver.compile(
+                    binding_def,
+                    self._vars,
+                    self._context,
                 )
 
-            target_map = parse_target_path(parsed_target_string)
+                if status != 0:
+                    raise ConfigurationError(
+                        f"Error creating encoder `{self._name}`. Binding `{sorted_mode_string}` contains unparseable template string:"
+                        f"\n{binding_def}"
+                    )
 
-            if target_map["error"] is not None:
-                raise ConfigurationError(target_map["error"])
+                target_map = parse_target_path(parsed_target_string)
 
-            binding_dict[sorted_mode_string] = target_map
+                if target_map["error"] is not None:
+                    raise ConfigurationError(target_map["error"])
+
+                binding_dict[sorted_mode_string] = target_map
+            else:
+                try:
+                    command_encoder_obj = CommandEncoder(self, command_encoder_def, sorted_mode_string)
+                    binding_dict[sorted_mode_string] = command_encoder_obj
+
+                except e:
+                    self.critical(f"Error creating command encoder for `{self._name}` mode `{sorted_mode_string}`:")
+                    self.critical(f"{e.__class__.__name__}: {e}")
+                    raise
 
         if "default" in binding_dict:
             self._default_map = binding_dict["default"]
@@ -166,7 +181,11 @@ class ZEncoder(EventObject):
         concerned_modes.sort()
         self._concerned_modes = concerned_modes
         self._binding_dict = binding_dict
-        self._active_map = self._default_map
+
+        if type(self._default_map) == CommandEncoder:
+            self._mapped_command = self._default_map
+        else:
+            self._active_map = self._default_map
 
     @property
     def mapped_parameter(self):
@@ -192,6 +211,8 @@ class ZEncoder(EventObject):
 
         try:
             try:
+                if self._mapped_command is not None:
+                    return True
                 if self._active_map is None:
                     map_success = False
                 else:
@@ -592,8 +613,14 @@ class ZEncoder(EventObject):
 
     def rebind_from_dict(self, lookup_key: str):
         target_map = self._binding_dict.get(lookup_key or "default")
-        self._active_map = target_map
-        self.bind_to_active()
+        if type(target_map) is not CommandEncoder:
+            self._active_map = target_map
+            self._mapped_command = None
+            self.bind_to_active()
+        else:
+            self._active_map = target_map
+            self.unbind_control()
+            self._mapped_command = target_map
 
     def refresh_binding(self):
         self.rebind_from_dict(self._current_mode_string)
@@ -788,11 +815,14 @@ class ZEncoder(EventObject):
         return current_search_obj
 
     def _on_element_value(self, value):
-        if self._undo_step_timer.is_running:
-            self._undo_step_timer._reset_timer()
+        if self._mapped_command:
+            self._mapped_command._receive_value(value)
         else:
-            self.song.begin_undo_step()
-            self._undo_step_timer.restart()
+            if self._undo_step_timer.is_running:
+                self._undo_step_timer._reset_timer()
+            else:
+                self.song.begin_undo_step()
+                self._undo_step_timer.restart()
 
     def _undo_timer_finished(self):
         self.song.end_undo_step()
