@@ -1,0 +1,175 @@
+__fader_buttons:
+  includes: [fb_1, fb_2, fb_3, fb_4, fb_5, fb_6, fb_7, fb_8]
+  type: mode
+  active_color: white
+  inactive_color: purple
+  mode: fb_${me.Index}
+  gestures:
+    press:
+      mode_on: fb_${me.Index}
+
+# fb_1:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_2:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_3:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_4:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_5:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_6:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_7:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+# fb_8:
+#   gestures:
+#     short_press: DUMMY
+#     long_press: DUMMY
+
+fb_9:
+  type: param
+  binding: SEL / ARM
+  off_color: white
+  on_color: red
+
+track_left:
+  repeat: true
+  gestures:
+    press: LEFT
+    press__shift: DEVLEFT
+    long_press__shift: DEVFIRST
+
+track_right:
+  repeat: true
+  gestures:
+    press: RIGHT
+    press__shift: DEVRIGHT
+    long_press__shift: DEVLAST
+
+pad_bank_up:
+  gestures:
+    press:
+      page: prev
+    press__shift:
+      ring: up 1
+
+pad_bank_down:
+  gestures:
+    press:
+      page: next
+    press__shift:
+      ring: down 1
+
+scene_launch:
+  gestures:
+    press: >
+      SCENE ${ring.scenes[1]}
+
+function:
+  type: mode
+  mode: shift
+  active_color: purple
+  inactive_color: white
+  gestures:
+    press:
+      mode_on: shift
+    release:
+      mode_off: shift
+
+play:
+  type: transport
+  transport: play
+  gestures:
+    press: SETPLAY
+
+stop:
+  type: param
+  binding: SEL / STOP
+
+loop:
+  type: transport
+  transport: loop
+  gestures:
+    press: LOOP
+
+record:
+  type: transport
+  transport: record
+  gestures:
+    press: SREC
+
+metronome:
+  type: transport
+  transport: metronome
+  gestures:
+    press: METRO
+
+capture:
+  gestures:
+    press: CAP
+
+quantize:
+  gestures:
+    short_press:
+      CLIP QNTZ 1/16 50
+    long_press:
+      CLIP QNTZ 1/16 100
+
+undo:
+  gestures:
+    press: UNDO
+    press__shift: REDO
+
+# enc_bank_up and enc_bank_down only on full-size versions
+
+enc_bank_up:
+  type: mode
+  mode: eb_1
+  gestures:
+    press:
+      mode_on: eb_1
+
+enc_bank_down:
+  type: mode
+  mode: eb_2
+  gestures:
+    press:
+      mode_on: eb_2
+
+# enc_bank_up_m and enc_bank_down_m only on mini-size versions
+
+enc_bank_up_m:
+  type: mode
+  mode: eb_1
+  gestures:
+    press:
+      mode_on: eb_1
+
+enc_bank_down_m:
+  type: mode
+  mode: eb_2
+  gestures:
+    press:
+      mode_on: eb_2

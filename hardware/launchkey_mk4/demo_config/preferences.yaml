@@ -1,0 +1,16 @@
+exclusive_modes:
+  - [fb_1, fb_2, fb_3, fb_4, fb_5, fb_6, fb_7, fb_8]
+  - [eb_1, eb_2]
+
+startup_command:
+  - mode_on: fb_1
+  - mode_on: eb_1
+
+session_ring:
+  width: 8
+  height: 2
+  drag_by_highlight: always
+
+plugins:
+  launchkey_mk4:
+    mini: false # set this to `true` if using Mini 25 or Mini 37 model

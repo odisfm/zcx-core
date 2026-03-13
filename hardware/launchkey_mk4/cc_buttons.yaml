@@ -1,0 +1,101 @@
+track_left:
+  cc: 103
+
+track_right:
+  cc: 102
+
+pad_bank_up:
+  cc: 106
+  feedback: rgb
+
+enc_bank_up:
+  cc: 51
+
+enc_bank_down:
+  cc: 52
+
+enc_bank_up_m:
+  cc: 55
+
+enc_bank_down_m:
+  cc: 56
+
+pad_bank_down:
+  cc: 107
+  feedback: rgb
+
+scene_launch:
+  cc: 104
+  feedback: rgb
+
+function:
+  cc: 105
+  feedback: rgb
+
+capture:
+  cc: 74
+  feedback: rgb
+
+quantize:
+  cc: 75
+  feedback: rgb
+
+undo:
+  cc: 77
+  feedback: rgb
+
+metronome:
+  cc: 76
+  feedback: rgb
+
+stop:
+  cc: 116
+  feedback: rgb
+
+loop:
+  cc: 118
+  feedback: rgb
+
+play:
+  cc: 115
+  feedback: rgb
+
+record:
+  cc: 117
+  feedback: rgb
+
+fb_1:
+  cc: 37
+  feedback: rgb
+
+fb_2:
+  cc: 38
+  feedback: rgb
+
+fb_3:
+  cc: 39
+  feedback: rgb
+
+fb_4:
+  cc: 40
+  feedback: rgb
+
+fb_5:
+  cc: 41
+  feedback: rgb
+
+fb_6:
+  cc: 42
+  feedback: rgb
+
+fb_7:
+  cc: 43
+  feedback: rgb
+
+fb_8:
+  cc: 44
+  feedback: rgb
+
+fb_9:
+  cc: 45
+  feedback: rgb

@@ -1,0 +1,35 @@
+- pad_group: device_select
+  type: param
+  binding: SEL / DEV(${me.group_Index}) SEL
+  on_color: purple
+  off_color: grey
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+- pad_group: parameters
+  type: param
+  binding:
+    __eb_1: >
+      DEV(SEL) B1 P${me.group_Index}
+    __eb_2: >
+      DEV(SEL) B2 P${me.group_Index}
+  on_color: lime
+  off_color: green shade
+  gestures:
+    long_release:
+      do_toggle: true
+  controls:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
