@@ -622,6 +622,7 @@ class ZEncoder(EventObject):
             self._active_map = target_map
             self.unbind_control()
             self._mapped_command = target_map
+            self._mapped_parameter = None
 
     def refresh_binding(self):
         self.rebind_from_dict(self._current_mode_string)
