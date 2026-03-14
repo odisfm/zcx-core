@@ -53,6 +53,7 @@ class ZEncoder(EventObject):
         self._active_map = {}
         self._unbind_on_fail = True
         self._prefer_left = True
+        self._last_received_value = None
         self.modes_changed.subject = self.mode_manager
         self._undo_step_timer = UndoStepTask(self, duration=self.undo_duration)
         self._undo_step_timer.kill()
@@ -815,6 +816,7 @@ class ZEncoder(EventObject):
         return current_search_obj
 
     def _on_element_value(self, value):
+        self._last_received_value = value
         if self._mapped_command:
             self._mapped_command._receive_value(value)
         else:
@@ -823,6 +825,11 @@ class ZEncoder(EventObject):
             else:
                 self.song.begin_undo_step()
                 self._undo_step_timer.restart()
+        self.notify_received_value()
+
+    @listenable_property
+    def received_value(self):
+        return self._last_received_value
 
     def _undo_timer_finished(self):
         self.song.end_undo_step()
