@@ -27,10 +27,25 @@ class CommandEncoder(EventObject):
         else:
             self._steps_threshold = DEFAULT_COMMAND_ENC_STEPS
 
+        self.__label = None
+        if "label" in self._raw_config:
+            label_def = self._raw_config["label"]
+            if isinstance(label_def, str) and "${" in label_def:
+                parsed, status = self._encoder_obj.root_cs.component_map["ActionResolver"].compile(label_def, self._encoder_obj._vars, self._encoder_obj._context)
+                if not status == 0:
+                    self.log(f"Unparseable label `{label_def}`", level="error")
+                else:
+                    label_def = parsed
+            self.__label = label_def
+
     def log(self, *msgs, level="info"):
         log_func = getattr(self._encoder_obj._logger, level)
         for msg in msgs:
             log_func(f'({self._encoder_obj._name}__{self._mode_string}) {msg}')
+
+    @property
+    def label(self):
+        return self.__label
 
     def _receive_value(self, value: int):
         normalized_value = self._normalize_value(value)
