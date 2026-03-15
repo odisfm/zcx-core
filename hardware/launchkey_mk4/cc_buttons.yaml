@@ -4,6 +4,12 @@ track_left:
 track_right:
   cc: 102
 
+track_left_m:
+  cc: 115
+
+track_right_m:
+  cc: 117
+
 pad_bank_up:
   cc: 106
   feedback: rgb

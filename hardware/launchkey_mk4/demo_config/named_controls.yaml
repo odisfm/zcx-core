@@ -54,20 +54,6 @@ fb_9:
   off_color: white
   on_color: red
 
-track_left:
-  repeat: true
-  gestures:
-    press: LEFT
-    press__shift: DEVLEFT
-    long_press__shift: DEVFIRST
-
-track_right:
-  repeat: true
-  gestures:
-    press: RIGHT
-    press__shift: DEVRIGHT
-    long_press__shift: DEVLAST
-
 pad_bank_up:
   gestures:
     press:
@@ -142,7 +128,7 @@ undo:
     press: UNDO
     press__shift: REDO
 
-# enc_bank_up and enc_bank_down only on full-size versions
+# only on 49/61 key versions
 
 enc_bank_up:
   type: mode
@@ -158,7 +144,21 @@ enc_bank_down:
     press:
       mode_on: eb_2
 
-# enc_bank_up_m and enc_bank_down_m only on mini-size versions
+track_left:
+  repeat: true
+  gestures:
+    press: LEFT
+    press__shift: DEVLEFT
+    long_press__shift: DEVFIRST
+
+track_right:
+  repeat: true
+  gestures:
+    press: RIGHT
+    press__shift: DEVRIGHT
+    long_press__shift: DEVLAST
+
+# only on 25/37 key versions
 
 enc_bank_up_m:
   type: mode
