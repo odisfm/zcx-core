@@ -14,3 +14,4 @@ session_ring:
 plugins:
   launchkey_mk4:
     mini: false # set this to `true` if using Mini 25 or Mini 37 model
+    follow_key: true

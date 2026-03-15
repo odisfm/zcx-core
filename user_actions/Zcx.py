@@ -303,6 +303,14 @@ class Zcx(UserActionsBase):
                             context={}
                         )
 
+            elif sub_action == 'lk': # launchkey mk4
+                try:
+                    lk_plugin = target_script.root_cs.component_map["launchkey_mk4"]
+                except KeyError:
+                    raise RuntimeError(f"Target script `{target_script.name}` does not have plugin `launchkey_mk4`.")
+
+                lk_plugin.launchkey_user_action(action_def, args)
+
             else:
                 raise ValueError(f'Unknown action `{sub_action}`')
         except Exception as e:
