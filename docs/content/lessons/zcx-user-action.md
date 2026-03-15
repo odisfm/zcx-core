@@ -124,7 +124,7 @@ Control settings related to the [keyboard view](keyboard.md#melodic-settings).
 
 #### MSG
 
-**Only on [Push 1](../reference/hardware/push-1.md)**
+**Only on [Push 1](../reference/hardware/push-1.md) and [Launchkey mk4](../reference/hardware/launchkey-mk4.md)**
 
 Write a message to the controller's display. The message must be enclosed in double-quotes.
 
