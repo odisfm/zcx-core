@@ -6,32 +6,32 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Check out this advanced zcx configuration and learn how it works.">
+        <meta name="description" content="Learn about any quirks, plugins, or limitations for your MIDI controller with zcx.">
       
       
       
-        <link rel="canonical" href="https://zcxcore.com/preview/recipes/note-repeat/">
+        <link rel="canonical" href="https://zcxcore.com/preview/reference/hardware/launchkey-mk4/">
       
       
-        <link rel="prev" href="../fx-ramp/">
+        <link rel="prev" href="../apc-mini-mk2/">
       
       
-        <link rel="next" href="../pad-faders/">
+        <link rel="next" href="../launchpad-pro-mk3/">
       
       
-      <link rel="icon" href="../../favicon.png">
+      <link rel="icon" href="../../../favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
     
     
       
-        <title>Note repeat overlay - zcx core</title>
+        <title>Launchkey mk4 - zcx core</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.e53b48f4.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -45,22 +45,22 @@
         
         
         
-        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.3917e8cf.css">
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.3917e8cf.css">
         <style>:root{--md-text-font:"DM Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="../../css/timeago.css">
+      <link rel="stylesheet" href="../../../css/timeago.css">
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
 
 
-  <script defer src="../../assets/external/cloud.umami.is/script.js" data-website-id="d0ff3ffb-3bfa-4428-8927-b0e4a0b0071e" data-domains="zcxcore.com"></script>
+  <script defer src="../../../assets/external/cloud.umami.is/script.js" data-website-id="d0ff3ffb-3bfa-4428-8927-b0e4a0b0071e" data-domains="zcxcore.com"></script>
   
     <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
   
@@ -70,11 +70,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Note repeat overlay - zcx core" >
+        <meta  property="og:title"  content="Launchkey mk4 - zcx core" >
       
-        <meta  property="og:description"  content="Check out this advanced zcx configuration and learn how it works." >
+        <meta  property="og:description"  content="Learn about any quirks, plugins, or limitations for your MIDI controller with zcx." >
       
-        <meta  property="og:image"  content="https://zcxcore.com/preview/assets/images/social/recipes/note-repeat.png" >
+        <meta  property="og:image"  content="https://zcxcore.com/preview/assets/images/social/reference/hardware/launchkey-mk4.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -82,15 +82,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://zcxcore.com/preview/recipes/note-repeat/" >
+        <meta  property="og:url"  content="https://zcxcore.com/preview/reference/hardware/launchkey-mk4/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Note repeat overlay - zcx core" >
+        <meta  name="twitter:title"  content="Launchkey mk4 - zcx core" >
       
-        <meta  name="twitter:description"  content="Check out this advanced zcx configuration and learn how it works." >
+        <meta  name="twitter:description"  content="Learn about any quirks, plugins, or limitations for your MIDI controller with zcx." >
       
-        <meta  name="twitter:image"  content="https://zcxcore.com/preview/assets/images/social/recipes/note-repeat.png" >
+        <meta  name="twitter:image"  content="https://zcxcore.com/preview/assets/images/social/reference/hardware/launchkey-mk4.png" >
       
     
     
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#note-repeat-overlay" class="md-skip">
+        <a href="#note-on-different-launchkey-mk4-versions" class="md-skip">
           Skip to content
         </a>
       
@@ -124,26 +124,6 @@
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
         
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-<div class="outdated-text-wrapper">
-    <div>
-        <span>You're not viewing the latest version.</span>
-        <a href="../../..">
-            <strong>Click here to go to latest.</strong>
-        </a>
-    </div>
-    <button aria-label="Dismiss this warning for one month">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-</div>
-
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
-        
       </div>
     
     
@@ -151,7 +131,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="zcx core" class="md-header__button md-logo" aria-label="zcx core" data-md-component="logo">
+    <a href="../../.." title="zcx core" class="md-header__button md-logo" aria-label="zcx core" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8"?>
@@ -181,7 +161,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Note repeat overlay
+              Launchkey mk4
             
           </span>
         </div>
@@ -292,7 +272,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -311,7 +291,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../docs/" class="md-tabs__link">
+      <a href="../../../docs/" class="md-tabs__link">
         
   
   
@@ -330,7 +310,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../faq/" class="md-tabs__link">
+      <a href="../../../faq/" class="md-tabs__link">
         
   
   
@@ -351,7 +331,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../lessons/getting-started/" class="md-tabs__link">
+        <a href="../../../lessons/getting-started/" class="md-tabs__link">
           
   
   
@@ -369,11 +349,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../reference/command/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../command/" class="md-tabs__link">
           
   
   
@@ -395,7 +377,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../lessons/troubleshooting/" class="md-tabs__link">
+        <a href="../../../lessons/troubleshooting/" class="md-tabs__link">
           
   
   
@@ -417,7 +399,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../resources/matrix-gen/" class="md-tabs__link">
+        <a href="../../../resources/matrix-gen/" class="md-tabs__link">
           
   
   
@@ -435,8 +417,6 @@
   
   
   
-    
-  
   
     
     
@@ -444,13 +424,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../page-changer/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../recipes/page-changer/" class="md-tabs__link">
           
   
   
@@ -475,7 +453,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../dev/build/" class="md-tabs__link">
+        <a href="../../../dev/build/" class="md-tabs__link">
           
   
   
@@ -519,6 +497,8 @@
           
             
               
+                
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -530,7 +510,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="zcx core" class="md-nav__button md-logo" aria-label="zcx core" data-md-component="logo">
+    <a href="../../.." title="zcx core" class="md-nav__button md-logo" aria-label="zcx core" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8"?>
@@ -570,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -592,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/" class="md-nav__link">
+      <a href="../../../docs/" class="md-nav__link">
         
   
   
@@ -614,7 +594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../faq/" class="md-nav__link">
+      <a href="../../../faq/" class="md-nav__link">
         
   
   
@@ -669,7 +649,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../lessons/getting-started/" class="md-nav__link ">
+            <a href="../../../lessons/getting-started/" class="md-nav__link ">
               
   
   
@@ -704,7 +684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/installation/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/installation/" class="md-nav__link">
         
   
   
@@ -727,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/reading-zcx-configurations/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/reading-zcx-configurations/" class="md-nav__link">
         
   
   
@@ -750,7 +730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/zcx-concepts/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/zcx-concepts/" class="md-nav__link">
         
   
   
@@ -773,7 +753,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/building-a-config/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/building-a-config/" class="md-nav__link">
         
   
   
@@ -831,7 +811,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../lessons/getting-started/demo-tour/" class="md-nav__link ">
+            <a href="../../../lessons/getting-started/demo-tour/" class="md-nav__link ">
               
   
   
@@ -866,7 +846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/apc-40-mk2/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/demo-tour/apc-40-mk2/" class="md-nav__link">
         
   
   
@@ -889,7 +869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/apc-mini-mk2/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/demo-tour/apc-mini-mk2/" class="md-nav__link">
         
   
   
@@ -912,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/launchpad-pro-mk3/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/demo-tour/launchpad-pro-mk3/" class="md-nav__link">
         
   
   
@@ -935,7 +915,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/launchpad-x-mini-mk3/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/demo-tour/launchpad-x-mini-mk3/" class="md-nav__link">
         
   
   
@@ -958,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/push-1/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/demo-tour/push-1/" class="md-nav__link">
         
   
   
@@ -981,7 +961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/getting-started/demo-tour/push-2/" class="md-nav__link">
+      <a href="../../../lessons/getting-started/demo-tour/push-2/" class="md-nav__link">
         
   
   
@@ -1016,8 +996,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1039,19 +1021,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -1064,7 +1049,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             reference
@@ -1078,7 +1063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/command/" class="md-nav__link">
+      <a href="../../command/" class="md-nav__link">
         
   
   
@@ -1101,7 +1086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/template/" class="md-nav__link">
+      <a href="../../template/" class="md-nav__link">
         
   
   
@@ -1124,7 +1109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/color/" class="md-nav__link">
+      <a href="../../color/" class="md-nav__link">
         
   
   
@@ -1147,7 +1132,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/encoder/" class="md-nav__link">
+      <a href="../../encoder/" class="md-nav__link">
         
   
   
@@ -1200,10 +1185,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1211,7 +1199,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../reference/control/" class="md-nav__link ">
+            <a href="../../control/" class="md-nav__link ">
               
   
   
@@ -1224,7 +1212,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1246,7 +1234,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/standard/" class="md-nav__link">
+      <a href="../../control/standard/" class="md-nav__link">
         
   
   
@@ -1269,7 +1257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/param/" class="md-nav__link">
+      <a href="../../control/param/" class="md-nav__link">
         
   
   
@@ -1292,7 +1280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/page/" class="md-nav__link">
+      <a href="../../control/page/" class="md-nav__link">
         
   
   
@@ -1315,7 +1303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/mode/" class="md-nav__link">
+      <a href="../../control/mode/" class="md-nav__link">
         
   
   
@@ -1338,7 +1326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/overlay/" class="md-nav__link">
+      <a href="../../control/overlay/" class="md-nav__link">
         
   
   
@@ -1361,7 +1349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/transport/" class="md-nav__link">
+      <a href="../../control/transport/" class="md-nav__link">
         
   
   
@@ -1384,7 +1372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/track/" class="md-nav__link">
+      <a href="../../control/track/" class="md-nav__link">
         
   
   
@@ -1407,7 +1395,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/ring_track/" class="md-nav__link">
+      <a href="../../control/ring_track/" class="md-nav__link">
         
   
   
@@ -1430,7 +1418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/control/keyboard/" class="md-nav__link">
+      <a href="../../control/keyboard/" class="md-nav__link">
         
   
   
@@ -1489,10 +1477,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -1500,7 +1491,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../reference/file/" class="md-nav__link ">
+            <a href="../../file/" class="md-nav__link ">
               
   
   
@@ -1513,7 +1504,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1535,7 +1526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/preferences/" class="md-nav__link">
+      <a href="../../file/preferences/" class="md-nav__link">
         
   
   
@@ -1558,7 +1549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/custom_banks/" class="md-nav__link">
+      <a href="../../file/custom_banks/" class="md-nav__link">
         
   
   
@@ -1581,7 +1572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/encoders/" class="md-nav__link">
+      <a href="../../file/encoders/" class="md-nav__link">
         
   
   
@@ -1604,7 +1595,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/matrix-sections/" class="md-nav__link">
+      <a href="../../file/matrix-sections/" class="md-nav__link">
         
   
   
@@ -1627,7 +1618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/modes/" class="md-nav__link">
+      <a href="../../file/modes/" class="md-nav__link">
         
   
   
@@ -1650,7 +1641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/named_controls/" class="md-nav__link">
+      <a href="../../file/named_controls/" class="md-nav__link">
         
   
   
@@ -1673,7 +1664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/overlays/" class="md-nav__link">
+      <a href="../../file/overlays/" class="md-nav__link">
         
   
   
@@ -1696,7 +1687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/file/pages/" class="md-nav__link">
+      <a href="../../file/pages/" class="md-nav__link">
         
   
   
@@ -1724,6 +1715,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1753,18 +1746,21 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../reference/hardware/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1777,13 +1773,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_7">
             <span class="md-nav__icon md-icon"></span>
             hardware reference
@@ -1799,7 +1795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/hardware/apc-40-mk2/" class="md-nav__link">
+      <a href="../apc-40-mk2/" class="md-nav__link">
         
   
   
@@ -1822,7 +1818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/hardware/apc-mini-mk2/" class="md-nav__link">
+      <a href="../apc-mini-mk2/" class="md-nav__link">
         
   
   
@@ -1842,10 +1838,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../reference/hardware/launchkey-mk4/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Launchkey mk4
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1856,6 +1872,438 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#note-on-different-launchkey-mk4-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Note on different Launchkey mk4 versions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#launchkey-mk4-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Launchkey mk4 plugin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Launchkey mk4 plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preferences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preferences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mini" class="md-nav__link">
+    <span class="md-ellipsis">
+      mini
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#follow_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      follow_key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      control names
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="control names">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      buttons
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unmappable-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      unmappable controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      encoders
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      User action
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set layouts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Set layouts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pad-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pad layouts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoder layouts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fader-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fader layouts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#midi-and-zone-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      MIDI and zone settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MIDI and zone settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#midi-channel-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      MIDI channel settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zone-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zone settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      Split position
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arpeggiator-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arpeggiator settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arpeggiator settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable/disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#octave" class="md-nav__link">
+    <span class="md-ellipsis">
+      Octave
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Latch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mutate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mutate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Velocity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scale settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scale settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable/Disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      Behaviour
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#root-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root note
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scale type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chord-map-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chord map settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chord map settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable/disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adventure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adventure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roll" class="md-nav__link">
+    <span class="md-ellipsis">
+      Roll
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shift
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1868,7 +2316,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/hardware/launchpad-pro-mk3/" class="md-nav__link">
+      <a href="../launchpad-pro-mk3/" class="md-nav__link">
         
   
   
@@ -1891,7 +2339,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/hardware/launchpad-x-mini-mk3/" class="md-nav__link">
+      <a href="../launchpad-x-mini-mk3/" class="md-nav__link">
         
   
   
@@ -1914,7 +2362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/hardware/push-1/" class="md-nav__link">
+      <a href="../push-1/" class="md-nav__link">
         
   
   
@@ -1937,7 +2385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/hardware/push-2/" class="md-nav__link">
+      <a href="../push-2/" class="md-nav__link">
         
   
   
@@ -2032,7 +2480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/troubleshooting/" class="md-nav__link">
+      <a href="../../../lessons/troubleshooting/" class="md-nav__link">
         
   
   
@@ -2055,7 +2503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/reloading-control-surfaces/" class="md-nav__link">
+      <a href="../../../lessons/reloading-control-surfaces/" class="md-nav__link">
         
   
   
@@ -2078,7 +2526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/reporting-bugs/" class="md-nav__link">
+      <a href="../../../lessons/reporting-bugs/" class="md-nav__link">
         
   
   
@@ -2101,7 +2549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/upgrade/" class="md-nav__link">
+      <a href="../../../lessons/upgrade/" class="md-nav__link">
         
   
   
@@ -2185,7 +2633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/zcx-user-action/" class="md-nav__link">
+      <a href="../../../lessons/zcx-user-action/" class="md-nav__link">
         
   
   
@@ -2208,7 +2656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/session-ring/" class="md-nav__link">
+      <a href="../../../lessons/session-ring/" class="md-nav__link">
         
   
   
@@ -2231,7 +2679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/session-view/" class="md-nav__link">
+      <a href="../../../lessons/session-view/" class="md-nav__link">
         
   
   
@@ -2254,7 +2702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/keyboard/" class="md-nav__link">
+      <a href="../../../lessons/keyboard/" class="md-nav__link">
         
   
   
@@ -2277,7 +2725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/overlays-layers/" class="md-nav__link">
+      <a href="../../../lessons/overlays-layers/" class="md-nav__link">
         
   
   
@@ -2300,7 +2748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/osc-output/" class="md-nav__link">
+      <a href="../../../lessons/osc-output/" class="md-nav__link">
         
   
   
@@ -2323,7 +2771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/using-multiple-configs/" class="md-nav__link">
+      <a href="../../../lessons/using-multiple-configs/" class="md-nav__link">
         
   
   
@@ -2346,7 +2794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/custom-banks/" class="md-nav__link">
+      <a href="../../../lessons/custom-banks/" class="md-nav__link">
         
   
   
@@ -2432,7 +2880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/blank-config/" class="md-nav__link">
+      <a href="../../../lessons/blank-config/" class="md-nav__link">
         
   
   
@@ -2455,7 +2903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/double_clicked/" class="md-nav__link">
+      <a href="../../../lessons/double_clicked/" class="md-nav__link">
         
   
   
@@ -2478,7 +2926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/porting/" class="md-nav__link">
+      <a href="../../../lessons/porting/" class="md-nav__link">
         
   
   
@@ -2501,7 +2949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/python-context/" class="md-nav__link">
+      <a href="../../../lessons/python-context/" class="md-nav__link">
         
   
   
@@ -2524,7 +2972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lessons/touch-osc/" class="md-nav__link">
+      <a href="../../../lessons/touch-osc/" class="md-nav__link">
         
   
   
@@ -2609,7 +3057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../resources/matrix-gen/" class="md-nav__link">
+      <a href="../../../resources/matrix-gen/" class="md-nav__link">
         
   
   
@@ -2636,10 +3084,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -2661,22 +3107,19 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -2689,7 +3132,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             recipes
@@ -2715,20 +3158,17 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
         
           
-          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="">
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
             
   
   
@@ -2755,7 +3195,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../page-changer/" class="md-nav__link">
+      <a href="../../../recipes/page-changer/" class="md-nav__link">
         
   
   
@@ -2778,7 +3218,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dynamic-encoders/" class="md-nav__link">
+      <a href="../../../recipes/dynamic-encoders/" class="md-nav__link">
         
   
   
@@ -2809,7 +3249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encoder-banks/" class="md-nav__link">
+      <a href="../../../recipes/encoder-banks/" class="md-nav__link">
         
   
   
@@ -2832,7 +3272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../fx-ramp/" class="md-nav__link">
+      <a href="../../../recipes/fx-ramp/" class="md-nav__link">
         
   
   
@@ -2852,32 +3292,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Note repeat overlay
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../recipes/note-repeat/" class="md-nav__link">
         
   
   
@@ -2888,44 +3306,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Instructions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#final-output" class="md-nav__link">
-    <span class="md-ellipsis">
-      Final output
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2938,7 +3318,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pad-faders/" class="md-nav__link">
+      <a href="../../../recipes/pad-faders/" class="md-nav__link">
         
   
   
@@ -2961,7 +3341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../percussive-parameter-control/" class="md-nav__link">
+      <a href="../../../recipes/percussive-parameter-control/" class="md-nav__link">
         
   
   
@@ -2984,7 +3364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../screensaver/" class="md-nav__link">
+      <a href="../../../recipes/screensaver/" class="md-nav__link">
         
   
   
@@ -3067,7 +3447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/build/" class="md-nav__link">
+      <a href="../../../dev/build/" class="md-nav__link">
         
   
   
@@ -3090,7 +3470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/contributing/" class="md-nav__link">
+      <a href="../../../dev/contributing/" class="md-nav__link">
         
   
   
@@ -3113,7 +3493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/dependencies/" class="md-nav__link">
+      <a href="../../../dev/dependencies/" class="md-nav__link">
         
   
   
@@ -3136,7 +3516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/tests/" class="md-nav__link">
+      <a href="../../../dev/tests/" class="md-nav__link">
         
   
   
@@ -3189,6 +3569,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -3198,8 +3580,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -3208,20 +3588,416 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#instructions" class="md-nav__link">
+  <a href="#note-on-different-launchkey-mk4-versions" class="md-nav__link">
     <span class="md-ellipsis">
-      Instructions
+      Note on different Launchkey mk4 versions
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#final-output" class="md-nav__link">
+  <a href="#launchkey-mk4-plugin" class="md-nav__link">
     <span class="md-ellipsis">
-      Final output
+      Launchkey mk4 plugin
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Launchkey mk4 plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preferences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preferences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mini" class="md-nav__link">
+    <span class="md-ellipsis">
+      mini
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#follow_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      follow_key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      control names
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="control names">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      buttons
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unmappable-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      unmappable controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      encoders
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      User action
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set layouts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Set layouts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pad-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pad layouts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoder layouts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fader-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fader layouts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#midi-and-zone-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      MIDI and zone settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MIDI and zone settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#midi-channel-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      MIDI channel settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zone-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zone settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split-position" class="md-nav__link">
+    <span class="md-ellipsis">
+      Split position
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arpeggiator-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arpeggiator settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arpeggiator settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable/disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#octave" class="md-nav__link">
+    <span class="md-ellipsis">
+      Octave
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Latch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mutate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mutate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Velocity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scale settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scale settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable/Disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      Behaviour
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#root-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root note
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scale type
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chord-map-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chord map settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chord map settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabledisable_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable/disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adventure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adventure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roll" class="md-nav__link">
+    <span class="md-ellipsis">
+      Roll
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shift
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3237,153 +4013,216 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-                  
+<h1>Launchkey mk4</h1>
 
 
-  
-  
+  This page contains details specific to the Launchkey mk4.
 
 
-<h1 id="note-repeat-overlay">Note repeat overlay<a class="headerlink" href="#note-repeat-overlay" title="Permanent link">&para;</a></h1>
-<p>Let's recreate the note repeat feature on the Ableton Push, where after pushing the <code>Repeat</code> button we can use the scene buttons to change the keyboard's repeat rate.</p>
-<h2 id="instructions">Instructions<a class="headerlink" href="#instructions" title="Permanent link">&para;</a></h2>
-<p>First, create the necessary <a href="../../lessons/overlays-layers/#overlays">overlay</a>.
-Call it <code>note_repeat</code> and leave it as an empty object:</p>
-<div class="language-yaml highlight"><span class="filename">overlays.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">overlays</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">note_repeat</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-</span></code></pre></div>
-<p>Now create the file <code>overlays/note_repeat.yaml</code>.
-We'll use the buttons <code>scene_1</code> through <code>scene_8</code> in a <a href="../../reference/template/#group-templates">group</a>:</p>
-<div class="language-yaml highlight"><span class="filename">overlays/note_repeat.yaml</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">__repeat_group</span><span class="p">:</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p p-Indicator">[</span><span class="nv">scene_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_8</span><span class="p p-Indicator">]</span>
-</span></code></pre></div>
-<p>We'll also set up a control to <a href="../../lessons/overlays-layers/#enabling-overlays">activate the overlay</a>:</p>
-<div class="language-yaml highlight"><span class="filename">named_controls.yaml</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">repeat</span><span class="p">:</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overlay</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">overlay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">note_repeat</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">overlay</span><span class="p">:</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nt">toggle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">note_repeat</span>
-</span></code></pre></div>
-<p>Setting <code>type: overlay</code> isn't necessary, it's just for <a href="../../reference/control/overlay/">LED feedback</a>.</p>
-<p><br></p>
-<p>By using the <a href="../../reference/control/keyboard/">keyboard control</a> we can get feedback about the zcx keyboard's note repeat setting.
-We need to set the keyboard control's <a href="../../reference/control/keyboard/#function">function</a> option to <code>repeat_rate: 1/4</code>, or whichever rate.
-This is tedious to do for eight controls, so we will use <a href="../../reference/template/#template-strings">template strings</a> and <a href="../../reference/template/#complex-expressions">vars</a> to automate it somewhat:</p>
-<div class="language-yaml highlight"><span class="filename">overlays/note_repeat.yaml</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">__repeat_group</span><span class="p">:</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p p-Indicator">[</span><span class="nv">scene_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_8</span><span class="p p-Indicator">]</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">repeat_rates</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;1/32t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/32&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/16t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/16&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/8t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/8&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/4t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/4&quot;</span><span class="p p-Indicator">]</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="hll"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keyboard</span>
-</span></span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="hll"><span class="w">  </span><span class="nt">function</span><span class="p">:</span>
-</span></span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="hll"><span class="w">    </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${repeat_rates[me.index]}</span>
-</span></span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="nt">keyboard</span><span class="p">:</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="hll"><span class="w">        </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${repeat_rates[me.index]}</span>
-</span></span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>These particular repeat rates are chosen because they are printed on the Push's buttons.
-You may use as many buttons and any <a href="../../lessons/keyboard/#note-repeat">repeat rates</a> you like.</p>
+<div class="admonition tip">
+<p>Trying to understand the demo config that came with your download? See the <a href="../../../lessons/getting-started/demo-tour/launchkey-mk4">demo tour</a>.</p>
 </div>
-<p><br></p>
-<p>The overlay is now functional!
-But we can make it a bit cooler:</p>
-<div class="language-yaml highlight"><span class="filename">overlays.yaml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">overlays</span><span class="p">:</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">note_repeat</span><span class="p">:</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="hll"><span class="w">    </span><span class="nt">on_enter</span><span class="p">:</span>
-</span></span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="hll"><span class="w">      </span><span class="nt">keyboard</span><span class="p">:</span>
-</span></span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="hll"><span class="w">        </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on</span>
-</span></span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="hll"><span class="w">    </span><span class="nt">on_leave</span><span class="p">:</span>
-</span></span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="hll"><span class="w">      </span><span class="nt">keyboard</span><span class="p">:</span>
-</span></span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="hll"><span class="w">        </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">off</span>
-</span></span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="hll"><span class="w">    </span><span class="nt">pages_out</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span></span></code></pre></div>
-<p>By setting an <a href="../../lessons/overlays-layers/#on_enter-on_leave">on_enter and on_leave</a> command, we can have the repeat turn on and off with the overlay.
-The <a href="../../lessons/overlays-layers/#pages_in-pages_out">pages_out</a> option means that if the <a href="../../lessons/getting-started/zcx-concepts/#pages">page</a> changes while the overlay is active, the overlay is automatically dismissed.</p>
-<h2 id="final-output">Final output<a class="headerlink" href="#final-output" title="Permanent link">&para;</a></h2>
-<div class="language-yaml highlight"><span class="filename">overlays.yaml</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">overlays</span><span class="p">:</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">note_repeat</span><span class="p">:</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">on_enter</span><span class="p">:</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="nt">keyboard</span><span class="p">:</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">on_leave</span><span class="p">:</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">      </span><span class="nt">keyboard</span><span class="p">:</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">        </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">off</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">pages_out</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<h2 id="note-on-different-launchkey-mk4-versions">Note on different Launchkey mk4 versions<a class="headerlink" href="#note-on-different-launchkey-mk4-versions" title="Permanent link">&para;</a></h2>
+<p>Launchkey mk4 is available in 25, 37, 49, and 61-key versions, with the 25 and 37-key also available in a "mini" form factor.
+All versions use the same <a href="https://github.com/odisfm/zcx-core/releases/latest">release</a>, with only a few differences:</p>
+<ul>
+<li>Mini version only:<ul>
+<li>You must configure the <a href="#launchkey-mk4-plugin">Launchkey mk4 plugin</a> with <code>mini: true</code> to enable display output</li>
+<li><strong>Note:</strong> this is not necessary for the full-size 25 and 37-key versions</li>
+</ul>
+</li>
+<li>Differences in named controls:<ul>
+<li>On 49 and 61-key models, you must use the names <code>enc_bank_down</code> and <code>enc_bank_up</code> for the controls next to the encoders, while on smaller models you must use the names <code>enc_bank_down_m</code> and <code>enc_bank_up_m</code>.</li>
+<li>On 49 and 61-key models, you must use the names <code>track_left</code> and <code>track_right</code> for the buttons labeled ❮ and ❯, while on smaller models you must use the names <code>track_left_m</code> and <code>track_right_m</code>.</li>
+<li>You may delete the unused definitions from <a href="../../file/named_controls/">named_controls.yaml</a>. </li>
+</ul>
+</li>
+<li>Only 49 and 61-key models feature faders and their associated buttons. On smaller models, you may delete the definitions for <code>fb_1</code> through <code>fb_9</code> from <a href="../../file/named_controls/">named_controls.yaml</a>, and <code>fader_1</code> through <code>fader_9</code> from <a href="../../file/encoders/">encoders.yaml</a>.</li>
+</ul>
+<h2 id="launchkey-mk4-plugin">Launchkey mk4 plugin<a class="headerlink" href="#launchkey-mk4-plugin" title="Permanent link">&para;</a></h2>
+<p>zcx for Launchkey mk4 ships with a plugin to enable display output, as well as some miscellaneous features including <a href="#user-action">controlling the Launchkey from the zcx user action</a>.</p>
+<p>The plugin can be configured via <a href="../../file/preferences/#plugins">preferences.yaml</a>.</p>
+<h3 id="preferences">Preferences<a class="headerlink" href="#preferences" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><span class="filename">preferences.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">plugins</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">launchkey_mk4</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">mini</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"> </span><span class="c1"># set this to `true` if using Mini 25 or Mini 37 model</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">follow_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span></code></pre></div>
-<div class="language-yaml highlight"><span class="filename">named_controls.yaml</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">repeat</span><span class="p">:</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overlay</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">overlay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">note_repeat</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="nt">overlay</span><span class="p">:</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="nt">toggle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">note_repeat</span>
-</span></code></pre></div>
-<div class="language-yaml highlight"><span class="filename">overlays/note_repeat.yaml</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">__repeat_group</span><span class="p">:</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="p p-Indicator">[</span><span class="nv">scene_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">scene_8</span><span class="p p-Indicator">]</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">repeat_rates</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;1/32t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/32&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/16t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/16&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/8t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/8&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/4t&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1/4&quot;</span><span class="p p-Indicator">]</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keyboard</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">function</span><span class="p">:</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${repeat_rates[me.index]}</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="nt">gestures</span><span class="p">:</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">press</span><span class="p">:</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">      </span><span class="nt">keyboard</span><span class="p">:</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">        </span><span class="nt">repeat_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${repeat_rates[me.index]}</span>
-</span></code></pre></div>
+<h3 id="mini">mini<a class="headerlink" href="#mini" title="Permanent link">&para;</a></h3>
+<p>Set to <code>true</code> for Mini 25 and Mini 37 models to enable display output.</p>
+<h3 id="follow_key">follow_key<a class="headerlink" href="#follow_key" title="Permanent link">&para;</a></h3>
+<p>When <code>true</code>, the tonic and scale type of Launchkey's <a href="https://userguides.novationmusic.com/hc/en-gb/articles/27613113249554-Using-the-Launchkey-s-built-in-features#UUID-2eac012a-1238-ce63-06a8-d89f7444fd80">scale mode</a> will follow <a href="https://help.ableton.com/hc/en-us/articles/11425083250972-Keys-and-Scales-in-Live-12-FAQ">Live's key</a>, as long as Live's scale type is also available on Launchkey.</p>
+<h2 id="control-names">control names<a class="headerlink" href="#control-names" title="Permanent link">&para;</a></h2>
+<h3 id="buttons">buttons<a class="headerlink" href="#buttons" title="Permanent link">&para;</a></h3>
+<p>These are the names you must use in <a href="../../../lessons/getting-started/zcx-concepts/#named-controls-and-matrix-controls">named_controls.yaml</a></p>
+<ul>
+<li><code>pad_bank_up</code>, <code>pad_bank_down</code> - The buttons left of the pads labeled ˄ and ˅</li>
+<li><code>scene_launch</code> - The button right of the pads labeled ❯</li>
+<li><code>function</code> - The button labeled <code>function</code></li>
+<li><code>capture</code> - The button labeled <code>capture MIDI</code></li>
+<li><code>undo</code> - The button labeled <code>undo</code></li>
+<li><code>quantize</code> - The button labeled <code>quantise</code></li>
+<li><code>metronome</code> - The button labeled <code>metronome</code></li>
+<li><code>stop</code> - The button labeled ⏹</li>
+<li><code>play</code> - The button labeled ▶</li>
+<li><code>record</code> - The button labeled ⏺</li>
+<li><code>loop</code> - The button labeled ⟳</li>
+</ul>
+<p><strong>25 and 37-key only (including mini):</strong></p>
+<ul>
+<li><code>enc_bank_up_m</code>, <code>enc_bank_down_m</code> - The buttons next to the encoders labeled ˄ and ˅</li>
+<li><code>track_left_m</code>, <code>track_right_m</code> - The buttons labeled ❮ and ❯</li>
+</ul>
+<p><strong>48 and 61-key only:</strong></p>
+<ul>
+<li><code>enc_bank_up</code>, <code>enc_bank_down</code> - The buttons next to the encoders labeled ˄ and ˅</li>
+<li><code>track_left</code>, <code>track_right</code> - The buttons labeled ❮ and ❯</li>
+<li><code>fb_1</code> through <code>fb_9</code> - The nine buttons below the faders</li>
+</ul>
+<h3 id="unmappable-controls">unmappable controls<a class="headerlink" href="#unmappable-controls" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The buttons labelled <code>shift</code>, <code>settings</code>, <code>scale</code>, <code>chord map</code>, <code>arp</code>, <code>fixed chord</code>, and the octave up/down buttons</li>
+<li>The keybed</li>
+<li>The pitch/modulation wheels</li>
+</ul>
+<p>These controls will all perform their normal functions.</p>
+<h3 id="encoders">encoders<a class="headerlink" href="#encoders" title="Permanent link">&para;</a></h3>
+<p>These are the names you must use in <a href="../../encoder/">encoders.yaml</a></p>
+<ul>
+<li><code>fader_1</code> through <code>fader_9</code> - The nine faders</li>
+<li><code>enc_1</code> through <code>enc_8</code> - The eight encoders</li>
+</ul>
+<h2 id="user-action">User action<a class="headerlink" href="#user-action" title="Permanent link">&para;</a></h2>
+<p>With Launchkey mk4, a variety of special functions are available via the <a href="../../../lessons/zcx-user-action/">zcx user action</a>.
+To use these actions, <a href="../../../lessons/zcx-user-action/#targeting-a-script">target your Launchkey as normal</a>.</p>
+<p>All these functions should be prefixed with <code>LK</code>, e.g. </p>
+<p><code>ZCX &lt;target script&gt; LK &lt;command&gt; &lt;subcommand&gt; &lt;arguments&gt;</code></p>
+<h3 id="set-layouts">Set layouts<a class="headerlink" href="#set-layouts" title="Permanent link">&para;</a></h3>
+<p>These actions can be used to set the layouts of Launchkey's pads, encoders, and faders.</p>
+<p><strong>Note:</strong> changing these modes will leave these controls unusable by zcx; you will need to change back to <code>zcx</code> mode to control zcx again.</p>
+<h4 id="pad-layouts">Pad layouts<a class="headerlink" href="#pad-layouts" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK LAYOUT PAD &lt;pad layout&gt;</code></p>
+<p>Where <code>&lt;pad layout&gt;</code> is one of:</p>
+<ul>
+<li><code>zcx</code> or <code>daw</code></li>
+<li><code>drum</code></li>
+<li><code>chords</code></li>
+<li><code>cm1</code> through <code>cm4</code> (custom modes 1-4)</li>
+<li><code>arp</code></li>
+<li><code>chord_map</code></li>
+</ul>
+<h4 id="encoder-layouts">Encoder layouts<a class="headerlink" href="#encoder-layouts" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK LAYOUT ENC &lt;encoder layout&gt;</code></p>
+<p>Where <code>&lt;encoder layout&gt;</code> is one of:</p>
+<ul>
+<li><code>zcx</code> or <code>transport</code></li>
+<li><code>cm1</code> through <code>cm4</code> (custom modes 1-4)</li>
+<li><code>mixer</code>, <code>plugin</code>, and <code>sends</code> (these should generally not be used)</li>
+</ul>
+<h4 id="fader-layouts">Fader layouts<a class="headerlink" href="#fader-layouts" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK LAYOUT FADER &lt;fader layout&gt;</code></p>
+<p>Where <code>&lt;fader layout&gt;</code> is one of:</p>
+<ul>
+<li><code>zcx</code> or <code>volume</code></li>
+<li><code>cm1</code> through <code>cm4</code> (custom modes 1-4)</li>
+</ul>
+<h3 id="midi-and-zone-settings">MIDI and zone settings<a class="headerlink" href="#midi-and-zone-settings" title="Permanent link">&para;</a></h3>
+<h4 id="midi-channel-settings">MIDI channel settings<a class="headerlink" href="#midi-channel-settings" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK MIDICH &lt;feature&gt; &lt;channel&gt;</code></p>
+<p>Where <code>&lt;channel&gt;</code> is a number from 1-16 and <code>&lt;feature&gt;</code> is one of:</p>
+<ul>
+<li><code>a</code> - Split A channel (or global keybed channel for versions without split)</li>
+<li><code>b</code> - Split B channel</li>
+<li><code>chord</code> - chords channel</li>
+<li><code>drum</code> - drums channel</li>
+</ul>
+<h4 id="zone-settings">Zone settings<a class="headerlink" href="#zone-settings" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ZONE &lt;option&gt;</code></p>
+<p>Where <code>&lt;option&gt;</code> is one of:</p>
+<ul>
+<li><code>a</code></li>
+<li><code>b</code></li>
+<li><code>split</code></li>
+<li><code>layer</code></li>
+</ul>
+<h4 id="split-position">Split position<a class="headerlink" href="#split-position" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK SPLIT &lt;note&gt;</code></p>
+<p>Set the split position of they keybed, where <code>&lt;note&gt;</code> is a number between 0 and 127.</p>
+<h3 id="arpeggiator-settings">Arpeggiator settings<a class="headerlink" href="#arpeggiator-settings" title="Permanent link">&para;</a></h3>
+<h4 id="enabledisable">Enable/disable<a class="headerlink" href="#enabledisable" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP ON</code></p>
+<p><code>ZCX &lt;target script&gt; LK ARP OFF</code></p>
+<h4 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP TYPE &lt;type&gt;</code></p>
+<p>Where <code>&lt;type&gt;</code> is one of:</p>
+<p><code>up</code>, <code>down</code>, <code>up_down</code>, <code>up_down_2</code>, <code>as_played</code>, <code>random</code>, <code>chord</code>, <code>strum</code></p>
+<h4 id="rate">Rate<a class="headerlink" href="#rate" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP RATE &lt;rate&gt;</code></p>
+<p>Where <code>&lt;rate&gt;</code> is one of:</p>
+<p><code>1/4</code>, <code>1/4t</code>, <code>1/8</code>, <code>1/8t</code>, <code>1/16</code>, <code>1/16t</code>, <code>1/32</code>, <code>1/32t</code></p>
+<h4 id="octave">Octave<a class="headerlink" href="#octave" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP OCTAVE &lt;octave&gt;</code></p>
+<p>Where <code>&lt;octave&gt;</code> is between 1 and 4.</p>
+<h4 id="latch">Latch<a class="headerlink" href="#latch" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP LATCH ON</code></p>
+<p><code>ZCX &lt;target script&gt; LK ARP LATCH OFF</code></p>
+<h4 id="gate">Gate<a class="headerlink" href="#gate" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP GATE &lt;value&gt;</code></p>
+<p>Where <code>&lt;value&gt;</code> is between 0 and 95.</p>
+<h4 id="mutate">Mutate<a class="headerlink" href="#mutate" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP MUTATE &lt;value&gt;</code></p>
+<p>Where <code>&lt;value&gt;</code> is between 0 and 127.</p>
+<h4 id="velocity">Velocity<a class="headerlink" href="#velocity" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK ARP VEL FULL</code></p>
+<p><code>ZCX &lt;target script&gt; LK ARP VEL NOTE</code></p>
+<h3 id="scale-settings">Scale settings<a class="headerlink" href="#scale-settings" title="Permanent link">&para;</a></h3>
+<h4 id="enabledisable_1">Enable/Disable<a class="headerlink" href="#enabledisable_1" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK SCALE ON</code></p>
+<p><code>ZCX &lt;target script&gt; LK SCALE OFF</code></p>
+<h4 id="behaviour">Behaviour<a class="headerlink" href="#behaviour" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK SCALE BHV &lt;option&gt;</code></p>
+<p>Where <code>&lt;option&gt;</code> is one of <code>snap</code>, <code>filter</code>, or <code>easy</code>.</p>
+<h4 id="root-note">Root note<a class="headerlink" href="#root-note" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK SCALE ROOT &lt;note&gt;</code></p>
+<p>Where <code>&lt;note&gt;</code> is a note <code>C</code> through <code>B</code> (including sharps or flats), or a number.</p>
+<p>You may provide <code>match</code> as the note, which will set the Launchkey's root note to match Live's internal root note.</p>
+<p>See also: <a href="#follow_key">follow_key</a></p>
+<h4 id="scale-type">Scale type<a class="headerlink" href="#scale-type" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK SCALE NAME &lt;name&gt;</code></p>
+<p>Where <code>&lt;name&gt;</code> is one of:</p>
+<p><code>major</code>, <code>minor</code>, <code>dorian</code>, <code>mixolydian</code>, <code>lydian</code>, <code>phrygian</code>, <code>locrian</code>,
+<code>whole tone</code>, <code>half-whole dim.</code>, <code>whole-half dim.</code>, <code>minor blues</code>, <code>minor pentatonic</code>,
+<code>major pentatonic</code>, <code>harmonic minor</code>, <code>harmonic major</code>, <code>dorian #4</code>, <code>phrygian dominant</code>,
+<code>melodic minor</code>, <code>lydian augmented</code>, <code>lydian dominant</code>, <code>super locrian</code>, <code>8-tone spanish</code>,
+<code>bhairav</code>, <code>hungarian minor</code>, <code>hirajoshi</code>, <code>in-sen</code>, <code>iwato</code>, <code>kumoi</code>, <code>pelog selisir</code>,
+<code>pelog tembung</code></p>
+<p>Scale names must be written <strong>exactly</strong> as they appear here.</p>
+<p>You may provide <code>match</code> as the scale name, which will attempt to match Launchkey's scale to Live's scale.
+<strong>Note:</strong> not every scale is shared between Launchkey and Live.</p>
+<p>See also: <a href="#follow_key">follow_key</a></p>
+<h3 id="chord-map-settings">Chord map settings<a class="headerlink" href="#chord-map-settings" title="Permanent link">&para;</a></h3>
+<h4 id="enabledisable_2">Enable/disable<a class="headerlink" href="#enabledisable_2" title="Permanent link">&para;</a></h4>
+<p><a href="#pad-layouts">See here</a>.</p>
+<h4 id="adventure">Adventure<a class="headerlink" href="#adventure" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK CHORD ADV &lt;value&gt;</code></p>
+<p>Where <code>&lt;value&gt;</code> is a number between 1 and 5.</p>
+<h4 id="explore">Explore<a class="headerlink" href="#explore" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK CHORD EXPLORE &lt;value&gt;</code></p>
+<p>Where <code>&lt;value&gt;</code> is a number between 1 and 8.</p>
+<h4 id="spread">Spread<a class="headerlink" href="#spread" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK CHORD SPREAD &lt;value&gt;</code></p>
+<p>Where <code>&lt;value&gt;</code> is a number between 1 and 3.</p>
+<h4 id="roll">Roll<a class="headerlink" href="#roll" title="Permanent link">&para;</a></h4>
+<p><code>ZCX &lt;target script&gt; LK CHORD ROLL &lt;value&gt;</code></p>
+<p>Where <code>&lt;value&gt;</code> is a number between 0 and 100 (in milliseconds).</p>
+<h3 id="other-functions">Other functions<a class="headerlink" href="#other-functions" title="Permanent link">&para;</a></h3>
+<h4 id="shift">Shift<a class="headerlink" href="#shift" title="Permanent link">&para;</a></h4>
+<p>Emulate pressing (and latching) the <code>shift</code> button:</p>
+<p><code>ZCX &lt;target script&gt; LK CHORD SHIFT ON</code></p>
+<p><code>ZCX &lt;target script&gt; LK CHORD SHIFT OFF</code></p>
 
 
-
-
-
-
-
-  
-    
-  
-  
-    
-  
-
-
-  <aside class="md-source-file">
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="Last update">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-01-04T08:41:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-01-04</span>
-  </span>
-
-    
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="Created">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-11-03T06:04:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-11-03</span>
-  </span>
-
-    
-    
-    
-  </aside>
-
-
-  
-
-
-
-
-                
               </article>
             </div>
           
@@ -3403,10 +4242,12 @@ The <a href="../../lessons/overlays-layers/#pages_in-pages_out">pages_out</a> op
   
     
       
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" hidden>
         
           
-          <a href="../fx-ramp/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Ramped momentary fx template">
+          <a href="../apc-mini-mk2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: APC mini mkII">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3416,20 +4257,20 @@ The <a href="../../lessons/overlays-layers/#pages_in-pages_out">pages_out</a> op
                 Previous
               </span>
               <div class="md-ellipsis">
-                Ramped momentary fx template
+                APC mini mkII
               </div>
             </div>
           </a>
         
         
           
-          <a href="../pad-faders/" class="md-footer__link md-footer__link--next" aria-label="Next: Pad faders">
+          <a href="../launchpad-pro-mk3/" class="md-footer__link md-footer__link--next" aria-label="Next: Launchpad pro mk3">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Pad faders
+                Launchpad pro mk3
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3492,222 +4333,19 @@ The <a href="../../lessons/overlays-layers/#pages_in-pages_out">pages_out</a> op
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-
-
-      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../js/timeago.min.js"></script>
+        <script src="../../../js/timeago.min.js"></script>
       
-        <script src="../../js/timeago_mkdocs_material.js"></script>
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
       
-        <script src="../../js/extra.js"></script>
+        <script src="../../../js/extra.js"></script>
       
-        <script src="../../js/open_in_new_tab.js"></script>
+        <script src="../../../js/open_in_new_tab.js"></script>
       
     
-
-<script>
-  document$.subscribe(() => {
-
-    ////// outdated element stuff
-
-    const DEV_PATHS = ['dev', 'preview']
-    const outdatedEl = document.querySelector('[data-md-component="outdated"]')
-    const path = window.location.pathname
-    let isDevPath = false
-
-    for (const dev_path of DEV_PATHS) {
-      if (path.startsWith("/" + dev_path)) {
-        isDevPath = true
-        break
-      }
-    }
-
-    if (isDevPath) {
-      document.body.classList.add('dev-mode')
-      outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
-      outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
-    }
-
-    outdatedEl.querySelector('button').addEventListener('click', () => {
-      if (isDevPath) {
-        localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
-        umami.track('dismiss-warning-dev')
-      } else {
-        localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
-        umami.track('dismiss-warning-outdated')
-      }
-
-      outdatedEl.remove()
-    })
-
-    let relevantWarningDate;
-    if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
-      relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
-    } else {
-      relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
-    }
-
-    if (relevantWarningDate) {
-      const dismissedDate = new Date(JSON.parse(relevantWarningDate))
-      const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
-
-      if (daysSinceDismissed < 28) {
-        outdatedEl.remove()
-      }
-    }
-
-
-    const isDigit = (char) => {
-      return /^\d$/.test(char)
-    }
-
-    const processVersionElements = () => {
-      const versionElements = []
-      const versionChooserButton = document.querySelector('.md-version__current')
-      if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
-        versionElements.push(versionChooserButton)
-      }
-      const versionListItems = document.querySelectorAll('.md-version__list li')
-      for (const versionLi of versionListItems) {
-        if (isDigit(versionLi.textContent[0])) {
-          versionElements.push(versionLi)
-        }
-      }
-
-      for (const versionElement of versionElements) {
-        versionElement.classList.add('version-number')
-      }
-
-      return versionElements.length > 0
-    }
-
-    if (!processVersionElements()) {
-      const observer = new MutationObserver(() => {
-        if (processVersionElements()) {
-          observer.disconnect()
-        }
-      })
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      })
-
-      setTimeout(() => observer.disconnect(), 5000)
-    }
-
-    ////// matrix gen
-
-    function initializeForm() {
-      const generateButton = document.getElementById('generate-button');
-      const output_block = document.getElementById('yaml-output')?.querySelector('code');
-
-      if (!generateButton || !output_block) return;
-
-      generateButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        processFormData(output_block);
-      });
-    }
-
-    function processFormData(output_block) {
-      output_block.innerHTML = null;
-
-      let width = parseInt(document.getElementById('columns').value);
-      let height = parseInt(document.getElementById('rows').value);
-      let comment_out = document.getElementById('comment-out').checked;
-      let space_between_items = document.getElementById('space-between-items').checked;
-      let comment_coords = document.getElementById('comment-coords').checked;
-      let includeColor = document.getElementById('color').checked;
-      let includeType = document.getElementById('type').checked;
-      let randomColor = document.getElementById('random-color').checked;
-
-      const gestures = [
-        'press',
-        'release',
-        'short_press',
-        'long_press',
-        'long_release',
-        'double_click'
-      ];
-
-      let content = '';
-      let these_gestures = [];
-
-      for (let i = 0; i < gestures.length; i++) {
-        let gesture = gestures[i];
-        if (document.getElementById(gesture).checked) {
-          these_gestures.push(gesture);
-        }
-      }
-
-      for (let i = 0; i < height; i++) {
-        if (comment_coords) content += make_comment(`!! row ${i + 1}`);
-        for (let j = 0; j < width; j++) {
-          if (comment_coords) content += make_comment(`col ${j + 1}`);
-          content += '- \n';
-
-          if (includeColor) {
-            let color = 127;
-            if (randomColor) color = getRandomInt(126) + 1;
-            content += make_row('color', color, 1, comment_out);
-            content += '\n';
-          }
-
-          if (includeType) {
-            content += make_row('type', 'standard', 1, comment_out);
-            content += '\n';
-          }
-
-          content += make_row('gestures', false, 1, comment_out, true);
-          if (these_gestures.length === 0) {
-            content += make_row('pressed', 'DUMMY', 2, true, false);
-            content += '\n';
-          } else {
-            for (let g of these_gestures) {
-              content += make_row(g, 'DUMMY', 2, comment_out, false);
-              content += '\n';
-            }
-          }
-
-          if (space_between_items) content += '\n';
-        }
-      }
-
-      let span = document.createElement('span');
-      span.textContent = content;
-      output_block.appendChild(span);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function make_row(key, value, indent, commented = false, is_dict = false) {
-      let row = "";
-      if (commented) row += "# ";
-      for (let i = 0; i < indent; i++) row += "  ";
-      row += `${key}:`;
-      if (is_dict) return row + `\n`;
-      row += ` ${value}`;
-      return row;
-    }
-
-    function make_comment(content) {
-      return `# ${content}\n`;
-    }
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    initializeForm();
-
-  })
-
-</script>
-
-
   </body>
 </html>
