@@ -225,6 +225,14 @@ gestures:
     mode_off: shift
 ```
 
+Alternatively, provide a list of modes:
+
+```yaml
+mode_on: [shift, select]
+```
+
+See also: [exclusive modes](file/preferences.md#exclusive_modes)
+
 ### overlay
 
 Enable, disable, or toggle the given [overlay](../lessons/overlays-layers.md).
@@ -244,6 +252,29 @@ gestures:
   press:
     overlay:
       toggle: my_overlay
+```
+
+Alternatively, provide a list of overlays:
+
+```yaml
+overlay:
+  enable: [overlay_1, overlay_2]
+```
+
+#### Alternate syntax
+
+```yaml
+control_1:
+  gestures:
+    press:
+      overlay_on: my_overlay
+    release:
+      overlay_off: my_overlay
+
+control_2:
+  gestures:
+    press:
+      overlay_toggle: my_overlay
 ```
 
 ### msg

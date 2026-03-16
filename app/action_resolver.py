@@ -352,28 +352,56 @@ class ActionResolver(ZCXComponent):
                                     if ABORT_ON_FAILURE:
                                         raise RuntimeError(f'invalid page change: {parsed}')
                                     return False
-                        case 'mode':
-                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
-                                self.__mode_manager.toggle_mode(parsed)
-                        case 'mode_on':
-                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
-                                self.__mode_manager.add_mode(parsed)
-                        case 'mode_off':
-                            if (parsed := self._compile_and_check(command_def, vars_dict, context)) is not None:
-                                self.__mode_manager.remove_mode(parsed)
+                        case "mode" | "mode_on" | "mode_off":
+                            modes_to_effect = []
+                            if not (isinstance(command_def, list)):
+                                command_def = [command_def]
+                            for i in range(len(command_def)):
+                                _def = command_def[i]
+                                parsed, status = self.compile(_def, vars_dict, context)
+                                if status != 0:
+                                    raise RuntimeError(f'unparseable mode definition: {_def}')
+                                modes_to_effect.append(parsed)
+
+                            match command_type:
+                                case "mode":
+                                    for mode in modes_to_effect:
+                                        self.__mode_manager.toggle_mode(mode)
+                                case "mode_on":
+                                    for mode in modes_to_effect:
+                                        self.__mode_manager.add_mode(mode)
+                                case "mode_off":
+                                    for mode in modes_to_effect:
+                                        self.__mode_manager.remove_mode(mode)
+
                         case "overlay":
                             overlay_def = list(command_def.items())[0]
                             def_type = overlay_def[0]
                             overlay_name_def = overlay_def[1]
-                            parsed_overlay = self._compile_and_check(overlay_name_def, vars_dict, context)
-                            if not parsed_overlay:
-                                raise RuntimeError(f'unparseable overlay definition: {overlay_name_def}')
+                            overlays_to_effect = []
+                            if not (isinstance(overlay_name_def, list)):
+                                overlay_name_def = [overlay_name_def]
+                            for i in range(len(overlay_name_def)):
+                                _def = overlay_name_def[i]
+                                parsed, status = self.compile(_def, vars_dict, context)
+                                if status != 0:
+                                    raise RuntimeError(f'unparseable overlay definition: {overlay_name_def}')
+                                overlays_to_effect.append(parsed)
                             if def_type == "enable":
-                                self.component_map["ViewManager"].enable_overlay(parsed_overlay)
+                                for overlay in overlays_to_effect:
+                                    self.component_map["ViewManager"].enable_overlay(overlay)
                             elif def_type == "disable":
-                                self.component_map["ViewManager"].disable_overlay(parsed_overlay)
+                                for overlay in overlays_to_effect:
+                                    self.component_map["ViewManager"].disable_overlay(overlay)
                             elif def_type == "toggle":
-                                self.component_map["ViewManager"].toggle_overlay(parsed_overlay)
+                                for overlay in overlays_to_effect:
+                                    self.component_map["ViewManager"].toggle_overlay(overlay)
+
+                        case "overlay_on" | "overlay_off" | "overlay_toggle":
+                            mapping = {"on": "enable", "off": "disable", "toggle": "toggle"}
+                            shorthand = command_type.split("overlay_")[1]
+                            bundle = {"overlay": {mapping[shorthand]: command_def}}
+                            self.execute_command_bundle(calling_control, bundle, vars_dict, context)
 
                         case 'refresh':
                             self.canonical_parent.manual_refresh()
