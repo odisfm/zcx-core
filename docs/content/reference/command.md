@@ -190,6 +190,8 @@ gestures:
     page: next
 ```
 
+You may provide a negative page number to access pages from the end of the list, e.g. `page: -1` will switch to the last page.
+
 #### keywords
 
 **next**
