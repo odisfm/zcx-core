@@ -59,7 +59,7 @@ These are the names you must use in [named_controls.yaml](../../lessons/getting-
 - `enc_bank_up_m`, `enc_bank_down_m` - The buttons next to the encoders labeled ˄ and ˅
 - `track_left_m`, `track_right_m` - The buttons labeled ❮ and ❯
 
-**48 and 61-key only:**
+**49 and 61-key only:**
 
 - `enc_bank_up`, `enc_bank_down` - The buttons next to the encoders labeled ˄ and ˅
 - `track_left`, `track_right` - The buttons labeled ❮ and ❯
