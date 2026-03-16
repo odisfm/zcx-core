@@ -41,7 +41,7 @@ class BasicColorSwatch:
     HALF = Color(1)
     HALF_BLINK_SLOW = Color(2)
     HALF_BLINK_FAST = Color(3)
-    FULL = Color(4)
+    FULL = Color(3)
     FULL_BLINK_SLOW = Color(5)
     FULL_BLINK_FAST = Color(6)
     OFF = Color(0)
