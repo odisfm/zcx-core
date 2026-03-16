@@ -8,6 +8,12 @@ actions_main:
   col_start: 0
   col_end: 7
 
+device:
+  row_start: 0
+  row_end: 1
+  col_start: 0
+  col_end: 7
+
 __session_view:
   row_start: 0
   row_end: 1
@@ -15,8 +21,35 @@ __session_view:
   col_end: 7
   clip_color_is_play_color: true
 
-device:
-  row_start: 0
+session_stop:
+  row_start: 1
   row_end: 1
   col_start: 0
   col_end: 7
+  template:
+    type: param
+    binding: RING(${me.index}) / STOP
+    on_color: red
+    off_color: off
+
+session_mute:
+  row_start: 1
+  row_end: 1
+  col_start: 0
+  col_end: 7
+  template:
+    type: param
+    binding: RING(${me.index}) / MUTE
+    on_color: yellow shade
+    off_color: grey
+
+session_solo:
+  row_start: 1
+  row_end: 1
+  col_start: 0
+  col_end: 7
+  template:
+    type: param
+    binding: RING(${me.index}) / SOLO
+    on_color: blue
+    off_color: blue shade 2

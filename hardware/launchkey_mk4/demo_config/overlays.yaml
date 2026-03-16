@@ -1,0 +1,17 @@
+overlays:
+  session_stop:
+    matrix_sections: [session_stop]
+    pages_out: true
+    on_enter: ZCX ${this_cs} MSG "STOP"
+
+  session_solo:
+    matrix_sections: [session_solo]
+    pages_out: true
+    on_enter: ZCX ${this_cs} MSG "SOLO"
+
+  session_mute:
+    matrix_sections: [session_mute]
+    pages_out: true
+    on_enter: ZCX ${this_cs} MSG "MUTE"
+
+  fader_bank_select: {}

@@ -1,12 +1,17 @@
 __fader_buttons:
   includes: [fb_1, fb_2, fb_3, fb_4, fb_5, fb_6, fb_7, fb_8]
-  type: mode
-  active_color: white
-  inactive_color: purple
-  mode: fb_${me.Index}
+  type: ring_track
+  ring_index: ${me.index}
   gestures:
-    press:
-      mode_on: fb_${me.Index}
+    press: >
+      "${me.track}" / SEL
+    long_press: >
+      ALL / ARM OFF ;
+      "${me.track}" / ARM
+    long_press__shift: >
+      "${me.track}" / ARM
+    double_click: >
+      "${me.track}" / PLAY >
 
 # fb_1:
 #   gestures:
@@ -49,15 +54,21 @@ __fader_buttons:
 #     long_press: DUMMY
 
 fb_9:
-  type: param
-  binding: SEL / ARM
-  off_color: white
-  on_color: red
+  type: overlay
+  overlay: fader_bank_select
+  inactive_color: dark_grey
+  active_color:
+    pulse: white
+  gestures:
+    press:
+      overlay_toggle: fader_bank_select
 
 pad_bank_up:
   gestures:
     press:
       page: prev
+    long_press:
+      page: 0
     press__shift:
       ring: up 1
 
@@ -65,13 +76,22 @@ pad_bank_down:
   gestures:
     press:
       page: next
+    long_press:
+      page: -1
     press__shift:
       ring: down 1
 
 scene_launch:
   gestures:
-    press: >
+    short_press: >
       SCENE ${ring.scenes[1]}
+    long_press:
+      pseq:
+        - overlay_on: session_mute
+        - overlay_on: session_solo
+        - overlay_on: session_stop
+        - overlay_off: [ session_stop, session_mute, session_solo ]
+          cxp: ZCX ${this_cs} MSG "---"
 
 function:
   type: mode
@@ -133,6 +153,8 @@ undo:
 enc_bank_up:
   type: mode
   mode: eb_1
+  active_color: full
+  inactive_color: half
   gestures:
     press:
       mode_on: eb_1
@@ -140,6 +162,8 @@ enc_bank_up:
 enc_bank_down:
   type: mode
   mode: eb_2
+  active_color: full
+  inactive_color: half
   gestures:
     press:
       mode_on: eb_2
@@ -163,6 +187,8 @@ track_right:
 enc_bank_up_m:
   type: mode
   mode: eb_1
+  active_color: full
+  inactive_color: half
   gestures:
     press:
       mode_on: eb_1
@@ -170,6 +196,8 @@ enc_bank_up_m:
 enc_bank_down_m:
   type: mode
   mode: eb_2
+  active_color: full
+  inactive_color: half
   gestures:
     press:
       mode_on: eb_2

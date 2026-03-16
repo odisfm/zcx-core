@@ -1,0 +1,9 @@
+__fader_bank_select:
+  includes: [fb_1, fb_2, fb_3, fb_4, fb_5, fb_6, fb_7, fb_8]
+  type: mode
+  active_color: white
+  inactive_color: purple
+  mode: fb_${me.Index}
+  gestures:
+    press:
+      mode_on: fb_${me.Index}
