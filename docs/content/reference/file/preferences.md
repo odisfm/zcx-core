@@ -73,6 +73,16 @@ A mode may appear in multiple exclusive groups.
 
 To have one mode active when zcx loads, use a [startup command bundle](#startup_command) with a [mode_on](../command.md#mode_on-mode_off-mode) command.
 
+### exclusive_overlays
+
+```yaml
+exclusive_overlays:
+  - [overlay_1, overlay_2]
+  - [overlay_3, overlay_4]
+```
+
+[As above](#exclusive_modes), but with [overlays](../../lessons/overlays-layers.md#overlays).
+
 ### force_config
 
 **This setting must be set in `_global_preferences.yaml`**

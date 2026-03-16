@@ -38,6 +38,7 @@ class ViewManager(ZCXComponent):
         self.__pages_to_overlays_in: list[list[str]] = []
         self.__pages_to_overlays_out: list[list[str]] = []
         self.__last_page_num = -1
+        self.__exclusive_overlays: dict[str, list[str]] = {} # overlay name: list of overlay names this overlay disables
 
     @property
     def in_view_controls(self):
@@ -132,6 +133,44 @@ class ViewManager(ZCXComponent):
         self.debug(f"pages_to_overlays_in:\n{self.__pages_to_overlays_in}")
         self.debug(f"pages_to_overlays_out:\n{self.__pages_to_overlays_out}")
 
+        from . import PREF_MANAGER
+        from . import STRICT_MODE
+        user_prefs = PREF_MANAGER.user_prefs
+
+        exclusive_overlays_def = user_prefs.get("exclusive_overlays", [])
+
+        invalid_format_msg = (f"Preference `exclusive_overlays` must be a list of lists."
+                              f"\nProvided {exclusive_overlays_def.__class__.__name__}:"
+                              f"\n{exclusive_overlays_def}")
+
+        if not isinstance(exclusive_overlays_def, list):
+
+            if STRICT_MODE:
+                raise CriticalConfigurationError(invalid_format_msg)
+            else:
+                self.critical(invalid_format_msg)
+                self.critical("Ignoring exclusive_overlays definition.")
+                exclusive_overlays_def = []
+
+        if len(exclusive_overlays_def) > 0:
+            for e_group in exclusive_overlays_def:
+                if not isinstance(e_group, list):
+                    raise CriticalConfigurationError(invalid_format_msg)
+
+        overlays_to_disabled_overlays = {}
+        for e_overlay_list in exclusive_overlays_def:
+            for e_overlay in e_overlay_list:
+                if e_overlay not in overlays_to_disabled_overlays:
+                    overlays_to_disabled_overlays[e_overlay] = []
+                for d_overlay in e_overlay_list:
+                    if d_overlay == e_overlay:
+                        continue
+                    overlays_to_disabled_overlays[e_overlay].append(d_overlay)
+
+        for key, value in overlays_to_disabled_overlays.items():
+            overlays_to_disabled_overlays[key] = set(value)
+
+        self.__exclusive_overlays = overlays_to_disabled_overlays
 
         self._current_page_listener.subject = self._page_manager
 
@@ -260,6 +299,9 @@ class ViewManager(ZCXComponent):
         if not overlay_name in self.__overlay_sections.keys():
             raise ValueError(f"Overlay `{overlay_name}` does not exist")
         if overlay_name not in self.__active_overlay_names:
+            overlays_to_disable = self.__exclusive_overlays.get(overlay_name, [])
+            for overlay in overlays_to_disable:
+                self.disable_overlay(overlay)
             self.__active_overlay_names.append(overlay_name)
             self._update_in_view_controls()
         else:
