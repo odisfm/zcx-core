@@ -97,7 +97,8 @@ class ZEncoder(EventObject):
 
         bindings = self._raw_config.get("binding")
         if isinstance(bindings, dict):
-            pass
+            if list(bindings.keys())[0] == "command":
+                bindings = {"default": bindings}
         elif isinstance(bindings, str):
             bindings = {"default": bindings}
         else:
