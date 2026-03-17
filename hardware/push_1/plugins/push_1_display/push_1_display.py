@@ -149,8 +149,6 @@ class Push1Display(ZCXPlugin):
         self.add_api_method("write_display_message", self.receive_message_from_ua)
         self._on_control_surfaces_changed.subject = self.canonical_parent.application
 
-        self.log(SPECIAL_CHARS)
-
     @property
     def suppress_send(self):
         if self.__force_send is True:
