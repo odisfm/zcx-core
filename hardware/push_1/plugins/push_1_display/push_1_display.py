@@ -41,6 +41,13 @@ DEFAULT_CONFIG = {
 PREFER_TRACK_NAME_FOR_VOLUME = True
 USE_GRAPHICS = True
 
+SPECIAL_CHARS = {
+    "↑": 0,   "↓": 1,   "≡": 2,   "◧": 3,   "◨": 4,   "■": 5,   "◫": 6,   "❏": 7,
+    "¦": 8,   "°": 9,   "Ä": 10,  "Ç": 11,  "Ö": 12,  "Ü": 13,  "ß": 14,  "à": 15,
+    "ä": 16,  "ç": 17,  "è": 18,  "é": 19,  "ê": 20,  "î": 21,  "ñ": 22,  "ö": 23,
+    "÷": 24,  "ø": 25,  "ü": 26,  "ь": 27,  "…": 28,  "█": 29,  "←": 30,  "→": 31,
+    "[": 91,  "\\": 92, "]": 93,  "^": 94,  "_": 95, "‣": 127
+}
 
 class Push1Display(ZCXPlugin):
 
@@ -141,6 +148,8 @@ class Push1Display(ZCXPlugin):
 
         self.add_api_method("write_display_message", self.receive_message_from_ua)
         self._on_control_surfaces_changed.subject = self.canonical_parent.application
+
+        self.log(SPECIAL_CHARS)
 
     @property
     def suppress_send(self):
@@ -457,53 +466,52 @@ class Push1Display(ZCXPlugin):
         return True
 
     def ascii_ord(self, char):
-        SPECIAL_CHARS = {"│": 3, "┑": 4, "┃": 5, "┅": 6, "▶": 127}
         return SPECIAL_CHARS.get(char, min(ord(char), 127))
 
     def create_slider_graphic(self, _min, _max, current, bipolar=False):
         percentage = to_percentage(_min, _max, current)
         if not bipolar:
             if percentage < 12.5:  # 8 chars to a segment
-                return "│┅┅┅┅┅┅┅"
+                return "◧◫◫◫◫◫◫◫"
             full_bars, remainder = divmod(percentage, 12.5)
 
-            content = "┃┃┃┃┃┃┃┃"[0 : int(full_bars)]
+            content = "■■■■■■■■"[0 : int(full_bars)]
             if remainder > 6.25:
-                content += "│"
+                content += "◧"
             while len(content) < 8:
-                content += "┅"
+                content += "◫"
             return content
         else:
             if percentage < 6.25:
-                return "┃┃┃┃┅┅┅┅"
+                return "■■■■◫◫◫◫"
             elif percentage < 12.5:
-                return "┑┃┃┃┅┅┅┅"
+                return "◨■■■◫◫◫◫"
             elif percentage < 18.75:
-                return "┅┃┃┃┅┅┅┅"
+                return "◫■■■◫◫◫◫"
             elif percentage < 25:
-                return "┅┑┃┃┅┅┅┅"
+                return "◫◨■■◫◫◫◫"
             elif percentage < 31.25:
-                return "┅┅┃┃┅┅┅┅"
+                return "◫◫■■◫◫◫◫"
             elif percentage < 37.5:
-                return "┅┅┑┃┅┅┅┅"
+                return "◫◫◨■◫◫◫◫"
             elif percentage < 43.75:
-                return "┅┅┅┃┅┅┅┅"
+                return "◫◫◫■◫◫◫◫"
             elif percentage < 49:
-                return "┅┅┅┑┅┅┅┅"
+                return "◫◫◫◨◫◫◫◫"
             elif 49 <= percentage <= 51:
-                return "┅┅┅┑│┅┅┅"
+                return "◫◫◫◨◧◫◫◫"
             elif percentage < 56.25:
-                return "┅┅┅┅│┅┅┅"
+                return "◫◫◫◫◧◫◫◫"
             elif percentage < 62.5:
-                return "┅┅┅┅┃┅┅┅"
+                return "◫◫◫◫■◫◫◫"
             elif percentage < 68.75:
-                return "┅┅┅┅┃│┅┅"
+                return "◫◫◫◫■◧◫◫"
             elif percentage < 75:
-                return "┅┅┅┅┃┃┅┅"
+                return "◫◫◫◫■■◫◫"
             elif percentage < 87.5:
-                return "┅┅┅┅┃┃┃┅"
+                return "◫◫◫◫■■■◫"
             else:
-                return "┅┅┅┅┃┃┃┃"
+                return "◫◫◫◫■■■■"
 
 
 class DelayedDisplayRefreshTask(TimerTask):
