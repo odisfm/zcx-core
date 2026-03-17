@@ -156,7 +156,7 @@ Where `<option>` is one of:
 
 `ZCX <target script> LK SPLIT <note>`
 
-Set the split position of they keybed, where `<note>` is a number between 0 and 127.
+Set the split position of the keybed, where `<note>` is a number between 0 and 127.
 
 ### Arpeggiator settings
 
@@ -293,6 +293,6 @@ Where `<value>` is a number between 0 and 100 (in milliseconds).
 
 Emulate pressing (and latching) the `shift` button:
 
-`ZCX <target script> LK CHORD SHIFT ON`
+`ZCX <target script> LK SHIFT ON`
 
-`ZCX <target script> LK CHORD SHIFT OFF`
+`ZCX <target script> LK SHIFT OFF`
