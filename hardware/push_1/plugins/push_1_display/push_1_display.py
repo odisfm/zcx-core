@@ -556,9 +556,14 @@ class EncoderWatcher(EventObject):
     def parameter_rebound(self, par):
         if par is None:
             self._current_parameter = None
-            self._component.update_display_segment(
-                self._component._encoder_mapping_line, self._index, ""
-            )
+            if self._encoder._mapped_command is None:
+                self._component.update_display_segment(
+                    self._component._encoder_mapping_line, self._index, ""
+                )
+            else:
+                self._component.update_display_segment(
+                    self._component._encoder_mapping_line, self._index, self._encoder._mapped_command.label
+                )
             self.parameter_value(None)
             return
         self._current_parameter = par
