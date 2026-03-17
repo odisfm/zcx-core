@@ -26,6 +26,8 @@ class ZCXCore(ControlSurface):
     def __init__(self, *a, **k):
         self._midi_map_locked = False
         super().__init__(*a, **k)
+        self.__fatal_error_message = None
+        self.application.add_control_surfaces_listener(self.song_ready)
         try:
             try:
                 self.__name = __name__.split('.')[0].lstrip('_')
@@ -89,7 +91,6 @@ class ZCXCore(ControlSurface):
                         sysex_task.restart()
                     else:
                         self._do_send_midi(USER_MODE)
-                self.application.add_control_surfaces_listener(self.song_ready)
 
                 from .yaml_loader import yaml_loader
                 zcx_yaml = yaml_loader.load_yaml('zcx.yaml')
@@ -170,12 +171,10 @@ class ZCXCore(ControlSurface):
 
                 self.show_message(popup_string)
 
-                self.disconnect()
-                self._enabled = False
+                self.__fatal_error_message = popup_string
 
             except Exception as e:
-                logging.getLogger(__name__).error(e)
-                raise
+                logging.getLogger(__name__).critical(e)
 
     @property
     def name(self):
@@ -323,6 +322,11 @@ class ZCXCore(ControlSurface):
     def song_ready(self):
         if self.application.control_surfaces_has_listener(self.song_ready):
             self.application.remove_control_surfaces_listener(self.song_ready)
+        if self.__fatal_error_message:
+            self.application.show_on_the_fly_message(self.__fatal_error_message)
+            self._enabled = False
+            self.disconnect()
+            return
         self.component_map['EncoderManager'].bind_all_encoders()
         self.component_map['ZManager'].song_ready()
         self.component_map['TestRunner'].setup()
