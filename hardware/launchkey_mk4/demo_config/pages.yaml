@@ -1,7 +1,9 @@
 pages:
   home_page:
     - actions_main
-  device_control:
-    - device
   session_view:
     - __session_view
+  device_control:
+    - device
+  blank_page:
+    - blank_section

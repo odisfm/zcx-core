@@ -85,13 +85,6 @@ scene_launch:
   gestures:
     short_press: >
       SCENE ${ring.scenes[1]}
-    long_press:
-      pseq:
-        - overlay_on: session_mute
-        - overlay_on: session_solo
-        - overlay_on: session_stop
-        - overlay_off: [ session_stop, session_mute, session_solo ]
-          cxp: ZCX ${this_cs} MSG "---"
 
 function:
   type: mode
@@ -103,6 +96,13 @@ function:
       mode_on: shift
     release:
       mode_off: shift
+    double_click:
+      pseq:
+        - overlay_on: session_mute
+        - overlay_on: session_solo
+        - overlay_on: session_stop
+        - overlay_off: [ session_stop, session_mute, session_solo ]
+          cxp: ZCX ${this_cs} MSG "---"
 
 play:
   type: transport
@@ -158,6 +158,8 @@ enc_bank_up:
   gestures:
     press:
       mode_on: eb_1
+    press__shift: DEVLEFT
+    long_press__shift: DEVFIRST
 
 enc_bank_down:
   type: mode
@@ -167,20 +169,22 @@ enc_bank_down:
   gestures:
     press:
       mode_on: eb_2
+    press__shift: DEVRIGHT
+    long_press__shift: DEVLAST
 
 track_left:
   repeat: true
   gestures:
     press: LEFT
-    press__shift: DEVLEFT
-    long_press__shift: DEVFIRST
+    press__shift:
+      ring: LEFT ${ring.width}
 
 track_right:
   repeat: true
   gestures:
     press: RIGHT
-    press__shift: DEVRIGHT
-    long_press__shift: DEVLAST
+    press__shift:
+      ring: RIGHT ${ring.width}
 
 # only on 25/37 key versions
 
@@ -192,6 +196,8 @@ enc_bank_up_m:
   gestures:
     press:
       mode_on: eb_1
+    press__shift: DEVLEFT
+    long_press__shift: DEVFIRST
 
 enc_bank_down_m:
   type: mode
@@ -201,3 +207,20 @@ enc_bank_down_m:
   gestures:
     press:
       mode_on: eb_2
+    press__shift: DEVRIGHT
+    long_press__shift: DEVLAST
+
+track_left_m:
+  repeat: true
+  gestures:
+    press: LEFT
+    press__shift:
+      ring: LEFT ${ring.width}
+
+track_right_m:
+  repeat: true
+  gestures:
+    press: RIGHT
+    press__shift:
+      ring: RIGHT ${ring.width}
+
