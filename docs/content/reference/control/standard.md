@@ -98,7 +98,25 @@ ___
 ### repeat
 `boolean=false`
 
-Repeatedly trigger this control's `pressed` gesture (with modifiers) while it is held.
+Repeatedly trigger this control's `press` gesture (with modifiers) while it is held.
+
+---
+### repeat_rate
+`number=0.1`
+
+How often (in seconds) this control will trigger while [repeating](#repeat).
+
+---
+### delay_time
+`number=0.3`
+
+How long (in seconds) this control needs to be held before triggering its [long_press gesture](../command.md#gestures) and begin [repeating](#repeat).
+
+---
+### double_click_time
+`number=0.5`
+
+After pressing in this control, how long (in seconds) is the window wherein another press will trigger its [double_click gesture](../command.md#gestures).
 
 ___
 ### external_light

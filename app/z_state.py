@@ -1,7 +1,7 @@
 from functools import partial
-from ableton.v3.control_surface.controls import ButtonControl, PlayableControl
+from ableton.v3.control_surface.controls import ButtonControl, PlayableControl, ButtonControlBase
 from ableton.v3.control_surface.display import Renderable
-
+from ableton.v2.base import lazy_attribute, task
 
 class ZState(PlayableControl):
 
@@ -16,6 +16,11 @@ class ZState(PlayableControl):
             self.log = partial(ROOT_LOGGER.info)
             self.set_mode(1)
             self.__registered_z_controls = set()
+            self._default_delay_time = self._delay_time
+            self._default_repeat_rate = ButtonControlBase.REPEAT_RATE
+            self._repeat_rate = self._default_repeat_rate
+            self._default_double_click_time = ButtonControlBase.DOUBLE_CLICK_TIME
+            self._double_click_time = self._default_double_click_time
 
         def register_z_control(self, z_control):
             self.__registered_z_controls.add(z_control)
@@ -48,3 +53,25 @@ class ZState(PlayableControl):
                 del z_control
             self.__registered_z_controls = set()
 
+        def _set_delay_time(self, delay_time):
+            self._delay_time = delay_time
+            self.__dict__.pop('_delay_task', None)
+            self.__dict__.pop('_repeat_task', None)
+
+        def _set_repeat_rate(self, repeat_rate):
+            self._repeat_rate = repeat_rate
+            self.__dict__.pop('_delay_task', None)
+            self.__dict__.pop('_repeat_task', None)
+
+        def _set_double_click_time(self, double_click_time):
+            self._double_click_time = double_click_time
+            self.__dict__.pop('_double_click_task', None)
+
+        @lazy_attribute
+        def _repeat_task(self):
+            notify_pressed = partial(self._call_listener, "pressed")
+            return self.tasks.add(task.sequence(task.wait(self._delay_time), task.loop(task.wait(self._repeat_rate), task.run(notify_pressed))))
+
+        @lazy_attribute
+        def _double_click_task(self):
+            return self.tasks.add(task.wait(self._double_click_time))

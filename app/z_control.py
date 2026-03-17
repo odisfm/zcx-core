@@ -86,6 +86,9 @@ class ZControl(EventObject):
         self.__is_pressed = False
         self.__was_pressed_on_exit = False
         self.__release_on_exit = True
+        self._delay_time = None
+        self._repeat_rate = None
+        self._double_click_time = None
 
         self.debug = partial(self.log, level="debug")
         self.warning = partial(self.log, level="warning")
@@ -150,6 +153,29 @@ class ZControl(EventObject):
         if self._cascade_direction not in [False, "up", "down"]:
             self.error(f"Invalid cascade direction `{self._cascade_direction}`, disabling cascade.")
             self._cascade_direction = False
+
+        delay_time_def = config.get('delay_time', None)
+        if delay_time_def is not None and (
+                not isinstance(delay_time_def, (int, float)) or delay_time_def <= 0
+        ):
+            self.error(f"Invalid delay_time `{delay_time_def}`, must be positive number. Using default")
+        else:
+            self._delay_time = delay_time_def
+
+        repeat_rate_def = config.get('repeat_rate', None)
+        if repeat_rate_def is not None and (
+                not isinstance(repeat_rate_def, (int, float)) or repeat_rate_def <= 0
+        ):
+            self.error(f"Invalid repeat_rate `{repeat_rate_def}`, must be positive number. Using default")
+        else:
+            self._repeat_rate = repeat_rate_def
+        double_click_time_def = config.get('double_click_time', None)
+        if double_click_time_def is not None and (
+                not isinstance(double_click_time_def, (int, float)) or double_click_time_def <= 0
+        ):
+            self.error(f"Invalid double_click_time `{double_click_time_def}`, must be positive number. Using default")
+        else:
+            self._double_click_time = double_click_time_def
 
     def log(self, *msgs, level="info"):
         log_func = getattr(self._parent_logger, level)
@@ -466,6 +492,9 @@ class ZControl(EventObject):
             if not self._control_element.is_pressed:
                 self._do_simple_feedback_release()
         self._state._repeat = self._repeat
+        self._state._set_delay_time(self._delay_time or self._state._default_delay_time)
+        self._state._set_repeat_rate(self._repeat_rate or self._state._default_repeat_rate)
+        self._state._set_double_click_time(self._double_click_time or self._state._default_double_click_time)
         self.update_mode_string(self._mode_manager.current_modes)
 
     def set_color_to_base(self):
