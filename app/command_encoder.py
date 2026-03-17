@@ -8,6 +8,7 @@ NORMALIZE_FACTOR = 2
 if TYPE_CHECKING:
     from .z_encoder import ZEncoder
     from .action_resolver import ActionResolver
+    from .encoder_element import EncoderElement
 
 class CommandEncoder(EventObject):
 
@@ -17,6 +18,7 @@ class CommandEncoder(EventObject):
         self._raw_config = config
         self._mode_string = mode_string
         self._counter = 0
+        self._last_value = None
         if "steps" in self._raw_config:
             steps_def = self._raw_config["steps"]
             if not isinstance(steps_def, int) or steps_def <= 0:
@@ -46,8 +48,22 @@ class CommandEncoder(EventObject):
     @property
     def label(self):
         return self.__label
+    
+    @property
+    def map_mode(self):
+        return str(self._encoder_obj._control_element._map_mode)
 
+    @property
+    def control_element(self) -> "EncoderElement":
+        return self._encoder_obj._control_element
+    
     def _receive_value(self, value: int):
+        if self.map_mode == "absolute":
+            # allows knobs that are physically endless but sends absolute data (like APC40mk2) to behave like relative
+            if value == 0:
+                self._send_value_to_element(126)
+            elif value == 127:
+                self._send_value_to_element(1)
         normalized_value = self._normalize_value(value)
         unsigned_normalized_value = abs(normalized_value)
         unsigned_counter = abs(self._counter)
@@ -67,19 +83,26 @@ class CommandEncoder(EventObject):
             self.fire_command(direction)
 
     def _normalize_value(self, value: int) -> int:
-        if value < 25:
-            return value * NORMALIZE_FACTOR
-        elif value > 112:
-            value = 126 if value == 127 else value
-            return (127 - value) * -NORMALIZE_FACTOR
-        elif value <= 64:
-            inc = 64 - value
-            return inc * -NORMALIZE_FACTOR
-        elif value > 64:
-            inc = 127 - value
-            return inc * NORMALIZE_FACTOR
+        if self.map_mode != "absolute":
+            if value < 25:
+                return value * NORMALIZE_FACTOR
+            elif value > 112:
+                value = 126 if value == 127 else value
+                return (127 - value) * -NORMALIZE_FACTOR
+            elif value <= 64:
+                inc = 64 - value
+                return inc * -NORMALIZE_FACTOR
+            elif value > 64:
+                inc = 127 - value
+                return inc * NORMALIZE_FACTOR
+            else:
+                return 0
         else:
-            return 0
+            prev_value = self._last_value
+            self._last_value = value
+            if prev_value is None:
+                return 0
+            return value - prev_value
 
     def fire_command(self, direction: Literal["up", "down"]):
         command_defs = []
@@ -96,3 +119,7 @@ class CommandEncoder(EventObject):
         resolver: "ActionResolver" = self._encoder_obj.root_cs.component_map["ActionResolver"]
         for command_def in command_defs:
             resolver.execute_command_bundle(None, command_def, self._encoder_obj._vars, self._encoder_obj._context)
+
+    def _send_value_to_element(self, value: int):
+        self.control_element.send_value(value, channel=self.control_element.message_channel())
+
