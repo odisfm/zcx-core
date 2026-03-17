@@ -2,6 +2,8 @@
 
 Encoder mapping in zcx aims to emulate the Encoder Bindings feature from the [ClyphX Pro Bindings](https://www.cxpman.com/manual/optional-accessories/#clyphx-pro-bindings) optional accessory.
 
+Alternatively, encoders can [fire command bundles](#command-encoders), including action lists.
+
 ## Configuration
 
 Encoder mappings are configured in `encoders.yaml`, within your `_config` folder.
@@ -206,3 +208,56 @@ You can use the zcx user action to [manually rebind encoders](../lessons/zcx-use
 
 When using [ClyphX Pro rack dot notation](https://www.cxpman.com/manual/general-action-information/#single-devices), the `FIRST`, `LAST`, and `SEL` keywords are not recognised.
 This may be added in a future release.
+
+## Command Encoders
+
+Encoders in zcx can send [command bundles](command.md#command-bundles) when they move.
+
+```yaml hl_lines="3-5"
+my_encoder:
+  binding:
+    command:
+      down: BPM <1
+      up: BPM >1
+```
+
+To create a Command Encoder, one or more of your bindings should be an object called `command`.
+
+In the `command` object, you should have one or all of the following keys:
+
+- `down` - fire this command when the encoder moves down or to the left
+- `up` - fire this command when the encoder moves up or to the right
+- `both` - fire this command when the encoder moves in either direction.
+
+Just like with normal encoders, you can have different bindings depending on the mode, though encoders can't be bound to a parameter and send commands at the same time:
+
+```yaml
+my_encoder:
+  binding:
+    default: SEL / VOL
+    
+    __shift:
+      command:
+        down: BPM <1
+        up: BPM >1
+        
+    __select:
+      command:
+        down: BPM <0.1
+        up: BPM >0.1
+```
+
+### Additional options
+
+#### steps
+
+```yaml hl_lines="4"
+command:
+  down: BPM <1
+  up: BPM >1
+  steps: 10
+```
+
+Put simply, the `steps` option determines how far the encoder must move to fire its command.
+The default is `10`.
+With higher values, the encoder must move further before the command is fired.
