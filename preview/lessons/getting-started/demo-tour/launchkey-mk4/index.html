@@ -10,28 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://zcxcore.com/preview/lessons/getting-started/building-a-config/">
+        <link rel="canonical" href="https://zcxcore.com/preview/lessons/getting-started/demo-tour/launchkey-mk4/">
       
       
-        <link rel="prev" href="../zcx-concepts/">
+        <link rel="prev" href="../apc-mini-mk2/">
       
       
-        <link rel="next" href="../demo-tour/">
+        <link rel="next" href="../launchpad-pro-mk3/">
       
       
-      <link rel="icon" href="../../../favicon.png">
+      <link rel="icon" href="../../../../favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
     
     
       
-        <title>building a config - zcx core</title>
+        <title>Launchkey mk4 - zcx core</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.e53b48f4.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e53b48f4.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -45,22 +45,22 @@
         
         
         
-        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.3917e8cf.css">
+        <link rel="stylesheet" href="../../../../assets/external/fonts.googleapis.com/css.3917e8cf.css">
         <style>:root{--md-text-font:"DM Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="../../../css/timeago.css">
+      <link rel="stylesheet" href="../../../../css/timeago.css">
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
 
 
-  <script defer src="../../../assets/external/cloud.umami.is/script.js" data-website-id="d0ff3ffb-3bfa-4428-8927-b0e4a0b0071e" data-domains="zcxcore.com"></script>
+  <script defer src="../../../../assets/external/cloud.umami.is/script.js" data-website-id="d0ff3ffb-3bfa-4428-8927-b0e4a0b0071e" data-domains="zcxcore.com"></script>
   
     <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
   
@@ -70,11 +70,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="building a config - zcx core" >
+        <meta  property="og:title"  content="Launchkey mk4 - zcx core" >
       
         <meta  property="og:description"  content="Learn how to install zcx, read yaml, and understand the core concepts of zcx." >
       
-        <meta  property="og:image"  content="https://zcxcore.com/preview/assets/images/social/lessons/getting-started/building-a-config.png" >
+        <meta  property="og:image"  content="https://zcxcore.com/preview/assets/images/social/lessons/getting-started/demo-tour/launchkey-mk4.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -82,15 +82,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://zcxcore.com/preview/lessons/getting-started/building-a-config/" >
+        <meta  property="og:url"  content="https://zcxcore.com/preview/lessons/getting-started/demo-tour/launchkey-mk4/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="building a config - zcx core" >
+        <meta  name="twitter:title"  content="Launchkey mk4 - zcx core" >
       
         <meta  name="twitter:description"  content="Learn how to install zcx, read yaml, and understand the core concepts of zcx." >
       
-        <meta  name="twitter:image"  content="https://zcxcore.com/preview/assets/images/social/lessons/getting-started/building-a-config.png" >
+        <meta  name="twitter:image"  content="https://zcxcore.com/preview/assets/images/social/lessons/getting-started/demo-tour/launchkey-mk4.png" >
       
     
     
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#building-a-config" class="md-skip">
+        <a href="#overview" class="md-skip">
           Skip to content
         </a>
       
@@ -124,26 +124,6 @@
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
         
-          <aside class="md-banner md-banner--warning">
-            <div class="md-banner__inner md-grid md-typeset">
-              
-<div class="outdated-text-wrapper">
-    <div>
-        <span>You're not viewing the latest version.</span>
-        <a href="../../../..">
-            <strong>Click here to go to latest.</strong>
-        </a>
-    </div>
-    <button aria-label="Dismiss this warning for one month">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-</div>
-
-
-            </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
-          </aside>
-        
       </div>
     
     
@@ -151,7 +131,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="zcx core" class="md-header__button md-logo" aria-label="zcx core" data-md-component="logo">
+    <a href="../../../.." title="zcx core" class="md-header__button md-logo" aria-label="zcx core" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8"?>
@@ -181,7 +161,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              building a config
+              Launchkey mk4
             
           </span>
         </div>
@@ -292,7 +272,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -311,7 +291,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../docs/" class="md-tabs__link">
+      <a href="../../../../docs/" class="md-tabs__link">
         
   
   
@@ -330,7 +310,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../faq/" class="md-tabs__link">
+      <a href="../../../../faq/" class="md-tabs__link">
         
   
   
@@ -353,7 +333,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -375,7 +355,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../reference/command/" class="md-tabs__link">
+        <a href="../../../../reference/command/" class="md-tabs__link">
           
   
   
@@ -397,7 +377,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../troubleshooting/" class="md-tabs__link">
+        <a href="../../../troubleshooting/" class="md-tabs__link">
           
   
   
@@ -419,7 +399,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../resources/matrix-gen/" class="md-tabs__link">
+        <a href="../../../../resources/matrix-gen/" class="md-tabs__link">
           
   
   
@@ -448,7 +428,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../recipes/page-changer/" class="md-tabs__link">
+        <a href="../../../../recipes/page-changer/" class="md-tabs__link">
           
   
   
@@ -473,7 +453,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../dev/build/" class="md-tabs__link">
+        <a href="../../../../dev/build/" class="md-tabs__link">
           
   
   
@@ -517,8 +497,6 @@
           
             
               
-                
-              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -530,7 +508,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="zcx core" class="md-nav__button md-logo" aria-label="zcx core" data-md-component="logo">
+    <a href="../../../.." title="zcx core" class="md-nav__button md-logo" aria-label="zcx core" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8"?>
@@ -570,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -592,7 +570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../docs/" class="md-nav__link">
+      <a href="../../../../docs/" class="md-nav__link">
         
   
   
@@ -614,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../faq/" class="md-nav__link">
+      <a href="../../../../faq/" class="md-nav__link">
         
   
   
@@ -674,7 +652,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -709,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -732,7 +710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reading-zcx-configurations/" class="md-nav__link">
+      <a href="../../reading-zcx-configurations/" class="md-nav__link">
         
   
   
@@ -755,12 +733,158 @@
   
   
     <li class="md-nav__item">
-      <a href="../zcx-concepts/" class="md-nav__link">
+      <a href="../../zcx-concepts/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     zcx concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../building-a-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    building a config
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    demo tour
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            demo tour
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apc-40-mk2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    APC40 mkII
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apc-mini-mk2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    APC mini mkII
     
   </span>
   
@@ -784,155 +908,21 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Launchkey mk4
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    building a config
-    
-  </span>
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../demo-tour/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    demo tour
-    
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_4_6" id="__nav_4_6_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_6">
-            <span class="md-nav__icon md-icon"></span>
-            demo tour
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../demo-tour/apc-40-mk2/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    APC40 mkII
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../demo-tour/apc-mini-mk2/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    APC mini mkII
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../demo-tour/launchkey-mk4/" class="md-nav__link">
         
   
   
@@ -943,6 +933,168 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Named controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#49-and-61-key-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      49 and 61-key only
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix pages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matrix pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#home_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      home_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session_view" class="md-nav__link">
+    <span class="md-ellipsis">
+      session_view
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device_control" class="md-nav__link">
+    <span class="md-ellipsis">
+      device_control
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blank_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      blank_page
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoders
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Encoders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#knobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Knobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#faders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faders
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-bindings-for-the-knobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional bindings for the knobs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -955,7 +1107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../demo-tour/launchpad-pro-mk3/" class="md-nav__link">
+      <a href="../launchpad-pro-mk3/" class="md-nav__link">
         
   
   
@@ -978,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../demo-tour/launchpad-x-mini-mk3/" class="md-nav__link">
+      <a href="../launchpad-x-mini-mk3/" class="md-nav__link">
         
   
   
@@ -1001,7 +1153,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../demo-tour/push-1/" class="md-nav__link">
+      <a href="../push-1/" class="md-nav__link">
         
   
   
@@ -1024,7 +1176,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../demo-tour/push-2/" class="md-nav__link">
+      <a href="../push-2/" class="md-nav__link">
         
   
   
@@ -1121,7 +1273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/command/" class="md-nav__link">
+      <a href="../../../../reference/command/" class="md-nav__link">
         
   
   
@@ -1144,7 +1296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/template/" class="md-nav__link">
+      <a href="../../../../reference/template/" class="md-nav__link">
         
   
   
@@ -1167,7 +1319,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/color/" class="md-nav__link">
+      <a href="../../../../reference/color/" class="md-nav__link">
         
   
   
@@ -1190,7 +1342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/encoder/" class="md-nav__link">
+      <a href="../../../../reference/encoder/" class="md-nav__link">
         
   
   
@@ -1254,7 +1406,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/control/" class="md-nav__link ">
+            <a href="../../../../reference/control/" class="md-nav__link ">
               
   
   
@@ -1289,7 +1441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/standard/" class="md-nav__link">
+      <a href="../../../../reference/control/standard/" class="md-nav__link">
         
   
   
@@ -1312,7 +1464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/param/" class="md-nav__link">
+      <a href="../../../../reference/control/param/" class="md-nav__link">
         
   
   
@@ -1335,7 +1487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/page/" class="md-nav__link">
+      <a href="../../../../reference/control/page/" class="md-nav__link">
         
   
   
@@ -1358,7 +1510,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/mode/" class="md-nav__link">
+      <a href="../../../../reference/control/mode/" class="md-nav__link">
         
   
   
@@ -1381,7 +1533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/overlay/" class="md-nav__link">
+      <a href="../../../../reference/control/overlay/" class="md-nav__link">
         
   
   
@@ -1404,7 +1556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/transport/" class="md-nav__link">
+      <a href="../../../../reference/control/transport/" class="md-nav__link">
         
   
   
@@ -1427,7 +1579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/track/" class="md-nav__link">
+      <a href="../../../../reference/control/track/" class="md-nav__link">
         
   
   
@@ -1450,7 +1602,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/ring_track/" class="md-nav__link">
+      <a href="../../../../reference/control/ring_track/" class="md-nav__link">
         
   
   
@@ -1473,7 +1625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/control/keyboard/" class="md-nav__link">
+      <a href="../../../../reference/control/keyboard/" class="md-nav__link">
         
   
   
@@ -1543,7 +1695,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/file/" class="md-nav__link ">
+            <a href="../../../../reference/file/" class="md-nav__link ">
               
   
   
@@ -1578,7 +1730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/preferences/" class="md-nav__link">
+      <a href="../../../../reference/file/preferences/" class="md-nav__link">
         
   
   
@@ -1601,7 +1753,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/custom_banks/" class="md-nav__link">
+      <a href="../../../../reference/file/custom_banks/" class="md-nav__link">
         
   
   
@@ -1624,7 +1776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/encoders/" class="md-nav__link">
+      <a href="../../../../reference/file/encoders/" class="md-nav__link">
         
   
   
@@ -1647,7 +1799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/matrix-sections/" class="md-nav__link">
+      <a href="../../../../reference/file/matrix-sections/" class="md-nav__link">
         
   
   
@@ -1670,7 +1822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/modes/" class="md-nav__link">
+      <a href="../../../../reference/file/modes/" class="md-nav__link">
         
   
   
@@ -1693,7 +1845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/named_controls/" class="md-nav__link">
+      <a href="../../../../reference/file/named_controls/" class="md-nav__link">
         
   
   
@@ -1716,7 +1868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/overlays/" class="md-nav__link">
+      <a href="../../../../reference/file/overlays/" class="md-nav__link">
         
   
   
@@ -1739,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/file/pages/" class="md-nav__link">
+      <a href="../../../../reference/file/pages/" class="md-nav__link">
         
   
   
@@ -1807,7 +1959,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/hardware/" class="md-nav__link ">
+            <a href="../../../../reference/hardware/" class="md-nav__link ">
               
   
   
@@ -1842,7 +1994,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/apc-40-mk2/" class="md-nav__link">
+      <a href="../../../../reference/hardware/apc-40-mk2/" class="md-nav__link">
         
   
   
@@ -1865,7 +2017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/apc-mini-mk2/" class="md-nav__link">
+      <a href="../../../../reference/hardware/apc-mini-mk2/" class="md-nav__link">
         
   
   
@@ -1888,7 +2040,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/launchkey-mk4/" class="md-nav__link">
+      <a href="../../../../reference/hardware/launchkey-mk4/" class="md-nav__link">
         
   
   
@@ -1911,7 +2063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/launchpad-pro-mk3/" class="md-nav__link">
+      <a href="../../../../reference/hardware/launchpad-pro-mk3/" class="md-nav__link">
         
   
   
@@ -1934,7 +2086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/launchpad-x-mini-mk3/" class="md-nav__link">
+      <a href="../../../../reference/hardware/launchpad-x-mini-mk3/" class="md-nav__link">
         
   
   
@@ -1957,7 +2109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/push-1/" class="md-nav__link">
+      <a href="../../../../reference/hardware/push-1/" class="md-nav__link">
         
   
   
@@ -1980,7 +2132,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/hardware/push-2/" class="md-nav__link">
+      <a href="../../../../reference/hardware/push-2/" class="md-nav__link">
         
   
   
@@ -2075,7 +2227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting/" class="md-nav__link">
+      <a href="../../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -2098,7 +2250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reloading-control-surfaces/" class="md-nav__link">
+      <a href="../../../reloading-control-surfaces/" class="md-nav__link">
         
   
   
@@ -2121,7 +2273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reporting-bugs/" class="md-nav__link">
+      <a href="../../../reporting-bugs/" class="md-nav__link">
         
   
   
@@ -2144,7 +2296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../upgrade/" class="md-nav__link">
+      <a href="../../../upgrade/" class="md-nav__link">
         
   
   
@@ -2228,7 +2380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zcx-user-action/" class="md-nav__link">
+      <a href="../../../zcx-user-action/" class="md-nav__link">
         
   
   
@@ -2251,7 +2403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../session-ring/" class="md-nav__link">
+      <a href="../../../session-ring/" class="md-nav__link">
         
   
   
@@ -2274,7 +2426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../session-view/" class="md-nav__link">
+      <a href="../../../session-view/" class="md-nav__link">
         
   
   
@@ -2297,7 +2449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../keyboard/" class="md-nav__link">
+      <a href="../../../keyboard/" class="md-nav__link">
         
   
   
@@ -2320,7 +2472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overlays-layers/" class="md-nav__link">
+      <a href="../../../overlays-layers/" class="md-nav__link">
         
   
   
@@ -2343,7 +2495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../osc-output/" class="md-nav__link">
+      <a href="../../../osc-output/" class="md-nav__link">
         
   
   
@@ -2366,7 +2518,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../using-multiple-configs/" class="md-nav__link">
+      <a href="../../../using-multiple-configs/" class="md-nav__link">
         
   
   
@@ -2389,7 +2541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../custom-banks/" class="md-nav__link">
+      <a href="../../../custom-banks/" class="md-nav__link">
         
   
   
@@ -2475,7 +2627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blank-config/" class="md-nav__link">
+      <a href="../../../blank-config/" class="md-nav__link">
         
   
   
@@ -2498,7 +2650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../double_clicked/" class="md-nav__link">
+      <a href="../../../double_clicked/" class="md-nav__link">
         
   
   
@@ -2521,7 +2673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../porting/" class="md-nav__link">
+      <a href="../../../porting/" class="md-nav__link">
         
   
   
@@ -2544,7 +2696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../python-context/" class="md-nav__link">
+      <a href="../../../python-context/" class="md-nav__link">
         
   
   
@@ -2567,7 +2719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../touch-osc/" class="md-nav__link">
+      <a href="../../../touch-osc/" class="md-nav__link">
         
   
   
@@ -2652,7 +2804,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../resources/matrix-gen/" class="md-nav__link">
+      <a href="../../../../resources/matrix-gen/" class="md-nav__link">
         
   
   
@@ -2790,7 +2942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/page-changer/" class="md-nav__link">
+      <a href="../../../../recipes/page-changer/" class="md-nav__link">
         
   
   
@@ -2813,7 +2965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/dynamic-encoders/" class="md-nav__link">
+      <a href="../../../../recipes/dynamic-encoders/" class="md-nav__link">
         
   
   
@@ -2844,7 +2996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/encoder-banks/" class="md-nav__link">
+      <a href="../../../../recipes/encoder-banks/" class="md-nav__link">
         
   
   
@@ -2867,7 +3019,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/fx-ramp/" class="md-nav__link">
+      <a href="../../../../recipes/fx-ramp/" class="md-nav__link">
         
   
   
@@ -2890,7 +3042,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/note-repeat/" class="md-nav__link">
+      <a href="../../../../recipes/note-repeat/" class="md-nav__link">
         
   
   
@@ -2913,7 +3065,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/pad-faders/" class="md-nav__link">
+      <a href="../../../../recipes/pad-faders/" class="md-nav__link">
         
   
   
@@ -2936,7 +3088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/percussive-parameter-control/" class="md-nav__link">
+      <a href="../../../../recipes/percussive-parameter-control/" class="md-nav__link">
         
   
   
@@ -2959,7 +3111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/screensaver/" class="md-nav__link">
+      <a href="../../../../recipes/screensaver/" class="md-nav__link">
         
   
   
@@ -3042,7 +3194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../dev/build/" class="md-nav__link">
+      <a href="../../../../dev/build/" class="md-nav__link">
         
   
   
@@ -3065,7 +3217,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../dev/contributing/" class="md-nav__link">
+      <a href="../../../../dev/contributing/" class="md-nav__link">
         
   
   
@@ -3088,7 +3240,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../dev/dependencies/" class="md-nav__link">
+      <a href="../../../../dev/dependencies/" class="md-nav__link">
         
   
   
@@ -3111,7 +3263,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../dev/tests/" class="md-nav__link">
+      <a href="../../../../dev/tests/" class="md-nav__link">
         
   
   
@@ -3164,8 +3316,6 @@
             
             
               
-                
-              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -3175,8 +3325,158 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Named controls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#49-and-61-key-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      49 and 61-key only
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix pages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matrix pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#home_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      home_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session_view" class="md-nav__link">
+    <span class="md-ellipsis">
+      session_view
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device_control" class="md-nav__link">
+    <span class="md-ellipsis">
+      device_control
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blank_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      blank_page
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoders
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Encoders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#knobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Knobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#faders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faders
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-bindings-for-the-knobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional bindings for the knobs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -3188,70 +3488,95 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-                  
-  
+<h1>Launchkey mk4</h1>
+<p>
+    This is a guided tour of the Launchkey mk4 demo configuration.
+    <br>
+    Make sure to also see the <a href="../../../../reference/hardware/launchkey-mk4">hardware reference</a> to find out important information regarding your controller.
+</p>
+
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<h3 id="modes">Modes<a class="headerlink" href="#modes" title="Permanent link">&para;</a></h3>
+<p>This config comes with one main <a href="../../zcx-concepts/#modes">mode</a> pre-configured.
+This mode is called <code>shift</code>, and is assigned to the <code>function</code> button.</p>
+<p><strong>Note:</strong> the button labeled <code>shift</code> continues to perform its default function, and is not assignable to zcx.
+In this article, when we say "with <code>shift</code> held", we are referring to the <em>mode</em> <code>shift</code>.</p>
+<p>There are two other groups of <a href="../../../../reference/file/preferences/#exclusive_modes">exclusive modes</a>; <code>eb_1</code> and <code>eb_2</code>, and also <code>fb_1</code> through <code>fb_8</code>.
+We will cover these modes <a href="#encoders">later</a>.</p>
+<h3 id="pages">Pages<a class="headerlink" href="#pages" title="Permanent link">&para;</a></h3>
+<p>This config comes with four <a href="../../zcx-concepts/#pages">pages</a> pre-configured.
+By looking at <code>pages.yaml</code>, we can see these pages are named <code>home_page</code>, <code>session_view</code>, <code>device_control</code>, and <code>blank_page</code>.
+The controls to the left of the pads, <code>pad_bank_up</code> and <code>pad_bank_down</code>, are used to switch between the pages.
+You can quickly change to the first or last page by holding these buttons.</p>
+<p>The top row of the Launchkey's display will show the current page name.</p>
+<h3 id="named-controls">Named controls<a class="headerlink" href="#named-controls" title="Permanent link">&para;</a></h3>
+<p>The controls <code>track_left</code> and <code>track_right</code> (<code>track_left_m</code> and <code>track_right_m</code> on smaller models) change the selected track.
+With <code>shift</code> held, these controls will move the <a href="../../../session-ring/">session ring</a>.</p>
+<p>The control <code>scene_launch</code> (labeled ❯) will launch the scene at the top of the session ring.</p>
+<p>To the right, the controls <code>capture</code>, <code>undo</code>, <code>quantize</code>, <code>metronome</code>, <code>play</code>, <code>record</code>, and <code>loop</code> will perform their normal functions.
+<code>stop</code> is a <a href="../../../../reference/control/param/">param control</a> that will stop the selected track.</p>
+<p>Next to the encoders, the controls <code>enc_bank_up</code> and <code>enc_bank_down</code> (<code>enc_bank_up_m</code> and <code>enc_bank_down_m</code> on smaller models) will toggle between the modes <code>eb_1</code> and <code>eb_2</code>, changing the function of the <a href="#encoders">encoders</a>.</p>
+<h3 id="49-and-61-key-only">49 and 61-key only<a class="headerlink" href="#49-and-61-key-only" title="Permanent link">&para;</a></h3>
+<p>Below the faders, <code>fb_1</code> through <code>fb_8</code> are <a href="../../../../reference/control/ring_track/">ring_track controls</a>, which control tracks associated with the session ring, and display LED feedback representing their state.</p>
+<p>Pressing a control will select that track, while holding a control will arm that track exclusively.
+Holding a control with <code>shift</code> will arm the track non-exclusively, and double-clicking the control will play the track's next clip.</p>
+<p><code>fb_9</code> will toggle the <a href="../../../overlays-layers/">overlay</a> <code>fader_bank_select</code>, allowing you to change the binding of the <a href="#faders">faders</a>.</p>
+<h3 id="matrix-pages">Matrix pages<a class="headerlink" href="#matrix-pages" title="Permanent link">&para;</a></h3>
+<h4 id="home_page">home_page<a class="headerlink" href="#home_page" title="Permanent link">&para;</a></h4>
+<p>The first page contains the section <code>actions_main</code>, which has been left mostly unconfigured.</p>
+<h4 id="session_view">session_view<a class="headerlink" href="#session_view" title="Permanent link">&para;</a></h4>
+<p>This page contains the <a href="../../../session-view/">session view</a>.
+Pressing a clip with <code>shift</code> held will select that clip.
+Pressing the page controls with <code>shift</code> held will move the session ring.</p>
+<p>By double-clicking <code>function</code>, you can switch between the <a href="../../../overlays-layers/">overlays</a> <code>session_mute</code>, <code>session_solo</code>, and <code>session_stop</code>, letting you use the bottom row of pads to mute, solo, or stop the respective track.</p>
+<h4 id="device_control">device_control<a class="headerlink" href="#device_control" title="Permanent link">&para;</a></h4>
+<p>This page features the section <code>device</code>.
+This section is made up of <a href="../../../../reference/control/param/">param controls</a>.</p>
+<p>The top row lets you change the track's selected device.
+The bottom row will toggle the first eight parameters on that device.</p>
+<h4 id="blank_page">blank_page<a class="headerlink" href="#blank_page" title="Permanent link">&para;</a></h4>
+<p>This page contains <code>blank_section</code>, an 8x2 unconfigured grid.
+It's a great place to start experimenting with zcx's capabilities.</p>
+<h2 id="encoders">Encoders<a class="headerlink" href="#encoders" title="Permanent link">&para;</a></h2>
+<h3 id="knobs">Knobs<a class="headerlink" href="#knobs" title="Permanent link">&para;</a></h3>
+<p>The eight knobs control the parameters of the selected device.
+By using the ˄ and ˅ buttons next to the knobs, you can toggle between controlling the first or second bank of parameters.
+Pressing these controls while holding <code>shift</code> will move between devices on the current track.</p>
+<h3 id="faders">Faders<a class="headerlink" href="#faders" title="Permanent link">&para;</a></h3>
+<p><em>49 and 61-key models only</em></p>
+<p>By default, <code>fader_1</code> through <code>fader_8</code> control the volume of the tracks inside the session ring, while <code>fader_9</code> controls the Main track's volume.</p>
+<p>By pressing <code>fb_9</code> (below <code>fader_9</code>), you will activate the <code>fader_bank_select</code> overlay.
+With this overlay, controls <code>fb_1</code> through <code>fb_8</code> will activate the <em>modes</em> <code>fb_1</code> through <code>fb_8</code>, re-binding the faders.</p>
+<p><strong>Note:</strong> <a href="../../../../reference/file/encoders/">encoders.yaml</a> only has a pre-configured binding for <code>fb_1</code>.
+It is up to you to add additional bindings.</p>
+<h3 id="additional-bindings-for-the-knobs">Additional bindings for the knobs<a class="headerlink" href="#additional-bindings-for-the-knobs" title="Permanent link">&para;</a></h3>
+<p>You can use these same fader bank modes for the knobs.
+To do so, your <code>encoders.yaml</code> would look something like this:</p>
+<div class="language-yaml highlight"><span class="filename">encoders.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">__encoders</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">includes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">enc_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">enc_8</span><span class="p p-Indicator">]</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">sensitivity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.0</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">binding</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NONE</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">__fb_1__eb_1</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="no">SEL / DEV(SEL) B1 P${me.Index}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">__fb_1__eb_2</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="no">SEL / DEV(SEL) B2 P${me.Index}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">__fb_2__eb_1</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="no">RING(${me.index}) / VOL</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">__fb_2__eb_2</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="no">RING(${me.index}) / PAN</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">__fb_3__eb_1</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="no">RING(${me.index}) / SEND A</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="nt">__fb_3__eb_2</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">      </span><span class="no">RING(${me.index}) / SEND B</span>
+</span></code></pre></div>
+<p>With a configuration like this, you can easily set up 16 different banks of encoders.</p>
+
+<h2>next up</h2>
+
+<a href="../../building-a-config">Click here</a> to head to the next lesson in the getting started guide.
 
 
-
-  
-  
-
-
-<h1 id="building-a-config">building a config<a class="headerlink" href="#building-a-config" title="Permanent link">&para;</a></h1>
-<p>In this final lesson of the getting started series, we will learn how to build a complete zcx config from scratch.
-Currently, this lesson is only available in video format.</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BPShQoL-MRM?si=CM5C68ZGua2gcMlM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-<p><a href="https://github.com/odisfm/example-zcx-configs/tree/main/push-2-getting-started-example">Click here</a> to view and download the finished configuration.</p>
-
-
-
-
-
-
-
-  
-    
-  
-  
-    
-  
-
-
-  <aside class="md-source-file">
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="Last update">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-02-21T04:26:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-02-21</span>
-  </span>
-
-    
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="Created">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-02-21T04:26:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-02-21</span>
-  </span>
-
-    
-    
-    
-  </aside>
-
-
-  
-
-
-  
-
-
-
-                
               </article>
             </div>
           
@@ -3271,12 +3596,10 @@ Currently, this lesson is only available in video format.</p>
   
     
       
-        
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" hidden>
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../zcx-concepts/" class="md-footer__link md-footer__link--prev" aria-label="Previous: zcx concepts">
+          <a href="../apc-mini-mk2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: APC mini mkII">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3286,20 +3609,20 @@ Currently, this lesson is only available in video format.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                zcx concepts
+                APC mini mkII
               </div>
             </div>
           </a>
         
         
           
-          <a href="../demo-tour/" class="md-footer__link md-footer__link--next" aria-label="Next: Demo tour">
+          <a href="../launchpad-pro-mk3/" class="md-footer__link md-footer__link--next" aria-label="Next: Launchpad Pro mk3">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Demo tour
+                Launchpad Pro mk3
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3362,222 +3685,19 @@ Currently, this lesson is only available in video format.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "content.code.copy", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.header", "navigation.indexes", "navigation.top", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "provider": "mike"}}</script>
     
     
-
-
-      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../../js/timeago.min.js"></script>
+        <script src="../../../../js/timeago.min.js"></script>
       
-        <script src="../../../js/timeago_mkdocs_material.js"></script>
+        <script src="../../../../js/timeago_mkdocs_material.js"></script>
       
-        <script src="../../../js/extra.js"></script>
+        <script src="../../../../js/extra.js"></script>
       
-        <script src="../../../js/open_in_new_tab.js"></script>
+        <script src="../../../../js/open_in_new_tab.js"></script>
       
     
-
-<script>
-  document$.subscribe(() => {
-
-    ////// outdated element stuff
-
-    const DEV_PATHS = ['dev', 'preview']
-    const outdatedEl = document.querySelector('[data-md-component="outdated"]')
-    const path = window.location.pathname
-    let isDevPath = false
-
-    for (const dev_path of DEV_PATHS) {
-      if (path.startsWith("/" + dev_path)) {
-        isDevPath = true
-        break
-      }
-    }
-
-    if (isDevPath) {
-      document.body.classList.add('dev-mode')
-      outdatedEl.querySelector('span').textContent = `You are viewing the docs for an unreleased version of zcx.`
-      outdatedEl.querySelector('strong').textContent = `Click here to see the latest stable version.`
-    }
-
-    outdatedEl.querySelector('button').addEventListener('click', () => {
-      if (isDevPath) {
-        localStorage.setItem('devModeWarningDismissed', JSON.stringify(new Date()))
-        umami.track('dismiss-warning-dev')
-      } else {
-        localStorage.setItem('outdatedWarningDismissed', JSON.stringify(new Date()))
-        umami.track('dismiss-warning-outdated')
-      }
-
-      outdatedEl.remove()
-    })
-
-    let relevantWarningDate;
-    if (isDevPath && localStorage.getItem('devModeWarningDismissed') !== null) {
-      relevantWarningDate = localStorage.getItem('devModeWarningDismissed')
-    } else {
-      relevantWarningDate = localStorage.getItem('outdatedWarningDismissed')
-    }
-
-    if (relevantWarningDate) {
-      const dismissedDate = new Date(JSON.parse(relevantWarningDate))
-      const daysSinceDismissed = (new Date() - dismissedDate) / (1000 * 60 * 60 * 24)
-
-      if (daysSinceDismissed < 28) {
-        outdatedEl.remove()
-      }
-    }
-
-
-    const isDigit = (char) => {
-      return /^\d$/.test(char)
-    }
-
-    const processVersionElements = () => {
-      const versionElements = []
-      const versionChooserButton = document.querySelector('.md-version__current')
-      if (versionChooserButton && isDigit(versionChooserButton.textContent[0])) {
-        versionElements.push(versionChooserButton)
-      }
-      const versionListItems = document.querySelectorAll('.md-version__list li')
-      for (const versionLi of versionListItems) {
-        if (isDigit(versionLi.textContent[0])) {
-          versionElements.push(versionLi)
-        }
-      }
-
-      for (const versionElement of versionElements) {
-        versionElement.classList.add('version-number')
-      }
-
-      return versionElements.length > 0
-    }
-
-    if (!processVersionElements()) {
-      const observer = new MutationObserver(() => {
-        if (processVersionElements()) {
-          observer.disconnect()
-        }
-      })
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      })
-
-      setTimeout(() => observer.disconnect(), 5000)
-    }
-
-    ////// matrix gen
-
-    function initializeForm() {
-      const generateButton = document.getElementById('generate-button');
-      const output_block = document.getElementById('yaml-output')?.querySelector('code');
-
-      if (!generateButton || !output_block) return;
-
-      generateButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        processFormData(output_block);
-      });
-    }
-
-    function processFormData(output_block) {
-      output_block.innerHTML = null;
-
-      let width = parseInt(document.getElementById('columns').value);
-      let height = parseInt(document.getElementById('rows').value);
-      let comment_out = document.getElementById('comment-out').checked;
-      let space_between_items = document.getElementById('space-between-items').checked;
-      let comment_coords = document.getElementById('comment-coords').checked;
-      let includeColor = document.getElementById('color').checked;
-      let includeType = document.getElementById('type').checked;
-      let randomColor = document.getElementById('random-color').checked;
-
-      const gestures = [
-        'press',
-        'release',
-        'short_press',
-        'long_press',
-        'long_release',
-        'double_click'
-      ];
-
-      let content = '';
-      let these_gestures = [];
-
-      for (let i = 0; i < gestures.length; i++) {
-        let gesture = gestures[i];
-        if (document.getElementById(gesture).checked) {
-          these_gestures.push(gesture);
-        }
-      }
-
-      for (let i = 0; i < height; i++) {
-        if (comment_coords) content += make_comment(`!! row ${i + 1}`);
-        for (let j = 0; j < width; j++) {
-          if (comment_coords) content += make_comment(`col ${j + 1}`);
-          content += '- \n';
-
-          if (includeColor) {
-            let color = 127;
-            if (randomColor) color = getRandomInt(126) + 1;
-            content += make_row('color', color, 1, comment_out);
-            content += '\n';
-          }
-
-          if (includeType) {
-            content += make_row('type', 'standard', 1, comment_out);
-            content += '\n';
-          }
-
-          content += make_row('gestures', false, 1, comment_out, true);
-          if (these_gestures.length === 0) {
-            content += make_row('pressed', 'DUMMY', 2, true, false);
-            content += '\n';
-          } else {
-            for (let g of these_gestures) {
-              content += make_row(g, 'DUMMY', 2, comment_out, false);
-              content += '\n';
-            }
-          }
-
-          if (space_between_items) content += '\n';
-        }
-      }
-
-      let span = document.createElement('span');
-      span.textContent = content;
-      output_block.appendChild(span);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function make_row(key, value, indent, commented = false, is_dict = false) {
-      let row = "";
-      if (commented) row += "# ";
-      for (let i = 0; i < indent; i++) row += "  ";
-      row += `${key}:`;
-      if (is_dict) return row + `\n`;
-      row += ` ${value}`;
-      return row;
-    }
-
-    function make_comment(content) {
-      return `# ${content}\n`;
-    }
-
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
-
-    initializeForm();
-
-  })
-
-</script>
-
-
   </body>
 </html>

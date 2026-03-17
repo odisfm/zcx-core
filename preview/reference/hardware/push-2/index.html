@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#limitations" class="md-skip">
+        <a href="#setup-notes" class="md-skip">
           Skip to content
         </a>
       
@@ -794,6 +794,8 @@
       
         
       
+        
+      
     
     
     
@@ -875,6 +877,29 @@
   
   <span class="md-ellipsis">
     APC mini mkII
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lessons/getting-started/demo-tour/launchkey-mk4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Launchkey mk4
     
   </span>
   
@@ -1979,6 +2004,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setup-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#limitations" class="md-nav__link">
     <span class="md-ellipsis">
       Limitations
@@ -2008,15 +2042,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notes
-    </span>
-  </a>
   
 </li>
       
@@ -3249,6 +3274,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setup-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#limitations" class="md-nav__link">
     <span class="md-ellipsis">
       Limitations
@@ -3278,15 +3312,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notes
-    </span>
-  </a>
   
 </li>
       
@@ -3345,6 +3370,12 @@
 <p>Trying to understand the demo config that came with your download? See the <a href="../../../lessons/getting-started/demo-tour/push-2">demo tour</a>.</p>
 </div>
 
+<h3 id="setup-notes">Setup notes<a class="headerlink" href="#setup-notes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>In Live's MIDI settings, <code>Ableton Push 2 (User Port)</code> should be selected as the Input/Output of the zcx script.</li>
+<li>It is possible to use the factory Push 2 control surface script alongside zcx, and change between the scripts by pressing the <code>User</code> button or with the <a href="../../../lessons/zcx-user-action/#hw_mode">zcx user action</a>.</li>
+<li>When using the Live <a href="https://help.ableton.com/hc/en-us/articles/6003224107292-Options-txt-file">Options.txt</a> entry <code>-Push2UseLegacyScript</code>, and <code>Push2</code> is not selected as a control surface, you must set the <a href="../../file/preferences/#initial_hw_mode">zcx preference</a> <code>initial_hw_mode: zcx</code> or zcx will be inaccessible.</li>
+</ul>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
 <h3 id="display">Display<a class="headerlink" href="#display" title="Permanent link">&para;</a></h3>
 <p>zcx will not make any use of Push 2's display.
@@ -3357,10 +3388,6 @@ If instead, you re-enter zcx mode via the <a href="../../../lessons/zcx-user-act
 <ul>
 <li>The touchstrip continuous input cannot be used by zcx, but will function as normal if <code>track</code> is enabled for this script in Live's MIDI preferences. The touchstrip sends an on/off message on press and release, which is available as a named control called <code>touchstrip</code>.</li>
 <li>The touchstrip cannot be toggled between pitchbend and modulation mode from within zcx. You must enter Live mode and press the touchstrip while holding <code>select</code>.</li>
-</ul>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<ul>
-<li>When using the Live <a href="https://help.ableton.com/hc/en-us/articles/6003224107292-Options-txt-file">Options.txt</a> entry <code>-Push2UseLegacyScript</code>, and <code>Push2</code> is not selected as a control surface, you must set the <a href="../../file/preferences/#initial_hw_mode">zcx preference</a> <code>initial_hw_mode: zcx</code> or zcx will be inaccessible.</li>
 </ul>
 <h2 id="control-names">control names<a class="headerlink" href="#control-names" title="Permanent link">&para;</a></h2>
 <h3 id="buttons">buttons<a class="headerlink" href="#buttons" title="Permanent link">&para;</a></h3>

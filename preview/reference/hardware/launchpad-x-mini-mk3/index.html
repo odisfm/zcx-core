@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#color-support" class="md-skip">
+        <a href="#setup-notes" class="md-skip">
           Skip to content
         </a>
       
@@ -794,6 +794,8 @@
       
         
       
+        
+      
     
     
     
@@ -875,6 +877,29 @@
   
   <span class="md-ellipsis">
     APC mini mkII
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lessons/getting-started/demo-tour/launchkey-mk4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Launchkey mk4
     
   </span>
   
@@ -1931,6 +1956,15 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup notes
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#color-support" class="md-nav__link">
@@ -3207,6 +3241,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setup-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#color-support" class="md-nav__link">
     <span class="md-ellipsis">
       Color support
@@ -3261,6 +3304,13 @@
 <p>Trying to understand the demo config that came with your download? See the <a href="../../../lessons/getting-started/demo-tour/launchpad-x-mini-mk3">demo tour</a>.</p>
 </div>
 
+<h2 id="setup-notes">Setup notes<a class="headerlink" href="#setup-notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>In Live's MIDI settings, <code>Launchpad (MIDI Out/In)</code> should be selected as the Input/Output of the zcx script.</li>
+<li>it is possible to use the factory Launchpad script alongside zcx, and change between the scripts by using the <a href="../../../lessons/zcx-user-action/#hw_mode">zcx user action</a>.</li>
+<li>After changing to zcx mode, it may be necessary to <a href="../../../lessons/zcx-user-action/#refresh">refresh</a> the script's feedback.</li>
+<li>If you are using Launchpad custom modes alongside zcx, the custom mode controls should not use MIDI channel 1.</li>
+</ul>
 <h2 id="color-support">Color support<a class="headerlink" href="#color-support" title="Permanent link">&para;</a></h2>
 <p>When defining <a href="../../color/#animated-colors">pulse colors</a>, only the <code>a</code> value is used.</p>
 <p>Only one speed is supported for animated colors, so any <code>speed</code> option will be ignored.</p>
