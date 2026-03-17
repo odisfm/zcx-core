@@ -73,18 +73,6 @@ For your controller's input, check the boxes `Track` and `Remote`, and for the o
 
 At this point, you may need to [reload the script](../reloading-control-surfaces.md).
 
-### if your controller has a distinct 'user mode'
+## check the hardware reference
 
-Many controllers, such as the Push and Launchpad have a 'Live' mode and a 'user' mode. 
-
-When setting up the Input and Output of the zcx script, you must use the 'user mode' port.
-For example, Push 1 has the MIDI inputs `Ableton Push (Live mode)` and `Ableton Push (User mode)` — use the latter.
-You are able to use the 'Live' and 'user' modes of your controller by switching between them with the dedicated hardware button, though the official control surface and the zcx script will each need their own control surface slot.
-
-For the Launchpad series, use the port `Launchpad X MIDI In` or similar, rather than the `DAW in` and `DAW out` ports.
-
-If you have officially supported hardware, zcx should automatically handle switching the controller's mode. If it doesn't, [raise an issue](../reporting-bugs.md).
-
-## explore!
-
-Your zcx distribution comes with a carefully crafted demo config, put together by the maintainer for your hardware. It's designed to give a taste of zcx's capabilities out of the box, and be intuitive to edit. Once you're done with that, continue with this tutorial. :)
+Check the [hardware reference](../../reference/hardware/index.md) for important information relevant to your MIDI controller.
