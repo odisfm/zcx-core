@@ -1,3 +1,8 @@
+## Setup notes
+
+- In Live's MIDI settings, `Launchkey MK4 (DAW Out/In)` should be selected as the Input/Output of the zcx script.
+- It is not possible to use the factory Launchkey MK4 control surface script alongside zcx.
+
 ## Note on different Launchkey mk4 versions
 
 Launchkey mk4 is available in 25, 37, 49, and 61-key versions, with the 25 and 37-key also available in a "mini" form factor.

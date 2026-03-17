@@ -1,3 +1,8 @@
+### Setup notes
+
+- In Live's MIDI settings, `Ableton Push (User Port)` should be selected as the Input/Output of the zcx script.
+- It is possible to use the factory Push 1 control surface script alongside zcx, and change between the scripts by pressing the `User` button or with the [zcx user action](../../lessons/zcx-user-action.md#hw_mode).
+
 ## Limitations
 
 - The touchstrip continuous input cannot be used by zcx, but will function as normal if `track` is enabled for this script in Live's MIDI preferences. The touchstrip sends an on/off message on press and release, which is available as a named control called `touchstrip`.

@@ -1,3 +1,10 @@
+## Setup notes
+
+- In Live's MIDI settings, `Launchpad (MIDI Out/In)` should be selected as the Input/Output of the zcx script.
+- it is possible to use the factory Launchpad script alongside zcx, and change between the scripts by using the [zcx user action](../../lessons/zcx-user-action.md#hw_mode).
+  - After changing to zcx mode, it may be necessary to [refresh](../../lessons/zcx-user-action.md#refresh) the script's feedback.
+- If you are using Launchpad custom modes alongside zcx, the custom mode controls should not use MIDI channel 1.
+
 ## Color support
 
 When defining [pulse colors](../color.md#animated-colors), only the `a` value is used.
