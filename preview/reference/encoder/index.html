@@ -1430,6 +1430,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#command-encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Encoders
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Encoders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-options_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      steps
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3655,6 +3694,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#command-encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Encoders
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Encoders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-options_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      steps
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3676,6 +3754,7 @@
 
 <h1 id="encoder-reference">Encoder Reference<a class="headerlink" href="#encoder-reference" title="Permanent link">&para;</a></h1>
 <p>Encoder mapping in zcx aims to emulate the Encoder Bindings feature from the <a href="https://www.cxpman.com/manual/optional-accessories/#clyphx-pro-bindings">ClyphX Pro Bindings</a> optional accessory.</p>
+<p>Alternatively, encoders can <a href="#command-encoders">fire command bundles</a>, including action lists.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>Encoder mappings are configured in <code>encoders.yaml</code>, within your <code>_config</code> folder.
 An encoder config looks like this:</p>
@@ -3796,6 +3875,46 @@ By setting <code>unbind_on_fail: false</code> for this control, <code>enc_1</cod
 <h3 id="first-last-and-sel-keyword">FIRST, LAST, and SEL keyword<a class="headerlink" href="#first-last-and-sel-keyword" title="Permanent link">&para;</a></h3>
 <p>When using <a href="https://www.cxpman.com/manual/general-action-information/#single-devices">ClyphX Pro rack dot notation</a>, the <code>FIRST</code>, <code>LAST</code>, and <code>SEL</code> keywords are not recognised.
 This may be added in a future release.</p>
+<h2 id="command-encoders">Command Encoders<a class="headerlink" href="#command-encoders" title="Permanent link">&para;</a></h2>
+<p>Encoders in zcx can send <a href="../command/#command-bundles">command bundles</a> when they move.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">my_encoder</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">binding</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="hll"><span class="w">    </span><span class="nt">command</span><span class="p">:</span>
+</span></span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="hll"><span class="w">      </span><span class="nt">down</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &lt;1</span>
+</span></span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="hll"><span class="w">      </span><span class="nt">up</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &gt;1</span>
+</span></span></code></pre></div>
+<p>To create a Command Encoder, one or more of your bindings should be an object called <code>command</code>.</p>
+<p>In the <code>command</code> object, you should have one or all of the following keys:</p>
+<ul>
+<li><code>down</code> - fire this command when the encoder moves down or to the left</li>
+<li><code>up</code> - fire this command when the encoder moves up or to the right</li>
+<li><code>both</code> - fire this command when the encoder moves in either direction.</li>
+</ul>
+<p>Just like with normal encoders, you can have different bindings depending on the mode, though encoders can't be bound to a parameter and send commands at the same time:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">my_encoder</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">binding</span><span class="p">:</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SEL / VOL</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">__shift</span><span class="p">:</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="nt">command</span><span class="p">:</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="nt">down</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &lt;1</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="nt">up</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &gt;1</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="nt">__select</span><span class="p">:</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">      </span><span class="nt">command</span><span class="p">:</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="nt">down</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &lt;0.1</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="nt">up</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &gt;0.1</span>
+</span></code></pre></div>
+<h3 id="additional-options_1">Additional options<a class="headerlink" href="#additional-options_1" title="Permanent link">&para;</a></h3>
+<h4 id="steps">steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">command</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">down</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &lt;1</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">up</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BPM &gt;1</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="hll"><span class="w">  </span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span></span></code></pre></div>
+<p>Put simply, the <code>steps</code> option determines how far the encoder must move to fire its command.
+The default is <code>10</code>.
+With higher values, the encoder must move further before the command is fired.</p>
 
 
 
@@ -3818,7 +3937,7 @@ This may be added in a future release.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-01-08T12:21:31+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-01-08</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2026-03-17T09:04:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2026-03-17</span>
   </span>
 
     
