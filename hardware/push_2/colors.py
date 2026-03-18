@@ -118,6 +118,10 @@ def simplify_color(color):
     color1 = getattr(color, 'color1', color)
     return color1
 
+
+PARAM_GRADIENT = [IndexedColor(127), IndexedColor(2), IndexedColor(4), IndexedColor(3),
+                  IndexedColor(23), IndexedColor(109), IndexedColor(107), IndexedColor(108)]
+
 palette_forest = [
     RgbColorSwatch.GREEN,
     RgbColorSwatch.LIME,

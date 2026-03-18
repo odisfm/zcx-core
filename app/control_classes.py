@@ -22,6 +22,8 @@ def get_subclass(class_name):
             return RingTrackControl
         case "param":
             return ParamControl
+        case "param_g":
+            return ParamGradientControl
         case "keyboard":
             return KeyboardControl
         case "overlay":

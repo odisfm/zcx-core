@@ -222,90 +222,106 @@ class ParamControl(ZControl, BindingsMixin):
         self.__debounce_feedback_update_task.restart()
 
     def _do_update_feedback(self):
+        self.set_feedback(self.recommend_color().binary)
+
+    def recommend_color(self) -> "ColorRecommendation":
         try:
             if self._disabled:
-                return self.replace_color(self._color_dict["disabled"])
+                return ColorRecommendation(None, None, None, True)
 
             if self.mapped_parameter:
+                current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
                 if self._custom_midpoint:
-                    current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
                     if current_pct >= self._custom_midpoint:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, current_pct, None, False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, current_pct, None, False)
                 else:
                     if self.mapped_parameter.value == self.mapped_parameter.max:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, current_pct, None, False)
                     elif self.mapped_parameter.value == self.mapped_parameter.min:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, current_pct, None, False)
                     else:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, current_pct, None, False)
             else:
                 map = self._active_map
                 if self._mapped_track and map.get("device") and map.get("parameter_type", "").lower() == "sel":
                     if self._mapped_device == self._mapped_track.view.selected_device:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, None, False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, None, None, False)
                 elif map.get('arm'):
                     if self._mapped_track.can_be_armed:
                         if self._mapped_track.arm:
-                            self.set_feedback(True)
+                            return ColorRecommendation(True, None, "red", False)
                         else:
-                            self.set_feedback(False)
+                            return ColorRecommendation(True, None, "red shade", False)
                 elif map.get('monitor'):
                     monitoring_idx = self._mapped_track.current_monitoring_state
+                    rec = None
+                    match monitoring_idx:
+                        case 0:
+                            rec = "white"
+                        case 1:
+                            rec = "yellow"
+                        case 2:
+                            rec = "cyan"
                     if ["in", "auto", "off"].index(self._active_map.get("monitor").lower()) == monitoring_idx:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, rec, False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, None, rec, False)
                 elif map.get('mute'):
                     if self._mapped_track.mute:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, "white", False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, None, "yellow", False)
                 elif map.get('solo'):
                     if self._mapped_track.solo:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, "blue", False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, None, "white", False)
                 elif map.get('track_select'):
                     if self._mapped_track == self.root_cs.song.view.selected_track:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, "white", False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, None, "dark_grey", False)
                 elif map.get('x_fade_assign'):
                     assignment_def = map.get('x_fade_assign')
                     current_assignment = self._mapped_track.mixer_device.crossfade_assign
-                    assignment_def_int = ["a", "off", "b"].index(assignment_def.lower())
+                    a_def_lower = assignment_def.lower()
+                    assignment_def_int = ["a", "off", "b"].index(a_def_lower)
+                    rec = ["yellow", "white", "cyan"][assignment_def_int]
 
                     if current_assignment == assignment_def_int:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, rec, False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(True, None, rec, False)
                 elif map.get("play"):
                     track = self._mapped_track
                     sel_scene_index = list(self.root_cs.song.scenes).index(self.root_cs.song.view.selected_scene)
                     if track.playing_slot_index == sel_scene_index:
                         if track.fired_slot_index >= 0 and track.fired_slot_index != track.playing_slot_index:
-                            self.set_feedback(True)
+                            return ColorRecommendation(True, None, "play_green", False)
                         else:
-                            self.set_feedback(False)
+                            return ColorRecommendation(True, None, "play_green", False)
                     else:
                         if track.clip_slots[sel_scene_index].has_clip:
-                            self.set_feedback(True)
+                            return ColorRecommendation(True, None, "white", False)
                         else:
-                            self.set_feedback(False)
+                            return ColorRecommendation(False, None, "dark_grey", False)
                 elif map.get("stop"):
                     if self._mapped_track.playing_slot_index >= 0 or self._mapped_track.fired_slot_index >= 0:
-                        self.set_feedback(True)
+                        return ColorRecommendation(True, None, "orange", False)
                     else:
-                        self.set_feedback(False)
+                        return ColorRecommendation(False, None, "dark_grey", False)
                 else:
-                    self.replace_color(self._color_dict["disabled"])
+                    return ColorRecommendation(None, None, None, True)
+
+                raise RuntimeError(f"Couldn't determine color")
 
         except Exception as e:
             self.error(e)
+            return ColorRecommendation(None, None, None, True)
 
     def set_feedback(self, status: bool):
         color = self._color_dict["on"] if status else self._color_dict["off"]
@@ -615,3 +631,13 @@ class DebounceFeedbackUpdateTask(TimerTask):
 
     def on_finish(self):
         self.owner._do_update_feedback()
+
+
+from typing import NamedTuple
+
+
+class ColorRecommendation(NamedTuple):
+    binary: bool | None
+    percent: float | None
+    recommended: str | None
+    disabled: bool

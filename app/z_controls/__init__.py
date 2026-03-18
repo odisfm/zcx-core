@@ -8,6 +8,7 @@ from .transport_control import TransportControl
 from .session_ring_control import SessionRingControl
 from .ring_track_control import RingTrackControl
 from .param_control import ParamControl
+from .param_gradient_control import ParamGradientControl
 from .keyboard_control import KeyboardControl
 from .overlay_control import OverlayControl
 from ..action_resolver import ActionResolver
@@ -23,5 +24,5 @@ session_ring:SessionRing = Optional[None]
 __all__ = [
         "BasicZControl", "PageControl", "ModeControl",
         "TransportControl", "TrackControl", "RingTrackControl",
-        "ParamControl", "KeyboardControl", "OverlayControl"
+        "ParamControl", "KeyboardControl", "OverlayControl","ParamGradientControl",
         ]

@@ -18,6 +18,11 @@ try:
     from .hardware.colors import REVERSE_BLINK_COLORS
 except ImportError:
     REVERSE_BLINK_COLORS = False
+try:
+    from .hardware.colors import PARAM_GRADIENT
+except ImportError:
+    PARAM_GRADIENT = [RgbColor(5), RgbColor(6), RgbColor(9), RgbColor(96),
+                      RgbColor(53), RgbColor(54), RgbColor(55), RgbColor(51)]
 
 
 class ColorSwatches:
