@@ -1,17 +1,16 @@
 from enum import Enum
-from ..util import to_percentage, is_chain_map_positional
-from ..z_control import ZControl, only_in_view
-from ableton.v2.base import EventObject, listenable_property
-from ableton.v3.base import listens
+
+from ableton.v2.base import listenable_property
 from ableton.v2.base.task import TimerTask
-
+from ableton.v3.base import listens
+from ..bindings_mixin import BindingsMixin
 from ..colors import parse_color_definition, RgbColor
-from ..errors import ConfigurationError, CriticalConfigurationError
-from ..bank_definitions import get_banked_parameter
-from ..parse_target_path import parse_target_path
-from ..consts import DEFAULT_ON_THRESHOLD, SENDS_COUNT
+from ..errors import ConfigurationError, CriticalConfigurationError, NumberedDeviceMissingError
+from ..util import to_percentage
+from ..z_control import ZControl, only_in_view
 
-UPDATE_RATE = 1 / 3 # 3 times per second
+UPDATE_RATE = 1 / 3  # 3 times per second
+
 
 class PressBehaviour(Enum):
     NONE = 0
@@ -19,13 +18,14 @@ class PressBehaviour(Enum):
     MOMENTARY = 2
 
 
-class ParamControl(ZControl):
-
+class ParamControl(ZControl, BindingsMixin):
     selected_device_watcher = None
 
-    def __init__(self, *a, **kwargs):
-        ZControl.__init__(self, *a, **kwargs)
+    def __init__(self, *args, **kwargs):
+        ZControl.__init__(self, *args, **kwargs)
+        BindingsMixin.__init__(self, *args, **kwargs)
         self.__behaviour: PressBehaviour = PressBehaviour.NONE
+        self.__is_encoder = False
         self._default_map = None
         self._mapped_parameter = None
         self._binding_dict = {}
@@ -35,7 +35,7 @@ class ParamControl(ZControl):
         self._mapped_device = None
         self.action_resolver = self.root_cs.component_map["ActionResolver"]
         self._log_failed_bindings = True
-        self.__disabled = True
+        self._disabled = True
         self._suppress_animations = True
         self._suppress_animations = True
         self._will_toggle_param = True
@@ -107,82 +107,20 @@ class ParamControl(ZControl):
             self._custom_midpoint = get_percentage_def("midpoint")
 
             binding = self._raw_config.get("binding")
-            if isinstance(binding, dict):
-                pass
-            elif isinstance(binding, str):
-                binding = {"default": binding}
-            elif binding is None:
+            if binding is None:
                 raise CriticalConfigurationError(
                     f"Invalid binding config in {self.parent_section.name} control {self.name}"
                     f"\n`binding` option missing"
                 )
-            else:
-                raise CriticalConfigurationError(
-                    f"Invalid binding config in {self.parent_section.name} control {self.name}"
-                    f"\n`binding` key must be a dict or a string"
-                    f"\n{self._raw_config}"
-                )
 
-            binding_dict = {}
-            concerned_modes = []
-            all_zcx_modes = self._mode_manager.all_modes
-
-            for binding_mode, binding_def in binding.items():
-                if isinstance(binding_def, str):
-                    binding_params = {}
-                elif isinstance(binding_def, dict):
-                    binding_params = copy.deepcopy(binding_def)
-                    if "target" in binding_params:
-                        binding_def = binding_params["target"]
-                        del binding_params["target"]
-                    else:
-                        pass
-                else:
-                    raise CriticalConfigurationError(
-                        f"Invalid binding config in {self.parent_section.name}"
-                        f"\nBinding definitions must be a dict or a string"
-                        f"\n{self._raw_config}"
-                    )
-
-                these_modes = binding_mode.split("__")
-                for mode in these_modes:
-                    if mode not in ["default", ""]:
-                        if mode not in all_zcx_modes:
-                            raise CriticalConfigurationError(f"Definition for param control `{self.name}` references mode `{mode}` that does not appear in `modes.yaml`")
-                    if mode not in concerned_modes:
-                        concerned_modes.append(mode)
-
-                these_modes.sort()
-                sorted_mode_string = "__".join(these_modes)
-
-                binding_def = binding_def.rstrip('\n')
-
-                parsed_target_string, status = self.action_resolver.compile(
-                    binding_def,
-                    self._vars,
-                    self._context,
-                )
-
-                if status != 0:
-                    raise ConfigurationError(
-                        f"Error creating param control `{self.name}`. Binding `{sorted_mode_string}` contains unparseable template string:"
-                        f"\n{binding_def}"
-                    )
-
-                target_map = parse_target_path(parsed_target_string)
-
-                if target_map["error"] is not None:
-                    raise ConfigurationError(target_map["error"])
-
-                binding_dict[sorted_mode_string] = target_map
-
-            if "default" in binding_dict:
-                self._default_map = binding_dict["default"]
-
-            concerned_modes.sort()
-
+            self._binding_dict, concerned_modes = self.setup_bindings(
+                binding,
+                self._mode_manager.all_modes,
+                allow_command_encoder=False,
+            )
             self._concerned_binding_modes = concerned_modes
-            self._binding_dict = binding_dict
+
+            self._default_map = self._binding_dict.get("default")
             self._active_map = self._default_map
 
             color_on_def = self._raw_config.get("on_color") or self._raw_config.get("color")
@@ -229,6 +167,10 @@ class ParamControl(ZControl):
         self._mapped_parameter = value
         self.mapped_param_value_listener.subject = value
 
+    @property
+    def is_encoder(self):
+        return self.__is_encoder
+
     def bind_to_active(self):
 
         try:
@@ -251,14 +193,14 @@ class ParamControl(ZControl):
                     self.mapped_parameter = None
                     self._mapped_track = None
                     self._mapped_device = None
-                    self.__disabled = True
+                    self._disabled = True
                     self.update_feedback()
                 return
 
-            self.__disabled = False
+            self._disabled = False
 
         except Exception as e:
-            self.__disabled = True
+            self._disabled = True
             self.update_feedback()
             if self._log_failed_bindings and not isinstance(e, NumberedDeviceMissingError) and self._active_map and self._active_map["input_string"] != "NONE":
                 self.error(f"{e.__class__.__name__}: {e}")
@@ -268,590 +210,10 @@ class ParamControl(ZControl):
             self.apply_listeners(dynamism)
             self.update_feedback()
 
-    def apply_listeners(self, listen_dict):
-        try:
-            if listen_dict.get("selected_track"):
-                self.selected_track_listener.subject = self.root_cs.song.view
-            else:
-                self.selected_track_listener.subject = None
-
-            if listen_dict.get("track_list"):
-                self.track_list_listener.subject = self.root_cs.song
-            else:
-                self.track_list_listener.subject = None
-
-            if listen_dict.get("device_list"):
-                self.device_list_listener.subject = self._mapped_track
-            else:
-                self.device_list_listener.subject = None
-
-            if listen_dict.get("parameter_list"):
-                pass
-            else:
-                pass
-
-            if listen_dict.get("chain_list"):
-                self.selected_chain_listener.subject = self.selected_device_watcher
-            else:
-                self.selected_chain_listener.subject = None
-
-            if listen_dict.get("sends_list"):
-                self.return_list_listener.subject = self.root_cs.song
-            else:
-                self.return_list_listener.subject = None
-
-            if listen_dict.get("selected_parameter"):
-                self.selected_parameter_listener.subject = self.root_cs.song.view
-            else:
-                self.selected_parameter_listener.subject = None
-
-            if listen_dict.get("ring_tracks"):
-                self.session_ring_track_listener.subject = self.root_cs._session_ring_custom
-                self.track_list_listener.subject = self.root_cs.song
-            else:
-                self.session_ring_track_listener.subject = None
-                self.track_list_listener.subject = None
-
-            if listen_dict.get("selected_device"):
-                self.selected_device_listener.subject = self.selected_device_watcher
-            else:
-                self.selected_device_listener.subject = None
-
-            if listen_dict.get("mapped_device_selected") and self._mapped_track:
-                self.mapped_device_is_selected_listener.subject = self._mapped_track.view
-            else:
-                self.mapped_device_is_selected_listener.subject = None
-
-            if listen_dict.get("play_clip"):
-                self.playing_slot_index_listener.subject = self._mapped_track
-                self.fired_slot_index_listener.subject = self._mapped_track
-                self.selected_scene_listener.subject = self.root_cs.song.view
-            elif listen_dict.get("stop_clip") and self._mapped_track:
-                self.playing_slot_index_listener.subject = self._mapped_track
-                self.fired_slot_index_listener.subject = self._mapped_track
-            else:
-                self.playing_slot_index_listener.subject = None
-                self.fired_slot_index_listener.subject = None
-                self.selected_scene_listener.subject = None
-        except Exception as e:
-            self.error(e)
-
-    def map_self_to_par(self, target_map):
-        try:
-            self._mapped_track = None
-            self._mapped_device = None
-            self.mapped_parameter = None
-            par_type = target_map.get("parameter_type")
-            if par_type is not None:
-                if par_type.lower() == "selp":
-                    self.mapped_parameter = self.song.view.selected_parameter
-                    return True
-                elif par_type.lower() == "xfader":
-                    self.mapped_parameter = self.song.master_track.mixer_device.crossfader
-                    return True
-
-            if target_map.get("device") is None and target_map.get("chain_map") is None:
-                self._mapped_device = None
-                if target_map.get("track") is not None:
-                    track_def = target_map.get("track")
-                    track_obj = self.get_track(track_def)
-                    if track_obj is None:
-                        raise ConfigurationError(f"No track found for {track_def}")
-                elif target_map.get("ring_track") is not None:
-                    ring_track_def = target_map.get("ring_track")
-                    ring_track_parsed, status = self.action_resolver.compile(
-                        ring_track_def,
-                        self._vars,
-                        self._context
-                    )
-                    if status != 0:
-                        raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
-
-                    track_num = int(ring_track_parsed)
-
-                    track_obj = self.get_track_by_number(track_num)
-                    if track_obj is None:
-                        raise ConfigurationError(f"Invalid ring target: `{target_map}`")
-
-                else:
-                    return False
-
-                self._mapped_track = track_obj
-                is_master_track = self._mapped_track == self.song.master_track
-
-                par_type = target_map.get("parameter_type")
-                if par_type is None:
-                    raise ConfigurationError("Missing parameter_type")
-
-                par_type = par_type.lower()
-
-                if par_type == "vol":
-                    self.mapped_parameter = track_obj.mixer_device.volume
-                    return True
-                elif par_type == "cue":
-                    if not is_master_track:
-                        self.error(f"target CUE is only available for main track")
-                        return False
-                    self.mapped_parameter = track_obj.mixer_device.cue_volume
-                    return True
-                elif target_map.get('track_select'):
-                    self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "track_select")
-                    return True
-                elif is_master_track:
-                    return False
-                ### only targets not available on main track below
-                elif par_type == "send":
-                    try:
-                        send_def = target_map.get("send")
-                        if not send_def.isdigit():
-                            send_letter = send_def.upper()
-                            send_num = ord(send_letter) - 65  # `A` in ASCII
-                            sends_count = len(list(self.song.return_tracks))
-                            if send_num < 0 or send_num >= sends_count:
-                                raise ConfigurationError(
-                                    f"Invalid send: {send_letter} | {send_num} | sends_count {sends_count}"
-                                )
-                        else:
-                            send_num = int(send_def)
-                            if send_num >= SENDS_COUNT:
-                                send_num = send_num % SENDS_COUNT
-
-                        self.mapped_parameter = track_obj.mixer_device.sends[send_num]
-                        return True
-                    except Exception as e:
-                        self.error(e)
-                        raise ConfigurationError(f"Failed to bind to send: {e}")
-
-                elif par_type == "pan":
-                    self.mapped_parameter = track_obj.mixer_device.panning
-                    return True
-                elif par_type == "panl":
-                    self.mapped_parameter = track_obj.mixer_device.left_split_stereo
-                    return True
-                elif par_type == "panr":
-                    self.mapped_parameter = track_obj.mixer_device.right_split_stereo
-                    return True
-                elif target_map.get('arm'):
-                    if track_obj.can_be_armed:
-                        self.apply_track_param_listener(track_obj, "arm")
-                        return True
-                    else:
-                        return False
-                elif target_map.get('monitor'):
-                    self.mapped_parameter = None
-                    if track_obj.clip_slots[0].is_group_slot:
-                        return False
-                    self.apply_track_param_listener(track_obj, "monitor")
-                    return True
-                elif target_map.get('mute'):
-                    self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "mute")
-                    return True
-                elif target_map.get('solo'):
-                    self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "solo")
-                    return True
-                elif target_map.get('play'):
-                    self.mapped_parameter = None
-                    self._mapped_track = track_obj
-                    return True
-                elif target_map.get('stop'):
-                    self.mapped_parameter = None
-                    self._mapped_track = track_obj
-                    return True
-                elif target_map.get('x_fade_assign'):
-                    self.mapped_parameter = None
-                    self.apply_track_param_listener(track_obj, "x_fade_assign")
-                    return True
-                else:
-                    raise ConfigurationError(f"Unsupported parameter type: {par_type}")
-            else:
-                if target_map.get("track") is not None:
-                    track_def = target_map.get("track", "SEL")
-                    track_obj = self.get_track(track_def)
-                    if track_obj is None:
-                        raise ConfigurationError(f"No track found for {track_def}")
-                elif target_map.get("ring_track") is not None:
-                    ring_track_def = target_map.get("ring_track")
-                    ring_track_parsed, status = self.action_resolver.compile(
-                        ring_track_def,
-                        self._vars,
-                        self._context
-                    )
-                    if status != 0:
-                        raise ConfigurationError(f"Unparseable ring target: {ring_track_def}")
-
-                    track_num = int(ring_track_parsed)
-
-                    track_obj = self.get_track_by_number(track_num)
-                    if track_obj is None:
-                        raise ConfigurationError(f"Invalid ring target: `{target_map}`")
-                else:
-                    track_obj = self.root_cs.song.view.selected_track
-
-                self._mapped_track = track_obj
-
-                par_def = target_map.get("parameter_name")
-
-                device_def = target_map.get("device")
-                chain_map_def = target_map.get("chain_map")
-
-                if device_def is not None:
-                    if device_def.lower() == "sel":
-                        device_obj = track_obj.view.selected_device
-                    else:
-                        try:
-                            device_def = int(device_def) - 1
-                            device_obj = list(track_obj.devices)[device_def]
-                        except ValueError:
-                            device_obj = self.get_device_from_list_by_name(
-                                list(track_obj.devices), device_def
-                            )
-                        except IndexError as e:
-                            self._mapped_device = None
-                            self.__disabled = True
-                            raise NumberedDeviceMissingError()
-
-                    if device_obj is None:
-                        raise ConfigurationError(f"No device found for {device_def}")
-                elif chain_map_def is not None:
-                    device_obj = self.traverse_chain_map(track_obj, chain_map_def)
-
-                    if hasattr(device_obj, "delete_device"): # todo: better test for chainy-ness
-                        if par_type is None:
-                            raise ConfigurationError("Missing parameter_type") # todo:
-
-                        chain_mixer = device_obj.mixer_device
-
-                        if par_type.lower() == 'vol':
-                            self.mapped_parameter = chain_mixer.volume
-                            return True
-                        elif par_type.lower() == 'pan':
-                            self.mapped_parameter = chain_mixer.panning
-                            return True
-                        elif par_type.lower() == 'send':
-                            send_letter = target_map.get("send").upper()
-                            send_num = ord(send_letter) - 65
-                            self.mapped_parameter = chain_mixer.sends[send_num]
-                            return True
-
-                else:
-                    raise ConfigurationError("") # todo:
-
-                self._mapped_device = device_obj
-
-                if par_type is not None and par_type.lower() == "cs":
-                    self.mapped_parameter = device_obj.chain_selector
-                    return True
-
-                par_num = target_map.get("parameter_number")
-                par_name = target_map.get("parameter_name")
-
-                bank_def = target_map.get("bank")
-                if bank_def is not None:
-                    bank_num = int(bank_def)
-                    banked_param = get_banked_parameter(device_obj, device_obj.class_name, bank_num, int(par_num), self._prefer_left)
-                    self.mapped_parameter = banked_param
-                    return self.mapped_parameter is not None
-
-                if par_type is not None and par_type.lower() == "sel":
-                    return True
-
-                if par_type is None and par_name is None and par_num is None:
-                    self.mapped_parameter = device_obj.parameters[0] # bypass parameter
-                    return True
-
-                if isinstance(par_name, str):
-                    if "${" in par_name:
-                        parsed_par_name, status = (
-                            parse_target_path(par_num)
-                        )
-                        if status != 0:
-                            raise ConfigurationError(
-                                f"Failed to parse parameter: {par_num}"
-                            )  # todo
-                        par_name = parsed_par_name
-
-                    for par in device_obj.parameters:
-                        if par.name == par_name:
-                            self.mapped_parameter = par
-                            return True
-
-                    raise ConfigurationError(
-                        f'Parameter "{par_def}" not found on device {device_def}'
-                    )
-                else:
-                    if isinstance(par_num, str) and "${" in par_num:
-                        parsed_par_num, status = parse_target_path(
-                            par_num
-                        )
-                        if status != 0:
-                            raise ConfigurationError(
-                                f"Failed to parse parameter: {par_num}"
-                            )  # todo
-                        par_num = parsed_par_num
-                    elif isinstance(par_num, int):
-                        pass
-                    else:
-                        try:
-                            par_num = int(par_num)
-                        except ValueError:
-                            raise ConfigurationError(
-                                f"Failed to parse parameter: {par_num}"
-                            )
-                    try:
-                        self.mapped_parameter = device_obj.parameters[par_num]
-                    except IndexError as e:
-                        return False
-                    return True
-        except NumberedDeviceMissingError:
-            raise
-        except Exception as e:
-            self.error(f"Error in map_self_to_par: {e}")
-            self._mapped_track = None
-            self._mapped_device = None
-            self.mapped_parameter = None
-            raise
-
-
-    def get_device_from_list_by_name(self, device_list, device_name):
-        for device in device_list:
-            if device.name == device_name:
-                return device
-            elif hasattr(device, "chains"):
-                for chain in device.chains:
-                    result = self.get_device_from_list_by_name(
-                        chain.devices, device_name
-                    )
-                    if result is not None:
-                        return result
-        return None
-
-    def get_track_by_number(self, track_number):
-        return self.root_cs._session_ring_custom.get_ring_track(track_number)
-
-    def assess_dynamism(self, target_map) -> dict:
-        listen_dict = {
-            "selected_track": False,
-            "track_list": False,
-            "device_list": False,
-            "parameter_list": False,
-            "chain_list": False,
-            "sends_list": False,
-            "selected_parameter": False,
-            "ring_tracks": False,
-            "selected_device": False,
-            "mapped_device_selected": False,
-            "play_clip": False,
-            "stop_clip": False,
-        }
-
-        track_def = target_map.get("track")
-        if track_def is None and target_map.get("track_select") is not True:
-            listen_dict["selected_track"] = False
-        elif (isinstance(track_def, str) and track_def.lower() == "sel") or target_map.get("track_select"):
-            listen_dict["selected_track"] = True
-        else:
-            listen_dict["track_list"] = True
-
-        device_def = target_map.get("device")
-        if device_def is None:
-            listen_dict["selected_device"] = False
-            listen_dict["device_list"] = False
-        else:
-            listen_dict["device_list"] = True
-            par_type = target_map.get("parameter_type")
-            if isinstance(par_type, str) and par_type.lower() == "sel":
-                listen_dict["mapped_device_selected"] = True
-            if target_map.get("track") is None:
-                listen_dict["selected_track"] = True
-
-        if device_def and device_def.lower() == "sel":
-            listen_dict["selected_device"] = True
-        elif device_def:
-            try:
-                int(device_def)
-                listen_dict["device_list"] = True
-            except ValueError:
-                pass
-
-        chain_map = target_map.get("chain_map")
-        if chain_map is None:
-            pass
-        else:
-            listen_dict["chain_list"] = True
-            listen_dict["device_list"] = True
-
-        sends_def = target_map.get("send_track")
-        if sends_def is None:
-            pass
-        else:
-            listen_dict["sends_list"] = True
-
-        if target_map.get('ring_track') is not None:
-            listen_dict["ring_tracks"] = True
-
-        if target_map.get("play"):
-            listen_dict["play_clip"] = True
-        elif target_map.get("stop"):
-            listen_dict["stop_clip"] = True
-
-        if (target_map.get("chain_map") and is_chain_map_positional(target_map["chain_map"]))\
-                or (target_map.get("device") and target_map.get("device").isdigit()):
-            listen_dict["device_list"] = True
-            listen_dict["chain_list"] = True
-
-        return listen_dict
-
-    def rebind_from_dict(self, lookup_key: str):
-        target_map = self._binding_dict.get(lookup_key)
-
-        if target_map is None:
-            target_map = self._binding_dict["default"]
-
-        self._active_map = target_map
-        self.bind_to_active()
-
     def refresh_binding(self):
         modes = self._mode_manager.current_modes
         self.modes_changed(modes)
         self.bind_to_active()
-
-    def bind_ad_hoc(self, binding_def):
-        parsed_target_string, status = self.action_resolver.compile(
-            binding_def,
-            self._vars,
-            self._context,
-        )
-
-        if status != 0:
-            raise ConfigurationError(f"Unparseable binding definition: {binding_def}")
-
-        target_map = parse_target_path(parsed_target_string)
-        self._active_map = target_map
-        self.bind_to_active()
-
-    def override_binding_definition(self, binding_def, mode='default', unparsed_mode_string=False, refresh_binding=True):
-        parsed_target_string, status = self.action_resolver.compile(
-            binding_def,
-            self._vars,
-            self._context,
-        )
-        if status != 0:
-            raise ConfigurationError(f"Unparseable binding definition: {binding_def}") # todo: error type
-        target_map = parse_target_path(parsed_target_string)
-        if unparsed_mode_string:
-            modes = unparsed_mode_string.split("__")
-            modes.sort()
-            mode = "__".join(modes)
-
-        if mode != "default":
-            mode = f"__{mode}"
-
-        if self._binding_dict.get(mode) is None:
-            raise ConfigurationError(f"Unable to set binding for mode `{mode}`. Mode did not exist on target at startup.")
-
-        self._binding_dict[mode] = target_map
-        if refresh_binding:
-            self.refresh_binding()
-
-    def get_track(self, track_def):
-        if track_def.lower() == "sel":
-            return self.root_cs.song.view.selected_track
-        elif track_def.lower() == "mst":
-            return self.root_cs.song.master_track
-
-        try:
-            track = self.root_cs.component_map["CxpBridge"].get_track_by_name(track_def)
-            return track
-        except RuntimeError:
-            self.debug(f"Failed to get track called `{track_def}` from CXP")
-
-        for track in self.root_cs.song.tracks:
-            if track.name == track_def:
-                return track
-
-        try:
-            track_num = int(track_def) - 1
-            tracklist = list(self.root_cs.song.tracks)
-            return tracklist[track_num]
-        except (ValueError, IndexError):
-            return None
-
-    def traverse_chain_map(self, track, chain_map):
-        def parse_templated_node(_node):
-            if not isinstance(_node, str) or '${' not in _node:
-                try:
-                    return int(_node)
-                except (ValueError, TypeError):
-                    if isinstance(_node, str):
-                        try:
-                            if _node.startswith('"') and _node.endswith('"'):
-                                return _node.strip('"')
-                        except (ValueError, AttributeError):
-                            pass
-                    return _node
-
-            # Parse templated string using action_resolver
-            parsed, status = self.action_resolver.compile(_node, self._vars, self._context)
-            if status != 0:
-                raise ConfigurationError(f"Unparseable node: {_node}")
-
-            # Strip quotes if present
-            if isinstance(parsed, str) and parsed.startswith('"') and parsed.endswith('"'):
-                return parsed.strip('"')
-            return parsed
-
-        track_devices = list(track.devices)
-        current_search_obj = track_devices
-
-        for i, node in enumerate(chain_map):
-            is_device = i % 2 == 0
-            node = parse_templated_node(node)
-
-            if i == 0:
-                # First node is always a device
-                if isinstance(node, int):
-                    current_search_obj = track_devices[node - 1]
-                else:
-                    found = False
-                    for device in track_devices:
-                        if device.name == node:
-                            current_search_obj = device
-                            found = True
-                            break
-                    if not found:
-                        raise ConfigurationError(f"No device called: {node}")
-            elif is_device:
-                # Looking for a device in the current chain
-                if isinstance(node, int):
-                    current_search_obj = list(current_search_obj.devices)[node - 1]
-                else:
-                    found = False
-                    for device in current_search_obj.devices:
-                        if device.name == node:
-                            current_search_obj = device
-                            found = True
-                            break
-                    if not found:
-                        raise ConfigurationError(f'No device in {current_search_obj.name} called {node}')
-            else:
-                # Looking for a chain in the current device
-                if isinstance(node, int) and hasattr(current_search_obj, "chains"):
-                    current_search_obj = list(current_search_obj.chains)[node - 1]
-                else:
-                    found = False
-                    if hasattr(current_search_obj, "chains"):
-                        for chain in current_search_obj.chains:
-                            if chain.name == node:
-                                current_search_obj = chain
-                                found = True
-                                break
-                    if not found:
-                        raise ConfigurationError(f'No chain in {current_search_obj.name} called {node}')
-
-        return current_search_obj
 
     def update_feedback(self):
         if self.__debounce_feedback_update_task.is_running:
@@ -861,7 +223,7 @@ class ParamControl(ZControl):
 
     def _do_update_feedback(self):
         try:
-            if self.__disabled:
+            if self._disabled:
                 return self.replace_color(self._color_dict["disabled"])
 
             if self.mapped_parameter:
@@ -954,7 +316,8 @@ class ParamControl(ZControl):
     def handle_gesture(self, gesture, dry_run=False, testing=False):
         was_pressed = self._ZControl__is_pressed
         super().handle_gesture(gesture, dry_run, testing)
-        if gesture == "pressed" and (self.__behaviour == PressBehaviour.TOGGLE or self.__behaviour == PressBehaviour.MOMENTARY) and self._control_element._last_received_value > self._on_threshold:
+        if gesture == "pressed" and (
+                self.__behaviour == PressBehaviour.TOGGLE or self.__behaviour == PressBehaviour.MOMENTARY) and self._control_element._last_received_value > self._on_threshold:
             self.toggle_mapped_parameter()
         elif gesture == "released" and self.__behaviour == PressBehaviour.MOMENTARY and was_pressed:
             self.toggle_mapped_parameter()
@@ -1161,7 +524,6 @@ class ParamControl(ZControl):
     def playing_slot_index_listener(self):
         self.update_feedback()
 
-
     @listens("fired_slot_index")
     def fired_slot_index_listener(self):
         self.update_feedback()
@@ -1244,8 +606,6 @@ class ParamControl(ZControl):
         color_obj = parse_color_definition(color, self)
         self.set_on_color(color_obj)
 
-class NumberedDeviceMissingError(Exception):
-    pass
 
 class DebounceFeedbackUpdateTask(TimerTask):
 

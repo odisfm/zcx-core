@@ -22,3 +22,7 @@ class ZcxStartupError(Exception):
         self.msg = msg
         self.traceback = traceback
         self.boilerplate = boilerplate
+
+
+class NumberedDeviceMissingError(Exception):
+    pass
