@@ -57,7 +57,7 @@ class ParamGradientControl(ParamControl):
             else:
                 gradient_len = len(self.__continuous_gradient)
                 quantized_idx = self.quantize_to_index(color_rec.percent, gradient_len)
-                reversed_idx = gradient_len - quantized_idx
+                reversed_idx = (gradient_len - 1) - quantized_idx
                 self.replace_color(self.__continuous_gradient[reversed_idx])
         elif color_rec.recommended is not None:
             if color_rec.recommended in self.__color_cache:
