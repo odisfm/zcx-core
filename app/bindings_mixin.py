@@ -705,3 +705,9 @@ class BindingsMixin(object):
             if not self.is_encoder:
                 self._mapped_device = None
             raise
+
+    @classmethod
+    def is_binary_param(cls, param):
+        if not param.is_quantized:
+            return False
+        return list(param.value_items) == ["Off", "On"]

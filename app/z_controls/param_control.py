@@ -230,19 +230,21 @@ class ParamControl(ZControl, BindingsMixin):
                 return ColorRecommendation(None, None, None, True)
 
             if self.mapped_parameter:
+                is_binary = self.is_binary_param(self.mapped_parameter)
                 current_pct = to_percentage(self.mapped_parameter.min, self.mapped_parameter.max, self.mapped_parameter.value)
+                returned_pct = current_pct if is_binary is False else None
                 if self._custom_midpoint:
                     if current_pct >= self._custom_midpoint:
-                        return ColorRecommendation(True, current_pct, None, False)
+                        return ColorRecommendation(True, returned_pct, None, False)
                     else:
-                        return ColorRecommendation(False, current_pct, None, False)
+                        return ColorRecommendation(False, returned_pct, None, False)
                 else:
                     if self.mapped_parameter.value == self.mapped_parameter.max:
-                        return ColorRecommendation(True, current_pct, None, False)
+                        return ColorRecommendation(True, returned_pct, None, False)
                     elif self.mapped_parameter.value == self.mapped_parameter.min:
-                        return ColorRecommendation(False, current_pct, None, False)
+                        return ColorRecommendation(False, returned_pct, None, False)
                     else:
-                        return ColorRecommendation(True, current_pct, None, False)
+                        return ColorRecommendation(True, returned_pct, None, False)
             else:
                 map = self._active_map
                 if self._mapped_track and map.get("device") and map.get("parameter_type", "").lower() == "sel":
