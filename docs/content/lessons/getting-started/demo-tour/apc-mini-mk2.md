@@ -1,5 +1,5 @@
 ---
-title: APC mini mkII
+title: APC mini mk2
 template: demo-tour.html
 ---
 
