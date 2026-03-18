@@ -2,6 +2,12 @@
 title: APC mini mkII
 ---
 
+## Setup notes
+
+- In Live's MIDI settings, `APC mini mk2 (Control)` should be selected as the Input/Output of the zcx script.
+- It is not possible to use the factory APC mini mk2 control surface script alongside zcx.
+
+
 ## Limitations
 
 zcx should not be used alongside the factory control surface script.

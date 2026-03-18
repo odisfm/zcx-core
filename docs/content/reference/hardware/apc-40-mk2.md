@@ -2,6 +2,10 @@
 title: APC40 mkII
 ---
 
+## Setup notes
+
+- It is not possible to use the factory APC40 mkII control surface script alongside zcx.
+
 ## APC40 mk2 plugin
 
 zcx for APC40 mk2 ships with a plugin to enhance the experience of the LED rings around the track and device knobs.
