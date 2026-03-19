@@ -43,7 +43,7 @@ class ParamGradientControl(ParamControl):
             self.__continuous_gradient = PARAM_GRADIENT
 
         self.__disabled_color = parse_color_definition(0, self)
-        self.__off_color = parse_color_definition("white", self)
+        self.__off_color = parse_color_definition("dark_grey", self)
         self.__on_color = parse_color_definition("play_green", self)
 
     def _do_update_feedback(self):
@@ -52,13 +52,10 @@ class ParamGradientControl(ParamControl):
             self.replace_color(self.__disabled_color)
         elif color_rec.percent is not None:
             param_value = self._mapped_parameter.value
-            if param_value == self._mapped_parameter.min:
-                self.replace_color(self.__off_color)
-            else:
-                gradient_len = len(self.__continuous_gradient)
-                quantized_idx = self.quantize_to_index(color_rec.percent, gradient_len)
-                reversed_idx = (gradient_len - 1) - quantized_idx
-                self.replace_color(self.__continuous_gradient[reversed_idx])
+            gradient_len = len(self.__continuous_gradient)
+            quantized_idx = self.quantize_to_index(color_rec.percent, gradient_len)
+            reversed_idx = (gradient_len - 1) - quantized_idx
+            self.replace_color(self.__continuous_gradient[reversed_idx])
         elif color_rec.recommended is not None:
             if color_rec.recommended in self.__color_cache:
                 self.replace_color(self.__color_cache[color_rec.recommended])

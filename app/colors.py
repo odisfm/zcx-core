@@ -21,8 +21,7 @@ except ImportError:
 try:
     from .hardware.colors import PARAM_GRADIENT
 except ImportError:
-    PARAM_GRADIENT = [RgbColor(5), RgbColor(6), RgbColor(9), RgbColor(96),
-                      RgbColor(53), RgbColor(54), RgbColor(55), RgbColor(51)]
+    PARAM_GRADIENT = [RgbColor(5), RgbColor(6), RgbColor(58), RgbColor(54), RgbColor(59), RgbColor(50), RgbColor(51), RgbColor(47)]
 
 
 class ColorSwatches:
