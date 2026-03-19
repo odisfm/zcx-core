@@ -40,16 +40,47 @@ class ParamGradientControl(ParamControl):
         if not self.__continuous_gradient:
             self.__continuous_gradient = PARAM_GRADIENT
 
+        q_gradient_def = self._raw_config.get("q_gradient", None) # colors for quantized params
+        if q_gradient_def is not None:
+            q_gradient_custom_colors = []
+            if not isinstance(q_gradient_def, list):
+                self.error(f"Option `q_gradient` must be a list. Using default.")
+            else:
+                try:
+                    for color_def in q_gradient_def:
+                        q_gradient_custom_colors.append(parse_color_definition(color_def, self))
+                except Exception as e:
+                    self.error(f"Error while parsing `q_gradient`: {e.__class__.__name__}: {e}")
+                    self.error(f"Using default gradient.")
+
+                self.__quantized_gradient = q_gradient_custom_colors
+
+        if not self.__quantized_gradient:
+            self.__quantized_gradient = [
+                parse_color_definition("red", self),
+                parse_color_definition("orange", self),
+                parse_color_definition("yellow", self),
+                parse_color_definition("green", self),
+                parse_color_definition("blue", self),
+                parse_color_definition("purple", self),
+                parse_color_definition("magenta", self),
+            ]
+
     def _do_update_feedback(self):
         color_rec = self.recommend_color()
         if color_rec.disabled:
             self.replace_color(self._color_dict["disabled"])
         elif color_rec.percent is not None:
-            param_value = self._mapped_parameter.value
-            gradient_len = len(self.__continuous_gradient)
-            quantized_idx = self.quantize_to_index(color_rec.percent, gradient_len)
-            reversed_idx = (gradient_len - 1) - quantized_idx
-            self.replace_color(self.__continuous_gradient[reversed_idx])
+            if not self.mapped_parameter.is_quantized:
+                param_value = self._mapped_parameter.value
+                gradient_len = len(self.__continuous_gradient)
+                quantized_idx = self.quantize_to_index(color_rec.percent, gradient_len)
+                reversed_idx = (gradient_len - 1) - quantized_idx
+                self.replace_color(self.__continuous_gradient[reversed_idx])
+            else:
+                value_items = list(self.mapped_parameter.value_items)
+                current_idx = value_items.index(self.mapped_parameter.__str__())
+                self.replace_color(self.__quantized_gradient[current_idx % len(self.__quantized_gradient)])
         elif color_rec.recommended is not None:
             if color_rec.recommended in self.__color_cache:
                 self.replace_color(self.__color_cache[color_rec.recommended])
