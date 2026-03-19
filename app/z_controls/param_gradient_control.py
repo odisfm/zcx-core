@@ -27,14 +27,15 @@ class ParamGradientControl(ParamControl):
             cont_gradient_colors = []
             if not isinstance(cont_gradient_def, list):
                 self.error(f"Option `gradient` must be a list. Using default.")
-            try:
-                for color_def in cont_gradient_def:
-                    cont_gradient_colors.append(parse_color_definition(color_def, self))
-            except Exception as e:
-                self.error(f"Error while parsing `gradient`: {e.__class__.__name__}: {e}")
-                self.error(f"Using default gradient.")
+            else:
+                try:
+                    for color_def in cont_gradient_def:
+                        cont_gradient_colors.append(parse_color_definition(color_def, self))
+                except Exception as e:
+                    self.error(f"Error while parsing `gradient`: {e.__class__.__name__}: {e}")
+                    self.error(f"Using default gradient.")
 
-            self.__continuous_gradient = cont_gradient_colors
+                self.__continuous_gradient = cont_gradient_colors
 
         if not self.__continuous_gradient:
             self.__continuous_gradient = PARAM_GRADIENT
