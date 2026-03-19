@@ -254,14 +254,6 @@ class ZCXCore(ControlSurface):
 
             from . import PREF_MANAGER
             user_prefs = PREF_MANAGER.user_prefs
-            startup_command = user_prefs.get('startup_command')
-            try:
-                if startup_command is not None:
-                    self.log("doing startup command", startup_command)
-                    self.component_map["ActionResolver"].execute_command_bundle(None, startup_command, {}, {})
-            except Exception as e:
-                self.critical(e)
-
             startup_page = user_prefs.get('startup_page')
             if startup_page is not None:
                 try:
@@ -279,6 +271,14 @@ class ZCXCore(ControlSurface):
             else:
                 self.component_map['PageManager'].set_page(0)
                 self.component_map['ViewManager']._update_in_view_controls()
+
+            startup_command = user_prefs.get('startup_command')
+            try:
+                if startup_command is not None:
+                    self.log("doing startup command", startup_command)
+                    self.component_map["ActionResolver"].execute_command_bundle(None, startup_command, {}, {})
+            except Exception as e:
+                self.critical(e)
 
         except Exception as e:
             self.critical(e)
