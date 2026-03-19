@@ -11,9 +11,6 @@ class ParamGradientControl(ParamControl):
         self.__continuous_gradient = []
         self.__quantized_gradient = []
         self.__color_cache = {}
-        self.__disabled_color = None
-        self.__off_color = None
-        self.__on_color = None
 
     @property
     def continuous_gradient(self):
@@ -42,14 +39,10 @@ class ParamGradientControl(ParamControl):
         if not self.__continuous_gradient:
             self.__continuous_gradient = PARAM_GRADIENT
 
-        self.__disabled_color = parse_color_definition(0, self)
-        self.__off_color = parse_color_definition("dark_grey", self)
-        self.__on_color = parse_color_definition("play_green", self)
-
     def _do_update_feedback(self):
         color_rec = self.recommend_color()
         if color_rec.disabled:
-            self.replace_color(self.__disabled_color)
+            self.replace_color(self._color_dict["disabled"])
         elif color_rec.percent is not None:
             param_value = self._mapped_parameter.value
             gradient_len = len(self.__continuous_gradient)
@@ -65,9 +58,9 @@ class ParamGradientControl(ParamControl):
                 self.replace_color(self.__color_cache[color_rec.recommended])
         elif color_rec.binary is not None:
             if color_rec.binary:
-                self.replace_color(self.__on_color)
+                self.replace_color(self._color_dict["on"])
             else:
-                self.replace_color(self.__off_color)
+                self.replace_color(self._color_dict["off"])
 
         else:
             raise RuntimeError(f"Failed to set color")
