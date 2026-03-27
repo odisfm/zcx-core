@@ -91,16 +91,16 @@ class MelodicComponent(ZCXComponent):
 
     @octave.setter
     def octave(self, value):
-        self.log("setting octave to {value}".format(value=value))
+        self.debug("setting octave to {value}".format(value=value))
         if not isinstance(value, int):
             raise TypeError('Octave must be an integer')
         if not -1 < value < 11:
             raise ValueError('Octave must be between 0 and 10')
         self.__octave = value
-        self.log("updating translation with octave {value}".format(value=value))
+        self.debug("updating translation with octave {value}".format(value=value))
         self.update_translation()
         self.notify_octave(value)
-        self.log("notified octave")
+        self.debug("notified octave")
 
     @listenable_property
     def repeat_rate(self):
@@ -180,7 +180,7 @@ class MelodicComponent(ZCXComponent):
         self.notify_note_layout(value)
 
     def increment_octave(self, increment: int):
-        self.log(f"incrementing octave to {self.octave} += {increment}")
+        self.debug(f"incrementing octave to {self.octave} += {increment}")
         self.octave = self.octave + increment
 
     def setup(self):
@@ -309,7 +309,7 @@ class MelodicComponent(ZCXComponent):
         for i in range(128):
             o_p = self.__og_pitch_to_translated_pitch[i]
             if o_p:
-                self.log(f'note {i} -> play note {o_p}')
+                self.debug(f'note {i} -> play note {o_p}')
 
     def _calculate_translations(
             self,
