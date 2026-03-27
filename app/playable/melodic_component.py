@@ -303,6 +303,7 @@ class MelodicComponent(ZCXComponent):
             self._on_selected_track_changed.subject = self.song.view
             self._on_color_index_changed.subject = self.song.view.selected_track
         self._on_track_devices_changed.subject = self.song.view.selected_track
+        self._on_track_devices_changed()
 
     def update_translation(self):
         if self.does_exist:
