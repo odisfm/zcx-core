@@ -1,5 +1,5 @@
 import copy
-from typing import Optional
+from typing import Optional, Literal
 from enum import Enum
 
 from ableton.v3.base import EventObject, listens, listens_group, listenable_property
@@ -18,6 +18,7 @@ class PitchClass(Enum):
     TONIC = "tonic"
     OUT_KEY = "out_key"
     OUT_OF_RANGE = "out_of_range"
+    DRUM = "drum"
 
 class MelodicComponent(ZCXComponent):
 
@@ -41,17 +42,22 @@ class MelodicComponent(ZCXComponent):
         self.__og_pitch_to_translated_pitch: list[int | None] = [None for _ in range(128)]
         self.__og_pitch_to_controls: list[PlayableZControl | None] = [None for _ in range(128)]
         self.__translated_pitches_to_controls: list[list[PlayableZControl]] = [[] for _ in range(128)]
+        self.__translated_drum_pitches_to_controls: list[list[PlayableZControl]] = [[] for _ in range(128)]
         self.__concerned_pitches: list[int] = []
         self.__note_layout = "fourths"
         self.__octave = 3
+        self.__drums_octave = 3
         self.__does_exist = False
         self.__sounding_pitches = []
         self.__repeat_rate = 0
         self.__chromatic = False
         self.__full_velo = False
         self.__selected_track_color_index = None
+        self.__drum_rack_mode = False
+        self.__force_mode = None
 
     def _unload(self):
+        # todo: add drum stuff
         self.__base_status_message = None
         self.__color_dict = None
         self.__pad_section = None
@@ -252,6 +258,7 @@ class MelodicComponent(ZCXComponent):
             "in_key": parse_color_definition("white", test_ctr).midi_value,
             "out_key": parse_color_definition("off", test_ctr).midi_value,
             "tonic": "track",
+            "drum": parse_color_definition("yellow", test_ctr).midi_value,
         }
 
         color_def_dict = section_def.get("colors", {})
@@ -295,12 +302,16 @@ class MelodicComponent(ZCXComponent):
         if "track" in list(self.__color_dict.values()):
             self._on_selected_track_changed.subject = self.song.view
             self._on_color_index_changed.subject = self.song.view.selected_track
+        self._on_track_devices_changed.subject = self.song.view.selected_track
 
     def update_translation(self):
         if self.does_exist:
             self.canonical_parent._doing_note_translations = True
             self.canonical_parent.request_rebuild_midi_map()
-            self._calculate_translations()
+            if not self.drum_rack_mode:
+                self._calculate_translations()
+            else:
+                self._calculate_drum_translations()
             self._apply_translation()
             self.canonical_parent._doing_note_translations = False
             self.refresh_all_feedback()
@@ -403,6 +414,41 @@ class MelodicComponent(ZCXComponent):
                         else:
                             control._pitch_class = PitchClass.OUT_KEY
 
+    def _calculate_drum_translations(
+            self,
+            octave=None,
+            max_drum_width=4,
+    ):
+        if octave is None:
+            octave = 3
+        self.__og_pitch_to_translated_pitch: list[int | None] = [None for _ in range(128)]
+        self.__translated_drum_pitches_to_controls: list[list[PlayableZControl]] = [[] for _ in range(128)]
+
+        start_pitch = octave * 12
+        current_pitch = None
+
+        for i, row in enumerate(self.__coords_to_controls):
+            controls_this_row = 0
+            for j, control in enumerate(row):
+                if controls_this_row >= max_drum_width:
+                    controls_this_row += 1
+                    self.__og_pitch_to_translated_pitch[control._original_id] = None
+                    control._pitch_class = PitchClass.OUT_OF_RANGE
+                    continue
+
+                if not current_pitch:
+                    current_pitch = start_pitch
+                    this_pitch = current_pitch
+                else:
+                    current_pitch += 1
+                    this_pitch = current_pitch
+
+                self.__og_pitch_to_translated_pitch[control._original_id] = this_pitch
+                self.__translated_drum_pitches_to_controls[this_pitch].append(control)
+                control._pitch_class = PitchClass.DRUM
+
+                controls_this_row += 1
+
     def _apply_translation(self):
 
         for p in range(128):
@@ -432,6 +478,33 @@ class MelodicComponent(ZCXComponent):
     def _on_selected_track_changed(self):
         self._on_color_index_changed.subject = self.song.view.selected_track
         self._on_color_index_changed()
+        self._on_track_devices_changed.subject = self.song.view.selected_track
+        self._on_track_devices_changed()
+
+    @listens('devices')
+    def _on_track_devices_changed(self):
+        inst_type: Optional[Literal["note", "drum"]] = None
+        for device in self.song.view.selected_track.devices:
+            if device.type != 1:
+                continue
+            if device.can_have_drum_pads:
+                inst_type = "drum"
+            else:
+                if not device.can_have_chains:
+                    inst_type = "note"
+                else:
+                    for chain in device.chains:
+                        if chain.devices[0].can_have_drum_pads:
+                            inst_type = "drum"
+                            break
+                        else:
+                            inst_type = "note"
+
+            if inst_type:
+                break
+
+        self.drum_rack_mode = inst_type == "drum"
+
 
     @listens("color_index")
     def _on_color_index_changed(self):
@@ -458,6 +531,8 @@ class MelodicComponent(ZCXComponent):
                 return self._color_out_key
             case PitchClass.OUT_OF_RANGE:
                 return 0
+            case PitchClass.DRUM:
+                return self.__color_dict["drum"]
 
     def __update_selected_track_color_val(self):
         self.__selected_track_color_index = ALL_LIVE_COLORS[self.song.view.selected_track.color_index].midi_value
@@ -492,16 +567,32 @@ class MelodicComponent(ZCXComponent):
             return self.selected_track_color
         return self.__color_dict["pressed"]
 
+    @property
+    def drum_rack_mode(self):
+        return self.__drum_rack_mode
+
+    @drum_rack_mode.setter
+    def drum_rack_mode(self, value):
+        if self.__force_mode is not None:
+            return
+        if self.__drum_rack_mode == value:
+            return
+        self.__drum_rack_mode = value
+        self.update_translation()
+
     def refresh_single_pitch(self, t_pitch: int):
         try:
             messages = []
-            controls = self.__translated_pitches_to_controls[t_pitch]
+            if not self.__drum_rack_mode:
+                controls = self.__translated_pitches_to_controls[t_pitch]
+            else:
+                controls = self.__translated_drum_pitches_to_controls[t_pitch]
             if t_pitch in self.__sounding_pitches:
                 vel = self._color_pressed
             else:
                 vel = self.get_color_for_pitch_class(controls[0]._pitch_class)
             for control in controls:
-                if not control.in_view or control._pitch_class in [PitchClass.OUT_OF_RANGE, PitchClass.HIDDEN]:
+                if not control.in_view:
                     continue
                 messages.append((self.__base_status_message + self.__original_channel, control._control_element.message_identifier(), vel))
 
