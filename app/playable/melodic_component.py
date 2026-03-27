@@ -715,3 +715,8 @@ class MelodicComponent(ZCXComponent):
 
     def _add_track_to_memory(self):
         self.__track_memory[self.song.view.selected_track] = {"full_velo": self.__default_full_velo, "octave": self.__default_octave, "repeat_rate": self.__default_repeat_rate}
+        self.__track_memory[self.song.view.selected_track] = {
+            "full_velo": self.__default_full_velo,
+            "octave": self.__default_octave,
+            "repeat_rate": repeat_rates_lower[self.__default_repeat_rate]}
+
