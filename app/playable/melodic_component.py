@@ -55,6 +55,7 @@ class MelodicComponent(ZCXComponent):
         self.__selected_track_color_index = None
         self.__drum_rack_mode = False
         self.__force_mode = None
+        self.__max_drum_width = 4
 
     def _unload(self):
         # todo: add drum stuff
@@ -294,6 +295,12 @@ class MelodicComponent(ZCXComponent):
         else:
             self.__octave = initial_octave_def
 
+        max_drum_width_def = section_def.get("max_drum_width", self.__max_drum_width)
+        if not isinstance(max_drum_width_def, int) or not max_drum_width_def > 0:
+            self.error(f"Invalid setting for `max_drum_width` (`{max_drum_width_def}`). Must be > 0. Using default `{self.max_drum_width}`")
+        else:
+            self.__max_drum_width = max_drum_width_def
+
         from .playable_state import PlayableState
         PlayableState.State.melodic_component = self
         self.__does_exist = True
@@ -418,7 +425,6 @@ class MelodicComponent(ZCXComponent):
     def _calculate_drum_translations(
             self,
             octave=None,
-            max_drum_width=4,
     ):
         if octave is None:
             octave = 3
@@ -431,7 +437,7 @@ class MelodicComponent(ZCXComponent):
         for i, row in enumerate(self.__coords_to_controls):
             controls_this_row = 0
             for j, control in enumerate(row):
-                if controls_this_row >= max_drum_width:
+                if controls_this_row >= self.__max_drum_width:
                     controls_this_row += 1
                     self.__og_pitch_to_translated_pitch[control._original_id] = None
                     control._pitch_class = PitchClass.OUT_OF_RANGE
