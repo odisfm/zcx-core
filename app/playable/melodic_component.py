@@ -435,10 +435,8 @@ class MelodicComponent(ZCXComponent):
         current_pitch = None
 
         for i, row in enumerate(self.__coords_to_controls):
-            controls_this_row = 0
             for j, control in enumerate(row):
-                if controls_this_row >= self.__max_drum_width:
-                    controls_this_row += 1
+                if j >= self.__max_drum_width:
                     self.__og_pitch_to_translated_pitch[control._original_id] = None
                     control._pitch_class = PitchClass.OUT_OF_RANGE
                     continue
@@ -453,8 +451,6 @@ class MelodicComponent(ZCXComponent):
                 self.__og_pitch_to_translated_pitch[control._original_id] = this_pitch
                 self.__translated_drum_pitches_to_controls[this_pitch].append(control)
                 control._pitch_class = PitchClass.DRUM
-
-                controls_this_row += 1
 
     def _apply_translation(self):
 
