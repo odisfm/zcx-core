@@ -5,6 +5,7 @@ from .command_encoder import CommandEncoder
 from .errors import ConfigurationError, CriticalConfigurationError, NumberedDeviceMissingError
 from .parse_target_path import parse_target_path
 from .util import is_chain_map_positional
+import copy
 
 
 class BindingsMixin(object):
