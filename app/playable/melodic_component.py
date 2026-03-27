@@ -514,13 +514,15 @@ class MelodicComponent(ZCXComponent):
     def refresh_all_feedback(self):
         try:
             messages = []
-            for i, t_pitch in enumerate(self.__og_pitch_to_translated_pitch):
-                if not t_pitch:
+            for i, control in enumerate(self.__og_pitch_to_controls):
+                if control is None:
                     continue
-                control = self.__og_pitch_to_controls[i]
                 if not control.in_view:
                     continue
-                if t_pitch in self.__sounding_pitches:
+                t_pitch = self.__og_pitch_to_translated_pitch[i]
+                if t_pitch is None:
+                    vel = self.get_color_for_pitch_class(PitchClass.OUT_OF_RANGE)
+                elif t_pitch in self.__sounding_pitches:
                     vel = self._color_pressed
                 else:
                     vel = self.get_color_for_pitch_class(control._pitch_class)
