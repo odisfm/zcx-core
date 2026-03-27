@@ -46,16 +46,20 @@ class MelodicComponent(ZCXComponent):
         self.__concerned_pitches: list[int] = []
         self.__note_layout = "fourths"
         self.__octave = 3
+        self.__default_octave = 3
         self.__drums_octave = 3
         self.__does_exist = False
         self.__sounding_pitches = []
         self.__repeat_rate = 0
+        self.__default_repeat_rate = 0
         self.__chromatic = False
         self.__full_velo = False
+        self.__default_full_velo = False
         self.__selected_track_color_index = None
         self.__drum_rack_mode = False
         self.__force_mode = None
         self.__max_drum_width = 4
+        self.__track_memory: "dict[Track, TrackMemory]" = {}
 
     def _unload(self):
         # todo: add drum stuff
@@ -288,12 +292,28 @@ class MelodicComponent(ZCXComponent):
         self.__color_dict = color_dict
 
         initial_octave_def = section_def.get("octave")
-        if not initial_octave_def:
+        if initial_octave_def is None:
             pass
         elif not isinstance(initial_octave_def, int) or not 0 <= initial_octave_def <= 10:
             self.warning(f'Keyboard: invalid setting for octave `{initial_octave_def}`. Using default octave `{self.octave}`')
         else:
-            self.__octave = initial_octave_def
+            self.__default_octave = initial_octave_def
+
+        default_full_velo_def = section_def.get("full_velo")
+        if default_full_velo_def is None:
+            pass
+        elif not isinstance(default_full_velo_def, int) or not 0 <= default_full_velo_def <= 10:
+            self.error(f"Keyboard: invalid setting for `full_velo` (`{default_full_velo_def}`). Using default `{self.full_velo}`")
+        else:
+            self.__default_full_velo = default_full_velo_def
+
+        default_repeat_rate_def = section_def.get("repeat_rate")
+        if default_repeat_rate_def is None:
+            pass
+        elif not default_repeat_rate_def in repeat_rates_lower:
+            self.error(f"Keyboard: invalid setting for `repeat_rate` ({default_repeat_rate_def}`). Using default `{repeat_rates_lower[0]}`")
+        else:
+            self.__default_repeat_rate = default_repeat_rate_def
 
         max_drum_width_def = section_def.get("max_drum_width", self.__max_drum_width)
         if not isinstance(max_drum_width_def, int) or not max_drum_width_def > 0:
@@ -311,6 +331,17 @@ class MelodicComponent(ZCXComponent):
             self._on_color_index_changed.subject = self.song.view.selected_track
         self._on_track_devices_changed.subject = self.song.view.selected_track
         self._on_track_devices_changed()
+
+    def apply_default_note_modifications(self):
+        """
+        This doesn't work when done in setup(), so the core calls this in song_ready()
+        """
+        if not self.__default_octave == self.__octave:
+            self.octave = self.__default_octave
+        if not self.__default_full_velo == self.__full_velo:
+            self.full_velo = self.__default_full_velo
+        if not self.__default_repeat_rate == self.__repeat_rate:
+            self.repeat_rate = self.__default_repeat_rate
 
     def update_translation(self):
         if self.does_exist:

@@ -330,6 +330,7 @@ class ZCXCore(ControlSurface):
         self.component_map['EncoderManager'].bind_all_encoders()
         self.component_map['ZManager'].song_ready()
         self.component_map['TestRunner'].setup()
+        self.component_map["MelodicComponent"].apply_default_note_modifications()
         self._session_ring_custom._on_highlighted_clip_slot_changed(dry_run=True)
         self.invoke_all_plugins("song_ready")
 
