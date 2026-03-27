@@ -1,5 +1,5 @@
 import copy
-from typing import Optional, Literal
+from typing import Optional, Literal, TypedDict
 from enum import Enum
 
 from ableton.v3.base import EventObject, listens, listens_group, listenable_property
@@ -19,6 +19,12 @@ class PitchClass(Enum):
     OUT_KEY = "out_key"
     OUT_OF_RANGE = "out_of_range"
     DRUM = "drum"
+
+class TrackMemory(TypedDict):
+    octave: int
+    repeat_rate: int
+    full_velo: bool
+
 
 class MelodicComponent(ZCXComponent):
 
@@ -60,6 +66,7 @@ class MelodicComponent(ZCXComponent):
         self.__force_mode = None
         self.__max_drum_width = 4
         self.__track_memory: "dict[Track, TrackMemory]" = {}
+        self.__per_track = {"octave": False, "repeat_rate": False, "full_velo": False}
 
     def _unload(self):
         # todo: add drum stuff
@@ -112,6 +119,11 @@ class MelodicComponent(ZCXComponent):
         self.update_translation()
         self.notify_octave(value)
         self.debug("notified octave")
+        if self.__per_track["octave"]:
+            track = self.song.view.selected_track
+            if track not in self.__track_memory:
+                self._add_track_to_memory()
+            self.__track_memory[track]["octave"] = value
 
     @listenable_property
     def repeat_rate(self):
@@ -142,6 +154,11 @@ class MelodicComponent(ZCXComponent):
             self.__last_repeat_rate = value
         self.__repeat_rate = repeat_rates_lower.index(value.lower())
         self.notify_repeat_rate(value)
+        if self.__per_track["repeat_rate"]:
+            track = self.song.view.selected_track
+            if track not in self.__track_memory:
+                self._add_track_to_memory()
+            self.__track_memory[track]["repeat_rate"] = value
 
     @listenable_property
     def full_velo(self):
@@ -162,6 +179,11 @@ class MelodicComponent(ZCXComponent):
         )
         self.__full_velo = value
         self.notify_full_velo(value)
+        if self.__per_track["full_velo"]:
+            track = self.song.view.selected_track
+            if track not in self.__track_memory:
+                self._add_track_to_memory()
+            self.__track_memory[track]["full_velo"] = value
 
     @listenable_property
     def chromatic(self):
@@ -320,6 +342,16 @@ class MelodicComponent(ZCXComponent):
             self.error(f"Invalid setting for `max_drum_width` (`{max_drum_width_def}`). Must be > 0. Using default `{self.max_drum_width}`")
         else:
             self.__max_drum_width = max_drum_width_def
+
+        per_track_def = section_def.get("per_track")
+        if not isinstance(per_track_def, list):
+            self.error(f"Keyboard: Invalid setting for `per_track`. Must be a list.")
+        else:
+            for _def in per_track_def:
+                if _def not in self.__per_track:
+                    self.error(f"Unrecognized entry for `per_track`: {_def}")
+                else:
+                    self.__per_track[_def] = True
 
         from .playable_state import PlayableState
         PlayableState.State.melodic_component = self
@@ -510,10 +542,24 @@ class MelodicComponent(ZCXComponent):
 
     @listens('selected_track')
     def _on_selected_track_changed(self):
-        self._on_color_index_changed.subject = self.song.view.selected_track
-        self._on_color_index_changed()
-        self._on_track_devices_changed.subject = self.song.view.selected_track
-        self._on_track_devices_changed()
+        try:
+            track = self.song.view.selected_track
+            self._on_color_index_changed.subject = track
+            self._on_color_index_changed()
+            self._on_track_devices_changed.subject = track
+            self._on_track_devices_changed()
+            if track in self.__track_memory:
+                track_memory = self.__track_memory[track]
+                if self.__per_track["octave"]:
+                    self.octave = track_memory["octave"]
+                if self.__per_track["full_velo"]:
+                    self.full_velo = track_memory["full_velo"]
+                if self.__per_track["repeat_rate"]:
+                    self.repeat_rate = track_memory["repeat_rate"]
+            else:
+                self._add_track_to_memory()
+        except Exception as e:
+            self.error(f"{e.__class__.__name__}: {e}")
 
     @listens('devices')
     def _on_track_devices_changed(self):
@@ -666,3 +712,6 @@ class MelodicComponent(ZCXComponent):
     def __remove_sounding_pitch(self, pitch):
         if pitch in self.__sounding_pitches:
             self.__sounding_pitches.remove(pitch)
+
+    def _add_track_to_memory(self):
+        self.__track_memory[self.song.view.selected_track] = {"full_velo": self.__default_full_velo, "octave": self.__default_octave, "repeat_rate": self.__default_repeat_rate}
