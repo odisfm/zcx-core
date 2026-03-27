@@ -67,6 +67,7 @@ class MelodicComponent(ZCXComponent):
         self.__max_drum_width = 4
         self.__track_memory: "dict[Track, TrackMemory]" = {}
         self.__per_track = {"octave": False, "repeat_rate": False, "full_velo": False}
+        self.__arm_on_selection: bool | Literal["exclusive"] = False
 
     def _unload(self):
         # todo: add drum stuff
@@ -353,14 +354,20 @@ class MelodicComponent(ZCXComponent):
                 else:
                     self.__per_track[_def] = True
 
+        arm_on_selection_def = section_def.get("arm_on_selection", False)
+        if not isinstance(arm_on_selection_def, bool) and arm_on_selection_def != "exclusive":
+            self.error(f"Keyboard: invalid setting for `arm_on_selection`. Must be boolean or `exclusive`.")
+        else:
+            self.__arm_on_selection = arm_on_selection_def
+
         from .playable_state import PlayableState
         PlayableState.State.melodic_component = self
         self.__does_exist = True
         self._on_scale_name_change.subject = self.song
         self._on_root_note_change.subject = self.song
         if "track" in list(self.__color_dict.values()):
-            self._on_selected_track_changed.subject = self.song.view
             self._on_color_index_changed.subject = self.song.view.selected_track
+        self._on_selected_track_changed.subject = self.song.view
         self._on_track_devices_changed.subject = self.song.view.selected_track
         self._on_track_devices_changed()
 
@@ -558,6 +565,9 @@ class MelodicComponent(ZCXComponent):
                     self.repeat_rate = track_memory["repeat_rate"]
             else:
                 self._add_track_to_memory()
+
+            if self.__pad_section.in_view:
+                self._do_arm_on_selection()
         except Exception as e:
             self.error(f"{e.__class__.__name__}: {e}")
 
@@ -714,9 +724,37 @@ class MelodicComponent(ZCXComponent):
             self.__sounding_pitches.remove(pitch)
 
     def _add_track_to_memory(self):
-        self.__track_memory[self.song.view.selected_track] = {"full_velo": self.__default_full_velo, "octave": self.__default_octave, "repeat_rate": self.__default_repeat_rate}
         self.__track_memory[self.song.view.selected_track] = {
             "full_velo": self.__default_full_velo,
             "octave": self.__default_octave,
             "repeat_rate": repeat_rates_lower[self.__default_repeat_rate]}
 
+    def _do_arm_on_selection(self):
+        try:
+            if self.__arm_on_selection is False:
+                return
+            else:
+                sel_track = self.song.view.selected_track
+                if not sel_track.can_be_armed:
+                    return
+
+                # need to fire action list, otherwise error "Changes cannot be triggered by notifications"
+                if self.__arm_on_selection is True:
+                    self.canonical_parent.component_map["CxpBridge"].trigger_action_list(f'WAIT 1; "{sel_track.name}" / ARM ON')
+                elif self.__arm_on_selection == "exclusive":
+                    # doing just `ALL / ARM OFF ; "<sel track>" / ARM ON` may have unintentional effects
+                    track_list = list(self.song.tracks)
+                    first_track_name = track_list[0].name
+                    last_track_name = track_list[-1].name
+                    sel_track_idx = track_list.index(sel_track)
+                    prev_track_name = track_list[sel_track_idx - 1].name
+                    next_track_name = track_list[sel_track_idx + 1].name
+                    self.canonical_parent.component_map["CxpBridge"].trigger_action_list(
+                        f'WAIT 1; '
+                        f'"{first_track_name}"-"{prev_track_name}" / ARM OFF ;'
+                        f'"{next_track_name}"-"{last_track_name}" / ARM OFF ;'
+                        f'"{sel_track.name}" / ARM ON'
+                    )
+
+        except Exception as e:
+            self.error(e)
