@@ -1,12 +1,12 @@
 # Keyboard view
 
-zcx can be configured to show a rudimentary melodic keyboard, as found on controllers like the Ableton Push.
+zcx can be used to input notes, as seen on controllers like the Ableton Push.
+Keyboard view shows one layout for melodic instruments, and another for Drum Rack instruments.
 
 ## Limitations
 
 - Keyboard feedback is limited to the notes you are currently playing via the zcx script; you will not see feedback for notes from other sources, like a playing clip or MIDI input from other controllers or tracks.
 - Keyboard feedback will not distinguish whether the played notes are being recorded, i.e., they will not be red.
-- Currently, the keyboard view is not designed for Drum Rack instruments. Better support for Drum Racks is planned for a future release.
 - Currently, the lowest note of the keyboard is always the tonic of the current scale. A future release will emulate the "fixed" layout seen on Push.
 
 ## Issues
@@ -58,6 +58,7 @@ __keyboard:
     in_key: white
     out_key: off
     tonic: track
+    drum: yellow
 ```
 
 !!! tip ""
@@ -66,19 +67,65 @@ __keyboard:
 !!! warning ""
     You may provide [named colors](../reference/color.md#name) or [MIDI values](../reference/color.md#midi-value), but not [animated colors](../reference/color.md#animated-colors).
 
-### Initial octave
+### Default settings
 
-```yaml title="matrix_sections.yaml" hl_lines="6"
+Set the state of the keyboard view at startup.
+If using [per-track](#per-track) settings, these will also be used as the default for each track.
+
+####  Octave
+
+```yaml title="matrix_sections.yaml" hl_lines="2"
 __keyboard:
-  row_start: 0
-  row_end: 7
-  col_start: 0
-  col_end: 7
   octave: 3
 ```
 
 Set the initial octave of the keyboard.
 With the default of `3`, and in the key of C, the lowest pad will play note C1 (MIDI note 36).
+
+#### full_velo
+
+```yaml title="matrix_sections.yaml" hl_lines="2"
+__keyboard:
+  full_velo: false
+```
+
+Set the initial [full velocity state](#full-velocity).
+
+#### repeat_rate
+
+```yaml title="matrix_sections.yaml" hl_lines="2"
+__keyboard:
+  repeat_rate: off
+```
+
+Set the initial [note repeat state](#note-repeat).
+
+### per_track
+
+```yaml title="matrix_sections.yaml" hl_lines="2"
+__keyboard:
+  per_track: [octave, full_velo, repeat_rate]
+```
+
+Certain features may be set to per-track, meaning when that track is **selected**, these settings are recalled.
+When a track is selected, and you change one of these settings, that setting will be recalled the next time you select that track.
+If you have not manually set a value, the [default value](#default-settings) will be recalled.
+
+`per_track` is list, and may contain any of `octave`, `full_velo`, and `repeat_rate`.
+
+### arm_on_selection
+
+```yaml title="matrix_sections.yaml" hl_lines="2"
+__keyboard:
+  arm_on_selection: false
+```
+
+When keyboard view is in-view, it can arm the currently selected track.
+Valid options are `false`, `true`, or `exclusive`.
+
+!!! warning ""
+    `true` will non-exclusively arm the track. Usually, `exclusive` should be used instead.
+
 
 ## Melodic settings
 
