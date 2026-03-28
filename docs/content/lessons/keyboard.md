@@ -141,6 +141,8 @@ gestures:
 
 Valid options are `true`, `false`, or `toggle`.
 
+Or via the [zcx user action](zcx-user-action.md):
+
 ```ClyphXPro
 ZCX <target script> KB INKEY
 ZCX <target script> KB INKEY ON
